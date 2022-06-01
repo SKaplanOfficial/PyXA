@@ -9,9 +9,31 @@ from typing import List, Literal, Union
 from ScriptingBridge import SBObject
 from XABase import XAApplication, XAHasElements, XAShowable, XAWindow, XAObject
 from XABaseScriptable import XASBApplication, XASBDeletable, XASBObject, XASBPrintable
-from mixins.XAActions import XACanConstructElement, XAAcceptsPushedElements
+from mixins.XAActions import XACanConstructElement, XAAcceptsPushedElements, XACanOpenPath
 
-class XACalendarApplication(XASBApplication, XACanConstructElement, XAAcceptsPushedElements):
+_YES = Literal[2036691744]
+_NO = Literal[2036691744]
+_ASK = Literal[1634954016]
+_STANDARD_ERROR = Literal[1819767668]
+_DETAILED_ERROR = Literal[1819763828]
+_PARTICIPATION_UNKNOWN = Literal[1161195105]
+_PARTICIPATION_ACCEPTED = Literal[1161191792]
+_PARTICIPATION_DECLINED = Literal[1161192560]
+_PARTICIPATION_TENTATIVE = Literal[1161196656]
+_STATUS_CANCELLED = Literal[1161061217]
+_STATUS_CONFIRMED = Literal[1161061230]
+_STATUS_NONE = Literal[1161064047]
+_STATUS_TENTATIVE = Literal[1161065573]
+_NO_PRIORITY = Literal[1952739376]
+_LOW_PRIORITY = Literal[1952739385]
+_MEDIUM_PRIORITY = Literal[1952739381]
+_HIGH_PRIORITY = Literal[1952739377]
+_DAY_VIEW = Literal[1161127009]
+_WEEK_VIEW = Literal[1161131877]
+_MONTH_VIEW = Literal[1161129327]
+
+
+class XACalendarApplication(XASBApplication, XACanConstructElement, XAAcceptsPushedElements, XACanOpenPath):
     """A class for managing and interacting with scripting elements of the macOS Calendar application.
 
     .. seealso:: Classes :class:`XACalendar`, :class:`XACalendarEvent`
@@ -22,20 +44,56 @@ class XACalendarApplication(XASBApplication, XACanConstructElement, XAAcceptsPus
         super().__init__(properties)
 
     def reload_calendars(self) -> 'XACalendarApplication':
+        """Reloads the contents of all calendars.
+
+        :return: A reference to the Calendar application object.
+        :rtype: XACalendarApplication
+
+        .. versionadded:: 0.0.1
+        """
         self.properties["sb_element"].reloadCalendars()
         return self
 
-    def switch_view_to(self, view: Literal["day", "week", "month"]):
+    def switch_view_to(self, view: Literal["day", "week", "month"]) -> 'XACalendarApplication':
+        """Switches to the target calendar view.
+
+        :param view: The view to switch to.
+        :type view: Literal["day", "week", "month"]
+        :return: A reference to the Calendar application object.
+        :rtype: XACalendarApplication
+
+        .. versionadded:: 0.0.1
+        """
         view_ids = {
-            "day": 1161127009,
-            "week": 1161131877,
-            "month": 1161129327,
+            "day": _DAY_VIEW,
+            "week": _WEEK_VIEW,
+            "month": _MONTH_VIEW,
         }
         self.properties["sb_element"].switchViewTo_(view_ids[view])
         return self
 
     def view_calendar_at(self, date: datetime) -> 'XACalendarApplication':
+        """Displays the calendar at the provided date.
+
+        :param date: The date to display.
+        :type date: datetime
+        :return: A reference to the Calendar application object.
+        :rtype: XACalendarApplication
+
+        .. versionadded:: 0.0.1
+        """
         self.properties["sb_element"].viewCalendarAt_(date)
+        return self
+
+    def subscribe_to(self, url: str) -> 'XACalendarApplication':
+        """Subscribes to the calendar at the specified URL.
+
+        :param url: The URL of the calendar (in iCal format) to subscribe to.
+        :type url: str
+        :return: A reference to the Calendar application object.
+        :rtype: XACalendarApplication
+        """
+        self.properties["sb_element"].GetURL_(url)
         return self
 
     def calendars(self, filter: dict = None) -> List['XACalendar']:

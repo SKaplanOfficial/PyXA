@@ -50,11 +50,16 @@ class XAObject():
         
         try:
             self.element_properties = properties["element"].properties()
-            for attr in self.element_properties:
-                if not hasattr(self, attr):
-                    self.__setattr__(attr, self.element_properties[attr])
         except:
             self.element_properties = None
+
+        if self.element_properties is not None:
+            for attr in self.element_properties:
+                try:
+                    if not hasattr(self, attr):
+                        self.__setattr__(attr, self.element_properties[attr])
+                except:
+                    pass
         
 
     def has_element(self) -> bool:

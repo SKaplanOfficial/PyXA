@@ -125,6 +125,10 @@ class XASBPrintable(XAObject):
         print_thread.start()
         return self
 
+class XASBDeletable(XAObject):
+    def delete(self):
+        self.properties["element"].delete()
+
 class XASBApplication(XASBObject, XAApplication, XAHasScriptableElements):
     """An application class for scriptable applications.
 

@@ -7,19 +7,36 @@ from datetime import datetime, timedelta
 from typing import List, Literal, Union
 
 from ScriptingBridge import SBObject
-from XABase import XAApplication, XAWindow, XAObject
-from XABaseScriptable import XASBApplication, XASBObject
+from XABase import XAApplication, XAHasElements, XAShowable, XAWindow, XAObject
+from XABaseScriptable import XASBApplication, XASBDeletable, XASBObject, XASBPrintable
 from mixins.XAActions import XACanConstructElement, XAAcceptsPushedElements
 
 class XACalendarApplication(XASBApplication, XACanConstructElement, XAAcceptsPushedElements):
     """A class for managing and interacting with scripting elements of the macOS Calendar application.
 
-    .. seealso:: Classes :class:`XACalendar`, :class:`XACalendarEvent`, :class:`XASBApplication`, :class:`XACanConstructElement`, :class:`XAAcceptsPushedElements`
+    .. seealso:: Classes :class:`XACalendar`, :class:`XACalendarEvent`
 
     .. versionadded:: 0.0.1
     """
     def __init__(self, properties):
         super().__init__(properties)
+
+    def reload_calendars(self) -> 'XACalendarApplication':
+        self.properties["sb_element"].reloadCalendars()
+        return self
+
+    def switch_view_to(self, view: Literal["day", "week", "month"]):
+        view_ids = {
+            "day": 1161127009,
+            "week": 1161131877,
+            "month": 1161129327,
+        }
+        self.properties["sb_element"].switchViewTo_(view_ids[view])
+        return self
+
+    def view_calendar_at(self, date: datetime) -> 'XACalendarApplication':
+        self.properties["sb_element"].viewCalendarAt_(date)
+        return self
 
     def calendars(self, filter: dict = None) -> List['XACalendar']:
         """Returns a list of calendars, as PyXA objects, matching the given filter.
@@ -86,7 +103,7 @@ class XACalendarApplication(XASBApplication, XACanConstructElement, XAAcceptsPus
 
         .. versionadded:: 0.0.1
         """
-        return self.push("calendar", {"name": name}, self.properties["sb_element"].calendars())
+        return self.push("calendar", {"name": name}, self.properties["sb_element"].calendars(), XACalendar)
 
     def new_event(self, name: str, start_date: datetime, end_date: datetime, calendar: Union['XACalendar', None] = None) -> 'XACalendarEvent':
         """Creates a new event with the given name and start/end dates in the specified calendar. If no calendar is specified, the default calendar is used.
@@ -120,13 +137,49 @@ class XACalendarApplication(XASBApplication, XACanConstructElement, XAAcceptsPus
         return self.push("event", {"summary": name, "startDate": start_date, "endDate": end_date}, calendar.properties["element"].events(), XACalendarEvent)
 
 
-class XACalendar(XAAcceptsPushedElements):
+class XACalendar(XAHasElements, XAAcceptsPushedElements, XASBPrintable):
     """A class for interacting with calendars.
 
     .. versionadded:: 0.0.1
     """
     def __init__(self, properties):
         super().__init__(properties)
+
+    def events(self, filter: dict = None) -> List['XACalendarEvent']:
+        """Returns a list of events, as PyXA objects, matching the given filter.
+
+        .. seealso:: :func:`elements`
+
+        .. versionadded:: 0.0.1
+        """
+        return super().elements("events", filter, XACalendarEvent)
+
+    def event(self, filter: Union[int, dict]) -> 'XACalendarEvent':
+        """Returns the first event matching the given filter.
+
+        .. seealso:: :func:`element_with_properties`
+
+        .. versionadded:: 0.0.1
+        """
+        return super().element_with_properties("events", filter, XACalendarEvent)
+
+    def first_event(self) -> 'XACalendarEvent':
+        """Returns the event at the zero index of the events array.
+
+        .. seealso:: :func:`first_element`
+
+        .. versionadded:: 0.0.1
+        """
+        return super().first_element("events", XACalendarEvent)
+
+    def last_event(self) -> 'XACalendarEvent':
+        """Returns the event at the last (-1) index of the events array.
+
+        .. seealso:: :func:`last_element`
+
+        .. versionadded:: 0.0.1
+        """
+        return super().last_element("events", XACalendarEvent)
 
     def push(self, element: SBObject) -> 'XACalendarEvent':
         """Push a new element onto this calendar's list of events.
@@ -186,10 +239,8 @@ class XACalendar(XAAcceptsPushedElements):
         return self.properties["element"].name()
 
 
-class XACalendarEvent(XASBObject):
+class XACalendarEvent(XASBObject, XAShowable, XASBDeletable):
     """A class for interacting with calendar events.
-
-    .. seealso:: :class:`XAAcceptsPushedElements`
 
     .. versionadded:: 0.0.1
     """

@@ -106,7 +106,7 @@ class XASBSaveable(XAObject):
         return self
 
 class XASBPrintable(XAObject):
-    def __print_dialog(self):
+    def __print_dialog(self, show_prompt: bool = True):
         """Displays a print dialog."""
         try:
             if "sb_element" in self.properties:
@@ -114,10 +114,16 @@ class XASBPrintable(XAObject):
             else:
                 self.properties["element"].printWithProperties_(None)
         except:
-            if "sb_element" in self.properties:
-                self.properties["sb_element"].print_withProperties_printDialog_(None, None, None)
-            else:
-                self.properties["element"].print_withProperties_printDialog_(None, None, None)
+            try:
+                if "sb_element" in self.properties:
+                    self.properties["sb_element"].print_withProperties_printDialog_(self.properties["sb_element"], None, show_prompt)
+                else:
+                    self.properties["element"].print_withProperties_printDialog_(self.properties["element"], None, show_prompt)
+            except:
+                if "sb_element" in self.properties:
+                    self.properties["sb_element"].print_printDialog_withProperties_(self.properties["sb_element"], show_prompt, None)
+                else:
+                    self.properties["element"].print_printDialog_withProperties_(self.properties["element"], show_prompt, None)
 
     def print(self, properties: dict = None, print_dialog = None) -> XAObject:
         """Prints a document, window, or item.

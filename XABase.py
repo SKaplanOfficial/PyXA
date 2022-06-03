@@ -132,6 +132,7 @@ class XAObject():
         :rtype: XAObject
         """
         self.properties["element"]._scriptingSetValue_forKey_(value, property_name)
+        self.__setattr__(property_name, value)
         return self
 
     def get_clipboard(self):
@@ -957,3 +958,330 @@ class XAUIAction(XAUIElement):
     def perform(self):
         self.properties["element"].perform()
         return self
+
+# Text Elements
+class XAHasParagraphs(XAHasElements):
+    """A generic class for objects that have paragraphs.
+
+    .. versionadded:: 0.0.1
+    """
+    def paragraphs(self, filter: dict = None) -> List['XAParagraph']:
+        """Returns a list of paragraphs matching the filter.
+
+        .. seealso:: :func:`elements`
+
+        .. versionadded:: 0.0.1
+        """
+        return self.elements("paragraphs", filter, XAParagraph)
+
+    def paragraph(self, filter: Union[int, dict]) -> 'XAParagraph':
+        """Returns the first paragraph that matches the filter.
+
+        .. seealso:: :func:`element_with_properties`
+
+        .. versionadded:: 0.0.1
+        """
+        return self.element_with_properties("paragraphs", filter, XAParagraph)
+
+    def first_paragraph(self) -> 'XAParagraph':
+        """Returns the paragraph at the first index of the paragraphs array.
+
+        .. seealso:: :func:`first_element`
+
+        .. versionadded:: 0.0.1
+        """
+        return self.first_element("paragraphs", XAParagraph)
+
+    def last_paragraph(self) -> 'XAParagraph':
+        """Returns the paragraph at the last (-1) index of the paragraphs array.
+
+        .. seealso:: :func:`last_element`
+
+        .. versionadded:: 0.0.1
+        """
+        return self.last_element("paragraphs", XAParagraph)
+
+
+class XAHasWords(XAHasElements):
+    """A generic class for objects that have words.
+
+    .. versionadded:: 0.0.1
+    """
+    def words(self, filter: dict = None) -> List['XAWord']:
+        """Returns a list of words matching the filter.
+
+        .. seealso:: :func:`elements`
+
+        .. versionadded:: 0.0.1
+        """
+        return self.elements("words", filter, XAWord)
+
+    def word(self, filter: Union[int, dict]) -> 'XAWord':
+        """Returns the first word that matches the filter.
+
+        .. seealso:: :func:`element_with_properties`
+
+        .. versionadded:: 0.0.1
+        """
+        return self.element_with_properties("words", filter, XAWord)
+
+    def first_word(self) -> 'XAWord':
+        """Returns the word at the first index of the words array.
+
+        .. seealso:: :func:`first_element`
+
+        .. versionadded:: 0.0.1
+        """
+        return self.first_element("words", XAWord)
+
+    def last_word(self) -> 'XAWord':
+        """Returns the word at the last (-1) index of the words array.
+
+        .. seealso:: :func:`last_element`
+
+        .. versionadded:: 0.0.1
+        """
+        return self.last_element("words", XAWord)
+
+
+class XAHasCharacters(XAHasElements):
+    """A generic class for objects that have text characters.
+
+    .. versionadded:: 0.0.1
+    """
+    def characters(self, filter: dict = None) -> List['XACharacter']:
+        """Returns a list of characters matching the filter.
+
+        .. seealso:: :func:`elements`
+
+        .. versionadded:: 0.0.1
+        """
+        return self.elements("characters", filter, XACharacter)
+
+    def character(self, filter: Union[int, dict]) -> 'XACharacter':
+        """Returns the first character that matches the filter.
+
+        .. seealso:: :func:`element_with_properties`
+
+        .. versionadded:: 0.0.1
+        """
+        return self.element_with_properties("characters", filter, XACharacter)
+
+    def first_character(self) -> 'XACharacter':
+        """Returns the character at the first index of the characters array.
+
+        .. seealso:: :func:`first_element`
+
+        .. versionadded:: 0.0.1
+        """
+        return self.first_element("characters", XACharacter)
+
+    def last_character(self) -> 'XACharacter':
+        """Returns the character at the last (-1) index of the characters array.
+
+        .. seealso:: :func:`last_element`
+
+        .. versionadded:: 0.0.1
+        """
+        return self.last_element("characters", XACharacter)
+
+
+class XAHasAttributeRuns(XAHasElements):
+    """A generic class for objects that have text attribute runs.
+
+    .. versionadded:: 0.0.1
+    """
+    def attribute_runs(self, filter: dict = None) -> List['XAAttributeRun']:
+        """Returns a list of attribute runs matching the filter.
+
+        .. seealso:: :func:`elements`
+
+        .. versionadded:: 0.0.1
+        """
+        return self.elements("attributeRuns", filter, XAAttributeRun)
+
+    def attribute_run(self, filter: Union[int, dict]) -> 'XAAttributeRun':
+        """Returns the first attribute run that matches the filter.
+
+        .. seealso:: :func:`element_with_properties`
+
+        .. versionadded:: 0.0.1
+        """
+        return self.element_with_properties("attributeRuns", filter, XAAttributeRun)
+
+    def first_attribute_run(self) -> 'XAAttributeRun':
+        """Returns the attribute run at the first index of the attribute runs array.
+
+        .. seealso:: :func:`first_element`
+
+        .. versionadded:: 0.0.1
+        """
+        return self.first_element("attributeRuns", XAAttributeRun)
+
+    def last_attribute_run(self) -> 'XAAttributeRun':
+        """Returns the attribute run at the last (-1) index of the attribute runs array.
+
+        .. seealso:: :func:`last_element`
+
+        .. versionadded:: 0.0.1
+        """
+        return self.last_element("attributeRuns", XAAttributeRun)
+
+
+class XAHasAttachments(XAHasElements):
+    """A generic class for objects that have attachments.
+
+    .. versionadded:: 0.0.1
+    """
+    def attachments(self, filter: dict = None) -> List['XAAttachment']:
+        """Returns a list of attachments matching the filter.
+
+        .. seealso:: :func:`elements`
+
+        .. versionadded:: 0.0.1
+        """
+        return self.elements("attachments", filter, XAAttachment)
+
+    def attachment(self, filter: Union[int, dict]) -> 'XAAttachment':
+        """Returns the first attachment that matches the filter.
+
+        .. seealso:: :func:`element_with_properties`
+
+        .. versionadded:: 0.0.1
+        """
+        return self.element_with_properties("attachments", filter, XAAttachment)
+
+    def first_attachment(self) -> 'XAAttachment':
+        """Returns the attachment at the first index of the attachments array.
+
+        .. seealso:: :func:`first_element`
+
+        .. versionadded:: 0.0.1
+        """
+        return self.first_element("attachments", XAAttachment)
+
+    def last_attachment(self) -> 'XAAttachment':
+        """Returns the attachment at the last (-1) index of the attachments array.
+
+        .. seealso:: :func:`last_element`
+
+        .. versionadded:: 0.0.1
+        """
+        return self.last_element("attachments", XAAttachment)
+
+
+class XATextDocument(XAHasParagraphs, XAHasWords, XAHasCharacters, XAHasAttributeRuns, XAHasAttachments):
+    """A class for managing and interacting with text documents.
+
+    .. versionadded:: 0.0.1
+    """
+    def __init__(self, properties):
+        super().__init__(properties)
+
+    ## Text
+    def set_text(self, new_text: str) -> 'XATextDocument':
+        """Sets the text of the document.
+
+        :param new_text: The new text of the document
+        :type new_text: str
+        :return: A reference to the document object.
+        :rtype: XATextDocument
+
+        .. seealso:: :func:`prepend`, :func:`append`
+
+        .. versionadded:: 0.0.1
+        """
+        self.set_property("text", new_text)
+        return self
+
+    def prepend(self, text: str) -> 'XATextDocument':
+        """Inserts the provided text at the beginning of the document.
+
+        :param text: The text to insert.
+        :type text: str
+        :return: A reference to the document object.
+        :rtype: XATextDocument
+
+        .. seealso:: :func:`append`, :func:`set_text`
+
+        .. versionadded:: 0.0.1
+        """
+        old_text = self.text
+        self.set_property("text", text + old_text)
+        return self
+
+    def append(self, text: str) -> 'XATextDocument':
+        """Appends the provided text to the end of the document.
+
+        :param text: The text to append.
+        :type text: str
+        :return: A reference to the document object.
+        :rtype: XATextDocument
+
+        .. seealso:: :func:`prepend`, :func:`set_text`
+
+        .. versionadded:: 0.0.1
+        """
+        old_text = self.text
+        self.set_property("text", old_text + text)
+        return self
+
+
+class XAText(XAHasParagraphs, XAHasWords, XAHasCharacters, XAHasAttributeRuns, XAHasAttachments):
+    """A class for managing and interacting with the text of documents.
+
+    .. versionadded:: 0.0.1
+    """
+    def __init__(self, properties):
+        super().__init__(properties)
+
+    def __str__(self):
+        return str(self.properties["element"].get())
+
+    def __repr__(self):
+        return str(self.properties["element"].get())
+
+
+class XAParagraph(XAText):
+    """A class for managing and interacting with paragraphs in text documents.
+
+    .. versionadded:: 0.0.1
+    """
+    def __init__(self, properties):
+        super().__init__(properties)
+
+
+class XAWord(XAText):
+    """A class for managing and interacting with words in text documents.
+
+    .. versionadded:: 0.0.1
+    """
+    def __init__(self, properties):
+        super().__init__(properties)
+
+
+class XACharacter(XAText):
+    """A class for managing and interacting with characters in text documents.
+
+    .. versionadded:: 0.0.1
+    """
+    def __init__(self, properties):
+        super().__init__(properties)
+
+
+class XAAttributeRun(XAText):
+    """A class for managing and interacting with attribute runs in text documents.
+
+    .. versionadded:: 0.0.1
+    """
+    def __init__(self, properties):
+        super().__init__(properties)
+
+
+class XAAttachment():
+    """A class for managing and interacting with attachments in text documents.
+
+    .. versionadded:: 0.0.1
+    """
+    def __init__(self, properties):
+        super().__init__(properties)

@@ -1,4 +1,6 @@
-"""Control the macOS Terminal application using JXA-like syntax.
+""".. versionadded:: 0.0.1
+
+Control the macOS Terminal application using JXA-like syntax.
 """
 
 from typing import List, Union

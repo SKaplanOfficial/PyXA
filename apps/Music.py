@@ -3,7 +3,6 @@
 Control the macOS Music application using JXA-like syntax.
 """
 
-from AppKit import NSAppleEventDescriptor
 from typing import List, Union
 from XABase import XACanOpenPath
 from XABaseScriptable import XAHasScriptableElements, XASBObject, XASBApplication
@@ -68,7 +67,7 @@ _STATUS_NOT_UPLOADED = 1800761424
 class XAMusicApplication(XASBApplication, XAHasScriptableElements, XACanOpenPath):
     """A class for managing and interacting with Music.app.
 
-    .. seealso:: :class:`XAMediaPlaylist`, :class:`XAMediaTrack`, :class:`XASBApplication`, :class:`XACanOpenPath`
+    .. seealso:: :class:`XAMediaPlaylist`, :class:`XAMediaTrack`
 
     .. versionadded:: 0.0.1
     """

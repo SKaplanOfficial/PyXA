@@ -61,7 +61,26 @@ class XAObject():
                         self.__setattr__(attr, self.element_properties[attr])
                 except:
                     pass
+
+    def _new_element(self, obj: AppKit.NSObject, obj_class: type = 'XAObject') -> 'XAObject':
+        """Wrapper for creating a new PyXA object.
+
+        :param folder_obj: The Objective-C representation of an object.
+        :type folder_obj: NSObject
+        :return: The PyXA representation of the object.
+        :rtype: XAObject
         
+        .. versionadded:: 0.0.1
+        """
+        properties = {
+            "parent": self,
+            "appspace": self.properties["appspace"],
+            "workspace": self.properties["workspace"],
+            "element": obj,
+            "appref": self.properties["appref"],
+            "system_events": self.properties["system_events"],
+        }
+        return obj_class(properties)
 
     def has_element(self) -> bool:
         """Whether this object has an AppleScript/JXA/Objective-C scripting element associated with it.

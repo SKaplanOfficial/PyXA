@@ -297,7 +297,7 @@ class XAMusicApplication(XASBApplication, XAHasScriptableElements, XACanOpenPath
         }
         return XAMediaTrack(properties)
 
-    # Playlist
+    # Playlists
     def playlists(self, filter: dict = None) -> List['XAMediaPlaylist']:
         """Returns a list of playlists matching the filter.
 

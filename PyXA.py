@@ -150,11 +150,17 @@ def _get_path_to_app(app_identifier: str) -> str:
     if not app_path.startswith("/"):
         app_path = "/System/Applications/" + app_identifier
         if not os.path.exists(app_path):
+            app_path = "/System/Applications/Utilities/" + app_identifier
+        if not os.path.exists(app_path):
             app_path = str(Path.home()) + "/" + app_identifier
         if not os.path.exists(app_path):
             app_path = "/Applications/" + app_identifier
+        if not os.path.exists(app_path):
+            app_path = "/System/Library/CoreServices/" + app_identifier
+        if not os.path.exists(app_path):
+            app_path = "/System/Library/CoreServices/Applications" + app_identifier
 
-    if Path(app_path).is_dir():
+    if os.path.exists(app_path):
         return app_path
 
     raise ApplicationNotFoundError(app_identifier)
@@ -212,6 +218,7 @@ def application(app_identifier: str) -> XAApplication:
         nonlocal app_object
         app_object = app
 
+    bundle = None
     app_path = _get_path_to_app(app_identifier)
     bundle = NSBundle.alloc().initWithPath_(app_path)
     url = workspace.URLForApplicationWithBundleIdentifier_(bundle.bundleIdentifier())

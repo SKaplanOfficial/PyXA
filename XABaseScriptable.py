@@ -108,10 +108,16 @@ class XASBSaveable(XAObject):
 class XASBPrintable(XAObject):
     def __print_dialog(self):
         """Displays a print dialog."""
-        if "sb_element" in self.properties:
-            self.properties["sb_element"].print_withProperties_printDialog_(None, None, None)
-        else:
-            self.properties["element"].print_withProperties_printDialog_(None, None, None)
+        try:
+            if "sb_element" in self.properties:
+                self.properties["sb_element"].printWithProperties_(None)
+            else:
+                self.properties["element"].printWithProperties_(None)
+        except:
+            if "sb_element" in self.properties:
+                self.properties["sb_element"].print_withProperties_printDialog_(None, None, None)
+            else:
+                self.properties["element"].print_withProperties_printDialog_(None, None, None)
 
     def print(self, properties: dict = None, print_dialog = None) -> XAObject:
         """Prints a document, window, or item.
@@ -124,9 +130,8 @@ class XASBPrintable(XAObject):
 
         .. versionadded:: 0.0.1
         """
-        #print_thread = threading.Thread(target=self.__print_dialog, name="Print", daemon=True)
-        #print_thread.start()
-        self.__print_dialog()
+        print_thread = threading.Thread(target=self.__print_dialog, name="Print", daemon=True)
+        print_thread.start()
         return self
 
 class XASBDeletable(XAObject):

@@ -5,6 +5,7 @@ import os
 import multiprocessing
 import time
 from typing import Any, Union, List, Tuple, Dict
+import threading
 
 import AppKit
 
@@ -191,7 +192,7 @@ class XAHasElements(XAObject):
 #     def close(self) -> XAObject:
 #         """Closes a document, window, or item.
 
-#         :return: A reference to the PyXA objects that called this method.
+#         :return: A reference to the PyXA object that called this method.
 #         :rtype: XAObject
 #         """
 #         self.element.close()
@@ -200,7 +201,7 @@ class XAHasElements(XAObject):
 #     def save(self, location: str = "~/Documents") -> XAObject:
 #         """Saves a document, window, or item.
 
-#         :return: A reference to the PyXA objects that called this method.
+#         :return: A reference to the PyXA object that called this method.
 #         :rtype: XAObject
 #         """
 #         self.element.saveIn_(location)
@@ -209,7 +210,7 @@ class XAHasElements(XAObject):
 #     def print(self, properties: dict = None, print_dialog = None) -> XAObject:
 #         """Prints a document, window, or item.
 
-#         :return: A reference to the PyXA objects that called this method.
+#         :return: A reference to the PyXA object that called this method.
 #         :rtype: XAObject
 #         """
 #         self.element.printWithProperties_printDialog_(properties, None)
@@ -220,21 +221,39 @@ class XAShowable(XAObject):
     def show(self) -> XAObject:
         """Shows a document, window, or item.
 
-        :return: A reference to the PyXA objects that called this method.
+        :return: A reference to the PyXA object that called this method.
         :rtype: XAObject
         """
-        self.properties["element"].show();
+        self.properties["element"].show()
 
 
 class XARevealable(XAObject):
     def reveal(self) -> XAObject:
         """Reveals a document, window, or item, selecting it from a list of other items.
 
-        :return: A reference to the PyXA objects that called this method.
+        :return: A reference to the PyXA object that called this method.
         :rtype: XAObject
         """
-        self.properties["element"].reveal();
+        self.properties["element"].reveal()
 
+class XASelectable(XAObject):
+    def select(self) -> XAObject:
+        """Selects a document or item. This may open a new window, depending on which kind of object and application it acts on.
+
+        :return: A reference to the PyXA object that called this method.
+        :rtype: XAObject
+        """
+        self.properties["element"].select()
+
+class XADeletable(XAObject):
+    def delete(self) -> XAObject:
+        """Deletes a document or item.
+
+        :return: A reference to the PyXA object that called this method.
+        :rtype: XAObject
+        """
+        deletion_thread = threading.Thread(target=self.properties["element"].delete, name="Delete", daemon=True)
+        deletion_thread.start()
 
 ### Elements
 class XAApplication(XAObject):

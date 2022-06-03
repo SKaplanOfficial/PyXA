@@ -7,9 +7,8 @@ from datetime import datetime, timedelta
 from typing import List, Literal, Union
 
 from ScriptingBridge import SBObject
-from XABase import XAApplication, XAHasElements, XAShowable, XAWindow, XAObject
+from XABase import XAApplication, XAHasElements, XAShowable, XAWindow, XAObject, XACanConstructElement, XAAcceptsPushedElements, XACanOpenPath
 from XABaseScriptable import XASBApplication, XASBDeletable, XASBObject, XASBPrintable
-from mixins.XAActions import XACanConstructElement, XAAcceptsPushedElements, XACanOpenPath
 
 _YES = Literal[2036691744]
 _NO = Literal[2036691744]

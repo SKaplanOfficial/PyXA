@@ -5,8 +5,8 @@ Control the macOS Notes application using JXA-like syntax.
 
 from typing import List, Union
 
+from XABase import XACanConstructElement, XAAcceptsPushedElements, XACanOpenPath
 from XABaseScriptable import XASBApplication
-from mixins.XAActions import XACanConstructElement, XAAcceptsPushedElements, XACanOpenPath
 
 class XANotesApplication(XASBApplication, XACanConstructElement, XAAcceptsPushedElements, XACanOpenPath):
     """A class for interacting with Notes.app.

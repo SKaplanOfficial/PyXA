@@ -5,8 +5,8 @@ Control the macOS Music application using JXA-like syntax.
 
 from AppKit import NSAppleEventDescriptor
 from typing import List, Union
+from XABase import XACanOpenPath
 from XABaseScriptable import XAHasScriptableElements, XASBObject, XASBApplication
-from mixins.XAActions import XACanOpenPath
 
 _KIND_TRACK_LISTING = 1800696427
 _KIND_ALBUM_LISTING = 1799449698

@@ -9,7 +9,7 @@ import threading
 
 import AppKit
 
-from ScriptingBridge import SBApplication
+from ScriptingBridge import SBApplication, SBElementArray
 
 from Foundation import NSURL, NSString, NSCharacterSet
 from Quartz import (
@@ -128,6 +128,85 @@ class XAObject():
 
 
 ### Mixins
+## Action Mixins
+class XACanPrintPath(XAObject):
+    """A class for scriptable objects that can print the file at a given path.
+    """
+    def print(self, target: Union[str, NSURL]) -> XAObject:
+        """pens the file/website at the given filepath/URL.
+
+        :param target: The path to a file or the URL to a website to print.
+        :type target: Union[str, NSURL]
+        :return: A reference to the PyXA object that called this method.
+        :rtype: XAObject
+        """
+        if not isinstance(target, NSURL):
+            target = xa_path(target)
+        self.properties["element"].print(target)
+        return self
+
+class XACanOpenPath(XAObject):
+    """A class for scriptable objects that can open an item at a given path (either in its default application or in an application whose PyXA object extends this class).
+    """
+    def open(self, target: Union[str, NSURL]) -> XAObject:
+        """Opens the file/website at the given filepath/URL.
+
+        :param target: The path to a file or the URL to a website to open.
+        :type target: Union[str, NSURL]
+        :return: A reference to the PyXA object that called this method.
+        :rtype: XAObject
+        """
+        self.properties["workspace"].openFile_withApplication_(target, self.name)
+        return self
+
+class XAAcceptsPushedElements(XAObject):
+    """A class for scriptable objects that either have lists or are themselves lists that other scriptable objects can be pushed onto.
+    """
+    def push(self, element_specifier: Union[str, AppKit.NSObject], properties: dict, location: SBElementArray, object_class = XAObject) -> XAObject:
+        """Appends the supplied element or an element created from the supplied specifier and properties to the scriptable object list at the specified location.
+
+        :param element_specifier: Either the scripting class to create a new object of or an existing instance of a scripting class.
+        :type element_specifier: Union[str, NSObject]
+        :param properties: _description_
+        :type properties: dict
+        :param location: _description_
+        :type location: SBElementArray'
+        :param object_class: The PyXA class to wrap the newly created object in, defaults to XAObject
+        ;type object_class: type
+        :return: A reference to the new created PyXA object.
+        :rtype: XAObject
+        """
+        if isinstance(element_specifier, str):
+            element_specifier = self.construct(element_specifier, properties)
+        location.addObject_(element_specifier)
+        properties = {
+            "parent": self,
+            "appspace": self.properties["appspace"],
+            "workspace": self.properties["workspace"],
+            "element": element_specifier,
+            "appref": self.properties["appref"],
+            "system_events": self.properties["system_events"],
+        }
+        return object_class(properties)
+
+
+class XACanConstructElement(XAObject):
+    """A class for scriptable objects that are able to create new scriptable objects.
+    """
+    def construct(self, specifier: str, properties: dict) -> AppKit.NSObject:
+        """Initializes a new NSObject of the given specifier class with the supplied dictionary of properties.
+
+        :param specifier: The scripting class to create a new object of.
+        :type specifier: str
+        :param properties: A dictionary of property names and values appropriate for the specified scripting class.
+        :type properties: dict
+        :return: A reference to the newly created NSObject.
+        :rtype: NSObject
+        """
+        if "sb_element" in self.properties:
+            return self.properties["sb_element"].classForScriptingClass_(specifier).alloc().initWithProperties_(properties)
+        return self.properties["element"].classForScriptingClass_(specifier).alloc().initWithProperties_(properties)
+        
 ## Relation Mixins
 class XAHasElements(XAObject):
     def elements(self, specifier, filter, obj_type):

@@ -8,6 +8,12 @@ from typing import Any, List, Union
 from PyXA import XABase
 from PyXA import XABaseScriptable
 
+_YES = 2036691744
+_NO = 1852776480
+_ASK = 1634954016
+_STANDARD_ERRORS = 1819767668
+_DETAILED_ERRORS = 1819763828
+
 class XASafariApplication(XABaseScriptable.XASBApplication, XABaseScriptable.XASBSaveable, XABaseScriptable.XASBPrintable, XABaseScriptable.XAHasScriptableElements):
     """A class for interacting with Safari.app.
 
@@ -214,6 +220,8 @@ class XASafariWindow(XABaseScriptable.XASBWindow, XABaseScriptable.XASBSaveable,
     """
     def __init__(self, properties):
         super().__init__(properties)
+        doc_obj = self.properties["element"].document()
+        self.document = self._new_element(doc_obj, XASafariDocument)
 
     def tabs(self, filter: dict = None) -> List['XASafariTab']:
         """Returns a list of tabs matching the given filter.

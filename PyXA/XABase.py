@@ -142,6 +142,12 @@ class XACanPrintPath(XAObject):
         :type target: Union[str, NSURL]
         :return: A reference to the PyXA object that called this method.
         :rtype: XAObject
+
+        .. note::
+        
+            The implementation of a printing method various across applications, and some do not have the same method signature. If this presents a problem for a specific application, a custom print method should be defined for that application class.
+
+        .. versionadded:: 0.0.1
         """
         if not isinstance(target, NSURL):
             target = xa_path(target)
@@ -163,13 +169,14 @@ class XACanOpenPath(XAObject):
         :return: A reference to the PyXA object that called this method.
         :rtype: XAObject
 
-        .. note::
-        
-            The implementation of a printing method various across applications, and some do not have the same method signature. If this presents a problem for a specific application, a custom print method should be defined for that application class.
-
         .. versionadded:: 0.0.1
         """
-        self.properties["workspace"].openFile_withApplication_(target, self.name)
+        url = target
+        if not isinstance(url, NSURL):
+            url = xa_url(target)
+        if target.startswith("/"):
+            url = NSURL.alloc().initFileURLWithPath_(target)
+        self.properties["workspace"].openURLs_withAppBundleIdentifier_options_additionalEventParamDescriptor_launchIdentifiers_([url], self.properties["element"].bundleIdentifier(), 0, None, None)
         return self
 
 class XAAcceptsPushedElements(XAObject):

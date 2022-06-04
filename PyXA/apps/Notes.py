@@ -4,6 +4,7 @@ Control the macOS Notes application using JXA-like syntax.
 """
 
 from typing import List, Union
+from Foundation import NSURL
 
 from PyXA import XABase
 from PyXA import XABaseScriptable
@@ -11,15 +12,19 @@ from PyXA import XABaseScriptable
 class XANotesApplication(XABaseScriptable.XASBApplication, XABase.XACanConstructElement, XABase.XAAcceptsPushedElements, XABase.XACanOpenPath):
     """A class for interacting with Notes.app.
 
-    .. seealso:: :class:`XANote`, :class:`XANoteFolder`, :class:`XABaseScriptable.XASBApplication`, :class:`XABase.XACanConstructElement`, :class:`XABase.XACanOpenPath`
+    .. seealso:: :class:`XANotesWindow`, :class:`XANote`, :class:`XANotesFolder`, :class:`XANotesAccount`
 
     .. versionadded:: 0.0.1
     """
 
     def __init__(self, properties):
         super().__init__(properties)
-        self.default_account = self.properties["sb_element"].defaultAccount()
-        self.selection = self.properties["sb_element"].selection()
+        self.properties["window_class"] = XANotesWindow
+        default_account_obj = self.properties["sb_element"].defaultAccount()
+        self.default_account = self._new_element(default_account_obj, XANotesAccount)
+
+        selection_obj = self.properties["sb_element"].selection()
+        self.selection = self._new_element(selection_obj, XANote)
 
     ## Notes
     def notes(self, filter: dict = None) -> List['XANote']:
@@ -59,43 +64,43 @@ class XANotesApplication(XABaseScriptable.XASBApplication, XABase.XACanConstruct
         return super().last_scriptable_element("notes", XANote)
 
     ## Folders
-    def folders(self) -> List['XANoteFolder']:
+    def folders(self) -> List['XANotesFolder']:
         """Returns a list of Notes folders, as PyXA objects, matching the given filter.
 
         .. seealso:: :func:`scriptable_elements`
 
         .. versionadded:: 0.0.1
         """
-        return super().scriptable_elements("folders", XANoteFolder)
+        return super().scriptable_elements("folders", XANotesFolder)
 
-    def folder(self, properties: dict) -> List['XANoteFolder']:
+    def folder(self, properties: dict) -> List['XANotesFolder']:
         """Returns Notes folders matching the given filter.
 
         .. seealso:: :func:`scriptable_element_with_properties`
 
         .. versionadded:: 0.0.1
         """
-        return super().scriptable_element_with_properties("folders", properties, XANoteFolder)
+        return super().scriptable_element_with_properties("folders", properties, XANotesFolder)
 
-    def first_folder(self) -> 'XANoteFolder':
+    def first_folder(self) -> 'XANotesFolder':
         """Returns the Notes folder at the zero index of the folders array.
 
         .. seealso:: :func:`first_scriptable_element`
 
         .. versionadded:: 0.0.1
         """
-        return super().first_scriptable_element("folders", XANoteFolder)
+        return super().first_scriptable_element("folders", XANotesFolder)
 
-    def last_folder(self) -> 'XANoteFolder':
+    def last_folder(self) -> 'XANotesFolder':
         """Returns the Notes folder at the last (-1) index of the folders array.
 
         .. seealso:: :func:`last_scriptable_element`
 
         .. versionadded:: 0.0.1
         """
-        return super().last_scriptable_element("folders", XANoteFolder)
+        return super().last_scriptable_element("folders", XANotesFolder)
 
-    def new_note(self, name = "New Note", body = "", note_folder: 'XANoteFolder' = None) -> 'XANote':
+    def new_note(self, name = "New Note", body = "", note_folder: 'XANotesFolder' = None) -> 'XANote':
         """Creates a new note with the given name and body text in the given folder.
         If no folder is provided, the note is created in the default Notes folder.
 
@@ -104,7 +109,7 @@ class XANotesApplication(XABaseScriptable.XASBApplication, XABase.XACanConstruct
         :param body: The initial body text of the note, defaults to ""
         :type body: str, optional
         :param note_folder: The folder to create the new note in, defaults to None
-        :type note_folder: XANoteFolder, optional
+        :type note_folder: XANotesFolder, optional
         :return: A reference to the newly created note.
         :rtype: XANote
 
@@ -137,7 +142,7 @@ class XANotesApplication(XABaseScriptable.XASBApplication, XABase.XACanConstruct
         body = body.replace("\n", "<br />")
         return self.push("note", {"body": f"<b>{name}</b><br />{body}"}, note_folder.properties["sb_element"].notes())
 
-    def new_folder(self, name: str = "New Folder") -> 'XANoteFolder':
+    def new_folder(self, name: str = "New Folder") -> 'XANotesFolder':
         """Creates a new Notes folder with the given name.
 
         :param name: The name of the folder, defaults to "New Folder"
@@ -159,17 +164,25 @@ class XANotesApplication(XABaseScriptable.XASBApplication, XABase.XACanConstruct
             name = "Pyxa Notes";
         }
 
-        .. seealso:: :class:`XANoteFolder`, :func:`new_note`
+        .. seealso:: :class:`XANotesFolder`, :func:`new_note`
 
         .. versionadded:: 0.0.1
         """
         return self.push("folder", {"name": name}, self.properties["sb_element"].folders())
 
 
-class XANoteFolder(XABase.XACanConstructElement, XABase.XAAcceptsPushedElements):
+class XANotesWindow(XABase.XACanConstructElement, XABase.XAAcceptsPushedElements):
+    """A class for interacting with windows of Notes.app.
+
+    .. versionadded:: 0.0.1
+    """
+    def __init__(self, properties):
+        super().__init__(properties)
+
+class XANotesFolder(XABase.XACanConstructElement, XABase.XAAcceptsPushedElements, XABase.XAHasElements):
     """A class for interacting with Notes folders and their contents.
 
-    .. seealso:: :class:`XANotesApplication`, :class:`XANote`, :class:`XABase.XACanConstructElement`
+    .. seealso:: class:`XANote`, :class:`XABase.XACanConstructElement`
 
     .. versionadded:: 0.0.1
     """
@@ -212,16 +225,182 @@ class XANoteFolder(XABase.XACanConstructElement, XABase.XAAcceptsPushedElements)
         """
         return self.push("note", {"body": f"<b>{name}</b><br />{body}"}, self.properties["element"].notes())
 
+    ## Notes
+    def notes(self, filter: dict = None) -> List['XANote']:
+        """Returns a list of notes, as PyXA objects, matching the given filter.
+
+        .. seealso:: :func:`elements`
+
+        .. versionadded:: 0.0.1
+        """
+        return super().elements("notes", filter, XANote)
+
+    def note(self, filter: Union[int, dict]) -> 'XANote':
+        """Returns the first note matching the given filter.
+
+        .. seealso:: :func:`element_with_properties`
+
+        .. versionadded:: 0.0.1
+        """
+        return super().element_with_properties("notes", filter, XANote)
+
+    def first_note(self) -> 'XANote':
+        """Returns the note at the zero index of the notes array.
+
+        .. seealso:: :func:`first_element`
+
+        .. versionadded:: 0.0.1
+        """
+        return super().first_element("notes", XANote)
+
+    def last_note(self) -> 'XANote':
+        """Returns the note at the last (-1) index of the notes array.
+
+        .. seealso:: :func:`last_element`
+
+        .. versionadded:: 0.0.1
+        """
+        return super().last_element("notes", XANote)
+
     def __repr__(self):
         return self.name
 
 
-class XANote(XABase.XACanConstructElement, XABase.XAAcceptsPushedElements):
+class XANote(XABase.XACanConstructElement, XABase.XAAcceptsPushedElements, XABase.XAHasElements):
     """A class for interacting with notes in the Notes application.
 
-    .. seealso:: :class:`XANotesApplication`, :class:`XANoteFolder`
+    .. seealso:: :class:`XANotesFolder`
 
     .. versionadded:: 0.0.1
     """
     def __init__(self, properties):
         super().__init__(properties)
+
+    ## Attachments
+    def attachments(self, filter: dict = None) -> List['XANoteAttachment']:
+        """Returns a list of attachments, as PyXA objects, matching the given filter.
+
+        .. seealso:: :func:`elements`
+
+        .. versionadded:: 0.0.1
+        """
+        return super().elements("attachments", filter, XANoteAttachment)
+
+    def attachment(self, filter: Union[int, dict]) -> 'XANoteAttachment':
+        """Returns the first attachment matching the given filter.
+
+        .. seealso:: :func:`element_with_properties`
+
+        .. versionadded:: 0.0.1
+        """
+        return super().element_with_properties("attachments", filter, XANoteAttachment)
+
+    def first_attachment(self) -> 'XANoteAttachment':
+        """Returns the attachment at the zero index of the attachments array.
+
+        .. seealso:: :func:`first_element`
+
+        .. versionadded:: 0.0.1
+        """
+        return super().first_element("attachments", XANoteAttachment)
+
+    def last_attachment(self) -> 'XANoteAttachment':
+        """Returns the attachment at the last (-1) index of the attachments array.
+
+        .. seealso:: :func:`last_element`
+
+        .. versionadded:: 0.0.1
+        """
+        return super().last_element("attachments", XANoteAttachment)
+
+class XANoteAttachment(XABase.XACanConstructElement, XABase.XAAcceptsPushedElements):
+    """A class for interacting with attachments in the Notes application.
+
+    .. versionadded:: 0.0.1
+    """
+    def __init__(self, properties):
+        super().__init__(properties)
+
+class XANotesAccount(XABase.XACanConstructElement, XABase.XAAcceptsPushedElements, XABase.XAHasElements):
+    """A class for interacting with accounts in the Notes application.
+
+    .. versionadded:: 0.0.1
+    """
+    def __init__(self, properties):
+        super().__init__(properties)
+        folder_obj = self.properties["element"].defaultFolder()
+        self.default_folder = self._new_element(folder_obj, XANotesFolder)
+
+    ## Notes
+    def notes(self, filter: dict = None) -> List['XANote']:
+        """Returns a list of notes, as PyXA objects, matching the given filter.
+
+        .. seealso:: :func:`elements`
+
+        .. versionadded:: 0.0.1
+        """
+        return super().elements("notes", filter, XANote)
+
+    def note(self, filter: Union[int, dict]) -> 'XANote':
+        """Returns the first note matching the given filter.
+
+        .. seealso:: :func:`element_with_properties`
+
+        .. versionadded:: 0.0.1
+        """
+        return super().element_with_properties("notes", filter, XANote)
+
+    def first_note(self) -> 'XANote':
+        """Returns the note at the zero index of the notes array.
+
+        .. seealso:: :func:`first_element`
+
+        .. versionadded:: 0.0.1
+        """
+        return super().first_element("notes", XANote)
+
+    def last_note(self) -> 'XANote':
+        """Returns the note at the last (-1) index of the notes array.
+
+        .. seealso:: :func:`last_element`
+
+        .. versionadded:: 0.0.1
+        """
+        return super().last_element("notes", XANote)
+
+    ## Folders
+    def folders(self) -> List['XANotesFolder']:
+        """Returns a list of Notes folders, as PyXA objects, matching the given filter.
+
+        .. seealso:: :func:`elements`
+
+        .. versionadded:: 0.0.1
+        """
+        return super().elements("folders", XANotesFolder)
+
+    def folder(self, properties: dict) -> List['XANotesFolder']:
+        """Returns Notes folders matching the given filter.
+
+        .. seealso:: :func:`element_with_properties`
+
+        .. versionadded:: 0.0.1
+        """
+        return super().element_with_properties("folders", properties, XANotesFolder)
+
+    def first_folder(self) -> 'XANotesFolder':
+        """Returns the Notes folder at the zero index of the folders array.
+
+        .. seealso:: :func:`first_element`
+
+        .. versionadded:: 0.0.1
+        """
+        return super().first_element("folders", XANotesFolder)
+
+    def last_folder(self) -> 'XANotesFolder':
+        """Returns the Notes folder at the last (-1) index of the folders array.
+
+        .. seealso:: :func:`last_element`
+
+        .. versionadded:: 0.0.1
+        """
+        return super().last_element("folders", XANotesFolder)

@@ -1,4 +1,4 @@
-<center><img src="./reference/source/_static/assets/PyXALogoTransparent.png" alt="The dark logo for PyXA" height="250px"></center>
+<img src="./reference/source/_static/assets/PyXALogoTransparent.png" alt="The dark logo for PyXA" height="250px">
 
 # Python for Automation
 Python for Automation, or PyXA for short, is a wrapper around Apple's Scripting Bridge framework that enables AppleScript- and JXA-like control over macOS applications from within Python. PyXA delivers intuitive application scripting by mapping existing AppleScript specifiers and commands, defined in sdef files, to per-application Python classes and associated methods. PyXA then expands on the capabilities of AppleScript by interfacing with low-level Objective-C frameworks.
@@ -93,13 +93,25 @@ When run, the above script creates a note in the Notes application similar to th
 ![A note in the Notes app showing a summary of reminders and events for the day](./reference/source/_static/assets/Example3_Notes.png)
 
 # Installation
-Coming soon!
+To install the latest version of PyXA on macOS, use the following pip command:
+```
+python -m pip install mac-pyxa
+```
 
 # Documentation
-Coming soon!
+The best way to learn about PyXA is to visit the [Reference](./reference/build/html/index.html) section of this repository. From there, you can find tutorials, examples, in-depth class and method documentation, and additional resources.
+
+For further help, consider joining the (PyXA Discord Server](https://discord.gg/Crypg65dxK) and asking your questions there.
+
+# Known Limitations
+- Currently, PyXA only supports macOS automation. There is a goal to expand support to other operating systems, but no concrete plan exists at this time.
+- PyXA can be quite slow when working with large lists of items (such as the list of Calendar events). There are plans to improve this by better utilizing Objective-C predicates.
+- Since PyXA uses hard-coded class and method definitions, instead of deriving them automatically from existing sdef files, support for third-party applications is limited to the applications that contributors deem relevant. This is a sacrifice made in order to have detailed, consistent documentation for all supported applications.
+
+Limitations of specific applications and methods are noted in their respective reference documents.
 
 # Contributing
-Coming soon!
+Contributions are welcome, big or small. Please refer to the [Contributing Guidelines](./reference/build/html/about/contributing_guidelines.html) for any contributions larger than a spelling correction. For small fixes such as spelling corrections, no issue needs to be created; you can go right to making a pull request. Other small issues include general grammar fixes, short comment additions, and formatting (whitespace) changes.
 
 # Contact
 If you have any questions about PyXA that are not addressed in the documentation, or if you just want to talk, feel free to email [stephen.kaplan@maine.edu](mailto:stephen.kaplan@maine.edu).

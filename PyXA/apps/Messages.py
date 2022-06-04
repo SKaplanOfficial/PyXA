@@ -5,8 +5,8 @@ Control the macOS Messages application using JXA-like syntax.
 
 from typing import List, Union
 
-import XABase
-import XABaseScriptable
+from PyXA import XABase
+from PyXA import XABaseScriptable
 
 _YES = 2036691744
 _NO = 1852776480

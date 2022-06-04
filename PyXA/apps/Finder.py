@@ -8,8 +8,8 @@ from Foundation import NSFileManager
 
 from AppKit import NSString, NSURL
 
-import XABase
-import XABaseScriptable
+from PyXA import XABase
+from PyXA import XABaseScriptable
 
 fm = NSFileManager.defaultManager()
 

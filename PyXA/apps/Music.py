@@ -4,8 +4,9 @@ Control the macOS Music application using JXA-like syntax.
 """
 
 from typing import List, Union
-import XABase
-import XABaseScriptable
+
+from PyXA import XABase
+from PyXA import XABaseScriptable
 
 _KIND_TRACK_LISTING = 1800696427
 _KIND_ALBUM_LISTING = 1799449698

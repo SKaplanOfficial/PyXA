@@ -8,9 +8,7 @@ from typing import Any, Union, List, Dict
 import threading
 
 import AppKit
-
 from ScriptingBridge import SBApplication, SBElementArray
-
 from Foundation import NSURL, NSString
 
 class XAObject():

@@ -5,8 +5,8 @@ Control Safari using JXA-like syntax.
 
 from typing import Any, List, Union
 
-import XABase
-import XABaseScriptable
+from PyXA import XABase
+from PyXA import XABaseScriptable
 
 class XASafariApplication(XABaseScriptable.XASBApplication, XABaseScriptable.XASBSaveable, XABaseScriptable.XASBPrintable, XABaseScriptable.XAHasScriptableElements):
     """A class for interacting with Safari.app.

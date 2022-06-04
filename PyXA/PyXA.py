@@ -14,24 +14,24 @@ from AppKit import (
 )
 from Foundation import NSURL, NSBundle
 
-from XABase import (
+from .XABase import (
     XAApplication,
     XASound,
 )
 
-from XAErrors import ApplicationNotFoundError
+from .XAErrors import ApplicationNotFoundError
 
-from apps.Finder import XAFinderApplication
-from apps.Safari import XASafariApplication
-from apps.Music import XAMusicApplication
-from apps.Notes import XANotesApplication
-from apps.Reminders import XARemindersApplication, XAReminder
-from apps.Calendar import XACalendarApplication
-from apps.TextEdit import XATextEditApplication
-from apps.Terminal import XATerminalApplication
-from apps.Messages import XAMessagesApplication
-from apps.Pages import XAPagesApplication
-from apps.SystemEvents import XASystemEventsApplication
+from .apps.Finder import XAFinderApplication
+from .apps.Safari import XASafariApplication
+from .apps.Music import XAMusicApplication
+from .apps.Notes import XANotesApplication
+from .apps.Reminders import XARemindersApplication, XAReminder
+from .apps.Calendar import XACalendarApplication
+from .apps.TextEdit import XATextEditApplication
+from .apps.Terminal import XATerminalApplication
+from .apps.Messages import XAMessagesApplication
+from .apps.Pages import XAPagesApplication
+from .apps.SystemEvents import XASystemEventsApplication
 
 application_classes = {
     "finder": XAFinderApplication,

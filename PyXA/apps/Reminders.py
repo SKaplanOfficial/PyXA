@@ -6,8 +6,8 @@ Control the macOS Reminders application using JXA-like syntax.
 from datetime import datetime
 from typing import List, Union
 
-import XABase
-import XABaseScriptable
+from PyXA import XABase
+from PyXA import XABaseScriptable
 
 _YES = 2036691744
 _NO = 1852776480

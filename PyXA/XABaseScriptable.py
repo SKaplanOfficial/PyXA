@@ -3,7 +3,7 @@ import threading
 import ScriptingBridge
 from AppKit import NSPredicate
 
-import XABase
+from PyXA import XABase
 
 class XASBObject(XABase.XAObject):
     """A class for PyXA objects scriptable with AppleScript/JXA.

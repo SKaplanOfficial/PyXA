@@ -8,8 +8,8 @@ from typing import List, Literal, Union
 
 from ScriptingBridge import SBObject
 
-import XABase
-import XABaseScriptable
+from PyXA import XABase
+from PyXA import XABaseScriptable
 
 _YES = Literal[2036691744]
 _NO = Literal[2036691744]

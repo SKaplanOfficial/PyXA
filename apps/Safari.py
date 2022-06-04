@@ -5,13 +5,13 @@ Control Safari using JXA-like syntax.
 
 from typing import Any, List, Union
 
-from XABase import XAHasElements, xa_url
-from XABaseScriptable import XASBApplication, XAHasScriptableElements, XASBCloseable, XASBSaveable, XASBWindow, XASBPrintable
+import XABase
+import XABaseScriptable
 
-class XASafariApplication(XASBApplication, XASBSaveable, XASBPrintable, XAHasScriptableElements):
+class XASafariApplication(XABaseScriptable.XASBApplication, XABaseScriptable.XASBSaveable, XABaseScriptable.XASBPrintable, XABaseScriptable.XAHasScriptableElements):
     """A class for interacting with Safari.app.
 
-    .. seealso:: :class:`XASafariDocument`, :class:`XASafariTab`, :class:`XASBApplication`, :class:`XASBSaveable`, :class:`XASBPrintable`
+    .. seealso:: :class:`XASafariDocument`, :class:`XASafariTab`, :class:`XABaseScriptable.XASBApplication`, :class:`XABaseScriptable.XASBSaveable`, :class:`XABaseScriptable.XASBPrintable`
 
     .. versionadded:: 0.0.1
     """
@@ -45,7 +45,7 @@ class XASafariApplication(XASBApplication, XASBSaveable, XASBPrintable, XAHasScr
         # Otherwise, URL is web address
         elif not url.startswith("http"):
             url = "http://" + url
-        url = xa_url(url)
+        url = XABase.xa_url(url)
         self.properties["workspace"].openURL_(url)
         return self
 
@@ -191,7 +191,7 @@ class XASafariApplication(XASBApplication, XASBSaveable, XASBPrintable, XAHasScr
         """
         return super().last_scriptable_element("documents", XASafariDocument)
 
-    def current_document(self) -> 'XASafariTab':
+    def current_document(self) -> 'XASafariDocument':
         """Returns the document open in the frontmost Safari window's current tab.
 
         .. versionadded:: 0.0.1
@@ -207,7 +207,7 @@ class XASafariApplication(XASBApplication, XASBSaveable, XASBPrintable, XAHasScr
         return XASafariDocument(properties)
 
 
-class XASafariWindow(XASBWindow, XASBSaveable, XASBCloseable, XASBPrintable, XAHasElements):
+class XASafariWindow(XABaseScriptable.XASBWindow, XABaseScriptable.XASBSaveable, XABaseScriptable.XASBCloseable, XABaseScriptable.XASBPrintable, XABase.XAHasElements):
     """A class for interacting with Safari windows.
 
     .. versionadded:: 0.0.1
@@ -267,10 +267,10 @@ class XASafariWindow(XASBWindow, XASBSaveable, XASBCloseable, XASBPrintable, XAH
         return XASafariTab(properties)
 
 
-class XASafariGeneric(XASBCloseable, XAHasElements):
+class XASafariGeneric(XABaseScriptable.XASBCloseable, XABase.XAHasElements):
     """A generic class containing methods relevant to Safari tabs and documents.
 
-    .. seealso:: :class:`XASafariDocument`, :class:`XASafariTab`, :class:`XASBCloseable`
+    .. seealso:: :class:`XASafariDocument`, :class:`XASafariTab`, :class:`XABaseScriptable.XASBCloseable`
 
     .. versionadded:: 0.0.1
     """
@@ -320,10 +320,10 @@ class XASafariGeneric(XASBCloseable, XAHasElements):
         return self.properties["element"].doJavaScript_in_(script, self.properties["element"])
 
 
-class XASafariDocument(XASafariGeneric, XASBPrintable, XASBSaveable):
+class XASafariDocument(XASafariGeneric, XABaseScriptable.XASBPrintable, XABaseScriptable.XASBSaveable):
     """A class for interacting with Safari documents.
 
-    .. seealso:: :class:`XASafariGeneric`, :class:`XASBPrintable`, :class:`XASBSaveable`
+    .. seealso:: :class:`XASafariGeneric`, :class:`XABaseScriptable.XASBPrintable`, :class:`XABaseScriptable.XASBSaveable`
 
     .. versionadded:: 0.0.1
     """

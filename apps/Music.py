@@ -4,8 +4,8 @@ Control the macOS Music application using JXA-like syntax.
 """
 
 from typing import List, Union
-from XABase import XACanOpenPath
-from XABaseScriptable import XAHasScriptableElements, XASBObject, XASBApplication
+import XABase
+import XABaseScriptable
 
 _KIND_TRACK_LISTING = 1800696427
 _KIND_ALBUM_LISTING = 1799449698
@@ -64,7 +64,7 @@ _STATUS_SUBSCRIPTION = 1800631650
 _STATUS_UNAVAILABLE = 1800562038
 _STATUS_NOT_UPLOADED = 1800761424
 
-class XAMusicApplication(XASBApplication, XAHasScriptableElements, XACanOpenPath):
+class XAMusicApplication(XABaseScriptable.XASBApplication, XABaseScriptable.XAHasScriptableElements, XABase.XACanOpenPath):
     """A class for managing and interacting with Music.app.
 
     .. seealso:: :class:`XAMediaPlaylist`, :class:`XAMediaTrack`
@@ -334,7 +334,7 @@ class XAMusicApplication(XASBApplication, XAHasScriptableElements, XACanOpenPath
         return self.last_scriptable_element("playlists", XAMediaPlaylist)
 
 
-class XAMediaItem(XASBObject):
+class XAMediaItem(XABaseScriptable.XASBObject):
     """A generic class with methods common to the various playable media classes in Music.app.
 
     .. seealso:: :class:`XAMediaPlaylist`, :class:`XAMediaTrack`
@@ -393,7 +393,7 @@ class XAMediaItem(XASBObject):
         return self
 
 
-class XAMediaPlaylist(XAMediaItem):
+class XAMediaPlaylist(XAMediaItem, XABase.XAHasElements):
     """A class for managing and interacting with playlists in Music.app.
 
     .. seealso:: :class:`XAMediaItem`
@@ -402,6 +402,42 @@ class XAMediaPlaylist(XAMediaItem):
     """
     def __init__(self, properties):
         super().__init__(properties)
+
+    def tracks(self, filter: dict = None) -> List['XAMediaTrack']:
+        """Returns a list of tracks matching the filter.
+
+        .. seealso:: :func:`elements`
+
+        .. versionadded:: 0.0.1
+        """
+        return self.elements("tracks", filter, XAMediaTrack)
+
+    def track(self, filter: Union[int, dict]) -> 'XAMediaTrack':
+        """Returns the first track that matches the filter.
+
+        .. seealso:: :func:`element_with_properties`
+
+        .. versionadded:: 0.0.1
+        """
+        return self.element_with_properties("tracks", filter, XAMediaTrack)
+
+    def first_track(self) -> 'XAMediaTrack':
+        """Returns the track at the first index of the tracks array.
+
+        .. seealso:: :func:`first_element`
+
+        .. versionadded:: 0.0.1
+        """
+        return self.first_element("tracks", XAMediaTrack)
+
+    def last_track(self) -> 'XAMediaTrack':
+        """Returns the track at the last (-1) index of the tracks array.
+
+        .. seealso:: :func:`last_element`
+
+        .. versionadded:: 0.0.1
+        """
+        return self.last_element("tracks", XAMediaTrack)
 
 
 class XAMediaTrack(XAMediaItem):

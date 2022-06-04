@@ -3,12 +3,13 @@
 Control the macOS Calendar application using JXA-like syntax.
 """
 
-from datetime import datetime, timedelta
+from datetime import datetime
 from typing import List, Literal, Union
 
 from ScriptingBridge import SBObject
-from XABase import XAApplication, XAHasElements, XAShowable, XAWindow, XAObject, XACanConstructElement, XAAcceptsPushedElements, XACanOpenPath
-from XABaseScriptable import XASBApplication, XASBDeletable, XASBObject, XASBPrintable
+
+import XABase
+import XABaseScriptable
 
 _YES = Literal[2036691744]
 _NO = Literal[2036691744]
@@ -32,7 +33,7 @@ _WEEK_VIEW = Literal[1161131877]
 _MONTH_VIEW = Literal[1161129327]
 
 
-class XACalendarApplication(XASBApplication, XACanConstructElement, XAAcceptsPushedElements, XACanOpenPath):
+class XACalendarApplication(XABaseScriptable.XASBApplication, XABase.XACanConstructElement, XABase.XAAcceptsPushedElements, XABase.XACanOpenPath):
     """A class for managing and interacting with scripting elements of the macOS Calendar application.
 
     .. seealso:: Classes :class:`XACalendar`, :class:`XACalendarEvent`
@@ -194,7 +195,7 @@ class XACalendarApplication(XASBApplication, XACanConstructElement, XAAcceptsPus
         return self.push("event", {"summary": name, "startDate": start_date, "endDate": end_date}, calendar.properties["element"].events(), XACalendarEvent)
 
 
-class XACalendar(XAHasElements, XAAcceptsPushedElements, XASBPrintable):
+class XACalendar(XABase.XAHasElements, XABase.XAAcceptsPushedElements, XABaseScriptable.XASBPrintable):
     """A class for interacting with calendars.
 
     .. versionadded:: 0.0.1
@@ -296,7 +297,7 @@ class XACalendar(XAHasElements, XAAcceptsPushedElements, XASBPrintable):
         return self.properties["element"].name()
 
 
-class XACalendarEvent(XASBObject, XAShowable, XASBDeletable):
+class XACalendarEvent(XABaseScriptable.XASBObject, XABase.XAShowable, XABaseScriptable.XASBDeletable):
     """A class for interacting with calendar events.
 
     .. versionadded:: 0.0.1

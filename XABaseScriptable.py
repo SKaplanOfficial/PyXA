@@ -1,15 +1,14 @@
-import os
-from typing import List, Literal, Union
+from typing import List, Union
+import threading
 import ScriptingBridge
 from AppKit import NSPredicate
-from XABase import XAApplication, XAObject, XAWindow, XAHasElements, xa_predicate_format
 
-import threading
+import XABase
 
-class XASBObject(XAObject):
+class XASBObject(XABase.XAObject):
     """A class for PyXA objects scriptable with AppleScript/JXA.
 
-    .. seealso:: :class:`XAObject`
+    .. seealso:: :class:`XABase.XAObject`
     """
     def __init__(self, properties):
         super().__init__(properties)
@@ -17,11 +16,11 @@ class XASBObject(XAObject):
     def set_property(self, property_name, value):
         self.properties["sb_element"]._scriptingSetValue_forKey_(value, property_name)
 
-class XAHasScriptableElements(XAObject):
+class XAHasScriptableElements(XABase.XAObject):
     def scriptable_elements(self, specifier, filter, obj_type):
         ls = self.properties["sb_element"].__getattribute__(specifier)()
         if filter is not None:
-            predicate = NSPredicate.predicateWithFormat_(xa_predicate_format(filter))
+            predicate = NSPredicate.predicateWithFormat_(XABase.xa_predicate_format(filter))
             ls = ls.filteredArrayUsingPredicate_(predicate)
 
         elements = []
@@ -77,12 +76,12 @@ class XAHasScriptableElements(XAObject):
 
 ### Mixins
 ## Property Mixins
-class XASBCloseable(XAObject):
-    def close(self) -> XAObject:
+class XASBCloseable(XABase.XAObject):
+    def close(self) -> XABase.XAObject:
         """Closes a document, window, or item.
 
         :return: A reference to the PyXA objects that called this method.
-        :rtype: XAObject
+        :rtype: XABase.XAObject
         """
         saving_options = {
             'yes': 0x79657320,
@@ -93,19 +92,19 @@ class XASBCloseable(XAObject):
         return self
 
 # TODO: FIX THIS
-class XASBSaveable(XAObject):
-    def save(self, location: str = None) -> XAObject:
+class XASBSaveable(XABase.XAObject):
+    def save(self, location: str = None) -> XABase.XAObject:
         """Saves a document, window, or item.
 
         :return: A reference to the PyXA objects that called this method.
-        :rtype: XAObject
+        :rtype: XABase.XAObject
         """
         if location is None:
             location = "/Users/steven/Downloads/test.pdf"
         self.properties["element"].saveIn_as_(None, None)
         return self
 
-class XASBPrintable(XAObject):
+class XASBPrintable(XABase.XAObject):
     def __print_dialog(self, show_prompt: bool = True):
         """Displays a print dialog."""
         try:
@@ -125,11 +124,11 @@ class XASBPrintable(XAObject):
                 else:
                     self.properties["element"].print_printDialog_withProperties_(self.properties["element"], show_prompt, None)
 
-    def print(self, properties: dict = None, print_dialog = None) -> XAObject:
+    def print(self, properties: dict = None, print_dialog = None) -> XABase.XAObject:
         """Prints a document, window, or item.
 
         :return: A reference to the PyXA objects that called this method.
-        :rtype: XAObject
+        :rtype: XABase.XAObject
 
         .. versionchanged:: 0.0.2
            Printing now initialized from a separate thread to avoid delaying main thread
@@ -140,14 +139,14 @@ class XASBPrintable(XAObject):
         print_thread.start()
         return self
 
-class XASBDeletable(XAObject):
+class XASBDeletable(XABase.XAObject):
     def delete(self):
         self.properties["element"].delete()
 
-class XASBApplication(XASBObject, XAApplication, XAHasScriptableElements):
+class XASBApplication(XASBObject, XABase.XAApplication, XAHasScriptableElements):
     """An application class for scriptable applications.
 
-    .. seealso:: :class:`XAApplication`, :class:`XAWindow`
+    .. seealso:: :class:`XABase.XAApplication`, :class:`XABase.XAWindow`
     """
     def __init__(self, properties):
         super().__init__(properties)
@@ -166,7 +165,7 @@ class XASBApplication(XASBObject, XAApplication, XAHasScriptableElements):
     def window(self, filter: Union[int, dict]) -> 'XASBWindow':
         return super().scriptable_element_with_properties("windows", filter, self.properties["window_class"])
 
-    def front_window(self) -> 'XAWindow':
+    def front_window(self) -> 'XABase.XAWindow':
         return super().first_scriptable_element("windows", self.properties["window_class"])
 
 
@@ -174,20 +173,20 @@ class XASBWindow(XASBObject):
     def __init__(self, properties):
         super().__init__(properties)
 
-    def collapse(self) -> 'XAWindow':
+    def collapse(self) -> 'XABase.XAWindow':
         """Collapses (minimizes) the window.
 
         :return: A reference to the now-collapsed window object.
-        :rtype: XAWindow
+        :rtype: XABase.XAWindow
         """
         self.set_property("miniaturized", True)
         return self
 
-    def uncollapse(self) -> 'XAWindow':
+    def uncollapse(self) -> 'XABase.XAWindow':
         """Uncollapses (unminimizes/expands) the window.
 
         :return: A reference to the uncollapsed window object.
-        :rtype: XAWindow
+        :rtype: XABase.XAWindow
         """
         self.set_property("miniaturized", False)
         return self

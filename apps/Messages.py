@@ -4,10 +4,9 @@ Control the macOS Messages application using JXA-like syntax.
 """
 
 from typing import List, Union
-from pprint import pprint
 
-from XABase import XACanConstructElement, XAAcceptsPushedElements
-from XABaseScriptable import XASBApplication, XAHasScriptableElements
+import XABase
+import XABaseScriptable
 
 _YES = 2036691744
 _NO = 1852776480
@@ -29,7 +28,7 @@ _STATUS_CONNECTED = 1668247150
 _STATUS_CONNECTING = 1668247143
 _STATUS_DISCONNECTED = 1684238190
 
-class _XAHasChats(XAHasScriptableElements):
+class _XAHasChats(XABaseScriptable.XAHasScriptableElements):
     """A class for interacting with chats in the Messages application.
 
     .. versionadded:: 0.0.1
@@ -71,7 +70,7 @@ class _XAHasChats(XAHasScriptableElements):
         return self.last_scriptable_element("chats", XAChat)
 
 
-class _XAHasFileTransfers(XAHasScriptableElements):
+class _XAHasFileTransfers(XABaseScriptable.XAHasScriptableElements):
     """A class for interacting with file transfers in the Messages application.
 
     .. versionadded:: 0.0.1
@@ -113,7 +112,7 @@ class _XAHasFileTransfers(XAHasScriptableElements):
         return self.last_scriptable_element("fileTransfers", XAMessagesFileTransfer)
 
 
-class _XAHasParticipants(XAHasScriptableElements):
+class _XAHasParticipants(XABaseScriptable.XAHasScriptableElements):
     """A class for interacting with participants in the Messages application.
 
     .. versionadded:: 0.0.1
@@ -155,7 +154,7 @@ class _XAHasParticipants(XAHasScriptableElements):
         return self.last_scriptable_element("participants", XAMessagesParticipant)
 
 
-class _XAHasMessagesAccounts(XAHasScriptableElements):
+class _XAHasMessagesAccounts(XABaseScriptable.XAHasScriptableElements):
     """A class for interacting with accounts in the Messages application.
 
     .. versionadded:: 0.0.1
@@ -197,7 +196,7 @@ class _XAHasMessagesAccounts(XAHasScriptableElements):
         return self.last_scriptable_element("accounts", XAMessagesAccount)
 
 
-class XAMessagesApplication(XASBApplication, XACanConstructElement, XAAcceptsPushedElements, _XAHasChats, _XAHasFileTransfers, _XAHasParticipants, _XAHasMessagesAccounts):
+class XAMessagesApplication(XABaseScriptable.XASBApplication, XABase.XACanConstructElement, XABase.XAAcceptsPushedElements, _XAHasChats, _XAHasFileTransfers, _XAHasParticipants, _XAHasMessagesAccounts):
     """A class for managing and interacting with Messages.app
 
      .. seealso:: :class:`XAChat`, :class:`XAMessagesFileTransfer`, :class:`XAMessagesParticipant`, :class:`XAMessagesAccount`
@@ -211,7 +210,7 @@ class XAMessagesApplication(XASBApplication, XACanConstructElement, XAAcceptsPus
         self.properties["sb_element"].send_to_(message, chat)
 
 
-class XAChat(XACanConstructElement, XAAcceptsPushedElements, _XAHasParticipants):
+class XAChat(XABase.XACanConstructElement, XABase.XAAcceptsPushedElements, _XAHasParticipants):
     def __init__(self, properties):
         super().__init__(properties)
 
@@ -219,7 +218,7 @@ class XAChat(XACanConstructElement, XAAcceptsPushedElements, _XAHasParticipants)
         self.properties["parent"].send(message, self.properties["element"])
 
 
-class XAMessagesFileTransfer(XACanConstructElement, XAAcceptsPushedElements):
+class XAMessagesFileTransfer(XABase.XACanConstructElement, XABase.XAAcceptsPushedElements):
     def __init__(self, properties):
         super().__init__(properties)
 
@@ -227,7 +226,7 @@ class XAMessagesFileTransfer(XACanConstructElement, XAAcceptsPushedElements):
         return self.name
 
 
-class XAMessagesParticipant(XACanConstructElement, XAAcceptsPushedElements):
+class XAMessagesParticipant(XABase.XACanConstructElement, XABase.XAAcceptsPushedElements):
     def __init__(self, properties):
         super().__init__(properties)
 
@@ -235,6 +234,6 @@ class XAMessagesParticipant(XACanConstructElement, XAAcceptsPushedElements):
         return self.fullName
 
 
-class XAMessagesAccount(XACanConstructElement, XAAcceptsPushedElements, _XAHasChats, _XAHasParticipants):
+class XAMessagesAccount(XABase.XACanConstructElement, XABase.XAAcceptsPushedElements, _XAHasChats, _XAHasParticipants):
     def __init__(self, properties):
         super().__init__(properties)

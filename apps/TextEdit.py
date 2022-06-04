@@ -6,8 +6,8 @@ Control the macOS TextEdit application using JXA-like syntax.
 from typing import List, Union
 from AppKit import NSFileManager, NSURL
 
-from XABase import XACanConstructElement, XAAcceptsPushedElements, XACanOpenPath, XACanPrintPath, XATextDocument
-from XABaseScriptable import XASBApplication, XASBPrintable
+import XABase
+import XABaseScriptable
 
 _YES = 2036691744
 _NO = 1852776480
@@ -15,7 +15,7 @@ _ASK = 1634954016
 _STANDARD_ERRORS = 1819767668
 _DETAILED_ERRORS = 1819763828
 
-class XATextEditApplication(XASBApplication, XACanConstructElement, XAAcceptsPushedElements, XACanOpenPath):
+class XATextEditApplication(XABaseScriptable.XASBApplication, XABase.XACanConstructElement, XABase.XAAcceptsPushedElements, XABase.XACanOpenPath):
     """A class for managing and interacting with TextEdit.app.
 
      .. seealso:: :class:`XATextEditWindow`, :class:`XATextEditDocument`
@@ -104,7 +104,7 @@ class XATextEditApplication(XASBApplication, XACanConstructElement, XAAcceptsPus
             location = location + name
         return self.push("document", {"name": name, "text": text, "path": location}, self.properties["sb_element"].documents(), XATextEditDocument)
 
-class XATextEditWindow(XASBPrintable):
+class XATextEditWindow(XABaseScriptable.XASBPrintable):
     """A class for managing and interacting with TextEdit documents.
 
     .. seealso:: :class:`XATextEditApplication`
@@ -115,7 +115,7 @@ class XATextEditWindow(XASBPrintable):
         super().__init__(properties)
         self.document = self._new_element(self.document, XATextEditDocument)
 
-class XATextEditDocument(XACanConstructElement, XAAcceptsPushedElements, XATextDocument, XASBPrintable):
+class XATextEditDocument(XABase.XACanConstructElement, XABase.XAAcceptsPushedElements, XABase.XATextDocument, XABaseScriptable.XASBPrintable):
     """A class for managing and interacting with TextEdit documents.
 
     .. seealso:: :class:`XATextEditApplication`

@@ -1,55 +1,36 @@
 import os
-from typing import List, Union
-import ScriptingBridge
-from PyObjCTools import AppHelper
+from pathlib import Path
+from time import sleep
+from typing import Any, List, Union
+
 from AppKit import (
     NSWorkspace,
-    NSObject,
-    NSWorkspaceWillLaunchApplicationNotification,
-    NSWorkspaceDidTerminateApplicationNotification,
-    NSWorkspaceDidActivateApplicationNotification,
-    NSWorkspaceDidWakeNotification,
     NSApplication,
-    NSTimer,
-    NSApp,
     NSSound,
+    NSPasteboard,
+    NSArray,
+    NSPasteboardTypeString,
+    NSAppleScript,
 )
-from Foundation import NSURL, NSString, NSBundle
-
-from enum import Enum
-from time import sleep
-from pprint import pprint
-import threading
-
+from Foundation import NSURL, NSBundle
 
 from XABase import (
     XAApplication,
     XASound,
-    XAText,
 )
-
-from pathlib import Path
 
 from XAErrors import ApplicationNotFoundError
 
-from Experiment import AutomationWrapper
-
 from apps.Finder import XAFinderApplication
 from apps.Safari import XASafariApplication
-
 from apps.Music import XAMusicApplication
-
 from apps.Notes import XANotesApplication
-from apps.Reminders import XARemindersApplication
+from apps.Reminders import XARemindersApplication, XAReminder
 from apps.Calendar import XACalendarApplication
-
 from apps.TextEdit import XATextEditApplication
 from apps.Terminal import XATerminalApplication
-
 from apps.Messages import XAMessagesApplication
-
 from apps.Pages import XAPagesApplication
-
 from apps.SystemEvents import XASystemEventsApplication
 
 application_classes = {
@@ -69,6 +50,7 @@ application_classes = {
 
 appspace = NSApplication.sharedApplication()
 workspace = NSWorkspace.sharedWorkspace()
+apps = []
 
 # _notification_center = workspace2.notificationCenter()
 
@@ -166,38 +148,43 @@ def _get_path_to_app(app_identifier: str) -> str:
     raise ApplicationNotFoundError(app_identifier)
 
 def get_running_applications() -> List[XAApplication]:
+    """Gets PyXA references to all currently running applications whose app bundles are stored in typical application directories.
+
+    :return: A list of PyXA application objects.
+    :rtype: List[XAApplication]
+    """
     apps = []
     for app in workspace.runningApplications():
         if not app.isHidden():
-            apps.append(application(app.bundleIdentifier()))
+            try:
+                apps.append(application(app.localizedName().lower()))
+            except ApplicationNotFoundError as e:
+                print("Couldn't create a reference to " + e.name)
     return apps
 
 def current_application() -> XAApplication:
     """Retrieves a PyXA representation of the frontmost application.
 
-    :return: _description_
+    :return: A PyXA application object referencing the current application.
     :rtype: XAApplication
+
+    .. versionadded:: 0.0.1
     """
     app = workspace.frontmostApplication()
     app_identifier = app.localizedName().lower()
-
-    if application_classes[app.localizedName()] in application_classes:
-        SB = ScriptingBridge.SBApplication.alloc()
-        app_SB = SB.initWithBundleIdentifier_(app.bundleIdentifier())
-
-        if app_SB is None:
-            return application_classes[app_identifier](app, appspace, workspace, app)
-        else:
-            return application_classes[app_identifier](app, appspace, workspace, app_SB)
-    return XAApplication(app)
+    return application(app_identifier)
 
 def launch_application(app_identifier: str) -> XAApplication:
     """Launches and activates an application, or activates an already running application, and returns its PyXA application object representation.
 
     :param app_identifier: The name of the application to launch or activate.
     :type app_identifier: str
-    :return: _description_
+    :return: A PyXA application object referencing the target application.
     :rtype: XAApplication
+
+    .. seealso:: :func:`application`
+
+    .. versionadded:: 0.0.1
     """
     app_identifier = app_identifier.lower()
     app = application(app_identifier)
@@ -209,8 +196,12 @@ def application(app_identifier: str) -> XAApplication:
 
     :param app_identifier: The name of the application to get an object of.
     :type app_identifier: str
-    :return: An XAApplication object with an `element` attribute holding a reference to the actual application object.
+    :return: A PyXA application object referencing the target application.
     :rtype: XAApplication
+
+    .. seealso:: :func:`launch_application`
+
+    .. versionadded:: 0.0.1
     """
 
     app_object = None
@@ -234,13 +225,36 @@ def application(app_identifier: str) -> XAApplication:
         "appref": app_object,
     }
     if app_identifier.lower() in application_classes:
-        return application_classes[app_identifier.lower()](properties)
-    return XAApplication(properties)
+        app = application_classes[app_identifier.lower()](properties)
+    else:
+        app = XAApplication(properties)
+    apps.append(app)
+    return app
 
 def sound(sound_file: Union[str, NSURL]) -> XASound:
+    """Creates a new XASound object.
+
+    :param sound_file: The sound file to associate with the XASound object
+    :type sound_file: Union[str, NSURL]
+    :return: A reference to the new XASound object.
+    :rtype: XASound
+
+    .. seealso:: :func:`play_sound`
+
+    .. versionadded:: 0.0.1
+    """
     return XASound(sound_file)
 
-def play_sound(sound_file: Union[str, NSURL]):
+def play_sound(sound_file: Union[str, NSURL]) -> None:
+    """Immediately plays a sound from the specified file.
+
+    :param sound_file: The path to the file to play.
+    :type sound_file: Union[str, NSURL]
+
+    .. seealso:: :func:`sound`
+
+    .. versionadded:: 0.0.1
+    """
     if isinstance(sound_file, str):
         if "/" in sound_file:
             sound_file = NSURL.alloc().initWithString_(sound_file)
@@ -250,3 +264,77 @@ def play_sound(sound_file: Union[str, NSURL]):
     sound.initWithContentsOfURL_byReference_(sound_file, True)
     sound.play()
     sleep(sound.duration())
+
+def get_clipboard() -> List[bytes]:
+    """Returns the byte representation of all items on the clipboard.
+
+    :return: A list of items currently on the clipboard in their byte representation.
+    :rtype: List[bytes]
+
+    .. seealso:: :func:`get_clipboard_strings`, :func:`set_clipboard`
+
+    .. versionadded:: 0.0.1
+    """
+    items = []
+    pb = NSPasteboard.generalPasteboard()
+    for item in pb.pasteboardItems():
+        for item_type in item.types():
+            items.append(item.dataForType_(item_type))
+    return items
+
+def get_clipboard_strings() -> List[str]:
+    """Returns the string representation all items on the clipboard that can be represented as strings.
+
+    :return: A list of items currently on the clipboard in their string representation.
+    :rtype: List[str]
+
+    .. seealso:: :func:`get_clipboard`, :func:`set_clipboard`
+
+    .. versionadded:: 0.0.1
+    """
+    items = []
+    pb = NSPasteboard.generalPasteboard()
+    for item in pb.pasteboardItems():
+        if NSPasteboardTypeString in item.types():
+            decoded_item = item.dataForType_(NSPasteboardTypeString).decode()
+            if "\r" in decoded_item:
+                items.extend(decoded_item.split("\r"))
+            elif "\n" in decoded_item:
+                items.extend(decoded_item.split("\n"))
+            else:
+                items.append(decoded_item)
+    return items
+
+def set_clipboard(content: Any) -> None:
+    """Sets the clipboard to the specified content.
+
+    :param content: The item or object to set the clipboard to. Can be a list of items.
+    :type content: Any
+
+    .. seealso:: :func:`get_clipboard`, :func:`get_clipboard_strings`
+
+    .. versionadded:: 0.0.1
+    """
+    pb = NSPasteboard.generalPasteboard()
+    pb.clearContents()
+    pb.writeObjects_(NSArray.arrayWithObject_(content))
+
+def run_applescript(source: Union[str, NSURL]) -> Any:
+    """Runs AppleScript and returns its result.
+
+    :param source: Either AppleScript code as text or the path to a .scpt file.
+    :type source: Union[str, NSURL]
+    :return: The value returned from the script upon completing execution.
+    :rtype: Any
+
+    .. versionadded:: 0.0.1
+    """
+    script = None
+    if source.startswith("/"):
+        source = NSURL.fileURLWithPath_(source)
+        script = NSAppleScript.initWithContentsOfURL_error_(source, None)
+    elif isinstance(source, NSURL):
+        script = NSAppleScript.initWithContentsOfURL_error_(source, None)
+    else:
+        script = NSAppleScript.alloc().initWithSource_(source)
+    return script.executeAndReturnError_(None)

@@ -5,8 +5,8 @@ Control the macOS Terminal application using JXA-like syntax.
 
 from typing import List, Union
 
-from XABase import XACanOpenPath, XAWindow, XAHasElements, XACanConstructElement, XAAcceptsPushedElements
-from XABaseScriptable import XASBApplication, XASBObject, XASBPrintable, XAWindow
+import XABase
+import XABaseScriptable
 
 _YES = 2036691744
 _NO = 1852776480
@@ -14,7 +14,7 @@ _ASK = 1634954016
 _STANDARD_ERRORS = 1819767668
 _DETAILED_ERRORS = 1819763828
 
-class XATerminalApplication(XASBApplication, XACanConstructElement, XAAcceptsPushedElements, XACanOpenPath):
+class XATerminalApplication(XABaseScriptable.XASBApplication, XABase.XACanConstructElement, XABase.XAAcceptsPushedElements, XABase.XACanOpenPath):
     """A class for managing and interacting with Messages.app
 
      .. seealso:: :class:`XATerminalWindow`, :class:`XATerminalTab`, :class:`XATerminalSettingsSet`
@@ -116,7 +116,7 @@ class XATerminalApplication(XASBApplication, XACanConstructElement, XAAcceptsPus
         """
         return self.last_scriptable_element("settingsSets", XATerminalSettingsSet)
 
-class XATerminalWindow(XAWindow, XASBPrintable, XAHasElements):
+class XATerminalWindow(XABase.XAWindow, XABaseScriptable.XASBPrintable, XABase.XAHasElements):
     """A class for managing and interacting with windows in Terminal.app.
 
     .. versionadded:: 0.0.1
@@ -172,7 +172,7 @@ class XATerminalWindow(XAWindow, XASBPrintable, XAHasElements):
         """
         return self.last_element("tabs", XATerminalTab)
 
-class XATerminalTab(XASBObject):
+class XATerminalTab(XABaseScriptable.XASBObject):
     """A class for managing and interacting with tabs in Terminal.app.
 
     .. versionadded:: 0.0.1
@@ -191,7 +191,7 @@ class XATerminalTab(XASBObject):
         settings_set_obj = self.properties["element"].currentSettings()
         return self._new_element(settings_set_obj, XATerminalSettingsSet)
 
-class XATerminalSettingsSet(XASBObject):
+class XATerminalSettingsSet(XABaseScriptable.XASBObject):
     """A class for managing and interacting with settings sets in Terminal.app.
 
     .. versionadded:: 0.0.1

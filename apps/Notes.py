@@ -5,13 +5,13 @@ Control the macOS Notes application using JXA-like syntax.
 
 from typing import List, Union
 
-from XABase import XACanConstructElement, XAAcceptsPushedElements, XACanOpenPath
-from XABaseScriptable import XASBApplication
+import XABase
+import XABaseScriptable
 
-class XANotesApplication(XASBApplication, XACanConstructElement, XAAcceptsPushedElements, XACanOpenPath):
+class XANotesApplication(XABaseScriptable.XASBApplication, XABase.XACanConstructElement, XABase.XAAcceptsPushedElements, XABase.XACanOpenPath):
     """A class for interacting with Notes.app.
 
-    .. seealso:: :class:`XANote`, :class:`XANoteFolder`, :class:`XASBApplication`, :class:`XACanConstructElement`, :class:`XACanOpenPath`
+    .. seealso:: :class:`XANote`, :class:`XANoteFolder`, :class:`XABaseScriptable.XASBApplication`, :class:`XABase.XACanConstructElement`, :class:`XABase.XACanOpenPath`
 
     .. versionadded:: 0.0.1
     """
@@ -133,6 +133,8 @@ class XANotesApplication(XASBApplication, XACanConstructElement, XAAcceptsPushed
         """
         if note_folder is None:
             note_folder = self
+        name = name.replace("\n", "<br />")
+        body = body.replace("\n", "<br />")
         return self.push("note", {"body": f"<b>{name}</b><br />{body}"}, note_folder.properties["sb_element"].notes())
 
     def new_folder(self, name: str = "New Folder") -> 'XANoteFolder':
@@ -164,10 +166,10 @@ class XANotesApplication(XASBApplication, XACanConstructElement, XAAcceptsPushed
         return self.push("folder", {"name": name}, self.properties["sb_element"].folders())
 
 
-class XANoteFolder(XACanConstructElement, XAAcceptsPushedElements):
+class XANoteFolder(XABase.XACanConstructElement, XABase.XAAcceptsPushedElements):
     """A class for interacting with Notes folders and their contents.
 
-    .. seealso:: :class:`XANotesApplication`, :class:`XANote`, :class:`XACanConstructElement`
+    .. seealso:: :class:`XANotesApplication`, :class:`XANote`, :class:`XABase.XACanConstructElement`
 
     .. versionadded:: 0.0.1
     """
@@ -214,7 +216,7 @@ class XANoteFolder(XACanConstructElement, XAAcceptsPushedElements):
         return self.name
 
 
-class XANote(XACanConstructElement, XAAcceptsPushedElements):
+class XANote(XABase.XACanConstructElement, XABase.XAAcceptsPushedElements):
     """A class for interacting with notes in the Notes application.
 
     .. seealso:: :class:`XANotesApplication`, :class:`XANoteFolder`

@@ -5,13 +5,11 @@ Control Finder using JXA-like syntax.
 
 from typing import List, Union
 from Foundation import NSFileManager
-from pprint import pprint
 
-from AppKit import NSString, NSURL, NSPasteboard, NSArray, NSPasteboardTypeFileURL, NSFileHandle
-from ScriptingBridge import SBObject
+from AppKit import NSString, NSURL
 
-from XABase import XAApplication, XADeletable, XARevealable, XASelectable, XAWindow, XAObject, xa_path
-from XABaseScriptable import XASBApplication, XASBObject, XASBPrintable
+import XABase
+import XABaseScriptable
 
 fm = NSFileManager.defaultManager()
 
@@ -42,7 +40,7 @@ _EXFAT_FORMAT = 1684437094
 _SMB_FORMAT = 1684435821
 _UNKNOWN_FORMAT = 1684422463
 
-class XAFinderApplication(XASBApplication):
+class XAFinderApplication(XABaseScriptable.XASBApplication):
     """A class for managing and interacting with Finder.app.
 
     .. seealso:: :class:`XAFinderFolder`, :class:`XAFinderFile`
@@ -476,7 +474,7 @@ class XAFinderApplication(XASBApplication):
         """
         return self.last_scriptable_element("files", XAFinderFile)
 
-class XAFinderItem(XARevealable, XASelectable, XADeletable):
+class XAFinderItem(XABase.XARevealable, XABase.XASelectable, XABase.XADeletable):
     """A generic class with methods common to the various item classes of Finder.
 
     .. seealso:: :class:`XAFinderFolder`, :class:`XAFinderFile`
@@ -611,7 +609,7 @@ class XAFinderFolder(XAFinderItem):
     def __init__(self, properties):
         super().__init__(properties)
 
-class XAFinderFile(XAFinderItem, XASBPrintable):
+class XAFinderFile(XAFinderItem, XABaseScriptable.XASBPrintable):
     """A class for managing and interacting with files in Finder.
 
     .. seealso:: :class:`XAFinderItem`

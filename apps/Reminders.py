@@ -5,13 +5,9 @@ Control the macOS Reminders application using JXA-like syntax.
 
 from datetime import datetime
 from typing import List, Union
-import EventKit
-from pprint import pprint
 
-from ScriptingBridge import SBElementArray
-
-from XABase import XAApplication, XAWindow, XAObject, XACanConstructElement, XAAcceptsPushedElements
-from XABaseScriptable import XAObject, XASBApplication, XASBPrintable
+import XABase
+import XABaseScriptable
 
 _YES = 2036691744
 _NO = 1852776480
@@ -20,7 +16,7 @@ _STANDARD_ERROR_HANDLING = 1819767668
 _DETAILED_ERROR_HANDLING = 1819763828
 _SAVABLE_FILE_FORMAT = 1668577396
 
-class XARemindersApplication(XASBApplication, XACanConstructElement, XAAcceptsPushedElements):
+class XARemindersApplication(XABaseScriptable.XASBApplication, XABase.XACanConstructElement, XABase.XAAcceptsPushedElements):
     """A class for managing and interacting with scripting elements of the Reminders application.
 
     .. seealso:: :class:`XAReminderList`, :class:`XAReminder`
@@ -29,6 +25,12 @@ class XARemindersApplication(XASBApplication, XACanConstructElement, XAAcceptsPu
     """
     def __init__(self, properties):
         super().__init__(properties)
+        self.pasteboard_types = {
+            "com.apple.reminders.reminderCopyPaste": self._get_clipboard_reminder,
+        }
+
+    def _get_clipboard_reminder(self, reminder_name: str) -> 'XAReminder':
+        return self.reminder({"name": reminder_name})
 
     ## Lists
     def lists(self, filter: dict = None) -> List['XAReminderList']:
@@ -189,7 +191,7 @@ class XARemindersApplication(XASBApplication, XACanConstructElement, XAAcceptsPu
             return self.push("reminder", {"name": name, "body": body}, reminder_list, XAReminder)
         return self.push("reminder", {"name": name, "body": body, "dueDate": due_date}, reminder_list, XAReminder)
 
-class XAReminderList(XAObject):
+class XAReminderList(XABase.XAObject):
     """A class for interacting with Reminders lists.
 
     .. seealso:: :class:`XARemindersApplication`, :class:`XAReminder`
@@ -202,7 +204,7 @@ class XAReminderList(XAObject):
     def __repr__(self):
         return self.name
 
-class XAReminder(XAObject):
+class XAReminder(XABase.XAObject):
     """A class for interacting with Reminders.
 
     .. seealso:: :class:`XARemindersApplication`, :class:`XAReminderList`

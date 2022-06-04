@@ -1,22 +1,17 @@
-"""General classes and methods applicable to any PyXA object.
+""".. versionadded:: 0.0.1
+
+General classes and methods applicable to any PyXA object.
 """
 
-import os
-import multiprocessing
 import time
-from typing import Any, Union, List, Tuple, Dict
+from typing import Any, Union, List, Dict
 import threading
 
 import AppKit
 
 from ScriptingBridge import SBApplication, SBElementArray
 
-from Foundation import NSURL, NSString, NSCharacterSet
-from Quartz import (
-    kCGWindowListOptionOnScreenOnly,
-    kCGNullWindowID,
-    CGWindowListCopyWindowInfo,
-)
+from Foundation import NSURL, NSString
 
 class XAObject():
     """A general class for PyXA scripting objects.
@@ -47,7 +42,8 @@ class XAObject():
                 "sb_element": None,
                 "appref": None,
             }
-        self.properties["system_events"] = SBApplication.alloc().initWithBundleIdentifier_("com.apple.systemevents")
+        if "system_events" not in self.properties:
+            self.properties["system_events"] = SBApplication.alloc().initWithBundleIdentifier_("com.apple.systemevents")
         
         try:
             self.element_properties = properties["element"].properties()
@@ -135,17 +131,6 @@ class XAObject():
         self.__setattr__(property_name, value)
         return self
 
-    def get_clipboard(self):
-        pb = AppKit.NSPasteboard.generalPasteboard()
-        if AppKit.NSStringPboardType in pb.types():
-            return pb.stringForType_(AppKit.NSStringPboardType)
-
-    def set_clipboard(self, content: Any):
-        pb = AppKit.NSPasteboard.generalPasteboard()
-        pb.clearContents()
-        pb.writeObjects_(AppKit.NSArray.arrayWithObject_(content))
-        return self
-
 
 ### Mixins
 ## Action Mixins
@@ -167,6 +152,10 @@ class XACanPrintPath(XAObject):
 
 class XACanOpenPath(XAObject):
     """A class for scriptable objects that can open an item at a given path (either in its default application or in an application whose PyXA object extends this class).
+    
+    .. seealso:: :class:`XABaseScriptable.XASBPrintable`
+
+    .. versionadded:: 0.0.1
     """
     def open(self, target: Union[str, NSURL]) -> XAObject:
         """Opens the file/website at the given filepath/URL.
@@ -175,6 +164,12 @@ class XACanOpenPath(XAObject):
         :type target: Union[str, NSURL]
         :return: A reference to the PyXA object that called this method.
         :rtype: XAObject
+
+        .. note::
+        
+            The implementation of a printing method various across applications, and some do not have the same method signature. If this presents a problem for a specific application, a custom print method should be defined for that application class.
+
+        .. versionadded:: 0.0.1
         """
         self.properties["workspace"].openFile_withApplication_(target, self.name)
         return self
@@ -1236,9 +1231,13 @@ class XAText(XAHasParagraphs, XAHasWords, XAHasCharacters, XAHasAttributeRuns, X
         super().__init__(properties)
 
     def __str__(self):
+        if isinstance(self.properties["element"], str):
+            return self.properties["element"]
         return str(self.properties["element"].get())
 
     def __repr__(self):
+        if isinstance(self.properties["element"], str):
+            return self.properties["element"]
         return str(self.properties["element"].get())
 
 

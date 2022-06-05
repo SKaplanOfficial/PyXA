@@ -118,7 +118,7 @@ def application(app_identifier: str) -> XAApplication:
     url = workspace.URLForApplicationWithBundleIdentifier_(bundle.bundleIdentifier())
     workspace.openApplicationAtURL_configuration_completionHandler_(url, None, _launch_completion_handler)
     while app_object is None:
-        sleep(0.2)
+        sleep(0.1)
 
     properties = {
         "parent": None,

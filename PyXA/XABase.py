@@ -208,7 +208,7 @@ class XAAcceptsPushedElements(XAObject):
         :param location: _description_
         :type location: SBElementArray'
         :param object_class: The PyXA class to wrap the newly created object in, defaults to XAObject
-        ;type object_class: type
+        :type object_class: type
         :return: A reference to the new created PyXA object.
         :rtype: XAObject
 
@@ -388,16 +388,30 @@ class XADeletable(XAObject):
 class XAProcess(XAHasElements):
     def __init__(self, properties):
         super().__init__(properties)
-        self.wcls = properties["window_class"]
+        self.xa_wcls = properties["window_class"]
 
+    # Windows
     def windows(self, filter: dict = None) -> List['XAWindow']:
         return super().elements("windows", filter, self.xa_wcls)
 
     def window(self, filter: Union[int, dict]) -> 'XAWindow':
-        return super().element("windows", filter, self.xa_wcls)
+        return super().element_with_properties("windows", filter, self.xa_wcls)
 
     def front_window(self) -> 'XAWindow':
         return super().first_element("windows", self.xa_wcls)
+
+    # Menu Bars
+    def menu_bars(self, filter: dict = None) -> List['XAUIMenuBar']:
+        return super().elements("menuBars", filter, XAUIMenuBar)
+
+    def menu_bar(self, filter: Union[int, dict]) -> 'XAUIMenuBar':
+        return super().element_with_properties("menuBars", filter, XAUIMenuBar)
+
+    def first_menu_bar(self) -> 'XAWindow':
+        return super().first_element("menuBars", XAUIMenuBar)
+
+    def last_menu_bar(self) -> 'XAWindow':
+        return super().last_element("menuBars", XAUIMenuBar)
 
 class XAApplication(XAObject):
     """A general application class for both officially scriptable and non-scriptable applications.
@@ -570,6 +584,20 @@ class XAApplication(XAObject):
 
     def front_window(self) -> 'XAWindow':
         return self.xa_prcs.front_window()
+
+
+    # Menu Bars
+    def menu_bars(self, filter: dict = None) -> List['XAUIMenuBar']:
+        return self.xa_prcs.menu_bars(filter)
+
+    def menu_bar(self, filter: Union[int, dict]) -> 'XAUIMenuBar':
+        return self.xa_prcs.menu_bar(filter)
+
+    def first_menu_bar(self) -> 'XAWindow':
+        return self.xa_prcs.first_menu_bar()
+
+    def last_menu_bar(self) -> 'XAWindow':
+        return self.xa_prcs.last_menu_bar()
 
     # def windows(self) -> List['XAWindow']:
     #     # properties = {"name": self.xa_elem.localizedName()}
@@ -863,6 +891,71 @@ class XAUIElement(XAHasElements):
     def last_window(self) -> 'XAWindow':
         return self.last_element("windows", XAWindow)
 
+    # Menu Bars
+    def menu_bars(self, filter: dict = None) -> List['XAUIMenuBar']:
+        return self.elements("menuBars", filter, XAUIMenuBar)
+
+    def menu_bar(self, filter: Union[int, dict]) -> 'XAUIMenuBar':
+        return self.element_with_properties("menuBars", filter, XAUIMenuBar)
+
+    def first_menu_bar(self) -> 'XAUIMenuBar':
+        return self.first_element("menuBars", XAUIMenuBar)
+
+    def last_menu_bar(self) -> 'XAUIMenuBar':
+        return self.last_element("menuBars", XAUIMenuBar)
+
+    # Menu Bar Items
+    def menu_bar_items(self, filter: dict = None) -> List['XAUIMenuBarItem']:
+        return self.elements("menuBarItems", filter, XAUIMenuBarItem)
+
+    def menu_bar_item(self, filter: Union[int, dict]) -> 'XAUIMenuBarItem':
+        return self.element_with_properties("menuBarItems", filter, XAUIMenuBarItem)
+
+    def first_menu_bar_item(self) -> 'XAUIMenuBarItem':
+        return self.first_element("menuBarItems", XAUIMenuBarItem)
+
+    def last_menu_bar_item(self) -> 'XAUIMenuBarItem':
+        return self.last_element("menuBarItems", XAUIMenuBarItem)
+
+    # Menus
+    def menus(self, filter: dict = None) -> List['XAUIMenu']:
+        return self.elements("menus", filter, XAUIMenu)
+
+    def menu(self, filter: Union[int, dict]) -> 'XAUIMenu':
+        return self.element_with_properties("menus", filter, XAUIMenu)
+
+    def first_menu(self) -> 'XAUIMenu':
+        return self.first_element("menus", XAUIMenu)
+
+    def last_menu(self) -> 'XAUIMenu':
+        return self.last_element("menus", XAUIMenu)
+
+    # Menu Items
+    def menu_items(self, filter: dict = None) -> List['XAUIMenuItem']:
+        return self.elements("menuItems", filter, XAUIMenuItem)
+
+    def menu_item(self, filter: Union[int, dict]) -> 'XAUIMenuItem':
+        return self.element_with_properties("menuItems", filter, XAUIMenuItem)
+
+    def first_menu_item(self) -> 'XAUIMenuItem':
+        return self.first_element("menuItems", XAUIMenuItem)
+
+    def last_menu_item(self) -> 'XAUIMenuItem':
+        return self.last_element("menuItems", XAUIMenuItem)
+
+    # Groups
+    def groups(self, filter: dict = None) -> List['XAUIGroup']:
+        return self.elements("groups", filter, XAUIGroup)
+
+    def group(self, filter: Union[int, dict]) -> 'XAUIGroup':
+        return self.element_with_properties("groups", filter, XAUIGroup)
+
+    def first_group(self) -> 'XAUIGroup':
+        return self.first_element("groups", XAUIGroup)
+
+    def last_group(self) -> 'XAUIGroup':
+        return self.last_element("groups", XAUIGroup)
+
     # Buttons
     def buttons(self, filter: dict = None) -> List['XAButton']:
         return self.elements("buttons", filter, XAButton)
@@ -888,6 +981,19 @@ class XAUIElement(XAHasElements):
 
     def last_action(self) -> 'XAUIAction':
         return self.last_element("actions", XAUIAction)
+
+    # Static Texts
+    def static_texts(self, filter: dict = None) -> List['XAUIStaticText']:
+        return self.elements("staticTexts", filter, XAUIStaticText)
+
+    def static_text(self, filter: Union[int, dict]) -> 'XAUIStaticText':
+        return self.element_with_properties("staticTexts", filter, XAUIStaticText)
+
+    def first_static_text(self) -> 'XAUIStaticText':
+        return self.first_element("staticTexts", XAUIStaticText)
+
+    def last_static_text(self) -> 'XAUIStaticText':
+        return self.last_element("staticTexts", XAUIStaticText)
 
 class XAWindow(XAUIElement):
     """A general window class for windows of both officially scriptable and non-scriptable applications.
@@ -943,24 +1049,52 @@ class XAWindow(XAUIElement):
         app_icon.actions()[0].perform()
         return self
 
+class XAUIMenuBar(XAUIElement):
+    def __init__(self, properties):
+        super().__init__(properties)
+
+class XAUIMenuBarItem(XAUIElement):
+    def __init__(self, properties):
+        super().__init__(properties)
+
+class XAUIMenu(XAUIElement):
+    def __init__(self, properties):
+        super().__init__(properties)
+
+class XAUIMenuItem(XAUIElement):
+    def __init__(self, properties):
+        super().__init__(properties)
+
+    def click(self):
+        self.action({"name": "AXPress"})[0].perform()
+        return self
+
+    def press(self):
+        self.actions({"name": "AXPress"})[0].perform()
+        return self
+
+class XAUIGroup(XAUIElement):
+    def __init__(self, properties):
+        super().__init__(properties)
+
 class XAButton(XAUIElement):
     def __init__(self, properties):
         super().__init__(properties)
 
     def click(self):
-        self.action({"name": "AXPress"}).perform()
+        self.action({"name": "AXPress"})[0].perform()
         return self
 
     def press(self):
-        self.actions({"name": "AXPress"}).perform()
+        self.actions({"name": "AXPress"})[0].perform()
         return self
 
     def option_click(self):
-        self.actions({"name": "AXZoomWindow"}).perform()
+        self.actions({"name": "AXZoomWindow"})[0].perform()
         return self
 
     def show_menu(self):
-        self.actions({"name": "AXShowMenu"}).perform()
+        self.actions({"name": "AXShowMenu"})[0].perform()
         return self
 
 class XAUIAction(XAUIElement):
@@ -970,6 +1104,10 @@ class XAUIAction(XAUIElement):
     def perform(self):
         self.xa_elem.perform()
         return self
+
+class XAUIStaticText(XAUIElement):
+    def __init__(self, properties):
+        super().__init__(properties)
 
 # Text Elements
 class XAHasParagraphs(XAHasElements):

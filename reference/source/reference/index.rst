@@ -22,11 +22,13 @@ Application Modules
 .. toctree::
    :maxdepth: 4
 
+   apps/calculator
    apps/calendar
    apps/finder
    apps/messages
    apps/music
    apps/notes
+   apps/preview
    apps/reminders
    apps/safari
    apps/terminal

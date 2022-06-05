@@ -10,6 +10,7 @@ from .Messages import XAMessagesApplication
 from .Pages import XAPagesApplication
 from .SystemEvents import XASystemEventsApplication
 from .Preview import XAPreviewApplication
+from .Calculator import XACalculatorApplication
 
 application_classes = {
     "finder": XAFinderApplication,
@@ -25,4 +26,5 @@ application_classes = {
     "systemevents": XASystemEventsApplication,
     "terminal": XATerminalApplication,
     "preview": XAPreviewApplication,
+    "calculator": XACalculatorApplication,
 }

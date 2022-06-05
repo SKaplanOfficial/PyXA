@@ -137,7 +137,7 @@ class XARemindersApplication(XABaseScriptable.XASBApplication, XABase.XACanConst
 
         .. versionadded:: 0.0.1
         """
-        return self.push("list", {"name": name, "color": color, "emblem": emblem}, self.properties["sb_element"].lists(), XAReminderList)
+        return self.push("list", {"name": name, "color": color, "emblem": emblem}, self.xa_scel.lists(), XAReminderList)
 
     def new_reminder(self, name: str = "New Reminder", body: str = "", due_date: datetime = None, reminder_list: 'XAReminderList' = None) -> 'XAReminder':
         """Creates a new reminder with the given name, body, and due date in the specified reminder list.
@@ -183,9 +183,9 @@ class XARemindersApplication(XABaseScriptable.XASBApplication, XABase.XACanConst
         .. versionadded:: 0.0.1
         """
         if reminder_list is None:
-            reminder_list = self.properties["sb_element"].reminders()
+            reminder_list = self.xa_scel.reminders()
         else:
-            reminder_list = reminder_list.properties["element"].reminders()
+            reminder_list = reminder_list.xa_elem.reminders()
 
         if due_date is None:
             return self.push("reminder", {"name": name, "body": body}, reminder_list, XAReminder)

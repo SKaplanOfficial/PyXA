@@ -53,14 +53,14 @@ class XACalendarApplication(XABaseScriptable.XASBApplication, XABase.XACanConstr
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.properties["window_class"] = XACalendarWindow
+        self.xa_wcls = XACalendarWindow
 
         # Silence the message EventStore prints to stderr when initializing.
         # from: https://stackoverflow.com/a/3946828
         old_stderr = os.dup(sys.stderr.fileno())
         fd = os.open('/dev/null', os.O_CREAT | os.O_WRONLY)
         os.dup2(fd, sys.stderr.fileno())
-        self.properties["event_store"] = EventKit.EKEventStore.alloc().init()
+        self.xa_estr = EventKit.EKEventStore.alloc().init()
         os.dup2(old_stderr, sys.stderr.fileno())
 
     def reload_calendars(self) -> 'XACalendarApplication':
@@ -71,7 +71,7 @@ class XACalendarApplication(XABaseScriptable.XASBApplication, XABase.XACanConstr
 
         .. versionadded:: 0.0.1
         """
-        self.properties["sb_element"].reloadCalendars()
+        self.xa_scel.reloadCalendars()
         return self
 
     def switch_view_to(self, view: Literal["day", "week", "month"]) -> 'XACalendarApplication':
@@ -89,7 +89,7 @@ class XACalendarApplication(XABaseScriptable.XASBApplication, XABase.XACanConstr
             "week": _WEEK_VIEW,
             "month": _MONTH_VIEW,
         }
-        self.properties["sb_element"].switchViewTo_(view_ids[view])
+        self.xa_scel.switchViewTo_(view_ids[view])
         return self
 
     def view_calendar_at(self, date: datetime) -> 'XACalendarApplication':
@@ -102,7 +102,7 @@ class XACalendarApplication(XABaseScriptable.XASBApplication, XABase.XACanConstr
 
         .. versionadded:: 0.0.1
         """
-        self.properties["sb_element"].viewCalendarAt_(date)
+        self.xa_scel.viewCalendarAt_(date)
         return self
 
     def subscribe_to(self, url: str) -> 'XACalendarApplication':
@@ -113,17 +113,23 @@ class XACalendarApplication(XABaseScriptable.XASBApplication, XABase.XACanConstr
         :return: A reference to the Calendar application object.
         :rtype: XACalendarApplication
         """
-        self.properties["sb_element"].GetURL_(url)
+        self.xa_scel.GetURL_(url)
         return self
 
     def __new_calendar(self, calender_obj) -> 'XACalendar':
         predicate = NSPredicate.predicateWithFormat_(XABase.xa_predicate_format({"name": calender_obj.title()}))
-        scriptable_calendars = self.properties["sb_element"].calendars()
+        scriptable_calendars = self.xa_scel.calendars()
         scriptable_calendar = scriptable_calendars.filteredArrayUsingPredicate_(predicate)[0]
-        properties = {x:y for x, y in self.properties.items()}
-        properties["parent"] = self
-        properties["element"] = calender_obj
-        properties["sb_element"] = scriptable_calendar
+        properties = {
+            "parent": self,
+            "appspace": self.xa_apsp,
+            "workspace": self.xa_wksp,
+            "element": calender_obj,
+            "scriptable_element": scriptable_calendar,
+            "appref": self.xa_aref,
+            "system_events": self.xa_sevt,
+            "event_store": self.xa_estr,
+        }
         return XACalendar(properties)
 
     def calendars(self, filter: dict = None) -> List['XACalendar']:
@@ -133,7 +139,7 @@ class XACalendarApplication(XABaseScriptable.XASBApplication, XABase.XACanConstr
 
         .. versionadded:: 0.0.1
         """
-        calendars = self.properties["event_store"].calendarsForEntityType_(0)
+        calendars = self.xa_estr.calendarsForEntityType_(0)
         if filter is not None:
             predicate = NSPredicate.predicateWithFormat_(XABase.xa_predicate_format(filter))
             calendars = calendars.filteredArrayUsingPredicate_(predicate)
@@ -151,7 +157,7 @@ class XACalendarApplication(XABaseScriptable.XASBApplication, XABase.XACanConstr
         .. versionadded:: 0.0.1
         """
         calendar = None
-        calendars = self.properties["event_store"].calendarsForEntityType_(0)
+        calendars = self.xa_estr.calendarsForEntityType_(0)
         if isinstance(filter, int):
             calendar = calendars[filter]
         else:
@@ -164,7 +170,7 @@ class XACalendarApplication(XABaseScriptable.XASBApplication, XABase.XACanConstr
 
         .. versionadded:: 0.0.1
         """
-        calendar = self.properties["event_store"].calendarsForEntityType_(0)[0]
+        calendar = self.xa_estr.calendarsForEntityType_(0)[0]
         return self.__new_calendar(calendar)
 
     def last_calendar(self) -> 'XACalendar':
@@ -172,7 +178,7 @@ class XACalendarApplication(XABaseScriptable.XASBApplication, XABase.XACanConstr
 
         .. versionadded:: 0.0.1
         """
-        calendar = self.properties["event_store"].calendarsForEntityType_(0)[-1]
+        calendar = self.xa_estr.calendarsForEntityType_(0)[-1]
         return self.__new_calendar(calendar)
 
     def default_calendar(self) -> 'XACalendar':
@@ -180,7 +186,7 @@ class XACalendarApplication(XABaseScriptable.XASBApplication, XABase.XACanConstr
 
         .. versionadded:: 0.0.1
         """
-        calendar = self.properties["event_store"].defaultCalendarForNewEvents()
+        calendar = self.xa_estr.defaultCalendarForNewEvents()
         return self.__new_calendar(calendar)
 
     def new_calendar(self, name: str = "New Calendar") -> 'XACalendar':
@@ -203,7 +209,7 @@ class XACalendarApplication(XABaseScriptable.XASBApplication, XABase.XACanConstr
 
         .. versionadded:: 0.0.1
         """
-        return self.push("calendar", {"name": name}, self.properties["sb_element"].calendars(), XACalendar)
+        return self.push("calendar", {"name": name}, self.xa_scel.calendars(), XACalendar)
 
     def new_event(self, name: str, start_date: datetime, end_date: datetime, calendar: Union['XACalendar', None] = None) -> 'XACalendarEvent':
         """Creates a new event with the given name and start/end dates in the specified calendar. If no calendar is specified, the default calendar is used.
@@ -233,8 +239,8 @@ class XACalendarApplication(XABaseScriptable.XASBApplication, XABase.XACanConstr
         .. versionadded:: 0.0.1
         """
         if calendar is None:
-            return self.push("event", {"summary": name, "startDate": start_date, "endDate": end_date}, self.default_calendar().properties["element"].events(), XACalendarEvent)
-        return self.push("event", {"summary": name, "startDate": start_date, "endDate": end_date}, calendar.properties["element"].events(), XACalendarEvent)
+            return self.push("event", {"summary": name, "startDate": start_date, "endDate": end_date}, self.default_calendar().xa_elem.events(), XACalendarEvent)
+        return self.push("event", {"summary": name, "startDate": start_date, "endDate": end_date}, calendar.xa_elem.events(), XACalendarEvent)
 
 
 class XACalendarWindow(XABase.XAWindow):
@@ -252,24 +258,32 @@ class XACalendar(XABase.XAHasElements, XABase.XAAcceptsPushedElements, XABaseScr
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.title = properties["element"].title()
-        self.summary = properties["element"].summary()
-        self.subscription_url = properties["element"].subscriptionURL()
-        self.sharing_status = properties["element"].sharingStatus()
-        self.color = properties["element"].colorString()
-        self.type = properties["element"].typeString()
-        self.notes = properties["element"].notes()
-        self.description = properties["element"].description()
-        self.sharees = properties["element"].sharees()
+        self.xa_estr = properties["event_store"]
+
+        self.title = self.xa_elem.title()
+        self.summary = self.xa_elem.summary()
+        self.subscription_url = self.xa_elem.subscriptionURL()
+        self.sharing_status = self.xa_elem.sharingStatus()
+        self.color = self.xa_elem.colorString()
+        self.type = self.xa_elem.typeString()
+        self.notes = self.xa_elem.notes()
+        self.description = self.xa_elem.description()
+        self.sharees = self.xa_elem.sharees()
 
     def __new_event(self, event_obj) -> 'XACalendarEvent':
         predicate = NSPredicate.predicateWithFormat_(XABase.xa_predicate_format({"uid": event_obj.localUID()}))
-        scriptable_events = self.properties["sb_element"].events()
+        scriptable_events = self.xa_scel.events()
         scripable_event = scriptable_events.filteredArrayUsingPredicate_(predicate)[0]
-        properties = {x:y for x, y in self.properties.items()}
-        properties["parent"] = self
-        properties["element"] = event_obj
-        properties["sb_element"] = scripable_event
+        properties = {
+            "parent": self,
+            "appspace": self.xa_apsp,
+            "workspace": self.xa_wksp,
+            "element": event_obj,
+            "scriptable_element": scripable_event,
+            "appref": self.xa_aref,
+            "system_events": self.xa_sevt,
+            "event_store": self.xa_estr,
+        }
         return XACalendarEvent(properties)
 
     def events(self, filter: dict = None) -> List['XACalendarEvent']:
@@ -279,13 +293,13 @@ class XACalendar(XABase.XAHasElements, XABase.XAAcceptsPushedElements, XABaseScr
 
         .. versionadded:: 0.0.1
         """
-        calendar = self.properties["element"]
+        calendar = self.xa_elem
         events = NSMutableArray.arrayWithArray_([])
         for year in range(2006, datetime.now().year + 4, 4):
             start_date = date(year, 1, 1)
             end_date = start_date + timedelta(days = 365 * 4)
-            predicate = self.properties["event_store"].predicateForEventsWithStartDate_endDate_calendars_(start_date, end_date, [calendar])
-            events.addObjectsFromArray_(self.properties["event_store"].eventsMatchingPredicate_(predicate))
+            predicate = self.xa_estr.predicateForEventsWithStartDate_endDate_calendars_(start_date, end_date, [calendar])
+            events.addObjectsFromArray_(self.xa_estr.eventsMatchingPredicate_(predicate))
 
         if filter is not None:
             predicate = NSPredicate.predicateWithFormat_(XABase.xa_predicate_format(filter))
@@ -336,9 +350,9 @@ class XACalendar(XABase.XAHasElements, XABase.XAAcceptsPushedElements, XABaseScr
 
         .. versionadded:: 0.0.1
         """
-        calendar = self.properties["element"]
-        predicate = self.properties["event_store"].predicateForEventsWithStartDate_endDate_calendars_(start_date, end_date, [calendar])
-        events = self.properties["event_store"].eventsMatchingPredicate_(predicate)
+        calendar = self.xa_elem
+        predicate = self.xa_estr.predicateForEventsWithStartDate_endDate_calendars_(start_date, end_date, [calendar])
+        events = self.xa_estr.eventsMatchingPredicate_(predicate)
 
         elements = []
         for event in events:
@@ -352,13 +366,13 @@ class XACalendar(XABase.XAHasElements, XABase.XAAcceptsPushedElements, XABaseScr
 
         .. versionadded:: 0.0.1
         """
-        calendar = self.properties["element"]
+        calendar = self.xa_elem
         events = NSMutableArray.arrayWithArray_([])
         for year in range(2006, datetime.now().year + 4, 4):
             start_date = date(year, 1, 1)
             end_date = start_date + timedelta(days = 365 * 4)
-            predicate = self.properties["event_store"].predicateForEventsWithStartDate_endDate_calendars_(start_date, end_date, [calendar])
-            events.addObjectsFromArray_(self.properties["event_store"].eventsMatchingPredicate_(predicate))
+            predicate = self.xa_estr.predicateForEventsWithStartDate_endDate_calendars_(start_date, end_date, [calendar])
+            events.addObjectsFromArray_(self.xa_estr.eventsMatchingPredicate_(predicate))
         
         event = None
         if isinstance(filter, int):
@@ -373,13 +387,13 @@ class XACalendar(XABase.XAHasElements, XABase.XAAcceptsPushedElements, XABaseScr
 
         .. versionadded:: 0.0.1
         """
-        calendar = self.properties["element"]
+        calendar = self.xa_elem
         events = NSMutableArray.arrayWithArray_([])
         for year in range(2006, datetime.now().year + 4, 4):
             start_date = date(year, 1, 1)
             end_date = start_date + timedelta(days = 365 * 4)
-            predicate = self.properties["event_store"].predicateForEventsWithStartDate_endDate_calendars_(start_date, end_date, [calendar])
-            events.addObjectsFromArray_(self.properties["event_store"].eventsMatchingPredicate_(predicate))
+            predicate = self.xa_estr.predicateForEventsWithStartDate_endDate_calendars_(start_date, end_date, [calendar])
+            events.addObjectsFromArray_(self.xa_estr.eventsMatchingPredicate_(predicate))
             if len(events) > 0:
                 break
         return self.__new_event(events[0])
@@ -389,13 +403,13 @@ class XACalendar(XABase.XAHasElements, XABase.XAAcceptsPushedElements, XABaseScr
 
         .. versionadded:: 0.0.1
         """
-        calendar = self.properties["element"]
+        calendar = self.xa_elem
         events = NSMutableArray.arrayWithArray_([])
         for year in range(datetime.now().year, 2002, -4):
             start_date = date(year, 1, 1)
             end_date = start_date + timedelta(days = 365 * 4)
-            predicate = self.properties["event_store"].predicateForEventsWithStartDate_endDate_calendars_(start_date, end_date, [calendar])
-            events.addObjectsFromArray_(self.properties["event_store"].eventsMatchingPredicate_(predicate))
+            predicate = self.xa_estr.predicateForEventsWithStartDate_endDate_calendars_(start_date, end_date, [calendar])
+            events.addObjectsFromArray_(self.xa_estr.eventsMatchingPredicate_(predicate))
             if len(events) > 0:
                 break
         return self.__new_event(events[0])
@@ -423,7 +437,7 @@ class XACalendar(XABase.XAHasElements, XABase.XAAcceptsPushedElements, XABaseScr
 
         .. versionadded:: 0.0.1
         """
-        return super().push(element, None, self.properties["element"].events(), XACalendarEvent)
+        return super().push(element, None, self.xa_elem.events(), XACalendarEvent)
 
     def new_event(self, name: str, start_date: datetime, end_date: datetime) -> 'XACalendarEvent':
         """Create a new event and push it onto this calendar's events array.
@@ -452,10 +466,10 @@ class XACalendar(XABase.XAHasElements, XABase.XAAcceptsPushedElements, XABaseScr
 
         .. versionadded:: 0.0.1
         """
-        return self.properties["parent"].new_event(name, start_date, end_date, self)
+        return self.xa_prnt.new_event(name, start_date, end_date, self)
 
     def __repr__(self):
-        return self.properties["element"].title()
+        return self.xa_elem.title()
 
 
 class XACalendarEvent(XABase.XAObject):
@@ -465,27 +479,29 @@ class XACalendarEvent(XABase.XAObject):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.description = properties["element"].description()
-        self.creation_date = properties["element"].creationDate()
-        self.start_date = properties["element"].startDate()
-        self.end_date = properties["element"].endDate()
-        self.all_day_event = properties["element"].allDay() == 1
-        self.recurrence = properties["element"].recurrenceRuleString()
-        self.sequence = properties["element"].sequence()
-        self.stamp_date = properties["element"].lastModifiedDate()
-        self.status = properties["element"].status()
-        self.title = properties["element"].title()
-        self.location = properties["element"].location()
-        self.travel_duration = properties["element"].travelDuration()
-        self.duration = properties["element"].duration()
-        self.uid = properties["element"].localUID()
-        self.identifier = properties["element"].calendarItemIdentifier()
-        self.url = properties["element"].URL()
-        self.notes = properties["element"].notes()
-        self.organizer_name = properties["element"].organizerName()
-        self.organizer_email = properties["element"].organizerEmail()
-        self.organizer_phone_number = properties["element"].organizerPhoneNumber()
-        self.availability = properties["element"].availability()
+        self.xa_estr = properties["event_store"]
+        
+        self.description = self.xa_elem.description()
+        self.creation_date = self.xa_elem.creationDate()
+        self.start_date = self.xa_elem.startDate()
+        self.end_date = self.xa_elem.endDate()
+        self.all_day_event = self.xa_elem.allDay() == 1
+        self.recurrence = self.xa_elem.recurrenceRuleString()
+        self.sequence = self.xa_elem.sequence()
+        self.stamp_date = self.xa_elem.lastModifiedDate()
+        self.status = self.xa_elem.status()
+        self.title = self.xa_elem.title()
+        self.location = self.xa_elem.location()
+        self.travel_duration = self.xa_elem.travelDuration()
+        self.duration = self.xa_elem.duration()
+        self.uid = self.xa_elem.localUID()
+        self.identifier = self.xa_elem.calendarItemIdentifier()
+        self.url = self.xa_elem.URL()
+        self.notes = self.xa_elem.notes()
+        self.organizer_name = self.xa_elem.organizerName()
+        self.organizer_email = self.xa_elem.organizerEmail()
+        self.organizer_phone_number = self.xa_elem.organizerPhoneNumber()
+        self.availability = self.xa_elem.availability()
 
     def rename(self, new_title: str) -> 'XACalendarEvent':
         """Renames the event.
@@ -497,7 +513,7 @@ class XACalendarEvent(XABase.XAObject):
 
         .. versionadded:: 0.0.1
         """
-        self.properties["sb_element"].setValue_forKey_(new_title, "summary")
+        self.xa_scel.setValue_forKey_(new_title, "summary")
         return self
 
     def delete(self):
@@ -505,8 +521,8 @@ class XACalendarEvent(XABase.XAObject):
 
         .. versionadded:: 0.0.1
         """
-        self.properties["element"].markAsDeleted()
-        self.properties["event_store"].removeEvent_span_error_(self.properties["element"], EventKit.EKSpanThisEvent, None)
+        self.xa_elem.markAsDeleted()
+        self.xa_estr.removeEvent_span_error_(self.xa_elem, EventKit.EKSpanThisEvent, None)
 
     def duplicate(self) -> 'XACalendarEvent':
         """Duplicates the event, placing the copy on the same calendar.
@@ -516,8 +532,8 @@ class XACalendarEvent(XABase.XAObject):
 
         .. versionadded:: 0.0.1
         """
-        new_event = self.properties["element"].duplicate()
-        self.properties["event_store"].saveEvent_span_error_(new_event, EventKit.EKSpanThisEvent, None)
+        new_event = self.xa_elem.duplicate()
+        self.xa_estr.saveEvent_span_error_(new_event, EventKit.EKSpanThisEvent, None)
 
     def copy_to(self, calendar: XACalendar) -> 'XACalendarEvent':
         """Makes a copy of this event and places it on the specified calendar.
@@ -529,8 +545,8 @@ class XACalendarEvent(XABase.XAObject):
 
         .. versionadded:: 0.0.1
         """
-        self.properties["element"].copyToCalendar_withOptions_(calendar.properties["element"], 1)
-        self.properties["event_store"].saveCalendar_commit_error_(calendar.properties["element"], True, None)
+        self.xa_elem.copyToCalendar_withOptions_(calendar.xa_elem, 1)
+        self.xa_estr.saveCalendar_commit_error_(calendar.xa_elem, True, None)
         return self
 
     def move_to(self, calendar: XACalendar) -> 'XACalendarEvent':
@@ -560,8 +576,8 @@ class XACalendarEvent(XABase.XAObject):
         if isinstance(path, str):
             url = NSURL.alloc().initFileURLWithPath_(path)
         attachment = EventKit.EKAttachment.alloc().initWithFilepath_(url)
-        self.properties["element"].addAttachment_(attachment)
-        self.properties["event_store"].saveEvent_span_error_(self.properties["element"], EventKit.EKSpanThisEvent, None)
+        self.xa_elem.addAttachment_(attachment)
+        self.xa_estr.saveEvent_span_error_(self.xa_elem, EventKit.EKSpanThisEvent, None)
         return self
 
     def show(self) -> 'XACalendarEvent':
@@ -572,7 +588,7 @@ class XACalendarEvent(XABase.XAObject):
 
         .. versionadded:: 0.0.1
         """
-        self.properties["sb_element"].show()
+        self.xa_scel.show()
 
     # Attachments
     def __new_attachment(self, attachment_obj: EventKit.EKAttachment) -> 'XACalendarAttachment':
@@ -585,9 +601,14 @@ class XACalendarEvent(XABase.XAObject):
 
         .. versionadded:: 0.0.1
         """
-        properties = {x:y for x, y in self.properties.items()}
-        properties["parent"] = self
-        properties["element"] = attachment_obj
+        properties = {
+            "parent": self,
+            "appspace": self.xa_apsp,
+            "workspace": self.xa_wksp,
+            "element": attachment_obj,
+            "appref": self.xa_aref,
+            "system_events": self.xa_sevt,
+        }
         return XACalendarAttachment(properties)
 
     def attachments(self, filter: dict = None) -> List['XACalendarEvent']:
@@ -595,7 +616,7 @@ class XACalendarEvent(XABase.XAObject):
 
         .. versionadded:: 0.0.1
         """
-        attachments = self.properties["element"].attachments()
+        attachments = self.xa_elem.attachments()
         if len(attachments) == 0:
             return []
 
@@ -621,7 +642,7 @@ class XACalendarEvent(XABase.XAObject):
         pass
 
     def attendees(self):
-        print(self.properties["element"].attendees()[0].comment())
+        print(self.xa_elem.attendees()[0].comment())
         return
 
 class XACalendarAttachment(XABase.XAObject):
@@ -631,11 +652,11 @@ class XACalendarAttachment(XABase.XAObject):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.type = self.properties["element"].contentType()
-        self.filename = self.properties["element"].filenameSuggestedByServer()
-        self.file = self.properties["element"].urlOnDisk()
-        self.url = self.properties["element"].urlOnServer()
-        self.uuid = self.properties["element"].uuid()
+        self.type = self.xa_elem.contentType()
+        self.filename = self.xa_elem.filenameSuggestedByServer()
+        self.file = self.xa_elem.urlOnDisk()
+        self.url = self.xa_elem.urlOnServer()
+        self.uuid = self.xa_elem.uuid()
 
 class XACalendarAttendee(XABase.XAObject):
     """A class for interacting with calendar event attendees.
@@ -644,9 +665,9 @@ class XACalendarAttendee(XABase.XAObject):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.name = self.properties["element"].name()
-        self.first_name = self.properties["element"].firstName()
-        self.last_name = self.properties["element"].lastName()
-        self.email_address = self.properties["element"].emailAddress()
-        self.phone_number = self.properties["element"].phoneNumber()
-        self.invited_by = self.properties["element"].inviterNameString()
+        self.name = self.xa_elem.name()
+        self.first_name = self.xa_elem.firstName()
+        self.last_name = self.xa_elem.lastName()
+        self.email_address = self.xa_elem.emailAddress()
+        self.phone_number = self.xa_elem.phoneNumber()
+        self.invited_by = self.xa_elem.inviterNameString()

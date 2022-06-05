@@ -207,7 +207,7 @@ class XAMessagesApplication(XABaseScriptable.XASBApplication, XABase.XACanConstr
         super().__init__(properties)
 
     def send(self, message, chat):
-        self.properties["sb_element"].send_to_(message, chat)
+        self.xa_scel.send_to_(message, chat)
 
 
 class XAChat(XABase.XACanConstructElement, XABase.XAAcceptsPushedElements, _XAHasParticipants):
@@ -215,7 +215,7 @@ class XAChat(XABase.XACanConstructElement, XABase.XAAcceptsPushedElements, _XAHa
         super().__init__(properties)
 
     def send(self, message):
-        self.properties["parent"].send(message, self.properties["element"])
+        self.xa_prnt.send(message, self.xa_elem)
 
 
 class XAMessagesFileTransfer(XABase.XACanConstructElement, XABase.XAAcceptsPushedElements):

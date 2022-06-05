@@ -87,7 +87,7 @@ class XAMusicApplication(XABaseScriptable.XASBApplication, XABaseScriptable.XAHa
 
         .. versionadded:: 0.0.1
         """
-        self.properties["sb_element"].playOnce_(item)
+        self.xa_scel.playOnce_(item)
         return self
 
     def playpause(self) -> 'XAMusicApplication':
@@ -100,7 +100,7 @@ class XAMusicApplication(XABaseScriptable.XASBApplication, XABaseScriptable.XAHa
 
         .. versionadded:: 0.0.1
         """
-        self.properties["sb_element"].playpause()
+        self.xa_scel.playpause()
         return self
 
     def pause(self) -> 'XAMusicApplication':
@@ -113,7 +113,7 @@ class XAMusicApplication(XABaseScriptable.XASBApplication, XABaseScriptable.XAHa
 
         .. versionadded:: 0.0.1
         """
-        self.properties["sb_element"].pause()
+        self.xa_scel.pause()
         return self
 
     def stop(self) -> 'XAMusicApplication':
@@ -126,7 +126,7 @@ class XAMusicApplication(XABaseScriptable.XASBApplication, XABaseScriptable.XAHa
 
         .. versionadded:: 0.0.1
         """
-        self.properties["sb_element"].stop()
+        self.xa_scel.stop()
         return self
 
     def next_track(self) -> 'XAMusicApplication':
@@ -139,7 +139,7 @@ class XAMusicApplication(XABaseScriptable.XASBApplication, XABaseScriptable.XAHa
 
         .. versionadded:: 0.0.1
         """
-        self.properties["sb_element"].nextTrack()
+        self.xa_scel.nextTrack()
         return self
 
     def back_track(self) -> 'XAMusicApplication':
@@ -152,7 +152,7 @@ class XAMusicApplication(XABaseScriptable.XASBApplication, XABaseScriptable.XAHa
 
         .. versionadded:: 0.0.1
         """
-        self.properties["sb_element"].backTrack()
+        self.xa_scel.backTrack()
         return self
 
     def previous_track(self) -> 'XAMusicApplication':
@@ -165,7 +165,7 @@ class XAMusicApplication(XABaseScriptable.XASBApplication, XABaseScriptable.XAHa
 
         .. versionadded:: 0.0.1
         """
-        self.properties["sb_element"].previousTrack()
+        self.xa_scel.previousTrack()
         return self
 
     def fast_forward(self) -> 'XAMusicApplication':
@@ -178,7 +178,7 @@ class XAMusicApplication(XABaseScriptable.XASBApplication, XABaseScriptable.XAHa
 
         .. versionadded:: 0.0.1
         """
-        self.properties["sb_element"].fastForward()
+        self.xa_scel.fastForward()
         return self
 
     def rewind(self) -> 'XAMusicApplication':
@@ -191,7 +191,7 @@ class XAMusicApplication(XABaseScriptable.XASBApplication, XABaseScriptable.XAHa
 
         .. versionadded:: 0.0.1
         """
-        self.properties["sb_element"].rewind()
+        self.xa_scel.rewind()
         return self
 
     def resume(self) -> 'XAMusicApplication':
@@ -204,7 +204,7 @@ class XAMusicApplication(XABaseScriptable.XASBApplication, XABaseScriptable.XAHa
 
         .. versionadded:: 0.0.1
         """
-        self.properties["sb_element"].resume()
+        self.xa_scel.resume()
         return self
 
     def open_location(self, audio_url: str) -> 'XAMusicApplication':
@@ -217,7 +217,7 @@ class XAMusicApplication(XABaseScriptable.XASBApplication, XABaseScriptable.XAHa
 
         .. versionadded:: 0.0.1
         """
-        self.properties["sb_element"].openLocation_(audio_url)
+        self.xa_scel.openLocation_(audio_url)
         return self
 
     def set_volume(self, new_volume: float) -> 'XAMusicApplication':
@@ -289,11 +289,11 @@ class XAMusicApplication(XABaseScriptable.XASBApplication, XABaseScriptable.XAHa
         """
         properties = {
             "parent": self,
-            "appspace": self.properties["appspace"],
-            "workspace": self.properties["workspace"],
-            "element": self.properties["sb_element"].currentTrack(),
-            "appref": self.properties["appref"],
-            "system_events": self.properties["system_events"],
+            "appspace": self.xa_apsp,
+            "workspace": self.xa_wksp,
+            "element": self.xa_scel.currentTrack(),
+            "appref": self.xa_aref,
+            "system_events": self.xa_sevt,
         }
         return XAMediaTrack(properties)
 
@@ -353,7 +353,7 @@ class XAMediaItem(XABaseScriptable.XASBObject):
 
         .. versionadded:: 0.0.1
         """
-        self.properties["element"].download()
+        self.xa_elem.download()
         return self
 
     def reveal(self) -> 'XAMediaItem':
@@ -366,7 +366,7 @@ class XAMediaItem(XABaseScriptable.XASBObject):
         
         .. versionadded:: 0.0.1
         """
-        self.properties["element"].reveal()
+        self.xa_elem.reveal()
         return self
 
     def select(self) -> 'XAMediaItem':
@@ -379,7 +379,7 @@ class XAMediaItem(XABaseScriptable.XASBObject):
 
         .. versionadded:: 0.0.1
         """
-        self.properties["element"].select()
+        self.xa_elem.select()
         return self
 
     def play(self) -> 'XAMediaItem':
@@ -390,7 +390,7 @@ class XAMediaItem(XABaseScriptable.XASBObject):
 
         .. versionadded:: 0.0.1
         """
-        self.properties["element"].playOnce_(True)
+        self.xa_elem.playOnce_(True)
         return self
 
 

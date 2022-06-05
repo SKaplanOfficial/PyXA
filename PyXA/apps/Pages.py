@@ -28,7 +28,7 @@ class XAPagesApplication(XABaseScriptable.XASBApplication, XABase.XACanConstruct
     def new_document(self, name = "Untitled", text = ""):
         location = NSFileManager.alloc().homeDirectoryForCurrentUser().relativePath() + "/Documents/" + name
         print(location)
-        return self.push("document", {"name": name, "text": text, "path": location}, self.properties["element"].documents())
+        return self.push("document", {"name": name, "text": text, "path": location}, self.xa_elem.documents())
 
 
 class XAPagesDocument(XABase.XACanConstructElement, XABase.XAAcceptsPushedElements, XABase.XATextDocument):
@@ -52,7 +52,7 @@ class XAPagesDocument(XABase.XACanConstructElement, XABase.XAAcceptsPushedElemen
         return super().last_element("sections", XAPagesSection)
 
     def new_section(self):
-        return self.push("section", {}, self.properties["element"].sections())
+        return self.push("section", {}, self.xa_elem.sections())
 
     ## Pages
     def pages(self):
@@ -71,7 +71,7 @@ class XAPagesDocument(XABase.XACanConstructElement, XABase.XAAcceptsPushedElemen
         return super().last_element("pages", XAPagesPage)
 
     def new_page(self):
-        return self.push("page", {}, self.properties["element"].pages())
+        return self.push("page", {}, self.xa_elem.pages())
 
     ## Shapes
     def shapes(self):

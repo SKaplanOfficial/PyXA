@@ -23,7 +23,7 @@ class XATerminalApplication(XABaseScriptable.XASBApplication, XABase.XACanConstr
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.properties["window_class"] = XATerminalWindow
+        self.xa_wcls = XATerminalWindow
 
     def do_script(self, script: str, window_tab: Union['XATerminalWindow', 'XATerminalTab'] = None) -> 'XATerminalApplication':
         """Executes a Terminal script in the specified window or tab.
@@ -39,7 +39,7 @@ class XATerminalApplication(XABaseScriptable.XASBApplication, XABase.XACanConstr
         """
         if window_tab is None:
             window_tab = self.front_window()
-        self.properties["sb_element"].doScript_in_(script, window_tab.properties["element"])
+        self.xa_scel.doScript_in_(script, window_tab.xa_elem)
         return self
 
     # Tabs
@@ -64,7 +64,7 @@ class XATerminalApplication(XABaseScriptable.XASBApplication, XABase.XACanConstr
 
         .. versionadded:: 0.0.1
         """
-        settings_set_obj = self.properties["sb_element"].defaultSettings()
+        settings_set_obj = self.xa_scel.defaultSettings()
         return self._new_element(settings_set_obj, XATerminalSettingsSet)
 
     def startup_settings(self) -> 'XATerminalSettingsSet':
@@ -77,7 +77,7 @@ class XATerminalApplication(XABaseScriptable.XASBApplication, XABase.XACanConstr
 
         .. versionadded:: 0.0.1
         """
-        settings_set_obj = self.properties["sb_element"].startupSettings()
+        settings_set_obj = self.xa_scel.startupSettings()
         return self._new_element(settings_set_obj, XATerminalSettingsSet)
 
     def settings_sets(self, filter: dict = None) -> List['XATerminalSettingsSet']:
@@ -133,7 +133,7 @@ class XATerminalWindow(XABase.XAWindow, XABaseScriptable.XASBPrintable, XABase.X
 
         .. versionadded:: 0.0.1
         """
-        tab_obj = self.properties["element"].selectedTab()
+        tab_obj = self.xa_elem.selectedTab()
         return self._new_element(tab_obj, XATerminalTab)
 
     def tabs(self, filter: dict = None) -> List['XATerminalTab']:
@@ -188,7 +188,7 @@ class XATerminalTab(XABaseScriptable.XASBObject):
 
         .. versionadded:: 0.0.1
         """
-        settings_set_obj = self.properties["element"].currentSettings()
+        settings_set_obj = self.xa_elem.currentSettings()
         return self._new_element(settings_set_obj, XATerminalSettingsSet)
 
 class XATerminalSettingsSet(XABaseScriptable.XASBObject):

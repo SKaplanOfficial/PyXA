@@ -17,7 +17,7 @@ class XASystemEventsApplication(XABase.XAApplication, XABase.XACanConstructEleme
         return super().element_at_index("applicationProcesses", index, XABase.XAApplicationProcess)
 
     def first_process(self):
-        return super().first_element("applicationProcesses", XABase.XAApplicationProcess)
+        return super().first_element("applicationProcesses", XABase.XAApplicationProces)
 
     def last_process(self):
         return super().last_element("applicationProcesses", XABase.XAApplicationProcess)
@@ -45,15 +45,15 @@ class XAApplicationProcess(XABase.XAHasElements, XABase.XACanConstructElement, X
 class XASystemEventsUIElement(XABase.XAHasElements):
     def __init__(self, properties):
         super().__init__(properties)
-        self.shortcuts = {}
+        self.xa_scut = {}
 
     def entire_contents(self) -> 'XASystemEventsUIElement':
-        print(self.properties["element"].entireContents())
+        print(self.xa_elem.entireContents())
         return self
 
     def all(self, specifier, in_class = "groups", force_update = False):
-        if (specifier, in_class) in self.shortcuts and not force_update:
-            return self.shortcuts[(specifier, in_class)]
+        if (specifier, in_class) in self.xa_scut and not force_update:
+            return self.xa_scut[(specifier, in_class)]
 
         valid_specifiers = {
             "windows": XASystemEventsWindow,
@@ -75,7 +75,7 @@ class XASystemEventsUIElement(XABase.XAHasElements):
         else:
             target_objects.extend(self.__getattribute__(specifier)())
 
-        self.shortcuts[(specifier, in_class)] = target_objects
+        self.xa_scut[(specifier, in_class)] = target_objects
         return target_objects
 
     ## Windows
@@ -219,7 +219,7 @@ class XASystemEventsAction(XASystemEventsUIElement):
         super().__init__(properties)
 
     def perform(self):
-        self.properties["element"].perform()
+        self.xa_elem.perform()
         return self
 
 

@@ -24,12 +24,12 @@ class XATextEditApplication(XABaseScriptable.XASBApplication, XABase.XACanConstr
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.properties["window_class"] = XATextEditWindow
+        self.xa_wcls = XATextEditWindow
 
     def print(self, path: Union[str, NSURL], show_prompt: bool = True):
         if isinstance(path, str):
             path = NSURL.alloc().initFileURLWithPath_(path)
-        self.properties["sb_element"].print_printDialog_withProperties_(path, show_prompt, None)
+        self.xa_scel.print_printDialog_withProperties_(path, show_prompt, None)
 
     # Documents
     def documents(self, filter: dict = None) -> List['XATextEditDocument']:
@@ -102,10 +102,10 @@ class XATextEditApplication(XABaseScriptable.XASBApplication, XABase.XACanConstr
             location = NSFileManager.alloc().homeDirectoryForCurrentUser().relativePath() + "/Documents/" + name
         else:
             location = location + name
-        return self.push("document", {"name": name, "text": text, "path": location}, self.properties["sb_element"].documents(), XATextEditDocument)
+        return self.push("document", {"name": name, "text": text, "path": location}, self.xa_scel.documents(), XATextEditDocument)
 
 class XATextEditWindow(XABaseScriptable.XASBPrintable):
-    """A class for managing and interacting with TextEdit documents.
+    """A class for managing and interacting with TextEdit windows.
 
     .. seealso:: :class:`XATextEditApplication`
 

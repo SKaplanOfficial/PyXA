@@ -24,7 +24,7 @@ class XASafariApplication(XABaseScriptable.XASBApplication, XABaseScriptable.XAS
 
     def __init__(self, properties):
         super().__init__(properties)
-        self.properties["window_class"] = XASafariWindow
+        self.xa_wcls = XASafariWindow
 
     def open(self, url: str = "https://google.com") -> 'XASafariApplication':
         """Opens a URL in new tab.
@@ -46,13 +46,13 @@ class XASafariApplication(XABaseScriptable.XASBApplication, XABaseScriptable.XAS
         """
         if url.startswith("/"):
             # URL is a path to file
-            self.properties["workspace"].openFile_(url)
+            self.xa_wksp.openFile_(url)
             return self
         # Otherwise, URL is web address
         elif not url.startswith("http"):
             url = "http://" + url
         url = XABase.xa_url(url)
-        self.properties["workspace"].openURL_(url)
+        self.xa_wksp.openURL_(url)
         return self
 
     def show_bookmarks(self) -> 'XASafariApplication':
@@ -63,7 +63,7 @@ class XASafariApplication(XABaseScriptable.XASBApplication, XABaseScriptable.XAS
 
         .. versionadded:: 0.0.1
         """
-        self.properties["sb_element"].showBookmarks();
+        self.xa_scel.showBookmarks();
         return self
 
     def add_to_reading_list(self, item: Union[str, 'XASafariTab', 'XASafariDocument']) -> 'XASafariApplication':
@@ -87,8 +87,8 @@ class XASafariApplication(XABaseScriptable.XASBApplication, XABaseScriptable.XAS
         .. versionadded:: 0.0.1
         """
         if not isinstance(item, str):
-            item = item.properties["element"].URL()
-        self.properties["sb_element"].addReadingListItem_andPreviewText_withTitle_(item, None, None)
+            item = item.xa_elem.URL()
+        self.xa_scel.addReadingListItem_andPreviewText_withTitle_(item, None, None)
         return self
 
     def search(self, term: str) -> 'XASafariApplication':
@@ -109,7 +109,7 @@ class XASafariApplication(XABaseScriptable.XASBApplication, XABaseScriptable.XAS
 
         .. versionadded:: 0.0.1
         """
-        self.properties["sb_element"].searchTheWebIn_for_(self.properties["sb_element"].windows()[0], term)
+        self.xa_scel.searchTheWebIn_for_(self.xa_scel.windows()[0], term)
         return self
 
     def search_in_tab(self, tab: 'XASafariTab', term: str) -> 'XASafariApplication':
@@ -133,7 +133,7 @@ class XASafariApplication(XABaseScriptable.XASBApplication, XABaseScriptable.XAS
 
         .. versionadded:: 0.0.1
         """
-        self.properties["sb_element"].searchTheWebIn_for_(tab.properties["element"], term)
+        self.xa_scel.searchTheWebIn_for_(tab.xa_elem, term)
         return self
 
     def do_javascript(self, script: str, tab: 'XASafariTab' = None) -> Any:
@@ -159,7 +159,7 @@ class XASafariApplication(XABaseScriptable.XASBApplication, XABaseScriptable.XAS
         """
         if tab is None:
             tab = self.front_window().current_tab()
-        return self.properties["sb_element"].doJavaScript_in_(script, tab.properties["element"])
+        return self.xa_scel.doJavaScript_in_(script, tab.xa_elem)
 
     def documents(self, filter: dict = None) -> List['XASafariDocument']:
         """Returns a list of documents matching the given filter.
@@ -204,11 +204,11 @@ class XASafariApplication(XABaseScriptable.XASBApplication, XABaseScriptable.XAS
         """
         properties = {
             "parent": self,
-            "appspace": self.properties["appspace"],
-            "workspace": self.properties["workspace"],
-            "element": self.properties["sb_element"].documents()[0],
-            "appref": self.properties["appref"],
-            "system_events": self.properties["system_events"],
+            "appspace": self.xa_apsp,
+            "workspace": self.xa_wksp,
+            "element": self.xa_scel.documents()[0],
+            "appref": self.xa_aref,
+            "system_events": self.xa_sevt,
         }
         return XASafariDocument(properties)
 
@@ -220,7 +220,7 @@ class XASafariWindow(XABaseScriptable.XASBWindow, XABaseScriptable.XASBSaveable,
     """
     def __init__(self, properties):
         super().__init__(properties)
-        doc_obj = self.properties["element"].document()
+        doc_obj = self.xa_elem.document()
         self.document = self._new_element(doc_obj, XASafariDocument)
 
     def tabs(self, filter: dict = None) -> List['XASafariTab']:
@@ -266,11 +266,11 @@ class XASafariWindow(XABaseScriptable.XASBWindow, XABaseScriptable.XASBSaveable,
         """
         properties = {
             "parent": self,
-            "appspace": self.properties["appspace"],
-            "workspace": self.properties["workspace"],
-            "element": self.properties["element"].currentTab(),
-            "appref": self.properties["appref"],
-            "system_events": self.properties["system_events"],
+            "appspace": self.xa_apsp,
+            "workspace": self.xa_wksp,
+            "element": self.xa_elem.currentTab(),
+            "appref": self.xa_aref,
+            "system_events": self.xa_sevt,
         }
         return XASafariTab(properties)
 
@@ -292,7 +292,7 @@ class XASafariGeneric(XABaseScriptable.XASBCloseable, XABase.XAHasElements):
 
         .. versionadded:: 0.0.1
         """
-        self.properties["element"].searchTheWebIn_for_(self.properties["element"], term)
+        self.xa_elem.searchTheWebIn_for_(self.xa_elem, term)
         return self
 
     def email(self) -> 'XASafariGeneric':
@@ -303,7 +303,7 @@ class XASafariGeneric(XABaseScriptable.XASBCloseable, XABase.XAHasElements):
 
         .. versionadded:: 0.0.1
         """
-        self.properties["element"].emailContentsOf_(self.properties["element"])
+        self.xa_elem.emailContentsOf_(self.xa_elem)
         return self
 
     def add_to_reading_list(self) -> 'XASafariGeneric':
@@ -314,7 +314,7 @@ class XASafariGeneric(XABaseScriptable.XASBCloseable, XABase.XAHasElements):
 
         .. versionadded:: 0.0.1
         """
-        self.properties["element"].addReadingListItem_andPreviewText_withTitle_(self.properties["element"].URL(), None, None)
+        self.xa_elem.addReadingListItem_andPreviewText_withTitle_(self.xa_elem.URL(), None, None)
         return self
 
     def do_javascript(self, script: str) -> Any:
@@ -325,7 +325,7 @@ class XASafariGeneric(XABaseScriptable.XASBCloseable, XABase.XAHasElements):
 
         .. versionadded:: 0.0.1
         """
-        return self.properties["element"].doJavaScript_in_(script, self.properties["element"])
+        return self.xa_elem.doJavaScript_in_(script, self.xa_elem)
 
 
 class XASafariDocument(XASafariGeneric, XABaseScriptable.XASBPrintable, XABaseScriptable.XASBSaveable):
@@ -369,7 +369,7 @@ class XASafariTab(XASafariGeneric):
 
         .. versionadded:: 0.0.1
         """
-        self.properties["element"].moveTo_(window.properties["element"])
+        self.xa_elem.moveTo_(window.xa_elem)
         self.close()
         return self
 
@@ -393,5 +393,5 @@ class XASafariTab(XASafariGeneric):
 
         .. versionadded:: 0.0.1
         """
-        self.properties["element"].moveTo_(window.properties["element"])
+        self.xa_elem.moveTo_(window.xa_elem)
         return self

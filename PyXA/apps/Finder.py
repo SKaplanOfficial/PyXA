@@ -78,7 +78,7 @@ class XAFinderApplication(XABaseScriptable.XASBApplication):
         .. versionadded:: 0.0.1
         """
         path = self.resolve_symlinks(path)
-        self.properties["workspace"].selectFile_inFileViewerRootedAtPath_(path, None)
+        self.xa_wksp.selectFile_inFileViewerRootedAtPath_(path, None)
         return self
 
     def select_items(self, paths: List[str]) -> 'XAFinderApplication':
@@ -96,7 +96,7 @@ class XAFinderApplication(XABaseScriptable.XASBApplication):
         .. versionadded:: 0.0.1
         """
         paths = [self.resolve_symlinks(x) for x in paths]
-        self.properties["workspace"].activateFileViewerSelectingURLs_(paths)
+        self.xa_wksp.activateFileViewerSelectingURLs_(paths)
         return self
 
     def recycle_item(self, path: Union[str, NSURL]) -> 'XAFinderApplication':
@@ -138,7 +138,7 @@ class XAFinderApplication(XABaseScriptable.XASBApplication):
 
         .. versionadded:: 0.0.1
         """
-        self.properties["sb_element"].emptySecurity_(True)
+        self.xa_scel.emptySecurity_(True)
         return self
 
     def delete_item(self, path: Union[str, NSURL]) -> 'XAFinderApplication':
@@ -225,7 +225,7 @@ class XAFinderApplication(XABaseScriptable.XASBApplication):
 
         .. versionadded:: 0.0.1
         """
-        self.properties["workspace"].showSearchResultsForQueryString_(query)
+        self.xa_wksp.showSearchResultsForQueryString_(query)
         return self
 
     def get_labels(self) -> List[str]:
@@ -236,7 +236,7 @@ class XAFinderApplication(XABaseScriptable.XASBApplication):
 
         .. versionadded:: 0.0.1
         """
-        return self.properties["workspace"].fileLabels()
+        return self.xa_wksp.fileLabels()
 
     def selection(self) -> List['XAFinderItem']:
         """Obtains PyXA references to the selected items in Finder.
@@ -247,7 +247,7 @@ class XAFinderApplication(XABaseScriptable.XASBApplication):
         .. versionadded:: 0.0.1
         """
         selected_items = []
-        items = self.properties["sb_element"].selection().get()
+        items = self.xa_scel.selection().get()
         for item in items:
             kind = item.kind()
             if kind == "Folder":
@@ -266,7 +266,7 @@ class XAFinderApplication(XABaseScriptable.XASBApplication):
 
         .. versionadded:: 0.0.1
         """
-        folder_obj = self.properties["sb_element"].insertionLocation().get()
+        folder_obj = self.xa_scel.insertionLocation().get()
         return self._new_element(folder_obj, XAFinderFolder)
 
     # def make(self, type: str, at: str, name_and_ext: str):
@@ -277,7 +277,7 @@ class XAFinderApplication(XABaseScriptable.XASBApplication):
     def directory(self, path: Union[str, NSURL]):
         if isinstance(path, str):
             path = NSURL.alloc().initFileURLWithPath_(path)
-        folder_obj = self.properties["sb_element"].folders().objectAtLocation_(path)
+        folder_obj = self.xa_scel.folders().objectAtLocation_(path)
         return self._new_element(folder_obj, XAFinderFolder)
         
     def home_directory(self) -> 'XAFinderFolder':
@@ -289,7 +289,7 @@ class XAFinderApplication(XABaseScriptable.XASBApplication):
         .. versionadded:: 0.0.1
         """
         path = fm.homeDirectoryForCurrentUser()
-        folder_obj = self.properties["sb_element"].folders().objectAtLocation_(path)
+        folder_obj = self.xa_scel.folders().objectAtLocation_(path)
         return self._new_element(folder_obj, XAFinderFolder)
 
     def temp_directory(self) -> 'XAFinderFolder':
@@ -301,7 +301,7 @@ class XAFinderApplication(XABaseScriptable.XASBApplication):
         .. versionadded:: 0.0.1
         """
         path = fm.temporaryDirectory()
-        folder_obj = self.properties["sb_element"].folders().objectAtLocation_(path)
+        folder_obj = self.xa_scel.folders().objectAtLocation_(path)
         return self._new_element(folder_obj, XAFinderFolder)
 
     def documents_directory(self) -> 'XAFinderFolder':
@@ -313,7 +313,7 @@ class XAFinderApplication(XABaseScriptable.XASBApplication):
         .. versionadded:: 0.0.1
         """
         path = NSURL.alloc().initFileURLWithPath_(fm.homeDirectoryForCurrentUser().path() + "/Documents")
-        folder_obj = self.properties["sb_element"].folders().objectAtLocation_(path)
+        folder_obj = self.xa_scel.folders().objectAtLocation_(path)
         return self._new_element(folder_obj, XAFinderFolder)
 
     def downloads_directory(self) -> 'XAFinderFolder':
@@ -325,7 +325,7 @@ class XAFinderApplication(XABaseScriptable.XASBApplication):
         .. versionadded:: 0.0.1
         """
         path = NSURL.alloc().initFileURLWithPath_(fm.homeDirectoryForCurrentUser().path() + "/Downloads")
-        folder_obj = self.properties["sb_element"].folders().objectAtLocation_(path)
+        folder_obj = self.xa_scel.folders().objectAtLocation_(path)
         return self._new_element(folder_obj, XAFinderFolder)
 
     def pictures_directory(self) -> 'XAFinderFolder':
@@ -337,7 +337,7 @@ class XAFinderApplication(XABaseScriptable.XASBApplication):
         .. versionadded:: 0.0.1
         """
         path = NSURL.alloc().initFileURLWithPath_(fm.homeDirectoryForCurrentUser().path() + "/Pictures")
-        folder_obj = self.properties["sb_element"].folders().objectAtLocation_(path)
+        folder_obj = self.xa_scel.folders().objectAtLocation_(path)
         return self._new_element(folder_obj, XAFinderFolder)
 
     def movies_directory(self) -> 'XAFinderFolder':
@@ -349,7 +349,7 @@ class XAFinderApplication(XABaseScriptable.XASBApplication):
         .. versionadded:: 0.0.1
         """
         path = NSURL.alloc().initFileURLWithPath_(fm.homeDirectoryForCurrentUser().path() + "/Movies")
-        folder_obj = self.properties["sb_element"].folders().objectAtLocation_(path)
+        folder_obj = self.xa_scel.folders().objectAtLocation_(path)
         return self._new_element(folder_obj, XAFinderFolder)
 
     def music_directory(self) -> 'XAFinderFolder':
@@ -361,7 +361,7 @@ class XAFinderApplication(XABaseScriptable.XASBApplication):
         .. versionadded:: 0.0.1
         """
         path = NSURL.alloc().initFileURLWithPath_(fm.homeDirectoryForCurrentUser().path() + "/Music")
-        folder_obj = self.properties["sb_element"].folders().objectAtLocation_(path)
+        folder_obj = self.xa_scel.folders().objectAtLocation_(path)
         return self._new_element(folder_obj, XAFinderFolder)
 
     def public_directory(self) -> 'XAFinderFolder':
@@ -373,7 +373,7 @@ class XAFinderApplication(XABaseScriptable.XASBApplication):
         .. versionadded:: 0.0.1
         """
         path = NSURL.alloc().initFileURLWithPath_(fm.homeDirectoryForCurrentUser().path() + "/Public")
-        folder_obj = self.properties["sb_element"].folders().objectAtLocation_(path)
+        folder_obj = self.xa_scel.folders().objectAtLocation_(path)
         return self._new_element(folder_obj, XAFinderFolder)
 
     def applications_directory(self) -> 'XAFinderFolder':
@@ -385,7 +385,7 @@ class XAFinderApplication(XABaseScriptable.XASBApplication):
         .. versionadded:: 0.0.1
         """
         path = NSURL.alloc().initFileURLWithPath_("/Applications")
-        folder_obj = self.properties["sb_element"].folders().objectAtLocation_(path)
+        folder_obj = self.xa_scel.folders().objectAtLocation_(path)
         return self._new_element(folder_obj, XAFinderFolder)
 
     def trash_directory(self) -> 'XAFinderFolder':
@@ -397,7 +397,7 @@ class XAFinderApplication(XABaseScriptable.XASBApplication):
         .. versionadded:: 0.0.1
         """
         path = NSURL.alloc().initFileURLWithPath_(fm.homeDirectoryForCurrentUser().path() + "/Trash")
-        folder_obj = self.properties["sb_element"].folders().objectAtLocation_(path)
+        folder_obj = self.xa_scel.folders().objectAtLocation_(path)
         return self._new_element(folder_obj, XAFinderFolder)
 
     # Folders
@@ -522,7 +522,7 @@ class XAFinderItem(XABase.XARevealable, XABase.XASelectable, XABase.XADeletable)
 
         .. versionadded:: 0.0.1
         """
-        return self.properties["element"].exists()
+        return self.xa_elem.exists()
 
     # Folders
     def folders(self, filter: dict = None) -> List['XAFinderFolder']:

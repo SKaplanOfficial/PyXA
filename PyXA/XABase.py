@@ -15,33 +15,24 @@ class XAObject():
     """A general class for PyXA scripting objects.
 
     .. seealso:: :class:`XASBObject`
+
+    .. versionadded:: 0.0.1
     """
     def __init__(self, properties: dict = None):
         """Instantiates a PyXA scripting object.
 
-        :param parent: The PyXA object to which this object belongs (if one exists), defaults to None.
-        :type parent: XAObject, optional
-        :param appspace: A reference to PyXA's shared application space, defaults to None
-        :type appspace: NSApplication, optional
-        :param workspace: A reference to PyXA's shared workspace, defaults to None
-        :type workspace: NSWorkspace, optional
-        :param element: The AppleScript/JXA/Objective-C scriptable element associated with this object, defaults to None
-        :type element: NSObject, optional
-        :param appref: A reference to the application to which this object belongs (if one exists), defaults to None
-        :type appref: Union[NSRunningApplication, SBScriptableApplication], optional
+        :param properties: A dictionary of properties to assign to this object.
+        :type properties: dict, optional
+
+        .. versionadded:: 0.0.1
         """
-        self.properties = properties
-        if properties is None:
-            self.properties = {
-                "parent": None,
-                "appspace": None,
-                "workspace": None,
-                "element": None,
-                "sb_element": None,
-                "appref": None,
-            }
-        if "system_events" not in self.properties:
-            self.properties["system_events"] = SBApplication.alloc().initWithBundleIdentifier_("com.apple.systemevents")
+        self.xa_prnt = properties.get("parent", None)
+        self.xa_apsp = properties.get("appspace", None)
+        self.xa_wksp = properties.get("workspace", None)
+        self.xa_elem = properties.get("element", None)
+        self.xa_scel = properties.get("scriptable_element", None)
+        self.xa_aref = properties.get("appref", None)
+        self.xa_sevt = properties.get("system_events", SBApplication.alloc().initWithBundleIdentifier_("com.apple.systemevents"))
         
         try:
             self.element_properties = properties["element"].properties()
@@ -68,11 +59,11 @@ class XAObject():
         """
         properties = {
             "parent": self,
-            "appspace": self.properties["appspace"],
-            "workspace": self.properties["workspace"],
+            "appspace": self.xa_apsp,
+            "workspace": self.xa_wksp,
             "element": obj,
-            "appref": self.properties["appref"],
-            "system_events": self.properties["system_events"],
+            "appref": self.xa_aref,
+            "system_events": self.xa_sevt,
         }
         return obj_class(properties)
 
@@ -81,16 +72,20 @@ class XAObject():
 
         :return: True if this object's element attribute is set, False otherwise.
         :rtype: bool
-        """
-        return self.properties["element"] is not None
 
-    def has_properties(self) -> bool:
+        .. versionadded:: 0.0.1
+        """
+        return self.xa_elem is not None
+
+    def has_element_properties(self) -> bool:
         """Whether the scripting element associated with this object has properties attached to it.
 
         :return: True if this object's properties attribute is set, False otherwise.
         :rtype: bool
+
+        .. versionadded:: 0.0.1
         """
-        return self.properties != None
+        return self.element_properties != None
 
     def set_element(self, element: 'XAObject') -> 'XAObject':
         """Sets the element attribute to the supplied element and updates the properties attribute accordingly.
@@ -99,8 +94,10 @@ class XAObject():
         :type element: XAObject
         :return: A reference to this PyXA object.
         :rtype: XAObject
+
+        .. versionadded:: 0.0.1
         """
-        self.properties["element"] = element
+        self.xa_elem = element
         self.element_properties = element.properties()
         return self
 
@@ -111,8 +108,10 @@ class XAObject():
         :type properties: dict
         :return: A reference to this PyXA object.
         :rtype: XAObject
+
+        .. versionadded:: 0.0.1
         """
-        self.properties["element"].setValuesForKeysWithDictionary_(properties)
+        self.xa_elem.setValuesForKeysWithDictionary_(properties)
         return self
 
     def set_property(self, property_name: str, value: Any) -> 'XAObject':
@@ -124,11 +123,26 @@ class XAObject():
         :type value: Any
         :return: A reference to this PyXA object.
         :rtype: XAObject
+
+        .. versionadded:: 0.0.1
         """
-        self.properties["element"]._scriptingSetValue_forKey_(value, property_name)
+        self.xa_elem._scriptingSetValue_forKey_(value, property_name)
         self.__setattr__(property_name, value)
         return self
 
+    def set_clipboard(self, content: Any) -> None:
+        """Sets the clipboard to the specified content.
+
+        :param content: The item or object to set the clipboard to. Can be a list of items.
+        :type content: Any
+
+        .. seealso:: :func:`get_clipboard`, :func:`get_clipboard_strings`
+
+        .. versionadded:: 0.0.1
+        """
+        pb = AppKit.NSPasteboard.generalPasteboard()
+        pb.clearContents()
+        pb.writeObjects_(AppKit.NSArray.arrayWithObject_(content))
 
 ### Mixins
 ## Action Mixins
@@ -151,7 +165,7 @@ class XACanPrintPath(XAObject):
         """
         if not isinstance(target, NSURL):
             target = xa_path(target)
-        self.properties["element"].print(target)
+        self.xa_elem.print(target)
         return self
 
 class XACanOpenPath(XAObject):
@@ -176,11 +190,13 @@ class XACanOpenPath(XAObject):
             url = xa_url(target)
         if target.startswith("/"):
             url = NSURL.alloc().initFileURLWithPath_(target)
-        self.properties["workspace"].openURLs_withAppBundleIdentifier_options_additionalEventParamDescriptor_launchIdentifiers_([url], self.properties["element"].bundleIdentifier(), 0, None, None)
+        self.wksp.openURLs_withAppBundleIdentifier_options_additionalEventParamDescriptor_launchIdentifiers_([url], self.xa_elem.bundleIdentifier(), 0, None, None)
         return self
 
 class XAAcceptsPushedElements(XAObject):
     """A class for scriptable objects that either have lists or are themselves lists that other scriptable objects can be pushed onto.
+
+    .. versionadded:: 0.0.1
     """
     def push(self, element_specifier: Union[str, AppKit.NSObject], properties: dict, location: SBElementArray, object_class = XAObject) -> XAObject:
         """Appends the supplied element or an element created from the supplied specifier and properties to the scriptable object list at the specified location.
@@ -195,23 +211,27 @@ class XAAcceptsPushedElements(XAObject):
         ;type object_class: type
         :return: A reference to the new created PyXA object.
         :rtype: XAObject
+
+        .. versionadded:: 0.0.1
         """
         if isinstance(element_specifier, str):
             element_specifier = self.construct(element_specifier, properties)
         location.addObject_(element_specifier)
         properties = {
             "parent": self,
-            "appspace": self.properties["appspace"],
-            "workspace": self.properties["workspace"],
+            "appspace": self.xa_apsp,
+            "workspace": self.xa_wksp,
             "element": element_specifier,
-            "appref": self.properties["appref"],
-            "system_events": self.properties["system_events"],
+            "appref": self.xa_aref,
+            "system_events": self.xa_sevt,
         }
         return object_class(properties)
 
 
 class XACanConstructElement(XAObject):
     """A class for scriptable objects that are able to create new scriptable objects.
+
+    .. versionadded:: 0.0.1
     """
     def construct(self, specifier: str, properties: dict) -> AppKit.NSObject:
         """Initializes a new NSObject of the given specifier class with the supplied dictionary of properties.
@@ -222,15 +242,17 @@ class XACanConstructElement(XAObject):
         :type properties: dict
         :return: A reference to the newly created NSObject.
         :rtype: NSObject
+
+        .. versionadded:: 0.0.1
         """
-        if "sb_element" in self.properties:
-            return self.properties["sb_element"].classForScriptingClass_(specifier).alloc().initWithProperties_(properties)
-        return self.properties["element"].classForScriptingClass_(specifier).alloc().initWithProperties_(properties)
+        if self.scel is not None:
+            return self.xa_scel.classForScriptingClass_(specifier).alloc().initWithProperties_(properties)
+        return self.xa_elem.classForScriptingClass_(specifier).alloc().initWithProperties_(properties)
         
 ## Relation Mixins
 class XAHasElements(XAObject):
     def elements(self, specifier, filter, obj_type):
-        ls = self.properties["element"].__getattribute__(specifier)()
+        ls = self.xa_elem.__getattribute__(specifier)()
         if filter is not None:
             predicate = AppKit.NSPredicate.predicateWithFormat_(xa_predicate_format(filter))
             ls = ls.filteredArrayUsingPredicate_(predicate)
@@ -239,50 +261,50 @@ class XAHasElements(XAObject):
         for element in ls:
             properties = {
                 "parent": self,
-                "appspace": self.properties["appspace"],
-                "workspace": self.properties["workspace"],
+                "appspace": self.xa_apsp,
+                "workspace": self.xa_wksp,
                 "element": element,
-                "appref": self.properties["appref"],
-                "system_events": self.properties["system_events"],
+                "appref": self.xa_aref,
+                "system_events": self.xa_sevt,
             }
             elements.append(obj_type(properties))
         return elements
 
     def element_with_properties(self, specifier, filter, obj_type):
         if isinstance(filter, int):
-            element = self.properties["element"].__getattribute__(specifier)()[filter]
+            element = self.xa_elem.__getattribute__(specifier)()[filter]
             properties = {
                 "parent": self,
-                "appspace": self.properties["appspace"],
-                "workspace": self.properties["workspace"],
+                "appspace": self.xa_apsp,
+                "workspace": self.xa_wksp,
                 "element": element,
-                "appref": self.properties["appref"],
-                "system_events": self.properties["system_events"],
+                "appref": self.xa_aref,
+                "system_events": self.xa_sevt,
             }
             return obj_type(properties)
         return self.elements(specifier, filter, obj_type)[0]
 
     def first_element(self, specifier, obj_type):
-        element = self.properties["element"].__getattribute__(specifier)()[0]
+        element = self.xa_elem.__getattribute__(specifier)()[0]
         properties = {
             "parent": self,
-            "appspace": self.properties["appspace"],
-            "workspace": self.properties["workspace"],
+            "appspace": self.xa_apsp,
+            "workspace": self.xa_wksp,
             "element": element,
-            "appref": self.properties["appref"],
-            "system_events": self.properties["system_events"],
+            "appref": self.xa_aref,
+            "system_events": self.xa_sevt,
         }
         return obj_type(properties)
 
     def last_element(self, specifier, obj_type):
-        element = self.properties["element"].__getattribute__(specifier)()[-1]
+        element = self.xa_elem.__getattribute__(specifier)()[-1]
         properties = {
             "parent": self,
-            "appspace": self.properties["appspace"],
-            "workspace": self.properties["workspace"],
+            "appspace": self.xa_apsp,
+            "workspace": self.xa_wksp,
             "element": element,
-            "appref": self.properties["appref"],
-            "system_events": self.properties["system_events"],
+            "appref": self.xa_aref,
+            "system_events": self.xa_sevt,
         }
         return obj_type(properties)
 
@@ -322,8 +344,10 @@ class XAShowable(XAObject):
 
         :return: A reference to the PyXA object that called this method.
         :rtype: XAObject
+
+        .. versionadded:: 0.0.1
         """
-        self.properties["element"].show()
+        self.xa_elem.show()
 
 
 class XARevealable(XAObject):
@@ -332,8 +356,10 @@ class XARevealable(XAObject):
 
         :return: A reference to the PyXA object that called this method.
         :rtype: XAObject
+
+        .. versionadded:: 0.0.1
         """
-        self.properties["element"].reveal()
+        self.xa_elem.reveal()
 
 class XASelectable(XAObject):
     def select(self) -> XAObject:
@@ -341,8 +367,10 @@ class XASelectable(XAObject):
 
         :return: A reference to the PyXA object that called this method.
         :rtype: XAObject
+
+        .. versionadded:: 0.0.1
         """
-        self.properties["element"].select()
+        self.xa_elem.select()
 
 class XADeletable(XAObject):
     def delete(self) -> XAObject:
@@ -350,31 +378,52 @@ class XADeletable(XAObject):
 
         :return: A reference to the PyXA object that called this method.
         :rtype: XAObject
+
+        .. versionadded:: 0.0.1
         """
-        deletion_thread = threading.Thread(target=self.properties["element"].delete, name="Delete", daemon=True)
+        deletion_thread = threading.Thread(target=self.xa_elem.delete, name="Delete", daemon=True)
         deletion_thread.start()
 
 ### Elements
+class XAProcess(XAHasElements):
+    def __init__(self, properties):
+        super().__init__(properties)
+        self.wcls = properties["window_class"]
+
+    def windows(self, filter: dict = None) -> List['XAWindow']:
+        return super().elements("windows", filter, self.xa_wcls)
+
+    def window(self, filter: Union[int, dict]) -> 'XAWindow':
+        return super().element("windows", filter, self.xa_wcls)
+
+    def front_window(self) -> 'XAWindow':
+        return super().first_element("windows", self.xa_wcls)
+
 class XAApplication(XAObject):
     """A general application class for both officially scriptable and non-scriptable applications.
 
     .. seealso:: :class:`XASBApplication`, :class:`XAWindow`
+
+    .. versionadded:: 0.0.1
     """
     def __init__(self, properties):
         super().__init__(properties)
-        properties = {"name": self.properties["element"].localizedName()}
+        self.xa_wcls = XAWindow
+
+        properties = {"name": self.xa_elem.localizedName()}
         predicate = AppKit.NSPredicate.predicateWithFormat_(xa_predicate_format(properties))
-        process = self.properties["system_events"].processes().filteredArrayUsingPredicate_(predicate)[0]
+        process = self.xa_sevt.processes().filteredArrayUsingPredicate_(predicate)[0]
 
         properties = {
             "parent": self,
-            "appspace": self.properties["appspace"],
-            "workspace": self.properties["workspace"],
+            "appspace": self.xa_apsp,
+            "workspace": self.xa_wksp,
             "element": process,
-            "appref": self.properties["appref"],
-            "system_events": self.properties["system_events"],
+            "appref": self.xa_aref,
+            "system_events": self.xa_sevt,
+            "window_class": self.xa_wcls
         }
-        self.properties["process"] = XAProcess(properties)
+        self.xa_prcs = XAProcess(properties)
 
     def activate(self) -> 'XAApplication':
         """Activates the application, bringing its window(s) to the front and launching the application beforehand if necessary.
@@ -383,8 +432,10 @@ class XAApplication(XAObject):
         :rtype: XAApplication
 
         .. seealso:: :func:`terminate`, :func:`unhide`, :func:`focus`
+
+        .. versionadded:: 0.0.1
         """
-        self.properties["element"].activateWithOptions_(AppKit.NSApplicationActivateIgnoringOtherApps)
+        self.xa_elem.activateWithOptions_(AppKit.NSApplicationActivateIgnoringOtherApps)
         return self
 
     def terminate(self) -> 'XAApplication':
@@ -400,8 +451,10 @@ class XAApplication(XAObject):
         >>> safari.terminate()
 
         .. seealso:: :func:`quit`, :func:`activate`
+
+        .. versionadded:: 0.0.1
         """
-        self.properties["element"].terminate()
+        self.xa_elem.terminate()
         return self
 
     def quit(self) -> 'XAApplication':
@@ -417,8 +470,10 @@ class XAApplication(XAObject):
         >>> safari.quit()
 
         .. seealso:: :func:`terminate`, :func:`activate`
+
+        .. versionadded:: 0.0.1
         """
-        self.properties["element"].terminate()
+        self.xa_elem.terminate()
         return self
 
     def hide(self) -> 'XAApplication':
@@ -434,8 +489,10 @@ class XAApplication(XAObject):
         >>> safari.hide()
 
         .. seealso:: :func:`unhide`
+
+        .. versionadded:: 0.0.1
         """
-        self.properties["element"].hide()
+        self.xa_elem.hide()
         return self
 
     def unhide(self) -> 'XAApplication':
@@ -451,8 +508,10 @@ class XAApplication(XAObject):
         >>> safari.unhide()
 
         .. seealso:: :func:`hide`
+
+        .. versionadded:: 0.0.1
         """
-        self.properties["element"].unhide()
+        self.xa_elem.unhide()
         return self
 
     def focus(self) -> 'XAApplication':
@@ -468,9 +527,11 @@ class XAApplication(XAObject):
         >>> safari.focus()
 
         .. seealso:: :func:`unfocus`
+
+        .. versionadded:: 0.0.1
         """
-        for app in self.properties["workspace"].runningApplications():
-            if app.localizedName() != self.properties["element"].localizedName():
+        for app in self.xa_wksp.runningApplications():
+            if app.localizedName() != self.xa_elem.localizedName():
                 app.hide()
             else:
                 app.unhide()
@@ -489,42 +550,29 @@ class XAApplication(XAObject):
         >>> safari.unfocus()
 
         .. seealso:: :func:`focus`
+
+        .. versionadded:: 0.0.1
         """
-        for app in self.properties["workspace"].runningApplications():
+        for app in self.xa_wksp.runningApplications():
                 app.unhide()
         return self
 
     def _get_processes(self, processes):
-        for process in self.properties["system_events"].processes():
+        for process in self.xa_sevt.processes():
             processes.append(process)
 
     # Windows
     def windows(self, filter: dict = None) -> List['XAWindow']:
-        return self.properties["process"].windows(filter)
+        return self.xa_prcs.windows(filter)
 
     def window(self, filter: Union[int, dict]) -> 'XAWindow':
-        return self.properties["process"].window(filter)
+        return self.xa_prcs.window(filter)
 
     def front_window(self) -> 'XAWindow':
-        return self.properties["process"].front_window()
+        return self.xa_prcs.front_window()
 
     # def windows(self) -> List['XAWindow']:
-    #     """Retrieves a list of windows owned by this application, regardless of whether they are visible, hidden, active, or inactive.
-
-    #     :return: A list of windows owned by this application.
-    #     :rtype: List[XAWindow]
-
-    #     :Example:
-
-    #     >>> import PyXA
-    #     >>> safari = PyXA.application("Safari")
-    #     >>> windows = safari.windows()
-    #     >>> print(windows)
-    #     [<XABase.XAWindow object at 0x112738ac0>, <XABase.XAWindow object at 0x112736ab0>]
-
-    #     .. seealso:: :class:`XAWindow`, :class:`XASBWindow`
-    #     """
-    #     # properties = {"name": self.properties["element"].localizedName()}
+    #     # properties = {"name": self.xa_elem.localizedName()}
     #     # predicate = NSPredicate.predicateWithFormat_(xa_predicate_format(properties))
     #     # process = self.system_events.processes().filteredArrayUsingPredicate_(predicate)[0]
 
@@ -539,97 +587,14 @@ class XAApplication(XAObject):
     #     # print(windowList)
     #     # windows = []
     #     # for window in windowList:
-    #     #     if window["kCGWindowOwnerName"] == self.properties["element"].localizedName():
+    #     #     if window["kCGWindowOwnerName"] == self.xa_elem.localizedName():
     #     #         windows.append(XAWindow(self, self.appspace, self.workspace, self.name, window, self.appref))
     #     # return windows
 
-class XAProcess(XAHasElements):
-    def __init__(self, properties):
-        super().__init__(properties)
-
-    def windows(self, filter: dict = None) -> List['XAWindow']:
-        return super().elements("windows", filter, XAWindow)
-
-    def window(self, filter: Union[int, dict]) -> 'XAWindow':
-        return super().element("windows", filter, XAWindow)
-
-    def front_window(self) -> 'XAWindow':
-        return super().first_element("windows", XAWindow)
-
-class XAText(XAObject):
-    def __init__(self, properties):
-        if not isinstance(element, NSString):
-            element = NSString.stringWithString_(element)
-        super().__init__(properties)
-
-    def paragraphs(self):
-        paragraphs = []
-        paragraph_list = self.properties["element"].split("\n")
-        for paragraph in paragraph_list:
-            properties = {
-                "parent": self,
-                "appspace": self.properties["appspace"],
-                "workspace": self.properties["workspace"],
-                "element": paragraph,
-                "appref": self.properties["appref"],
-                "system_events": self.properties["system_events"],
-            }
-            paragraphs.append(XAWord(properties))
-        return paragraphs
-
-    def words(self):
-        words = []
-        word_list = self.properties["element"].split()
-        for word in word_list:
-            properties = {
-                "parent": self,
-                "appspace": self.properties["appspace"],
-                "workspace": self.properties["workspace"],
-                "element": word,
-                "appref": self.properties["appref"],
-                "system_events": self.properties["system_events"],
-            }
-            words.append(XAWord(properties))
-        return words
-
-    def characters(self):
-        chars = []
-        char_list = list(self.properties["element"])
-        for char in char_list:
-            properties = {
-                "parent": self,
-                "appspace": self.properties["appspace"],
-                "workspace": self.properties["workspace"],
-                "element": char,
-                "appref": self.properties["appref"],
-                "system_events": self.properties["system_events"],
-            }
-            chars.append(XACharacter(properties))
-        return chars
-
-    def __repr__(self):
-        return self.properties["element"]
-
-class XAWord(XAText):
-    def __init__(self, properties):
-        if not isinstance(element, NSString):
-            element = NSString.stringWithString_(element)
-        super().__init__(properties)
-
-    def __repr__(self):
-        return self.properties["element"]
-
-class XACharacter(XAText):
-    def __init__(self, properties):
-        if not isinstance(element, NSString):
-            element = NSString.stringWithString_(element)
-        super().__init__(properties)
-
-    def __repr__(self):
-        return self.properties["element"]
-
 class XASound(XAObject):
     """A wrapper class for NSSound objects and associated methods.
+
+    .. versionadded:: 0.0.1
     """
     def __init__(self, sound_file: Union[str, NSURL]):
         if isinstance(sound_file, str):
@@ -653,6 +618,8 @@ class XASound(XAObject):
         >>> glass_sound.play()
 
         .. seealso:: :func:`pause`, :func:`stop`
+
+        .. versionadded:: 0.0.1
         """
         self.sound.stop()
         self.sound.play()
@@ -672,6 +639,8 @@ class XASound(XAObject):
         >>> glass_sound.pause()
 
         .. seealso:: :func:`resume`, :func:`stop`
+
+        .. versionadded:: 0.0.1
         """
         self.sound.pause()
         return self
@@ -689,6 +658,8 @@ class XASound(XAObject):
         >>> glass_sound.resume()
 
         .. seealso:: :func:`pause`, :func:`play`
+
+        .. versionadded:: 0.0.1
         """
         self.sound.resume()
         return self
@@ -706,6 +677,8 @@ class XASound(XAObject):
         >>> glass_sound.stop()
 
         .. seealso:: :func:`pause`, :func:`play`
+
+        .. versionadded:: 0.0.1
         """
         self.sound.stop()
         return self
@@ -725,6 +698,8 @@ class XASound(XAObject):
         >>> glass_sound.set_volume(1.0)
 
         .. seealso:: :func:`volume`
+
+        .. versionadded:: 0.0.1
         """
         self.sound.setVolume_(volume)
         return self
@@ -743,6 +718,8 @@ class XASound(XAObject):
         1.0
 
         .. seealso:: :func:`set_volume`
+
+        .. versionadded:: 0.0.1
         """
         return self.sound.volume()
 
@@ -759,6 +736,8 @@ class XASound(XAObject):
         >>> import PyXA
         >>> glass_sound = PyXA.sound("Glass")
         >>> glass_sound.loop(10)
+
+        .. versionadded:: 0.0.1
         """
         self.sound.setLoops_(times)
         self.sound.play()
@@ -784,6 +763,8 @@ def xa_url(url: str) -> NSURL:
     # TODO: This
 
     .. seealso:: :func:`xa_path`
+
+    .. versionadded:: 0.0.1
     """
     return NSURL.alloc().initWithString_(url)
 
@@ -794,6 +775,8 @@ def xa_path(filepath: str):
     :type url: str
     :return: The NSURL form of the supplied filepath/URL.
     :rtype: NSURL
+
+    .. versionadded:: 0.0.1
     """
     return NSURL.alloc().initWithString_(filepath)
 
@@ -806,25 +789,46 @@ def xa_predicate_format(ref_dict: dict):
     :type ref_dict: dict
     :return: The resulting predicate format string.
     :rtype: str
+
+    .. versionadded:: 0.0.1
     """
     predicate_format = ""
     for key, value in ref_dict.items():
-        predicate_format += f"({key} = '{value}') &&"
+        if isinstance(value, list) or isinstance(value, tuple):
+            if value[0] == ">":
+                predicate_format += f"({key} > {value[1]}) &&"
+            elif value[0] == "<":
+                predicate_format += f"({key} < {value[1]}) &&"
+            elif value[0] == "!":
+                predicate_format += f"({key} != {value[1]}) &&"
+            elif value[0].lower() == "contains":
+                predicate_format += f"({key} CONTAINS '{value[1]}') &&"
+            elif value[0].lower() == "like":
+                predicate_format += f"({key} LIKE '{value[1]}') &&"
+            elif value[0].lower() == "matches":
+                predicate_format += f"({key} MATCHES '{value[1]}') &&"
+            elif value[0].lower() == "beginswith":
+                predicate_format += f"({key} BEGINSWITH '{value[1]}') &&"
+            elif value[0].lower() == "endswith":
+                predicate_format += f"({key} ENDSWITH '{value[1]}') &&"
+        else:
+            value = value.replace("'", "\\'")
+            predicate_format += f"({key} = '{value}') &&"
     return predicate_format[:-3]
 
 ### UI Components
 class XAUIElement(XAHasElements):
     def __init__(self, properties):
         super().__init__(properties)
-        self.shortcuts = {}
+        self.xa_scut = {}
 
     def entire_contents(self) -> 'XAUIElement':
-        print(self.properties["element"].entireContents())
+        print(self.xa_elem.entireContents())
         return self
 
     def all(self, specifier, in_class = "groups", force_update = False):
-        if (specifier, in_class) in self.shortcuts and not force_update:
-            return self.shortcuts[(specifier, in_class)]
+        if (specifier, in_class) in self.xa_scut and not force_update:
+            return self.xa_scut[(specifier, in_class)]
 
         valid_specifiers = {
             "windows": XAWindow,
@@ -843,7 +847,7 @@ class XAUIElement(XAHasElements):
         else:
             target_objects.extend(self.__getattribute__(specifier)())
 
-        self.shortcuts[(specifier, in_class)] = target_objects
+        self.xa_scut[(specifier, in_class)] = target_objects
         return target_objects
 
     ## Windows
@@ -889,6 +893,8 @@ class XAWindow(XAUIElement):
     """A general window class for windows of both officially scriptable and non-scriptable applications.
 
     .. seealso:: :class:`XAApplication`, :class:`XASBWindow`
+
+    .. versionadded:: 0.0.1
     """
     def __init__(self, properties):
         super().__init__(properties)
@@ -899,6 +905,8 @@ class XAWindow(XAUIElement):
 
         :return: A reference to the now-collapsed window object.
         :rtype: XAWindow
+
+        .. versionadded:: 0.0.1
         """
         close_button = self.button({"subrole": "AXCloseButton"})
         close_button.click()
@@ -909,9 +917,11 @@ class XAWindow(XAUIElement):
 
         :return: A reference to the now-collapsed window object.
         :rtype: XAWindow
+
+        .. versionadded:: 0.0.1
         """
-        if hasattr(self.properties["element"].properties(), "miniaturized"):
-            self.properties["element"]._setValue_forKey_(True, "miniaturized")
+        if hasattr(self.xa_elem.properties(), "miniaturized"):
+            self.xa_elem._setValue_forKey_(True, "miniaturized")
         else:
             close_button = self.button({"subrole": "AXMinimizeButton"})
             close_button.click()
@@ -922,11 +932,13 @@ class XAWindow(XAUIElement):
 
         :return: A reference to the uncollapsed window object.
         :rtype: XAWindow
+
+        .. versionadded:: 0.0.1
         """
         process_predicate = AppKit.NSPredicate.predicateWithFormat_(xa_predicate_format({"name": "Dock"}))
-        dock_process = self.properties["system_events"].applicationProcesses().filteredArrayUsingPredicate_(process_predicate)[0]
+        dock_process = self.xa_sevt.applicationProcesses().filteredArrayUsingPredicate_(process_predicate)[0]
 
-        app_predicate = AppKit.NSPredicate.predicateWithFormat_(xa_predicate_format({"name": self.properties["parent"].properties["parent"].element.localizedName()}))
+        app_predicate = AppKit.NSPredicate.predicateWithFormat_(xa_predicate_format({"name": self.xa_prnt.xa_prnt.element.localizedName()}))
         app_icon = dock_process.lists()[0].UIElements().filteredArrayUsingPredicate_(app_predicate)[0]
         app_icon.actions()[0].perform()
         return self
@@ -956,7 +968,7 @@ class XAUIAction(XAUIElement):
         super().__init__(properties)
 
     def perform(self):
-        self.properties["element"].perform()
+        self.xa_elem.perform()
         return self
 
 # Text Elements
@@ -1236,14 +1248,14 @@ class XAText(XAHasParagraphs, XAHasWords, XAHasCharacters, XAHasAttributeRuns, X
         super().__init__(properties)
 
     def __str__(self):
-        if isinstance(self.properties["element"], str):
-            return self.properties["element"]
-        return str(self.properties["element"].get())
+        if isinstance(self.xa_elem, str):
+            return self.xa_elem
+        return str(self.xa_elem.get())
 
     def __repr__(self):
-        if isinstance(self.properties["element"], str):
-            return self.properties["element"]
-        return str(self.properties["element"].get())
+        if isinstance(self.xa_elem, str):
+            return self.xa_elem
+        return str(self.xa_elem.get())
 
 
 class XAParagraph(XAText):

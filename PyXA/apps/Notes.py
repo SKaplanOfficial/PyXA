@@ -19,11 +19,11 @@ class XANotesApplication(XABaseScriptable.XASBApplication, XABase.XACanConstruct
 
     def __init__(self, properties):
         super().__init__(properties)
-        self.properties["window_class"] = XANotesWindow
-        default_account_obj = self.properties["sb_element"].defaultAccount()
+        self.xa_wcls = XANotesWindow
+        default_account_obj = self.xa_scel.defaultAccount()
         self.default_account = self._new_element(default_account_obj, XANotesAccount)
 
-        selection_obj = self.properties["sb_element"].selection()
+        selection_obj = self.xa_scel.selection()
         self.selection = self._new_element(selection_obj, XANote)
 
     ## Notes
@@ -140,7 +140,7 @@ class XANotesApplication(XABaseScriptable.XASBApplication, XABase.XACanConstruct
             note_folder = self
         name = name.replace("\n", "<br />")
         body = body.replace("\n", "<br />")
-        return self.push("note", {"body": f"<b>{name}</b><br />{body}"}, note_folder.properties["sb_element"].notes())
+        return self.push("note", {"body": f"<b>{name}</b><br />{body}"}, note_folder.xa_scel.notes())
 
     def new_folder(self, name: str = "New Folder") -> 'XANotesFolder':
         """Creates a new Notes folder with the given name.
@@ -168,10 +168,10 @@ class XANotesApplication(XABaseScriptable.XASBApplication, XABase.XACanConstruct
 
         .. versionadded:: 0.0.1
         """
-        return self.push("folder", {"name": name}, self.properties["sb_element"].folders())
+        return self.push("folder", {"name": name}, self.xa_scel.folders())
 
 
-class XANotesWindow(XABase.XACanConstructElement, XABase.XAAcceptsPushedElements):
+class XANotesWindow(XABase.XAWindow, XABase.XACanConstructElement, XABase.XAAcceptsPushedElements):
     """A class for interacting with windows of Notes.app.
 
     .. versionadded:: 0.0.1
@@ -223,7 +223,7 @@ class XANotesFolder(XABase.XACanConstructElement, XABase.XAAcceptsPushedElements
 
         .. versionadded:: 0.0.1
         """
-        return self.push("note", {"body": f"<b>{name}</b><br />{body}"}, self.properties["element"].notes())
+        return self.push("note", {"body": f"<b>{name}</b><br />{body}"}, self.xa_elem.notes())
 
     ## Notes
     def notes(self, filter: dict = None) -> List['XANote']:
@@ -328,7 +328,7 @@ class XANotesAccount(XABase.XACanConstructElement, XABase.XAAcceptsPushedElement
     """
     def __init__(self, properties):
         super().__init__(properties)
-        folder_obj = self.properties["element"].defaultFolder()
+        folder_obj = self.xa_elem.defaultFolder()
         self.default_folder = self._new_element(folder_obj, XANotesFolder)
 
     ## Notes

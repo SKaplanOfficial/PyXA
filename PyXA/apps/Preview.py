@@ -25,7 +25,7 @@ class XAPreviewApplication(XABaseScriptable.XASBApplication, XABase.XACanConstru
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.properties["window_class"] = XAPreviewWindow
+        self.xa_wcls = XAPreviewWindow
 
     def print(self, path: Union[str, NSURL], show_prompt: bool = True):
         """Opens the print dialog for the file at the given path, if the file can be opened in Preview.
@@ -39,7 +39,7 @@ class XAPreviewApplication(XABaseScriptable.XASBApplication, XABase.XACanConstru
         """
         if isinstance(path, str):
             path = NSURL.alloc().initFileURLWithPath_(path)
-        self.properties["sb_element"].print_printDialog_withProperties_(path, show_prompt, None)
+        self.xa_scel.print_printDialog_withProperties_(path, show_prompt, None)
 
     # Documents
     def documents(self, filter: dict = None) -> List['XAPreviewDocument']:

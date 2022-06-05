@@ -14,11 +14,11 @@ class XASBObject(XABase.XAObject):
         super().__init__(properties)
 
     def set_property(self, property_name, value):
-        self.properties["sb_element"]._scriptingSetValue_forKey_(value, property_name)
+        self.xa_scel._scriptingSetValue_forKey_(value, property_name)
 
 class XAHasScriptableElements(XABase.XAObject):
     def scriptable_elements(self, specifier, filter, obj_type):
-        ls = self.properties["sb_element"].__getattribute__(specifier)()
+        ls = self.xa_scel.__getattribute__(specifier)()
         if filter is not None:
             predicate = NSPredicate.predicateWithFormat_(XABase.xa_predicate_format(filter))
             ls = ls.filteredArrayUsingPredicate_(predicate)
@@ -27,50 +27,50 @@ class XAHasScriptableElements(XABase.XAObject):
         for element in ls:
             properties = {
                 "parent": self,
-                "appspace": self.properties["appspace"],
-                "workspace": self.properties["workspace"],
+                "appspace": self.xa_apsp,
+                "workspace": self.xa_wksp,
                 "element": element,
-                "appref": self.properties["appref"],
-                "system_events": self.properties["system_events"],
+                "appref": self.xa_aref,
+                "system_events": self.xa_sevt,
             }
             elements.append(obj_type(properties))
         return elements
 
     def scriptable_element_with_properties(self, specifier, filter, obj_type):
         if isinstance(filter, int):
-            element = self.properties["sb_element"].__getattribute__(specifier)()[filter]
+            element = self.xa_scel.__getattribute__(specifier)()[filter]
             properties = {
                 "parent": self,
-                "appspace": self.properties["appspace"],
-                "workspace": self.properties["workspace"],
+                "appspace": self.xa_apsp,
+                "workspace": self.xa_wksp,
                 "element": element,
-                "appref": self.properties["appref"],
-                "system_events": self.properties["system_events"],
+                "appref": self.xa_aref,
+                "system_events": self.xa_sevt,
             }
             return obj_type(properties)
         return self.scriptable_elements(specifier, filter, obj_type)[0]
 
     def first_scriptable_element(self, specifier, obj_type):
-        element = self.properties["sb_element"].__getattribute__(specifier)()[0]
+        element = self.xa_scel.__getattribute__(specifier)()[0]
         properties = {
             "parent": self,
-            "appspace": self.properties["appspace"],
-            "workspace": self.properties["workspace"],
+            "appspace": self.xa_apsp,
+            "workspace": self.xa_wksp,
             "element": element,
-            "appref": self.properties["appref"],
-            "system_events": self.properties["system_events"],
+            "appref": self.xa_aref,
+            "system_events": self.xa_sevt,
         }
         return obj_type(properties)
 
     def last_scriptable_element(self, specifier, obj_type):
-        element = self.properties["sb_element"].__getattribute__(specifier)()[-1]
+        element = self.xa_scel.__getattribute__(specifier)()[-1]
         properties = {
             "parent": self,
-            "appspace": self.properties["appspace"],
-            "workspace": self.properties["workspace"],
+            "appspace": self.xa_apsp,
+            "workspace": self.xa_wksp,
             "element": element,
-            "appref": self.properties["appref"],
-            "system_events": self.properties["system_events"],
+            "appref": self.xa_aref,
+            "system_events": self.xa_sevt,
         }
         return obj_type(properties)
 
@@ -88,7 +88,7 @@ class XASBCloseable(XABase.XAObject):
             'no':  0x6E6F2020,
             'ask': 0x61736B20,
         }
-        self.properties["element"].closeSaving_savingIn_(saving_options["no"], "~")
+        self.xa_elem.closeSaving_savingIn_(saving_options["no"], "~")
         return self
 
 # TODO: FIX THIS
@@ -101,28 +101,28 @@ class XASBSaveable(XABase.XAObject):
         """
         if location is None:
             location = "/Users/steven/Downloads/test.pdf"
-        self.properties["element"].saveIn_as_(None, None)
+        self.xa_elem.saveIn_as_(None, None)
         return self
 
 class XASBPrintable(XABase.XAObject):
     def __print_dialog(self, show_prompt: bool = True):
         """Displays a print dialog."""
         try:
-            if "sb_element" in self.properties:
-                self.properties["sb_element"].printWithProperties_(None)
+            if self.xa_scel is not None:
+                self.xa_scel.printWithProperties_(None)
             else:
-                self.properties["element"].printWithProperties_(None)
+                self.xa_elem.printWithProperties_(None)
         except:
             try:
-                if "sb_element" in self.properties:
-                    self.properties["sb_element"].print_withProperties_printDialog_(self.properties["sb_element"], None, show_prompt)
+                if self.xa_scel is not None:
+                    self.xa_scel.print_withProperties_printDialog_(self.xa_scel, None, show_prompt)
                 else:
-                    self.properties["element"].print_withProperties_printDialog_(self.properties["element"], None, show_prompt)
+                    self.xa_elem.print_withProperties_printDialog_(self.xa_elem, None, show_prompt)
             except:
-                if "sb_element" in self.properties:
-                    self.properties["sb_element"].print_printDialog_withProperties_(self.properties["sb_element"], show_prompt, None)
+                if self.xa_scel is not None:
+                    self.xa_scel.print_printDialog_withProperties_(self.xa_scel, show_prompt, None)
                 else:
-                    self.properties["element"].print_printDialog_withProperties_(self.properties["element"], show_prompt, None)
+                    self.xa_elem.print_printDialog_withProperties_(self.xa_elem, show_prompt, None)
 
     def print(self, properties: dict = None, print_dialog = None) -> XABase.XAObject:
         """Prints a document, window, or item.
@@ -141,7 +141,7 @@ class XASBPrintable(XABase.XAObject):
 
 class XASBDeletable(XABase.XAObject):
     def delete(self):
-        self.properties["element"].delete()
+        self.xa_elem.delete()
 
 class XASBApplication(XASBObject, XABase.XAApplication, XAHasScriptableElements):
     """An application class for scriptable applications.
@@ -150,23 +150,23 @@ class XASBApplication(XASBObject, XABase.XAApplication, XAHasScriptableElements)
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.properties["sb_element"] = ScriptingBridge.SBApplication.alloc().initWithBundleIdentifier_(properties["element"].bundleIdentifier())
-        self.properties["window_class"] = XASBWindow
+        self.xa_scel = ScriptingBridge.SBApplication.alloc().initWithBundleIdentifier_(self.xa_elem.bundleIdentifier())
+        self.xa_wcls = XASBWindow
 
-        self.element_properties = self.properties["sb_element"].properties()
-        self.name = self.properties["sb_element"].name()
-        self.frontmost = self.properties["sb_element"].frontmost()
-        self.version = self.properties["sb_element"].version()
+        self.element_properties = self.xa_scel.properties()
+        self.name = self.xa_scel.name()
+        self.frontmost = self.xa_scel.frontmost()
+        self.version = self.xa_scel.version()
 
     ### Windows
     def windows(self, filter: dict = None) -> List['XASBWindow']:
-        return super().scriptable_elements("windows", filter, self.properties["window_class"])
+        return super().scriptable_elements("windows", filter, self.xa_wcls)
 
     def window(self, filter: Union[int, dict]) -> 'XASBWindow':
-        return super().scriptable_element_with_properties("windows", filter, self.properties["window_class"])
+        return super().scriptable_element_with_properties("windows", filter, self.xa_wcls)
 
     def front_window(self) -> 'XABase.XAWindow':
-        return super().first_scriptable_element("windows", self.properties["window_class"])
+        return super().first_scriptable_element("windows", self.xa_wcls)
 
 
 class XASBWindow(XASBObject):

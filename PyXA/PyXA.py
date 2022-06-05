@@ -21,108 +21,11 @@ from .XABase import (
 
 from .XAErrors import ApplicationNotFoundError
 
-from .apps.Finder import XAFinderApplication
-from .apps.Safari import XASafariApplication
-from .apps.Music import XAMusicApplication
-from .apps.Notes import XANotesApplication
-from .apps.Reminders import XARemindersApplication, XAReminder
-from .apps.Calendar import XACalendarApplication
-from .apps.TextEdit import XATextEditApplication
-from .apps.Terminal import XATerminalApplication
-from .apps.Messages import XAMessagesApplication
-from .apps.Pages import XAPagesApplication
-from .apps.SystemEvents import XASystemEventsApplication
-
-application_classes = {
-    "finder": XAFinderApplication,
-    "safari": XASafariApplication,
-    "music": XAMusicApplication,
-    "reminders": XARemindersApplication,
-    "notes": XANotesApplication,
-    "messages": XAMessagesApplication,
-    "calendar": XACalendarApplication,
-    "textedit": XATextEditApplication,
-    "pages": XAPagesApplication,
-    "system events": XASystemEventsApplication,
-    "systemevents": XASystemEventsApplication,
-    "terminal": XATerminalApplication,
-}
+from .apps import application_classes
 
 appspace = NSApplication.sharedApplication()
 workspace = NSWorkspace.sharedWorkspace()
 apps = []
-
-# _notification_center = workspace2.notificationCenter()
-
-# class NotificationState(Enum):
-#     """Levels of running states for processes.
-#     """
-#     APP_LAUNCHED = 0    # Process is awaiting start.
-#     APP_TERMINATED = 1  # Process is in progress.
-#     APP_ACTIVATED = 2   # Process is paused, but can be continued.
-#     SCREEN_AWAKENED = 3 # Process is paused and cannot continue until conditions are met.
-
-# class NotificationHandler(NSObject):
-#     _notification_state = None
-
-#     def handleApplicationLaunchNotification_(self, aNotification):
-#         NotificationHandler._notification_state = NotificationState.APP_LAUNCHED
-#         print(NotificationHandler._notification_state)
-
-#     def handleApplicationTerminateNotification_(self, aNotification):
-#         NotificationHandler._notification_state = NotificationState.APP_TERMINATED
-
-#     def handleApplicationActivateNotification_(self, aNotification):
-#         NotificationHandler._notification_state = NotificationState.APP_ACTIVATED
-
-#     def handleWakeNotification_(self, aNotification):
-#         NotificationHandler._notification_state = NotificationState.SCREEN_AWAKENED
-
-# notificationHandler1 = NotificationHandler.new()
-# _notification_center.addObserver_selector_name_object_(
-#     notificationHandler1,
-#     "handleApplicationLaunchNotification:",
-#     NSWorkspaceWillLaunchApplicationNotification,
-#     None,
-# )
-
-# notificationHandler2 = NotificationHandler.new()
-# _notification_center.addObserver_selector_name_object_(
-#     notificationHandler2,
-#     "handleApplicationTerminateNotification:",
-#     NSWorkspaceDidTerminateApplicationNotification,
-#     None,
-# )
-
-# notificationHandler3 = NotificationHandler.new()
-# _notification_center.addObserver_selector_name_object_(
-#     notificationHandler3,
-#     "handleApplicationActivateNotification:",
-#     NSWorkspaceDidActivateApplicationNotification,
-#     None,
-# )
-
-# notificationHandler4 = NotificationHandler.new()
-# _notification_center.addObserver_selector_name_object_(
-#     notificationHandler4,
-#     "handleWakeNotification:",
-#     NSWorkspaceDidWakeNotification,
-#     None,
-# )
-
-# class QuitClass(NSObject):
-#     def quitMainLoop_(self, aTimer):
-#         # Just stop the main loop.
-#         print("Quitting main loop.")
-#         AppHelper.stopEventLoop()
-
-# def get_notification_state() -> NotificationState:
-#     delegate = NSApplication().alloc().init()
-#     NSApp().setDelegate_(delegate)
-#     quitInst = QuitClass.alloc().init()
-#     NSTimer.scheduledTimerWithTimeInterval_target_selector_userInfo_repeats_(10.0, quitInst, 'quitMainLoop:', None, False)
-#     AppHelper.runConsoleEventLoop(installInterrupt = True)
-#     return NotificationHandler._notification_state
 
 def _get_path_to_app(app_identifier: str) -> str:
     app_path = app_identifier
@@ -230,6 +133,21 @@ def application(app_identifier: str) -> XAApplication:
         app = XAApplication(properties)
     apps.append(app)
     return app
+
+def open_url(path: Union[str, NSURL]) -> None:
+    """Opens the document at the given URL in its default application.
+
+    :param path: The path of the item to open. This can be a file path, folder path, web address, or application URL.
+    :type path: Union[str, NSURL]
+
+    .. versionadded:: 0.0.2
+    """
+    url = path
+    if isinstance(path, str):
+        url = NSURL.alloc().initWithString_(path)
+    if url.path().startswith("/"):
+        url = NSURL.alloc().initFileURLWithPath_(url.path())
+    workspace.openURL_(url)
 
 def sound(sound_file: Union[str, NSURL]) -> XASound:
     """Creates a new XASound object.

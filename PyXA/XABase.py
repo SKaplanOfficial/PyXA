@@ -143,6 +143,7 @@ class XAObject():
         pb = AppKit.NSPasteboard.generalPasteboard()
         pb.clearContents()
         pb.writeObjects_(AppKit.NSArray.arrayWithObject_(content))
+    
 
 ### Mixins
 ## Action Mixins

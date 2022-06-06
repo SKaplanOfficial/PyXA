@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PyXA.XABaseScriptable &mdash; PyXA 0.0.2 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> PyXA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../about/index.html">Project Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reference/index.html">Code Documentation and Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bugs.html">Bugs</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">PyXA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      <li>PyXA.XABaseScriptable</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for PyXA.XABaseScriptable</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">import</span> <span class="nn">threading</span>
+<span class="kn">import</span> <span class="nn">ScriptingBridge</span>
+<span class="kn">from</span> <span class="nn">AppKit</span> <span class="kn">import</span> <span class="n">NSPredicate</span>
+
+<span class="kn">from</span> <span class="nn">PyXA</span> <span class="kn">import</span> <span class="n">XABase</span>
+
+<div class="viewcode-block" id="XASBObject"><a class="viewcode-back" href="../../reference/xabasescriptable.html#PyXA.XABaseScriptable.XASBObject">[docs]</a><span class="k">class</span> <span class="nc">XASBObject</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A class for PyXA objects scriptable with AppleScript/JXA.</span>
+
+<span class="sd">    .. seealso:: :class:`XABase.XAObject`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
+
+<div class="viewcode-block" id="XASBObject.set_property"><a class="viewcode-back" href="../../reference/xabasescriptable.html#PyXA.XABaseScriptable.XASBObject.set_property">[docs]</a>    <span class="k">def</span> <span class="nf">set_property</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">property_name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">_scriptingSetValue_forKey_</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">property_name</span><span class="p">)</span></div></div>
+
+<div class="viewcode-block" id="XAHasScriptableElements"><a class="viewcode-back" href="../../reference/xabasescriptable.html#PyXA.XABaseScriptable.XAHasScriptableElements">[docs]</a><span class="k">class</span> <span class="nc">XAHasScriptableElements</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">):</span>
+<div class="viewcode-block" id="XAHasScriptableElements.scriptable_elements"><a class="viewcode-back" href="../../reference/xabasescriptable.html#PyXA.XABaseScriptable.XAHasScriptableElements.scriptable_elements">[docs]</a>    <span class="k">def</span> <span class="nf">scriptable_elements</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">specifier</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">obj_type</span><span class="p">):</span>
+        <span class="n">ls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="fm">__getattribute__</span><span class="p">(</span><span class="n">specifier</span><span class="p">)()</span>
+        <span class="k">if</span> <span class="nb">filter</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">predicate</span> <span class="o">=</span> <span class="n">NSPredicate</span><span class="o">.</span><span class="n">predicateWithFormat_</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">xa_predicate_format</span><span class="p">(</span><span class="nb">filter</span><span class="p">))</span>
+            <span class="n">ls</span> <span class="o">=</span> <span class="n">ls</span><span class="o">.</span><span class="n">filteredArrayUsingPredicate_</span><span class="p">(</span><span class="n">predicate</span><span class="p">)</span>
+
+        <span class="n">elements</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">ls</span><span class="p">:</span>
+            <span class="n">properties</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">&quot;parent&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="p">,</span>
+                <span class="s2">&quot;appspace&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_apsp</span><span class="p">,</span>
+                <span class="s2">&quot;workspace&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_wksp</span><span class="p">,</span>
+                <span class="s2">&quot;element&quot;</span><span class="p">:</span> <span class="n">element</span><span class="p">,</span>
+                <span class="s2">&quot;appref&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_aref</span><span class="p">,</span>
+                <span class="s2">&quot;system_events&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_sevt</span><span class="p">,</span>
+            <span class="p">}</span>
+            <span class="n">elements</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">obj_type</span><span class="p">(</span><span class="n">properties</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">elements</span></div>
+
+<div class="viewcode-block" id="XAHasScriptableElements.scriptable_element_with_properties"><a class="viewcode-back" href="../../reference/xabasescriptable.html#PyXA.XABaseScriptable.XAHasScriptableElements.scriptable_element_with_properties">[docs]</a>    <span class="k">def</span> <span class="nf">scriptable_element_with_properties</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">specifier</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">obj_type</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">filter</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="n">element</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="fm">__getattribute__</span><span class="p">(</span><span class="n">specifier</span><span class="p">)()[</span><span class="nb">filter</span><span class="p">]</span>
+            <span class="n">properties</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">&quot;parent&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="p">,</span>
+                <span class="s2">&quot;appspace&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_apsp</span><span class="p">,</span>
+                <span class="s2">&quot;workspace&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_wksp</span><span class="p">,</span>
+                <span class="s2">&quot;element&quot;</span><span class="p">:</span> <span class="n">element</span><span class="p">,</span>
+                <span class="s2">&quot;appref&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_aref</span><span class="p">,</span>
+                <span class="s2">&quot;system_events&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_sevt</span><span class="p">,</span>
+            <span class="p">}</span>
+            <span class="k">return</span> <span class="n">obj_type</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">scriptable_elements</span><span class="p">(</span><span class="n">specifier</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">obj_type</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="XAHasScriptableElements.first_scriptable_element"><a class="viewcode-back" href="../../reference/xabasescriptable.html#PyXA.XABaseScriptable.XAHasScriptableElements.first_scriptable_element">[docs]</a>    <span class="k">def</span> <span class="nf">first_scriptable_element</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">specifier</span><span class="p">,</span> <span class="n">obj_type</span><span class="p">):</span>
+        <span class="n">element</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="fm">__getattribute__</span><span class="p">(</span><span class="n">specifier</span><span class="p">)()[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">properties</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;parent&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="p">,</span>
+            <span class="s2">&quot;appspace&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_apsp</span><span class="p">,</span>
+            <span class="s2">&quot;workspace&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_wksp</span><span class="p">,</span>
+            <span class="s2">&quot;element&quot;</span><span class="p">:</span> <span class="n">element</span><span class="p">,</span>
+            <span class="s2">&quot;appref&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_aref</span><span class="p">,</span>
+            <span class="s2">&quot;system_events&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_sevt</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">obj_type</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XAHasScriptableElements.last_scriptable_element"><a class="viewcode-back" href="../../reference/xabasescriptable.html#PyXA.XABaseScriptable.XAHasScriptableElements.last_scriptable_element">[docs]</a>    <span class="k">def</span> <span class="nf">last_scriptable_element</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">specifier</span><span class="p">,</span> <span class="n">obj_type</span><span class="p">):</span>
+        <span class="n">element</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="fm">__getattribute__</span><span class="p">(</span><span class="n">specifier</span><span class="p">)()[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">properties</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;parent&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="p">,</span>
+            <span class="s2">&quot;appspace&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_apsp</span><span class="p">,</span>
+            <span class="s2">&quot;workspace&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_wksp</span><span class="p">,</span>
+            <span class="s2">&quot;element&quot;</span><span class="p">:</span> <span class="n">element</span><span class="p">,</span>
+            <span class="s2">&quot;appref&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_aref</span><span class="p">,</span>
+            <span class="s2">&quot;system_events&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_sevt</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">obj_type</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span></div></div>
+
+<span class="c1">### Mixins</span>
+<span class="c1">## Property Mixins</span>
+<div class="viewcode-block" id="XASBCloseable"><a class="viewcode-back" href="../../reference/xabasescriptable.html#PyXA.XABaseScriptable.XASBCloseable">[docs]</a><span class="k">class</span> <span class="nc">XASBCloseable</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">):</span>
+<div class="viewcode-block" id="XASBCloseable.close"><a class="viewcode-back" href="../../reference/xabasescriptable.html#PyXA.XABaseScriptable.XASBCloseable.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Closes a document, window, or item.</span>
+
+<span class="sd">        :return: A reference to the PyXA objects that called this method.</span>
+<span class="sd">        :rtype: XABase.XAObject</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">saving_options</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;yes&#39;</span><span class="p">:</span> <span class="mh">0x79657320</span><span class="p">,</span>
+            <span class="s1">&#39;no&#39;</span><span class="p">:</span>  <span class="mh">0x6E6F2020</span><span class="p">,</span>
+            <span class="s1">&#39;ask&#39;</span><span class="p">:</span> <span class="mh">0x61736B20</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">closeSaving_savingIn_</span><span class="p">(</span><span class="n">saving_options</span><span class="p">[</span><span class="s2">&quot;no&quot;</span><span class="p">],</span> <span class="s2">&quot;~&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span></div></div>
+
+<span class="c1"># TODO: FIX THIS</span>
+<div class="viewcode-block" id="XASBSaveable"><a class="viewcode-back" href="../../reference/xabasescriptable.html#PyXA.XABaseScriptable.XASBSaveable">[docs]</a><span class="k">class</span> <span class="nc">XASBSaveable</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">):</span>
+<div class="viewcode-block" id="XASBSaveable.save"><a class="viewcode-back" href="../../reference/xabasescriptable.html#PyXA.XABaseScriptable.XASBSaveable.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">location</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Saves a document, window, or item.</span>
+
+<span class="sd">        :return: A reference to the PyXA objects that called this method.</span>
+<span class="sd">        :rtype: XABase.XAObject</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">location</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">location</span> <span class="o">=</span> <span class="s2">&quot;/Users/steven/Downloads/test.pdf&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">saveIn_as_</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span></div></div>
+
+<div class="viewcode-block" id="XASBPrintable"><a class="viewcode-back" href="../../reference/xabasescriptable.html#PyXA.XABaseScriptable.XASBPrintable">[docs]</a><span class="k">class</span> <span class="nc">XASBPrintable</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__print_dialog</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">show_prompt</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Displays a print dialog.&quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">printWithProperties_</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">printWithProperties_</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">print_withProperties_printDialog_</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">show_prompt</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">print_withProperties_printDialog_</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">show_prompt</span><span class="p">)</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">print_printDialog_withProperties_</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="p">,</span> <span class="n">show_prompt</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">print_printDialog_withProperties_</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">,</span> <span class="n">show_prompt</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+<div class="viewcode-block" id="XASBPrintable.print"><a class="viewcode-back" href="../../reference/xabasescriptable.html#PyXA.XABaseScriptable.XASBPrintable.print">[docs]</a>    <span class="k">def</span> <span class="nf">print</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">print_dialog</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Prints a document, window, or item.</span>
+
+<span class="sd">        :return: A reference to the PyXA objects that called this method.</span>
+<span class="sd">        :rtype: XABase.XAObject</span>
+
+<span class="sd">        .. versionchanged:: 0.0.2</span>
+<span class="sd">           Printing now initialized from a separate thread to avoid delaying main thread</span>
+
+<span class="sd">        .. versionadded:: 0.0.1</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">print_thread</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__print_dialog</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Print&quot;</span><span class="p">,</span> <span class="n">daemon</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">print_thread</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span></div></div>
+
+<div class="viewcode-block" id="XASBDeletable"><a class="viewcode-back" href="../../reference/xabasescriptable.html#PyXA.XABaseScriptable.XASBDeletable">[docs]</a><span class="k">class</span> <span class="nc">XASBDeletable</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">):</span>
+<div class="viewcode-block" id="XASBDeletable.delete"><a class="viewcode-back" href="../../reference/xabasescriptable.html#PyXA.XABaseScriptable.XASBDeletable.delete">[docs]</a>    <span class="k">def</span> <span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span></div></div>
+
+<div class="viewcode-block" id="XASBApplication"><a class="viewcode-back" href="../../reference/xabasescriptable.html#PyXA.XABaseScriptable.XASBApplication">[docs]</a><span class="k">class</span> <span class="nc">XASBApplication</span><span class="p">(</span><span class="n">XASBObject</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAApplication</span><span class="p">,</span> <span class="n">XAHasScriptableElements</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;An application class for scriptable applications.</span>
+
+<span class="sd">    .. seealso:: :class:`XABase.XAApplication`, :class:`XABase.XAWindow`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span> <span class="o">=</span> <span class="n">ScriptingBridge</span><span class="o">.</span><span class="n">SBApplication</span><span class="o">.</span><span class="n">alloc</span><span class="p">()</span><span class="o">.</span><span class="n">initWithBundleIdentifier_</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">bundleIdentifier</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_wcls</span> <span class="o">=</span> <span class="n">XASBWindow</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">element_properties</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">properties</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">name</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">frontmost</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">frontmost</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">version</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">version</span><span class="p">()</span>
+
+    <span class="c1">### Windows</span>
+<div class="viewcode-block" id="XASBApplication.windows"><a class="viewcode-back" href="../../reference/xabasescriptable.html#PyXA.XABaseScriptable.XASBApplication.windows">[docs]</a>    <span class="k">def</span> <span class="nf">windows</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;XASBWindow&#39;</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">scriptable_elements</span><span class="p">(</span><span class="s2">&quot;windows&quot;</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_wcls</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XASBApplication.window"><a class="viewcode-back" href="../../reference/xabasescriptable.html#PyXA.XABaseScriptable.XASBApplication.window">[docs]</a>    <span class="k">def</span> <span class="nf">window</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">dict</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s1">&#39;XASBWindow&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">scriptable_element_with_properties</span><span class="p">(</span><span class="s2">&quot;windows&quot;</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_wcls</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XASBApplication.front_window"><a class="viewcode-back" href="../../reference/xabasescriptable.html#PyXA.XABaseScriptable.XASBApplication.front_window">[docs]</a>    <span class="k">def</span> <span class="nf">front_window</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XABase.XAWindow&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">first_scriptable_element</span><span class="p">(</span><span class="s2">&quot;windows&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_wcls</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="XASBWindow"><a class="viewcode-back" href="../../reference/xabasescriptable.html#PyXA.XABaseScriptable.XASBWindow">[docs]</a><span class="k">class</span> <span class="nc">XASBWindow</span><span class="p">(</span><span class="n">XASBObject</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
+
+<div class="viewcode-block" id="XASBWindow.collapse"><a class="viewcode-back" href="../../reference/xabasescriptable.html#PyXA.XABaseScriptable.XASBWindow.collapse">[docs]</a>    <span class="k">def</span> <span class="nf">collapse</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XABase.XAWindow&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Collapses (minimizes) the window.</span>
+
+<span class="sd">        :return: A reference to the now-collapsed window object.</span>
+<span class="sd">        :rtype: XABase.XAWindow</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;miniaturized&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="XASBWindow.uncollapse"><a class="viewcode-back" href="../../reference/xabasescriptable.html#PyXA.XABaseScriptable.XASBWindow.uncollapse">[docs]</a>    <span class="k">def</span> <span class="nf">uncollapse</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XABase.XAWindow&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Uncollapses (unminimizes/expands) the window.</span>
+
+<span class="sd">        :return: A reference to the uncollapsed window object.</span>
+<span class="sd">        :rtype: XABase.XAWindow</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;miniaturized&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span></div></div>
+
+    <span class="c1"># TODO:</span>
+    <span class="c1"># def fullscreen(self):</span>
+    <span class="c1">#     print(dir(self.element))</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Stephen Kaplan.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

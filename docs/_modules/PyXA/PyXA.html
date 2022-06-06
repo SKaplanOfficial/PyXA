@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PyXA.PyXA &mdash; PyXA 0.0.2 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> PyXA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../about/index.html">Project Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reference/index.html">Code Documentation and Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bugs.html">Bugs</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">PyXA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      <li>PyXA.PyXA</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for PyXA.PyXA</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">sleep</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">from</span> <span class="nn">AppKit</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">NSWorkspace</span><span class="p">,</span>
+    <span class="n">NSApplication</span><span class="p">,</span>
+    <span class="n">NSSound</span><span class="p">,</span>
+    <span class="n">NSPasteboard</span><span class="p">,</span>
+    <span class="n">NSArray</span><span class="p">,</span>
+    <span class="n">NSPasteboardTypeString</span><span class="p">,</span>
+    <span class="n">NSAppleScript</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">Foundation</span> <span class="kn">import</span> <span class="n">NSURL</span><span class="p">,</span> <span class="n">NSBundle</span>
+
+<span class="kn">from</span> <span class="nn">.XABase</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">XAApplication</span><span class="p">,</span>
+    <span class="n">XASound</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">.XAErrors</span> <span class="kn">import</span> <span class="n">ApplicationNotFoundError</span>
+
+<span class="kn">from</span> <span class="nn">.apps</span> <span class="kn">import</span> <span class="n">application_classes</span>
+
+<span class="n">appspace</span> <span class="o">=</span> <span class="n">NSApplication</span><span class="o">.</span><span class="n">sharedApplication</span><span class="p">()</span>
+<span class="n">workspace</span> <span class="o">=</span> <span class="n">NSWorkspace</span><span class="o">.</span><span class="n">sharedWorkspace</span><span class="p">()</span>
+<span class="n">apps</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">def</span> <span class="nf">_get_path_to_app</span><span class="p">(</span><span class="n">app_identifier</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="n">app_path</span> <span class="o">=</span> <span class="n">app_identifier</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">app_identifier</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.app&quot;</span><span class="p">):</span>
+            <span class="n">app_identifier</span> <span class="o">+=</span> <span class="s2">&quot;.app&quot;</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">app_path</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">):</span>
+        <span class="n">app_path</span> <span class="o">=</span> <span class="s2">&quot;/System/Applications/&quot;</span> <span class="o">+</span> <span class="n">app_identifier</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">app_path</span><span class="p">):</span>
+            <span class="n">app_path</span> <span class="o">=</span> <span class="s2">&quot;/System/Applications/Utilities/&quot;</span> <span class="o">+</span> <span class="n">app_identifier</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">app_path</span><span class="p">):</span>
+            <span class="n">app_path</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">Path</span><span class="o">.</span><span class="n">home</span><span class="p">())</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="n">app_identifier</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">app_path</span><span class="p">):</span>
+            <span class="n">app_path</span> <span class="o">=</span> <span class="s2">&quot;/Applications/&quot;</span> <span class="o">+</span> <span class="n">app_identifier</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">app_path</span><span class="p">):</span>
+            <span class="n">app_path</span> <span class="o">=</span> <span class="s2">&quot;/System/Library/CoreServices/&quot;</span> <span class="o">+</span> <span class="n">app_identifier</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">app_path</span><span class="p">):</span>
+            <span class="n">app_path</span> <span class="o">=</span> <span class="s2">&quot;/System/Library/CoreServices/Applications&quot;</span> <span class="o">+</span> <span class="n">app_identifier</span>
+
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">app_path</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">app_path</span>
+
+    <span class="k">raise</span> <span class="n">ApplicationNotFoundError</span><span class="p">(</span><span class="n">app_identifier</span><span class="p">)</span>
+
+<div class="viewcode-block" id="get_running_applications"><a class="viewcode-back" href="../../reference/pyxa.html#PyXA.PyXA.get_running_applications">[docs]</a><span class="k">def</span> <span class="nf">get_running_applications</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">XAApplication</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;Gets PyXA references to all currently running applications whose app bundles are stored in typical application directories.</span>
+
+<span class="sd">    :return: A list of PyXA application objects.</span>
+<span class="sd">    :rtype: List[XAApplication]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">apps</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">app</span> <span class="ow">in</span> <span class="n">workspace</span><span class="o">.</span><span class="n">runningApplications</span><span class="p">():</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">app</span><span class="o">.</span><span class="n">isHidden</span><span class="p">():</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">apps</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">application</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">localizedName</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()))</span>
+            <span class="k">except</span> <span class="n">ApplicationNotFoundError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Couldn&#39;t create a reference to &quot;</span> <span class="o">+</span> <span class="n">e</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">apps</span></div>
+
+<div class="viewcode-block" id="current_application"><a class="viewcode-back" href="../../reference/pyxa.html#PyXA.PyXA.current_application">[docs]</a><span class="k">def</span> <span class="nf">current_application</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">XAApplication</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Retrieves a PyXA representation of the frontmost application.</span>
+
+<span class="sd">    :return: A PyXA application object referencing the current application.</span>
+<span class="sd">    :rtype: XAApplication</span>
+
+<span class="sd">    .. versionadded:: 0.0.1</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">app</span> <span class="o">=</span> <span class="n">workspace</span><span class="o">.</span><span class="n">frontmostApplication</span><span class="p">()</span>
+    <span class="n">app_identifier</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">localizedName</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">application</span><span class="p">(</span><span class="n">app_identifier</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="launch_application"><a class="viewcode-back" href="../../reference/pyxa.html#PyXA.PyXA.launch_application">[docs]</a><span class="k">def</span> <span class="nf">launch_application</span><span class="p">(</span><span class="n">app_identifier</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XAApplication</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Launches and activates an application, or activates an already running application, and returns its PyXA application object representation.</span>
+
+<span class="sd">    :param app_identifier: The name of the application to launch or activate.</span>
+<span class="sd">    :type app_identifier: str</span>
+<span class="sd">    :return: A PyXA application object referencing the target application.</span>
+<span class="sd">    :rtype: XAApplication</span>
+
+<span class="sd">    .. seealso:: :func:`application`</span>
+
+<span class="sd">    .. versionadded:: 0.0.1</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">app_identifier</span> <span class="o">=</span> <span class="n">app_identifier</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="n">app</span> <span class="o">=</span> <span class="n">application</span><span class="p">(</span><span class="n">app_identifier</span><span class="p">)</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">activate</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">app</span></div>
+
+<div class="viewcode-block" id="application"><a class="viewcode-back" href="../../reference/pyxa.html#PyXA.PyXA.application">[docs]</a><span class="k">def</span> <span class="nf">application</span><span class="p">(</span><span class="n">app_identifier</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XAApplication</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Retrieves a PyXA application object representation of the target application without launching or activating the application.</span>
+
+<span class="sd">    :param app_identifier: The name of the application to get an object of.</span>
+<span class="sd">    :type app_identifier: str</span>
+<span class="sd">    :return: A PyXA application object referencing the target application.</span>
+<span class="sd">    :rtype: XAApplication</span>
+
+<span class="sd">    .. seealso:: :func:`launch_application`</span>
+
+<span class="sd">    .. versionadded:: 0.0.1</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">app_object</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">def</span> <span class="nf">_launch_completion_handler</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">_error</span><span class="p">):</span>
+        <span class="k">nonlocal</span> <span class="n">app_object</span>
+        <span class="n">app_object</span> <span class="o">=</span> <span class="n">app</span>
+
+    <span class="n">bundle</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">app_path</span> <span class="o">=</span> <span class="n">_get_path_to_app</span><span class="p">(</span><span class="n">app_identifier</span><span class="p">)</span>
+    <span class="n">bundle</span> <span class="o">=</span> <span class="n">NSBundle</span><span class="o">.</span><span class="n">alloc</span><span class="p">()</span><span class="o">.</span><span class="n">initWithPath_</span><span class="p">(</span><span class="n">app_path</span><span class="p">)</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="n">workspace</span><span class="o">.</span><span class="n">URLForApplicationWithBundleIdentifier_</span><span class="p">(</span><span class="n">bundle</span><span class="o">.</span><span class="n">bundleIdentifier</span><span class="p">())</span>
+    <span class="n">workspace</span><span class="o">.</span><span class="n">openApplicationAtURL_configuration_completionHandler_</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">_launch_completion_handler</span><span class="p">)</span>
+    <span class="k">while</span> <span class="n">app_object</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">sleep</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>
+
+    <span class="n">properties</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;parent&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="s2">&quot;appspace&quot;</span><span class="p">:</span> <span class="n">appspace</span><span class="p">,</span>
+        <span class="s2">&quot;workspace&quot;</span><span class="p">:</span> <span class="n">workspace</span><span class="p">,</span>
+        <span class="s2">&quot;element&quot;</span><span class="p">:</span> <span class="n">app_object</span><span class="p">,</span>
+        <span class="s2">&quot;appref&quot;</span><span class="p">:</span> <span class="n">app_object</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="k">if</span> <span class="n">app_identifier</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="n">application_classes</span><span class="p">:</span>
+        <span class="n">app</span> <span class="o">=</span> <span class="n">application_classes</span><span class="p">[</span><span class="n">app_identifier</span><span class="o">.</span><span class="n">lower</span><span class="p">()](</span><span class="n">properties</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">app</span> <span class="o">=</span> <span class="n">XAApplication</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
+    <span class="n">apps</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">app</span></div>
+
+<div class="viewcode-block" id="open_url"><a class="viewcode-back" href="../../reference/pyxa.html#PyXA.PyXA.open_url">[docs]</a><span class="k">def</span> <span class="nf">open_url</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">NSURL</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Opens the document at the given URL in its default application.</span>
+
+<span class="sd">    :param path: The path of the item to open. This can be a file path, folder path, web address, or application URL.</span>
+<span class="sd">    :type path: Union[str, NSURL]</span>
+
+<span class="sd">    .. versionadded:: 0.0.2</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="n">path</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">NSURL</span><span class="o">.</span><span class="n">alloc</span><span class="p">()</span><span class="o">.</span><span class="n">initWithString_</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">url</span><span class="o">.</span><span class="n">path</span><span class="p">()</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">):</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">NSURL</span><span class="o">.</span><span class="n">alloc</span><span class="p">()</span><span class="o">.</span><span class="n">initFileURLWithPath_</span><span class="p">(</span><span class="n">url</span><span class="o">.</span><span class="n">path</span><span class="p">())</span>
+    <span class="n">workspace</span><span class="o">.</span><span class="n">openURL_</span><span class="p">(</span><span class="n">url</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="sound"><a class="viewcode-back" href="../../reference/pyxa.html#PyXA.PyXA.sound">[docs]</a><span class="k">def</span> <span class="nf">sound</span><span class="p">(</span><span class="n">sound_file</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">NSURL</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">XASound</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Creates a new XASound object.</span>
+
+<span class="sd">    :param sound_file: The sound file to associate with the XASound object</span>
+<span class="sd">    :type sound_file: Union[str, NSURL]</span>
+<span class="sd">    :return: A reference to the new XASound object.</span>
+<span class="sd">    :rtype: XASound</span>
+
+<span class="sd">    .. seealso:: :func:`play_sound`</span>
+
+<span class="sd">    .. versionadded:: 0.0.1</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">XASound</span><span class="p">(</span><span class="n">sound_file</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="play_sound"><a class="viewcode-back" href="../../reference/pyxa.html#PyXA.PyXA.play_sound">[docs]</a><span class="k">def</span> <span class="nf">play_sound</span><span class="p">(</span><span class="n">sound_file</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">NSURL</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Immediately plays a sound from the specified file.</span>
+
+<span class="sd">    :param sound_file: The path to the file to play.</span>
+<span class="sd">    :type sound_file: Union[str, NSURL]</span>
+
+<span class="sd">    .. seealso:: :func:`sound`</span>
+
+<span class="sd">    .. versionadded:: 0.0.1</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sound_file</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">if</span> <span class="s2">&quot;/&quot;</span> <span class="ow">in</span> <span class="n">sound_file</span><span class="p">:</span>
+            <span class="n">sound_file</span> <span class="o">=</span> <span class="n">NSURL</span><span class="o">.</span><span class="n">alloc</span><span class="p">()</span><span class="o">.</span><span class="n">initWithString_</span><span class="p">(</span><span class="n">sound_file</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">sound_file</span> <span class="o">=</span> <span class="n">NSURL</span><span class="o">.</span><span class="n">alloc</span><span class="p">()</span><span class="o">.</span><span class="n">initWithString_</span><span class="p">(</span><span class="s2">&quot;/System/Library/Sounds/&quot;</span> <span class="o">+</span> <span class="n">sound_file</span> <span class="o">+</span> <span class="s2">&quot;.aiff&quot;</span><span class="p">)</span>
+    <span class="n">sound</span> <span class="o">=</span> <span class="n">NSSound</span><span class="o">.</span><span class="n">alloc</span><span class="p">()</span>
+    <span class="n">sound</span><span class="o">.</span><span class="n">initWithContentsOfURL_byReference_</span><span class="p">(</span><span class="n">sound_file</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+    <span class="n">sound</span><span class="o">.</span><span class="n">play</span><span class="p">()</span>
+    <span class="n">sleep</span><span class="p">(</span><span class="n">sound</span><span class="o">.</span><span class="n">duration</span><span class="p">())</span></div>
+
+<div class="viewcode-block" id="get_clipboard"><a class="viewcode-back" href="../../reference/pyxa.html#PyXA.PyXA.get_clipboard">[docs]</a><span class="k">def</span> <span class="nf">get_clipboard</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">bytes</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;Returns the byte representation of all items on the clipboard.</span>
+
+<span class="sd">    :return: A list of items currently on the clipboard in their byte representation.</span>
+<span class="sd">    :rtype: List[bytes]</span>
+
+<span class="sd">    .. seealso:: :func:`get_clipboard_strings`, :func:`set_clipboard`</span>
+
+<span class="sd">    .. versionadded:: 0.0.1</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">items</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">pb</span> <span class="o">=</span> <span class="n">NSPasteboard</span><span class="o">.</span><span class="n">generalPasteboard</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">pb</span><span class="o">.</span><span class="n">pasteboardItems</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">item_type</span> <span class="ow">in</span> <span class="n">item</span><span class="o">.</span><span class="n">types</span><span class="p">():</span>
+            <span class="n">items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">dataForType_</span><span class="p">(</span><span class="n">item_type</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">items</span></div>
+
+<div class="viewcode-block" id="get_clipboard_strings"><a class="viewcode-back" href="../../reference/pyxa.html#PyXA.PyXA.get_clipboard_strings">[docs]</a><span class="k">def</span> <span class="nf">get_clipboard_strings</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;Returns the string representation all items on the clipboard that can be represented as strings.</span>
+
+<span class="sd">    :return: A list of items currently on the clipboard in their string representation.</span>
+<span class="sd">    :rtype: List[str]</span>
+
+<span class="sd">    .. seealso:: :func:`get_clipboard`, :func:`set_clipboard`</span>
+
+<span class="sd">    .. versionadded:: 0.0.1</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">items</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">pb</span> <span class="o">=</span> <span class="n">NSPasteboard</span><span class="o">.</span><span class="n">generalPasteboard</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">pb</span><span class="o">.</span><span class="n">pasteboardItems</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">NSPasteboardTypeString</span> <span class="ow">in</span> <span class="n">item</span><span class="o">.</span><span class="n">types</span><span class="p">():</span>
+            <span class="n">decoded_item</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">dataForType_</span><span class="p">(</span><span class="n">NSPasteboardTypeString</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
+            <span class="k">if</span> <span class="s2">&quot;</span><span class="se">\r</span><span class="s2">&quot;</span> <span class="ow">in</span> <span class="n">decoded_item</span><span class="p">:</span>
+                <span class="n">items</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">decoded_item</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\r</span><span class="s2">&quot;</span><span class="p">))</span>
+            <span class="k">elif</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="ow">in</span> <span class="n">decoded_item</span><span class="p">:</span>
+                <span class="n">items</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">decoded_item</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">decoded_item</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">items</span></div>
+
+<div class="viewcode-block" id="set_clipboard"><a class="viewcode-back" href="../../reference/pyxa.html#PyXA.PyXA.set_clipboard">[docs]</a><span class="k">def</span> <span class="nf">set_clipboard</span><span class="p">(</span><span class="n">content</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Sets the clipboard to the specified content.</span>
+
+<span class="sd">    :param content: The item or object to set the clipboard to. Can be a list of items.</span>
+<span class="sd">    :type content: Any</span>
+
+<span class="sd">    .. seealso:: :func:`get_clipboard`, :func:`get_clipboard_strings`</span>
+
+<span class="sd">    .. versionadded:: 0.0.1</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">pb</span> <span class="o">=</span> <span class="n">NSPasteboard</span><span class="o">.</span><span class="n">generalPasteboard</span><span class="p">()</span>
+    <span class="n">pb</span><span class="o">.</span><span class="n">clearContents</span><span class="p">()</span>
+    <span class="n">pb</span><span class="o">.</span><span class="n">writeObjects_</span><span class="p">(</span><span class="n">NSArray</span><span class="o">.</span><span class="n">arrayWithObject_</span><span class="p">(</span><span class="n">content</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="run_applescript"><a class="viewcode-back" href="../../reference/pyxa.html#PyXA.PyXA.run_applescript">[docs]</a><span class="k">def</span> <span class="nf">run_applescript</span><span class="p">(</span><span class="n">source</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">NSURL</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Runs AppleScript and returns its result.</span>
+
+<span class="sd">    :param source: Either AppleScript code as text or the path to a .scpt file.</span>
+<span class="sd">    :type source: Union[str, NSURL]</span>
+<span class="sd">    :return: The value returned from the script upon completing execution.</span>
+<span class="sd">    :rtype: Any</span>
+
+<span class="sd">    .. versionadded:: 0.0.1</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">script</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="n">source</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">):</span>
+        <span class="n">source</span> <span class="o">=</span> <span class="n">NSURL</span><span class="o">.</span><span class="n">fileURLWithPath_</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
+        <span class="n">script</span> <span class="o">=</span> <span class="n">NSAppleScript</span><span class="o">.</span><span class="n">initWithContentsOfURL_error_</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">NSURL</span><span class="p">):</span>
+        <span class="n">script</span> <span class="o">=</span> <span class="n">NSAppleScript</span><span class="o">.</span><span class="n">initWithContentsOfURL_error_</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">script</span> <span class="o">=</span> <span class="n">NSAppleScript</span><span class="o">.</span><span class="n">alloc</span><span class="p">()</span><span class="o">.</span><span class="n">initWithSource_</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">script</span><span class="o">.</span><span class="n">executeAndReturnError_</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Stephen Kaplan.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

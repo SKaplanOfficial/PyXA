@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Notes Module &mdash; PyXA 0.0.2 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Preview Module" href="preview.html" />
+    <link rel="prev" title="Music Module" href="music.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> PyXA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../about/index.html">Project Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial/index.html">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Code Documentation and Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../index.html#top-level-pyxa-modules">Top-level PyXA Modules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#pyxa-base-modules">PyXA Base Modules</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html#application-modules">Application Modules</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="calculator.html">Calculator Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="calendar.html">Calendar Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="finder.html">Finder Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="messages.html">Messages Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="music.html">Music Module</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Notes Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="preview.html">Preview Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reminders.html">Reminders Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="safari.html">Safari Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="terminal.html">Terminal Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="textedit.html">TextEdit Module</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../bugs.html">Bugs</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">PyXA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">Code Documentation and Reference</a> &raquo;</li>
+      <li>Notes Module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/reference/apps/notes.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-PyXA.apps.Notes">
+<span id="notes-module"></span><h1>Notes Module<a class="headerlink" href="#module-PyXA.apps.Notes" title="Permalink to this headline"></a></h1>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.1.</span></p>
+</div>
+<p>Control the macOS Notes application using JXA-like syntax.</p>
+<p><strong>Classes:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Notes.XANote" title="PyXA.apps.Notes.XANote"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XANote</span></code></a>(properties)</p></td>
+<td><p>A class for interacting with notes in the Notes application.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Notes.XANoteAttachment" title="PyXA.apps.Notes.XANoteAttachment"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XANoteAttachment</span></code></a>(properties)</p></td>
+<td><p>A class for interacting with attachments in the Notes application.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Notes.XANotesAccount" title="PyXA.apps.Notes.XANotesAccount"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XANotesAccount</span></code></a>(properties)</p></td>
+<td><p>A class for interacting with accounts in the Notes application.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Notes.XANotesApplication" title="PyXA.apps.Notes.XANotesApplication"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XANotesApplication</span></code></a>(properties)</p></td>
+<td><p>A class for interacting with Notes.app.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Notes.XANotesFolder" title="PyXA.apps.Notes.XANotesFolder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XANotesFolder</span></code></a>(properties)</p></td>
+<td><p>A class for interacting with Notes folders and their contents.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Notes.XANotesWindow" title="PyXA.apps.Notes.XANotesWindow"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XANotesWindow</span></code></a>(properties)</p></td>
+<td><p>A class for interacting with windows of Notes.app.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.apps.Notes.XANote">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Notes.</span></span><span class="sig-name descname"><span class="pre">XANote</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Notes.html#XANote"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Notes.XANote" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XACanConstructElement" title="PyXA.XABase.XACanConstructElement"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XACanConstructElement</span></code></a>, <a class="reference internal" href="../xabase.html#PyXA.XABase.XAAcceptsPushedElements" title="PyXA.XABase.XAAcceptsPushedElements"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAAcceptsPushedElements</span></code></a>, <a class="reference internal" href="../xabase.html#PyXA.XABase.XAHasElements" title="PyXA.XABase.XAHasElements"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAHasElements</span></code></a></p>
+<p>A class for interacting with notes in the Notes application.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#PyXA.apps.Notes.XANotesFolder" title="PyXA.apps.Notes.XANotesFolder"><code class="xref py py-class docutils literal notranslate"><span class="pre">XANotesFolder</span></code></a></p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.1.</span></p>
+</div>
+<p><strong>Methods:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Notes.XANote.attachment" title="PyXA.apps.Notes.XANote.attachment"><code class="xref py py-obj docutils literal notranslate"><span class="pre">attachment</span></code></a>(filter)</p></td>
+<td><p>Returns the first attachment matching the given filter.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Notes.XANote.attachments" title="PyXA.apps.Notes.XANote.attachments"><code class="xref py py-obj docutils literal notranslate"><span class="pre">attachments</span></code></a>([filter])</p></td>
+<td><p>Returns a list of attachments, as PyXA objects, matching the given filter.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Notes.XANote.first_attachment" title="PyXA.apps.Notes.XANote.first_attachment"><code class="xref py py-obj docutils literal notranslate"><span class="pre">first_attachment</span></code></a>()</p></td>
+<td><p>Returns the attachment at the zero index of the attachments array.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Notes.XANote.last_attachment" title="PyXA.apps.Notes.XANote.last_attachment"><code class="xref py py-obj docutils literal notranslate"><span class="pre">last_attachment</span></code></a>()</p></td>
+<td><p>Returns the attachment at the last (-1) index of the attachments array.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Notes.XANote.attachment">
+<span class="sig-name descname"><span class="pre">attachment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Notes.XANoteAttachment" title="PyXA.apps.Notes.XANoteAttachment"><span class="pre">PyXA.apps.Notes.XANoteAttachment</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Notes.html#XANote.attachment"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Notes.XANote.attachment" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the first attachment matching the given filter.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><code class="xref py py-func docutils literal notranslate"><span class="pre">element_with_properties()</span></code></p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.1.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Notes.XANote.attachments">
+<span class="sig-name descname"><span class="pre">attachments</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Notes.XANoteAttachment" title="PyXA.apps.Notes.XANoteAttachment"><span class="pre">PyXA.apps.Notes.XANoteAttachment</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Notes.html#XANote.attachments"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Notes.XANote.attachments" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a list of attachments, as PyXA objects, matching the given filter.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><code class="xref py py-func docutils literal notranslate"><span class="pre">elements()</span></code></p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.1.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Notes.XANote.first_attachment">
+<span class="sig-name descname"><span class="pre">first_attachment</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Notes.XANoteAttachment" title="PyXA.apps.Notes.XANoteAttachment"><span class="pre">PyXA.apps.Notes.XANoteAttachment</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Notes.html#XANote.first_attachment"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Notes.XANote.first_attachment" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the attachment at the zero index of the attachments array.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><code class="xref py py-func docutils literal notranslate"><span class="pre">first_element()</span></code></p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.1.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Notes.XANote.last_attachment">
+<span class="sig-name descname"><span class="pre">last_attachment</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Notes.XANoteAttachment" title="PyXA.apps.Notes.XANoteAttachment"><span class="pre">PyXA.apps.Notes.XANoteAttachment</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Notes.html#XANote.last_attachment"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Notes.XANote.last_attachment" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the attachment at the last (-1) index of the attachments array.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><code class="xref py py-func docutils literal notranslate"><span class="pre">last_element()</span></code></p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.1.</span></p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.apps.Notes.XANoteAttachment">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Notes.</span></span><span class="sig-name descname"><span class="pre">XANoteAttachment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Notes.html#XANoteAttachment"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Notes.XANoteAttachment" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XACanConstructElement" title="PyXA.XABase.XACanConstructElement"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XACanConstructElement</span></code></a>, <a class="reference internal" href="../xabase.html#PyXA.XABase.XAAcceptsPushedElements" title="PyXA.XABase.XAAcceptsPushedElements"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAAcceptsPushedElements</span></code></a></p>
+<p>A class for interacting with attachments in the Notes application.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.1.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.apps.Notes.XANotesAccount">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Notes.</span></span><span class="sig-name descname"><span class="pre">XANotesAccount</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Notes.html#XANotesAccount"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Notes.XANotesAccount" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XACanConstructElement" title="PyXA.XABase.XACanConstructElement"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XACanConstructElement</span></code></a>, <a class="reference internal" href="../xabase.html#PyXA.XABase.XAAcceptsPushedElements" title="PyXA.XABase.XAAcceptsPushedElements"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAAcceptsPushedElements</span></code></a>, <a class="reference internal" href="../xabase.html#PyXA.XABase.XAHasElements" title="PyXA.XABase.XAHasElements"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAHasElements</span></code></a></p>
+<p>A class for interacting with accounts in the Notes application.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.1.</span></p>
+</div>
+<p><strong>Methods:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Notes.XANotesAccount.first_folder" title="PyXA.apps.Notes.XANotesAccount.first_folder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">first_folder</span></code></a>()</p></td>
+<td><p>Returns the Notes folder at the zero index of the folders array.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Notes.XANotesAccount.first_note" title="PyXA.apps.Notes.XANotesAccount.first_note"><code class="xref py py-obj docutils literal notranslate"><span class="pre">first_note</span></code></a>()</p></td>
+<td><p>Returns the note at the zero index of the notes array.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Notes.XANotesAccount.folder" title="PyXA.apps.Notes.XANotesAccount.folder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">folder</span></code></a>(properties)</p></td>
+<td><p>Returns Notes folders matching the given filter.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Notes.XANotesAccount.folders" title="PyXA.apps.Notes.XANotesAccount.folders"><code class="xref py py-obj docutils literal notranslate"><span class="pre">folders</span></code></a>()</p></td>
+<td><p>Returns a list of Notes folders, as PyXA objects, matching the given filter.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Notes.XANotesAccount.last_folder" title="PyXA.apps.Notes.XANotesAccount.last_folder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">last_folder</span></code></a>()</p></td>
+<td><p>Returns the Notes folder at the last (-1) index of the folders array.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Notes.XANotesAccount.last_note" title="PyXA.apps.Notes.XANotesAccount.last_note"><code class="xref py py-obj docutils literal notranslate"><span class="pre">last_note</span></code></a>()</p></td>
+<td><p>Returns the note at the last (-1) index of the notes array.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Notes.XANotesAccount.note" title="PyXA.apps.Notes.XANotesAccount.note"><code class="xref py py-obj docutils literal notranslate"><span class="pre">note</span></code></a>(filter)</p></td>
+<td><p>Returns the first note matching the given filter.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Notes.XANotesAccount.notes" title="PyXA.apps.Notes.XANotesAccount.notes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">notes</span></code></a>([filter])</p></td>
+<td><p>Returns a list of notes, as PyXA objects, matching the given filter.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Notes.XANotesAccount.first_folder">
+<span class="sig-name descname"><span class="pre">first_folder</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Notes.XANotesFolder" title="PyXA.apps.Notes.XANotesFolder"><span class="pre">PyXA.apps.Notes.XANotesFolder</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Notes.html#XANotesAccount.first_folder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Notes.XANotesAccount.first_folder" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the Notes folder at the zero index of the folders array.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><code class="xref py py-func docutils literal notranslate"><span class="pre">first_element()</span></code></p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.1.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Notes.XANotesAccount.first_note">
+<span class="sig-name descname"><span class="pre">first_note</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Notes.XANote" title="PyXA.apps.Notes.XANote"><span class="pre">PyXA.apps.Notes.XANote</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Notes.html#XANotesAccount.first_note"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Notes.XANotesAccount.first_note" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the note at the zero index of the notes array.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><code class="xref py py-func docutils literal notranslate"><span class="pre">first_element()</span></code></p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.1.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Notes.XANotesAccount.folder">
+<span class="sig-name descname"><span class="pre">folder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Notes.XANotesFolder" title="PyXA.apps.Notes.XANotesFolder"><span class="pre">PyXA.apps.Notes.XANotesFolder</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Notes.html#XANotesAccount.folder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Notes.XANotesAccount.folder" title="Permalink to this definition"></a></dt>
+<dd><p>Returns Notes folders matching the given filter.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><code class="xref py py-func docutils literal notranslate"><span class="pre">element_with_properties()</span></code></p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.1.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Notes.XANotesAccount.folders">
+<span class="sig-name descname"><span class="pre">folders</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Notes.XANotesFolder" title="PyXA.apps.Notes.XANotesFolder"><span class="pre">PyXA.apps.Notes.XANotesFolder</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Notes.html#XANotesAccount.folders"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Notes.XANotesAccount.folders" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a list of Notes folders, as PyXA objects, matching the given filter.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><code class="xref py py-func docutils literal notranslate"><span class="pre">elements()</span></code></p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.1.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Notes.XANotesAccount.last_folder">
+<span class="sig-name descname"><span class="pre">last_folder</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Notes.XANotesFolder" title="PyXA.apps.Notes.XANotesFolder"><span class="pre">PyXA.apps.Notes.XANotesFolder</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Notes.html#XANotesAccount.last_folder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Notes.XANotesAccount.last_folder" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the Notes folder at the last (-1) index of the folders array.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><code class="xref py py-func docutils literal notranslate"><span class="pre">last_element()</span></code></p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.1.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Notes.XANotesAccount.last_note">
+<span class="sig-name descname"><span class="pre">last_note</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Notes.XANote" title="PyXA.apps.Notes.XANote"><span class="pre">PyXA.apps.Notes.XANote</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Notes.html#XANotesAccount.last_note"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Notes.XANotesAccount.last_note" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the note at the last (-1) index of the notes array.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><code class="xref py py-func docutils literal notranslate"><span class="pre">last_element()</span></code></p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.1.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Notes.XANotesAccount.note">
+<span class="sig-name descname"><span class="pre">note</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Notes.XANote" title="PyXA.apps.Notes.XANote"><span class="pre">PyXA.apps.Notes.XANote</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Notes.html#XANotesAccount.note"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Notes.XANotesAccount.note" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the first note matching the given filter.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><code class="xref py py-func docutils literal notranslate"><span class="pre">element_with_properties()</span></code></p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.1.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Notes.XANotesAccount.notes">
+<span class="sig-name descname"><span class="pre">notes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Notes.XANote" title="PyXA.apps.Notes.XANote"><span class="pre">PyXA.apps.Notes.XANote</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Notes.html#XANotesAccount.notes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Notes.XANotesAccount.notes" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a list of notes, as PyXA objects, matching the given filter.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><code class="xref py py-func docutils literal notranslate"><span class="pre">elements()</span></code></p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.1.</span></p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.apps.Notes.XANotesApplication">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Notes.</span></span><span class="sig-name descname"><span class="pre">XANotesApplication</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Notes.html#XANotesApplication"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Notes.XANotesApplication" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XASBApplication" title="PyXA.XABaseScriptable.XASBApplication"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABaseScriptable.XASBApplication</span></code></a>, <a class="reference internal" href="../xabase.html#PyXA.XABase.XACanConstructElement" title="PyXA.XABase.XACanConstructElement"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XACanConstructElement</span></code></a>, <a class="reference internal" href="../xabase.html#PyXA.XABase.XAAcceptsPushedElements" title="PyXA.XABase.XAAcceptsPushedElements"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAAcceptsPushedElements</span></code></a>, <a class="reference internal" href="../xabase.html#PyXA.XABase.XACanOpenPath" title="PyXA.XABase.XACanOpenPath"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XACanOpenPath</span></code></a></p>
+<p>A class for interacting with Notes.app.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#PyXA.apps.Notes.XANotesWindow" title="PyXA.apps.Notes.XANotesWindow"><code class="xref py py-class docutils literal notranslate"><span class="pre">XANotesWindow</span></code></a>, <a class="reference internal" href="#PyXA.apps.Notes.XANote" title="PyXA.apps.Notes.XANote"><code class="xref py py-class docutils literal notranslate"><span class="pre">XANote</span></code></a>, <a class="reference internal" href="#PyXA.apps.Notes.XANotesFolder" title="PyXA.apps.Notes.XANotesFolder"><code class="xref py py-class docutils literal notranslate"><span class="pre">XANotesFolder</span></code></a>, <a class="reference internal" href="#PyXA.apps.Notes.XANotesAccount" title="PyXA.apps.Notes.XANotesAccount"><code class="xref py py-class docutils literal notranslate"><span class="pre">XANotesAccount</span></code></a></p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.1.</span></p>
+</div>
+<p><strong>Methods:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Notes.XANotesApplication.first_folder" title="PyXA.apps.Notes.XANotesApplication.first_folder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">first_folder</span></code></a>()</p></td>
+<td><p>Returns the Notes folder at the zero index of the folders array.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Notes.XANotesApplication.first_note" title="PyXA.apps.Notes.XANotesApplication.first_note"><code class="xref py py-obj docutils literal notranslate"><span class="pre">first_note</span></code></a>()</p></td>
+<td><p>Returns the note at the zero index of the notes array.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Notes.XANotesApplication.folder" title="PyXA.apps.Notes.XANotesApplication.folder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">folder</span></code></a>(properties)</p></td>
+<td><p>Returns Notes folders matching the given filter.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Notes.XANotesApplication.folders" title="PyXA.apps.Notes.XANotesApplication.folders"><code class="xref py py-obj docutils literal notranslate"><span class="pre">folders</span></code></a>()</p></td>
+<td><p>Returns a list of Notes folders, as PyXA objects, matching the given filter.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Notes.XANotesApplication.last_folder" title="PyXA.apps.Notes.XANotesApplication.last_folder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">last_folder</span></code></a>()</p></td>
+<td><p>Returns the Notes folder at the last (-1) index of the folders array.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Notes.XANotesApplication.last_note" title="PyXA.apps.Notes.XANotesApplication.last_note"><code class="xref py py-obj docutils literal notranslate"><span class="pre">last_note</span></code></a>()</p></td>
+<td><p>Returns the note at the last (-1) index of the notes array.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Notes.XANotesApplication.new_folder" title="PyXA.apps.Notes.XANotesApplication.new_folder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">new_folder</span></code></a>([name])</p></td>
+<td><p>Creates a new Notes folder with the given name.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Notes.XANotesApplication.new_note" title="PyXA.apps.Notes.XANotesApplication.new_note"><code class="xref py py-obj docutils literal notranslate"><span class="pre">new_note</span></code></a>([name, body, note_folder])</p></td>
+<td><p>Creates a new note with the given name and body text in the given folder.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Notes.XANotesApplication.note" title="PyXA.apps.Notes.XANotesApplication.note"><code class="xref py py-obj docutils literal notranslate"><span class="pre">note</span></code></a>(filter)</p></td>
+<td><p>Returns the first note matching the given filter.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Notes.XANotesApplication.notes" title="PyXA.apps.Notes.XANotesApplication.notes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">notes</span></code></a>([filter])</p></td>
+<td><p>Returns a list of notes, as PyXA objects, matching the given filter.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Notes.XANotesApplication.first_folder">
+<span class="sig-name descname"><span class="pre">first_folder</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Notes.XANotesFolder" title="PyXA.apps.Notes.XANotesFolder"><span class="pre">PyXA.apps.Notes.XANotesFolder</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Notes.html#XANotesApplication.first_folder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Notes.XANotesApplication.first_folder" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the Notes folder at the zero index of the folders array.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><code class="xref py py-func docutils literal notranslate"><span class="pre">first_scriptable_element()</span></code></p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.1.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Notes.XANotesApplication.first_note">
+<span class="sig-name descname"><span class="pre">first_note</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Notes.XANote" title="PyXA.apps.Notes.XANote"><span class="pre">PyXA.apps.Notes.XANote</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Notes.html#XANotesApplication.first_note"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Notes.XANotesApplication.first_note" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the note at the zero index of the notes array.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><code class="xref py py-func docutils literal notranslate"><span class="pre">first_scriptable_element()</span></code></p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.1.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Notes.XANotesApplication.folder">
+<span class="sig-name descname"><span class="pre">folder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Notes.XANotesFolder" title="PyXA.apps.Notes.XANotesFolder"><span class="pre">PyXA.apps.Notes.XANotesFolder</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Notes.html#XANotesApplication.folder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Notes.XANotesApplication.folder" title="Permalink to this definition"></a></dt>
+<dd><p>Returns Notes folders matching the given filter.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><code class="xref py py-func docutils literal notranslate"><span class="pre">scriptable_element_with_properties()</span></code></p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.1.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Notes.XANotesApplication.folders">
+<span class="sig-name descname"><span class="pre">folders</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Notes.XANotesFolder" title="PyXA.apps.Notes.XANotesFolder"><span class="pre">PyXA.apps.Notes.XANotesFolder</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Notes.html#XANotesApplication.folders"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Notes.XANotesApplication.folders" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a list of Notes folders, as PyXA objects, matching the given filter.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><code class="xref py py-func docutils literal notranslate"><span class="pre">scriptable_elements()</span></code></p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.1.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Notes.XANotesApplication.last_folder">
+<span class="sig-name descname"><span class="pre">last_folder</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Notes.XANotesFolder" title="PyXA.apps.Notes.XANotesFolder"><span class="pre">PyXA.apps.Notes.XANotesFolder</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Notes.html#XANotesApplication.last_folder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Notes.XANotesApplication.last_folder" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the Notes folder at the last (-1) index of the folders array.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><code class="xref py py-func docutils literal notranslate"><span class="pre">last_scriptable_element()</span></code></p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.1.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Notes.XANotesApplication.last_note">
+<span class="sig-name descname"><span class="pre">last_note</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Notes.XANote" title="PyXA.apps.Notes.XANote"><span class="pre">PyXA.apps.Notes.XANote</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Notes.html#XANotesApplication.last_note"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Notes.XANotesApplication.last_note" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the note at the last (-1) index of the notes array.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><code class="xref py py-func docutils literal notranslate"><span class="pre">last_scriptable_element()</span></code></p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.1.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Notes.XANotesApplication.new_folder">
+<span class="sig-name descname"><span class="pre">new_folder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'New</span> <span class="pre">Folder'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Notes.XANotesFolder" title="PyXA.apps.Notes.XANotesFolder"><span class="pre">PyXA.apps.Notes.XANotesFolder</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Notes.html#XANotesApplication.new_folder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Notes.XANotesApplication.new_folder" title="Permalink to this definition"></a></dt>
+<dd><p>Creates a new Notes folder with the given name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>name</strong> (<em>str</em><em>, </em><em>optional</em>) – The name of the folder, defaults to “New Folder”</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A reference to the newly created folder.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#PyXA.apps.Notes.XANote" title="PyXA.apps.Notes.XANote">XANote</a></p>
+</dd>
+<dt class="field-even">Example</dt>
+<dd class="field-even"><p></p></dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;Notes&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">folder</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">new_folder</span><span class="p">(</span><span class="s2">&quot;PyXA Notes&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">folder</span><span class="o">.</span><span class="n">element_properties</span><span class="p">)</span>
+<span class="go">example here</span>
+</pre></div>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#PyXA.apps.Notes.XANotesFolder" title="PyXA.apps.Notes.XANotesFolder"><code class="xref py py-class docutils literal notranslate"><span class="pre">XANotesFolder</span></code></a>, <a class="reference internal" href="#PyXA.apps.Notes.XANotesApplication.new_note" title="PyXA.apps.Notes.XANotesApplication.new_note"><code class="xref py py-func docutils literal notranslate"><span class="pre">new_note()</span></code></a></p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.1.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Notes.XANotesApplication.new_note">
+<span class="sig-name descname"><span class="pre">new_note</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'New</span> <span class="pre">Note'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">body</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">note_folder</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Notes.XANotesFolder" title="PyXA.apps.Notes.XANotesFolder"><span class="pre">PyXA.apps.Notes.XANotesFolder</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Notes.XANote" title="PyXA.apps.Notes.XANote"><span class="pre">PyXA.apps.Notes.XANote</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Notes.html#XANotesApplication.new_note"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Notes.XANotesApplication.new_note" title="Permalink to this definition"></a></dt>
+<dd><p>Creates a new note with the given name and body text in the given folder.
+If no folder is provided, the note is created in the default Notes folder.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em><em>, </em><em>optional</em>) – The name of the note, defaults to “New Note”</p></li>
+<li><p><strong>body</strong> (<em>str</em><em>, </em><em>optional</em>) – The initial body text of the note, defaults to “”</p></li>
+<li><p><strong>note_folder</strong> (<a class="reference internal" href="#PyXA.apps.Notes.XANotesFolder" title="PyXA.apps.Notes.XANotesFolder"><em>XANotesFolder</em></a><em>, </em><em>optional</em>) – The folder to create the new note in, defaults to None</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A reference to the newly created note.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#PyXA.apps.Notes.XANote" title="PyXA.apps.Notes.XANote">XANote</a></p>
+</dd>
+<dt class="field-even">Example</dt>
+<dd class="field-even"><p></p></dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;Notes&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">note</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">new_note</span><span class="p">(</span><span class="s2">&quot;PyXA Notes&quot;</span><span class="p">,</span> <span class="s2">&quot;Example text of new note.&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">note</span><span class="p">)</span>
+<span class="go">example here</span>
+</pre></div>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#PyXA.apps.Notes.XANote" title="PyXA.apps.Notes.XANote"><code class="xref py py-class docutils literal notranslate"><span class="pre">XANote</span></code></a>, <a class="reference internal" href="#PyXA.apps.Notes.XANotesApplication.new_folder" title="PyXA.apps.Notes.XANotesApplication.new_folder"><code class="xref py py-func docutils literal notranslate"><span class="pre">new_folder()</span></code></a></p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.1.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Notes.XANotesApplication.note">
+<span class="sig-name descname"><span class="pre">note</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Notes.XANote" title="PyXA.apps.Notes.XANote"><span class="pre">PyXA.apps.Notes.XANote</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Notes.html#XANotesApplication.note"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Notes.XANotesApplication.note" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the first note matching the given filter.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><code class="xref py py-func docutils literal notranslate"><span class="pre">scriptable_element_with_properties()</span></code></p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.1.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Notes.XANotesApplication.notes">
+<span class="sig-name descname"><span class="pre">notes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Notes.XANote" title="PyXA.apps.Notes.XANote"><span class="pre">PyXA.apps.Notes.XANote</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Notes.html#XANotesApplication.notes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Notes.XANotesApplication.notes" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a list of notes, as PyXA objects, matching the given filter.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><code class="xref py py-func docutils literal notranslate"><span class="pre">scriptable_elements()</span></code></p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.1.</span></p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.apps.Notes.XANotesFolder">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Notes.</span></span><span class="sig-name descname"><span class="pre">XANotesFolder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Notes.html#XANotesFolder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Notes.XANotesFolder" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XACanConstructElement" title="PyXA.XABase.XACanConstructElement"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XACanConstructElement</span></code></a>, <a class="reference internal" href="../xabase.html#PyXA.XABase.XAAcceptsPushedElements" title="PyXA.XABase.XAAcceptsPushedElements"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAAcceptsPushedElements</span></code></a>, <a class="reference internal" href="../xabase.html#PyXA.XABase.XAHasElements" title="PyXA.XABase.XAHasElements"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAHasElements</span></code></a></p>
+<p>A class for interacting with Notes folders and their contents.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>class:<cite>XANote</cite>, <code class="xref py py-class docutils literal notranslate"><span class="pre">XABase.XACanConstructElement</span></code></p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.1.</span></p>
+</div>
+<p><strong>Methods:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Notes.XANotesFolder.first_note" title="PyXA.apps.Notes.XANotesFolder.first_note"><code class="xref py py-obj docutils literal notranslate"><span class="pre">first_note</span></code></a>()</p></td>
+<td><p>Returns the note at the zero index of the notes array.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Notes.XANotesFolder.last_note" title="PyXA.apps.Notes.XANotesFolder.last_note"><code class="xref py py-obj docutils literal notranslate"><span class="pre">last_note</span></code></a>()</p></td>
+<td><p>Returns the note at the last (-1) index of the notes array.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Notes.XANotesFolder.new_note" title="PyXA.apps.Notes.XANotesFolder.new_note"><code class="xref py py-obj docutils literal notranslate"><span class="pre">new_note</span></code></a>([name, body])</p></td>
+<td><p>Creates a new note with the given name and body text in this folder.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Notes.XANotesFolder.note" title="PyXA.apps.Notes.XANotesFolder.note"><code class="xref py py-obj docutils literal notranslate"><span class="pre">note</span></code></a>(filter)</p></td>
+<td><p>Returns the first note matching the given filter.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Notes.XANotesFolder.notes" title="PyXA.apps.Notes.XANotesFolder.notes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">notes</span></code></a>([filter])</p></td>
+<td><p>Returns a list of notes, as PyXA objects, matching the given filter.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Notes.XANotesFolder.first_note">
+<span class="sig-name descname"><span class="pre">first_note</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Notes.XANote" title="PyXA.apps.Notes.XANote"><span class="pre">PyXA.apps.Notes.XANote</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Notes.html#XANotesFolder.first_note"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Notes.XANotesFolder.first_note" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the note at the zero index of the notes array.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><code class="xref py py-func docutils literal notranslate"><span class="pre">first_element()</span></code></p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.1.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Notes.XANotesFolder.last_note">
+<span class="sig-name descname"><span class="pre">last_note</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Notes.XANote" title="PyXA.apps.Notes.XANote"><span class="pre">PyXA.apps.Notes.XANote</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Notes.html#XANotesFolder.last_note"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Notes.XANotesFolder.last_note" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the note at the last (-1) index of the notes array.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><code class="xref py py-func docutils literal notranslate"><span class="pre">last_element()</span></code></p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.1.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Notes.XANotesFolder.new_note">
+<span class="sig-name descname"><span class="pre">new_note</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'New</span> <span class="pre">Note'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">body</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Notes.XANote" title="PyXA.apps.Notes.XANote"><span class="pre">PyXA.apps.Notes.XANote</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Notes.html#XANotesFolder.new_note"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Notes.XANotesFolder.new_note" title="Permalink to this definition"></a></dt>
+<dd><p>Creates a new note with the given name and body text in this folder.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em><em>, </em><em>optional</em>) – The name of the note, defaults to “New Note”</p></li>
+<li><p><strong>body</strong> (<em>str</em><em>, </em><em>optional</em>) – The initial body text of the note, defaults to “”</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A reference to the newly created note.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#PyXA.apps.Notes.XANote" title="PyXA.apps.Notes.XANote">XANote</a></p>
+</dd>
+<dt class="field-even">Example</dt>
+<dd class="field-even"><p></p></dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;Notes&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">folder</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">first_folder</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">note</span> <span class="o">=</span> <span class="n">folder</span><span class="o">.</span><span class="n">new_note</span><span class="p">(</span><span class="s2">&quot;Another Note, &quot;</span><span class="n">Example</span> <span class="n">text</span> <span class="n">of</span> <span class="n">new</span> <span class="n">note</span> <span class="n">within</span> <span class="n">folder</span><span class="o">.</span><span class="s2">&quot;)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">note</span><span class="o">.</span><span class="n">element_properties</span><span class="p">)</span>
+<span class="go">example here</span>
+</pre></div>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#PyXA.apps.Notes.XANote" title="PyXA.apps.Notes.XANote"><code class="xref py py-class docutils literal notranslate"><span class="pre">XANote</span></code></a></p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.1.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Notes.XANotesFolder.note">
+<span class="sig-name descname"><span class="pre">note</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Notes.XANote" title="PyXA.apps.Notes.XANote"><span class="pre">PyXA.apps.Notes.XANote</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Notes.html#XANotesFolder.note"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Notes.XANotesFolder.note" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the first note matching the given filter.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><code class="xref py py-func docutils literal notranslate"><span class="pre">element_with_properties()</span></code></p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.1.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Notes.XANotesFolder.notes">
+<span class="sig-name descname"><span class="pre">notes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Notes.XANote" title="PyXA.apps.Notes.XANote"><span class="pre">PyXA.apps.Notes.XANote</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Notes.html#XANotesFolder.notes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Notes.XANotesFolder.notes" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a list of notes, as PyXA objects, matching the given filter.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><code class="xref py py-func docutils literal notranslate"><span class="pre">elements()</span></code></p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.1.</span></p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.apps.Notes.XANotesWindow">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Notes.</span></span><span class="sig-name descname"><span class="pre">XANotesWindow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Notes.html#XANotesWindow"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Notes.XANotesWindow" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAWindow" title="PyXA.XABase.XAWindow"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAWindow</span></code></a>, <a class="reference internal" href="../xabase.html#PyXA.XABase.XACanConstructElement" title="PyXA.XABase.XACanConstructElement"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XACanConstructElement</span></code></a>, <a class="reference internal" href="../xabase.html#PyXA.XABase.XAAcceptsPushedElements" title="PyXA.XABase.XAAcceptsPushedElements"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAAcceptsPushedElements</span></code></a></p>
+<p>A class for interacting with windows of Notes.app.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.1.</span></p>
+</div>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="music.html" class="btn btn-neutral float-left" title="Music Module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="preview.html" class="btn btn-neutral float-right" title="Preview Module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Stephen Kaplan.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

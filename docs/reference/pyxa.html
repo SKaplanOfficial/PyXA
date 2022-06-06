@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PyXA Module &mdash; PyXA 0.0.2 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="XAErrors Module" href="xaerrors.html" />
+    <link rel="prev" title="Code Documentation and Reference" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> PyXA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../about/index.html">Project Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/index.html">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Code Documentation and Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#top-level-pyxa-modules">Top-level PyXA Modules</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">PyXA Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="xaerrors.html">XAErrors Module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#pyxa-base-modules">PyXA Base Modules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#application-modules">Application Modules</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../bugs.html">Bugs</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">PyXA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="index.html">Code Documentation and Reference</a> &raquo;</li>
+      <li>PyXA Module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/reference/pyxa.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-PyXA.PyXA">
+<span id="pyxa-module"></span><h1>PyXA Module<a class="headerlink" href="#module-PyXA.PyXA" title="Permalink to this headline"></a></h1>
+<p><strong>Functions:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.PyXA.application" title="PyXA.PyXA.application"><code class="xref py py-obj docutils literal notranslate"><span class="pre">application</span></code></a>(app_identifier)</p></td>
+<td><p>Retrieves a PyXA application object representation of the target application without launching or activating the application.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.PyXA.current_application" title="PyXA.PyXA.current_application"><code class="xref py py-obj docutils literal notranslate"><span class="pre">current_application</span></code></a>()</p></td>
+<td><p>Retrieves a PyXA representation of the frontmost application.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.PyXA.get_clipboard" title="PyXA.PyXA.get_clipboard"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_clipboard</span></code></a>()</p></td>
+<td><p>Returns the byte representation of all items on the clipboard.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.PyXA.get_clipboard_strings" title="PyXA.PyXA.get_clipboard_strings"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_clipboard_strings</span></code></a>()</p></td>
+<td><p>Returns the string representation all items on the clipboard that can be represented as strings.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.PyXA.get_running_applications" title="PyXA.PyXA.get_running_applications"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_running_applications</span></code></a>()</p></td>
+<td><p>Gets PyXA references to all currently running applications whose app bundles are stored in typical application directories.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.PyXA.launch_application" title="PyXA.PyXA.launch_application"><code class="xref py py-obj docutils literal notranslate"><span class="pre">launch_application</span></code></a>(app_identifier)</p></td>
+<td><p>Launches and activates an application, or activates an already running application, and returns its PyXA application object representation.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.PyXA.open_url" title="PyXA.PyXA.open_url"><code class="xref py py-obj docutils literal notranslate"><span class="pre">open_url</span></code></a>(path)</p></td>
+<td><p>Opens the document at the given URL in its default application.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.PyXA.play_sound" title="PyXA.PyXA.play_sound"><code class="xref py py-obj docutils literal notranslate"><span class="pre">play_sound</span></code></a>(sound_file)</p></td>
+<td><p>Immediately plays a sound from the specified file.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.PyXA.run_applescript" title="PyXA.PyXA.run_applescript"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run_applescript</span></code></a>(source)</p></td>
+<td><p>Runs AppleScript and returns its result.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.PyXA.set_clipboard" title="PyXA.PyXA.set_clipboard"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_clipboard</span></code></a>(content)</p></td>
+<td><p>Sets the clipboard to the specified content.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.PyXA.sound" title="PyXA.PyXA.sound"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sound</span></code></a>(sound_file)</p></td>
+<td><p>Creates a new XASound object.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py function">
+<dt class="sig sig-object py" id="PyXA.PyXA.application">
+<span class="sig-prename descclassname"><span class="pre">PyXA.PyXA.</span></span><span class="sig-name descname"><span class="pre">application</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_identifier</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="xabase.html#PyXA.XABase.XAApplication" title="PyXA.XABase.XAApplication"><span class="pre">PyXA.XABase.XAApplication</span></a></span></span><a class="reference internal" href="../_modules/PyXA/PyXA.html#application"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.PyXA.application" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieves a PyXA application object representation of the target application without launching or activating the application.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>app_identifier</strong> (<em>str</em>) – The name of the application to get an object of.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A PyXA application object referencing the target application.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="xabase.html#PyXA.XABase.XAApplication" title="PyXA.XABase.XAApplication">XAApplication</a></p>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#PyXA.PyXA.launch_application" title="PyXA.PyXA.launch_application"><code class="xref py py-func docutils literal notranslate"><span class="pre">launch_application()</span></code></a></p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.1.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="PyXA.PyXA.current_application">
+<span class="sig-prename descclassname"><span class="pre">PyXA.PyXA.</span></span><span class="sig-name descname"><span class="pre">current_application</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="xabase.html#PyXA.XABase.XAApplication" title="PyXA.XABase.XAApplication"><span class="pre">PyXA.XABase.XAApplication</span></a></span></span><a class="reference internal" href="../_modules/PyXA/PyXA.html#current_application"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.PyXA.current_application" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieves a PyXA representation of the frontmost application.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A PyXA application object referencing the current application.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="xabase.html#PyXA.XABase.XAApplication" title="PyXA.XABase.XAApplication">XAApplication</a></p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.1.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="PyXA.PyXA.get_clipboard">
+<span class="sig-prename descclassname"><span class="pre">PyXA.PyXA.</span></span><span class="sig-name descname"><span class="pre">get_clipboard</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">bytes</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/PyXA/PyXA.html#get_clipboard"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.PyXA.get_clipboard" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the byte representation of all items on the clipboard.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A list of items currently on the clipboard in their byte representation.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>List[bytes]</p>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#PyXA.PyXA.get_clipboard_strings" title="PyXA.PyXA.get_clipboard_strings"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_clipboard_strings()</span></code></a>, <a class="reference internal" href="#PyXA.PyXA.set_clipboard" title="PyXA.PyXA.set_clipboard"><code class="xref py py-func docutils literal notranslate"><span class="pre">set_clipboard()</span></code></a></p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.1.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="PyXA.PyXA.get_clipboard_strings">
+<span class="sig-prename descclassname"><span class="pre">PyXA.PyXA.</span></span><span class="sig-name descname"><span class="pre">get_clipboard_strings</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/PyXA/PyXA.html#get_clipboard_strings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.PyXA.get_clipboard_strings" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the string representation all items on the clipboard that can be represented as strings.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A list of items currently on the clipboard in their string representation.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>List[str]</p>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#PyXA.PyXA.get_clipboard" title="PyXA.PyXA.get_clipboard"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_clipboard()</span></code></a>, <a class="reference internal" href="#PyXA.PyXA.set_clipboard" title="PyXA.PyXA.set_clipboard"><code class="xref py py-func docutils literal notranslate"><span class="pre">set_clipboard()</span></code></a></p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.1.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="PyXA.PyXA.get_running_applications">
+<span class="sig-prename descclassname"><span class="pre">PyXA.PyXA.</span></span><span class="sig-name descname"><span class="pre">get_running_applications</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="xabase.html#PyXA.XABase.XAApplication" title="PyXA.XABase.XAApplication"><span class="pre">PyXA.XABase.XAApplication</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/PyXA/PyXA.html#get_running_applications"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.PyXA.get_running_applications" title="Permalink to this definition"></a></dt>
+<dd><p>Gets PyXA references to all currently running applications whose app bundles are stored in typical application directories.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A list of PyXA application objects.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>List[<a class="reference internal" href="xabase.html#PyXA.XABase.XAApplication" title="PyXA.XABase.XAApplication">XAApplication</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="PyXA.PyXA.launch_application">
+<span class="sig-prename descclassname"><span class="pre">PyXA.PyXA.</span></span><span class="sig-name descname"><span class="pre">launch_application</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_identifier</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="xabase.html#PyXA.XABase.XAApplication" title="PyXA.XABase.XAApplication"><span class="pre">PyXA.XABase.XAApplication</span></a></span></span><a class="reference internal" href="../_modules/PyXA/PyXA.html#launch_application"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.PyXA.launch_application" title="Permalink to this definition"></a></dt>
+<dd><p>Launches and activates an application, or activates an already running application, and returns its PyXA application object representation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>app_identifier</strong> (<em>str</em>) – The name of the application to launch or activate.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A PyXA application object referencing the target application.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="xabase.html#PyXA.XABase.XAApplication" title="PyXA.XABase.XAApplication">XAApplication</a></p>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#PyXA.PyXA.application" title="PyXA.PyXA.application"><code class="xref py py-func docutils literal notranslate"><span class="pre">application()</span></code></a></p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.1.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="PyXA.PyXA.open_url">
+<span class="sig-prename descclassname"><span class="pre">PyXA.PyXA.</span></span><span class="sig-name descname"><span class="pre">open_url</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">objc.NSURL</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/PyXA/PyXA.html#open_url"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.PyXA.open_url" title="Permalink to this definition"></a></dt>
+<dd><p>Opens the document at the given URL in its default application.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>NSURL</em><em>]</em>) – The path of the item to open. This can be a file path, folder path, web address, or application URL.</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="PyXA.PyXA.play_sound">
+<span class="sig-prename descclassname"><span class="pre">PyXA.PyXA.</span></span><span class="sig-name descname"><span class="pre">play_sound</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sound_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">objc.NSURL</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/PyXA/PyXA.html#play_sound"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.PyXA.play_sound" title="Permalink to this definition"></a></dt>
+<dd><p>Immediately plays a sound from the specified file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>sound_file</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>NSURL</em><em>]</em>) – The path to the file to play.</p>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#PyXA.PyXA.sound" title="PyXA.PyXA.sound"><code class="xref py py-func docutils literal notranslate"><span class="pre">sound()</span></code></a></p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.1.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="PyXA.PyXA.run_applescript">
+<span class="sig-prename descclassname"><span class="pre">PyXA.PyXA.</span></span><span class="sig-name descname"><span class="pre">run_applescript</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">objc.NSURL</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="reference internal" href="../_modules/PyXA/PyXA.html#run_applescript"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.PyXA.run_applescript" title="Permalink to this definition"></a></dt>
+<dd><p>Runs AppleScript and returns its result.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>source</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>NSURL</em><em>]</em>) – Either AppleScript code as text or the path to a .scpt file.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The value returned from the script upon completing execution.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Any</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.1.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="PyXA.PyXA.set_clipboard">
+<span class="sig-prename descclassname"><span class="pre">PyXA.PyXA.</span></span><span class="sig-name descname"><span class="pre">set_clipboard</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">content</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/PyXA/PyXA.html#set_clipboard"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.PyXA.set_clipboard" title="Permalink to this definition"></a></dt>
+<dd><p>Sets the clipboard to the specified content.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>content</strong> (<em>Any</em>) – The item or object to set the clipboard to. Can be a list of items.</p>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#PyXA.PyXA.get_clipboard" title="PyXA.PyXA.get_clipboard"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_clipboard()</span></code></a>, <a class="reference internal" href="#PyXA.PyXA.get_clipboard_strings" title="PyXA.PyXA.get_clipboard_strings"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_clipboard_strings()</span></code></a></p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.1.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="PyXA.PyXA.sound">
+<span class="sig-prename descclassname"><span class="pre">PyXA.PyXA.</span></span><span class="sig-name descname"><span class="pre">sound</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sound_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">objc.NSURL</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="xabase.html#PyXA.XABase.XASound" title="PyXA.XABase.XASound"><span class="pre">PyXA.XABase.XASound</span></a></span></span><a class="reference internal" href="../_modules/PyXA/PyXA.html#sound"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.PyXA.sound" title="Permalink to this definition"></a></dt>
+<dd><p>Creates a new XASound object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>sound_file</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>NSURL</em><em>]</em>) – The sound file to associate with the XASound object</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A reference to the new XASound object.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="xabase.html#PyXA.XABase.XASound" title="PyXA.XABase.XASound">XASound</a></p>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#PyXA.PyXA.play_sound" title="PyXA.PyXA.play_sound"><code class="xref py py-func docutils literal notranslate"><span class="pre">play_sound()</span></code></a></p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.1.</span></p>
+</div>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Code Documentation and Reference" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="xaerrors.html" class="btn btn-neutral float-right" title="XAErrors Module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Stephen Kaplan.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

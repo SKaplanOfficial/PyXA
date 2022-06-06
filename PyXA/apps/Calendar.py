@@ -712,7 +712,7 @@ class XACalendarEvent(XABase.XAObject):
         self.status: str = self.xa_elem.status() #: The event's invite status, e.g. tentative or cancelled
         self.title: str = self.xa_elem.title() #: The name of the event
         self.location: str = self.xa_elem.location() #: The location associated with the event
-        self.travel_duration: float = self.xa_elem.travelDuration() # The time needed to get to the event in seconds
+        self.travel_duration: float = self.xa_elem.travelDuration() #: The time needed to get to the event in seconds
         self.duration: float = self.xa_elem.duration() #: The duration of the event in seconds
         self.uid: str = self.xa_elem.localUID() #: A unique identifier for the event
         self.identifier: str = self.xa_elem.calendarItemIdentifier() #: The unique identifier for the calendar the event belongs to

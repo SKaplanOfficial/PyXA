@@ -191,7 +191,7 @@ class XACanOpenPath(XAObject):
             url = xa_url(target)
         if target.startswith("/"):
             url = NSURL.alloc().initFileURLWithPath_(target)
-        self.wksp.openURLs_withAppBundleIdentifier_options_additionalEventParamDescriptor_launchIdentifiers_([url], self.xa_elem.bundleIdentifier(), 0, None, None)
+        self.xa_wksp.openURLs_withAppBundleIdentifier_options_additionalEventParamDescriptor_launchIdentifiers_([url], self.xa_elem.bundleIdentifier(), 0, None, None)
         return self
 
 class XAAcceptsPushedElements(XAObject):

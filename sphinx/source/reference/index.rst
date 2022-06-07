@@ -33,3 +33,4 @@ Application Modules
    apps/safari
    apps/terminal
    apps/textedit
+   apps/tv

@@ -3,7 +3,7 @@
 General classes and methods applicable to any PyXA object.
 """
 
-import time
+import time, os, sys
 from typing import Any, Union, List, Dict
 import threading
 
@@ -46,6 +46,23 @@ class XAObject():
                         self.__setattr__(attr, self.element_properties[attr])
                 except:
                     pass
+
+    def _exec_suppresed(self, f, *args):
+        error = None
+        value = None
+
+        old_stderr = os.dup(sys.stderr.fileno())
+        fd = os.open('/dev/null', os.O_CREAT | os.O_WRONLY)
+        os.dup2(fd, sys.stderr.fileno())
+        try:
+            value = f(*args)
+        except Exception as e:
+            error = e
+        os.dup2(old_stderr, sys.stderr.fileno())
+
+        if error is not None:
+            raise error
+        return value
 
     def _new_element(self, obj: AppKit.NSObject, obj_class: type = 'XAObject') -> 'XAObject':
         """Wrapper for creating a new PyXA object.
@@ -841,8 +858,48 @@ def xa_predicate_format(ref_dict: dict):
             elif value[0].lower() == "endswith":
                 predicate_format += f"({key} ENDSWITH '{value[1]}') &&"
         else:
-            value = value.replace("'", "\\'")
+            if isinstance(value, str):
+                value = value.replace("'", "\\'")
             predicate_format += f"({key} = '{value}') &&"
+    return predicate_format[:-3]
+
+def xa_or_predicate_format(ref_list: dict):
+    """Constructs a predicate format string from the keys and values of the supplied reference dictionary.add()
+
+    Predicate format strings are of the form "(key1 = 'value1') && (key2 = 'value2')..."
+
+    :param ref_dict: The dictionary to construct a predicate format string from.
+    :type ref_dict: dict
+    :return: The resulting predicate format string.
+    :rtype: str
+
+    .. versionadded:: 0.0.2
+    """
+    predicate_format = ""
+    for pair in ref_list:
+        key = pair[0]
+        value = pair[1]
+        if isinstance(value, list) or isinstance(value, tuple):
+            if value[0] == ">":
+                predicate_format += f"({key} > {value[1]}) ||"
+            elif value[0] == "<":
+                predicate_format += f"({key} < {value[1]}) ||"
+            elif value[0] == "!":
+                predicate_format += f"({key} != {value[1]}) ||"
+            elif value[0].lower() == "contains":
+                predicate_format += f"({key} CONTAINS '{value[1]}') ||"
+            elif value[0].lower() == "like":
+                predicate_format += f"({key} LIKE '{value[1]}') ||"
+            elif value[0].lower() == "matches":
+                predicate_format += f"({key} MATCHES '{value[1]}') ||"
+            elif value[0].lower() == "beginswith":
+                predicate_format += f"({key} BEGINSWITH '{value[1]}') ||"
+            elif value[0].lower() == "endswith":
+                predicate_format += f"({key} ENDSWITH '{value[1]}') ||"
+        else:
+            if isinstance(value, str):
+                value = value.replace("'", "\\'")
+            predicate_format += f"({key} = {value}) ||"
     return predicate_format[:-3]
 
 ### UI Components

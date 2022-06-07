@@ -460,6 +460,11 @@ class XACalendar(XABase.XAHasElements, XABase.XAAcceptsPushedElements, XABaseScr
     def events(self, filter: dict = None) -> List['XACalendarEvent']:
         """Returns a list of events, as PyXA objects, matching the given filter.
 
+        :param filter: The properties and desired values to filter events by.
+        :type filter: datetime
+        :return: The list of events.
+        :rtype: List[XACalendarEvent]
+
         :Example: Listing all events (not recommended)
 
         >>> import PyXA
@@ -505,7 +510,7 @@ class XACalendar(XABase.XAHasElements, XABase.XAAcceptsPushedElements, XABaseScr
         """Gets a list of all events in the next 24 hours.
 
         :return: The list of events.
-        :rtype: List['XACalendarEvent']
+        :rtype: List[XACalendarEvent]
 
         .. seealso:: :func:`week_events`
 
@@ -519,7 +524,7 @@ class XACalendar(XABase.XAHasElements, XABase.XAAcceptsPushedElements, XABaseScr
         """Gets a list of events occurring in the next 7 days.
 
         :return: The list of events.
-        :rtype: List['XACalendarEvent']
+        :rtype: List[XACalendarEvent]
 
         .. seealso:: :func:`events_today`
 
@@ -537,7 +542,7 @@ class XACalendar(XABase.XAHasElements, XABase.XAAcceptsPushedElements, XABaseScr
         :param end_date: The latest date an event in the list should end.
         :type end_date: datetime
         :return: The list of events.
-        :rtype: List['XACalendarEvent']
+        :rtype: List[XACalendarEvent]
 
         :Example:
 
@@ -567,6 +572,11 @@ class XACalendar(XABase.XAHasElements, XABase.XAAcceptsPushedElements, XABaseScr
 
     def event(self, filter: Union[int, dict]) -> 'XACalendarEvent':
         """Returns the first event matching the given filter.
+
+        :param filter: The properties and desired values to filter events by.
+        :type filter: datetime
+        :return: The list of events.
+        :rtype: List['XACalendarEvent']
 
         :Example 1: Get an event by index
 

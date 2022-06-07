@@ -38,6 +38,8 @@ extensions = [
     'sphinx.ext.todo',
     'sphinx.ext.viewcode',
     'autodocsumm',
+    'sphinx_automodapi.automodapi',
+    'sphinx_automodapi.smart_resolver',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -66,3 +68,4 @@ todo_include_todos = True
 #todo_link_only = True
 
 autodoc_default_options = {"autosummary": True}
+numpydoc_show_class_members = False

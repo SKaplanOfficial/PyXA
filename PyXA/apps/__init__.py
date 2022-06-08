@@ -13,6 +13,7 @@ from .Preview import XAPreviewApplication
 from .Calculator import XACalculatorApplication
 from .TV import XATVApplication
 from .Contacts import XAContactsApplication
+from .Shortcuts import XAShortcutsApplication
 
 application_classes = {
     "finder": XAFinderApplication,
@@ -31,4 +32,5 @@ application_classes = {
     "calculator": XACalculatorApplication,
     "tv": XATVApplication,
     "contacts": XAContactsApplication,
+    "shortcuts": XAShortcutsApplication,
 }

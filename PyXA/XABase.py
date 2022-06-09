@@ -4,10 +4,11 @@ General classes and methods applicable to any PyXA object.
 """
 
 import time, os, sys
-from typing import Any, Union, List, Dict
+from typing import Any, Callable, Union, List, Dict
 import threading
 
 import AppKit
+from CoreLocation import CLLocation
 from ScriptingBridge import SBApplication, SBElementArray
 from Foundation import NSURL, NSString
 
@@ -33,7 +34,7 @@ class XAObject():
         self.xa_scel = properties.get("scriptable_element", None)
         self.xa_aref = properties.get("appref", None)
         self.xa_sevt = properties.get("system_events", SBApplication.alloc().initWithBundleIdentifier_("com.apple.systemevents"))
-        
+
         try:
             self.element_properties = properties["element"].properties()
         except:
@@ -47,7 +48,23 @@ class XAObject():
                 except:
                     pass
 
-    def _exec_suppresed(self, f, *args):
+    def _exec_suppresed(self, f: Callable[..., Any], *args: Any) -> Any:
+        """Silences unwanted and otherwise unavoidable warning messages.
+
+        Taken from: https://stackoverflow.com/a/3946828
+
+        _extended_summary_
+        
+        :param f: The function to execute
+        :type f: Callable[...]
+        :param args: The parameters to pass to the specified function
+        :type args: Any
+        :raises error: Any exception that occurs while trying to run the specified function
+        :return: The value returned by the specified function upon execution
+        :rtype: Any
+
+        .. versionadded:: 0.0.2
+        """
         error = None
         value = None
 
@@ -1569,3 +1586,30 @@ class XAImage():
 
     def size(self):
         return self.value.size()
+
+class XALocation():
+    def __init__(self, raw_value: Any = None, title: str = None, latitude: float = 0, longitude: float = 0, altitude: float = None, radius: int = 0, address: str = None, url: str = None, route_type: str = None, handle: str = None):
+        self.raw_value = raw_value
+        self.title = title
+        self.latitude = latitude
+        self.longitude = longitude
+        self.altitude = altitude
+        self.radius = radius
+        self.address = address
+        self.url = url
+        self.route_type = route_type
+        self.handle = handle
+
+    def set_raw_value(self, raw_value: Any):
+        self.raw_value = raw_value
+
+    def prepare_for_export(self):
+        self.raw_value.setTitle_(self.title)
+        self.raw_value.setGeoLocation_(CLLocation.alloc().initWithLatitude_longitude_(self.latitude, self.longitude))
+        self.raw_value.setRadius_(self.radius)
+        self.raw_value.setAddress_(self.address)
+        self.raw_value.setGeoURLString_(self.url)
+        self.raw_value.setRouteType_(self.route_type)
+        self.raw_value.setMapKitHandle_(self.handle)
+
+    

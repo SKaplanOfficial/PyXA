@@ -4,13 +4,10 @@ Control the macOS Calendar application using JXA-like syntax.
 """
 
 from datetime import datetime, timedelta, date
-from tracemalloc import start
 from typing import List, Literal, Union
 
 from ScriptingBridge import SBObject
-import objc
 
-from pprint import pprint
 import EventKit
 import sys
 import os
@@ -54,14 +51,7 @@ class XACalendarApplication(XABaseScriptable.XASBApplication, XABase.XACanConstr
     def __init__(self, properties: dict):
         super().__init__(properties)
         self.xa_wcls = XACalendarWindow
-
-        # Silence the message EventStore prints to stderr when initializing.
-        # from: https://stackoverflow.com/a/3946828
-        old_stderr = os.dup(sys.stderr.fileno())
-        fd = os.open('/dev/null', os.O_CREAT | os.O_WRONLY)
-        os.dup2(fd, sys.stderr.fileno())
-        self.xa_estr = EventKit.EKEventStore.alloc().init()
-        os.dup2(old_stderr, sys.stderr.fileno())
+        self.xa_estr = self._exec_suppresed(EventKit.EKEventStore.alloc().init)
 
     def reload_calendars(self) -> 'XACalendarApplication':
         """Reloads the contents of all calendars.
@@ -422,6 +412,7 @@ class XACalendar(XABase.XAHasElements, XABase.XAAcceptsPushedElements, XABaseScr
         super().__init__(properties)
         self.xa_estr = properties["event_store"]
 
+        self.id = self.xa_elem.calendarIdentifier() #: A unique identifier for the calendar
         self.title = self.xa_elem.title() #: The name of the calendar
         self.summary = self.xa_elem.summary() #: An overview of the calendar's information
         self.subscription_url = self.xa_elem.subscriptionURL() #: The URL of the calendar used to subscribe to it
@@ -430,7 +421,15 @@ class XACalendar(XABase.XAHasElements, XABase.XAAcceptsPushedElements, XABaseScr
         self.type = self.xa_elem.typeString() #: The calendar format
         self.notes = self.xa_elem.notes() #: Notes associated with the calendar
         self.sharees = self.xa_elem.sharees() #: A list of individuals with whom the calendar is shared with
-        self.identifier = self.xa_elem.calendarIdentifier() #: A unique identifier for the calendar
+
+    def delete(self):
+        """Deletes the calendar.
+
+        .. versionadded:: 0.0.2
+        """
+        self.xa_estr.requestAccessToEntityType_completion_(EventKit.EKEntityTypeEvent, None)
+        self.xa_elem.markAsDeleted()
+        self.xa_estr.deleteCalendar_forEntityType_error_(self.xa_elem, EventKit.EKEntityTypeEvent, None)
 
     def __new_event(self, event_obj) -> 'XACalendarEvent':
         """Wrapper for creating a new XACalendarEvent object.
@@ -461,7 +460,7 @@ class XACalendar(XABase.XAHasElements, XABase.XAAcceptsPushedElements, XABaseScr
         """Returns a list of events, as PyXA objects, matching the given filter.
 
         :param filter: The properties and desired values to filter events by.
-        :type filter: datetime
+        :type filter: dict
         :return: The list of events.
         :rtype: List[XACalendarEvent]
 

@@ -48,7 +48,7 @@ class XACalculatorApplication(XABase.XAApplication):
 
     ## Menu Bar
     # Calculator Menu
-    def about_panel(self):
+    def open_about_panel(self):
         """Opens the "About Calculator" panel. Mimics clicking File->About Calculator.
 
         .. versionadded:: 0.0.2
@@ -63,7 +63,7 @@ class XACalculatorApplication(XABase.XAApplication):
         """
         self.menu_bar(0).menu_bar_item(2).menu(0).menu_item(2).press()
 
-    def page_setup(self):
+    def open_page_setup(self):
         """Opens the page setup dialog. Mimics clicking File->Page Setup...
 
         .. versionadded:: 0.0.2

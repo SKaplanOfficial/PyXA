@@ -1018,6 +1018,19 @@ class XAUIElement(XAHasElements):
     def last_menu_item(self) -> 'XAUIMenuItem':
         return self.last_element("menuItems", XAUIMenuItem)
 
+    # Toolbars
+    def toolbars(self, filter: dict = None) -> List['XAUIToolbar']:
+        return self.elements("toolbars", filter, XAUIToolbar)
+
+    def toolbar(self, filter: Union[int, dict]) -> 'XAUIToolbar':
+        return self.element_with_properties("toolbars", filter, XAUIToolbar)
+
+    def first_toolbar(self) -> 'XAUIToolbar':
+        return self.first_element("toolbars", XAUIToolbar)
+
+    def last_toolbar(self) -> 'XAUIToolbar':
+        return self.last_element("toolbars", XAUIToolbar)
+
     # Groups
     def groups(self, filter: dict = None) -> List['XAUIGroup']:
         return self.elements("groups", filter, XAUIGroup)
@@ -1056,6 +1069,19 @@ class XAUIElement(XAHasElements):
 
     def last_action(self) -> 'XAUIAction':
         return self.last_element("actions", XAUIAction)
+
+    # Text Fields
+    def text_fields(self, filter: dict = None) -> List['XAUITextfield']:
+        return self.elements("textFields", filter, XAUITextfield)
+
+    def text_field(self, filter: Union[int, dict]) -> 'XAUITextfield':
+        return self.element_with_properties("textFields", filter, XAUITextfield)
+
+    def first_text_field(self) -> 'XAUITextfield':
+        return self.first_element("textFields", XAUITextfield)
+
+    def last_text_field(self) -> 'XAUITextfield':
+        return self.last_element("textFields", XAUITextfield)
 
     # Static Texts
     def static_texts(self, filter: dict = None) -> List['XAUIStaticText']:
@@ -1148,6 +1174,10 @@ class XAUIMenuItem(XAUIElement):
         self.actions({"name": "AXPress"})[0].perform()
         return self
 
+class XAUIToolbar(XAUIElement):
+    def __init__(self, properties):
+        super().__init__(properties)
+
 class XAUIGroup(XAUIElement):
     def __init__(self, properties):
         super().__init__(properties)
@@ -1179,6 +1209,10 @@ class XAUIAction(XAUIElement):
     def perform(self):
         self.xa_elem.perform()
         return self
+
+class XAUITextfield(XAUIElement):
+    def __init__(self, properties):
+        super().__init__(properties)
 
 class XAUIStaticText(XAUIElement):
     def __init__(self, properties):

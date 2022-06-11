@@ -1,4 +1,4 @@
-<img src="./sphinx/source/_static/assets/PyXALogoTransparent.png" alt="The dark logo for PyXA" height="250px">
+<p align="center"><img src="./sphinx/source/_static/assets/PyXALogoTransparent.png" alt="The dark logo for PyXA" height="250px"></p>
 
 # Python for Automation
 Python for Automation, or PyXA for short, is a wrapper around Apple's Scripting Bridge framework that enables AppleScript- and JXA-like control over macOS applications from within Python. PyXA delivers intuitive application scripting by mapping existing AppleScript specifiers and commands, defined in sdef files, to per-application Python classes and associated methods. PyXA then expands on the capabilities of AppleScript by interfacing with low-level Objective-C frameworks.

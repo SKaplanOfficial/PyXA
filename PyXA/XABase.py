@@ -176,7 +176,10 @@ class XAObject():
         """
         pb = AppKit.NSPasteboard.generalPasteboard()
         pb.clearContents()
-        pb.writeObjects_(AppKit.NSArray.arrayWithObject_(content))
+        if isinstance(content, list):
+            pb.writeObjects_(content)
+        else:
+            pb.writeObjects_(AppKit.NSArray.arrayWithObject_(content))
     
 
 ### Mixins

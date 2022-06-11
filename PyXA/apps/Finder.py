@@ -3,10 +3,12 @@
 Control Finder using JXA-like syntax.
 """
 
+from operator import contains
 from typing import List, Union
 from Foundation import NSFileManager
 
 from AppKit import NSString, NSURL
+from numpy import isin
 
 from PyXA import XABase
 from PyXA import XABaseScriptable
@@ -49,8 +51,35 @@ class XAFinderApplication(XABaseScriptable.XASBApplication):
     """
     def __init__(self, properties):
         super().__init__(properties)
+        self.name: str = self.xa_scel.name() #: The name of Finder
+        self.visible: bool = self.xa_scel.visible() #: Whether Finder is currently visible
+        self.frontmost: bool = self.xa_scel.frontmost() #: Whether Finder is the active application
+        self.product_version: str = self.xa_scel.productVersion() #: The system software version
 
-    def resolve_symlinks(self, path: str) -> str:
+        self.__selection = None #: The currently selected items in Finder
+        self.__insertion_location = None #: The container in which a new folder would be created in by default in the frontmost window
+        self.__startup_disk = None #: The startup disk for this system
+        self.__desktop = None #: The user's desktop
+        self.__trash = None #: The system Trash
+        self.__home = None #: The home directory
+        self.__computer_container = None #: The computer directory
+        self.__finder_preferences = None #: Preferences for Finder as a whole
+
+    @property
+    def desktop(self) -> 'XAFinderDesktop':
+        if self.__desktop is None:
+            desktop_obj = self.xa_scel.desktop()
+            self.__desktop = self._new_element(desktop_obj, XAFinderDesktop)
+        return self.__desktop
+
+    @property
+    def trash(self) -> 'XAFinderTrash':
+        if self.__trash is None:
+            trash_obj = self.xa_scel.trash()
+            self.__trash = self._new_element(trash_obj, XAFinderTrash)
+        return self.__trash
+
+    def _resolve_symlinks(self, path: str) -> str:
         """Resolves all symlinks in the specified path.
 
         :param path: The path to resolve.
@@ -73,11 +102,17 @@ class XAFinderApplication(XABaseScriptable.XASBApplication):
         :return: A reference to the Finder application object.
         :rtype: XAFinderApplication
 
-        .. seealso:: :func:`select_files`
+        :Example:
+
+        >>> import PyXA
+        >>> app = PyXA.application("Finder")
+        >>> app.select_item("/Users/exampleuser/Documents/Example.txt")
+
+        .. seealso:: :func:`select_items`
 
         .. versionadded:: 0.0.1
         """
-        path = self.resolve_symlinks(path)
+        path = self._resolve_symlinks(path)
         self.xa_wksp.selectFile_inFileViewerRootedAtPath_(path, None)
         return self
 
@@ -91,13 +126,47 @@ class XAFinderApplication(XABaseScriptable.XASBApplication):
         :return: A reference to the Finder application object.
         :rtype: XAFinderApplication
 
-        .. seealso:: :func:`select_file`
+        :Example:
+
+        >>> import PyXA
+        >>> app = PyXA.application("Finder")
+        >>> items = ["/Users/exampleuser/Documents/Example 1.txt", "/Users/exampleuser/Documents/Example 2.txt"]
+        >>> app.select_item(items)
+
+        .. seealso:: :func:`select_item`
 
         .. versionadded:: 0.0.1
         """
-        paths = [self.resolve_symlinks(x) for x in paths]
+        paths = [self._resolve_symlinks(x) for x in paths]
         self.xa_wksp.activateFileViewerSelectingURLs_(paths)
         return self
+
+    def selection(self) -> List['XAFinderItem']:
+        """Obtains PyXA references to the selected items in Finder.
+
+        :return: The list of selected items.
+        :rtype: List[XAFinderItem]
+
+        :Example:
+
+        >>> import PyXA
+        >>> app = PyXA.application("Finder")
+        >>> items = ["/Users/exampleuser/Documents/Example 1.txt", "/Users/exampleuser/Documents/Example 2.txt"]
+        >>> app.select_item(items)
+        >>> print(app.selection())
+        [<<class 'PyXA.apps.Finder.XAFinderFile'>Example 1.txt>, <<class 'PyXA.apps.Finder.XAFinderFile'>Example 2.txt>]
+
+        .. versionadded:: 0.0.1
+        """
+        selected_items = []
+        items = self.xa_scel.selection().get()
+        for item in items:
+            kind = item.kind()
+            if kind == "Folder":
+                selected_items.append(self._new_element(item, XAFinderFolder))
+            else:
+                selected_items.append(self._new_element(item, XAFinderFile))
+        return selected_items
 
     def recycle_item(self, path: Union[str, NSURL]) -> 'XAFinderApplication':
         """Moves the file or folder at the specified path to the trash.
@@ -106,6 +175,14 @@ class XAFinderApplication(XABaseScriptable.XASBApplication):
         :type path: Union[str, NSURL]
         :return: A reference to the Finder application object.
         :rtype: XAFinderApplication
+
+       :Example:
+
+        >>> import PyXA
+        >>> app = PyXA.application("Finder")
+        >>> app.recycle_item("/Users/exampleuser/Documents/Example.txt")
+
+        .. seealso:: :func:`recycle_items`
 
         .. versionadded:: 0.0.1
         """
@@ -122,6 +199,13 @@ class XAFinderApplication(XABaseScriptable.XASBApplication):
         :return: A reference to the Finder application object.
         :rtype: XAFinderApplication
 
+        :Example:
+
+        >>> import PyXA
+        >>> app = PyXA.application("Finder")
+        >>> items = ["/Users/exampleuser/Documents/Example 1.txt", "/Users/exampleuser/Documents/Example 2.txt"]
+        >>> app.recycle_items(items)
+
         .. seealso:: :func:`recycle_item`
 
         .. versionadded:: 0.0.1
@@ -136,6 +220,12 @@ class XAFinderApplication(XABaseScriptable.XASBApplication):
         :return: A reference to the Finder application object.
         :rtype: XAFinderApplication
 
+       :Example:
+
+        >>> import PyXA
+        >>> app = PyXA.application("Finder")
+        >>> app.empty_trash()
+
         .. versionadded:: 0.0.1
         """
         self.xa_scel.emptySecurity_(True)
@@ -148,6 +238,14 @@ class XAFinderApplication(XABaseScriptable.XASBApplication):
         :type path: Union[str, NSURL]
         :return: A reference to the Finder application object.
         :rtype: XAFinderApplication
+
+       :Example:
+
+        >>> import PyXA
+        >>> app = PyXA.application("Finder")
+        >>> app.delete_item("/Users/exampleuser/Documents/Example.txt")
+
+        .. seealso:: :func:`delete_items`
 
         .. versionadded:: 0.0.1
         """
@@ -164,12 +262,19 @@ class XAFinderApplication(XABaseScriptable.XASBApplication):
         :return: A reference to the Finder application object.
         :rtype: XAFinderApplication
 
-        .. seealso:: :func:`recycle_item`
+        :Example:
+
+        >>> import PyXA
+        >>> app = PyXA.application("Finder")
+        >>> items = ["/Users/exampleuser/Documents/Example 1.txt", "/Users/exampleuser/Documents/Example 2.txt"]
+        >>> app.delete_items(items)
+
+        .. seealso:: :func:`delete_items`
 
         .. versionadded:: 0.0.1
         """
         for path in paths:
-            self.recycle_item(path)
+            self.delete_item(path)
         return self
 
     def duplicate_item(self, path: str) -> 'XAFinderApplication':
@@ -181,6 +286,12 @@ class XAFinderApplication(XABaseScriptable.XASBApplication):
         :type path: str
         :return: A reference to the Finder application object.
         :rtype: XAFinderApplication
+
+       :Example:
+
+        >>> import PyXA
+        >>> app = PyXA.application("Finder")
+        >>> app.duplicate_item("/Users/exampleuser/Documents/Example.txt")
 
         .. seealso:: :func:`duplicate_items`
 
@@ -206,6 +317,13 @@ class XAFinderApplication(XABaseScriptable.XASBApplication):
         :type path: str
         :return: A reference to the Finder application object.
         :rtype: XAFinderApplication
+
+        :Example:
+
+        >>> import PyXA
+        >>> app = PyXA.application("Finder")
+        >>> items = ["/Users/exampleuser/Documents/Example 1.txt", "/Users/exampleuser/Documents/Example 2.txt"]
+        >>> app.duplicate_items(items)
 
         .. seealso:: :func:`duplicate_item`
 
@@ -237,24 +355,6 @@ class XAFinderApplication(XABaseScriptable.XASBApplication):
         .. versionadded:: 0.0.1
         """
         return self.xa_wksp.fileLabels()
-
-    def selection(self) -> List['XAFinderItem']:
-        """Obtains PyXA references to the selected items in Finder.
-
-        :return: The list of selected items.
-        :rtype: List[XAFinderItem]
-
-        .. versionadded:: 0.0.1
-        """
-        selected_items = []
-        items = self.xa_scel.selection().get()
-        for item in items:
-            kind = item.kind()
-            if kind == "Folder":
-                selected_items.append(self._new_element(item, XAFinderFolder))
-            else:
-                selected_items.append(self._new_element(item, XAFinderFile))
-        return selected_items
 
     def insertion_location(self) -> 'XAFinderApplication':
         """Gets a reference to the directory in which a new folder would be created if a user were to press the "New Folder" button.add()
@@ -404,16 +504,12 @@ class XAFinderApplication(XABaseScriptable.XASBApplication):
     def folders(self, filter: dict = None) -> List['XAFinderFolder']:
         """Returns a list of folders matching the filter.
 
-        .. seealso:: :func:`scriptable_elements`
-
         .. versionadded:: 0.0.1
         """
         return self.scriptable_elements("folders", filter, XAFinderFolder)
 
     def folder(self, filter: Union[int, dict]) -> 'XAFinderFolder':
         """Returns the first folder that matches the filter.
-
-        .. seealso:: :func:`scriptable_element_with_properties`
 
         .. versionadded:: 0.0.1
         """
@@ -422,16 +518,12 @@ class XAFinderApplication(XABaseScriptable.XASBApplication):
     def first_folder(self) -> 'XAFinderFolder':
         """Returns the folder at the first index of the folders array.
 
-        .. seealso:: :func:`first_scriptable_element`
-
         .. versionadded:: 0.0.1
         """
         return self.first_scriptable_element("folders", XAFinderFolder)
 
     def last_folder(self) -> 'XAFinderFolder':
         """Returns the folder at the last (-1) index of the folders array.
-
-        .. seealso:: :func:`last_scriptable_element`
 
         .. versionadded:: 0.0.1
         """
@@ -441,16 +533,12 @@ class XAFinderApplication(XABaseScriptable.XASBApplication):
     def files(self, filter: dict = None) -> List['XAFinderFile']:
         """Returns a list of files matching the filter.
 
-        .. seealso:: :func:`scriptable_elements`
-
         .. versionadded:: 0.0.1
         """
         return self.scriptable_elements("files", filter, XAFinderFile)
 
     def file(self, filter: Union[int, dict]) -> 'XAFinderFile':
         """Returns the first file that matches the filter.
-
-        .. seealso:: :func:`scriptable_element_with_properties`
 
         .. versionadded:: 0.0.1
         """
@@ -459,8 +547,6 @@ class XAFinderApplication(XABaseScriptable.XASBApplication):
     def first_file(self) -> 'XAFinderFile':
         """Returns the file at the first index of the files array.
 
-        .. seealso:: :func:`first_scriptable_element`
-
         .. versionadded:: 0.0.1
         """
         return self.first_scriptable_element("files", XAFinderFile)
@@ -468,21 +554,85 @@ class XAFinderApplication(XABaseScriptable.XASBApplication):
     def last_file(self) -> 'XAFinderFile':
         """Returns the file at the last (-1) index of the files array.
 
-        .. seealso:: :func:`last_scriptable_element`
-
         .. versionadded:: 0.0.1
         """
         return self.last_scriptable_element("files", XAFinderFile)
 
+
 class XAFinderItem(XABase.XARevealable, XABase.XASelectable, XABase.XADeletable):
     """A generic class with methods common to the various item classes of Finder.
 
-    .. seealso:: :class:`XAFinderFolder`, :class:`XAFinderFile`
+    .. seealso:: :class:`XAFinderContainer`, :class:`XAFinderFile`
 
     .. versionadded:: 0.0.1
     """
     def __init__(self, properties):
         super().__init__(properties)
+        self.name = self.xa_elem.name() #: The name of the item
+        self.displayed_name = self.xa_elem.displayedName() #: The user-visible name of the item
+        self.name_extension = self.xa_elem.nameExtension() #: The file extension of the item
+        self.extension_hidden = self.xa_elem.extensionHidden() #: Whether the file extension is hidden
+        self.index = self.xa_elem.index() #: The index within the containing folder/disk
+        self.position = self.xa_elem.position() #: The position of the item within the parent window
+        self.desktop_position = self.xa_elem.position() #: The position of an item on the desktop
+        self.bounds = self.xa_elem.bounds() #: The bounding rectangle of an item
+        self.label_index = self.xa_elem.labelIndex() #: The label assigned to the item
+        self.locked = self.xa_elem.locked() #: Whether the file is locked
+        self.kind = self.xa_elem.kind() #: The kind of the item, e.g. "Folder" or "File"
+        self.description = self.xa_elem.description() #: The description of the item
+        self.comment = self.xa_elem.comment() #: The user-specified comment on the item
+        self.size: int = self.xa_elem.size() #: The logical size of the item
+        self.physical_size: int = self.xa_elem.size() #: The actual disk space used by the item
+        self.creation_date = self.xa_elem.creationDate() #: The date the item was created
+        self.modification_date = self.xa_elem.modificationDate() #: The date the item was last modified
+        self.url = self.xa_elem.URL() #: The URL of the item
+        self.owner = self.xa_elem.owner() #: The name of the user that owns the item
+        self.group = self.xa_elem.group() #: The name of the group that has access to the item
+        self.owner_privileges = self.xa_elem.ownerPrivileges() #: The privilege level of the owner, e.g. "read only"
+        self.group_privileges = self.xa_elem.groupPrivileges() #: The privilege level of the group, e.g. "write only"
+        self.everyones_privileges = self.xa_elem.everyonesPrivileges() #: The privilege level of everyone else, e.g. "none"
+
+        self.__container = None
+        self.__disk = None
+        self.__icon = None
+        self.__information_window = None
+
+    @property
+    def container(self):
+        """The containing folder or disk
+        """
+        if self.__container is None:
+            container_obj = self.xa_elem.container()
+            kind = container_obj.kind()
+            if kind == "Folder":
+                self.__container = self._new_element(container_obj, XAFinderFolder)
+            elif kind == "Volume":
+                self.__container = self._new_element(container_obj, XAFinderDisk)
+            elif kind == "":
+                # TODO: Computer container 
+                pass
+        return self.__container
+
+    @property
+    def disk(self):
+        """The disk that the item is stored on
+        """
+        if self.__disk is None:
+            obj = self.xa_elem.disk()
+            self.__disk = self._new_element(obj, XAFinderDisk)
+        return self.__disk
+
+    @property
+    def icon(self):
+        """The item's icon bitmap
+        """
+        pass
+
+    @property
+    def information_window(self):
+        """The information window for the item
+        """
+        pass
 
     def copy(self) -> 'XAFinderItem':
         """Copies the item to the clipboard.
@@ -524,97 +674,157 @@ class XAFinderItem(XABase.XARevealable, XABase.XASelectable, XABase.XADeletable)
         """
         return self.xa_elem.exists()
 
+    def __repr__(self):
+        return "<" + str(type(self)) + self.name + ">"
+
+class XAFinderContainer(XAFinderItem, XABase.XAHasElements):
+    """A class for managing and interacting with containers in Finder.
+
+    .. seealso:: :class:`XAFinderDisk`, :class:`XAFinderFolder`
+
+    .. versionadded:: 0.0.2
+    """
+    def __init__(self, properties):
+        super().__init__(properties)
+        self.__entire_contents = None
+        self.__container_window = None
+
+    @property
+    def entire_contents(self):
+        """The entire contents of the container, including the contents of its children (recursive)
+        """
+        if self.__entire_contents is None:
+            self.__entire_contents = self.__get_contents()
+        return self.__entire_contents
+
+    def __get_contents(self):
+        elements = []
+        for folder in self.folders():
+            elements.append(folder.__get_contents())
+        for file in self.files():
+            elements.append(file)
+        return elements
+
+    @property
+    def container_window(self):
+        """An object with the properties of the window that contains or would contain this folder
+        """
+        pass
+
     # Folders
     def folders(self, filter: dict = None) -> List['XAFinderFolder']:
         """Returns a list of folders matching the filter.
 
-        .. seealso:: :func:`scriptable_elements`
-
-        .. versionadded:: 0.0.1
+        .. versionadded:: 0.0.2
         """
-        return self.scriptable_elements("folders", filter, XAFinderFolder)
+        return self.elements("folders", filter, XAFinderFolder)
 
     def folder(self, filter: Union[int, dict]) -> 'XAFinderFolder':
         """Returns the first folder that matches the filter.
 
-        .. seealso:: :func:`scriptable_element_with_properties`
-
-        .. versionadded:: 0.0.1
+        .. versionadded:: 0.0.2
         """
-        return self.scriptable_element_with_properties("folders", filter, XAFinderFolder)
+        return self.element_with_properties("folders", filter, XAFinderFolder)
 
     def first_folder(self) -> 'XAFinderFolder':
         """Returns the folder at the first index of the folders array.
 
-        .. seealso:: :func:`first_scriptable_element`
-
-        .. versionadded:: 0.0.1
+        .. versionadded:: 0.0.2
         """
-        return self.first_scriptable_element("folders", XAFinderFolder)
+        return self.first_element("folders", XAFinderFolder)
 
     def last_folder(self) -> 'XAFinderFolder':
         """Returns the folder at the last (-1) index of the folders array.
 
-        .. seealso:: :func:`last_scriptable_element`
-
-        .. versionadded:: 0.0.1
+        .. versionadded:: 0.0.2
         """
-        return self.last_scriptable_element("folders", XAFinderFolder)
+        return self.last_element("folders", XAFinderFolder)
 
     # Files
     def files(self, filter: dict = None) -> List['XAFinderFile']:
         """Returns a list of files matching the filter.
 
-        .. seealso:: :func:`scriptable_elements`
-
-        .. versionadded:: 0.0.1
+        .. versionadded:: 0.0.2
         """
-        return self.scriptable_elements("files", filter, XAFinderFile)
+        return self.elements("files", filter, XAFinderFile)
 
     def file(self, filter: Union[int, dict]) -> 'XAFinderFile':
         """Returns the first file that matches the filter.
 
-        .. seealso:: :func:`scriptable_element_with_properties`
-
-        .. versionadded:: 0.0.1
+        .. versionadded:: 0.0.2
         """
-        return self.scriptable_element_with_properties("files", filter, XAFinderFile)
+        return self.element_with_properties("files", filter, XAFinderFile)
 
     def first_file(self) -> 'XAFinderFile':
         """Returns the file at the first index of the files array.
 
-        .. seealso:: :func:`first_scriptable_element`
-
-        .. versionadded:: 0.0.1
+        .. versionadded:: 0.0.2
         """
-        return self.first_scriptable_element("files", XAFinderFile)
+        return self.first_element("files", XAFinderFile)
 
     def last_file(self) -> 'XAFinderFile':
         """Returns the file at the last (-1) index of the files array.
 
-        .. seealso:: :func:`last_scriptable_element`
-
-        .. versionadded:: 0.0.1
+        .. versionadded:: 0.0.2
         """
-        return self.last_scriptable_element("files", XAFinderFile)
+        return self.last_element("files", XAFinderFile)
 
 
-class XAFinderFolder(XAFinderItem):
+class XAFinderDisk(XAFinderContainer, XABase.XARevealable, XABase.XASelectable, XABase.XADeletable):
+    """A class for managing and interacting with disks in Finder.
+
+    .. versionadded:: 0.0.2
+    """
+    def __init__(self, properties):
+        super().__init__(properties)
+        self.id = self.xa_elem.id() #: A unique identifier for the disk that is persistent for as long as the disc is connected and Finder is running
+        self.capacity = self.xa_elem.capacity() #: The total number of bytes on the disk
+        self.free_space = self.xa_elem.freeSpace() #: The number of free bytes left on the disk
+        self.ejectable = self.xa_elem.ejectable() #: Whether the disk can be ejected
+        self.local_volume = self.xa_elem.localVolume() #: Whether the disk is a local volume vs. a file server
+        self.startup = self.xa_elem.startup() #: Whether the disk is the boot disk
+        self.format = self.xa_elem.format() #: The format of the disk, e.g. "APFS format"
+        self.journaling_enabled = self.xa_elem.journalingEnabled() #: Whether the disk does file system journaling
+        self.ignore_privileges = self.xa_elem.ignorePrivileges() #: Whether to ignore permissions on the disk
+
+
+class XAFinderFolder(XAFinderContainer):
     """A class for managing and interacting with folders in Finder.
-
-    .. seealso:: :class:`XAFinderItem`
 
     .. versionadded:: 0.0.1
     """
     def __init__(self, properties):
         super().__init__(properties)
+
+
+class XAFinderDesktop(XAFinderContainer):
+    """A class for managing and interacting with the Desktop.
+
+    .. versionadded:: 0.0.2
+    """
+    def __init__(self, properties):
+        super().__init__(properties)
+
+
+class XAFinderTrash(XAFinderContainer):
+    """A class for managing and interacting with Finder's Trash.
+
+    .. versionadded:: 0.0.2
+    """
+    def __init__(self, properties):
+        super().__init__(properties)
+        self.warns_before_emptying: bool = self.xa_elem.warnsBeforeEmptying() #: Whether to display a dialog before emptying the Trash
+
 
 class XAFinderFile(XAFinderItem, XABaseScriptable.XASBPrintable):
     """A class for managing and interacting with files in Finder.
 
-    .. seealso:: :class:`XAFinderItem`
-
     .. versionadded:: 0.0.1
     """
     def __init__(self, properties):
         super().__init__(properties)
+        self.file_type = self.xa_elem.fileType() #: The OSType of the file and the data within it
+        self.creator_type = self.xa_elem.creatorType() #: The OSType of the application that created the file
+        self.stationery = self.xa_elem.stationery() #: Whether the file is a stationery pad
+        self.product_version = self.xa_elem.productVersion() #: The version of the application the file was created with
+        self.version = self.xa_elem.version() #: The version of the file

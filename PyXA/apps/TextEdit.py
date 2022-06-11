@@ -35,12 +35,50 @@ class XATextEditApplication(XABaseScriptable.XASBApplication, XABase.XACanConstr
     def documents(self, filter: dict = None) -> List['XATextEditDocument']:
         """Returns a list of documents matching the filter.
 
+        :param filter: A dictionary specifying property-value pairs that all returned documents will have
+        :type filter: dict
+        :return: The list of documents
+        :rtype: List[XATextEditDocument]
+
+        :Example 1: Listing all documents
+
+        >>> import PyXA
+        >>> app = PyXA.application("TextEdit")
+        >>> print(app.documents())
+        [<<class 'PyXA.apps.TextEdit.XATextEditDocument'>Current Document>, <<class 'PyXA.apps.TextEdit.XATextEditDocument'>Another Document>, ...]
+
+        :Example 2: List documents after applying a filter
+
+        >>> import PyXA
+        >>> app = PyXA.application("TextEdit")
+        >>> print(app.documents({"name": "Another Document"}))
+        [<<class 'PyXA.apps.TextEdit.XATextEditDocument'>Another Document>]
+
         .. versionadded:: 0.0.1
         """
         return self.scriptable_elements("documents", filter, XATextEditDocument)
 
     def document(self, filter: Union[int, dict]) -> 'XATextEditDocument':
         """Returns the first document that matches the filter.
+
+        :param filter: Either an array index or a dictionary specifying property-value pairs that the returned document will have
+        :type filter: Union[int, dict]
+        :return: The first matching document
+        :rtype: XATextEditDocument
+
+        :Example 1: Get a document by index
+
+        >>> import PyXA
+        >>> app = PyXA.application("TextEdit")
+        >>> print(app.document(0))
+        <<class 'PyXA.apps.TextEdit.XATextEditDocument'>Current Document>
+
+        :Example 2: Get a document by applying a filter
+
+        >>> import PyXA
+        >>> app = PyXA.application("TextEdit")
+        >>> print(app.document({"name": "Another Document"}))
+        <<class 'PyXA.apps.TextEdit.XATextEditDocument'>Another Document>
 
         .. versionadded:: 0.0.1
         """
@@ -75,8 +113,8 @@ class XATextEditApplication(XABaseScriptable.XASBApplication, XABase.XACanConstr
         :Example:
 
         >>> import PyXA
-        >>> te = PyXA.application("TextEdit")
-        >>> doc = te.new_document("New.txt", "Example text")
+        >>> app = PyXA.application("TextEdit")
+        >>> doc = app.new_document("New.txt", "Example text")
         >>> print(doc.properties)
         {
             modified = 0;
@@ -112,10 +150,52 @@ class XATextEditDocument(XABase.XACanConstructElement, XABase.XAAcceptsPushedEle
 
     .. seealso:: :class:`XATextEditApplication`
 
+    .. versionchanged:: 0.0.2
+
+       Added :func:`close`, :func:`save`, and :func:`copy`
+
     .. versionadded:: 0.0.1
     """
     def __init__(self, properties):
         super().__init__(properties)
+        self.path = self.xa_elem.path() #: The path at which the document is stored
+        self.name = self.xa_elem.name() #: The name of the document, including the file extension
+        self.modified #: Whether the document has been modified since the last save
+
+    def close(self):
+        """Closes the document.
+
+        .. versionadded:: 0.0.2
+        """
+        self.xa_elem.delete()
+
+    def save(self, file_path: str = None):
+        """Saves the document.
+
+        If a file path is provided, TextEdit will attempt to create a new file at the target location and of the specified file extension. If no file path is provided, a save dialog for the document will open.
+
+        :param file_path: The path to save the document at, defaults to None
+        :type file_path: str, optional
+
+        .. versionadded:: 0.0.2
+        """
+        if file_path is not None:
+            url = NSURL.alloc().initFileURLWithPath_(file_path)
+            self.xa_elem.saveAs_in_(None, url)
+        else:
+            self.xa_elem.saveAs_in_(None, None)
+
+    def copy(self):
+        """Copies the document file and its contents to the clipboard.
+
+        .. versionadded:: 0.0.2
+        """
+        url =  NSURL.alloc().initFileURLWithPath_(self.path)
+        self.set_clipboard([self.text, url])
+
+    @property
+    def modified(self):
+        return self.xa_elem.modified()
 
     def __repr__(self):
-        return self.name
+        return "<" + str(type(self)) + self.name + ">"

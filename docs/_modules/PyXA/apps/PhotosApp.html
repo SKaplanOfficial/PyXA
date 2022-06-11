@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PyXA.apps.PhotosApp &mdash; PyXA 0.0.2 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> PyXA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../about/index.html">Project Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reference/index.html">Code Documentation and Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../bugs.html">Bugs</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">PyXA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      <li>PyXA.apps.PhotosApp</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for PyXA.apps.PhotosApp</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;.. versionadded:: 0.0.2</span>
+
+<span class="sd">Control the macOS Photos application using JXA-like syntax.</span>
+
+<span class="sd">.. todo::</span>
+
+<span class="sd">   - Add support for folders and containers</span>
+<span class="sd">   - Add image operations such as rotate, flip</span>
+<span class="sd">   - Add ability to add new albums</span>
+<span class="sd">   - Add ability to move photos to albums/folders</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">sleep</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">import</span> <span class="nn">threading</span>
+
+<span class="kn">import</span> <span class="nn">Photos</span>
+<span class="kn">from</span> <span class="nn">AppKit</span> <span class="kn">import</span> <span class="n">NSPredicate</span><span class="p">,</span> <span class="n">NSImage</span><span class="p">,</span> <span class="n">NSURL</span>
+<span class="kn">from</span> <span class="nn">Foundation</span> <span class="kn">import</span> <span class="n">NSSortDescriptor</span>
+
+<span class="kn">from</span> <span class="nn">PyXA</span> <span class="kn">import</span> <span class="n">XABase</span>
+<span class="kn">from</span> <span class="nn">PyXA</span> <span class="kn">import</span> <span class="n">XABaseScriptable</span>
+
+<div class="viewcode-block" id="XAPhotosApplication"><a class="viewcode-back" href="../../../reference/apps/photos.html#PyXA.apps.PhotosApp.XAPhotosApplication">[docs]</a><span class="k">class</span> <span class="nc">XAPhotosApplication</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBApplication</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A class for managing and interacting with Photos.app.</span>
+
+<span class="sd">     .. seealso:: :class:`XATextEditWindow`, :class:`XAPhotosMediaItem`</span>
+
+<span class="sd">    .. versionadded:: 0.0.2</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_plib</span> <span class="o">=</span> <span class="n">Photos</span><span class="o">.</span><span class="n">PHPhotoLibrary</span><span class="o">.</span><span class="n">alloc</span><span class="p">()</span><span class="o">.</span><span class="n">initSharedLibrary</span><span class="p">()</span>
+
+    <span class="c1"># Albums</span>
+    <span class="k">def</span> <span class="nf">__new_album</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">album_obj</span><span class="p">:</span> <span class="n">Photos</span><span class="o">.</span><span class="n">PHAssetCollection</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAPhotosAlbum&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Wrapper for creating a new XAPhotosAlbum object.</span>
+
+<span class="sd">        :param album_obj: The PHAssetCollection object to wrap.</span>
+<span class="sd">        :type album_obj: Photos.PHAssetCollection</span>
+<span class="sd">        :return: A reference to a PyXA photo asset object.</span>
+<span class="sd">        :rtype: XAPhotosAlbum</span>
+
+<span class="sd">        .. versionadded:: 0.0.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">predicate</span> <span class="o">=</span> <span class="n">NSPredicate</span><span class="o">.</span><span class="n">predicateWithFormat_</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">xa_predicate_format</span><span class="p">({</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">album_obj</span><span class="o">.</span><span class="n">localIdentifier</span><span class="p">()}))</span>
+        <span class="n">scriptable_albums</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">albums</span><span class="p">()</span>
+        <span class="n">scriptable_album</span> <span class="o">=</span> <span class="n">scriptable_albums</span><span class="o">.</span><span class="n">filteredArrayUsingPredicate_</span><span class="p">(</span><span class="n">predicate</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">properties</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;parent&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="p">,</span>
+            <span class="s2">&quot;appspace&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_apsp</span><span class="p">,</span>
+            <span class="s2">&quot;workspace&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_wksp</span><span class="p">,</span>
+            <span class="s2">&quot;element&quot;</span><span class="p">:</span> <span class="n">album_obj</span><span class="p">,</span>
+            <span class="s2">&quot;scriptable_element&quot;</span><span class="p">:</span> <span class="n">scriptable_album</span><span class="p">,</span>
+            <span class="s2">&quot;appref&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_aref</span><span class="p">,</span>
+            <span class="s2">&quot;system_events&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_sevt</span><span class="p">,</span>
+            <span class="s2">&quot;photo_library&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_plib</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">XAPhotosAlbum</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
+
+<div class="viewcode-block" id="XAPhotosApplication.albums"><a class="viewcode-back" href="../../../reference/apps/photos.html#PyXA.apps.PhotosApp.XAPhotosApplication.albums">[docs]</a>    <span class="k">def</span> <span class="nf">albums</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;XAPhotosAlbum&#39;</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Returns a list of albums, as PyXA objects, matching the given filter.</span>
+
+<span class="sd">        :param filter: A dictionary specifying property-value pairs that all returned albums will have</span>
+<span class="sd">        :type filter: dict</span>
+<span class="sd">        :return: The list of albums</span>
+<span class="sd">        :rtype: List[XAPhotosAlbum]</span>
+
+<span class="sd">        :Example 1: Listing all albums</span>
+
+<span class="sd">        &gt;&gt;&gt; import PyXA</span>
+<span class="sd">        &gt;&gt;&gt; app = PyXA.application(&quot;Photos&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; print(app.albums())</span>
+<span class="sd">        [&lt;&lt;class &#39;PyXA.apps.PhotosApp.XAPhotosAlbum&#39;&gt;Example Album, id=7E62F87B-90C4-4B83-9383-E6F2917C11B3/L0/040&gt;, &lt;&lt;class &#39;PyXA.apps.PhotosApp.XAPhotosAlbum&#39;&gt;Another Album, id=BA978E66-36E3-42B2-9F09-2484B4CFFC1E/L0/040&gt;, ...]</span>
+
+<span class="sd">        :Example 2: Listing albums after applying a filter</span>
+
+<span class="sd">        &gt;&gt;&gt; import PyXA</span>
+<span class="sd">        &gt;&gt;&gt; app = PyXA.application(&quot;Photos&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; print(app.albums({&quot;title&quot;: &quot;Example Album&quot;}))</span>
+<span class="sd">        [&lt;&lt;class &#39;PyXA.apps.PhotosApp.XAPhotosMediaItem&#39;&gt;id=54ECE9C9-12AD-4985-82F1-265D5A47F325/L0/001&gt;]</span>
+
+<span class="sd">        .. versionadded:: 0.0.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">fetchOptions</span> <span class="o">=</span> <span class="n">Photos</span><span class="o">.</span><span class="n">PHFetchOptions</span><span class="o">.</span><span class="n">alloc</span><span class="p">()</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+
+        <span class="c1"># Apply Filter</span>
+        <span class="k">if</span> <span class="nb">filter</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s2">&quot;id&quot;</span> <span class="ow">in</span> <span class="nb">filter</span><span class="p">:</span>
+                <span class="nb">filter</span><span class="p">[</span><span class="s2">&quot;localIdentifier&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">filter</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span>
+                <span class="nb">filter</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">)</span>
+            <span class="n">predicate</span> <span class="o">=</span> <span class="n">NSPredicate</span><span class="o">.</span><span class="n">predicateWithFormat_</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">xa_predicate_format</span><span class="p">(</span><span class="nb">filter</span><span class="p">))</span>
+            <span class="n">fetchOptions</span><span class="o">.</span><span class="n">setPredicate_</span><span class="p">(</span><span class="n">predicate</span><span class="p">)</span>
+
+        <span class="n">albums</span> <span class="o">=</span> <span class="n">Photos</span><span class="o">.</span><span class="n">PHAssetCollection</span><span class="o">.</span><span class="n">fetchAssetCollectionsWithType_subtype_options_</span><span class="p">(</span><span class="n">Photos</span><span class="o">.</span><span class="n">PHAssetCollectionTypeAlbum</span><span class="p">,</span> <span class="n">Photos</span><span class="o">.</span><span class="n">PHAssetCollectionSubtypeAny</span><span class="p">,</span> <span class="n">fetchOptions</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">__new_album</span><span class="p">(</span><span class="n">albums</span><span class="o">.</span><span class="n">objectAtIndex_</span><span class="p">(</span><span class="n">i</span><span class="p">))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">albums</span><span class="o">.</span><span class="n">count</span><span class="p">())]</span></div>
+
+<div class="viewcode-block" id="XAPhotosApplication.album"><a class="viewcode-back" href="../../../reference/apps/photos.html#PyXA.apps.PhotosApp.XAPhotosApplication.album">[docs]</a>    <span class="k">def</span> <span class="nf">album</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">dict</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAPhotosAlbum&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Returns the first album matching the given filter.</span>
+
+<span class="sd">        :param filter: Either an array index or a dictionary specifying property-value pairs that the returned album will have</span>
+<span class="sd">        :type filter: Union[int, dict]</span>
+<span class="sd">        :return: The media item</span>
+<span class="sd">        :rtype: XAPhotosAlbum</span>
+
+<span class="sd">        :Example 1: Getting an album by index</span>
+
+<span class="sd">        &gt;&gt;&gt; import PyXA</span>
+<span class="sd">        &gt;&gt;&gt; app = PyXA.application(&quot;Photos&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; print(app.album(2))</span>
+<span class="sd">        &lt;&lt;class &#39;PyXA.apps.PhotosApp.XAPhotosAlbum&#39;&gt;Snapchat, id=0CB8EA43-A0BB-4D14-A71A-212A890A64D2/L0/040&gt;</span>
+
+<span class="sd">        :Example 2: Getting an album by using a filter</span>
+
+<span class="sd">        &gt;&gt;&gt; import PyXA</span>
+<span class="sd">        &gt;&gt;&gt; app = PyXA.application(&quot;Photos&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; print(app.album({&quot;title&quot;: &quot;PyXA Photos&quot;}))</span>
+<span class="sd">        &lt;&lt;class &#39;PyXA.apps.PhotosApp.XAPhotosAlbum&#39;&gt;Summer Camp 2018, id=7E62F87B-90C4-4B83-9383-E6F2917C11B3/L0/040&gt;</span>
+
+<span class="sd">        .. versionadded:: 0.0.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">fetchOptions</span> <span class="o">=</span> <span class="n">Photos</span><span class="o">.</span><span class="n">PHFetchOptions</span><span class="o">.</span><span class="n">alloc</span><span class="p">()</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">filter</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="n">albums</span> <span class="o">=</span> <span class="n">Photos</span><span class="o">.</span><span class="n">PHAssetCollection</span><span class="o">.</span><span class="n">fetchAssetCollectionsWithType_subtype_options_</span><span class="p">(</span><span class="n">Photos</span><span class="o">.</span><span class="n">PHAssetCollectionTypeAlbum</span><span class="p">,</span> <span class="n">Photos</span><span class="o">.</span><span class="n">PHAssetCollectionSubtypeAny</span><span class="p">,</span> <span class="n">fetchOptions</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__new_album</span><span class="p">(</span><span class="n">albums</span><span class="o">.</span><span class="n">objectAtIndex_</span><span class="p">(</span><span class="nb">filter</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="s2">&quot;id&quot;</span> <span class="ow">in</span> <span class="nb">filter</span><span class="p">:</span>
+            <span class="nb">filter</span><span class="p">[</span><span class="s2">&quot;localIdentifier&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">filter</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span>
+            <span class="nb">filter</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">)</span>
+
+        <span class="n">predicate</span> <span class="o">=</span> <span class="n">NSPredicate</span><span class="o">.</span><span class="n">predicateWithFormat_</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">xa_predicate_format</span><span class="p">(</span><span class="nb">filter</span><span class="p">))</span>
+        <span class="n">fetchOptions</span><span class="o">.</span><span class="n">setPredicate_</span><span class="p">(</span><span class="n">predicate</span><span class="p">)</span>
+        <span class="n">albums</span> <span class="o">=</span> <span class="n">Photos</span><span class="o">.</span><span class="n">PHAssetCollection</span><span class="o">.</span><span class="n">fetchAssetCollectionsWithType_subtype_options_</span><span class="p">(</span><span class="n">Photos</span><span class="o">.</span><span class="n">PHAssetCollectionTypeAlbum</span><span class="p">,</span> <span class="n">Photos</span><span class="o">.</span><span class="n">PHAssetCollectionSubtypeAny</span><span class="p">,</span> <span class="n">fetchOptions</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__new_album</span><span class="p">(</span><span class="n">albums</span><span class="o">.</span><span class="n">objectAtIndex_</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="XAPhotosApplication.first_album"><a class="viewcode-back" href="../../../reference/apps/photos.html#PyXA.apps.PhotosApp.XAPhotosApplication.first_album">[docs]</a>    <span class="k">def</span> <span class="nf">first_album</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAPhotosAlbum&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Returns the album at the zero index of the media albums array.</span>
+
+<span class="sd">        :return: The first album</span>
+<span class="sd">        :rtype: XAPhotosAlbum</span>
+
+<span class="sd">        .. versionadded:: 0.0.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">fetchOptions</span> <span class="o">=</span> <span class="n">Photos</span><span class="o">.</span><span class="n">PHFetchOptions</span><span class="o">.</span><span class="n">alloc</span><span class="p">()</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+        <span class="n">albums</span> <span class="o">=</span> <span class="n">Photos</span><span class="o">.</span><span class="n">PHAssetCollection</span><span class="o">.</span><span class="n">fetchAssetCollectionsWithType_subtype_options_</span><span class="p">(</span><span class="n">Photos</span><span class="o">.</span><span class="n">PHAssetCollectionTypeAlbum</span><span class="p">,</span> <span class="n">Photos</span><span class="o">.</span><span class="n">PHAssetCollectionSubtypeAny</span><span class="p">,</span> <span class="n">fetchOptions</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__new_album</span><span class="p">(</span><span class="n">albums</span><span class="o">.</span><span class="n">firstObject</span><span class="p">())</span></div>
+
+<div class="viewcode-block" id="XAPhotosApplication.last_album"><a class="viewcode-back" href="../../../reference/apps/photos.html#PyXA.apps.PhotosApp.XAPhotosApplication.last_album">[docs]</a>    <span class="k">def</span> <span class="nf">last_album</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAPhotosAlbum&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Returns the album at the last (-1) index of the media albums array.</span>
+
+<span class="sd">        :return: The last album</span>
+<span class="sd">        :rtype: XAPhotosAlbum</span>
+
+<span class="sd">        .. versionadded:: 0.0.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">fetchOptions</span> <span class="o">=</span> <span class="n">Photos</span><span class="o">.</span><span class="n">PHFetchOptions</span><span class="o">.</span><span class="n">alloc</span><span class="p">()</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+        <span class="n">albums</span> <span class="o">=</span> <span class="n">Photos</span><span class="o">.</span><span class="n">PHAssetCollection</span><span class="o">.</span><span class="n">fetchAssetCollectionsWithType_subtype_options_</span><span class="p">(</span><span class="n">Photos</span><span class="o">.</span><span class="n">PHAssetCollectionTypeAlbum</span><span class="p">,</span> <span class="n">Photos</span><span class="o">.</span><span class="n">PHAssetCollectionSubtypeAny</span><span class="p">,</span> <span class="n">fetchOptions</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__new_album</span><span class="p">(</span><span class="n">albums</span><span class="o">.</span><span class="n">lastObject</span><span class="p">())</span></div>
+
+    <span class="c1"># Media Items</span>
+    <span class="k">def</span> <span class="nf">__new_media_item</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">photo_obj</span><span class="p">:</span> <span class="n">Photos</span><span class="o">.</span><span class="n">PHAsset</span><span class="p">,</span> <span class="n">elements</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;XAPhotosMediaItem&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XAPhotosMediaItem&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Wrapper for creating a new XAPhoto object.</span>
+
+<span class="sd">        :param photo_obj: The PHAsset object to wrap.</span>
+<span class="sd">        :type photo_obj: Photos.PHAsset</span>
+<span class="sd">        :param elements: A list to directly store the created XAPhoto element into, instead of returning it.</span>
+<span class="sd">        :type elements: List[XAPhoto]</span>
+<span class="sd">        :return: A reference to a PyXA photo asset object.</span>
+<span class="sd">        :rtype: Union[XAPhoto, None]</span>
+
+<span class="sd">        .. versionadded:: 0.0.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">predicate</span> <span class="o">=</span> <span class="n">NSPredicate</span><span class="o">.</span><span class="n">predicateWithFormat_</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">xa_predicate_format</span><span class="p">({</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">photo_obj</span><span class="o">.</span><span class="n">localIdentifier</span><span class="p">()}))</span>
+        <span class="n">scriptable_photos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">mediaItems</span><span class="p">()</span>
+        <span class="n">scriptable_photo</span> <span class="o">=</span> <span class="n">scriptable_photos</span><span class="o">.</span><span class="n">filteredArrayUsingPredicate_</span><span class="p">(</span><span class="n">predicate</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">properties</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;parent&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="p">,</span>
+            <span class="s2">&quot;appspace&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_apsp</span><span class="p">,</span>
+            <span class="s2">&quot;workspace&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_wksp</span><span class="p">,</span>
+            <span class="s2">&quot;element&quot;</span><span class="p">:</span> <span class="n">photo_obj</span><span class="p">,</span>
+            <span class="s2">&quot;scriptable_element&quot;</span><span class="p">:</span> <span class="n">scriptable_photo</span><span class="p">,</span>
+            <span class="s2">&quot;appref&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_aref</span><span class="p">,</span>
+            <span class="s2">&quot;system_events&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_sevt</span><span class="p">,</span>
+            <span class="s2">&quot;photo_library&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_plib</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="n">elements</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">XAPhotosMediaItem</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
+        <span class="n">elements</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">XAPhotosMediaItem</span><span class="p">(</span><span class="n">properties</span><span class="p">))</span>
+
+<div class="viewcode-block" id="XAPhotosApplication.media_items"><a class="viewcode-back" href="../../../reference/apps/photos.html#PyXA.apps.PhotosApp.XAPhotosApplication.media_items">[docs]</a>    <span class="k">def</span> <span class="nf">media_items</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;XAPhotosMediaItem&#39;</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Returns a list of media items, as PyXA objects, matching the given filter.</span>
+
+<span class="sd">        :param filter: A dictionary specifying property-value pairs that all returned media items will have</span>
+<span class="sd">        :type filter: dict</span>
+<span class="sd">        :return: The list of media items</span>
+<span class="sd">        :rtype: List[XAPhotosMediaItem]</span>
+
+<span class="sd">        :Example 1: Listing all media items</span>
+
+<span class="sd">        &gt;&gt;&gt; import PyXA</span>
+<span class="sd">        &gt;&gt;&gt; app = PyXA.application(&quot;Photos&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; print(app.media_items())</span>
+<span class="sd">        [&lt;&lt;class &#39;PyXA.apps.PhotosApp.XAPhotosMediaItem&#39;&gt;id=09B91497-7528-43B0-9143-37BB84724201/L0/001&gt;, &lt;&lt;class &#39;PyXA.apps.PhotosApp.XAPhotosMediaItem&#39;&gt;id=4F311B01-20A5-4413-97B5-43F7B7854981/L0/001&gt;, ...]</span>
+
+<span class="sd">        :Example 2: Listing media items after applying a filter</span>
+
+<span class="sd">        &gt;&gt;&gt; import PyXA</span>
+<span class="sd">        &gt;&gt;&gt; app = PyXA.application(&quot;Photos&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; print(app.media_items({&quot;favorite&quot;: True}))</span>
+<span class="sd">        [&lt;&lt;class &#39;PyXA.apps.PhotosApp.XAPhotosMediaItem&#39;&gt;id=54ECE9C9-12AD-4985-82F1-265D5A47F325/L0/001&gt;, &lt;&lt;class &#39;PyXA.apps.PhotosApp.XAPhotosMediaItem&#39;&gt;id=1F41A2F0-E77C-46F4-AE57-245E2D7846E0/L0/001&gt;, ...]</span>
+
+<span class="sd">        .. versionadded:: 0.0.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Set up request to get all photos</span>
+        <span class="n">allPhotosOptions</span> <span class="o">=</span> <span class="n">Photos</span><span class="o">.</span><span class="n">PHFetchOptions</span><span class="o">.</span><span class="n">alloc</span><span class="p">()</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+        <span class="n">allPhotosOptions</span><span class="o">.</span><span class="n">setSortDescriptors_</span><span class="p">([</span><span class="n">NSSortDescriptor</span><span class="o">.</span><span class="n">alloc</span><span class="p">()</span><span class="o">.</span><span class="n">initWithKey_ascending_</span><span class="p">(</span><span class="s2">&quot;creationDate&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)])</span>
+
+        <span class="c1"># Apply Filter</span>
+        <span class="k">if</span> <span class="nb">filter</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s2">&quot;id&quot;</span> <span class="ow">in</span> <span class="nb">filter</span><span class="p">:</span>
+                <span class="nb">filter</span><span class="p">[</span><span class="s2">&quot;localIdentifier&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">filter</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span>
+                <span class="nb">filter</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">)</span>
+            <span class="n">predicate</span> <span class="o">=</span> <span class="n">NSPredicate</span><span class="o">.</span><span class="n">predicateWithFormat_</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">xa_predicate_format</span><span class="p">(</span><span class="nb">filter</span><span class="p">))</span>
+            <span class="n">allPhotosOptions</span><span class="o">.</span><span class="n">setPredicate_</span><span class="p">(</span><span class="n">predicate</span><span class="p">)</span>
+
+        <span class="c1"># Execute request</span>
+        <span class="n">photos</span> <span class="o">=</span> <span class="n">Photos</span><span class="o">.</span><span class="n">PHAsset</span><span class="o">.</span><span class="n">fetchAssetsWithOptions_</span><span class="p">(</span><span class="n">allPhotosOptions</span><span class="p">)</span>
+        
+        <span class="c1"># Spawn threads to create PyXA objects</span>
+        <span class="n">elements</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">photos</span><span class="o">.</span><span class="n">count</span><span class="p">()):</span>
+            <span class="n">lookup_thread</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__new_media_item</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">photos</span><span class="o">.</span><span class="n">objectAtIndex_</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="n">elements</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Lookup Scriptable Photo&quot;</span><span class="p">,</span> <span class="n">daemon</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">lookup_thread</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+
+        <span class="c1"># Return elements once all threads are complete</span>
+        <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">elements</span><span class="p">)</span> <span class="o">!=</span> <span class="n">photos</span><span class="o">.</span><span class="n">count</span><span class="p">():</span>
+            <span class="n">sleep</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">elements</span></div>
+
+<div class="viewcode-block" id="XAPhotosApplication.media_item"><a class="viewcode-back" href="../../../reference/apps/photos.html#PyXA.apps.PhotosApp.XAPhotosApplication.media_item">[docs]</a>    <span class="k">def</span> <span class="nf">media_item</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">dict</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAPhotosMediaItem&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Returns the first media item matching the given filter.</span>
+
+<span class="sd">        :param filter: Either an array index or a dictionary specifying property-value pairs that the returned media item will have</span>
+<span class="sd">        :type filter: Union[int, dict]</span>
+<span class="sd">        :return: The media item</span>
+<span class="sd">        :rtype: XAPhotosMediaItem</span>
+
+<span class="sd">        :Example 1: Getting a media item by index</span>
+
+<span class="sd">        &gt;&gt;&gt; import PyXA</span>
+<span class="sd">        &gt;&gt;&gt; app = PyXA.application(&quot;Photos&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; print(app.media_item(7))</span>
+<span class="sd">        &lt;&lt;class &#39;PyXA.apps.PhotosApp.XAPhotosMediaItem&#39;&gt;id=99301EE7-9FC0-4535-9987-382CF4E028EB/L0/001&gt;</span>
+
+<span class="sd">        :Example 2: Getting a media item by using a filter</span>
+
+<span class="sd">        &gt;&gt;&gt; import PyXA</span>
+<span class="sd">        &gt;&gt;&gt; app = PyXA.application(&quot;Photos&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; print(app.media_item({&quot;id&quot;: &quot;1F41A2F0-E77C-46F4-AE57-245E2D7846E0/L0/001&quot;}))</span>
+<span class="sd">        &lt;&lt;class &#39;PyXA.apps.PhotosApp.XAPhotosMediaItem&#39;&gt;id=1F41A2F0-E77C-46F4-AE57-245E2D7846E0/L0/001&gt;</span>
+
+<span class="sd">        .. versionadded:: 0.0.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">filter</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="n">allPhotosOptions</span> <span class="o">=</span> <span class="n">Photos</span><span class="o">.</span><span class="n">PHFetchOptions</span><span class="o">.</span><span class="n">alloc</span><span class="p">()</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+            <span class="n">allPhotosOptions</span><span class="o">.</span><span class="n">setSortDescriptors_</span><span class="p">([</span><span class="n">NSSortDescriptor</span><span class="o">.</span><span class="n">alloc</span><span class="p">()</span><span class="o">.</span><span class="n">initWithKey_ascending_</span><span class="p">(</span><span class="s2">&quot;creationDate&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)])</span>
+            <span class="n">photos</span> <span class="o">=</span> <span class="n">Photos</span><span class="o">.</span><span class="n">PHAsset</span><span class="o">.</span><span class="n">fetchAssetsWithOptions_</span><span class="p">(</span><span class="n">allPhotosOptions</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__new_media_item</span><span class="p">(</span><span class="n">photos</span><span class="o">.</span><span class="n">objectAtIndex_</span><span class="p">(</span><span class="nb">filter</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="s2">&quot;id&quot;</span> <span class="ow">in</span> <span class="nb">filter</span><span class="p">:</span>
+            <span class="nb">filter</span><span class="p">[</span><span class="s2">&quot;localIdentifier&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">filter</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span>
+            <span class="nb">filter</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">)</span>
+        
+        <span class="n">allPhotosOptions</span> <span class="o">=</span> <span class="n">Photos</span><span class="o">.</span><span class="n">PHFetchOptions</span><span class="o">.</span><span class="n">alloc</span><span class="p">()</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+        <span class="n">predicate</span> <span class="o">=</span> <span class="n">NSPredicate</span><span class="o">.</span><span class="n">predicateWithFormat_</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">xa_predicate_format</span><span class="p">(</span><span class="nb">filter</span><span class="p">))</span>
+        <span class="n">allPhotosOptions</span><span class="o">.</span><span class="n">setPredicate_</span><span class="p">(</span><span class="n">predicate</span><span class="p">)</span>
+        <span class="n">photos</span> <span class="o">=</span> <span class="n">Photos</span><span class="o">.</span><span class="n">PHAsset</span><span class="o">.</span><span class="n">fetchAssetsWithOptions_</span><span class="p">(</span><span class="n">allPhotosOptions</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">photos</span><span class="o">.</span><span class="n">count</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__new_media_item</span><span class="p">(</span><span class="n">photos</span><span class="o">.</span><span class="n">objectAtIndex_</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="XAPhotosApplication.first_media_item"><a class="viewcode-back" href="../../../reference/apps/photos.html#PyXA.apps.PhotosApp.XAPhotosApplication.first_media_item">[docs]</a>    <span class="k">def</span> <span class="nf">first_media_item</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAPhotosMediaItem&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Returns the item at the zero index of the media items array.</span>
+
+<span class="sd">        :return: The first media item</span>
+<span class="sd">        :rtype: XAPhotosMediaItem</span>
+
+<span class="sd">        .. versionadded:: 0.0.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">allPhotosOptions</span> <span class="o">=</span> <span class="n">Photos</span><span class="o">.</span><span class="n">PHFetchOptions</span><span class="o">.</span><span class="n">alloc</span><span class="p">()</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+        <span class="n">allPhotosOptions</span><span class="o">.</span><span class="n">setSortDescriptors_</span><span class="p">([</span><span class="n">NSSortDescriptor</span><span class="o">.</span><span class="n">alloc</span><span class="p">()</span><span class="o">.</span><span class="n">initWithKey_ascending_</span><span class="p">(</span><span class="s2">&quot;creationDate&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)])</span>
+        <span class="n">photos</span> <span class="o">=</span> <span class="n">Photos</span><span class="o">.</span><span class="n">PHAsset</span><span class="o">.</span><span class="n">fetchAssetsWithOptions_</span><span class="p">(</span><span class="n">allPhotosOptions</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__new_media_item</span><span class="p">(</span><span class="n">photos</span><span class="o">.</span><span class="n">firstObject</span><span class="p">())</span></div>
+
+<div class="viewcode-block" id="XAPhotosApplication.last_media_item"><a class="viewcode-back" href="../../../reference/apps/photos.html#PyXA.apps.PhotosApp.XAPhotosApplication.last_media_item">[docs]</a>    <span class="k">def</span> <span class="nf">last_media_item</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAPhotosMediaItem&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Returns the item at the last (-1) index of the media items array.</span>
+
+<span class="sd">        :return: The last media item</span>
+<span class="sd">        :rtype: XAPhotosMediaItem</span>
+
+<span class="sd">        .. versionadded:: 0.0.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">allPhotosOptions</span> <span class="o">=</span> <span class="n">Photos</span><span class="o">.</span><span class="n">PHFetchOptions</span><span class="o">.</span><span class="n">alloc</span><span class="p">()</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+        <span class="n">allPhotosOptions</span><span class="o">.</span><span class="n">setSortDescriptors_</span><span class="p">([</span><span class="n">NSSortDescriptor</span><span class="o">.</span><span class="n">alloc</span><span class="p">()</span><span class="o">.</span><span class="n">initWithKey_ascending_</span><span class="p">(</span><span class="s2">&quot;creationDate&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)])</span>
+        <span class="n">photos</span> <span class="o">=</span> <span class="n">Photos</span><span class="o">.</span><span class="n">PHAsset</span><span class="o">.</span><span class="n">fetchAssetsWithOptions_</span><span class="p">(</span><span class="n">allPhotosOptions</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__new_media_item</span><span class="p">(</span><span class="n">photos</span><span class="o">.</span><span class="n">lastObject</span><span class="p">())</span></div></div>
+
+<div class="viewcode-block" id="XAPhotosContainer"><a class="viewcode-back" href="../../../reference/apps/photos.html#PyXA.apps.PhotosApp.XAPhotosContainer">[docs]</a><span class="k">class</span> <span class="nc">XAPhotosContainer</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAHasElements</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A generic class for managing and interacting with containers (folders and albums) in Photos.app.</span>
+
+<span class="sd">    .. seealso:: :class:`XAPhotosApplication`</span>
+
+<span class="sd">    .. versionadded:: 0.0.2</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XAPhotosAlbum"><a class="viewcode-back" href="../../../reference/apps/photos.html#PyXA.apps.PhotosApp.XAPhotosAlbum">[docs]</a><span class="k">class</span> <span class="nc">XAPhotosAlbum</span><span class="p">(</span><span class="n">XAPhotosContainer</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A class for managing and interacting with albums in Photos.app.</span>
+
+<span class="sd">    .. seealso:: :class:`XAPhotosApplication`</span>
+
+<span class="sd">    .. versionadded:: 0.0.2</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_plib</span> <span class="o">=</span> <span class="n">properties</span><span class="p">[</span><span class="s2">&quot;photo_library&quot;</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">localIdentifier</span><span class="p">()</span> <span class="c1">#: A unique identifier for this album</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">title</span><span class="p">()</span> <span class="c1">#: The title of the album</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">earliest_date</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">startDate</span><span class="p">()</span> <span class="c1">#: The earliest date an item in the album was captured</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">latest_date</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">endDate</span><span class="p">()</span> <span class="c1">#: The most recent date an item in the album was captured</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">count</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">approximateCount</span><span class="p">()</span> <span class="c1">#: The number of items in the album</span>
+
+        <span class="n">location</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">approximateLocation</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">location</span> <span class="o">=</span> <span class="kc">None</span> <span class="c1">#: A general location encompassing the locations of all items in the album</span>
+        <span class="k">if</span> <span class="n">location</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">location</span> <span class="o">=</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XALocation</span><span class="p">(</span>
+                <span class="n">latitude</span> <span class="o">=</span> <span class="n">location</span><span class="o">.</span><span class="n">coordinate</span><span class="p">()[</span><span class="mi">0</span><span class="p">],</span>
+                <span class="n">longitude</span> <span class="o">=</span> <span class="n">location</span><span class="o">.</span><span class="n">coordinate</span><span class="p">()[</span><span class="mi">1</span><span class="p">],</span>
+                <span class="n">altitude</span> <span class="o">=</span> <span class="n">location</span><span class="o">.</span><span class="n">altitude</span><span class="p">(),</span>
+                <span class="n">raw_value</span> <span class="o">=</span> <span class="n">location</span><span class="p">,</span>
+            <span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;&lt;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">title</span> <span class="o">+</span> <span class="s2">&quot;, id=&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span></div>
+
+<div class="viewcode-block" id="XAPhotosFolder"><a class="viewcode-back" href="../../../reference/apps/photos.html#PyXA.apps.PhotosApp.XAPhotosFolder">[docs]</a><span class="k">class</span> <span class="nc">XAPhotosFolder</span><span class="p">(</span><span class="n">XAPhotosContainer</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A class for managing and interacting with folders in Photos.app.</span>
+
+<span class="sd">    .. seealso:: :class:`XAPhotosApplication`</span>
+
+<span class="sd">    .. versionadded:: 0.0.2</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XAPhotosMediaItem"><a class="viewcode-back" href="../../../reference/apps/photos.html#PyXA.apps.PhotosApp.XAPhotosMediaItem">[docs]</a><span class="k">class</span> <span class="nc">XAPhotosMediaItem</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A class for managing and interacting with photos in Photos.app.</span>
+
+<span class="sd">    .. seealso:: :class:`XAPhotosApplication`</span>
+
+<span class="sd">    .. versionadded:: 0.0.2</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_plib</span> <span class="o">=</span> <span class="n">properties</span><span class="p">[</span><span class="s2">&quot;photo_library&quot;</span><span class="p">]</span>
+
+        <span class="n">resources</span> <span class="o">=</span> <span class="n">Photos</span><span class="o">.</span><span class="n">PHAssetResource</span><span class="o">.</span><span class="n">assetResourcesForAsset_</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">localIdentifier</span><span class="p">()</span> <span class="c1">#: A unique identifier for this media item</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">title</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">title</span><span class="p">()</span> <span class="c1">#: The title of the media item</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">description</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">descriptionProperties</span><span class="p">()</span><span class="o">.</span><span class="n">assetDescription</span><span class="p">()</span> <span class="c1">#: The caption for the media item</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">favorite</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">isFavorite</span><span class="p">()</span> <span class="c1">#: Whether the media item is favorited or not</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">creation_date</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">creationDate</span><span class="p">()</span> <span class="c1">#: The original creation date of the item</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">modified_date</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">modificationDate</span><span class="p">()</span> <span class="c1">#: The date the item was last modified</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">pixelHeight</span><span class="p">()</span> <span class="c1">#: The height of the media item in pixels</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">pixelWidth</span><span class="p">()</span> <span class="c1">#: The width of the media item in pixels</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">aspect_ratio</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">aspectRatio</span><span class="p">()</span> <span class="c1">#: The aspect ratio of the item</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">filename</span><span class="p">()</span> <span class="c1">#: The name of the associated media file</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">mainFileURL</span><span class="p">()</span><span class="o">.</span><span class="n">path</span><span class="p">()</span> <span class="c1">#: The path to the associated media file</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">resources</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">fileSize</span><span class="p">()</span> <span class="c1">#: The file size of the media item in bytes</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__keywords</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span> <span class="c1">#: The keywords associated with the media item</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">kind</span> <span class="o">=</span> <span class="kc">None</span> <span class="c1">#: The media type of the item (e.g. image or video)</span>
+        <span class="n">kind</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">kind</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">kind</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">kind</span> <span class="o">=</span> <span class="s2">&quot;image&quot;</span>
+        <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">kind</span> <span class="o">=</span> <span class="s2">&quot;video&quot;</span>
+
+        <span class="n">location</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">location</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">location</span> <span class="o">=</span> <span class="kc">None</span> <span class="c1">#: The location the media item was captured</span>
+        <span class="k">if</span> <span class="n">location</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">location</span> <span class="o">=</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XALocation</span><span class="p">(</span>
+                <span class="n">latitude</span> <span class="o">=</span> <span class="n">location</span><span class="o">.</span><span class="n">coordinate</span><span class="p">()[</span><span class="mi">0</span><span class="p">],</span>
+                <span class="n">longitude</span> <span class="o">=</span> <span class="n">location</span><span class="o">.</span><span class="n">coordinate</span><span class="p">()[</span><span class="mi">1</span><span class="p">],</span>
+                <span class="n">altitude</span> <span class="o">=</span> <span class="n">location</span><span class="o">.</span><span class="n">altitude</span><span class="p">(),</span>
+                <span class="n">raw_value</span> <span class="o">=</span> <span class="n">location</span><span class="p">,</span>
+            <span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">keywords</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__keywords</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">keyword_thread</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__get_keywords</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Get Keywords&quot;</span><span class="p">,</span> <span class="n">daemon</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">keyword_thread</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+        <span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">__keywords</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># Wait for keywords to be fetched</span>
+            <span class="n">sleep</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__keywords</span>
+
+    <span class="k">def</span> <span class="nf">__get_keywords</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Gets the keywords associated with this image.</span>
+
+<span class="sd">        This process can take a moment, so it is recommended to run this method in a separate thread.</span>
+
+<span class="sd">        :return: The list of keywords</span>
+<span class="sd">        :rtype: List[str]</span>
+
+<span class="sd">        .. versionadded:: 0.0.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">keywords</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">keywords</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">keywords</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">keywords</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__keywords</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">keywords</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__keywords</span> <span class="o">=</span> <span class="p">[]</span>
+
+<div class="viewcode-block" id="XAPhotosMediaItem.copy"><a class="viewcode-back" href="../../../reference/apps/photos.html#PyXA.apps.PhotosApp.XAPhotosMediaItem.copy">[docs]</a>    <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Copies the media file and its data to the clipboard.</span>
+
+<span class="sd">        .. versionadded:: 0.0.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">NSURL</span><span class="o">.</span><span class="n">alloc</span><span class="p">()</span><span class="o">.</span><span class="n">initFileURLWithPath_</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">file_path</span><span class="p">)</span>
+        <span class="n">img</span> <span class="o">=</span> <span class="n">NSImage</span><span class="o">.</span><span class="n">alloc</span><span class="p">()</span><span class="o">.</span><span class="n">initWithContentsOfFile_</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">file_path</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_clipboard</span><span class="p">([</span><span class="n">img</span><span class="p">,</span> <span class="n">url</span><span class="p">])</span></div>
+
+<div class="viewcode-block" id="XAPhotosMediaItem.duplicate"><a class="viewcode-back" href="../../../reference/apps/photos.html#PyXA.apps.PhotosApp.XAPhotosMediaItem.duplicate">[docs]</a>    <span class="k">def</span> <span class="nf">duplicate</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAPhotosMediaItem&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Duplicates the media item in the Photo Library.</span>
+
+<span class="sd">        :return: A reference to the newly created media item.</span>
+<span class="sd">        :rtype: XAPhotosMediaItem</span>
+
+<span class="sd">        .. versionadded:: 0.0.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">scriptable_dupe_obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">duplicate</span><span class="p">()</span>
+        
+        <span class="n">allPhotosOptions</span> <span class="o">=</span> <span class="n">Photos</span><span class="o">.</span><span class="n">PHFetchOptions</span><span class="o">.</span><span class="n">alloc</span><span class="p">()</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+        <span class="n">predicate</span> <span class="o">=</span> <span class="n">NSPredicate</span><span class="o">.</span><span class="n">predicateWithFormat_</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">xa_predicate_format</span><span class="p">({</span><span class="s2">&quot;localIdentifier&quot;</span><span class="p">:</span> <span class="n">scriptable_dupe_obj</span><span class="o">.</span><span class="n">id</span><span class="p">()}))</span>
+        <span class="n">allPhotosOptions</span><span class="o">.</span><span class="n">setPredicate_</span><span class="p">(</span><span class="n">predicate</span><span class="p">)</span>
+        <span class="n">photos</span> <span class="o">=</span> <span class="n">Photos</span><span class="o">.</span><span class="n">PHAsset</span><span class="o">.</span><span class="n">fetchAssetsWithOptions_</span><span class="p">(</span><span class="n">allPhotosOptions</span><span class="p">)</span>
+        <span class="n">dupe_obj</span> <span class="o">=</span> <span class="n">photos</span><span class="o">.</span><span class="n">firstObject</span><span class="p">()</span>
+
+        <span class="n">properties</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;parent&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_prnt</span><span class="p">,</span>
+            <span class="s2">&quot;appspace&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_apsp</span><span class="p">,</span>
+            <span class="s2">&quot;workspace&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_wksp</span><span class="p">,</span>
+            <span class="s2">&quot;element&quot;</span><span class="p">:</span> <span class="n">dupe_obj</span><span class="p">,</span>
+            <span class="s2">&quot;scriptable_element&quot;</span><span class="p">:</span> <span class="n">scriptable_dupe_obj</span><span class="p">,</span>
+            <span class="s2">&quot;appref&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_aref</span><span class="p">,</span>
+            <span class="s2">&quot;system_events&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_sevt</span><span class="p">,</span>
+            <span class="s2">&quot;photo_library&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_plib</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">XAPhotosMediaItem</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XAPhotosMediaItem.show"><a class="viewcode-back" href="../../../reference/apps/photos.html#PyXA.apps.PhotosApp.XAPhotosMediaItem.show">[docs]</a>    <span class="k">def</span> <span class="nf">show</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Shows the media item in Photos.app.</span>
+
+<span class="sd">        .. versionadded:: 0.0.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">spotlight</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="XAPhotosMediaItem.show_in_preview"><a class="viewcode-back" href="../../../reference/apps/photos.html#PyXA.apps.PhotosApp.XAPhotosMediaItem.show_in_preview">[docs]</a>    <span class="k">def</span> <span class="nf">show_in_preview</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Opens the media item in Preview.</span>
+
+<span class="sd">        .. versionadded:: 0.0.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">NSURL</span><span class="o">.</span><span class="n">alloc</span><span class="p">()</span><span class="o">.</span><span class="n">initFileURLWithPath_</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">file_path</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_wksp</span><span class="o">.</span><span class="n">openURL_</span><span class="p">(</span><span class="n">url</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XAPhotosMediaItem.reveal_in_finder"><a class="viewcode-back" href="../../../reference/apps/photos.html#PyXA.apps.PhotosApp.XAPhotosMediaItem.reveal_in_finder">[docs]</a>    <span class="k">def</span> <span class="nf">reveal_in_finder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Opens a Finder window focused on the media item&#39;s containing folder with the media item selected.</span>
+
+<span class="sd">        .. versionadded:: 0.0.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_wksp</span><span class="o">.</span><span class="n">activateFileViewerSelectingURLs_</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">file_path</span><span class="p">])</span></div>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">title</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;&lt;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="o">+</span> <span class="s2">&quot;id=&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span>
+        <span class="k">return</span> <span class="s2">&quot;&lt;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">title</span> <span class="o">+</span> <span class="s2">&quot;, id=&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Stephen Kaplan.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

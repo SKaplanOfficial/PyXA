@@ -73,8 +73,17 @@
 <span class="sd">Control the macOS Reminders application using JXA-like syntax.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">from</span> <span class="nn">ScriptingBridge</span> <span class="kn">import</span> <span class="n">SBObject</span>
+
+<span class="kn">import</span> <span class="nn">EventKit</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="kn">from</span> <span class="nn">Foundation</span> <span class="kn">import</span> <span class="n">NSURL</span>
+<span class="kn">from</span> <span class="nn">AppKit</span> <span class="kn">import</span> <span class="n">NSPredicate</span><span class="p">,</span> <span class="n">NSMutableArray</span>
 
 <span class="kn">from</span> <span class="nn">PyXA</span> <span class="kn">import</span> <span class="n">XABase</span>
 <span class="kn">from</span> <span class="nn">PyXA</span> <span class="kn">import</span> <span class="n">XABaseScriptable</span>
@@ -98,89 +107,284 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">pasteboard_types</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">&quot;com.apple.reminders.reminderCopyPaste&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_clipboard_reminder</span><span class="p">,</span>
         <span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_estr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_exec_suppresed</span><span class="p">(</span><span class="n">EventKit</span><span class="o">.</span><span class="n">EKEventStore</span><span class="o">.</span><span class="n">alloc</span><span class="p">()</span><span class="o">.</span><span class="n">init</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_get_clipboard_reminder</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reminder_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAReminder&#39;</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">reminder</span><span class="p">({</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">reminder_name</span><span class="p">})</span>
 
     <span class="c1">## Lists</span>
+    <span class="k">def</span> <span class="nf">__new_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">list_obj</span><span class="p">:</span> <span class="n">EventKit</span><span class="o">.</span><span class="n">EKCalendar</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAReminderList&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Wrapper for creating a new XAReminder object.</span>
+
+<span class="sd">        :param calender_obj: The EKCalendar object to wrap.</span>
+<span class="sd">        :type calender_obj: EventKit.EKCalendar</span>
+<span class="sd">        :return: A reference to the newly created PyXA reminder list object.</span>
+<span class="sd">        :rtype: XAReminderList</span>
+
+<span class="sd">        .. versionadded:: 0.0.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">predicate</span> <span class="o">=</span> <span class="n">NSPredicate</span><span class="o">.</span><span class="n">predicateWithFormat_</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">xa_predicate_format</span><span class="p">({</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">list_obj</span><span class="o">.</span><span class="n">calendarIdentifier</span><span class="p">()}))</span>
+        <span class="n">scriptable_lists</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">lists</span><span class="p">()</span>
+        <span class="n">scriptable_list</span> <span class="o">=</span> <span class="n">scriptable_lists</span><span class="o">.</span><span class="n">filteredArrayUsingPredicate_</span><span class="p">(</span><span class="n">predicate</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">properties</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;parent&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="p">,</span>
+            <span class="s2">&quot;appspace&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_apsp</span><span class="p">,</span>
+            <span class="s2">&quot;workspace&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_wksp</span><span class="p">,</span>
+            <span class="s2">&quot;element&quot;</span><span class="p">:</span> <span class="n">list_obj</span><span class="p">,</span>
+            <span class="s2">&quot;scriptable_element&quot;</span><span class="p">:</span> <span class="n">scriptable_list</span><span class="p">,</span>
+            <span class="s2">&quot;appref&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_aref</span><span class="p">,</span>
+            <span class="s2">&quot;system_events&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_sevt</span><span class="p">,</span>
+            <span class="s2">&quot;event_store&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_estr</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">XAReminderList</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
+
 <div class="viewcode-block" id="XARemindersApplication.lists"><a class="viewcode-back" href="../../../reference/apps/reminders.html#PyXA.apps.Reminders.XARemindersApplication.lists">[docs]</a>    <span class="k">def</span> <span class="nf">lists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;XAReminderList&#39;</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Returns a list of reminder lists matching the filter.</span>
 
-<span class="sd">        .. seealso:: :func:`scriptable_elements`</span>
+<span class="sd">        :param filter: The properties and desired values to filter reminder lists by.</span>
+<span class="sd">        :type filter: dict</span>
+<span class="sd">        :return: The list of reminder lists.</span>
+<span class="sd">        :rtype: List[XAReminderList]</span>
+
+<span class="sd">        :Example 1: Get all lists</span>
+
+<span class="sd">        &gt;&gt;&gt; import PyXA</span>
+<span class="sd">        &gt;&gt;&gt; app = PyXA.application(&quot;Reminders&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; print(app.lists())</span>
+<span class="sd">        [&lt;&lt;class &#39;PyXA.apps.Reminders.XAReminderList&#39;&gt;General, id=22A058B0-5C62-4DE7-82CD-27DF96C3C354&gt;, &lt;&lt;class &#39;PyXA.apps.Reminders.XAReminderList&#39;&gt;Shopping List, id=17D1D37C-4703-4E8A-98D8-968E4A639A5A&gt;, ...]</span>
+
+<span class="sd">        :Example 2: Get lists using a filter</span>
+
+<span class="sd">        &gt;&gt;&gt; import PyXA</span>
+<span class="sd">        &gt;&gt;&gt; app = PyXA.application(&quot;Reminders&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; print(app.lists({&quot;title&quot;: &quot;General&quot;}))</span>
+<span class="sd">        [&lt;&lt;class &#39;PyXA.apps.Reminders.XAReminderList&#39;&gt;General, id=22A058B0-5C62-4DE7-82CD-27DF96C3C354&gt;]</span>
 
 <span class="sd">        .. versionadded:: 0.0.1</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">scriptable_elements</span><span class="p">(</span><span class="s2">&quot;lists&quot;</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XAReminderList</span><span class="p">)</span></div>
+        <span class="n">lists</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_estr</span><span class="o">.</span><span class="n">allCalendars</span><span class="p">()</span>
+        <span class="n">predicate</span> <span class="o">=</span> <span class="n">NSPredicate</span><span class="o">.</span><span class="n">predicateWithFormat_</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">xa_or_predicate_format</span><span class="p">([(</span><span class="s2">&quot;allowReminders&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)]))</span>
+        <span class="n">lists</span> <span class="o">=</span> <span class="n">lists</span><span class="o">.</span><span class="n">filteredArrayUsingPredicate_</span><span class="p">(</span><span class="n">predicate</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">filter</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s2">&quot;id&quot;</span> <span class="ow">in</span> <span class="nb">filter</span><span class="p">:</span>
+                <span class="nb">filter</span><span class="p">[</span><span class="s2">&quot;calendarIdentifier&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">filter</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span>
+                <span class="nb">filter</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">)</span>
+            <span class="n">predicate</span> <span class="o">=</span> <span class="n">NSPredicate</span><span class="o">.</span><span class="n">predicateWithFormat_</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">xa_predicate_format</span><span class="p">(</span><span class="nb">filter</span><span class="p">))</span>
+            <span class="n">lists</span> <span class="o">=</span> <span class="n">lists</span><span class="o">.</span><span class="n">filteredArrayUsingPredicate_</span><span class="p">(</span><span class="n">predicate</span><span class="p">)</span>
+
+        <span class="n">elements</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">ls</span> <span class="ow">in</span> <span class="n">lists</span><span class="p">:</span>
+            <span class="n">elements</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__new_list</span><span class="p">(</span><span class="n">ls</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">elements</span></div>
 
 <div class="viewcode-block" id="XARemindersApplication.list"><a class="viewcode-back" href="../../../reference/apps/reminders.html#PyXA.apps.Reminders.XARemindersApplication.list">[docs]</a>    <span class="k">def</span> <span class="nf">list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">dict</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAReminderList&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Returns the first reminder list that matches the filter.</span>
 
-<span class="sd">        .. seealso:: :func:`scriptable_element_with_properties`</span>
+<span class="sd">        :param filter: The properties and desired values to filter reminder lists by.</span>
+<span class="sd">        :type filter: dict</span>
+<span class="sd">        :return: The first reminder list that matches the filter.</span>
+<span class="sd">        :rtype: XAReminderList</span>
+
+<span class="sd">        :Example 1: Getting a list by index</span>
+
+<span class="sd">        &gt;&gt;&gt; import PyXA</span>
+<span class="sd">        &gt;&gt;&gt; app = PyXA.application(&quot;Reminders&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; print(app.list(0))</span>
+<span class="sd">        &lt;&lt;class &#39;PyXA.apps.Reminders.XAReminderList&#39;&gt;General, id=22A058B0-5C62-4DE7-82CD-27DF96C3C354&gt;</span>
+
+<span class="sd">        :Example 2: Retrieving a list by using a filter</span>
+
+<span class="sd">        &gt;&gt;&gt; import PyXA</span>
+<span class="sd">        &gt;&gt;&gt; app = PyXA.application(&quot;Reminders&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; print(app.list({&quot;id&quot;: &quot;17D1D37C-4703-4E8A-98D8-968E4A639A5A&quot;}))</span>
+<span class="sd">        &lt;&lt;class &#39;PyXA.apps.Reminders.XAReminderList&#39;&gt;Shopping List, id=17D1D37C-4703-4E8A-98D8-968E4A639A5A&gt;</span>
 
 <span class="sd">        .. versionadded:: 0.0.1</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">scriptable_element_with_properties</span><span class="p">(</span><span class="s2">&quot;lists&quot;</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XAReminderList</span><span class="p">)</span></div>
+        <span class="n">lists</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_estr</span><span class="o">.</span><span class="n">allCalendars</span><span class="p">()</span>
+        <span class="n">predicate</span> <span class="o">=</span> <span class="n">NSPredicate</span><span class="o">.</span><span class="n">predicateWithFormat_</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">xa_or_predicate_format</span><span class="p">([(</span><span class="s2">&quot;allowReminders&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)]))</span>
+        <span class="n">lists</span> <span class="o">=</span> <span class="n">lists</span><span class="o">.</span><span class="n">filteredArrayUsingPredicate_</span><span class="p">(</span><span class="n">predicate</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">filter</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__new_list</span><span class="p">(</span><span class="n">lists</span><span class="p">[</span><span class="nb">filter</span><span class="p">])</span>
+
+        <span class="k">if</span> <span class="s2">&quot;id&quot;</span> <span class="ow">in</span> <span class="nb">filter</span><span class="p">:</span>
+            <span class="nb">filter</span><span class="p">[</span><span class="s2">&quot;calendarIdentifier&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">filter</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span>
+            <span class="nb">filter</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">)</span>
+        
+        <span class="n">predicate</span> <span class="o">=</span> <span class="n">NSPredicate</span><span class="o">.</span><span class="n">predicateWithFormat_</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">xa_predicate_format</span><span class="p">(</span><span class="nb">filter</span><span class="p">))</span>
+        <span class="n">lists</span> <span class="o">=</span> <span class="n">lists</span><span class="o">.</span><span class="n">filteredArrayUsingPredicate_</span><span class="p">(</span><span class="n">predicate</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">lists</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__new_list</span><span class="p">(</span><span class="n">lists</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span></div>
 
 <div class="viewcode-block" id="XARemindersApplication.first_list"><a class="viewcode-back" href="../../../reference/apps/reminders.html#PyXA.apps.Reminders.XARemindersApplication.first_list">[docs]</a>    <span class="k">def</span> <span class="nf">first_list</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAReminderList&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Returns the reminder list at the zero index of the lists array.</span>
 
-<span class="sd">        .. seealso:: :func:`first_scriptable_element`</span>
+<span class="sd">        :return: A reference to the first reminder list object.</span>
+<span class="sd">        :rtype: XAReminderList</span>
 
 <span class="sd">        .. versionadded:: 0.0.1</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">first_scriptable_element</span><span class="p">(</span><span class="s2">&quot;lists&quot;</span><span class="p">,</span> <span class="n">XAReminderList</span><span class="p">)</span></div>
+        <span class="n">lists</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_estr</span><span class="o">.</span><span class="n">allCalendars</span><span class="p">()</span>
+        <span class="n">predicate</span> <span class="o">=</span> <span class="n">NSPredicate</span><span class="o">.</span><span class="n">predicateWithFormat_</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">xa_or_predicate_format</span><span class="p">([(</span><span class="s2">&quot;allowReminders&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)]))</span>
+        <span class="n">lists</span> <span class="o">=</span> <span class="n">lists</span><span class="o">.</span><span class="n">filteredArrayUsingPredicate_</span><span class="p">(</span><span class="n">predicate</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">lists</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__new_list</span><span class="p">(</span><span class="n">lists</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span></div>
 
 <div class="viewcode-block" id="XARemindersApplication.last_list"><a class="viewcode-back" href="../../../reference/apps/reminders.html#PyXA.apps.Reminders.XARemindersApplication.last_list">[docs]</a>    <span class="k">def</span> <span class="nf">last_list</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAReminderList&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Returns the reminder list at the last (-1) index of the lists array.</span>
 
-<span class="sd">        .. seealso:: :func:`last_scriptable_element`</span>
+<span class="sd">        :return: A reference to the last reminder list object.</span>
+<span class="sd">        :rtype: XAReminderList</span>
 
 <span class="sd">        .. versionadded:: 0.0.1</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">last_scriptable_element</span><span class="p">(</span><span class="s2">&quot;lists&quot;</span><span class="p">,</span> <span class="n">XAReminderList</span><span class="p">)</span></div>
+        <span class="n">lists</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_estr</span><span class="o">.</span><span class="n">allCalendars</span><span class="p">()</span>
+        <span class="n">predicate</span> <span class="o">=</span> <span class="n">NSPredicate</span><span class="o">.</span><span class="n">predicateWithFormat_</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">xa_or_predicate_format</span><span class="p">([(</span><span class="s2">&quot;allowReminders&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)]))</span>
+        <span class="n">lists</span> <span class="o">=</span> <span class="n">lists</span><span class="o">.</span><span class="n">filteredArrayUsingPredicate_</span><span class="p">(</span><span class="n">predicate</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">lists</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__new_list</span><span class="p">(</span><span class="n">lists</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span></div>
 
     <span class="c1">## Reminders</span>
+    <span class="k">def</span> <span class="nf">__new_reminder</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reminder_obj</span><span class="p">:</span> <span class="n">EventKit</span><span class="o">.</span><span class="n">EKReminder</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAReminder&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Wrapper for creating a new XAReminder object.</span>
+
+<span class="sd">        :param calender_obj: The EKReminder object to wrap.</span>
+<span class="sd">        :type calender_obj: EventKit.EKReminder</span>
+<span class="sd">        :return: A reference to the newly created PyXA reminder object.</span>
+<span class="sd">        :rtype: XAReminder</span>
+
+<span class="sd">        .. versionadded:: 0.0.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">predicate</span> <span class="o">=</span> <span class="n">NSPredicate</span><span class="o">.</span><span class="n">predicateWithFormat_</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">xa_predicate_format</span><span class="p">({</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">reminder_obj</span><span class="o">.</span><span class="n">localUID</span><span class="p">()}))</span>
+        <span class="n">scriptable_reminders</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">reminders</span><span class="p">()</span>
+        <span class="n">scriptable_reminder</span> <span class="o">=</span> <span class="n">scriptable_reminders</span><span class="o">.</span><span class="n">filteredArrayUsingPredicate_</span><span class="p">(</span><span class="n">predicate</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">properties</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;parent&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="p">,</span>
+            <span class="s2">&quot;appspace&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_apsp</span><span class="p">,</span>
+            <span class="s2">&quot;workspace&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_wksp</span><span class="p">,</span>
+            <span class="s2">&quot;element&quot;</span><span class="p">:</span> <span class="n">reminder_obj</span><span class="p">,</span>
+            <span class="s2">&quot;scriptable_element&quot;</span><span class="p">:</span> <span class="n">scriptable_reminder</span><span class="p">,</span>
+            <span class="s2">&quot;appref&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_aref</span><span class="p">,</span>
+            <span class="s2">&quot;system_events&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_sevt</span><span class="p">,</span>
+            <span class="s2">&quot;event_store&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_estr</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">XAReminder</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
+
 <div class="viewcode-block" id="XARemindersApplication.reminders"><a class="viewcode-back" href="../../../reference/apps/reminders.html#PyXA.apps.Reminders.XARemindersApplication.reminders">[docs]</a>    <span class="k">def</span> <span class="nf">reminders</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;XAReminder&#39;</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Returns a list of reminders matching the filter.</span>
 
-<span class="sd">        .. seealso:: :func:`scriptable_elements`</span>
+<span class="sd">        :param filter: The properties and desired values to filter reminders by.</span>
+<span class="sd">        :type filter: dict</span>
+<span class="sd">        :return: The list of reminders</span>
+<span class="sd">        :rtype: List[XAReminder]</span>
+
+<span class="sd">        :Example 1: Listing all reminders</span>
+
+<span class="sd">        &gt;&gt;&gt; import PyXA</span>
+<span class="sd">        &gt;&gt;&gt; app = PyXA.application(&quot;Reminders&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; print(app.reminders())</span>
+<span class="sd">        [&lt;&lt;class &#39;PyXA.apps.Reminders.XAReminder&#39;&gt;Learn PyXA, id=3D50F4A6-826E-44D3-B6D7-E25EAEF24DD1&gt;, &lt;&lt;class &#39;PyXA.apps.Reminders.XAReminder&#39;&gt;Make a PyXA Script, id=4419C590-235E-4D16-AB32-7B291626827D&gt;, ...]</span>
+
+<span class="sd">        :Example 2: Listing reminders by applying a filter</span>
+
+<span class="sd">        &gt;&gt;&gt; import PyXA</span>
+<span class="sd">        &gt;&gt;&gt; app = PyXA.application(&quot;Reminders&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; print(app.reminders({&quot;title&quot;: &quot;Learn PyXA&quot;}))</span>
+<span class="sd">        [&lt;&lt;class &#39;PyXA.apps.Reminders.XAReminder&#39;&gt;Learn PyXA, id=3D50F4A6-826E-44D3-B6D7-E25EAEF24DD1&gt;]</span>
 
 <span class="sd">        .. versionadded:: 0.0.1</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">scriptable_elements</span><span class="p">(</span><span class="s2">&quot;reminders&quot;</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XAReminder</span><span class="p">)</span></div>
+        
+        <span class="n">predicate</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_estr</span><span class="o">.</span><span class="n">predicateForRemindersInCalendars_</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+        <span class="n">reminders</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_estr</span><span class="o">.</span><span class="n">remindersMatchingPredicate_</span><span class="p">(</span><span class="n">predicate</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">filter</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s2">&quot;id&quot;</span> <span class="ow">in</span> <span class="nb">filter</span><span class="p">:</span>
+                <span class="nb">filter</span><span class="p">[</span><span class="s2">&quot;calendarItemIdentifier&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">filter</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span>
+                <span class="nb">filter</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">)</span>
+            <span class="n">predicate</span> <span class="o">=</span> <span class="n">NSPredicate</span><span class="o">.</span><span class="n">predicateWithFormat_</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">xa_predicate_format</span><span class="p">(</span><span class="nb">filter</span><span class="p">))</span>
+            <span class="n">reminders</span> <span class="o">=</span> <span class="n">reminders</span><span class="o">.</span><span class="n">filteredArrayUsingPredicate_</span><span class="p">(</span><span class="n">predicate</span><span class="p">)</span>
+
+        <span class="n">elements</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">reminder</span> <span class="ow">in</span> <span class="n">reminders</span><span class="p">:</span>
+            <span class="n">elements</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__new_reminder</span><span class="p">(</span><span class="n">reminder</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">elements</span></div>
 
 <div class="viewcode-block" id="XARemindersApplication.reminder"><a class="viewcode-back" href="../../../reference/apps/reminders.html#PyXA.apps.Reminders.XARemindersApplication.reminder">[docs]</a>    <span class="k">def</span> <span class="nf">reminder</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">dict</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAReminder&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Returns the first reminder that matches the filter.</span>
 
-<span class="sd">        .. seealso:: :func:`scriptable_element_with_properties`</span>
+<span class="sd">        :param filter: The properties and desired values to filter reminders by.</span>
+<span class="sd">        :type filter: dict</span>
+<span class="sd">        :return: The first reminder that matches the filter</span>
+<span class="sd">        :rtype: XAReminder</span>
+
+<span class="sd">        :Example 1: Getting a reminder by index</span>
+
+<span class="sd">        &gt;&gt;&gt; import PyXA</span>
+<span class="sd">        &gt;&gt;&gt; app = PyXA.application(&quot;Reminders&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; print(app.reminder(0))</span>
+<span class="sd">        &lt;&lt;class &#39;PyXA.apps.Reminders.XAReminder&#39;&gt;Learn PyXA, id=3D50F4A6-826E-44D3-B6D7-E25EAEF24DD1&gt;</span>
+
+<span class="sd">        :Example 2: Getting a reminder by using a filter</span>
+
+<span class="sd">        &gt;&gt;&gt; import PyXA</span>
+<span class="sd">        &gt;&gt;&gt; app = PyXA.application(&quot;Reminders&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; print(app.reminder({&quot;id&quot;: &quot;4419C590-235E-4D16-AB32-7B291626827D&quot;}))</span>
+<span class="sd">        &lt;&lt;class &#39;PyXA.apps.Reminders.XAReminder&#39;&gt;Make a PyXA Script, id=4419C590-235E-4D16-AB32-7B291626827D&gt;</span>
 
 <span class="sd">        .. versionadded:: 0.0.1</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">scriptable_element_with_properties</span><span class="p">(</span><span class="s2">&quot;reminders&quot;</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XAReminder</span><span class="p">)</span></div>
+        <span class="n">predicate</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_estr</span><span class="o">.</span><span class="n">predicateForRemindersInCalendars_</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+        <span class="n">reminders</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_estr</span><span class="o">.</span><span class="n">remindersMatchingPredicate_</span><span class="p">(</span><span class="n">predicate</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">filter</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__new_reminder</span><span class="p">(</span><span class="n">reminders</span><span class="p">[</span><span class="nb">filter</span><span class="p">])</span>
+
+        <span class="k">if</span> <span class="s2">&quot;id&quot;</span> <span class="ow">in</span> <span class="nb">filter</span><span class="p">:</span>
+            <span class="nb">filter</span><span class="p">[</span><span class="s2">&quot;calendarItemIdentifier&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">filter</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span>
+            <span class="nb">filter</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">)</span>
+        
+        <span class="n">predicate</span> <span class="o">=</span> <span class="n">NSPredicate</span><span class="o">.</span><span class="n">predicateWithFormat_</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">xa_predicate_format</span><span class="p">(</span><span class="nb">filter</span><span class="p">))</span>
+        <span class="n">reminders</span> <span class="o">=</span> <span class="n">reminders</span><span class="o">.</span><span class="n">filteredArrayUsingPredicate_</span><span class="p">(</span><span class="n">predicate</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">reminders</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__new_reminder</span><span class="p">(</span><span class="n">reminders</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span></div>
 
 <div class="viewcode-block" id="XARemindersApplication.first_reminder"><a class="viewcode-back" href="../../../reference/apps/reminders.html#PyXA.apps.Reminders.XARemindersApplication.first_reminder">[docs]</a>    <span class="k">def</span> <span class="nf">first_reminder</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAReminder&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Returns the reminder at the zero index of the reminders array.</span>
 
-<span class="sd">        .. seealso:: :func:`first_scriptable_element`</span>
+<span class="sd">        :return: A reference to the first reminder object.</span>
+<span class="sd">        :rtype: XAReminderList</span>
 
 <span class="sd">        .. versionadded:: 0.0.1</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">first_scriptable_element</span><span class="p">(</span><span class="s2">&quot;reminders&quot;</span><span class="p">,</span> <span class="n">XAReminder</span><span class="p">)</span></div>
+        <span class="n">predicate</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_estr</span><span class="o">.</span><span class="n">predicateForRemindersInCalendars_</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+        <span class="n">reminders</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_estr</span><span class="o">.</span><span class="n">remindersMatchingPredicate_</span><span class="p">(</span><span class="n">predicate</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">reminders</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__new_reminder</span><span class="p">(</span><span class="n">reminders</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span></div>
 
 <div class="viewcode-block" id="XARemindersApplication.last_reminder"><a class="viewcode-back" href="../../../reference/apps/reminders.html#PyXA.apps.Reminders.XARemindersApplication.last_reminder">[docs]</a>    <span class="k">def</span> <span class="nf">last_reminder</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAReminder&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Returns the reminder at the last (-1) index of the reminders array.</span>
 
-<span class="sd">        .. seealso:: :func:`last_scriptable_element`</span>
+<span class="sd">        :return: A reference to the last reminder object.</span>
+<span class="sd">        :rtype: XAReminderList</span>
 
 <span class="sd">        .. versionadded:: 0.0.1</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">last_scriptable_element</span><span class="p">(</span><span class="s2">&quot;reminders&quot;</span><span class="p">,</span> <span class="n">XAReminder</span><span class="p">)</span></div>
+        <span class="n">predicate</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_estr</span><span class="o">.</span><span class="n">predicateForRemindersInCalendars_</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+        <span class="n">reminders</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_estr</span><span class="o">.</span><span class="n">remindersMatchingPredicate_</span><span class="p">(</span><span class="n">predicate</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">reminders</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__new_reminder</span><span class="p">(</span><span class="n">reminders</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span></div>
 
-<div class="viewcode-block" id="XARemindersApplication.new_list"><a class="viewcode-back" href="../../../reference/apps/reminders.html#PyXA.apps.Reminders.XARemindersApplication.new_list">[docs]</a>    <span class="k">def</span> <span class="nf">new_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;New List&quot;</span><span class="p">,</span> <span class="n">color</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;#FF0000&quot;</span><span class="p">,</span> <span class="n">emblem</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&lt;null&gt;&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAReminderList&#39;</span><span class="p">:</span>
+<div class="viewcode-block" id="XARemindersApplication.new_list"><a class="viewcode-back" href="../../../reference/apps/reminders.html#PyXA.apps.Reminders.XARemindersApplication.new_list">[docs]</a>    <span class="k">def</span> <span class="nf">new_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;New List&quot;</span><span class="p">,</span> <span class="n">color</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;#FF0000&quot;</span><span class="p">,</span> <span class="n">emblem</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&lt;null&gt;&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAReminderList&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Creates a new reminder with the given name, body, and due date in the specified reminder list.</span>
+
 <span class="sd">        If no list is provided, the reminder is created in the default list.</span>
 
-<span class="sd">        :param name: The name of the list, defaults to &quot;New List&quot;</span>
+<span class="sd">        :param title: The name of the list, defaults to &quot;New List&quot;</span>
 <span class="sd">        :type name: str, optional</span>
 <span class="sd">        :param color: The HEX color of the list&#39;s icon.</span>
 <span class="sd">        :type color: str, optional</span>
@@ -194,29 +398,31 @@
 <span class="sd">        &gt;&gt;&gt; import PyXA</span>
 <span class="sd">        &gt;&gt;&gt; app = PyXA.application(&quot;Reminder&quot;)</span>
 <span class="sd">        &gt;&gt;&gt; new_list = app.new_reminder(&quot;Things To Do&quot;, &quot;#336699&quot;, &quot;symbol5&quot;)</span>
-<span class="sd">        &gt;&gt;&gt; print(new_list.properties)</span>
-<span class="sd">        {</span>
-<span class="sd">            color = &quot;#336699&quot;;</span>
-<span class="sd">            container = &quot;&lt;SBObject @0x600002c55cb0: &lt;class &#39;acct&#39;&gt; id \&quot;DCC06027-D549-4B64-9104-F08BF0BE0428\&quot; of application \&quot;Reminders\&quot; (85867)&gt;&quot;;</span>
-<span class="sd">            emblem = symbol5;</span>
-<span class="sd">            id = &quot;749F2C11-19E2-4733-809C-8A8B3CF2534D&quot;;</span>
-<span class="sd">            name = &quot;Things To Do&quot;;</span>
-<span class="sd">        }</span>
+<span class="sd">        &gt;&gt;&gt; print(new_list.id)</span>
+<span class="sd">        6251B0DD-3770-410D-8601-1B33403F3595</span>
 
 <span class="sd">        .. seealso:: :class:`XAReminderList`, :func:`new_reminder`</span>
 
 <span class="sd">        .. versionadded:: 0.0.1</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="s2">&quot;list&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span> <span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="n">color</span><span class="p">,</span> <span class="s2">&quot;emblem&quot;</span><span class="p">:</span> <span class="n">emblem</span><span class="p">},</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">lists</span><span class="p">(),</span> <span class="n">XAReminderList</span><span class="p">)</span></div>
+        <span class="n">source</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_estr</span><span class="o">.</span><span class="n">defaultCalendarForNewReminders</span><span class="p">()</span><span class="o">.</span><span class="n">source</span><span class="p">()</span>
+        <span class="n">new_list</span> <span class="o">=</span> <span class="n">EventKit</span><span class="o">.</span><span class="n">EKCalendar</span><span class="o">.</span><span class="n">calendarForEntityType_eventStore_</span><span class="p">(</span><span class="n">EventKit</span><span class="o">.</span><span class="n">EKEntityTypeReminder</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_estr</span><span class="p">)</span>
+        <span class="n">new_list</span><span class="o">.</span><span class="n">setTitle_</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+        <span class="n">new_list</span><span class="o">.</span><span class="n">setColorString_</span><span class="p">(</span><span class="n">color</span><span class="p">)</span>
+        <span class="n">new_list</span><span class="o">.</span><span class="n">setSource_</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_estr</span><span class="o">.</span><span class="n">saveCalendar_commit_error_</span><span class="p">(</span><span class="n">new_list</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">element</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__new_list</span><span class="p">(</span><span class="n">new_list</span><span class="p">)</span>
+        <span class="n">element</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">setValue_forKey_</span><span class="p">(</span><span class="n">emblem</span><span class="p">,</span> <span class="s2">&quot;emblem&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">element</span></div>
 
-<div class="viewcode-block" id="XARemindersApplication.new_reminder"><a class="viewcode-back" href="../../../reference/apps/reminders.html#PyXA.apps.Reminders.XARemindersApplication.new_reminder">[docs]</a>    <span class="k">def</span> <span class="nf">new_reminder</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;New Reminder&quot;</span><span class="p">,</span> <span class="n">body</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">due_date</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">reminder_list</span><span class="p">:</span> <span class="s1">&#39;XAReminderList&#39;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAReminder&#39;</span><span class="p">:</span>
+<div class="viewcode-block" id="XARemindersApplication.new_reminder"><a class="viewcode-back" href="../../../reference/apps/reminders.html#PyXA.apps.Reminders.XARemindersApplication.new_reminder">[docs]</a>    <span class="k">def</span> <span class="nf">new_reminder</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;New Reminder&quot;</span><span class="p">,</span> <span class="n">notes</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">due_date</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">reminder_list</span><span class="p">:</span> <span class="s1">&#39;XAReminderList&#39;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAReminder&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Creates a new reminder with the given name, body, and due date in the specified reminder list.</span>
 <span class="sd">        If no list is provided, the reminder is created in the default list.</span>
 
-<span class="sd">        :param name: The name of the reminder, defaults to &quot;New Reminder&quot;</span>
-<span class="sd">        :type name: str, optional</span>
-<span class="sd">        :param body: The body text of the reminder, defaults to &quot;&quot;</span>
-<span class="sd">        :type body: str, optional</span>
+<span class="sd">        :param title: The name of the reminder, defaults to &quot;New Reminder&quot;</span>
+<span class="sd">        :type title: str, optional</span>
+<span class="sd">        :param notes: The text notes attached to the reminder, defaults to &quot;&quot;</span>
+<span class="sd">        :type notes: str, optional</span>
 <span class="sd">        :param due_date: The date and time when the reminder will be due.</span>
 <span class="sd">        :type due_date: datetime, optional</span>
 <span class="sd">        :param reminder_list: The list that the new reminder will be added to.</span>
@@ -231,35 +437,24 @@
 <span class="sd">        &gt;&gt;&gt; app = PyXA.application(&quot;Reminder&quot;)</span>
 <span class="sd">        &gt;&gt;&gt; due_date = datetime.now() + timedelta(hours = 1)</span>
 <span class="sd">        &gt;&gt;&gt; reminder = app.new_reminder(&quot;Read PyXA listation&quot;, &quot;Complete 1 tutorial&quot;, due_date)</span>
-<span class="sd">        &gt;&gt;&gt; print(reminder.properties)</span>
-<span class="sd">        {</span>
-<span class="sd">            alldayDueDate = &quot;2022-05-30 04:00:00 +0000&quot;;</span>
-<span class="sd">            body = &quot;Complete 1 tutorial&quot;;</span>
-<span class="sd">            completed = 0;</span>
-<span class="sd">            completionDate = &quot;&lt;null&gt;&quot;;</span>
-<span class="sd">            container = &quot;&lt;SBObject @0x600000af4030: &lt;class &#39;list&#39;&gt; id \&quot;22A058B0-5C62-4DE7-82CD-27DF96C3C354\&quot; of application \&quot;Reminders\&quot; (83492)&gt;&quot;;</span>
-<span class="sd">            creationDate = &quot;2022-05-30 19:53:29 +0000&quot;;</span>
-<span class="sd">            dueDate = &quot;2022-05-30 20:53:29 +0000&quot;;</span>
-<span class="sd">            flagged = 0;</span>
-<span class="sd">            id = &quot;x-apple-reminder://0ADEF0EC-D08C-4594-975C-96D688520BFE&quot;;</span>
-<span class="sd">            modificationDate = &quot;2022-05-30 19:53:29 +0000&quot;;</span>
-<span class="sd">            name = &quot;Read PyXA listation&quot;;</span>
-<span class="sd">            priority = 0;</span>
-<span class="sd">            remindMeDate = &quot;2022-05-30 20:53:29 +0000&quot;;</span>
-<span class="sd">        }</span>
+<span class="sd">        &gt;&gt;&gt; print(reminder.id)</span>
+<span class="sd">        B0DD7836-7C05-48D4-B806-D6A76317452E</span>
 
 <span class="sd">        .. seealso:: :class:`XAReminder`, :func:`new_list`</span>
 
 <span class="sd">        .. versionadded:: 0.0.1</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">reminder_list</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">reminder_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">reminders</span><span class="p">()</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">reminder_list</span> <span class="o">=</span> <span class="n">reminder_list</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">reminders</span><span class="p">()</span>
+            <span class="n">reminder_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">list</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">new_reminder</span> <span class="o">=</span> <span class="n">EventKit</span><span class="o">.</span><span class="n">EKReminder</span><span class="o">.</span><span class="n">reminderWithEventStore_</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_estr</span><span class="p">)</span>
+        <span class="n">new_reminder</span><span class="o">.</span><span class="n">setCalendar_</span><span class="p">(</span><span class="n">reminder_list</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span>
+        <span class="n">new_reminder</span><span class="o">.</span><span class="n">setTitle_</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+        <span class="n">new_reminder</span><span class="o">.</span><span class="n">setNotes_</span><span class="p">(</span><span class="n">notes</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">due_date</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">new_reminder</span><span class="o">.</span><span class="n">setDueDate_</span><span class="p">(</span><span class="n">due_date</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_estr</span><span class="o">.</span><span class="n">saveReminder_commit_error_</span><span class="p">(</span><span class="n">new_reminder</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__new_reminder</span><span class="p">(</span><span class="n">new_reminder</span><span class="p">)</span></div></div>
 
-        <span class="k">if</span> <span class="n">due_date</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="s2">&quot;reminder&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span> <span class="s2">&quot;body&quot;</span><span class="p">:</span> <span class="n">body</span><span class="p">},</span> <span class="n">reminder_list</span><span class="p">,</span> <span class="n">XAReminder</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="s2">&quot;reminder&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span> <span class="s2">&quot;body&quot;</span><span class="p">:</span> <span class="n">body</span><span class="p">,</span> <span class="s2">&quot;dueDate&quot;</span><span class="p">:</span> <span class="n">due_date</span><span class="p">},</span> <span class="n">reminder_list</span><span class="p">,</span> <span class="n">XAReminder</span><span class="p">)</span></div></div>
 
 <div class="viewcode-block" id="XAReminderList"><a class="viewcode-back" href="../../../reference/apps/reminders.html#PyXA.apps.Reminders.XAReminderList">[docs]</a><span class="k">class</span> <span class="nc">XAReminderList</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A class for interacting with Reminders lists.</span>
@@ -270,9 +465,37 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_estr</span> <span class="o">=</span> <span class="n">properties</span><span class="p">[</span><span class="s2">&quot;event_store&quot;</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">calendarIdentifier</span><span class="p">()</span> <span class="c1">#: A unique identifier for this list</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">title</span><span class="p">()</span> <span class="c1">#: The name of the reminders list</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">summary</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span> <span class="c1">#: An overview of the list&#39;s information</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">subscription_url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">subscriptionURL</span><span class="p">()</span> <span class="c1">#: The URL of the list used to subscribe to it</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sharing_status</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">sharingStatus</span><span class="p">()</span> <span class="c1">#: Whether the list is shared</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">color</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">colorString</span><span class="p">()</span> <span class="c1">#: The HEX color of the list</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">typeString</span><span class="p">()</span> <span class="c1">#: The list/calendar format</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">notes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">notes</span><span class="p">()</span> <span class="c1">#: Notes associated with the list</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sharees</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">sharees</span><span class="p">()</span> <span class="c1">#: A list of individuals with whom the list is shared with</span>
+
+<div class="viewcode-block" id="XAReminderList.show"><a class="viewcode-back" href="../../../reference/apps/reminders.html#PyXA.apps.Reminders.XAReminderList.show">[docs]</a>    <span class="k">def</span> <span class="nf">show</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Shows the reminders list in Reminders.app.</span>
+
+<span class="sd">        .. versionadded:: 0.0.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="XAReminderList.delete"><a class="viewcode-back" href="../../../reference/apps/reminders.html#PyXA.apps.Reminders.XAReminderList.delete">[docs]</a>    <span class="k">def</span> <span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Deletes the list.</span>
+
+<span class="sd">        .. versionadded:: 0.0.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_estr</span><span class="o">.</span><span class="n">requestAccessToEntityType_completion_</span><span class="p">(</span><span class="n">EventKit</span><span class="o">.</span><span class="n">EKEntityTypeReminder</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">markAsDeleted</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_estr</span><span class="o">.</span><span class="n">deleteCalendar_forEntityType_error_</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">,</span> <span class="n">EventKit</span><span class="o">.</span><span class="n">EKEntityTypeReminder</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span></div>
+        <span class="k">return</span> <span class="s2">&quot;&lt;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">title</span> <span class="o">+</span> <span class="s2">&quot;, id=&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span></div>
+
 
 <div class="viewcode-block" id="XAReminder"><a class="viewcode-back" href="../../../reference/apps/reminders.html#PyXA.apps.Reminders.XAReminder">[docs]</a><span class="k">class</span> <span class="nc">XAReminder</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A class for interacting with Reminders.</span>
@@ -283,9 +506,171 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_estr</span> <span class="o">=</span> <span class="n">properties</span><span class="p">[</span><span class="s2">&quot;event_store&quot;</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">calendarItemIdentifier</span><span class="p">()</span> <span class="c1">#: A unique identifier for this reminder</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">title</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">title</span><span class="p">()</span> <span class="c1">#: The name of the reminder</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">all_day</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">allDay</span><span class="p">()</span> <span class="o">==</span> <span class="mi">1</span> <span class="c1">#: Whether the reminder is all day or a specific time</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">creation_date</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">creationDate</span><span class="p">()</span> <span class="c1">#: The date the reminder was created</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">modification_date</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">lastModifiedDate</span><span class="p">()</span> <span class="c1">#: The date the reminder was last modified</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">notes</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">notes</span><span class="p">()</span> <span class="c1">#: User-inputted notes for this reminder</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">priority</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">priorityNumber</span><span class="p">()</span> <span class="c1">#: A number representing the priority of the reminder</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">URL</span><span class="p">()</span> <span class="c1">#: The URL attached to the reminder, if there is one</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">completion_date</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">completionDate</span><span class="p">()</span> <span class="c1">#: The date the reminder should be completed by</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">due_date</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">dueDateUnadjustedFromUTC</span><span class="p">()</span> <span class="c1">#: The date the reminder is due</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">completion_status</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">isCompleted</span><span class="p">()</span> <span class="c1">#: Whether the reminder has been completed</span>
+
+        <span class="n">properties</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;parent&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="p">,</span>
+            <span class="s2">&quot;appspace&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_apsp</span><span class="p">,</span>
+            <span class="s2">&quot;workspace&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_wksp</span><span class="p">,</span>
+            <span class="s2">&quot;element&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">recurrenceRule</span><span class="p">(),</span>
+            <span class="s2">&quot;appref&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_aref</span><span class="p">,</span>
+            <span class="s2">&quot;system_events&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_sevt</span><span class="p">,</span>
+            <span class="s2">&quot;event_store&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_estr</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">recurrenceRule</span><span class="p">()</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">recurrence_rule</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">recurrence_rule</span> <span class="o">=</span> <span class="n">XAReminderRecurrenceRule</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
+
+        <span class="n">alarms</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">alarms</span><span class="p">()</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">alarm</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">alarms</span><span class="p">():</span>
+                <span class="n">properties</span><span class="p">[</span><span class="s2">&quot;element&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">alarm</span>
+                <span class="n">alarms</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">XAReminderAlarm</span><span class="p">(</span><span class="n">properties</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">alarms</span> <span class="o">=</span> <span class="n">alarms</span>
+
+<div class="viewcode-block" id="XAReminder.show"><a class="viewcode-back" href="../../../reference/apps/reminders.html#PyXA.apps.Reminders.XAReminder.show">[docs]</a>    <span class="k">def</span> <span class="nf">show</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Shows the reminder in Reminders.app.</span>
+
+<span class="sd">        .. versionadded:: 0.0.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_estr</span><span class="o">.</span><span class="n">requestAccessToEntityType_completion_</span><span class="p">(</span><span class="n">EventKit</span><span class="o">.</span><span class="n">EKEntityTypeReminder</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="XAReminder.delete"><a class="viewcode-back" href="../../../reference/apps/reminders.html#PyXA.apps.Reminders.XAReminder.delete">[docs]</a>    <span class="k">def</span> <span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Deletes the reminder.</span>
+
+<span class="sd">        .. versionadded:: 0.0.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_estr</span><span class="o">.</span><span class="n">removeReminder_commit_error_</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span></div>
+        <span class="k">return</span> <span class="s2">&quot;&lt;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">title</span> <span class="o">+</span> <span class="s2">&quot;, id=&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span></div>
+
+
+<div class="viewcode-block" id="XAReminderRecurrenceRule"><a class="viewcode-back" href="../../../reference/apps/reminders.html#PyXA.apps.Reminders.XAReminderRecurrenceRule">[docs]</a><span class="k">class</span> <span class="nc">XAReminderRecurrenceRule</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A class for interacting with Reminders.</span>
+
+<span class="sd">    .. seealso:: :class:`XARemindersApplication`, :class:`XAReminderList`</span>
+
+<span class="sd">    .. versionadded:: 0.0.2</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_estr</span> <span class="o">=</span> <span class="n">properties</span><span class="p">[</span><span class="s2">&quot;event_store&quot;</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">frequency</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">frequencyNumber</span><span class="p">()</span> <span class="c1">#: Specifier for the base unit of recurrence, i.e. daily, weekly, monthly, or yearly</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">interval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">intervalNumber</span><span class="p">()</span> <span class="c1">#: The number of frequency units between recurrences</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">end_date</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">endDate</span><span class="p">()</span> <span class="c1">#: The end date and time of recurrence</span>
+
+<div class="viewcode-block" id="XAReminderRecurrenceRule.set_frequency"><a class="viewcode-back" href="../../../reference/apps/reminders.html#PyXA.apps.Reminders.XAReminderRecurrenceRule.set_frequency">[docs]</a>    <span class="k">def</span> <span class="nf">set_frequency</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frequency</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;daily&quot;</span><span class="p">,</span> <span class="s2">&quot;weekly&quot;</span><span class="p">,</span> <span class="s2">&quot;monthly&quot;</span><span class="p">,</span> <span class="s2">&quot;yearly&quot;</span><span class="p">]):</span>
+        <span class="sd">&quot;&quot;&quot;Sets the frequency of recurrence.</span>
+
+<span class="sd">        :param frequency: A specifier for the base unit of recurrence.</span>
+<span class="sd">        :type frequency: Literal[&quot;daily&quot;, &quot;weekly&quot;, &quot;monthly&quot;, &quot;yearly&quot;]</span>
+
+<span class="sd">        .. versionadded:: 0.0.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">freq_ids</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;daily&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="s2">&quot;weekly&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="s2">&quot;monthly&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+            <span class="s2">&quot;yearly&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">setFrequency_</span><span class="p">(</span><span class="n">freq_ids</span><span class="p">[</span><span class="n">frequency</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_estr</span><span class="o">.</span><span class="n">saveReminder_commit_error_</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_prnt</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XAReminderRecurrenceRule.set_interval"><a class="viewcode-back" href="../../../reference/apps/reminders.html#PyXA.apps.Reminders.XAReminderRecurrenceRule.set_interval">[docs]</a>    <span class="k">def</span> <span class="nf">set_interval</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">interval</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets the interval of recurrence.</span>
+
+<span class="sd">        :param interval: The interval; the number of frequency units between recurrences.</span>
+<span class="sd">        :type interval: int</span>
+
+<span class="sd">        .. versionadded:: 0.0.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">setInterval_</span><span class="p">(</span><span class="n">interval</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_estr</span><span class="o">.</span><span class="n">saveReminder_commit_error_</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_prnt</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XAReminderRecurrenceRule.set_end_date"><a class="viewcode-back" href="../../../reference/apps/reminders.html#PyXA.apps.Reminders.XAReminderRecurrenceRule.set_end_date">[docs]</a>    <span class="k">def</span> <span class="nf">set_end_date</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">end_date</span><span class="p">:</span> <span class="n">datetime</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets the date and time when the recurrence ends.</span>
+
+<span class="sd">        :param end_date: The absolute end day of recurrence.</span>
+<span class="sd">        :type end_date: datetime</span>
+
+<span class="sd">        .. versionadded:: 0.0.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">setEndDate_</span><span class="p">(</span><span class="n">end_date</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_estr</span><span class="o">.</span><span class="n">saveReminder_commit_error_</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_prnt</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;&lt;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;freq=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">frequencyString</span><span class="p">()</span><span class="si">}</span><span class="s2">, interval=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">interval</span><span class="si">}</span><span class="s2">, end_date=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">end_date</span><span class="si">}</span><span class="s2">, id=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">&gt;&quot;</span></div>
+
+
+<div class="viewcode-block" id="XAReminderAlarm"><a class="viewcode-back" href="../../../reference/apps/reminders.html#PyXA.apps.Reminders.XAReminderAlarm">[docs]</a><span class="k">class</span> <span class="nc">XAReminderAlarm</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A class for interacting with Reminders.</span>
+
+<span class="sd">    .. seealso:: :class:`XARemindersApplication`, :class:`XAReminderList`</span>
+
+<span class="sd">    .. versionadded:: 0.0.2</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_estr</span> <span class="o">=</span> <span class="n">properties</span><span class="p">[</span><span class="s2">&quot;event_store&quot;</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">sharedUID</span><span class="p">()</span> <span class="c1">#: A unique identifier for this alarm</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">snoozed</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">isSnoozed</span><span class="p">()</span> <span class="c1">#: Whether the alarm is snoozed</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">date</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">absoluteDate</span><span class="p">()</span> <span class="c1">#: The date and time of a date-based alarm</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">proximity_direction</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">proximityString</span><span class="p">()</span> <span class="c1">#: Whether a location-based alarm is for arriving or departing</span>
+
+
+        <span class="n">location</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">structuredLocation</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">location</span> <span class="o">=</span> <span class="kc">None</span> <span class="c1">#: The location of a location-based alarm</span>
+        <span class="k">if</span> <span class="n">location</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">location</span> <span class="o">=</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XALocation</span><span class="p">(</span>
+                <span class="n">title</span> <span class="o">=</span> <span class="n">location</span><span class="o">.</span><span class="n">title</span><span class="p">(),</span>
+                <span class="n">latitude</span> <span class="o">=</span> <span class="n">location</span><span class="o">.</span><span class="n">geoLocation</span><span class="p">()</span><span class="o">.</span><span class="n">coordinate</span><span class="p">()[</span><span class="mi">0</span><span class="p">],</span>
+                <span class="n">longitude</span> <span class="o">=</span> <span class="n">location</span><span class="o">.</span><span class="n">geoLocation</span><span class="p">()</span><span class="o">.</span><span class="n">coordinate</span><span class="p">()[</span><span class="mi">1</span><span class="p">],</span>
+                <span class="n">radius</span> <span class="o">=</span> <span class="n">location</span><span class="o">.</span><span class="n">radiusNumber</span><span class="p">()</span> <span class="ow">or</span> <span class="mi">0</span><span class="p">,</span>
+                <span class="n">raw_value</span> <span class="o">=</span> <span class="n">location</span>
+            <span class="p">)</span>
+
+<div class="viewcode-block" id="XAReminderAlarm.set_date"><a class="viewcode-back" href="../../../reference/apps/reminders.html#PyXA.apps.Reminders.XAReminderAlarm.set_date">[docs]</a>    <span class="k">def</span> <span class="nf">set_date</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">date</span><span class="p">:</span> <span class="n">datetime</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets the date and time of the alarm.</span>
+
+<span class="sd">        :param date: The absolute date that the alarm will go off.</span>
+<span class="sd">        :type date: datetime</span>
+
+<span class="sd">        .. versionadded:: 0.0.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">setAbsoluteDate_</span><span class="p">(</span><span class="n">date</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_estr</span><span class="o">.</span><span class="n">saveReminder_commit_error_</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_prnt</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XAReminderAlarm.set_location"><a class="viewcode-back" href="../../../reference/apps/reminders.html#PyXA.apps.Reminders.XAReminderAlarm.set_location">[docs]</a>    <span class="k">def</span> <span class="nf">set_location</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">location</span><span class="p">:</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XALocation</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets the location and radius of the alarm.</span>
+
+<span class="sd">        :param location: The location (with specified radius) that the alarm will go off.</span>
+<span class="sd">        :type location: XABase.XALocation</span>
+
+<span class="sd">        .. versionadded:: 0.0.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">location</span><span class="o">.</span><span class="n">raw_value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">location</span><span class="o">.</span><span class="n">raw_value</span>
+        <span class="n">location</span><span class="o">.</span><span class="n">prepare_for_export</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_estr</span><span class="o">.</span><span class="n">saveReminder_commit_error_</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_prnt</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;&lt;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="o">+</span> <span class="s2">&quot;id=&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span></div>
 </pre></div>
 
            </div>

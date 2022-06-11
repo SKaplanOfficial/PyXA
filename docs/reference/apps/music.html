@@ -57,6 +57,7 @@
 <li class="toctree-l3"><a class="reference internal" href="safari.html">Safari Module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="terminal.html">Terminal Module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="textedit.html">TextEdit Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tv.html">TV Module</a></li>
 </ul>
 </li>
 </ul>
@@ -232,10 +233,6 @@
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Music.</span></span><span class="sig-name descname"><span class="pre">XAMediaPlaylist</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Music.html#XAMediaPlaylist"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Music.XAMediaPlaylist" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#PyXA.apps.Music.XAMediaItem" title="PyXA.apps.Music.XAMediaItem"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.apps.Music.XAMediaItem</span></code></a>, <a class="reference internal" href="../xabase.html#PyXA.XABase.XAHasElements" title="PyXA.XABase.XAHasElements"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAHasElements</span></code></a></p>
 <p>A class for managing and interacting with playlists in Music.app.</p>
-<div class="admonition seealso">
-<p class="admonition-title">See also</p>
-<p><a class="reference internal" href="#PyXA.apps.Music.XAMediaItem" title="PyXA.apps.Music.XAMediaItem"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAMediaItem</span></code></a></p>
-</div>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.1.</span></p>
 </div>
@@ -264,10 +261,6 @@
 <dt class="sig sig-object py" id="PyXA.apps.Music.XAMediaPlaylist.first_track">
 <span class="sig-name descname"><span class="pre">first_track</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Music.XAMediaTrack" title="PyXA.apps.Music.XAMediaTrack"><span class="pre">PyXA.apps.Music.XAMediaTrack</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Music.html#XAMediaPlaylist.first_track"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Music.XAMediaPlaylist.first_track" title="Permalink to this definition"></a></dt>
 <dd><p>Returns the track at the first index of the tracks array.</p>
-<div class="admonition seealso">
-<p class="admonition-title">See also</p>
-<p><code class="xref py py-func docutils literal notranslate"><span class="pre">first_element()</span></code></p>
-</div>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.1.</span></p>
 </div>
@@ -277,10 +270,6 @@
 <dt class="sig sig-object py" id="PyXA.apps.Music.XAMediaPlaylist.last_track">
 <span class="sig-name descname"><span class="pre">last_track</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Music.XAMediaTrack" title="PyXA.apps.Music.XAMediaTrack"><span class="pre">PyXA.apps.Music.XAMediaTrack</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Music.html#XAMediaPlaylist.last_track"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Music.XAMediaPlaylist.last_track" title="Permalink to this definition"></a></dt>
 <dd><p>Returns the track at the last (-1) index of the tracks array.</p>
-<div class="admonition seealso">
-<p class="admonition-title">See also</p>
-<p><code class="xref py py-func docutils literal notranslate"><span class="pre">last_element()</span></code></p>
-</div>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.1.</span></p>
 </div>
@@ -290,10 +279,6 @@
 <dt class="sig sig-object py" id="PyXA.apps.Music.XAMediaPlaylist.track">
 <span class="sig-name descname"><span class="pre">track</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Music.XAMediaTrack" title="PyXA.apps.Music.XAMediaTrack"><span class="pre">PyXA.apps.Music.XAMediaTrack</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Music.html#XAMediaPlaylist.track"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Music.XAMediaPlaylist.track" title="Permalink to this definition"></a></dt>
 <dd><p>Returns the first track that matches the filter.</p>
-<div class="admonition seealso">
-<p class="admonition-title">See also</p>
-<p><code class="xref py py-func docutils literal notranslate"><span class="pre">element_with_properties()</span></code></p>
-</div>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.1.</span></p>
 </div>
@@ -303,10 +288,6 @@
 <dt class="sig sig-object py" id="PyXA.apps.Music.XAMediaPlaylist.tracks">
 <span class="sig-name descname"><span class="pre">tracks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Music.XAMediaTrack" title="PyXA.apps.Music.XAMediaTrack"><span class="pre">PyXA.apps.Music.XAMediaTrack</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Music.html#XAMediaPlaylist.tracks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Music.XAMediaPlaylist.tracks" title="Permalink to this definition"></a></dt>
 <dd><p>Returns a list of tracks matching the filter.</p>
-<div class="admonition seealso">
-<p class="admonition-title">See also</p>
-<p><code class="xref py py-func docutils literal notranslate"><span class="pre">elements()</span></code></p>
-</div>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.1.</span></p>
 </div>
@@ -319,10 +300,6 @@
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Music.</span></span><span class="sig-name descname"><span class="pre">XAMediaTrack</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Music.html#XAMediaTrack"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Music.XAMediaTrack" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#PyXA.apps.Music.XAMediaItem" title="PyXA.apps.Music.XAMediaItem"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.apps.Music.XAMediaItem</span></code></a></p>
 <p>A class for managing and interacting with tracks in Music.app.</p>
-<div class="admonition seealso">
-<p class="admonition-title">See also</p>
-<p><a class="reference internal" href="#PyXA.apps.Music.XAMediaItem" title="PyXA.apps.Music.XAMediaItem"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAMediaItem</span></code></a></p>
-</div>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.1.</span></p>
 </div>
@@ -476,10 +453,6 @@
 <dt class="sig sig-object py" id="PyXA.apps.Music.XAMusicApplication.first_playlist">
 <span class="sig-name descname"><span class="pre">first_playlist</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Music.XAMediaPlaylist" title="PyXA.apps.Music.XAMediaPlaylist"><span class="pre">PyXA.apps.Music.XAMediaPlaylist</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Music.html#XAMusicApplication.first_playlist"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Music.XAMusicApplication.first_playlist" title="Permalink to this definition"></a></dt>
 <dd><p>Returns the playlist at the first index of the playlists array.</p>
-<div class="admonition seealso">
-<p class="admonition-title">See also</p>
-<p><code class="xref py py-func docutils literal notranslate"><span class="pre">first_scriptable_element()</span></code></p>
-</div>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.1.</span></p>
 </div>
@@ -489,10 +462,6 @@
 <dt class="sig sig-object py" id="PyXA.apps.Music.XAMusicApplication.first_track">
 <span class="sig-name descname"><span class="pre">first_track</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Music.XAMediaTrack" title="PyXA.apps.Music.XAMediaTrack"><span class="pre">PyXA.apps.Music.XAMediaTrack</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Music.html#XAMusicApplication.first_track"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Music.XAMusicApplication.first_track" title="Permalink to this definition"></a></dt>
 <dd><p>Returns the track at the first index of the tracks array.</p>
-<div class="admonition seealso">
-<p class="admonition-title">See also</p>
-<p><code class="xref py py-func docutils literal notranslate"><span class="pre">first_scriptable_element()</span></code></p>
-</div>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.1.</span></p>
 </div>
@@ -502,10 +471,6 @@
 <dt class="sig sig-object py" id="PyXA.apps.Music.XAMusicApplication.last_playlist">
 <span class="sig-name descname"><span class="pre">last_playlist</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Music.XAMediaPlaylist" title="PyXA.apps.Music.XAMediaPlaylist"><span class="pre">PyXA.apps.Music.XAMediaPlaylist</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Music.html#XAMusicApplication.last_playlist"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Music.XAMusicApplication.last_playlist" title="Permalink to this definition"></a></dt>
 <dd><p>Returns the playlist at the last (-1) index of the playlists array.</p>
-<div class="admonition seealso">
-<p class="admonition-title">See also</p>
-<p><code class="xref py py-func docutils literal notranslate"><span class="pre">last_scriptable_element()</span></code></p>
-</div>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.1.</span></p>
 </div>
@@ -515,10 +480,6 @@
 <dt class="sig sig-object py" id="PyXA.apps.Music.XAMusicApplication.last_track">
 <span class="sig-name descname"><span class="pre">last_track</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Music.XAMediaTrack" title="PyXA.apps.Music.XAMediaTrack"><span class="pre">PyXA.apps.Music.XAMediaTrack</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Music.html#XAMusicApplication.last_track"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Music.XAMusicApplication.last_track" title="Permalink to this definition"></a></dt>
 <dd><p>Returns the track at the last (-1) index of the tracks array.</p>
-<div class="admonition seealso">
-<p class="admonition-title">See also</p>
-<p><code class="xref py py-func docutils literal notranslate"><span class="pre">last_scriptable_element()</span></code></p>
-</div>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.1.</span></p>
 </div>
@@ -614,10 +575,6 @@
 <dt class="sig sig-object py" id="PyXA.apps.Music.XAMusicApplication.playlist">
 <span class="sig-name descname"><span class="pre">playlist</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Music.XAMediaPlaylist" title="PyXA.apps.Music.XAMediaPlaylist"><span class="pre">PyXA.apps.Music.XAMediaPlaylist</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Music.html#XAMusicApplication.playlist"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Music.XAMusicApplication.playlist" title="Permalink to this definition"></a></dt>
 <dd><p>Returns the first playlist that matches the filter.</p>
-<div class="admonition seealso">
-<p class="admonition-title">See also</p>
-<p><code class="xref py py-func docutils literal notranslate"><span class="pre">scriptable_element_with_properties()</span></code></p>
-</div>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.1.</span></p>
 </div>
@@ -627,10 +584,6 @@
 <dt class="sig sig-object py" id="PyXA.apps.Music.XAMusicApplication.playlists">
 <span class="sig-name descname"><span class="pre">playlists</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Music.XAMediaPlaylist" title="PyXA.apps.Music.XAMediaPlaylist"><span class="pre">PyXA.apps.Music.XAMediaPlaylist</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Music.html#XAMusicApplication.playlists"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Music.XAMusicApplication.playlists" title="Permalink to this definition"></a></dt>
 <dd><p>Returns a list of playlists matching the filter.</p>
-<div class="admonition seealso">
-<p class="admonition-title">See also</p>
-<p><code class="xref py py-func docutils literal notranslate"><span class="pre">scriptable_elements()</span></code></p>
-</div>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.1.</span></p>
 </div>
@@ -780,10 +733,6 @@
 <dt class="sig sig-object py" id="PyXA.apps.Music.XAMusicApplication.track">
 <span class="sig-name descname"><span class="pre">track</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Music.XAMediaTrack" title="PyXA.apps.Music.XAMediaTrack"><span class="pre">PyXA.apps.Music.XAMediaTrack</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Music.html#XAMusicApplication.track"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Music.XAMusicApplication.track" title="Permalink to this definition"></a></dt>
 <dd><p>Returns the first track that matches the filter.</p>
-<div class="admonition seealso">
-<p class="admonition-title">See also</p>
-<p><code class="xref py py-func docutils literal notranslate"><span class="pre">scriptable_element_with_properties()</span></code></p>
-</div>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.1.</span></p>
 </div>
@@ -793,10 +742,6 @@
 <dt class="sig sig-object py" id="PyXA.apps.Music.XAMusicApplication.tracks">
 <span class="sig-name descname"><span class="pre">tracks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Music.XAMediaTrack" title="PyXA.apps.Music.XAMediaTrack"><span class="pre">PyXA.apps.Music.XAMediaTrack</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Music.html#XAMusicApplication.tracks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Music.XAMusicApplication.tracks" title="Permalink to this definition"></a></dt>
 <dd><p>Returns a list of tracks matching the filter.</p>
-<div class="admonition seealso">
-<p class="admonition-title">See also</p>
-<p><code class="xref py py-func docutils literal notranslate"><span class="pre">scriptable_elements()</span></code></p>
-</div>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.1.</span></p>
 </div>

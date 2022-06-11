@@ -24,12 +24,17 @@ Application Modules
 
    apps/calculator
    apps/calendar
+   apps/contacts
+   apps/dictionary
    apps/finder
    apps/messages
    apps/music
    apps/notes
+   apps/photos
    apps/preview
    apps/reminders
    apps/safari
+   apps/shortcuts
    apps/terminal
    apps/textedit
+   apps/tv

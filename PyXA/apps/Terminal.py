@@ -36,6 +36,8 @@ class XATerminalApplication(XABaseScriptable.XASBApplication, XABase.XACanConstr
         :type window_tab: Union[XATerminalWindow, XATerminalTab], optional
         :return: A reference to the Terminal application object.
         :rtype: XATerminalApplication
+
+        .. versionadded:: 0.0.1
         """
         if window_tab is None:
             window_tab = self.front_window()
@@ -83,16 +85,12 @@ class XATerminalApplication(XABaseScriptable.XASBApplication, XABase.XACanConstr
     def settings_sets(self, filter: dict = None) -> List['XATerminalSettingsSet']:
         """Returns a list of settings sets matching the filter.
 
-        .. seealso:: :func:`scriptable_elements`
-
         .. versionadded:: 0.0.1
         """
         return self.scriptable_elements("settingsSets", filter, XATerminalSettingsSet)
 
     def settings_set(self, filter: Union[int, dict]) -> 'XATerminalSettingsSet':
         """Returns the first settings set that matches the filter.
-
-        .. seealso:: :func:`scriptable_element_with_properties`
 
         .. versionadded:: 0.0.1
         """
@@ -101,16 +99,12 @@ class XATerminalApplication(XABaseScriptable.XASBApplication, XABase.XACanConstr
     def first_settings_set(self) -> 'XATerminalSettingsSet':
         """Returns the settings set at the first index of the settings sets array.
 
-        .. seealso:: :func:`first_scriptable_element`
-
         .. versionadded:: 0.0.1
         """
         return self.first_scriptable_element("settingsSets", XATerminalSettingsSet)
 
     def last_settings_set(self) -> 'XATerminalSettingsSet':
         """Returns the settings set at the last (-1) index of the settings sets array.
-
-        .. seealso:: :func:`last_scriptable_element`
 
         .. versionadded:: 0.0.1
         """
@@ -139,16 +133,12 @@ class XATerminalWindow(XABase.XAWindow, XABaseScriptable.XASBPrintable, XABase.X
     def tabs(self, filter: dict = None) -> List['XATerminalTab']:
         """Returns a list of tabs matching the filter.
 
-        .. seealso:: :func:`scriptable_elements`
-
         .. versionadded:: 0.0.1
         """
         return self.elements("tabs", filter, XATerminalTab)
 
     def tab(self, filter: Union[int, dict]) -> 'XATerminalTab':
         """Returns the first tab that matches the filter.
-
-        .. seealso:: :func:`scriptable_element_with_properties`
 
         .. versionadded:: 0.0.1
         """
@@ -157,16 +147,12 @@ class XATerminalWindow(XABase.XAWindow, XABaseScriptable.XASBPrintable, XABase.X
     def first_tab(self) -> 'XATerminalTab':
         """Returns the tab at the first index of the tabs array.
 
-        .. seealso:: :func:`first_scriptable_element`
-
         .. versionadded:: 0.0.1
         """
         return self.first_element("tabs", XATerminalTab)
 
     def last_tab(self) -> 'XATerminalTab':
         """Returns the tab at the last (-1) index of the tabs array.
-
-        .. seealso:: :func:`last_scriptable_element`
 
         .. versionadded:: 0.0.1
         """

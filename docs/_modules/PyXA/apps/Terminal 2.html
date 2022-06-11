@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PyXA.apps.Terminal &mdash; PyXA 0.0.2 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> PyXA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../about/index.html">Project Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reference/index.html">Code Documentation and Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../bugs.html">Bugs</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">PyXA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      <li>PyXA.apps.Terminal</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for PyXA.apps.Terminal</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;.. versionadded:: 0.0.1</span>
+
+<span class="sd">Control the macOS Terminal application using JXA-like syntax.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">from</span> <span class="nn">PyXA</span> <span class="kn">import</span> <span class="n">XABase</span>
+<span class="kn">from</span> <span class="nn">PyXA</span> <span class="kn">import</span> <span class="n">XABaseScriptable</span>
+
+<span class="n">_YES</span> <span class="o">=</span> <span class="mi">2036691744</span>
+<span class="n">_NO</span> <span class="o">=</span> <span class="mi">1852776480</span>
+<span class="n">_ASK</span> <span class="o">=</span> <span class="mi">1634954016</span>
+<span class="n">_STANDARD_ERRORS</span> <span class="o">=</span> <span class="mi">1819767668</span>
+<span class="n">_DETAILED_ERRORS</span> <span class="o">=</span> <span class="mi">1819763828</span>
+
+<div class="viewcode-block" id="XATerminalApplication"><a class="viewcode-back" href="../../../reference/apps/terminal.html#PyXA.apps.Terminal.XATerminalApplication">[docs]</a><span class="k">class</span> <span class="nc">XATerminalApplication</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBApplication</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XACanConstructElement</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAAcceptsPushedElements</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XACanOpenPath</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A class for managing and interacting with Messages.app</span>
+
+<span class="sd">     .. seealso:: :class:`XATerminalWindow`, :class:`XATerminalTab`, :class:`XATerminalSettingsSet`</span>
+
+<span class="sd">    .. versionadded:: 0.0.1</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_wcls</span> <span class="o">=</span> <span class="n">XATerminalWindow</span>
+
+<div class="viewcode-block" id="XATerminalApplication.do_script"><a class="viewcode-back" href="../../../reference/apps/terminal.html#PyXA.apps.Terminal.XATerminalApplication.do_script">[docs]</a>    <span class="k">def</span> <span class="nf">do_script</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">script</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">window_tab</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XATerminalWindow&#39;</span><span class="p">,</span> <span class="s1">&#39;XATerminalTab&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XATerminalApplication&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Executes a Terminal script in the specified window or tab.</span>
+
+<span class="sd">        If no window or tab is provided, the script will run in a new tab of the frontmost window.</span>
+
+<span class="sd">        :param script: The script to execute.</span>
+<span class="sd">        :type script: str</span>
+<span class="sd">        :param window_tab: The window or tab to execute the script in, defaults to None</span>
+<span class="sd">        :type window_tab: Union[XATerminalWindow, XATerminalTab], optional</span>
+<span class="sd">        :return: A reference to the Terminal application object.</span>
+<span class="sd">        :rtype: XATerminalApplication</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">window_tab</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">window_tab</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">front_window</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">doScript_in_</span><span class="p">(</span><span class="n">script</span><span class="p">,</span> <span class="n">window_tab</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+    <span class="c1"># Tabs</span>
+<div class="viewcode-block" id="XATerminalApplication.current_tab"><a class="viewcode-back" href="../../../reference/apps/terminal.html#PyXA.apps.Terminal.XATerminalApplication.current_tab">[docs]</a>    <span class="k">def</span> <span class="nf">current_tab</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XATerminalTab&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Returns the selected tab of the frontmost Terminal window.</span>
+
+<span class="sd">        :return: A PyXA reference to the current tab.</span>
+<span class="sd">        :rtype: XATerminalTab</span>
+
+<span class="sd">        .. versionadded:: 0.0.1</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">front_window</span><span class="p">()</span><span class="o">.</span><span class="n">selected_tab</span><span class="p">()</span></div>
+
+    <span class="c1"># Settings Sets</span>
+<div class="viewcode-block" id="XATerminalApplication.default_settings"><a class="viewcode-back" href="../../../reference/apps/terminal.html#PyXA.apps.Terminal.XATerminalApplication.default_settings">[docs]</a>    <span class="k">def</span> <span class="nf">default_settings</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XATerminalSettingsSet&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Gets a reference to the settings set used for new windows.</span>
+
+<span class="sd">        :return: The default settings set.</span>
+<span class="sd">        :rtype: XATerminalSettingsSet</span>
+
+<span class="sd">        .. seealso:: :func:`startup_settings`</span>
+
+<span class="sd">        .. versionadded:: 0.0.1</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">settings_set_obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">defaultSettings</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="n">settings_set_obj</span><span class="p">,</span> <span class="n">XATerminalSettingsSet</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XATerminalApplication.startup_settings"><a class="viewcode-back" href="../../../reference/apps/terminal.html#PyXA.apps.Terminal.XATerminalApplication.startup_settings">[docs]</a>    <span class="k">def</span> <span class="nf">startup_settings</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XATerminalSettingsSet&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Gets a reference to the settings set used for the window created upon opening the Terminal application.</span>
+
+<span class="sd">        :return: The startup settings set.</span>
+<span class="sd">        :rtype: XATerminalSettingsSet</span>
+
+<span class="sd">        .. seealso:: :func:`default_settings`</span>
+
+<span class="sd">        .. versionadded:: 0.0.1</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">settings_set_obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">startupSettings</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="n">settings_set_obj</span><span class="p">,</span> <span class="n">XATerminalSettingsSet</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XATerminalApplication.settings_sets"><a class="viewcode-back" href="../../../reference/apps/terminal.html#PyXA.apps.Terminal.XATerminalApplication.settings_sets">[docs]</a>    <span class="k">def</span> <span class="nf">settings_sets</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;XATerminalSettingsSet&#39;</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Returns a list of settings sets matching the filter.</span>
+
+<span class="sd">        .. seealso:: :func:`scriptable_elements`</span>
+
+<span class="sd">        .. versionadded:: 0.0.1</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">scriptable_elements</span><span class="p">(</span><span class="s2">&quot;settingsSets&quot;</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XATerminalSettingsSet</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XATerminalApplication.settings_set"><a class="viewcode-back" href="../../../reference/apps/terminal.html#PyXA.apps.Terminal.XATerminalApplication.settings_set">[docs]</a>    <span class="k">def</span> <span class="nf">settings_set</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">dict</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s1">&#39;XATerminalSettingsSet&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Returns the first settings set that matches the filter.</span>
+
+<span class="sd">        .. seealso:: :func:`scriptable_element_with_properties`</span>
+
+<span class="sd">        .. versionadded:: 0.0.1</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">scriptable_element_with_properties</span><span class="p">(</span><span class="s2">&quot;settingsSets&quot;</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XATerminalSettingsSet</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XATerminalApplication.first_settings_set"><a class="viewcode-back" href="../../../reference/apps/terminal.html#PyXA.apps.Terminal.XATerminalApplication.first_settings_set">[docs]</a>    <span class="k">def</span> <span class="nf">first_settings_set</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XATerminalSettingsSet&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Returns the settings set at the first index of the settings sets array.</span>
+
+<span class="sd">        .. seealso:: :func:`first_scriptable_element`</span>
+
+<span class="sd">        .. versionadded:: 0.0.1</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">first_scriptable_element</span><span class="p">(</span><span class="s2">&quot;settingsSets&quot;</span><span class="p">,</span> <span class="n">XATerminalSettingsSet</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XATerminalApplication.last_settings_set"><a class="viewcode-back" href="../../../reference/apps/terminal.html#PyXA.apps.Terminal.XATerminalApplication.last_settings_set">[docs]</a>    <span class="k">def</span> <span class="nf">last_settings_set</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XATerminalSettingsSet&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Returns the settings set at the last (-1) index of the settings sets array.</span>
+
+<span class="sd">        .. seealso:: :func:`last_scriptable_element`</span>
+
+<span class="sd">        .. versionadded:: 0.0.1</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_scriptable_element</span><span class="p">(</span><span class="s2">&quot;settingsSets&quot;</span><span class="p">,</span> <span class="n">XATerminalSettingsSet</span><span class="p">)</span></div></div>
+
+<div class="viewcode-block" id="XATerminalWindow"><a class="viewcode-back" href="../../../reference/apps/terminal.html#PyXA.apps.Terminal.XATerminalWindow">[docs]</a><span class="k">class</span> <span class="nc">XATerminalWindow</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAWindow</span><span class="p">,</span> <span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBPrintable</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAHasElements</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A class for managing and interacting with windows in Terminal.app.</span>
+
+<span class="sd">    .. versionadded:: 0.0.1</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
+
+    <span class="c1"># Tabs</span>
+<div class="viewcode-block" id="XATerminalWindow.selected_tab"><a class="viewcode-back" href="../../../reference/apps/terminal.html#PyXA.apps.Terminal.XATerminalWindow.selected_tab">[docs]</a>    <span class="k">def</span> <span class="nf">selected_tab</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XATerminalTab&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Gets a reference to the window&#39;s currently selected tab.</span>
+
+<span class="sd">        :return: The selected tab.</span>
+<span class="sd">        :rtype: XATerminalTab</span>
+
+<span class="sd">        .. versionadded:: 0.0.1</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">tab_obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">selectedTab</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="n">tab_obj</span><span class="p">,</span> <span class="n">XATerminalTab</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XATerminalWindow.tabs"><a class="viewcode-back" href="../../../reference/apps/terminal.html#PyXA.apps.Terminal.XATerminalWindow.tabs">[docs]</a>    <span class="k">def</span> <span class="nf">tabs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;XATerminalTab&#39;</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Returns a list of tabs matching the filter.</span>
+
+<span class="sd">        .. seealso:: :func:`scriptable_elements`</span>
+
+<span class="sd">        .. versionadded:: 0.0.1</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">elements</span><span class="p">(</span><span class="s2">&quot;tabs&quot;</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XATerminalTab</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XATerminalWindow.tab"><a class="viewcode-back" href="../../../reference/apps/terminal.html#PyXA.apps.Terminal.XATerminalWindow.tab">[docs]</a>    <span class="k">def</span> <span class="nf">tab</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">dict</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s1">&#39;XATerminalTab&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Returns the first tab that matches the filter.</span>
+
+<span class="sd">        .. seealso:: :func:`scriptable_element_with_properties`</span>
+
+<span class="sd">        .. versionadded:: 0.0.1</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">element_with_properties</span><span class="p">(</span><span class="s2">&quot;tabs&quot;</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XATerminalTab</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XATerminalWindow.first_tab"><a class="viewcode-back" href="../../../reference/apps/terminal.html#PyXA.apps.Terminal.XATerminalWindow.first_tab">[docs]</a>    <span class="k">def</span> <span class="nf">first_tab</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XATerminalTab&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Returns the tab at the first index of the tabs array.</span>
+
+<span class="sd">        .. seealso:: :func:`first_scriptable_element`</span>
+
+<span class="sd">        .. versionadded:: 0.0.1</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">first_element</span><span class="p">(</span><span class="s2">&quot;tabs&quot;</span><span class="p">,</span> <span class="n">XATerminalTab</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XATerminalWindow.last_tab"><a class="viewcode-back" href="../../../reference/apps/terminal.html#PyXA.apps.Terminal.XATerminalWindow.last_tab">[docs]</a>    <span class="k">def</span> <span class="nf">last_tab</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XATerminalTab&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Returns the tab at the last (-1) index of the tabs array.</span>
+
+<span class="sd">        .. seealso:: :func:`last_scriptable_element`</span>
+
+<span class="sd">        .. versionadded:: 0.0.1</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_element</span><span class="p">(</span><span class="s2">&quot;tabs&quot;</span><span class="p">,</span> <span class="n">XATerminalTab</span><span class="p">)</span></div></div>
+
+<div class="viewcode-block" id="XATerminalTab"><a class="viewcode-back" href="../../../reference/apps/terminal.html#PyXA.apps.Terminal.XATerminalTab">[docs]</a><span class="k">class</span> <span class="nc">XATerminalTab</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBObject</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A class for managing and interacting with tabs in Terminal.app.</span>
+
+<span class="sd">    .. versionadded:: 0.0.1</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
+
+<div class="viewcode-block" id="XATerminalTab.current_settings"><a class="viewcode-back" href="../../../reference/apps/terminal.html#PyXA.apps.Terminal.XATerminalTab.current_settings">[docs]</a>    <span class="k">def</span> <span class="nf">current_settings</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XATerminalSettingsSet&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Gets a reference to the settings set currently in use by the tab.</span>
+
+<span class="sd">        :return: The tab&#39;s settings set.</span>
+<span class="sd">        :rtype: XATerminalSettingsSet</span>
+
+<span class="sd">        .. versionadded:: 0.0.1</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">settings_set_obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">currentSettings</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="n">settings_set_obj</span><span class="p">,</span> <span class="n">XATerminalSettingsSet</span><span class="p">)</span></div></div>
+
+<div class="viewcode-block" id="XATerminalSettingsSet"><a class="viewcode-back" href="../../../reference/apps/terminal.html#PyXA.apps.Terminal.XATerminalSettingsSet">[docs]</a><span class="k">class</span> <span class="nc">XATerminalSettingsSet</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBObject</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A class for managing and interacting with settings sets in Terminal.app.</span>
+
+<span class="sd">    .. versionadded:: 0.0.1</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Stephen Kaplan.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

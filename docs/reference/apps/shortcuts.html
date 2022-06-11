@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shortcuts Module &mdash; PyXA 0.0.2 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Terminal Module" href="terminal.html" />
+    <link rel="prev" title="Safari Module" href="safari.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> PyXA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../about/index.html">Project Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial/index.html">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Code Documentation and Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../index.html#top-level-pyxa-modules">Top-level PyXA Modules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#pyxa-base-modules">PyXA Base Modules</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html#application-modules">Application Modules</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="calculator.html">Calculator Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="calendar.html">Calendar Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="contacts.html">Contacts Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dictionary.html">Dictionary Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="finder.html">Finder Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="messages.html">Messages Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="music.html">Music Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notes.html">Notes Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="photos.html">Photos Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="preview.html">Preview Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reminders.html">Reminders Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="safari.html">Safari Module</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Shortcuts Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="terminal.html">Terminal Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="textedit.html">TextEdit Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tv.html">TV Module</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../bugs.html">Bugs</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">PyXA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">Code Documentation and Reference</a> &raquo;</li>
+      <li>Shortcuts Module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/reference/apps/shortcuts.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-PyXA.apps.Shortcuts">
+<span id="shortcuts-module"></span><h1>Shortcuts Module<a class="headerlink" href="#module-PyXA.apps.Shortcuts" title="Permalink to this headline"></a></h1>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+<p>Control the macOS Shortcuts application using JXA-like syntax.</p>
+<p><strong>Classes:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Shortcuts.XAShortcut" title="PyXA.apps.Shortcuts.XAShortcut"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAShortcut</span></code></a>(properties)</p></td>
+<td><p>A class for managing and interacting with shortcuts.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Shortcuts.XAShortcutFolder" title="PyXA.apps.Shortcuts.XAShortcutFolder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAShortcutFolder</span></code></a>(properties)</p></td>
+<td><p>A class for managing and interacting with folders of shortcuts.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Shortcuts.XAShortcutsApplication" title="PyXA.apps.Shortcuts.XAShortcutsApplication"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAShortcutsApplication</span></code></a>(properties)</p></td>
+<td><p>A class for managing and interacting with Podcasts.app.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.apps.Shortcuts.XAShortcut">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Shortcuts.</span></span><span class="sig-name descname"><span class="pre">XAShortcut</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Shortcuts.html#XAShortcut"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Shortcuts.XAShortcut" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XASBPrintable" title="PyXA.XABaseScriptable.XASBPrintable"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABaseScriptable.XASBPrintable</span></code></a></p>
+<p>A class for managing and interacting with shortcuts.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#PyXA.apps.Shortcuts.XAShortcutsApplication" title="PyXA.apps.Shortcuts.XAShortcutsApplication"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAShortcutsApplication</span></code></a></p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+<p><strong>Methods:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Shortcuts.XAShortcut.run" title="PyXA.apps.Shortcuts.XAShortcut.run"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run</span></code></a>([input])</p></td>
+<td><p>Runs the shortcut with the provided input.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Shortcuts.XAShortcut.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Shortcuts.html#XAShortcut.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Shortcuts.XAShortcut.run" title="Permalink to this definition"></a></dt>
+<dd><p>Runs the shortcut with the provided input.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>input</strong> (<em>Any</em><em>, </em><em>optional</em>) – The input to pass to the shortcut, defaults to None</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The value returned when the shortcut executes</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Any</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.apps.Shortcuts.XAShortcutFolder">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Shortcuts.</span></span><span class="sig-name descname"><span class="pre">XAShortcutFolder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Shortcuts.html#XAShortcutFolder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Shortcuts.XAShortcutFolder" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XASBObject" title="PyXA.XABaseScriptable.XASBObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABaseScriptable.XASBObject</span></code></a>, <a class="reference internal" href="../xabase.html#PyXA.XABase.XAHasAttachments" title="PyXA.XABase.XAHasAttachments"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAHasAttachments</span></code></a></p>
+<p>A class for managing and interacting with folders of shortcuts.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#PyXA.apps.Shortcuts.XAShortcutsApplication" title="PyXA.apps.Shortcuts.XAShortcutsApplication"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAShortcutsApplication</span></code></a></p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+<p><strong>Methods:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Shortcuts.XAShortcutFolder.first_shortcut" title="PyXA.apps.Shortcuts.XAShortcutFolder.first_shortcut"><code class="xref py py-obj docutils literal notranslate"><span class="pre">first_shortcut</span></code></a>()</p></td>
+<td><p>Returns the shortcut at the first index of the shortcuts array.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Shortcuts.XAShortcutFolder.last_shortcut" title="PyXA.apps.Shortcuts.XAShortcutFolder.last_shortcut"><code class="xref py py-obj docutils literal notranslate"><span class="pre">last_shortcut</span></code></a>()</p></td>
+<td><p>Returns the shortcut at the last (-1) index of the shortcuts array.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Shortcuts.XAShortcutFolder.shortcut" title="PyXA.apps.Shortcuts.XAShortcutFolder.shortcut"><code class="xref py py-obj docutils literal notranslate"><span class="pre">shortcut</span></code></a>(filter)</p></td>
+<td><p>Returns the first shortcut that matches the given filter.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Shortcuts.XAShortcutFolder.shortcuts" title="PyXA.apps.Shortcuts.XAShortcutFolder.shortcuts"><code class="xref py py-obj docutils literal notranslate"><span class="pre">shortcuts</span></code></a>([filter])</p></td>
+<td><p>Returns a list of shortcuts matching the given filter.</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Attributes:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Shortcuts.XAShortcutFolder.id" title="PyXA.apps.Shortcuts.XAShortcutFolder.id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">id</span></code></a></p></td>
+<td><p>A unique identifier for the folder</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Shortcuts.XAShortcutFolder.name" title="PyXA.apps.Shortcuts.XAShortcutFolder.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a></p></td>
+<td><p>The name string for the folder</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Shortcuts.XAShortcutFolder.first_shortcut">
+<span class="sig-name descname"><span class="pre">first_shortcut</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Shortcuts.XAShortcut" title="PyXA.apps.Shortcuts.XAShortcut"><span class="pre">PyXA.apps.Shortcuts.XAShortcut</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Shortcuts.html#XAShortcutFolder.first_shortcut"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Shortcuts.XAShortcutFolder.first_shortcut" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the shortcut at the first index of the shortcuts array.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.Shortcuts.XAShortcutFolder.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#PyXA.apps.Shortcuts.XAShortcutFolder.id" title="Permalink to this definition"></a></dt>
+<dd><p>A unique identifier for the folder</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Shortcuts.XAShortcutFolder.last_shortcut">
+<span class="sig-name descname"><span class="pre">last_shortcut</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Shortcuts.XAShortcut" title="PyXA.apps.Shortcuts.XAShortcut"><span class="pre">PyXA.apps.Shortcuts.XAShortcut</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Shortcuts.html#XAShortcutFolder.last_shortcut"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Shortcuts.XAShortcutFolder.last_shortcut" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the shortcut at the last (-1) index of the shortcuts array.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.Shortcuts.XAShortcutFolder.name">
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#PyXA.apps.Shortcuts.XAShortcutFolder.name" title="Permalink to this definition"></a></dt>
+<dd><p>The name string for the folder</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Shortcuts.XAShortcutFolder.shortcut">
+<span class="sig-name descname"><span class="pre">shortcut</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Shortcuts.XAShortcut" title="PyXA.apps.Shortcuts.XAShortcut"><span class="pre">PyXA.apps.Shortcuts.XAShortcut</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Shortcuts.html#XAShortcutFolder.shortcut"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Shortcuts.XAShortcutFolder.shortcut" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the first shortcut that matches the given filter.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Shortcuts.XAShortcutFolder.shortcuts">
+<span class="sig-name descname"><span class="pre">shortcuts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Shortcuts.XAShortcut" title="PyXA.apps.Shortcuts.XAShortcut"><span class="pre">PyXA.apps.Shortcuts.XAShortcut</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Shortcuts.html#XAShortcutFolder.shortcuts"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Shortcuts.XAShortcutFolder.shortcuts" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a list of shortcuts matching the given filter.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.apps.Shortcuts.XAShortcutsApplication">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Shortcuts.</span></span><span class="sig-name descname"><span class="pre">XAShortcutsApplication</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Shortcuts.html#XAShortcutsApplication"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Shortcuts.XAShortcutsApplication" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XASBApplication" title="PyXA.XABaseScriptable.XASBApplication"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABaseScriptable.XASBApplication</span></code></a></p>
+<p>A class for managing and interacting with Podcasts.app.</p>
+<blockquote>
+<div><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><code class="xref py py-class docutils literal notranslate"><span class="pre">XATextEditWindow</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">XATextEditDocument</span></code></p>
+</div>
+</div></blockquote>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+<p><strong>Methods:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Shortcuts.XAShortcutsApplication.first_folder" title="PyXA.apps.Shortcuts.XAShortcutsApplication.first_folder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">first_folder</span></code></a>()</p></td>
+<td><p>Returns the folder at the first index of the folders array.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Shortcuts.XAShortcutsApplication.first_shortcut" title="PyXA.apps.Shortcuts.XAShortcutsApplication.first_shortcut"><code class="xref py py-obj docutils literal notranslate"><span class="pre">first_shortcut</span></code></a>()</p></td>
+<td><p>Returns the shortcut at the first index of the shortcuts array.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Shortcuts.XAShortcutsApplication.folder" title="PyXA.apps.Shortcuts.XAShortcutsApplication.folder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">folder</span></code></a>(filter)</p></td>
+<td><p>Returns the first folder that matches the given filter.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Shortcuts.XAShortcutsApplication.folders" title="PyXA.apps.Shortcuts.XAShortcutsApplication.folders"><code class="xref py py-obj docutils literal notranslate"><span class="pre">folders</span></code></a>([filter])</p></td>
+<td><p>Returns a list of folders matching the given filter.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Shortcuts.XAShortcutsApplication.last_folder" title="PyXA.apps.Shortcuts.XAShortcutsApplication.last_folder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">last_folder</span></code></a>()</p></td>
+<td><p>Returns the folder at the last (-1) index of the folders array.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Shortcuts.XAShortcutsApplication.last_shortcut" title="PyXA.apps.Shortcuts.XAShortcutsApplication.last_shortcut"><code class="xref py py-obj docutils literal notranslate"><span class="pre">last_shortcut</span></code></a>()</p></td>
+<td><p>Returns the shortcut at the last (-1) index of the shortcuts array.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Shortcuts.XAShortcutsApplication.run" title="PyXA.apps.Shortcuts.XAShortcutsApplication.run"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run</span></code></a>(shortcut[, input])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Shortcuts.XAShortcutsApplication.shortcut" title="PyXA.apps.Shortcuts.XAShortcutsApplication.shortcut"><code class="xref py py-obj docutils literal notranslate"><span class="pre">shortcut</span></code></a>(filter)</p></td>
+<td><p>Returns the first shortcut that matches the given filter.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Shortcuts.XAShortcutsApplication.shortcuts" title="PyXA.apps.Shortcuts.XAShortcutsApplication.shortcuts"><code class="xref py py-obj docutils literal notranslate"><span class="pre">shortcuts</span></code></a>([filter])</p></td>
+<td><p>Returns a list of shortcuts matching the given filter.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Shortcuts.XAShortcutsApplication.first_folder">
+<span class="sig-name descname"><span class="pre">first_folder</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Shortcuts.XAShortcutFolder" title="PyXA.apps.Shortcuts.XAShortcutFolder"><span class="pre">PyXA.apps.Shortcuts.XAShortcutFolder</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Shortcuts.html#XAShortcutsApplication.first_folder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Shortcuts.XAShortcutsApplication.first_folder" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the folder at the first index of the folders array.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Shortcuts.XAShortcutsApplication.first_shortcut">
+<span class="sig-name descname"><span class="pre">first_shortcut</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Shortcuts.XAShortcut" title="PyXA.apps.Shortcuts.XAShortcut"><span class="pre">PyXA.apps.Shortcuts.XAShortcut</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Shortcuts.html#XAShortcutsApplication.first_shortcut"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Shortcuts.XAShortcutsApplication.first_shortcut" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the shortcut at the first index of the shortcuts array.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Shortcuts.XAShortcutsApplication.folder">
+<span class="sig-name descname"><span class="pre">folder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Shortcuts.XAShortcutFolder" title="PyXA.apps.Shortcuts.XAShortcutFolder"><span class="pre">PyXA.apps.Shortcuts.XAShortcutFolder</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Shortcuts.html#XAShortcutsApplication.folder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Shortcuts.XAShortcutsApplication.folder" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the first folder that matches the given filter.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Shortcuts.XAShortcutsApplication.folders">
+<span class="sig-name descname"><span class="pre">folders</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Shortcuts.XAShortcutFolder" title="PyXA.apps.Shortcuts.XAShortcutFolder"><span class="pre">PyXA.apps.Shortcuts.XAShortcutFolder</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Shortcuts.html#XAShortcutsApplication.folders"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Shortcuts.XAShortcutsApplication.folders" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a list of folders matching the given filter.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Shortcuts.XAShortcutsApplication.last_folder">
+<span class="sig-name descname"><span class="pre">last_folder</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Shortcuts.XAShortcutFolder" title="PyXA.apps.Shortcuts.XAShortcutFolder"><span class="pre">PyXA.apps.Shortcuts.XAShortcutFolder</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Shortcuts.html#XAShortcutsApplication.last_folder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Shortcuts.XAShortcutsApplication.last_folder" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the folder at the last (-1) index of the folders array.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Shortcuts.XAShortcutsApplication.last_shortcut">
+<span class="sig-name descname"><span class="pre">last_shortcut</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Shortcuts.XAShortcut" title="PyXA.apps.Shortcuts.XAShortcut"><span class="pre">PyXA.apps.Shortcuts.XAShortcut</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Shortcuts.html#XAShortcutsApplication.last_shortcut"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Shortcuts.XAShortcutsApplication.last_shortcut" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the shortcut at the last (-1) index of the shortcuts array.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Shortcuts.XAShortcutsApplication.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">shortcut</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#PyXA.apps.Shortcuts.XAShortcut" title="PyXA.apps.Shortcuts.XAShortcut"><span class="pre">PyXA.apps.Shortcuts.XAShortcut</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">input</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Shortcuts.html#XAShortcutsApplication.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Shortcuts.XAShortcutsApplication.run" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Shortcuts.XAShortcutsApplication.shortcut">
+<span class="sig-name descname"><span class="pre">shortcut</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Shortcuts.XAShortcut" title="PyXA.apps.Shortcuts.XAShortcut"><span class="pre">PyXA.apps.Shortcuts.XAShortcut</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Shortcuts.html#XAShortcutsApplication.shortcut"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Shortcuts.XAShortcutsApplication.shortcut" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the first shortcut that matches the given filter.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Shortcuts.XAShortcutsApplication.shortcuts">
+<span class="sig-name descname"><span class="pre">shortcuts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Shortcuts.XAShortcut" title="PyXA.apps.Shortcuts.XAShortcut"><span class="pre">PyXA.apps.Shortcuts.XAShortcut</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Shortcuts.html#XAShortcutsApplication.shortcuts"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Shortcuts.XAShortcutsApplication.shortcuts" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a list of shortcuts matching the given filter.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="safari.html" class="btn btn-neutral float-left" title="Safari Module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="terminal.html" class="btn btn-neutral float-right" title="Terminal Module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Stephen Kaplan.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

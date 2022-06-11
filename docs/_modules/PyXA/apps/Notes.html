@@ -100,16 +100,12 @@
 <div class="viewcode-block" id="XANotesApplication.notes"><a class="viewcode-back" href="../../../reference/apps/notes.html#PyXA.apps.Notes.XANotesApplication.notes">[docs]</a>    <span class="k">def</span> <span class="nf">notes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;XANote&#39;</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Returns a list of notes, as PyXA objects, matching the given filter.</span>
 
-<span class="sd">        .. seealso:: :func:`scriptable_elements`</span>
-
 <span class="sd">        .. versionadded:: 0.0.1</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">scriptable_elements</span><span class="p">(</span><span class="s2">&quot;notes&quot;</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XANote</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="XANotesApplication.note"><a class="viewcode-back" href="../../../reference/apps/notes.html#PyXA.apps.Notes.XANotesApplication.note">[docs]</a>    <span class="k">def</span> <span class="nf">note</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">dict</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s1">&#39;XANote&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Returns the first note matching the given filter.</span>
-
-<span class="sd">        .. seealso:: :func:`scriptable_element_with_properties`</span>
 
 <span class="sd">        .. versionadded:: 0.0.1</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -118,16 +114,12 @@
 <div class="viewcode-block" id="XANotesApplication.first_note"><a class="viewcode-back" href="../../../reference/apps/notes.html#PyXA.apps.Notes.XANotesApplication.first_note">[docs]</a>    <span class="k">def</span> <span class="nf">first_note</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XANote&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Returns the note at the zero index of the notes array.</span>
 
-<span class="sd">        .. seealso:: :func:`first_scriptable_element`</span>
-
 <span class="sd">        .. versionadded:: 0.0.1</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">first_scriptable_element</span><span class="p">(</span><span class="s2">&quot;notes&quot;</span><span class="p">,</span> <span class="n">XANote</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="XANotesApplication.last_note"><a class="viewcode-back" href="../../../reference/apps/notes.html#PyXA.apps.Notes.XANotesApplication.last_note">[docs]</a>    <span class="k">def</span> <span class="nf">last_note</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XANote&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Returns the note at the last (-1) index of the notes array.</span>
-
-<span class="sd">        .. seealso:: :func:`last_scriptable_element`</span>
 
 <span class="sd">        .. versionadded:: 0.0.1</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -137,16 +129,12 @@
 <div class="viewcode-block" id="XANotesApplication.folders"><a class="viewcode-back" href="../../../reference/apps/notes.html#PyXA.apps.Notes.XANotesApplication.folders">[docs]</a>    <span class="k">def</span> <span class="nf">folders</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;XANotesFolder&#39;</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Returns a list of Notes folders, as PyXA objects, matching the given filter.</span>
 
-<span class="sd">        .. seealso:: :func:`scriptable_elements`</span>
-
 <span class="sd">        .. versionadded:: 0.0.1</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">scriptable_elements</span><span class="p">(</span><span class="s2">&quot;folders&quot;</span><span class="p">,</span> <span class="n">XANotesFolder</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="XANotesApplication.folder"><a class="viewcode-back" href="../../../reference/apps/notes.html#PyXA.apps.Notes.XANotesApplication.folder">[docs]</a>    <span class="k">def</span> <span class="nf">folder</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;XANotesFolder&#39;</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Returns Notes folders matching the given filter.</span>
-
-<span class="sd">        .. seealso:: :func:`scriptable_element_with_properties`</span>
 
 <span class="sd">        .. versionadded:: 0.0.1</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -155,16 +143,12 @@
 <div class="viewcode-block" id="XANotesApplication.first_folder"><a class="viewcode-back" href="../../../reference/apps/notes.html#PyXA.apps.Notes.XANotesApplication.first_folder">[docs]</a>    <span class="k">def</span> <span class="nf">first_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XANotesFolder&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Returns the Notes folder at the zero index of the folders array.</span>
 
-<span class="sd">        .. seealso:: :func:`first_scriptable_element`</span>
-
 <span class="sd">        .. versionadded:: 0.0.1</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">first_scriptable_element</span><span class="p">(</span><span class="s2">&quot;folders&quot;</span><span class="p">,</span> <span class="n">XANotesFolder</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="XANotesApplication.last_folder"><a class="viewcode-back" href="../../../reference/apps/notes.html#PyXA.apps.Notes.XANotesApplication.last_folder">[docs]</a>    <span class="k">def</span> <span class="nf">last_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XANotesFolder&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Returns the Notes folder at the last (-1) index of the folders array.</span>
-
-<span class="sd">        .. seealso:: :func:`last_scriptable_element`</span>
 
 <span class="sd">        .. versionadded:: 0.0.1</span>
 <span class="sd">        &quot;&quot;&quot;</span>

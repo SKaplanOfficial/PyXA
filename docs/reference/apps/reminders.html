@@ -57,6 +57,7 @@
 <li class="toctree-l3"><a class="reference internal" href="safari.html">Safari Module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="terminal.html">Terminal Module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="textedit.html">TextEdit Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tv.html">TV Module</a></li>
 </ul>
 </li>
 </ul>
@@ -105,8 +106,14 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Reminders.XAReminder" title="PyXA.apps.Reminders.XAReminder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAReminder</span></code></a>(properties)</p></td>
 <td><p>A class for interacting with Reminders.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Reminders.XAReminderList" title="PyXA.apps.Reminders.XAReminderList"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAReminderList</span></code></a>(properties)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Reminders.XAReminderAlarm" title="PyXA.apps.Reminders.XAReminderAlarm"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAReminderAlarm</span></code></a>(properties)</p></td>
+<td><p>A class for interacting with Reminders.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Reminders.XAReminderList" title="PyXA.apps.Reminders.XAReminderList"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAReminderList</span></code></a>(properties)</p></td>
 <td><p>A class for interacting with Reminders lists.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Reminders.XAReminderRecurrenceRule" title="PyXA.apps.Reminders.XAReminderRecurrenceRule"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAReminderRecurrenceRule</span></code></a>(properties)</p></td>
+<td><p>A class for interacting with Reminders.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Reminders.XARemindersApplication" title="PyXA.apps.Reminders.XARemindersApplication"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XARemindersApplication</span></code></a>(properties)</p></td>
 <td><p>A class for managing and interacting with scripting elements of the Reminders application.</p></td>
@@ -125,6 +132,258 @@
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.1.</span></p>
 </div>
+<p><strong>Attributes:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Reminders.XAReminder.all_day" title="PyXA.apps.Reminders.XAReminder.all_day"><code class="xref py py-obj docutils literal notranslate"><span class="pre">all_day</span></code></a></p></td>
+<td><p>Whether the reminder is all day or a specific time</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Reminders.XAReminder.completion_date" title="PyXA.apps.Reminders.XAReminder.completion_date"><code class="xref py py-obj docutils literal notranslate"><span class="pre">completion_date</span></code></a></p></td>
+<td><p>The date the reminder should be completed by</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Reminders.XAReminder.completion_status" title="PyXA.apps.Reminders.XAReminder.completion_status"><code class="xref py py-obj docutils literal notranslate"><span class="pre">completion_status</span></code></a></p></td>
+<td><p>Whether the reminder has been completed</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Reminders.XAReminder.creation_date" title="PyXA.apps.Reminders.XAReminder.creation_date"><code class="xref py py-obj docutils literal notranslate"><span class="pre">creation_date</span></code></a></p></td>
+<td><p>The date the reminder was created</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Reminders.XAReminder.due_date" title="PyXA.apps.Reminders.XAReminder.due_date"><code class="xref py py-obj docutils literal notranslate"><span class="pre">due_date</span></code></a></p></td>
+<td><p>The date the reminder is due</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Reminders.XAReminder.id" title="PyXA.apps.Reminders.XAReminder.id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">id</span></code></a></p></td>
+<td><p>A unique identifier for this reminder</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Reminders.XAReminder.modification_date" title="PyXA.apps.Reminders.XAReminder.modification_date"><code class="xref py py-obj docutils literal notranslate"><span class="pre">modification_date</span></code></a></p></td>
+<td><p>The date the reminder was last modified</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Reminders.XAReminder.notes" title="PyXA.apps.Reminders.XAReminder.notes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">notes</span></code></a></p></td>
+<td><p>User-inputted notes for this reminder</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Reminders.XAReminder.priority" title="PyXA.apps.Reminders.XAReminder.priority"><code class="xref py py-obj docutils literal notranslate"><span class="pre">priority</span></code></a></p></td>
+<td><p>A number representing the priority of the reminder</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Reminders.XAReminder.title" title="PyXA.apps.Reminders.XAReminder.title"><code class="xref py py-obj docutils literal notranslate"><span class="pre">title</span></code></a></p></td>
+<td><p>The name of the reminder</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Reminders.XAReminder.url" title="PyXA.apps.Reminders.XAReminder.url"><code class="xref py py-obj docutils literal notranslate"><span class="pre">url</span></code></a></p></td>
+<td><p>The URL attached to the reminder, if there is one</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Methods:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Reminders.XAReminder.delete" title="PyXA.apps.Reminders.XAReminder.delete"><code class="xref py py-obj docutils literal notranslate"><span class="pre">delete</span></code></a>()</p></td>
+<td><p>Deletes the reminder.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Reminders.XAReminder.show" title="PyXA.apps.Reminders.XAReminder.show"><code class="xref py py-obj docutils literal notranslate"><span class="pre">show</span></code></a>()</p></td>
+<td><p>Shows the reminder in Reminders.app.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.Reminders.XAReminder.all_day">
+<span class="sig-name descname"><span class="pre">all_day</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Reminders.XAReminder.all_day" title="Permalink to this definition"></a></dt>
+<dd><p>Whether the reminder is all day or a specific time</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.Reminders.XAReminder.completion_date">
+<span class="sig-name descname"><span class="pre">completion_date</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">datetime.datetime</span></em><a class="headerlink" href="#PyXA.apps.Reminders.XAReminder.completion_date" title="Permalink to this definition"></a></dt>
+<dd><p>The date the reminder should be completed by</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.Reminders.XAReminder.completion_status">
+<span class="sig-name descname"><span class="pre">completion_status</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Reminders.XAReminder.completion_status" title="Permalink to this definition"></a></dt>
+<dd><p>Whether the reminder has been completed</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.Reminders.XAReminder.creation_date">
+<span class="sig-name descname"><span class="pre">creation_date</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">datetime.datetime</span></em><a class="headerlink" href="#PyXA.apps.Reminders.XAReminder.creation_date" title="Permalink to this definition"></a></dt>
+<dd><p>The date the reminder was created</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Reminders.XAReminder.delete">
+<span class="sig-name descname"><span class="pre">delete</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Reminders.html#XAReminder.delete"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Reminders.XAReminder.delete" title="Permalink to this definition"></a></dt>
+<dd><p>Deletes the reminder.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.Reminders.XAReminder.due_date">
+<span class="sig-name descname"><span class="pre">due_date</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">datetime.datetime</span></em><a class="headerlink" href="#PyXA.apps.Reminders.XAReminder.due_date" title="Permalink to this definition"></a></dt>
+<dd><p>The date the reminder is due</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.Reminders.XAReminder.id">
+<span class="sig-name descname"><span class="pre">id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Reminders.XAReminder.id" title="Permalink to this definition"></a></dt>
+<dd><p>A unique identifier for this reminder</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.Reminders.XAReminder.modification_date">
+<span class="sig-name descname"><span class="pre">modification_date</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">datetime.datetime</span></em><a class="headerlink" href="#PyXA.apps.Reminders.XAReminder.modification_date" title="Permalink to this definition"></a></dt>
+<dd><p>The date the reminder was last modified</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.Reminders.XAReminder.notes">
+<span class="sig-name descname"><span class="pre">notes</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Reminders.XAReminder.notes" title="Permalink to this definition"></a></dt>
+<dd><p>User-inputted notes for this reminder</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.Reminders.XAReminder.priority">
+<span class="sig-name descname"><span class="pre">priority</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#PyXA.apps.Reminders.XAReminder.priority" title="Permalink to this definition"></a></dt>
+<dd><p>A number representing the priority of the reminder</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Reminders.XAReminder.show">
+<span class="sig-name descname"><span class="pre">show</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Reminders.html#XAReminder.show"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Reminders.XAReminder.show" title="Permalink to this definition"></a></dt>
+<dd><p>Shows the reminder in Reminders.app.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.Reminders.XAReminder.title">
+<span class="sig-name descname"><span class="pre">title</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Reminders.XAReminder.title" title="Permalink to this definition"></a></dt>
+<dd><p>The name of the reminder</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.Reminders.XAReminder.url">
+<span class="sig-name descname"><span class="pre">url</span></span><a class="headerlink" href="#PyXA.apps.Reminders.XAReminder.url" title="Permalink to this definition"></a></dt>
+<dd><p>The URL attached to the reminder, if there is one</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.apps.Reminders.XAReminderAlarm">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Reminders.</span></span><span class="sig-name descname"><span class="pre">XAReminderAlarm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Reminders.html#XAReminderAlarm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Reminders.XAReminderAlarm" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAObject</span></code></a></p>
+<p>A class for interacting with Reminders.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#PyXA.apps.Reminders.XARemindersApplication" title="PyXA.apps.Reminders.XARemindersApplication"><code class="xref py py-class docutils literal notranslate"><span class="pre">XARemindersApplication</span></code></a>, <a class="reference internal" href="#PyXA.apps.Reminders.XAReminderList" title="PyXA.apps.Reminders.XAReminderList"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAReminderList</span></code></a></p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+<p><strong>Attributes:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Reminders.XAReminderAlarm.date" title="PyXA.apps.Reminders.XAReminderAlarm.date"><code class="xref py py-obj docutils literal notranslate"><span class="pre">date</span></code></a></p></td>
+<td><p>The date and time of a date-based alarm</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Reminders.XAReminderAlarm.id" title="PyXA.apps.Reminders.XAReminderAlarm.id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">id</span></code></a></p></td>
+<td><p>A unique identifier for this alarm</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Reminders.XAReminderAlarm.location" title="PyXA.apps.Reminders.XAReminderAlarm.location"><code class="xref py py-obj docutils literal notranslate"><span class="pre">location</span></code></a></p></td>
+<td><p>The location of a location-based alarm</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Reminders.XAReminderAlarm.proximity_direction" title="PyXA.apps.Reminders.XAReminderAlarm.proximity_direction"><code class="xref py py-obj docutils literal notranslate"><span class="pre">proximity_direction</span></code></a></p></td>
+<td><p>Whether a location-based alarm is for arriving or departing</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Reminders.XAReminderAlarm.snoozed" title="PyXA.apps.Reminders.XAReminderAlarm.snoozed"><code class="xref py py-obj docutils literal notranslate"><span class="pre">snoozed</span></code></a></p></td>
+<td><p>Whether the alarm is snoozed</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Methods:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Reminders.XAReminderAlarm.set_date" title="PyXA.apps.Reminders.XAReminderAlarm.set_date"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_date</span></code></a>(date)</p></td>
+<td><p>Sets the date and time of the alarm.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Reminders.XAReminderAlarm.set_location" title="PyXA.apps.Reminders.XAReminderAlarm.set_location"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_location</span></code></a>(location)</p></td>
+<td><p>Sets the location and radius of the alarm.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.Reminders.XAReminderAlarm.date">
+<span class="sig-name descname"><span class="pre">date</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">datetime.datetime</span></em><a class="headerlink" href="#PyXA.apps.Reminders.XAReminderAlarm.date" title="Permalink to this definition"></a></dt>
+<dd><p>The date and time of a date-based alarm</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.Reminders.XAReminderAlarm.id">
+<span class="sig-name descname"><span class="pre">id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Reminders.XAReminderAlarm.id" title="Permalink to this definition"></a></dt>
+<dd><p>A unique identifier for this alarm</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.Reminders.XAReminderAlarm.location">
+<span class="sig-name descname"><span class="pre">location</span></span><a class="headerlink" href="#PyXA.apps.Reminders.XAReminderAlarm.location" title="Permalink to this definition"></a></dt>
+<dd><p>The location of a location-based alarm</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.Reminders.XAReminderAlarm.proximity_direction">
+<span class="sig-name descname"><span class="pre">proximity_direction</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Reminders.XAReminderAlarm.proximity_direction" title="Permalink to this definition"></a></dt>
+<dd><p>Whether a location-based alarm is for arriving or departing</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Reminders.XAReminderAlarm.set_date">
+<span class="sig-name descname"><span class="pre">set_date</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">date</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime.datetime</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Reminders.html#XAReminderAlarm.set_date"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Reminders.XAReminderAlarm.set_date" title="Permalink to this definition"></a></dt>
+<dd><p>Sets the date and time of the alarm.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>date</strong> (<em>datetime</em>) – The absolute date that the alarm will go off.</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Reminders.XAReminderAlarm.set_location">
+<span class="sig-name descname"><span class="pre">set_location</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">location</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../xabase.html#PyXA.XABase.XALocation" title="PyXA.XABase.XALocation"><span class="pre">PyXA.XABase.XALocation</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Reminders.html#XAReminderAlarm.set_location"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Reminders.XAReminderAlarm.set_location" title="Permalink to this definition"></a></dt>
+<dd><p>Sets the location and radius of the alarm.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>location</strong> (<a class="reference internal" href="../xabase.html#PyXA.XABase.XALocation" title="PyXA.XABase.XALocation"><em>XABase.XALocation</em></a>) – The location (with specified radius) that the alarm will go off.</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.Reminders.XAReminderAlarm.snoozed">
+<span class="sig-name descname"><span class="pre">snoozed</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Reminders.XAReminderAlarm.snoozed" title="Permalink to this definition"></a></dt>
+<dd><p>Whether the alarm is snoozed</p>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="py class">
@@ -139,6 +398,239 @@
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.1.</span></p>
 </div>
+<p><strong>Attributes:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Reminders.XAReminderList.color" title="PyXA.apps.Reminders.XAReminderList.color"><code class="xref py py-obj docutils literal notranslate"><span class="pre">color</span></code></a></p></td>
+<td><p>The HEX color of the list</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Reminders.XAReminderList.id" title="PyXA.apps.Reminders.XAReminderList.id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">id</span></code></a></p></td>
+<td><p>A unique identifier for this list</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Reminders.XAReminderList.notes" title="PyXA.apps.Reminders.XAReminderList.notes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">notes</span></code></a></p></td>
+<td><p>Notes associated with the list</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Reminders.XAReminderList.sharees" title="PyXA.apps.Reminders.XAReminderList.sharees"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sharees</span></code></a></p></td>
+<td><p>A list of individuals with whom the list is shared with</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Reminders.XAReminderList.sharing_status" title="PyXA.apps.Reminders.XAReminderList.sharing_status"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sharing_status</span></code></a></p></td>
+<td><p>Whether the list is shared</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Reminders.XAReminderList.subscription_url" title="PyXA.apps.Reminders.XAReminderList.subscription_url"><code class="xref py py-obj docutils literal notranslate"><span class="pre">subscription_url</span></code></a></p></td>
+<td><p>The URL of the list used to subscribe to it</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Reminders.XAReminderList.summary" title="PyXA.apps.Reminders.XAReminderList.summary"><code class="xref py py-obj docutils literal notranslate"><span class="pre">summary</span></code></a></p></td>
+<td><p>An overview of the list's information</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Reminders.XAReminderList.title" title="PyXA.apps.Reminders.XAReminderList.title"><code class="xref py py-obj docutils literal notranslate"><span class="pre">title</span></code></a></p></td>
+<td><p>The name of the reminders list</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Reminders.XAReminderList.type" title="PyXA.apps.Reminders.XAReminderList.type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">type</span></code></a></p></td>
+<td><p>The list/calendar format</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Methods:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Reminders.XAReminderList.delete" title="PyXA.apps.Reminders.XAReminderList.delete"><code class="xref py py-obj docutils literal notranslate"><span class="pre">delete</span></code></a>()</p></td>
+<td><p>Deletes the list.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Reminders.XAReminderList.show" title="PyXA.apps.Reminders.XAReminderList.show"><code class="xref py py-obj docutils literal notranslate"><span class="pre">show</span></code></a>()</p></td>
+<td><p>Shows the reminders list in Reminders.app.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.Reminders.XAReminderList.color">
+<span class="sig-name descname"><span class="pre">color</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Reminders.XAReminderList.color" title="Permalink to this definition"></a></dt>
+<dd><p>The HEX color of the list</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Reminders.XAReminderList.delete">
+<span class="sig-name descname"><span class="pre">delete</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Reminders.html#XAReminderList.delete"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Reminders.XAReminderList.delete" title="Permalink to this definition"></a></dt>
+<dd><p>Deletes the list.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.Reminders.XAReminderList.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#PyXA.apps.Reminders.XAReminderList.id" title="Permalink to this definition"></a></dt>
+<dd><p>A unique identifier for this list</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.Reminders.XAReminderList.notes">
+<span class="sig-name descname"><span class="pre">notes</span></span><a class="headerlink" href="#PyXA.apps.Reminders.XAReminderList.notes" title="Permalink to this definition"></a></dt>
+<dd><p>Notes associated with the list</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.Reminders.XAReminderList.sharees">
+<span class="sig-name descname"><span class="pre">sharees</span></span><a class="headerlink" href="#PyXA.apps.Reminders.XAReminderList.sharees" title="Permalink to this definition"></a></dt>
+<dd><p>A list of individuals with whom the list is shared with</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.Reminders.XAReminderList.sharing_status">
+<span class="sig-name descname"><span class="pre">sharing_status</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Reminders.XAReminderList.sharing_status" title="Permalink to this definition"></a></dt>
+<dd><p>Whether the list is shared</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Reminders.XAReminderList.show">
+<span class="sig-name descname"><span class="pre">show</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Reminders.html#XAReminderList.show"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Reminders.XAReminderList.show" title="Permalink to this definition"></a></dt>
+<dd><p>Shows the reminders list in Reminders.app.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.Reminders.XAReminderList.subscription_url">
+<span class="sig-name descname"><span class="pre">subscription_url</span></span><a class="headerlink" href="#PyXA.apps.Reminders.XAReminderList.subscription_url" title="Permalink to this definition"></a></dt>
+<dd><p>The URL of the list used to subscribe to it</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.Reminders.XAReminderList.summary">
+<span class="sig-name descname"><span class="pre">summary</span></span><a class="headerlink" href="#PyXA.apps.Reminders.XAReminderList.summary" title="Permalink to this definition"></a></dt>
+<dd><p>An overview of the list’s information</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.Reminders.XAReminderList.title">
+<span class="sig-name descname"><span class="pre">title</span></span><a class="headerlink" href="#PyXA.apps.Reminders.XAReminderList.title" title="Permalink to this definition"></a></dt>
+<dd><p>The name of the reminders list</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.Reminders.XAReminderList.type">
+<span class="sig-name descname"><span class="pre">type</span></span><a class="headerlink" href="#PyXA.apps.Reminders.XAReminderList.type" title="Permalink to this definition"></a></dt>
+<dd><p>The list/calendar format</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.apps.Reminders.XAReminderRecurrenceRule">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Reminders.</span></span><span class="sig-name descname"><span class="pre">XAReminderRecurrenceRule</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Reminders.html#XAReminderRecurrenceRule"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Reminders.XAReminderRecurrenceRule" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAObject</span></code></a></p>
+<p>A class for interacting with Reminders.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#PyXA.apps.Reminders.XARemindersApplication" title="PyXA.apps.Reminders.XARemindersApplication"><code class="xref py py-class docutils literal notranslate"><span class="pre">XARemindersApplication</span></code></a>, <a class="reference internal" href="#PyXA.apps.Reminders.XAReminderList" title="PyXA.apps.Reminders.XAReminderList"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAReminderList</span></code></a></p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+<p><strong>Attributes:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Reminders.XAReminderRecurrenceRule.end_date" title="PyXA.apps.Reminders.XAReminderRecurrenceRule.end_date"><code class="xref py py-obj docutils literal notranslate"><span class="pre">end_date</span></code></a></p></td>
+<td><p>The end date and time of recurrence</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Reminders.XAReminderRecurrenceRule.frequency" title="PyXA.apps.Reminders.XAReminderRecurrenceRule.frequency"><code class="xref py py-obj docutils literal notranslate"><span class="pre">frequency</span></code></a></p></td>
+<td><p>Specifier for the base unit of recurrence, i.e. daily, weekly, monthly, or yearly.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Reminders.XAReminderRecurrenceRule.interval" title="PyXA.apps.Reminders.XAReminderRecurrenceRule.interval"><code class="xref py py-obj docutils literal notranslate"><span class="pre">interval</span></code></a></p></td>
+<td><p>The number of frequency units between recurrences</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Methods:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Reminders.XAReminderRecurrenceRule.set_end_date" title="PyXA.apps.Reminders.XAReminderRecurrenceRule.set_end_date"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_end_date</span></code></a>(end_date)</p></td>
+<td><p>Sets the date and time when the recurrence ends.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Reminders.XAReminderRecurrenceRule.set_frequency" title="PyXA.apps.Reminders.XAReminderRecurrenceRule.set_frequency"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_frequency</span></code></a>(frequency)</p></td>
+<td><p>Sets the frequency of recurrence.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Reminders.XAReminderRecurrenceRule.set_interval" title="PyXA.apps.Reminders.XAReminderRecurrenceRule.set_interval"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_interval</span></code></a>(interval)</p></td>
+<td><p>Sets the interval of recurrence.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.Reminders.XAReminderRecurrenceRule.end_date">
+<span class="sig-name descname"><span class="pre">end_date</span></span><a class="headerlink" href="#PyXA.apps.Reminders.XAReminderRecurrenceRule.end_date" title="Permalink to this definition"></a></dt>
+<dd><p>The end date and time of recurrence</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.Reminders.XAReminderRecurrenceRule.frequency">
+<span class="sig-name descname"><span class="pre">frequency</span></span><a class="headerlink" href="#PyXA.apps.Reminders.XAReminderRecurrenceRule.frequency" title="Permalink to this definition"></a></dt>
+<dd><p>Specifier for the base unit of recurrence, i.e. daily, weekly, monthly, or yearly</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.Reminders.XAReminderRecurrenceRule.interval">
+<span class="sig-name descname"><span class="pre">interval</span></span><a class="headerlink" href="#PyXA.apps.Reminders.XAReminderRecurrenceRule.interval" title="Permalink to this definition"></a></dt>
+<dd><p>The number of frequency units between recurrences</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Reminders.XAReminderRecurrenceRule.set_end_date">
+<span class="sig-name descname"><span class="pre">set_end_date</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">end_date</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime.datetime</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Reminders.html#XAReminderRecurrenceRule.set_end_date"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Reminders.XAReminderRecurrenceRule.set_end_date" title="Permalink to this definition"></a></dt>
+<dd><p>Sets the date and time when the recurrence ends.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>end_date</strong> (<em>datetime</em>) – The absolute end day of recurrence.</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Reminders.XAReminderRecurrenceRule.set_frequency">
+<span class="sig-name descname"><span class="pre">set_frequency</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frequency</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'daily'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'weekly'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'monthly'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'yearly'</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Reminders.html#XAReminderRecurrenceRule.set_frequency"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Reminders.XAReminderRecurrenceRule.set_frequency" title="Permalink to this definition"></a></dt>
+<dd><p>Sets the frequency of recurrence.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>frequency</strong> (<em>Literal</em><em>[</em><em>&quot;daily&quot;</em><em>, </em><em>&quot;weekly&quot;</em><em>, </em><em>&quot;monthly&quot;</em><em>, </em><em>&quot;yearly&quot;</em><em>]</em>) – A specifier for the base unit of recurrence.</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Reminders.XAReminderRecurrenceRule.set_interval">
+<span class="sig-name descname"><span class="pre">set_interval</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">interval</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Reminders.html#XAReminderRecurrenceRule.set_interval"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Reminders.XAReminderRecurrenceRule.set_interval" title="Permalink to this definition"></a></dt>
+<dd><p>Sets the interval of recurrence.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>interval</strong> (<em>int</em>) – The interval; the number of frequency units between recurrences.</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="py class">
@@ -178,10 +670,10 @@
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Reminders.XARemindersApplication.lists" title="PyXA.apps.Reminders.XARemindersApplication.lists"><code class="xref py py-obj docutils literal notranslate"><span class="pre">lists</span></code></a>([filter])</p></td>
 <td><p>Returns a list of reminder lists matching the filter.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Reminders.XARemindersApplication.new_list" title="PyXA.apps.Reminders.XARemindersApplication.new_list"><code class="xref py py-obj docutils literal notranslate"><span class="pre">new_list</span></code></a>([name, color, emblem])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Reminders.XARemindersApplication.new_list" title="PyXA.apps.Reminders.XARemindersApplication.new_list"><code class="xref py py-obj docutils literal notranslate"><span class="pre">new_list</span></code></a>([title, color, emblem])</p></td>
 <td><p>Creates a new reminder with the given name, body, and due date in the specified reminder list.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Reminders.XARemindersApplication.new_reminder" title="PyXA.apps.Reminders.XARemindersApplication.new_reminder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">new_reminder</span></code></a>([name, body, due_date, ...])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Reminders.XARemindersApplication.new_reminder" title="PyXA.apps.Reminders.XARemindersApplication.new_reminder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">new_reminder</span></code></a>([title, notes, due_date, ...])</p></td>
 <td><p>Creates a new reminder with the given name, body, and due date in the specified reminder list.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Reminders.XARemindersApplication.reminder" title="PyXA.apps.Reminders.XARemindersApplication.reminder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reminder</span></code></a>(filter)</p></td>
@@ -196,10 +688,14 @@
 <dt class="sig sig-object py" id="PyXA.apps.Reminders.XARemindersApplication.first_list">
 <span class="sig-name descname"><span class="pre">first_list</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Reminders.XAReminderList" title="PyXA.apps.Reminders.XAReminderList"><span class="pre">PyXA.apps.Reminders.XAReminderList</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Reminders.html#XARemindersApplication.first_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Reminders.XARemindersApplication.first_list" title="Permalink to this definition"></a></dt>
 <dd><p>Returns the reminder list at the zero index of the lists array.</p>
-<div class="admonition seealso">
-<p class="admonition-title">See also</p>
-<p><code class="xref py py-func docutils literal notranslate"><span class="pre">first_scriptable_element()</span></code></p>
-</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A reference to the first reminder list object.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#PyXA.apps.Reminders.XAReminderList" title="PyXA.apps.Reminders.XAReminderList">XAReminderList</a></p>
+</dd>
+</dl>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.1.</span></p>
 </div>
@@ -209,10 +705,14 @@
 <dt class="sig sig-object py" id="PyXA.apps.Reminders.XARemindersApplication.first_reminder">
 <span class="sig-name descname"><span class="pre">first_reminder</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Reminders.XAReminder" title="PyXA.apps.Reminders.XAReminder"><span class="pre">PyXA.apps.Reminders.XAReminder</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Reminders.html#XARemindersApplication.first_reminder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Reminders.XARemindersApplication.first_reminder" title="Permalink to this definition"></a></dt>
 <dd><p>Returns the reminder at the zero index of the reminders array.</p>
-<div class="admonition seealso">
-<p class="admonition-title">See also</p>
-<p><code class="xref py py-func docutils literal notranslate"><span class="pre">first_scriptable_element()</span></code></p>
-</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A reference to the first reminder object.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#PyXA.apps.Reminders.XAReminderList" title="PyXA.apps.Reminders.XAReminderList">XAReminderList</a></p>
+</dd>
+</dl>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.1.</span></p>
 </div>
@@ -222,10 +722,14 @@
 <dt class="sig sig-object py" id="PyXA.apps.Reminders.XARemindersApplication.last_list">
 <span class="sig-name descname"><span class="pre">last_list</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Reminders.XAReminderList" title="PyXA.apps.Reminders.XAReminderList"><span class="pre">PyXA.apps.Reminders.XAReminderList</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Reminders.html#XARemindersApplication.last_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Reminders.XARemindersApplication.last_list" title="Permalink to this definition"></a></dt>
 <dd><p>Returns the reminder list at the last (-1) index of the lists array.</p>
-<div class="admonition seealso">
-<p class="admonition-title">See also</p>
-<p><code class="xref py py-func docutils literal notranslate"><span class="pre">last_scriptable_element()</span></code></p>
-</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A reference to the last reminder list object.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#PyXA.apps.Reminders.XAReminderList" title="PyXA.apps.Reminders.XAReminderList">XAReminderList</a></p>
+</dd>
+</dl>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.1.</span></p>
 </div>
@@ -235,10 +739,14 @@
 <dt class="sig sig-object py" id="PyXA.apps.Reminders.XARemindersApplication.last_reminder">
 <span class="sig-name descname"><span class="pre">last_reminder</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Reminders.XAReminder" title="PyXA.apps.Reminders.XAReminder"><span class="pre">PyXA.apps.Reminders.XAReminder</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Reminders.html#XARemindersApplication.last_reminder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Reminders.XARemindersApplication.last_reminder" title="Permalink to this definition"></a></dt>
 <dd><p>Returns the reminder at the last (-1) index of the reminders array.</p>
-<div class="admonition seealso">
-<p class="admonition-title">See also</p>
-<p><code class="xref py py-func docutils literal notranslate"><span class="pre">last_scriptable_element()</span></code></p>
-</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A reference to the last reminder object.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#PyXA.apps.Reminders.XAReminderList" title="PyXA.apps.Reminders.XAReminderList">XAReminderList</a></p>
+</dd>
+</dl>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.1.</span></p>
 </div>
@@ -248,9 +756,36 @@
 <dt class="sig sig-object py" id="PyXA.apps.Reminders.XARemindersApplication.list">
 <span class="sig-name descname"><span class="pre">list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Reminders.XAReminderList" title="PyXA.apps.Reminders.XAReminderList"><span class="pre">PyXA.apps.Reminders.XAReminderList</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Reminders.html#XARemindersApplication.list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Reminders.XARemindersApplication.list" title="Permalink to this definition"></a></dt>
 <dd><p>Returns the first reminder list that matches the filter.</p>
-<div class="admonition seealso">
-<p class="admonition-title">See also</p>
-<p><code class="xref py py-func docutils literal notranslate"><span class="pre">scriptable_element_with_properties()</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>filter</strong> (<em>dict</em>) – The properties and desired values to filter reminder lists by.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The first reminder list that matches the filter.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#PyXA.apps.Reminders.XAReminderList" title="PyXA.apps.Reminders.XAReminderList">XAReminderList</a></p>
+</dd>
+<dt class="field-even">Example 1</dt>
+<dd class="field-even"><p>Getting a list by index</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;Reminders&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">list</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+<span class="go">&lt;&lt;class &#39;PyXA.apps.Reminders.XAReminderList&#39;&gt;General, id=22A058B0-5C62-4DE7-82CD-27DF96C3C354&gt;</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Example 2</dt>
+<dd class="field-odd"><p>Retrieving a list by using a filter</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;Reminders&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">list</span><span class="p">({</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="s2">&quot;17D1D37C-4703-4E8A-98D8-968E4A639A5A&quot;</span><span class="p">}))</span>
+<span class="go">&lt;&lt;class &#39;PyXA.apps.Reminders.XAReminderList&#39;&gt;Shopping List, id=17D1D37C-4703-4E8A-98D8-968E4A639A5A&gt;</span>
+</pre></div>
 </div>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.1.</span></p>
@@ -261,9 +796,36 @@
 <dt class="sig sig-object py" id="PyXA.apps.Reminders.XARemindersApplication.lists">
 <span class="sig-name descname"><span class="pre">lists</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Reminders.XAReminderList" title="PyXA.apps.Reminders.XAReminderList"><span class="pre">PyXA.apps.Reminders.XAReminderList</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Reminders.html#XARemindersApplication.lists"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Reminders.XARemindersApplication.lists" title="Permalink to this definition"></a></dt>
 <dd><p>Returns a list of reminder lists matching the filter.</p>
-<div class="admonition seealso">
-<p class="admonition-title">See also</p>
-<p><code class="xref py py-func docutils literal notranslate"><span class="pre">scriptable_elements()</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>filter</strong> (<em>dict</em>) – The properties and desired values to filter reminder lists by.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The list of reminder lists.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>List[<a class="reference internal" href="#PyXA.apps.Reminders.XAReminderList" title="PyXA.apps.Reminders.XAReminderList">XAReminderList</a>]</p>
+</dd>
+<dt class="field-even">Example 1</dt>
+<dd class="field-even"><p>Get all lists</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;Reminders&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">lists</span><span class="p">())</span>
+<span class="go">[&lt;&lt;class &#39;PyXA.apps.Reminders.XAReminderList&#39;&gt;General, id=22A058B0-5C62-4DE7-82CD-27DF96C3C354&gt;, &lt;&lt;class &#39;PyXA.apps.Reminders.XAReminderList&#39;&gt;Shopping List, id=17D1D37C-4703-4E8A-98D8-968E4A639A5A&gt;, ...]</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Example 2</dt>
+<dd class="field-odd"><p>Get lists using a filter</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;Reminders&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">lists</span><span class="p">({</span><span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;General&quot;</span><span class="p">}))</span>
+<span class="go">[&lt;&lt;class &#39;PyXA.apps.Reminders.XAReminderList&#39;&gt;General, id=22A058B0-5C62-4DE7-82CD-27DF96C3C354&gt;]</span>
+</pre></div>
 </div>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.1.</span></p>
@@ -272,13 +834,13 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Reminders.XARemindersApplication.new_list">
-<span class="sig-name descname"><span class="pre">new_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'New</span> <span class="pre">List'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'#FF0000'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">emblem</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'&lt;null&gt;'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Reminders.XAReminderList" title="PyXA.apps.Reminders.XAReminderList"><span class="pre">PyXA.apps.Reminders.XAReminderList</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Reminders.html#XARemindersApplication.new_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Reminders.XARemindersApplication.new_list" title="Permalink to this definition"></a></dt>
-<dd><p>Creates a new reminder with the given name, body, and due date in the specified reminder list.
-If no list is provided, the reminder is created in the default list.</p>
+<span class="sig-name descname"><span class="pre">new_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'New</span> <span class="pre">List'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'#FF0000'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">emblem</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'&lt;null&gt;'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Reminders.XAReminderList" title="PyXA.apps.Reminders.XAReminderList"><span class="pre">PyXA.apps.Reminders.XAReminderList</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Reminders.html#XARemindersApplication.new_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Reminders.XARemindersApplication.new_list" title="Permalink to this definition"></a></dt>
+<dd><p>Creates a new reminder with the given name, body, and due date in the specified reminder list.</p>
+<p>If no list is provided, the reminder is created in the default list.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>name</strong> (<em>str</em><em>, </em><em>optional</em>) – The name of the list, defaults to “New List”</p></li>
+<li><p><strong>title</strong> – The name of the list, defaults to “New List”</p></li>
 <li><p><strong>color</strong> (<em>str</em><em>, </em><em>optional</em>) – The HEX color of the list’s icon.</p></li>
 <li><p><strong>emblem</strong> (<em>str</em><em>, </em><em>optional</em>) – The symbol to use as the list’s icon.</p></li>
 </ul>
@@ -295,14 +857,8 @@ If no list is provided, the reminder is created in the default list.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;Reminder&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">new_list</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">new_reminder</span><span class="p">(</span><span class="s2">&quot;Things To Do&quot;</span><span class="p">,</span> <span class="s2">&quot;#336699&quot;</span><span class="p">,</span> <span class="s2">&quot;symbol5&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">new_list</span><span class="o">.</span><span class="n">properties</span><span class="p">)</span>
-<span class="go">{</span>
-<span class="go">    color = &quot;#336699&quot;;</span>
-<span class="go">    container = &quot;&lt;SBObject @0x600002c55cb0: &lt;class &#39;acct&#39;&gt; id &quot;DCC06027-D549-4B64-9104-F08BF0BE0428&quot; of application &quot;Reminders&quot; (85867)&gt;&quot;;</span>
-<span class="go">    emblem = symbol5;</span>
-<span class="go">    id = &quot;749F2C11-19E2-4733-809C-8A8B3CF2534D&quot;;</span>
-<span class="go">    name = &quot;Things To Do&quot;;</span>
-<span class="go">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">new_list</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+<span class="go">6251B0DD-3770-410D-8601-1B33403F3595</span>
 </pre></div>
 </div>
 <div class="admonition seealso">
@@ -316,14 +872,14 @@ If no list is provided, the reminder is created in the default list.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Reminders.XARemindersApplication.new_reminder">
-<span class="sig-name descname"><span class="pre">new_reminder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'New</span> <span class="pre">Reminder'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">body</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">due_date</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">datetime.datetime</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reminder_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Reminders.XAReminderList" title="PyXA.apps.Reminders.XAReminderList"><span class="pre">PyXA.apps.Reminders.XAReminderList</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Reminders.XAReminder" title="PyXA.apps.Reminders.XAReminder"><span class="pre">PyXA.apps.Reminders.XAReminder</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Reminders.html#XARemindersApplication.new_reminder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Reminders.XARemindersApplication.new_reminder" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">new_reminder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'New</span> <span class="pre">Reminder'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">notes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">due_date</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">datetime.datetime</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reminder_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Reminders.XAReminderList" title="PyXA.apps.Reminders.XAReminderList"><span class="pre">PyXA.apps.Reminders.XAReminderList</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Reminders.XAReminder" title="PyXA.apps.Reminders.XAReminder"><span class="pre">PyXA.apps.Reminders.XAReminder</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Reminders.html#XARemindersApplication.new_reminder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Reminders.XARemindersApplication.new_reminder" title="Permalink to this definition"></a></dt>
 <dd><p>Creates a new reminder with the given name, body, and due date in the specified reminder list.
 If no list is provided, the reminder is created in the default list.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>name</strong> (<em>str</em><em>, </em><em>optional</em>) – The name of the reminder, defaults to “New Reminder”</p></li>
-<li><p><strong>body</strong> (<em>str</em><em>, </em><em>optional</em>) – The body text of the reminder, defaults to “”</p></li>
+<li><p><strong>title</strong> (<em>str</em><em>, </em><em>optional</em>) – The name of the reminder, defaults to “New Reminder”</p></li>
+<li><p><strong>notes</strong> (<em>str</em><em>, </em><em>optional</em>) – The text notes attached to the reminder, defaults to “”</p></li>
 <li><p><strong>due_date</strong> (<em>datetime</em><em>, </em><em>optional</em>) – The date and time when the reminder will be due.</p></li>
 <li><p><strong>reminder_list</strong> (<a class="reference internal" href="#PyXA.apps.Reminders.XAReminderList" title="PyXA.apps.Reminders.XAReminderList"><em>XAReminderList</em></a><em>, </em><em>optional</em>) – The list that the new reminder will be added to.</p></li>
 </ul>
@@ -342,22 +898,8 @@ If no list is provided, the reminder is created in the default list.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;Reminder&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">due_date</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">+</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">hours</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">reminder</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">new_reminder</span><span class="p">(</span><span class="s2">&quot;Read PyXA listation&quot;</span><span class="p">,</span> <span class="s2">&quot;Complete 1 tutorial&quot;</span><span class="p">,</span> <span class="n">due_date</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">reminder</span><span class="o">.</span><span class="n">properties</span><span class="p">)</span>
-<span class="go">{</span>
-<span class="go">    alldayDueDate = &quot;2022-05-30 04:00:00 +0000&quot;;</span>
-<span class="go">    body = &quot;Complete 1 tutorial&quot;;</span>
-<span class="go">    completed = 0;</span>
-<span class="go">    completionDate = &quot;&lt;null&gt;&quot;;</span>
-<span class="go">    container = &quot;&lt;SBObject @0x600000af4030: &lt;class &#39;list&#39;&gt; id &quot;22A058B0-5C62-4DE7-82CD-27DF96C3C354&quot; of application &quot;Reminders&quot; (83492)&gt;&quot;;</span>
-<span class="go">    creationDate = &quot;2022-05-30 19:53:29 +0000&quot;;</span>
-<span class="go">    dueDate = &quot;2022-05-30 20:53:29 +0000&quot;;</span>
-<span class="go">    flagged = 0;</span>
-<span class="go">    id = &quot;x-apple-reminder://0ADEF0EC-D08C-4594-975C-96D688520BFE&quot;;</span>
-<span class="go">    modificationDate = &quot;2022-05-30 19:53:29 +0000&quot;;</span>
-<span class="go">    name = &quot;Read PyXA listation&quot;;</span>
-<span class="go">    priority = 0;</span>
-<span class="go">    remindMeDate = &quot;2022-05-30 20:53:29 +0000&quot;;</span>
-<span class="go">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">reminder</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+<span class="go">B0DD7836-7C05-48D4-B806-D6A76317452E</span>
 </pre></div>
 </div>
 <div class="admonition seealso">
@@ -373,9 +915,36 @@ If no list is provided, the reminder is created in the default list.</p>
 <dt class="sig sig-object py" id="PyXA.apps.Reminders.XARemindersApplication.reminder">
 <span class="sig-name descname"><span class="pre">reminder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Reminders.XAReminder" title="PyXA.apps.Reminders.XAReminder"><span class="pre">PyXA.apps.Reminders.XAReminder</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Reminders.html#XARemindersApplication.reminder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Reminders.XARemindersApplication.reminder" title="Permalink to this definition"></a></dt>
 <dd><p>Returns the first reminder that matches the filter.</p>
-<div class="admonition seealso">
-<p class="admonition-title">See also</p>
-<p><code class="xref py py-func docutils literal notranslate"><span class="pre">scriptable_element_with_properties()</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>filter</strong> (<em>dict</em>) – The properties and desired values to filter reminders by.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The first reminder that matches the filter</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#PyXA.apps.Reminders.XAReminder" title="PyXA.apps.Reminders.XAReminder">XAReminder</a></p>
+</dd>
+<dt class="field-even">Example 1</dt>
+<dd class="field-even"><p>Getting a reminder by index</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;Reminders&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">reminder</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+<span class="go">&lt;&lt;class &#39;PyXA.apps.Reminders.XAReminder&#39;&gt;Learn PyXA, id=3D50F4A6-826E-44D3-B6D7-E25EAEF24DD1&gt;</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Example 2</dt>
+<dd class="field-odd"><p>Getting a reminder by using a filter</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;Reminders&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">reminder</span><span class="p">({</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="s2">&quot;4419C590-235E-4D16-AB32-7B291626827D&quot;</span><span class="p">}))</span>
+<span class="go">&lt;&lt;class &#39;PyXA.apps.Reminders.XAReminder&#39;&gt;Make a PyXA Script, id=4419C590-235E-4D16-AB32-7B291626827D&gt;</span>
+</pre></div>
 </div>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.1.</span></p>
@@ -386,9 +955,36 @@ If no list is provided, the reminder is created in the default list.</p>
 <dt class="sig sig-object py" id="PyXA.apps.Reminders.XARemindersApplication.reminders">
 <span class="sig-name descname"><span class="pre">reminders</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Reminders.XAReminder" title="PyXA.apps.Reminders.XAReminder"><span class="pre">PyXA.apps.Reminders.XAReminder</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Reminders.html#XARemindersApplication.reminders"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Reminders.XARemindersApplication.reminders" title="Permalink to this definition"></a></dt>
 <dd><p>Returns a list of reminders matching the filter.</p>
-<div class="admonition seealso">
-<p class="admonition-title">See also</p>
-<p><code class="xref py py-func docutils literal notranslate"><span class="pre">scriptable_elements()</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>filter</strong> (<em>dict</em>) – The properties and desired values to filter reminders by.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The list of reminders</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>List[<a class="reference internal" href="#PyXA.apps.Reminders.XAReminder" title="PyXA.apps.Reminders.XAReminder">XAReminder</a>]</p>
+</dd>
+<dt class="field-even">Example 1</dt>
+<dd class="field-even"><p>Listing all reminders</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;Reminders&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">reminders</span><span class="p">())</span>
+<span class="go">[&lt;&lt;class &#39;PyXA.apps.Reminders.XAReminder&#39;&gt;Learn PyXA, id=3D50F4A6-826E-44D3-B6D7-E25EAEF24DD1&gt;, &lt;&lt;class &#39;PyXA.apps.Reminders.XAReminder&#39;&gt;Make a PyXA Script, id=4419C590-235E-4D16-AB32-7B291626827D&gt;, ...]</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Example 2</dt>
+<dd class="field-odd"><p>Listing reminders by applying a filter</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;Reminders&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">reminders</span><span class="p">({</span><span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;Learn PyXA&quot;</span><span class="p">}))</span>
+<span class="go">[&lt;&lt;class &#39;PyXA.apps.Reminders.XAReminder&#39;&gt;Learn PyXA, id=3D50F4A6-826E-44D3-B6D7-E25EAEF24DD1&gt;]</span>
+</pre></div>
 </div>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.1.</span></p>

@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PyXA.apps.TV &mdash; PyXA 0.0.2 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> PyXA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../about/index.html">Project Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reference/index.html">Code Documentation and Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../bugs.html">Bugs</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">PyXA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      <li>PyXA.apps.TV</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for PyXA.apps.TV</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;.. versionadded:: 0.0.2</span>
+
+<span class="sd">Control the macOS TV application using JXA-like syntax.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">AppKit</span> <span class="kn">import</span> <span class="n">NSURL</span>
+
+<span class="kn">from</span> <span class="nn">PyXA</span> <span class="kn">import</span> <span class="n">XABase</span>
+<span class="kn">from</span> <span class="nn">PyXA</span> <span class="kn">import</span> <span class="n">XABaseScriptable</span>
+
+<span class="n">_STOPPED</span> <span class="o">=</span> <span class="mi">1800426323</span>
+<span class="n">_PLAYING</span> <span class="o">=</span> <span class="mi">1800426320</span>
+<span class="n">_PAUSED</span> <span class="o">=</span> <span class="mi">1800426352</span>
+<span class="n">_FAST_FORWARDING</span> <span class="o">=</span> <span class="mi">1800426310</span>
+<span class="n">_REWINDING</span> <span class="o">=</span> <span class="mi">1800426322</span>
+<span class="n">_KIND_LIBRARY</span> <span class="o">=</span> <span class="mi">1800169826</span>
+<span class="n">_KIND_SHARED_LIBRARY</span> <span class="o">=</span> <span class="mi">1800628324</span>
+<span class="n">_KIND_ITUNES_STORE</span> <span class="o">=</span> <span class="mi">1799967827</span>
+<span class="n">_KIND_UNKNOWN</span> <span class="o">=</span> <span class="mi">1800760939</span>
+<span class="n">_SEARCH_ALBUMS</span> <span class="o">=</span> <span class="mi">1800630860</span>
+<span class="n">_SEARCH_ALL</span> <span class="o">=</span> <span class="mi">1799449708</span>
+<span class="n">_SEARCH_ARTISTS</span> <span class="o">=</span> <span class="mi">1800630866</span>
+<span class="n">_SEARCH_DISPLAYED</span> <span class="o">=</span> <span class="mi">1800630870</span>
+<span class="n">_SEARCH_TRACK_NAMES</span> <span class="o">=</span> <span class="mi">1800630867</span>
+<span class="n">_SPECIAL_KIND_NONE</span> <span class="o">=</span> <span class="mi">1800302446</span>
+<span class="n">_SPECIAL_KIND_FOLDER</span> <span class="o">=</span> <span class="mi">1800630342</span>
+<span class="n">_SPECIAL_KIND_LIBRARY</span> <span class="o">=</span> <span class="mi">1800630348</span>
+<span class="n">_SPECIAL_KIND_MOVIE</span> <span class="o">=</span> <span class="mi">1800630345</span>
+<span class="n">_SPECIAL_KIND_TV_SHOW</span> <span class="o">=</span> <span class="mi">1800630356</span>
+<span class="n">_HOME_VIDEO_TRACK</span> <span class="o">=</span> <span class="mi">1800823880</span>
+<span class="n">_MOVIE_TRACK</span> <span class="o">=</span> <span class="mi">1800823885</span>
+<span class="n">_TV_SHOW_TRACK</span> <span class="o">=</span> <span class="mi">1800823892</span>
+<span class="n">_UNKNOWN_TRACK</span> <span class="o">=</span> <span class="mi">1800760939</span>
+<span class="n">_USER_RATING</span> <span class="o">=</span> <span class="mi">1800565845</span>
+<span class="n">_COMPUTED_RATING</span> <span class="o">=</span> <span class="mi">1800565827</span>
+<span class="n">_BROWSER_WINDOW</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;cBrW&#39;</span>
+<span class="n">_VIDEO_WINDOW</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;niwc&#39;</span>
+<span class="n">_PLAYLIST_WINDOW</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;WlPc&#39;</span>
+<span class="n">_LIBRARY_PLAYLIST</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;PiLc&#39;</span>
+<span class="n">_USER_PLAYLIST</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;PsUc&#39;</span>
+<span class="n">_SHARED_TRACK</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;ThSc&#39;</span>
+<span class="n">_FILE_TRACK</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;TlFc&#39;</span>
+<span class="n">_URL_TRACK</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;TRUc&#39;</span>
+
+
+<span class="k">class</span> <span class="nc">_XATVHasSharedTracks</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A convenience class for media items that have shared tracks.</span>
+
+<span class="sd">    .. versionadded:: 0.0.2</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">shared_tracks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;XATVSharedTrack&#39;</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Returns a list of shared tracks matching the filter.</span>
+
+<span class="sd">        :param filter: A dictionary of property names and desired values that shared tracks in the resulting list will have.</span>
+<span class="sd">        :type filter: dict</span>
+<span class="sd">        :return: The list of shared track objects.</span>
+<span class="sd">        :rtype: List[XATVSharedTrack]</span>
+
+<span class="sd">        :Example: Listing all shared tracks</span>
+
+<span class="sd">        &gt;&gt;&gt; import PyXA</span>
+<span class="sd">        &gt;&gt;&gt; app = PyXA.application(&quot;TV&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; print(app.shared_tracks())</span>
+<span class="sd">        [&lt;PyXA.apps.TV.XATVSharedTrack object at 0x105d972e0&gt;, &lt;PyXA.apps.TV.XATVSharedTrack object at 0x105d56b80&gt;, ...]</span>
+
+<span class="sd">        .. note::</span>
+
+<span class="sd">           Querying for all or many tracks can take significant time and should be avoided when possible. Apply filters or use more specific methods such as :func:`shared_track` to reduce the number of queried tracks.</span>
+
+<span class="sd">        :Example: Listing filtered shared tracks</span>
+
+<span class="sd">        &gt;&gt;&gt; import PyXA</span>
+<span class="sd">        &gt;&gt;&gt; app = PyXA.application(&quot;TV&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; print(app.shared_tracks({&quot;genre&quot;: &quot;Sci-Fi &amp; Fantasy&quot;}))</span>
+<span class="sd">        [&lt;PyXA.apps.TV.XATVSharedTrack object at 0x10484cd90&gt;, &lt;PyXA.apps.TV.XATVSharedTrack object at 0x10755ebe0&gt;]</span>
+
+<span class="sd">        .. versionadded:: 0.0.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">scriptable_elements</span><span class="p">(</span><span class="s2">&quot;sharedTracks&quot;</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XATVSharedTrack</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">elements</span><span class="p">(</span><span class="s2">&quot;sharedTracks&quot;</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XATVSharedTrack</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">shared_track</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">dict</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s1">&#39;XATVSharedTrack&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Returns the first shared track that matches the filter.</span>
+
+<span class="sd">        .. versionadded:: 0.0.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">scriptable_element_with_properties</span><span class="p">(</span><span class="s2">&quot;sharedTracks&quot;</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XATVSharedTrack</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">element_with_properties</span><span class="p">(</span><span class="s2">&quot;sharedTracks&quot;</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XATVSharedTrack</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">first_shared_track</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XATVSharedTrack&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Returns the shared track at the first index of the shared tracks array.</span>
+
+<span class="sd">        .. versionadded:: 0.0.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">first_scriptable_element</span><span class="p">(</span><span class="s2">&quot;sharedTracks&quot;</span><span class="p">,</span> <span class="n">XATVSharedTrack</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">first_element</span><span class="p">(</span><span class="s2">&quot;sharedTracks&quot;</span><span class="p">,</span> <span class="n">XATVSharedTrack</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">last_shared_track</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XATVSharedTrack&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Returns the shared track at the last (-1) index of the shared tracks array.</span>
+
+<span class="sd">        .. versionadded:: 0.0.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_scriptable_element</span><span class="p">(</span><span class="s2">&quot;sharedTracks&quot;</span><span class="p">,</span> <span class="n">XATVSharedTrack</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_element</span><span class="p">(</span><span class="s2">&quot;sharedTracks&quot;</span><span class="p">,</span> <span class="n">XATVSharedTrack</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">_XATVHasFileTracks</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A convenience class for media items that have file tracks.</span>
+
+<span class="sd">    .. versionadded:: 0.0.2</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">file_tracks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;XATVFileTrack&#39;</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Returns a list of file tracks matching the filter.</span>
+
+<span class="sd">        :param filter: A dictionary of property names and desired values that file tracks in the resulting list will have.</span>
+<span class="sd">        :type filter: dict</span>
+<span class="sd">        :return: The list of file track objects.</span>
+<span class="sd">        :rtype: List[XATVFileTrack]</span>
+
+<span class="sd">        :Example: Listing all file tracks</span>
+
+<span class="sd">        &gt;&gt;&gt; import PyXA</span>
+<span class="sd">        &gt;&gt;&gt; app = PyXA.application(&quot;TV&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; print(app.file_tracks())</span>
+<span class="sd">        [&lt;PyXA.apps.TV.XATVFileTrack object at 0x105ce4310&gt;, &lt;PyXA.apps.TV.XATVFileTrack object at 0x106dc4220&gt;, ...]</span>
+
+<span class="sd">        .. note::</span>
+
+<span class="sd">           Querying for all or many tracks can take significant time and should be avoided when possible. Apply filters or use more specific methods such as :func:`file_track` to reduce the number of queried tracks.</span>
+
+<span class="sd">        :Example: Listing filtered file tracks</span>
+
+<span class="sd">        &gt;&gt;&gt; import PyXA</span>
+<span class="sd">        &gt;&gt;&gt; app = PyXA.application(&quot;TV&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; print(app.file_tracks({&quot;unplayed&quot;: True}))</span>
+<span class="sd">        [&lt;PyXA.apps.TV.XATVFileTrack object at 0x1054e0d90&gt;]</span>
+
+<span class="sd">        .. versionadded:: 0.0.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">scriptable_elements</span><span class="p">(</span><span class="s2">&quot;fileTracks&quot;</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XATVFileTrack</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">elements</span><span class="p">(</span><span class="s2">&quot;fileTracks&quot;</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XATVFileTrack</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">file_track</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">dict</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s1">&#39;XATVFileTrack&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Returns the first file track that matches the filter.</span>
+
+<span class="sd">        .. versionadded:: 0.0.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">scriptable_element_with_properties</span><span class="p">(</span><span class="s2">&quot;fileTracks&quot;</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XATVFileTrack</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">element_with_properties</span><span class="p">(</span><span class="s2">&quot;fileTracks&quot;</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XATVFileTrack</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">first_file_track</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XATVFileTrack&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Returns the file track at the first index of the file tracks array.</span>
+
+<span class="sd">        .. versionadded:: 0.0.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">first_scriptable_element</span><span class="p">(</span><span class="s2">&quot;fileTracks&quot;</span><span class="p">,</span> <span class="n">XATVFileTrack</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">first_element</span><span class="p">(</span><span class="s2">&quot;fileTracks&quot;</span><span class="p">,</span> <span class="n">XATVFileTrack</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">last_file_track</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XATVFileTrack&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Returns the file track at the last (-1) index of the file tracks array.</span>
+
+<span class="sd">        .. versionadded:: 0.0.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_scriptable_element</span><span class="p">(</span><span class="s2">&quot;fileTracks&quot;</span><span class="p">,</span> <span class="n">XATVFileTrack</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_element</span><span class="p">(</span><span class="s2">&quot;fileTracks&quot;</span><span class="p">,</span> <span class="n">XATVFileTrack</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">_XATVHasURLTracks</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A convenience class for media items that have URL tracks.</span>
+
+<span class="sd">    .. versionadded:: 0.0.2</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">url_tracks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;XATVRemoteURLTrack&#39;</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Returns a list of URL tracks matching the filter.</span>
+
+<span class="sd">        :param filter: A dictionary of property names and desired values that URL tracks in the resulting list will have.</span>
+<span class="sd">        :type filter: dict</span>
+<span class="sd">        :return: The list of URL track objects.</span>
+<span class="sd">        :rtype: List[XATVRemoteURLTrack]</span>
+
+<span class="sd">        :Example: Listing all URL track</span>
+
+<span class="sd">        &gt;&gt;&gt; import PyXA</span>
+<span class="sd">        &gt;&gt;&gt; app = PyXA.application(&quot;TV&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; print(app.url_tracks())</span>
+<span class="sd">        [&lt;PyXA.apps.TV.XATVRemoteURLTrack object at 0x1074532e0&gt;, &lt;PyXA.apps.TV.XATVRemoteURLTrack object at 0x107412a30&gt;, ...]</span>
+
+<span class="sd">        .. note::</span>
+
+<span class="sd">           Querying for all or many tracks can take significant time and should be avoided when possible. Apply filters or use more specific methods such as :func:`url_track` to reduce the number of queried tracks.</span>
+
+<span class="sd">        :Example: Listing filtered URL tracks</span>
+
+<span class="sd">        &gt;&gt;&gt; import PyXA</span>
+<span class="sd">        &gt;&gt;&gt; app = PyXA.application(&quot;TV&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; print(app.url_tracks({&quot;enabled&quot;: False}))</span>
+<span class="sd">        []</span>
+
+<span class="sd">        .. versionadded:: 0.0.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">scriptable_elements</span><span class="p">(</span><span class="s2">&quot;URLTracks&quot;</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XATVRemoteURLTrack</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">elements</span><span class="p">(</span><span class="s2">&quot;URLTracks&quot;</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XATVRemoteURLTrack</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">url_track</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">dict</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s1">&#39;XATVRemoteURLTrack&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Returns the first URL track that matches the filter.</span>
+
+<span class="sd">        .. versionadded:: 0.0.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">scriptable_element_with_properties</span><span class="p">(</span><span class="s2">&quot;urlTracks&quot;</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XATVRemoteURLTrack</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">element_with_properties</span><span class="p">(</span><span class="s2">&quot;urlTracks&quot;</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XATVRemoteURLTrack</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">first_url_track</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XATVRemoteURLTrack&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Returns the URL track at the first index of the URL tracks array.</span>
+
+<span class="sd">        .. versionadded:: 0.0.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">first_scriptable_element</span><span class="p">(</span><span class="s2">&quot;urlTracks&quot;</span><span class="p">,</span> <span class="n">XATVRemoteURLTrack</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">first_element</span><span class="p">(</span><span class="s2">&quot;urlTracks&quot;</span><span class="p">,</span> <span class="n">XATVRemoteURLTrack</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">last_url_track</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XATVRemoteURLTrack&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Returns the URL track at the last (-1) index of the URL tracks array.</span>
+
+<span class="sd">        .. versionadded:: 0.0.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_scriptable_element</span><span class="p">(</span><span class="s2">&quot;urlTracks&quot;</span><span class="p">,</span> <span class="n">XATVRemoteURLTrack</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_element</span><span class="p">(</span><span class="s2">&quot;urlTracks&quot;</span><span class="p">,</span> <span class="n">XATVRemoteURLTrack</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">_XATVHasTracks</span><span class="p">(</span><span class="n">_XATVHasSharedTracks</span><span class="p">,</span> <span class="n">_XATVHasFileTracks</span><span class="p">,</span> <span class="n">_XATVHasURLTracks</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A convenience class for media items that have tracks.</span>
+
+<span class="sd">    .. versionadded:: 0.0.2</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">tracks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;XATVTrack&#39;</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Returns a list of tracks matching the filter.</span>
+
+<span class="sd">        :param filter: A dictionary of property names and desired values that tracks in the resulting list will have.</span>
+<span class="sd">        :type filter: dict</span>
+<span class="sd">        :return: The list of track objects.</span>
+<span class="sd">        :rtype: List[XATVTrack]</span>
+
+<span class="sd">        :Example: Listing all track</span>
+
+<span class="sd">        &gt;&gt;&gt; import PyXA</span>
+<span class="sd">        &gt;&gt;&gt; app = PyXA.application(&quot;TV&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; print(app.tracks())</span>
+<span class="sd">        [&lt;PyXA.apps.TV.XATVSharedTrack object at 0x10451b2e0&gt;, &lt;PyXA.apps.TV.XATVSharedTrack object at 0x1043bab80&gt;, ...]</span>
+
+<span class="sd">        .. note::</span>
+
+<span class="sd">           Querying for all or many tracks can take significant time and should be avoided when possible. Apply filters or use more specific methods such as :func:`track` to reduce the number of queried tracks.</span>
+
+<span class="sd">        :Example: Listing filtered tracks</span>
+
+<span class="sd">        &gt;&gt;&gt; import PyXA</span>
+<span class="sd">        &gt;&gt;&gt; app = PyXA.application(&quot;TV&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; print(app.tracks({&quot;year&quot;: 1997}))</span>
+<span class="sd">        [&lt;PyXA.apps.TV.XATVSharedTrack object at 0x1055c4d90&gt;, &lt;PyXA.apps.TV.XATVFileTrack object at 0x1079d0d00&gt;]</span>
+
+<span class="sd">        .. versionadded:: 0.0.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">scriptable_elements</span><span class="p">(</span><span class="s2">&quot;tracks&quot;</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XATVTrack</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">elements</span><span class="p">(</span><span class="s2">&quot;tracks&quot;</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XATVTrack</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">track</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">dict</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s1">&#39;XATVTrack&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Returns the first track that matches the filter.</span>
+
+<span class="sd">        .. versionadded:: 0.0.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">scriptable_element_with_properties</span><span class="p">(</span><span class="s2">&quot;tracks&quot;</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XATVTrack</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">element_with_properties</span><span class="p">(</span><span class="s2">&quot;tracks&quot;</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XATVTrack</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">first_track</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XATVTrack&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Returns the track at the first index of the tracks array.</span>
+
+<span class="sd">        .. versionadded:: 0.0.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">first_scriptable_element</span><span class="p">(</span><span class="s2">&quot;tracks&quot;</span><span class="p">,</span> <span class="n">XATVTrack</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">first_element</span><span class="p">(</span><span class="s2">&quot;tracks&quot;</span><span class="p">,</span> <span class="n">XATVTrack</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">last_track</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XATVTrack&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Returns the track at the last (-1) index of the tracks array.</span>
+
+<span class="sd">        .. versionadded:: 0.0.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_scriptable_element</span><span class="p">(</span><span class="s2">&quot;tracks&quot;</span><span class="p">,</span> <span class="n">XATVTrack</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_element</span><span class="p">(</span><span class="s2">&quot;tracks&quot;</span><span class="p">,</span> <span class="n">XATVTrack</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="XATVApplication"><a class="viewcode-back" href="../../../reference/apps/tv.html#PyXA.apps.TV.XATVApplication">[docs]</a><span class="k">class</span> <span class="nc">XATVApplication</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBApplication</span><span class="p">,</span> <span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XAHasScriptableElements</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XACanOpenPath</span><span class="p">,</span> <span class="n">_XATVHasTracks</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A class for managing and interacting with TV.app.</span>
+
+<span class="sd">    .. seealso:: :class:`XATVWindow`, class:`XATVSource`, :class:`XATVPlaylist`, :class:`XATVTrack`</span>
+
+<span class="sd">    .. versionadded:: 0.0.2</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_wcls</span> <span class="o">=</span> <span class="n">XATVWindow</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">current_stream_title</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">currentStreamTitle</span><span class="p">()</span> <span class="c1">#: The name of the current streaming track</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">current_stream_url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">currentStreamURL</span><span class="p">()</span> <span class="c1">#: The URL of the current streaming track</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fixed_indexing</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">fixedIndexing</span><span class="p">()</span> <span class="c1">#: Whether the track indices are independent of the order of the current playlist or not</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">frontmost</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">frontmost</span><span class="p">()</span> <span class="c1">#: Whether the application is active or not</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fullscreen</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">fullScreen</span><span class="p">()</span> <span class="c1">#: Whether the app is fullscreen or not</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">name</span><span class="p">()</span> <span class="c1">#: The name of the application</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mute</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">mute</span><span class="p">()</span> <span class="c1">#: Whether sound output is muted or not</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">player_position</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">playerPosition</span><span class="p">()</span> <span class="c1">#: The time elapsed in the current track</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">player_state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">playerState</span><span class="p">()</span> <span class="c1">#: Whether the player is playing, paused, stopped, fast forwarding, or rewinding</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sound_volume</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">soundVolume</span><span class="p">()</span> <span class="c1">#: The sound output volume</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">version</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">version</span><span class="p">()</span> <span class="c1">#: The version of the application</span>
+
+<div class="viewcode-block" id="XATVApplication.play"><a class="viewcode-back" href="../../../reference/apps/tv.html#PyXA.apps.TV.XATVApplication.play">[docs]</a>    <span class="k">def</span> <span class="nf">play</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">:</span> <span class="s1">&#39;_XATVItem&#39;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XATVApplication&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Plays the specified TV item (e.g. track, playlist, etc.). If no item is provided, this plays the current track from its current player position.</span>
+
+<span class="sd">        :param item: The track, playlist, or video to play, defaults to None</span>
+<span class="sd">        :type item: _XATVItem, optional</span>
+<span class="sd">        :return: A reference to the TV application object.</span>
+<span class="sd">        :rtype: XATVApplication</span>
+
+<span class="sd">        .. seealso:: :func:`playpause`, :func:`pause`, :func:`stop`</span>
+
+<span class="sd">        .. versionadded:: 0.0.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">playOnce_</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="XATVApplication.playpause"><a class="viewcode-back" href="../../../reference/apps/tv.html#PyXA.apps.TV.XATVApplication.playpause">[docs]</a>    <span class="k">def</span> <span class="nf">playpause</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XATVApplication&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Toggles the playing/paused state of the current track.</span>
+
+<span class="sd">        :return: A reference to the TV application object.</span>
+<span class="sd">        :rtype: XATVApplication</span>
+
+<span class="sd">        .. seealso:: :func:`play`, :func:`pause`, :func:`stop`</span>
+
+<span class="sd">        .. versionadded:: 0.0.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">playpause</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="XATVApplication.pause"><a class="viewcode-back" href="../../../reference/apps/tv.html#PyXA.apps.TV.XATVApplication.pause">[docs]</a>    <span class="k">def</span> <span class="nf">pause</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XATVApplication&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Pauses the current track.</span>
+
+<span class="sd">        :return: A reference to the TV application object.</span>
+<span class="sd">        :rtype: XATVApplication</span>
+
+<span class="sd">        .. seealso:: :func:`play`, :func:`playpause`, :func:`stop`</span>
+
+<span class="sd">        .. versionadded:: 0.0.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">pause</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="XATVApplication.stop"><a class="viewcode-back" href="../../../reference/apps/tv.html#PyXA.apps.TV.XATVApplication.stop">[docs]</a>    <span class="k">def</span> <span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XATVApplication&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Stops playback of the current track. Subsequent playback will start from the beginning of the track.</span>
+
+<span class="sd">        :return: A reference to the TV application object.</span>
+<span class="sd">        :rtype: XATVApplication</span>
+
+<span class="sd">        .. seealso:: :func:`play`, :func:`playpause`, :func:`pause`</span>
+
+<span class="sd">        .. versionadded:: 0.0.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="XATVApplication.next_track"><a class="viewcode-back" href="../../../reference/apps/tv.html#PyXA.apps.TV.XATVApplication.next_track">[docs]</a>    <span class="k">def</span> <span class="nf">next_track</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XATVApplication&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Advances to the next track in the current playlist.</span>
+
+<span class="sd">        :return: A reference to the TV application object.</span>
+<span class="sd">        :rtype: XATVApplication</span>
+
+<span class="sd">        .. seealso:: :func:`back_track`, :func:`previous_track`</span>
+
+<span class="sd">        .. versionadded:: 0.0.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">nextTrack</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="XATVApplication.back_track"><a class="viewcode-back" href="../../../reference/apps/tv.html#PyXA.apps.TV.XATVApplication.back_track">[docs]</a>    <span class="k">def</span> <span class="nf">back_track</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XATVApplication&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Restarts the current track or returns to the previous track if playback is currently at the start.</span>
+
+<span class="sd">        :return: A reference to the TV application object.</span>
+<span class="sd">        :rtype: XATVApplication</span>
+
+<span class="sd">        .. seealso:: :func:`next_track`, :func:`previous_track`</span>
+
+<span class="sd">        .. versionadded:: 0.0.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">backTrack</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="XATVApplication.previous_track"><a class="viewcode-back" href="../../../reference/apps/tv.html#PyXA.apps.TV.XATVApplication.previous_track">[docs]</a>    <span class="k">def</span> <span class="nf">previous_track</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XATVApplication&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Returns to the previous track in the current playlist.</span>
+
+<span class="sd">        :return: A reference to the TV application object.</span>
+<span class="sd">        :rtype: XATVApplication</span>
+
+<span class="sd">        .. seealso:: :func:`next_track`, :func:`back_track`</span>
+
+<span class="sd">        .. versionadded:: 0.0.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">previousTrack</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="XATVApplication.fast_forward"><a class="viewcode-back" href="../../../reference/apps/tv.html#PyXA.apps.TV.XATVApplication.fast_forward">[docs]</a>    <span class="k">def</span> <span class="nf">fast_forward</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XATVApplication&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Repeated skip forward in the track until resume() is called.</span>
+
+<span class="sd">        :return: A reference to the TV application object.</span>
+<span class="sd">        :rtype: XATVApplication</span>
+
+<span class="sd">        .. seealso:: :func:`rewind`, :func:`resume`</span>
+
+<span class="sd">        .. versionadded:: 0.0.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">fastForward</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="XATVApplication.rewind"><a class="viewcode-back" href="../../../reference/apps/tv.html#PyXA.apps.TV.XATVApplication.rewind">[docs]</a>    <span class="k">def</span> <span class="nf">rewind</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XATVApplication&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Repeatedly skip backward in the track until resume() is called.</span>
+
+<span class="sd">        :return: A reference to the TV application object.</span>
+<span class="sd">        :rtype: XATVApplication</span>
+
+<span class="sd">        .. seealso:: :func:`fast_forward`, :func:`resume`</span>
+
+<span class="sd">        .. versionadded:: 0.0.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">rewind</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="XATVApplication.resume"><a class="viewcode-back" href="../../../reference/apps/tv.html#PyXA.apps.TV.XATVApplication.resume">[docs]</a>    <span class="k">def</span> <span class="nf">resume</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XATVApplication&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Returns to normal playback after calls to fast_forward() or rewind().</span>
+
+<span class="sd">        :return: A reference to the TV application object.</span>
+<span class="sd">        :rtype: XATVApplication</span>
+
+<span class="sd">        .. seealso:: :func:`fast_forward`, :func:`rewind`</span>
+
+<span class="sd">        .. versionadded:: 0.0.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">resume</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="XATVApplication.open_location"><a class="viewcode-back" href="../../../reference/apps/tv.html#PyXA.apps.TV.XATVApplication.open_location">[docs]</a>    <span class="k">def</span> <span class="nf">open_location</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">video_url</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XATVApplication&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Opens and plays an video stream URL or iTunes Store URL.</span>
+
+<span class="sd">        :param audio_url: The URL of an audio stream (e.g. a web address to an MP3 file) or an item in the iTunes Store.</span>
+<span class="sd">        :type audio_url: str</span>
+<span class="sd">        :return: _description_</span>
+<span class="sd">        :rtype: XATVApplication</span>
+
+<span class="sd">        .. versionadded:: 0.0.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">openLocation_</span><span class="p">(</span><span class="n">video_url</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="XATVApplication.set_volume"><a class="viewcode-back" href="../../../reference/apps/tv.html#PyXA.apps.TV.XATVApplication.set_volume">[docs]</a>    <span class="k">def</span> <span class="nf">set_volume</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_volume</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XATVApplication&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Sets the volume of playback.</span>
+
+<span class="sd">        :param new_volume: The desired volume of playback.</span>
+<span class="sd">        :type new_volume: float</span>
+<span class="sd">        :return: A reference to the TV application object.</span>
+<span class="sd">        :rtype: XATVApplication</span>
+
+<span class="sd">        .. versionadded:: 0.0.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;soundVolume&quot;</span><span class="p">,</span> <span class="n">new_volume</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="XATVApplication.current_track"><a class="viewcode-back" href="../../../reference/apps/tv.html#PyXA.apps.TV.XATVApplication.current_track">[docs]</a>    <span class="k">def</span> <span class="nf">current_track</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XATVTrack&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Returns the currently playing (or paused but not stopped) track.</span>
+
+<span class="sd">        .. versionadded:: 0.0.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">properties</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;parent&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="p">,</span>
+            <span class="s2">&quot;appspace&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_apsp</span><span class="p">,</span>
+            <span class="s2">&quot;workspace&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_wksp</span><span class="p">,</span>
+            <span class="s2">&quot;element&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">currentTrack</span><span class="p">(),</span>
+            <span class="s2">&quot;appref&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_aref</span><span class="p">,</span>
+            <span class="s2">&quot;system_events&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_sevt</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">XATVTrack</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span></div>
+
+    <span class="c1"># def convert(self, items):</span>
+    <span class="c1">#     self.xa_scel.convert_([item.xa_elem for item in items])</span>
+
+<div class="viewcode-block" id="XATVApplication.add_to_playlist"><a class="viewcode-back" href="../../../reference/apps/tv.html#PyXA.apps.TV.XATVApplication.add_to_playlist">[docs]</a>    <span class="k">def</span> <span class="nf">add_to_playlist</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">urls</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">NSURL</span><span class="p">]],</span> <span class="n">playlist</span><span class="p">):</span>
+        <span class="n">items</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">url</span> <span class="ow">in</span> <span class="n">urls</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+                <span class="n">url</span> <span class="o">=</span> <span class="n">NSURL</span><span class="o">.</span><span class="n">alloc</span><span class="p">()</span><span class="o">.</span><span class="n">initFileURLWithPath_</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+            <span class="n">items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">items</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">add_to_</span><span class="p">(</span><span class="n">items</span><span class="p">,</span> <span class="n">playlist</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span></div>
+
+    <span class="c1"># Browser Windows</span>
+<div class="viewcode-block" id="XATVApplication.browser_windows"><a class="viewcode-back" href="../../../reference/apps/tv.html#PyXA.apps.TV.XATVApplication.browser_windows">[docs]</a>    <span class="k">def</span> <span class="nf">browser_windows</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;XATVBrowserWindow&#39;</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Returns a list of browser windows matching the filter.</span>
+
+<span class="sd">        .. versionadded:: 0.0.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">scriptable_elements</span><span class="p">(</span><span class="s2">&quot;browserWindows&quot;</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XATVBrowserWindow</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XATVApplication.browser_window"><a class="viewcode-back" href="../../../reference/apps/tv.html#PyXA.apps.TV.XATVApplication.browser_window">[docs]</a>    <span class="k">def</span> <span class="nf">browser_window</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">dict</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s1">&#39;XATVBrowserWindow&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Returns the first browser window that matches the filter.</span>
+
+<span class="sd">        .. versionadded:: 0.0.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">scriptable_element_with_properties</span><span class="p">(</span><span class="s2">&quot;browserWindows&quot;</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XATVBrowserWindow</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XATVApplication.first_browser_window"><a class="viewcode-back" href="../../../reference/apps/tv.html#PyXA.apps.TV.XATVApplication.first_browser_window">[docs]</a>    <span class="k">def</span> <span class="nf">first_browser_window</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XATVBrowserWindow&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Returns the window at the first index of the browser windows array.</span>
+
+<span class="sd">        .. versionadded:: 0.0.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">first_scriptable_element</span><span class="p">(</span><span class="s2">&quot;browserWindows&quot;</span><span class="p">,</span> <span class="n">XATVBrowserWindow</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XATVApplication.last_browser_window"><a class="viewcode-back" href="../../../reference/apps/tv.html#PyXA.apps.TV.XATVApplication.last_browser_window">[docs]</a>    <span class="k">def</span> <span class="nf">last_browser_window</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XATVBrowserWindow&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Returns the window at the last (-1) index of the browser windows array.</span>
+
+<span class="sd">        .. versionadded:: 0.0.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_scriptable_element</span><span class="p">(</span><span class="s2">&quot;browserWindows&quot;</span><span class="p">,</span> <span class="n">XATVBrowserWindow</span><span class="p">)</span></div>
+
+    <span class="c1"># Playlist Windows</span>
+<div class="viewcode-block" id="XATVApplication.playlist_windows"><a class="viewcode-back" href="../../../reference/apps/tv.html#PyXA.apps.TV.XATVApplication.playlist_windows">[docs]</a>    <span class="k">def</span> <span class="nf">playlist_windows</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;XATVPlaylistWindow&#39;</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Returns a list of playlist windows matching the filter.</span>
+
+<span class="sd">        .. versionadded:: 0.0.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">scriptable_elements</span><span class="p">(</span><span class="s2">&quot;playlistWindows&quot;</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XATVPlaylistWindow</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XATVApplication.playlist_window"><a class="viewcode-back" href="../../../reference/apps/tv.html#PyXA.apps.TV.XATVApplication.playlist_window">[docs]</a>    <span class="k">def</span> <span class="nf">playlist_window</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">dict</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s1">&#39;XATVPlaylistWindow&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Returns the first playlist window that matches the filter.</span>
+
+<span class="sd">        .. versionadded:: 0.0.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">scriptable_element_with_properties</span><span class="p">(</span><span class="s2">&quot;playlistWindows&quot;</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XATVPlaylistWindow</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XATVApplication.first_playlist_window"><a class="viewcode-back" href="../../../reference/apps/tv.html#PyXA.apps.TV.XATVApplication.first_playlist_window">[docs]</a>    <span class="k">def</span> <span class="nf">first_playlist_window</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XATVPlaylistWindow&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Returns the window at the first index of the playlist windows array.</span>
+
+<span class="sd">        .. versionadded:: 0.0.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">first_scriptable_element</span><span class="p">(</span><span class="s2">&quot;playlistWindows&quot;</span><span class="p">,</span> <span class="n">XATVPlaylistWindow</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XATVApplication.last_playlist_window"><a class="viewcode-back" href="../../../reference/apps/tv.html#PyXA.apps.TV.XATVApplication.last_playlist_window">[docs]</a>    <span class="k">def</span> <span class="nf">last_playlist_window</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XATVPlaylistWindow&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Returns the window at the last (-1) index of the playlist windows array.</span>
+
+<span class="sd">        .. versionadded:: 0.0.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_scriptable_element</span><span class="p">(</span><span class="s2">&quot;playlistWindows&quot;</span><span class="p">,</span> <span class="n">XATVPlaylistWindow</span><span class="p">)</span></div>
+
+    <span class="c1"># Video Windows</span>
+<div class="viewcode-block" id="XATVApplication.video_windows"><a class="viewcode-back" href="../../../reference/apps/tv.html#PyXA.apps.TV.XATVApplication.video_windows">[docs]</a>    <span class="k">def</span> <span class="nf">video_windows</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;XATVVideoWindow&#39;</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Returns a list of video windows matching the filter.</span>
+
+<span class="sd">        .. versionadded:: 0.0.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">scriptable_elements</span><span class="p">(</span><span class="s2">&quot;videoWindows&quot;</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XATVVideoWindow</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XATVApplication.video_window"><a class="viewcode-back" href="../../../reference/apps/tv.html#PyXA.apps.TV.XATVApplication.video_window">[docs]</a>    <span class="k">def</span> <span class="nf">video_window</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">dict</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s1">&#39;XATVVideoWindow&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Returns the first video window that matches the filter.</span>
+
+<span class="sd">        .. versionadded:: 0.0.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">scriptable_element_with_properties</span><span class="p">(</span><span class="s2">&quot;videoWindows&quot;</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XATVVideoWindow</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XATVApplication.first_video_window"><a class="viewcode-back" href="../../../reference/apps/tv.html#PyXA.apps.TV.XATVApplication.first_video_window">[docs]</a>    <span class="k">def</span> <span class="nf">first_video_window</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XATVVideoWindow&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Returns the window at the first index of the video windows array.</span>
+
+<span class="sd">        .. versionadded:: 0.0.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">first_scriptable_element</span><span class="p">(</span><span class="s2">&quot;videoWindows&quot;</span><span class="p">,</span> <span class="n">XATVVideoWindow</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XATVApplication.last_video_window"><a class="viewcode-back" href="../../../reference/apps/tv.html#PyXA.apps.TV.XATVApplication.last_video_window">[docs]</a>    <span class="k">def</span> <span class="nf">last_video_window</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XATVVideoWindow&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Returns the window at the last (-1) index of the video windows array.</span>
+
+<span class="sd">        .. versionadded:: 0.0.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_scriptable_element</span><span class="p">(</span><span class="s2">&quot;videoWindows&quot;</span><span class="p">,</span> <span class="n">XATVVideoWindow</span><span class="p">)</span></div>
+
+    <span class="c1"># Sources</span>
+<div class="viewcode-block" id="XATVApplication.sources"><a class="viewcode-back" href="../../../reference/apps/tv.html#PyXA.apps.TV.XATVApplication.sources">[docs]</a>    <span class="k">def</span> <span class="nf">sources</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;XATVSource&#39;</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Returns a list of sources matching the filter.</span>
+
+<span class="sd">        .. versionadded:: 0.0.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">scriptable_elements</span><span class="p">(</span><span class="s2">&quot;sources&quot;</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XATVSource</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XATVApplication.source"><a class="viewcode-back" href="../../../reference/apps/tv.html#PyXA.apps.TV.XATVApplication.source">[docs]</a>    <span class="k">def</span> <span class="nf">source</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">dict</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s1">&#39;XATVSource&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Returns the first source that matches the filter.</span>
+
+<span class="sd">        .. versionadded:: 0.0.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">scriptable_element_with_properties</span><span class="p">(</span><span class="s2">&quot;sources&quot;</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XATVSource</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XATVApplication.first_source"><a class="viewcode-back" href="../../../reference/apps/tv.html#PyXA.apps.TV.XATVApplication.first_source">[docs]</a>    <span class="k">def</span> <span class="nf">first_source</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XATVSource&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Returns the source at the first index of the sources array.</span>
+
+<span class="sd">        .. versionadded:: 0.0.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">first_scriptable_element</span><span class="p">(</span><span class="s2">&quot;sources&quot;</span><span class="p">,</span> <span class="n">XATVSource</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XATVApplication.last_source"><a class="viewcode-back" href="../../../reference/apps/tv.html#PyXA.apps.TV.XATVApplication.last_source">[docs]</a>    <span class="k">def</span> <span class="nf">last_source</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XATVSource&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Returns the source at the last (-1) index of the sources array.</span>
+
+<span class="sd">        .. versionadded:: 0.0.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_scriptable_element</span><span class="p">(</span><span class="s2">&quot;sources&quot;</span><span class="p">,</span> <span class="n">XATVSource</span><span class="p">)</span></div>
+
+    <span class="c1"># Playlists</span>
+<div class="viewcode-block" id="XATVApplication.playlists"><a class="viewcode-back" href="../../../reference/apps/tv.html#PyXA.apps.TV.XATVApplication.playlists">[docs]</a>    <span class="k">def</span> <span class="nf">playlists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;XATVPlaylist&#39;</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Returns a list of playlists matching the filter.</span>
+
+<span class="sd">        .. versionadded:: 0.0.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">scriptable_elements</span><span class="p">(</span><span class="s2">&quot;playlists&quot;</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XATVPlaylist</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XATVApplication.playlist"><a class="viewcode-back" href="../../../reference/apps/tv.html#PyXA.apps.TV.XATVApplication.playlist">[docs]</a>    <span class="k">def</span> <span class="nf">playlist</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">dict</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s1">&#39;XATVPlaylist&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Returns the first playlist that matches the filter.</span>
+
+<span class="sd">        .. versionadded:: 0.0.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">scriptable_element_with_properties</span><span class="p">(</span><span class="s2">&quot;playlists&quot;</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XATVPlaylist</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XATVApplication.first_playlist"><a class="viewcode-back" href="../../../reference/apps/tv.html#PyXA.apps.TV.XATVApplication.first_playlist">[docs]</a>    <span class="k">def</span> <span class="nf">first_playlist</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XATVPlaylist&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Returns the playlist at the first index of the playlists array.</span>
+
+<span class="sd">        .. versionadded:: 0.0.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">first_scriptable_element</span><span class="p">(</span><span class="s2">&quot;playlists&quot;</span><span class="p">,</span> <span class="n">XATVPlaylist</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XATVApplication.last_playlist"><a class="viewcode-back" href="../../../reference/apps/tv.html#PyXA.apps.TV.XATVApplication.last_playlist">[docs]</a>    <span class="k">def</span> <span class="nf">last_playlist</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XATVPlaylist&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Returns the playlist at the last (-1) index of the playlists array.</span>
+
+<span class="sd">        .. versionadded:: 0.0.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_scriptable_element</span><span class="p">(</span><span class="s2">&quot;playlists&quot;</span><span class="p">,</span> <span class="n">XATVPlaylist</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="XATVWindow"><a class="viewcode-back" href="../../../reference/apps/tv.html#PyXA.apps.TV.XATVWindow">[docs]</a><span class="k">class</span> <span class="nc">XATVWindow</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAWindow</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAHasElements</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A class for managing and interacting with windows in TV.app.</span>
+
+<span class="sd">    .. seealso:: :class:`XATVBrowserWindow`, :class:`XATVPlaylistWindow`, :class:`XATVVideoWindow`</span>
+
+<span class="sd">    .. versionadded:: 0.0.2</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">objectClass</span><span class="o">.</span><span class="n">data</span><span class="p">()</span> <span class="o">==</span> <span class="n">_BROWSER_WINDOW</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span> <span class="o">=</span> <span class="n">XATVBrowserWindow</span>
+            <span class="bp">self</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">objectClass</span><span class="o">.</span><span class="n">data</span><span class="p">()</span> <span class="o">==</span> <span class="n">_PLAYLIST_WINDOW</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span> <span class="o">=</span> <span class="n">XATVPlaylistWindow</span>
+            <span class="bp">self</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">objectClass</span><span class="o">.</span><span class="n">data</span><span class="p">()</span> <span class="o">==</span> <span class="n">_VIDEO_WINDOW</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span> <span class="o">=</span> <span class="n">XATVVideoWindow</span>
+            <span class="bp">self</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="XATVBrowserWindow"><a class="viewcode-back" href="../../../reference/apps/tv.html#PyXA.apps.TV.XATVBrowserWindow">[docs]</a><span class="k">class</span> <span class="nc">XATVBrowserWindow</span><span class="p">(</span><span class="n">XATVWindow</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A class for managing and interacting with browser windows in TV.app.</span>
+
+<span class="sd">    .. versionadded:: 0.0.2</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">properties</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XATVPlaylistWindow"><a class="viewcode-back" href="../../../reference/apps/tv.html#PyXA.apps.TV.XATVPlaylistWindow">[docs]</a><span class="k">class</span> <span class="nc">XATVPlaylistWindow</span><span class="p">(</span><span class="n">XATVWindow</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A class for managing and interacting with playlist windows in TV.app.</span>
+
+<span class="sd">    .. versionadded:: 0.0.2</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">properties</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="XATVVideoWindow"><a class="viewcode-back" href="../../../reference/apps/tv.html#PyXA.apps.TV.XATVVideoWindow">[docs]</a><span class="k">class</span> <span class="nc">XATVVideoWindow</span><span class="p">(</span><span class="n">XATVWindow</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A class for managing and interacting with video windows in TV.app.</span>
+
+<span class="sd">    .. versionadded:: 0.0.2</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">properties</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span></div>
+
+<span class="k">class</span> <span class="nc">_XATVItem</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBObject</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A generic class with methods common to the various playable media classes in TV.app.</span>
+
+<span class="sd">    .. seealso:: :class:`XATVSource`, :class:`XATVPlaylist`, :class:`XATVTrack`</span>
+
+<span class="sd">    .. versionadded:: 0.0.2</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">id</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">index</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">name</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">persistent_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">persistentID</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">properties</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">properties</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">download</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;_XATVItem&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Downloads the item into the local library.</span>
+
+<span class="sd">        :return: A reference to the TV item object.</span>
+<span class="sd">        :rtype: _XATVItem</span>
+
+<span class="sd">        .. versionadded:: 0.0.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">download</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span> <span class="nf">reveal</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;_XATVItem&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Reveals the item in the TV.app window.</span>
+
+<span class="sd">        :return: A reference to the TV item object.</span>
+<span class="sd">        :rtype: _XATVItem</span>
+
+<span class="sd">        .. seealso:: :func:`select`</span>
+<span class="sd">        </span>
+<span class="sd">        .. versionadded:: 0.0.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">reveal</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+<div class="viewcode-block" id="XATVSource"><a class="viewcode-back" href="../../../reference/apps/tv.html#PyXA.apps.TV.XATVSource">[docs]</a><span class="k">class</span> <span class="nc">XATVSource</span><span class="p">(</span><span class="n">_XATVItem</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAHasElements</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A class for managing and interacting with media sources in TV.app.</span>
+
+<span class="sd">    .. versionadded:: 0.0.2</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">capacity</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">capacity</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">free_space</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">freeSpace</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">kind</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">kind</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="XATVPlaylist"><a class="viewcode-back" href="../../../reference/apps/tv.html#PyXA.apps.TV.XATVPlaylist">[docs]</a><span class="k">class</span> <span class="nc">XATVPlaylist</span><span class="p">(</span><span class="n">_XATVItem</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAHasElements</span><span class="p">,</span> <span class="n">_XATVHasTracks</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A class for managing and interacting with playlists in TV.app.</span>
+
+<span class="sd">    .. seealso:: :class:`XATVLibraryPlaylist`, :class:`XATVUserPlaylist`</span>
+
+<span class="sd">    .. versionadded:: 0.0.2</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">objectDescription</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">duration</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">duration</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">name</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">size</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">kind</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">specialKind</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">time</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">visible</span> <span class="o">=</span>  <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">visible</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">objectClass</span><span class="o">.</span><span class="n">data</span><span class="p">()</span> <span class="o">==</span> <span class="n">_LIBRARY_PLAYLIST</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span> <span class="o">=</span> <span class="n">XATVLibraryPlaylist</span>
+            <span class="bp">self</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">objectClass</span><span class="o">.</span><span class="n">data</span><span class="p">()</span> <span class="o">==</span> <span class="n">_USER_PLAYLIST</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span> <span class="o">=</span> <span class="n">XATVUserPlaylist</span>
+            <span class="bp">self</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+<div class="viewcode-block" id="XATVPlaylist.move_to"><a class="viewcode-back" href="../../../reference/apps/tv.html#PyXA.apps.TV.XATVPlaylist.move_to">[docs]</a>    <span class="k">def</span> <span class="nf">move_to</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent_playlist</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">moveTo_</span><span class="p">(</span><span class="n">parent_playlist</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XATVPlaylist.search"><a class="viewcode-back" href="../../../reference/apps/tv.html#PyXA.apps.TV.XATVPlaylist.search">[docs]</a>    <span class="k">def</span> <span class="nf">search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;all&quot;</span><span class="p">,</span> <span class="s2">&quot;artists&quot;</span><span class="p">,</span> <span class="s2">&quot;albums&quot;</span><span class="p">,</span> <span class="s2">&quot;displayed&quot;</span><span class="p">,</span> <span class="s2">&quot;tracks&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;displayed&quot;</span><span class="p">):</span>
+        <span class="n">search_ids</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;all&quot;</span><span class="p">:</span> <span class="n">_SEARCH_ALL</span><span class="p">,</span>
+            <span class="s2">&quot;artists&quot;</span><span class="p">:</span> <span class="n">_SEARCH_ARTISTS</span><span class="p">,</span>
+            <span class="s2">&quot;albums&quot;</span><span class="p">:</span> <span class="n">_SEARCH_ALBUMS</span><span class="p">,</span>
+            <span class="s2">&quot;displayed&quot;</span><span class="p">:</span> <span class="n">_SEARCH_DISPLAYED</span><span class="p">,</span>
+            <span class="s2">&quot;tracks&quot;</span><span class="p">:</span> <span class="n">_SEARCH_TRACK_NAMES</span><span class="p">,</span>
+        <span class="p">}</span>
+        
+        <span class="n">items</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">searchFor_only_</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">search_ids</span><span class="p">[</span><span class="nb">type</span><span class="p">])</span>
+        <span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">results</span><span class="p">:</span>
+            <span class="n">properties</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">&quot;parent&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="p">,</span>
+                <span class="s2">&quot;appspace&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_apsp</span><span class="p">,</span>
+                <span class="s2">&quot;workspace&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_wksp</span><span class="p">,</span>
+                <span class="s2">&quot;element&quot;</span><span class="p">:</span> <span class="n">result</span><span class="p">,</span>
+                <span class="s2">&quot;appref&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_aref</span><span class="p">,</span>
+                <span class="s2">&quot;system_events&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_sevt</span><span class="p">,</span>
+            <span class="p">}</span>
+            <span class="n">items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">XATVTrack</span><span class="p">(</span><span class="n">properties</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">items</span></div></div>
+
+
+<div class="viewcode-block" id="XATVLibraryPlaylist"><a class="viewcode-back" href="../../../reference/apps/tv.html#PyXA.apps.TV.XATVLibraryPlaylist">[docs]</a><span class="k">class</span> <span class="nc">XATVLibraryPlaylist</span><span class="p">(</span><span class="n">XATVPlaylist</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A class for managing and interacting with the library playlist in TV.app.</span>
+
+<span class="sd">    .. versionadded:: 0.0.2</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">properties</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="XATVUserPlaylist"><a class="viewcode-back" href="../../../reference/apps/tv.html#PyXA.apps.TV.XATVUserPlaylist">[docs]</a><span class="k">class</span> <span class="nc">XATVUserPlaylist</span><span class="p">(</span><span class="n">XATVPlaylist</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A class for managing and interacting with user playlists in TV.app.</span>
+
+<span class="sd">    .. versionadded:: 0.0.2</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">properties</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="XATVTrack"><a class="viewcode-back" href="../../../reference/apps/tv.html#PyXA.apps.TV.XATVTrack">[docs]</a><span class="k">class</span> <span class="nc">XATVTrack</span><span class="p">(</span><span class="n">_XATVItem</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A class for managing and interacting with tracks in TV.app.</span>
+
+<span class="sd">    .. seealso:: :class:`XATVSharedTrack`, :class:`XATVFileTrack`, :class:`XATVRemoteURLTrack`</span>
+
+<span class="sd">    .. versionadded:: 0.0.2</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">album</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">album</span><span class="p">()</span> <span class="c1">#: The name of the album the track&#39;s album</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">album_rating</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">albumRating</span><span class="p">()</span> <span class="c1">#: The rating of the track&#39;s album</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">album_rating_kind</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">albumRatingKind</span><span class="p">()</span> <span class="c1">#: The album&#39;s rating kind</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bit_rate</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">bitRate</span><span class="p">()</span> <span class="c1">#: The track&#39;s bitrate in kbps</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bookmark</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">bookmark</span><span class="p">()</span> <span class="c1">#: The bookmark time of the track in seconds</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bookmarkable</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">bookmarkable</span><span class="p">()</span> <span class="c1">#: Whether the playback position is kept in memory after stopping the track</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">category</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">category</span><span class="p">()</span> <span class="c1">#: The category of the track</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">comment</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">comment</span><span class="p">()</span> <span class="c1">#: User-provided notes on the track</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">database_id</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">databaseID</span><span class="p">()</span> <span class="c1">#: A unique ID for the track</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">date_added</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">dateAdded</span><span class="p">()</span> <span class="c1">#: The date the track was added to the current playlist</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">description</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">objectDescription</span><span class="p">()</span> <span class="c1">#: A description of the track</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">director</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">director</span><span class="p">()</span> <span class="c1">#: The artist of the track</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">disc_count</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">discCount</span><span class="p">()</span> <span class="c1">#: The number of discs in the source album</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">disc_number</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">discNumber</span><span class="p">()</span> <span class="c1">#: The index of the disc containing the track</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">downloader_apple_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">downloaderAppleID</span><span class="p">()</span> <span class="c1">#: The Apple ID of the person who downloaded the track</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">downloader_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">downloaderName</span><span class="p">()</span> <span class="c1">#: The full name of the person who downloaded the track</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">duration</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">duration</span><span class="p">()</span> <span class="c1">#: Length of the track in seconds</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">enabled</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">enabled</span><span class="p">()</span> <span class="c1">#: Whether the track is able to be played</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">episode_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">episodeID</span><span class="p">()</span> <span class="c1">#: A unique ID for the episode of the track</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">episode_number</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">episodeNumber</span><span class="p">()</span> <span class="c1">#: The episode number of the track</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">finish</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">finish</span><span class="p">()</span> <span class="c1">#: The time in seconds from the start at which the track stops playing. Same as duration.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">genre</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">genre</span><span class="p">()</span> <span class="c1">#: The genre category of the track.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">grouping</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">grouping</span><span class="p">()</span> <span class="c1">#: The current section/chapter/movement of the track</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">kind</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">kind</span><span class="p">()</span> <span class="c1">#: A description of the track&#39;s purchase type</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">long_description</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">longDescription</span><span class="p">()</span> <span class="c1">#: A long description for the track</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">media_kind</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">mediaKind</span><span class="p">()</span> <span class="c1">#: A description of the track&#39;s media type</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">modification_date</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">modificationDate</span><span class="p">()</span> <span class="c1">#: The last modification date of the track&#39;s content</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">played_count</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">playedCount</span><span class="p">()</span> <span class="c1">#: The number of the times the track has been played</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">played_date</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">playedDate</span><span class="p">()</span> <span class="c1">#: The date the track was last played</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">purchaser_apple_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">purchaserAppleID</span><span class="p">()</span> <span class="c1">#: The Apple ID of the person who bought the track</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">purchaser_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">purchaserName</span><span class="p">()</span> <span class="c1">#: The full name of the person who bought the track</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rating</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">rating</span><span class="p">()</span> <span class="c1">#: The rating of the track from 0 to 100</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rating_kind</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">ratingKind</span><span class="p">()</span> <span class="c1">#: Whether the rating is user-provided or computed</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">release_date</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">releaseDate</span><span class="p">()</span> <span class="c1">#: The date the track was released</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sample_rate</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">sampleRate</span><span class="p">()</span> <span class="c1">#: The sample rate of the track in Hz</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">season_number</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">seasonNumber</span><span class="p">()</span> <span class="c1">#: The number of the season the track belongs to</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">skipped_count</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">skippedCount</span><span class="p">()</span> <span class="c1">#: The number of times the track has been skipped</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">skipped_date</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">skippedDate</span><span class="p">()</span> <span class="c1">#: The date the track was last skipped</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">show</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">show</span><span class="p">()</span> <span class="c1">#: The show the track belongs to</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sort_album</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">sortAlbum</span><span class="p">()</span> <span class="c1">#: The string used for this track when sorting by album</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sort_director</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">sortDirector</span><span class="p">()</span> <span class="c1">#: The string used for this track when sorting by director</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sort_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">sortName</span><span class="p">()</span> <span class="c1">#: The string used for this track when sorting by name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sort_show</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">sortShow</span><span class="p">()</span> <span class="c1">#: The string used for this track when sorting by show</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">size</span><span class="p">()</span> <span class="c1">#: The size of the track in bytes</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">start</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">start</span><span class="p">()</span> <span class="c1">#: The start time of the track (0)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">time</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="c1">#: HH:MM:SS representation for the duration of the track</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">track_count</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">trackCount</span><span class="p">()</span> <span class="c1">#: The number of tracks in the track&#39;s album</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">track_number</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">trackNumber</span><span class="p">()</span> <span class="c1">#: The index of the track within its album</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">unplayed</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">unplayed</span><span class="p">()</span> <span class="c1">#: Whether the track has been played before</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">volume_adjustment</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">volumeAdjustment</span><span class="p">()</span> <span class="c1">#: Volume adjustment setting for this track from -100 to +100</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">year</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">year</span><span class="p">()</span> <span class="c1">#: The year the track was released</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">objectClass</span><span class="o">.</span><span class="n">data</span><span class="p">()</span> <span class="o">==</span> <span class="n">_SHARED_TRACK</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span> <span class="o">=</span> <span class="n">XATVSharedTrack</span>
+            <span class="bp">self</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">objectClass</span><span class="o">.</span><span class="n">data</span><span class="p">()</span> <span class="o">==</span> <span class="n">_FILE_TRACK</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span> <span class="o">=</span> <span class="n">XATVFileTrack</span>
+            <span class="bp">self</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">objectClass</span><span class="o">.</span><span class="n">data</span><span class="p">()</span> <span class="o">==</span> <span class="n">_URL_TRACK</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span> <span class="o">=</span> <span class="n">XATVRemoteURLTrack</span>
+            <span class="bp">self</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+<div class="viewcode-block" id="XATVTrack.select"><a class="viewcode-back" href="../../../reference/apps/tv.html#PyXA.apps.TV.XATVTrack.select">[docs]</a>    <span class="k">def</span> <span class="nf">select</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;_XATVItem&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Selects the item.</span>
+
+<span class="sd">        :return: A reference to the media item object.</span>
+<span class="sd">        :rtype: XATVTrack</span>
+
+<span class="sd">        .. seealso:: :func:`reveal`</span>
+
+<span class="sd">        .. versionadded:: 0.0.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">select</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="XATVTrack.play"><a class="viewcode-back" href="../../../reference/apps/tv.html#PyXA.apps.TV.XATVTrack.play">[docs]</a>    <span class="k">def</span> <span class="nf">play</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;_XATVItem&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Plays the item.</span>
+
+<span class="sd">        :return: A reference to the media item object.</span>
+<span class="sd">        :rtype: _XATVItem</span>
+
+<span class="sd">        .. versionadded:: 0.0.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">playOnce_</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+    <span class="c1"># Artworks</span>
+<div class="viewcode-block" id="XATVTrack.artworks"><a class="viewcode-back" href="../../../reference/apps/tv.html#PyXA.apps.TV.XATVTrack.artworks">[docs]</a>    <span class="k">def</span> <span class="nf">artworks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;XATVTrackArtwork&#39;</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Returns a list of artworks matching the filter.</span>
+
+<span class="sd">        .. versionadded:: 0.0.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">elements</span><span class="p">(</span><span class="s2">&quot;artworks&quot;</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XATVTrackArtwork</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XATVTrack.artwork"><a class="viewcode-back" href="../../../reference/apps/tv.html#PyXA.apps.TV.XATVTrack.artwork">[docs]</a>    <span class="k">def</span> <span class="nf">artwork</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">dict</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s1">&#39;XATVTrackArtwork&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Returns the first artwork that matches the filter.</span>
+
+<span class="sd">        .. versionadded:: 0.0.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">element_with_properties</span><span class="p">(</span><span class="s2">&quot;artworks&quot;</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XATVTrackArtwork</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XATVTrack.first_artwork"><a class="viewcode-back" href="../../../reference/apps/tv.html#PyXA.apps.TV.XATVTrack.first_artwork">[docs]</a>    <span class="k">def</span> <span class="nf">first_artwork</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XATVTrackArtwork&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Returns the artwork at the first index of the artworks array.</span>
+
+<span class="sd">        .. versionadded:: 0.0.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">first_element</span><span class="p">(</span><span class="s2">&quot;artworks&quot;</span><span class="p">,</span> <span class="n">XATVTrackArtwork</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XATVTrack.last_artworks"><a class="viewcode-back" href="../../../reference/apps/tv.html#PyXA.apps.TV.XATVTrack.last_artworks">[docs]</a>    <span class="k">def</span> <span class="nf">last_artworks</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XATVTrackArtwork&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Returns the artwork at the last (-1) index of the artworks array.</span>
+
+<span class="sd">        .. versionadded:: 0.0.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_element</span><span class="p">(</span><span class="s2">&quot;artworks&quot;</span><span class="p">,</span> <span class="n">XATVTrackArtwork</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="XATVSharedTrack"><a class="viewcode-back" href="../../../reference/apps/tv.html#PyXA.apps.TV.XATVSharedTrack">[docs]</a><span class="k">class</span> <span class="nc">XATVSharedTrack</span><span class="p">(</span><span class="n">XATVTrack</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A class for managing and interacting with shared tracks in TV.app.</span>
+
+<span class="sd">    .. versionadded:: 0.0.2</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">properties</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="XATVFileTrack"><a class="viewcode-back" href="../../../reference/apps/tv.html#PyXA.apps.TV.XATVFileTrack">[docs]</a><span class="k">class</span> <span class="nc">XATVFileTrack</span><span class="p">(</span><span class="n">XATVTrack</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A class for managing and interacting with file tracks in TV.app.</span>
+
+<span class="sd">    .. versionadded:: 0.0.2</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">properties</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="XATVRemoteURLTrack"><a class="viewcode-back" href="../../../reference/apps/tv.html#PyXA.apps.TV.XATVRemoteURLTrack">[docs]</a><span class="k">class</span> <span class="nc">XATVRemoteURLTrack</span><span class="p">(</span><span class="n">XATVTrack</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A class for managing and interacting with URL tracks in TV.app.</span>
+
+<span class="sd">    .. versionadded:: 0.0.2</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">properties</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="XATVTrackArtwork"><a class="viewcode-back" href="../../../reference/apps/tv.html#PyXA.apps.TV.XATVTrackArtwork">[docs]</a><span class="k">class</span> <span class="nc">XATVTrackArtwork</span><span class="p">(</span><span class="n">_XATVItem</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A class for managing and interacting with artworks in TV.app.</span>
+
+<span class="sd">    .. versionadded:: 0.0.2</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">objectDescription</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">downloaded</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">downloaded</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">format</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">format</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">kind</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">kind</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">raw_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">rawData</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">data</span><span class="p">()</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Stephen Kaplan.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Photos Module &mdash; PyXA 0.0.2 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Preview Module" href="preview.html" />
+    <link rel="prev" title="Notes Module" href="notes.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> PyXA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../about/index.html">Project Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial/index.html">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Code Documentation and Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../index.html#top-level-pyxa-modules">Top-level PyXA Modules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#pyxa-base-modules">PyXA Base Modules</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html#application-modules">Application Modules</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="calculator.html">Calculator Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="calendar.html">Calendar Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="contacts.html">Contacts Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dictionary.html">Dictionary Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="finder.html">Finder Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="messages.html">Messages Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="music.html">Music Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notes.html">Notes Module</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Photos Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="preview.html">Preview Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reminders.html">Reminders Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="safari.html">Safari Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="shortcuts.html">Shortcuts Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="terminal.html">Terminal Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="textedit.html">TextEdit Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tv.html">TV Module</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../bugs.html">Bugs</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">PyXA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">Code Documentation and Reference</a> &raquo;</li>
+      <li>Photos Module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/reference/apps/photos.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-PyXA.apps.PhotosApp">
+<span id="photos-module"></span><h1>Photos Module<a class="headerlink" href="#module-PyXA.apps.PhotosApp" title="Permalink to this headline"></a></h1>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+<p>Control the macOS Photos application using JXA-like syntax.</p>
+<div class="admonition-todo admonition" id="id1">
+<p class="admonition-title">Todo</p>
+<ul class="simple">
+<li><p>Add support for folders and containers</p></li>
+<li><p>Add image operations such as rotate, flip</p></li>
+<li><p>Add ability to add new albums</p></li>
+<li><p>Add ability to move photos to albums/folders</p></li>
+</ul>
+</div>
+<p><strong>Classes:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.PhotosApp.XAPhotosAlbum" title="PyXA.apps.PhotosApp.XAPhotosAlbum"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAPhotosAlbum</span></code></a>(properties)</p></td>
+<td><p>A class for managing and interacting with albums in Photos.app.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.PhotosApp.XAPhotosApplication" title="PyXA.apps.PhotosApp.XAPhotosApplication"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAPhotosApplication</span></code></a>(properties)</p></td>
+<td><p>A class for managing and interacting with Photos.app.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.PhotosApp.XAPhotosContainer" title="PyXA.apps.PhotosApp.XAPhotosContainer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAPhotosContainer</span></code></a>(properties)</p></td>
+<td><p>A generic class for managing and interacting with containers (folders and albums) in Photos.app.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.PhotosApp.XAPhotosFolder" title="PyXA.apps.PhotosApp.XAPhotosFolder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAPhotosFolder</span></code></a>(properties)</p></td>
+<td><p>A class for managing and interacting with folders in Photos.app.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.PhotosApp.XAPhotosMediaItem" title="PyXA.apps.PhotosApp.XAPhotosMediaItem"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAPhotosMediaItem</span></code></a>(properties)</p></td>
+<td><p>A class for managing and interacting with photos in Photos.app.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.apps.PhotosApp.XAPhotosAlbum">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.PhotosApp.</span></span><span class="sig-name descname"><span class="pre">XAPhotosAlbum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/PhotosApp.html#XAPhotosAlbum"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.PhotosApp.XAPhotosAlbum" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#PyXA.apps.PhotosApp.XAPhotosContainer" title="PyXA.apps.PhotosApp.XAPhotosContainer"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.apps.PhotosApp.XAPhotosContainer</span></code></a></p>
+<p>A class for managing and interacting with albums in Photos.app.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#PyXA.apps.PhotosApp.XAPhotosApplication" title="PyXA.apps.PhotosApp.XAPhotosApplication"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAPhotosApplication</span></code></a></p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+<p><strong>Attributes:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.PhotosApp.XAPhotosAlbum.count" title="PyXA.apps.PhotosApp.XAPhotosAlbum.count"><code class="xref py py-obj docutils literal notranslate"><span class="pre">count</span></code></a></p></td>
+<td><p>The number of items in the album</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.PhotosApp.XAPhotosAlbum.earliest_date" title="PyXA.apps.PhotosApp.XAPhotosAlbum.earliest_date"><code class="xref py py-obj docutils literal notranslate"><span class="pre">earliest_date</span></code></a></p></td>
+<td><p>The earliest date an item in the album was captured</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.PhotosApp.XAPhotosAlbum.id" title="PyXA.apps.PhotosApp.XAPhotosAlbum.id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">id</span></code></a></p></td>
+<td><p>A unique identifier for this album</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.PhotosApp.XAPhotosAlbum.latest_date" title="PyXA.apps.PhotosApp.XAPhotosAlbum.latest_date"><code class="xref py py-obj docutils literal notranslate"><span class="pre">latest_date</span></code></a></p></td>
+<td><p>The most recent date an item in the album was captured</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.PhotosApp.XAPhotosAlbum.location" title="PyXA.apps.PhotosApp.XAPhotosAlbum.location"><code class="xref py py-obj docutils literal notranslate"><span class="pre">location</span></code></a></p></td>
+<td><p>A general location encompassing the locations of all items in the album</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.PhotosApp.XAPhotosAlbum.title" title="PyXA.apps.PhotosApp.XAPhotosAlbum.title"><code class="xref py py-obj docutils literal notranslate"><span class="pre">title</span></code></a></p></td>
+<td><p>The title of the album</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.PhotosApp.XAPhotosAlbum.count">
+<span class="sig-name descname"><span class="pre">count</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#PyXA.apps.PhotosApp.XAPhotosAlbum.count" title="Permalink to this definition"></a></dt>
+<dd><p>The number of items in the album</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.PhotosApp.XAPhotosAlbum.earliest_date">
+<span class="sig-name descname"><span class="pre">earliest_date</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">datetime.datetime</span></em><a class="headerlink" href="#PyXA.apps.PhotosApp.XAPhotosAlbum.earliest_date" title="Permalink to this definition"></a></dt>
+<dd><p>The earliest date an item in the album was captured</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.PhotosApp.XAPhotosAlbum.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#PyXA.apps.PhotosApp.XAPhotosAlbum.id" title="Permalink to this definition"></a></dt>
+<dd><p>A unique identifier for this album</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.PhotosApp.XAPhotosAlbum.latest_date">
+<span class="sig-name descname"><span class="pre">latest_date</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">datetime.datetime</span></em><a class="headerlink" href="#PyXA.apps.PhotosApp.XAPhotosAlbum.latest_date" title="Permalink to this definition"></a></dt>
+<dd><p>The most recent date an item in the album was captured</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.PhotosApp.XAPhotosAlbum.location">
+<span class="sig-name descname"><span class="pre">location</span></span><a class="headerlink" href="#PyXA.apps.PhotosApp.XAPhotosAlbum.location" title="Permalink to this definition"></a></dt>
+<dd><p>A general location encompassing the locations of all items in the album</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.PhotosApp.XAPhotosAlbum.title">
+<span class="sig-name descname"><span class="pre">title</span></span><a class="headerlink" href="#PyXA.apps.PhotosApp.XAPhotosAlbum.title" title="Permalink to this definition"></a></dt>
+<dd><p>The title of the album</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.apps.PhotosApp.XAPhotosApplication">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.PhotosApp.</span></span><span class="sig-name descname"><span class="pre">XAPhotosApplication</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/PhotosApp.html#XAPhotosApplication"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.PhotosApp.XAPhotosApplication" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XASBApplication" title="PyXA.XABaseScriptable.XASBApplication"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABaseScriptable.XASBApplication</span></code></a></p>
+<p>A class for managing and interacting with Photos.app.</p>
+<blockquote>
+<div><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><code class="xref py py-class docutils literal notranslate"><span class="pre">XATextEditWindow</span></code>, <a class="reference internal" href="#PyXA.apps.PhotosApp.XAPhotosMediaItem" title="PyXA.apps.PhotosApp.XAPhotosMediaItem"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAPhotosMediaItem</span></code></a></p>
+</div>
+</div></blockquote>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+<p><strong>Methods:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.PhotosApp.XAPhotosApplication.album" title="PyXA.apps.PhotosApp.XAPhotosApplication.album"><code class="xref py py-obj docutils literal notranslate"><span class="pre">album</span></code></a>(filter)</p></td>
+<td><p>Returns the first album matching the given filter.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.PhotosApp.XAPhotosApplication.albums" title="PyXA.apps.PhotosApp.XAPhotosApplication.albums"><code class="xref py py-obj docutils literal notranslate"><span class="pre">albums</span></code></a>([filter])</p></td>
+<td><p>Returns a list of albums, as PyXA objects, matching the given filter.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.PhotosApp.XAPhotosApplication.first_album" title="PyXA.apps.PhotosApp.XAPhotosApplication.first_album"><code class="xref py py-obj docutils literal notranslate"><span class="pre">first_album</span></code></a>()</p></td>
+<td><p>Returns the album at the zero index of the media albums array.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.PhotosApp.XAPhotosApplication.first_media_item" title="PyXA.apps.PhotosApp.XAPhotosApplication.first_media_item"><code class="xref py py-obj docutils literal notranslate"><span class="pre">first_media_item</span></code></a>()</p></td>
+<td><p>Returns the item at the zero index of the media items array.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.PhotosApp.XAPhotosApplication.last_album" title="PyXA.apps.PhotosApp.XAPhotosApplication.last_album"><code class="xref py py-obj docutils literal notranslate"><span class="pre">last_album</span></code></a>()</p></td>
+<td><p>Returns the album at the last (-1) index of the media albums array.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.PhotosApp.XAPhotosApplication.last_media_item" title="PyXA.apps.PhotosApp.XAPhotosApplication.last_media_item"><code class="xref py py-obj docutils literal notranslate"><span class="pre">last_media_item</span></code></a>()</p></td>
+<td><p>Returns the item at the last (-1) index of the media items array.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.PhotosApp.XAPhotosApplication.media_item" title="PyXA.apps.PhotosApp.XAPhotosApplication.media_item"><code class="xref py py-obj docutils literal notranslate"><span class="pre">media_item</span></code></a>(filter)</p></td>
+<td><p>Returns the first media item matching the given filter.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.PhotosApp.XAPhotosApplication.media_items" title="PyXA.apps.PhotosApp.XAPhotosApplication.media_items"><code class="xref py py-obj docutils literal notranslate"><span class="pre">media_items</span></code></a>([filter])</p></td>
+<td><p>Returns a list of media items, as PyXA objects, matching the given filter.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.PhotosApp.XAPhotosApplication.album">
+<span class="sig-name descname"><span class="pre">album</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.PhotosApp.XAPhotosAlbum" title="PyXA.apps.PhotosApp.XAPhotosAlbum"><span class="pre">PyXA.apps.PhotosApp.XAPhotosAlbum</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/PhotosApp.html#XAPhotosApplication.album"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.PhotosApp.XAPhotosApplication.album" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the first album matching the given filter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>filter</strong> (<em>Union</em><em>[</em><em>int</em><em>, </em><em>dict</em><em>]</em>) – Either an array index or a dictionary specifying property-value pairs that the returned album will have</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The media item</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#PyXA.apps.PhotosApp.XAPhotosAlbum" title="PyXA.apps.PhotosApp.XAPhotosAlbum">XAPhotosAlbum</a></p>
+</dd>
+<dt class="field-even">Example 1</dt>
+<dd class="field-even"><p>Getting an album by index</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;Photos&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">album</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+<span class="go">&lt;&lt;class &#39;PyXA.apps.PhotosApp.XAPhotosAlbum&#39;&gt;Snapchat, id=0CB8EA43-A0BB-4D14-A71A-212A890A64D2/L0/040&gt;</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Example 2</dt>
+<dd class="field-odd"><p>Getting an album by using a filter</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;Photos&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">album</span><span class="p">({</span><span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;PyXA Photos&quot;</span><span class="p">}))</span>
+<span class="go">&lt;&lt;class &#39;PyXA.apps.PhotosApp.XAPhotosAlbum&#39;&gt;Summer Camp 2018, id=7E62F87B-90C4-4B83-9383-E6F2917C11B3/L0/040&gt;</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.PhotosApp.XAPhotosApplication.albums">
+<span class="sig-name descname"><span class="pre">albums</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.PhotosApp.XAPhotosAlbum" title="PyXA.apps.PhotosApp.XAPhotosAlbum"><span class="pre">PyXA.apps.PhotosApp.XAPhotosAlbum</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/PhotosApp.html#XAPhotosApplication.albums"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.PhotosApp.XAPhotosApplication.albums" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a list of albums, as PyXA objects, matching the given filter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>filter</strong> (<em>dict</em>) – A dictionary specifying property-value pairs that all returned albums will have</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The list of albums</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>List[<a class="reference internal" href="#PyXA.apps.PhotosApp.XAPhotosAlbum" title="PyXA.apps.PhotosApp.XAPhotosAlbum">XAPhotosAlbum</a>]</p>
+</dd>
+<dt class="field-even">Example 1</dt>
+<dd class="field-even"><p>Listing all albums</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;Photos&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">albums</span><span class="p">())</span>
+<span class="go">[&lt;&lt;class &#39;PyXA.apps.PhotosApp.XAPhotosAlbum&#39;&gt;Example Album, id=7E62F87B-90C4-4B83-9383-E6F2917C11B3/L0/040&gt;, &lt;&lt;class &#39;PyXA.apps.PhotosApp.XAPhotosAlbum&#39;&gt;Another Album, id=BA978E66-36E3-42B2-9F09-2484B4CFFC1E/L0/040&gt;, ...]</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Example 2</dt>
+<dd class="field-odd"><p>Listing albums after applying a filter</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;Photos&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">albums</span><span class="p">({</span><span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;Example Album&quot;</span><span class="p">}))</span>
+<span class="go">[&lt;&lt;class &#39;PyXA.apps.PhotosApp.XAPhotosMediaItem&#39;&gt;id=54ECE9C9-12AD-4985-82F1-265D5A47F325/L0/001&gt;]</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.PhotosApp.XAPhotosApplication.first_album">
+<span class="sig-name descname"><span class="pre">first_album</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.PhotosApp.XAPhotosAlbum" title="PyXA.apps.PhotosApp.XAPhotosAlbum"><span class="pre">PyXA.apps.PhotosApp.XAPhotosAlbum</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/PhotosApp.html#XAPhotosApplication.first_album"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.PhotosApp.XAPhotosApplication.first_album" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the album at the zero index of the media albums array.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The first album</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#PyXA.apps.PhotosApp.XAPhotosAlbum" title="PyXA.apps.PhotosApp.XAPhotosAlbum">XAPhotosAlbum</a></p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.PhotosApp.XAPhotosApplication.first_media_item">
+<span class="sig-name descname"><span class="pre">first_media_item</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.PhotosApp.XAPhotosMediaItem" title="PyXA.apps.PhotosApp.XAPhotosMediaItem"><span class="pre">PyXA.apps.PhotosApp.XAPhotosMediaItem</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/PhotosApp.html#XAPhotosApplication.first_media_item"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.PhotosApp.XAPhotosApplication.first_media_item" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the item at the zero index of the media items array.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The first media item</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#PyXA.apps.PhotosApp.XAPhotosMediaItem" title="PyXA.apps.PhotosApp.XAPhotosMediaItem">XAPhotosMediaItem</a></p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.PhotosApp.XAPhotosApplication.last_album">
+<span class="sig-name descname"><span class="pre">last_album</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.PhotosApp.XAPhotosAlbum" title="PyXA.apps.PhotosApp.XAPhotosAlbum"><span class="pre">PyXA.apps.PhotosApp.XAPhotosAlbum</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/PhotosApp.html#XAPhotosApplication.last_album"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.PhotosApp.XAPhotosApplication.last_album" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the album at the last (-1) index of the media albums array.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The last album</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#PyXA.apps.PhotosApp.XAPhotosAlbum" title="PyXA.apps.PhotosApp.XAPhotosAlbum">XAPhotosAlbum</a></p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.PhotosApp.XAPhotosApplication.last_media_item">
+<span class="sig-name descname"><span class="pre">last_media_item</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.PhotosApp.XAPhotosMediaItem" title="PyXA.apps.PhotosApp.XAPhotosMediaItem"><span class="pre">PyXA.apps.PhotosApp.XAPhotosMediaItem</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/PhotosApp.html#XAPhotosApplication.last_media_item"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.PhotosApp.XAPhotosApplication.last_media_item" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the item at the last (-1) index of the media items array.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The last media item</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#PyXA.apps.PhotosApp.XAPhotosMediaItem" title="PyXA.apps.PhotosApp.XAPhotosMediaItem">XAPhotosMediaItem</a></p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.PhotosApp.XAPhotosApplication.media_item">
+<span class="sig-name descname"><span class="pre">media_item</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.PhotosApp.XAPhotosMediaItem" title="PyXA.apps.PhotosApp.XAPhotosMediaItem"><span class="pre">PyXA.apps.PhotosApp.XAPhotosMediaItem</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/PhotosApp.html#XAPhotosApplication.media_item"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.PhotosApp.XAPhotosApplication.media_item" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the first media item matching the given filter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>filter</strong> (<em>Union</em><em>[</em><em>int</em><em>, </em><em>dict</em><em>]</em>) – Either an array index or a dictionary specifying property-value pairs that the returned media item will have</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The media item</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#PyXA.apps.PhotosApp.XAPhotosMediaItem" title="PyXA.apps.PhotosApp.XAPhotosMediaItem">XAPhotosMediaItem</a></p>
+</dd>
+<dt class="field-even">Example 1</dt>
+<dd class="field-even"><p>Getting a media item by index</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;Photos&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">media_item</span><span class="p">(</span><span class="mi">7</span><span class="p">))</span>
+<span class="go">&lt;&lt;class &#39;PyXA.apps.PhotosApp.XAPhotosMediaItem&#39;&gt;id=99301EE7-9FC0-4535-9987-382CF4E028EB/L0/001&gt;</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Example 2</dt>
+<dd class="field-odd"><p>Getting a media item by using a filter</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;Photos&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">media_item</span><span class="p">({</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="s2">&quot;1F41A2F0-E77C-46F4-AE57-245E2D7846E0/L0/001&quot;</span><span class="p">}))</span>
+<span class="go">&lt;&lt;class &#39;PyXA.apps.PhotosApp.XAPhotosMediaItem&#39;&gt;id=1F41A2F0-E77C-46F4-AE57-245E2D7846E0/L0/001&gt;</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.PhotosApp.XAPhotosApplication.media_items">
+<span class="sig-name descname"><span class="pre">media_items</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.PhotosApp.XAPhotosMediaItem" title="PyXA.apps.PhotosApp.XAPhotosMediaItem"><span class="pre">PyXA.apps.PhotosApp.XAPhotosMediaItem</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/PhotosApp.html#XAPhotosApplication.media_items"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.PhotosApp.XAPhotosApplication.media_items" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a list of media items, as PyXA objects, matching the given filter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>filter</strong> (<em>dict</em>) – A dictionary specifying property-value pairs that all returned media items will have</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The list of media items</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>List[<a class="reference internal" href="#PyXA.apps.PhotosApp.XAPhotosMediaItem" title="PyXA.apps.PhotosApp.XAPhotosMediaItem">XAPhotosMediaItem</a>]</p>
+</dd>
+<dt class="field-even">Example 1</dt>
+<dd class="field-even"><p>Listing all media items</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;Photos&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">media_items</span><span class="p">())</span>
+<span class="go">[&lt;&lt;class &#39;PyXA.apps.PhotosApp.XAPhotosMediaItem&#39;&gt;id=09B91497-7528-43B0-9143-37BB84724201/L0/001&gt;, &lt;&lt;class &#39;PyXA.apps.PhotosApp.XAPhotosMediaItem&#39;&gt;id=4F311B01-20A5-4413-97B5-43F7B7854981/L0/001&gt;, ...]</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Example 2</dt>
+<dd class="field-odd"><p>Listing media items after applying a filter</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;Photos&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">media_items</span><span class="p">({</span><span class="s2">&quot;favorite&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}))</span>
+<span class="go">[&lt;&lt;class &#39;PyXA.apps.PhotosApp.XAPhotosMediaItem&#39;&gt;id=54ECE9C9-12AD-4985-82F1-265D5A47F325/L0/001&gt;, &lt;&lt;class &#39;PyXA.apps.PhotosApp.XAPhotosMediaItem&#39;&gt;id=1F41A2F0-E77C-46F4-AE57-245E2D7846E0/L0/001&gt;, ...]</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.apps.PhotosApp.XAPhotosContainer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.PhotosApp.</span></span><span class="sig-name descname"><span class="pre">XAPhotosContainer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/PhotosApp.html#XAPhotosContainer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.PhotosApp.XAPhotosContainer" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAHasElements" title="PyXA.XABase.XAHasElements"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAHasElements</span></code></a></p>
+<p>A generic class for managing and interacting with containers (folders and albums) in Photos.app.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#PyXA.apps.PhotosApp.XAPhotosApplication" title="PyXA.apps.PhotosApp.XAPhotosApplication"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAPhotosApplication</span></code></a></p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.apps.PhotosApp.XAPhotosFolder">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.PhotosApp.</span></span><span class="sig-name descname"><span class="pre">XAPhotosFolder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/PhotosApp.html#XAPhotosFolder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.PhotosApp.XAPhotosFolder" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#PyXA.apps.PhotosApp.XAPhotosContainer" title="PyXA.apps.PhotosApp.XAPhotosContainer"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.apps.PhotosApp.XAPhotosContainer</span></code></a></p>
+<p>A class for managing and interacting with folders in Photos.app.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#PyXA.apps.PhotosApp.XAPhotosApplication" title="PyXA.apps.PhotosApp.XAPhotosApplication"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAPhotosApplication</span></code></a></p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.apps.PhotosApp.XAPhotosMediaItem">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.PhotosApp.</span></span><span class="sig-name descname"><span class="pre">XAPhotosMediaItem</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/PhotosApp.html#XAPhotosMediaItem"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.PhotosApp.XAPhotosMediaItem" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAObject</span></code></a></p>
+<p>A class for managing and interacting with photos in Photos.app.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#PyXA.apps.PhotosApp.XAPhotosApplication" title="PyXA.apps.PhotosApp.XAPhotosApplication"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAPhotosApplication</span></code></a></p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+<p><strong>Attributes:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.PhotosApp.XAPhotosMediaItem.aspect_ratio" title="PyXA.apps.PhotosApp.XAPhotosMediaItem.aspect_ratio"><code class="xref py py-obj docutils literal notranslate"><span class="pre">aspect_ratio</span></code></a></p></td>
+<td><p>The aspect ratio of the item</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.PhotosApp.XAPhotosMediaItem.creation_date" title="PyXA.apps.PhotosApp.XAPhotosMediaItem.creation_date"><code class="xref py py-obj docutils literal notranslate"><span class="pre">creation_date</span></code></a></p></td>
+<td><p>The original creation date of the item</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.PhotosApp.XAPhotosMediaItem.description" title="PyXA.apps.PhotosApp.XAPhotosMediaItem.description"><code class="xref py py-obj docutils literal notranslate"><span class="pre">description</span></code></a></p></td>
+<td><p>The caption for the media item</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.PhotosApp.XAPhotosMediaItem.favorite" title="PyXA.apps.PhotosApp.XAPhotosMediaItem.favorite"><code class="xref py py-obj docutils literal notranslate"><span class="pre">favorite</span></code></a></p></td>
+<td><p>Whether the media item is favorited or not</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.PhotosApp.XAPhotosMediaItem.file_path" title="PyXA.apps.PhotosApp.XAPhotosMediaItem.file_path"><code class="xref py py-obj docutils literal notranslate"><span class="pre">file_path</span></code></a></p></td>
+<td><p>The path to the associated media file</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.PhotosApp.XAPhotosMediaItem.filename" title="PyXA.apps.PhotosApp.XAPhotosMediaItem.filename"><code class="xref py py-obj docutils literal notranslate"><span class="pre">filename</span></code></a></p></td>
+<td><p>The name of the associated media file</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.PhotosApp.XAPhotosMediaItem.height" title="PyXA.apps.PhotosApp.XAPhotosMediaItem.height"><code class="xref py py-obj docutils literal notranslate"><span class="pre">height</span></code></a></p></td>
+<td><p>The height of the media item in pixels</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.PhotosApp.XAPhotosMediaItem.id" title="PyXA.apps.PhotosApp.XAPhotosMediaItem.id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">id</span></code></a></p></td>
+<td><p>A unique identifier for this media item</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.PhotosApp.XAPhotosMediaItem.keywords" title="PyXA.apps.PhotosApp.XAPhotosMediaItem.keywords"><code class="xref py py-obj docutils literal notranslate"><span class="pre">keywords</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.PhotosApp.XAPhotosMediaItem.kind" title="PyXA.apps.PhotosApp.XAPhotosMediaItem.kind"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kind</span></code></a></p></td>
+<td><p>The media type of the item (e.g.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.PhotosApp.XAPhotosMediaItem.location" title="PyXA.apps.PhotosApp.XAPhotosMediaItem.location"><code class="xref py py-obj docutils literal notranslate"><span class="pre">location</span></code></a></p></td>
+<td><p>The location the media item was captured</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.PhotosApp.XAPhotosMediaItem.modified_date" title="PyXA.apps.PhotosApp.XAPhotosMediaItem.modified_date"><code class="xref py py-obj docutils literal notranslate"><span class="pre">modified_date</span></code></a></p></td>
+<td><p>The date the item was last modified</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.PhotosApp.XAPhotosMediaItem.size" title="PyXA.apps.PhotosApp.XAPhotosMediaItem.size"><code class="xref py py-obj docutils literal notranslate"><span class="pre">size</span></code></a></p></td>
+<td><p>The file size of the media item in bytes</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.PhotosApp.XAPhotosMediaItem.title" title="PyXA.apps.PhotosApp.XAPhotosMediaItem.title"><code class="xref py py-obj docutils literal notranslate"><span class="pre">title</span></code></a></p></td>
+<td><p>The title of the media item</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.PhotosApp.XAPhotosMediaItem.width" title="PyXA.apps.PhotosApp.XAPhotosMediaItem.width"><code class="xref py py-obj docutils literal notranslate"><span class="pre">width</span></code></a></p></td>
+<td><p>The width of the media item in pixels</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Methods:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.PhotosApp.XAPhotosMediaItem.copy" title="PyXA.apps.PhotosApp.XAPhotosMediaItem.copy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">copy</span></code></a>()</p></td>
+<td><p>Copies the media file and its data to the clipboard.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.PhotosApp.XAPhotosMediaItem.duplicate" title="PyXA.apps.PhotosApp.XAPhotosMediaItem.duplicate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">duplicate</span></code></a>()</p></td>
+<td><p>Duplicates the media item in the Photo Library.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.PhotosApp.XAPhotosMediaItem.reveal_in_finder" title="PyXA.apps.PhotosApp.XAPhotosMediaItem.reveal_in_finder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reveal_in_finder</span></code></a>()</p></td>
+<td><p>Opens a Finder window focused on the media item's containing folder with the media item selected.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.PhotosApp.XAPhotosMediaItem.show" title="PyXA.apps.PhotosApp.XAPhotosMediaItem.show"><code class="xref py py-obj docutils literal notranslate"><span class="pre">show</span></code></a>()</p></td>
+<td><p>Shows the media item in Photos.app.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.PhotosApp.XAPhotosMediaItem.show_in_preview" title="PyXA.apps.PhotosApp.XAPhotosMediaItem.show_in_preview"><code class="xref py py-obj docutils literal notranslate"><span class="pre">show_in_preview</span></code></a>()</p></td>
+<td><p>Opens the media item in Preview.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.PhotosApp.XAPhotosMediaItem.aspect_ratio">
+<span class="sig-name descname"><span class="pre">aspect_ratio</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#PyXA.apps.PhotosApp.XAPhotosMediaItem.aspect_ratio" title="Permalink to this definition"></a></dt>
+<dd><p>The aspect ratio of the item</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.PhotosApp.XAPhotosMediaItem.copy">
+<span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/PhotosApp.html#XAPhotosMediaItem.copy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.PhotosApp.XAPhotosMediaItem.copy" title="Permalink to this definition"></a></dt>
+<dd><p>Copies the media file and its data to the clipboard.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.PhotosApp.XAPhotosMediaItem.creation_date">
+<span class="sig-name descname"><span class="pre">creation_date</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">datetime.datetime</span></em><a class="headerlink" href="#PyXA.apps.PhotosApp.XAPhotosMediaItem.creation_date" title="Permalink to this definition"></a></dt>
+<dd><p>The original creation date of the item</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.PhotosApp.XAPhotosMediaItem.description">
+<span class="sig-name descname"><span class="pre">description</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.PhotosApp.XAPhotosMediaItem.description" title="Permalink to this definition"></a></dt>
+<dd><p>The caption for the media item</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.PhotosApp.XAPhotosMediaItem.duplicate">
+<span class="sig-name descname"><span class="pre">duplicate</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.PhotosApp.XAPhotosMediaItem" title="PyXA.apps.PhotosApp.XAPhotosMediaItem"><span class="pre">PyXA.apps.PhotosApp.XAPhotosMediaItem</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/PhotosApp.html#XAPhotosMediaItem.duplicate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.PhotosApp.XAPhotosMediaItem.duplicate" title="Permalink to this definition"></a></dt>
+<dd><p>Duplicates the media item in the Photo Library.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A reference to the newly created media item.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#PyXA.apps.PhotosApp.XAPhotosMediaItem" title="PyXA.apps.PhotosApp.XAPhotosMediaItem">XAPhotosMediaItem</a></p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.PhotosApp.XAPhotosMediaItem.favorite">
+<span class="sig-name descname"><span class="pre">favorite</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.PhotosApp.XAPhotosMediaItem.favorite" title="Permalink to this definition"></a></dt>
+<dd><p>Whether the media item is favorited or not</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.PhotosApp.XAPhotosMediaItem.file_path">
+<span class="sig-name descname"><span class="pre">file_path</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.PhotosApp.XAPhotosMediaItem.file_path" title="Permalink to this definition"></a></dt>
+<dd><p>The path to the associated media file</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.PhotosApp.XAPhotosMediaItem.filename">
+<span class="sig-name descname"><span class="pre">filename</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.PhotosApp.XAPhotosMediaItem.filename" title="Permalink to this definition"></a></dt>
+<dd><p>The name of the associated media file</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.PhotosApp.XAPhotosMediaItem.height">
+<span class="sig-name descname"><span class="pre">height</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#PyXA.apps.PhotosApp.XAPhotosMediaItem.height" title="Permalink to this definition"></a></dt>
+<dd><p>The height of the media item in pixels</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.PhotosApp.XAPhotosMediaItem.id">
+<span class="sig-name descname"><span class="pre">id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.PhotosApp.XAPhotosMediaItem.id" title="Permalink to this definition"></a></dt>
+<dd><p>A unique identifier for this media item</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.PhotosApp.XAPhotosMediaItem.keywords">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">keywords</span></span><a class="headerlink" href="#PyXA.apps.PhotosApp.XAPhotosMediaItem.keywords" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.PhotosApp.XAPhotosMediaItem.kind">
+<span class="sig-name descname"><span class="pre">kind</span></span><a class="headerlink" href="#PyXA.apps.PhotosApp.XAPhotosMediaItem.kind" title="Permalink to this definition"></a></dt>
+<dd><p>The media type of the item (e.g. image or video)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.PhotosApp.XAPhotosMediaItem.location">
+<span class="sig-name descname"><span class="pre">location</span></span><a class="headerlink" href="#PyXA.apps.PhotosApp.XAPhotosMediaItem.location" title="Permalink to this definition"></a></dt>
+<dd><p>The location the media item was captured</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.PhotosApp.XAPhotosMediaItem.modified_date">
+<span class="sig-name descname"><span class="pre">modified_date</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">datetime.datetime</span></em><a class="headerlink" href="#PyXA.apps.PhotosApp.XAPhotosMediaItem.modified_date" title="Permalink to this definition"></a></dt>
+<dd><p>The date the item was last modified</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.PhotosApp.XAPhotosMediaItem.reveal_in_finder">
+<span class="sig-name descname"><span class="pre">reveal_in_finder</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/PhotosApp.html#XAPhotosMediaItem.reveal_in_finder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.PhotosApp.XAPhotosMediaItem.reveal_in_finder" title="Permalink to this definition"></a></dt>
+<dd><p>Opens a Finder window focused on the media item’s containing folder with the media item selected.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.PhotosApp.XAPhotosMediaItem.show">
+<span class="sig-name descname"><span class="pre">show</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/PhotosApp.html#XAPhotosMediaItem.show"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.PhotosApp.XAPhotosMediaItem.show" title="Permalink to this definition"></a></dt>
+<dd><p>Shows the media item in Photos.app.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.PhotosApp.XAPhotosMediaItem.show_in_preview">
+<span class="sig-name descname"><span class="pre">show_in_preview</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/PhotosApp.html#XAPhotosMediaItem.show_in_preview"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.PhotosApp.XAPhotosMediaItem.show_in_preview" title="Permalink to this definition"></a></dt>
+<dd><p>Opens the media item in Preview.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.PhotosApp.XAPhotosMediaItem.size">
+<span class="sig-name descname"><span class="pre">size</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#PyXA.apps.PhotosApp.XAPhotosMediaItem.size" title="Permalink to this definition"></a></dt>
+<dd><p>The file size of the media item in bytes</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.PhotosApp.XAPhotosMediaItem.title">
+<span class="sig-name descname"><span class="pre">title</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.PhotosApp.XAPhotosMediaItem.title" title="Permalink to this definition"></a></dt>
+<dd><p>The title of the media item</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.PhotosApp.XAPhotosMediaItem.width">
+<span class="sig-name descname"><span class="pre">width</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#PyXA.apps.PhotosApp.XAPhotosMediaItem.width" title="Permalink to this definition"></a></dt>
+<dd><p>The width of the media item in pixels</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="notes.html" class="btn btn-neutral float-left" title="Notes Module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="preview.html" class="btn btn-neutral float-right" title="Preview Module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Stephen Kaplan.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

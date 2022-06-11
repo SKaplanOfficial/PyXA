@@ -31,7 +31,7 @@ class XADictionaryApplication(XABase.XAApplication):
         :return: The definition of the word
         :rtype: str
 
-        .. versionadded: 0.0.2
+        .. versionadded:: 0.0.2
         """
         definition = DCSCopyTextDefinition(None, word, (0, len(word)))
         return definition

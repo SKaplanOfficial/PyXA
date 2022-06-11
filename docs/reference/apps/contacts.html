@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contacts Module &mdash; PyXA 0.0.2 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Dictionary Module" href="dictionary.html" />
+    <link rel="prev" title="XACalendarAttachment.open" href="../api/apps/calendar/XACalendarAttachment/PyXA.apps.Calendar.XACalendarAttachment.open.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> PyXA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../about/index.html">Project Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial/index.html">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Code Documentation and Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../index.html#top-level-pyxa-modules">Top-level PyXA Modules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#pyxa-base-modules">PyXA Base Modules</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html#application-modules">Application Modules</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="calculator.html">Calculator Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="calendar.html">Calendar Module</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Contacts Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dictionary.html">Dictionary Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="finder.html">Finder Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="messages.html">Messages Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="music.html">Music Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notes.html">Notes Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="photos.html">Photos Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="preview.html">Preview Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reminders.html">Reminders Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="safari.html">Safari Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="shortcuts.html">Shortcuts Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="terminal.html">Terminal Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="textedit.html">TextEdit Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tv.html">TV Module</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../bugs.html">Bugs</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">PyXA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">Code Documentation and Reference</a> &raquo;</li>
+      <li>Contacts Module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/reference/apps/contacts.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-PyXA.apps.Contacts">
+<span id="contacts-module"></span><h1>Contacts Module<a class="headerlink" href="#module-PyXA.apps.Contacts" title="Permalink to this headline"></a></h1>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+<p>Control the macOS Contacts application using JXA-like syntax.</p>
+<p><strong>Classes:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Contacts.XAContactEmailAddress" title="PyXA.apps.Contacts.XAContactEmailAddress"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAContactEmailAddress</span></code></a>(properties)</p></td>
+<td><p>A class for managing and interacting with email addresses of contacts in Contacts.app.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Contacts.XAContactGroup" title="PyXA.apps.Contacts.XAContactGroup"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAContactGroup</span></code></a>(properties)</p></td>
+<td><p>A class for managing and interacting with groups in Contacts.app.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Contacts.XAContactMessageAddress" title="PyXA.apps.Contacts.XAContactMessageAddress"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAContactMessageAddress</span></code></a>(properties)</p></td>
+<td><p>A class for managing and interacting with instant message addresses of contacts in Contacts.app.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Contacts.XAContactPerson" title="PyXA.apps.Contacts.XAContactPerson"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAContactPerson</span></code></a>(properties)</p></td>
+<td><p>A class for managing and interacting with individual contacts in Contacts.app.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Contacts.XAContactPhoneNumber" title="PyXA.apps.Contacts.XAContactPhoneNumber"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAContactPhoneNumber</span></code></a>(properties)</p></td>
+<td><p>A class for managing and interacting with phone numbers of contacts in Contacts.app.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Contacts.XAContactPostalAddress" title="PyXA.apps.Contacts.XAContactPostalAddress"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAContactPostalAddress</span></code></a>(properties)</p></td>
+<td><p>A class for managing and interacting with postal addresses of contacts in Contacts.app.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Contacts.XAContactURLAddress" title="PyXA.apps.Contacts.XAContactURLAddress"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAContactURLAddress</span></code></a>(properties)</p></td>
+<td><p>A class for managing and interacting with URL addresses of contacts in Contacts.app.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Contacts.XAContactsApplication" title="PyXA.apps.Contacts.XAContactsApplication"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAContactsApplication</span></code></a>(properties)</p></td>
+<td><p>A class for managing and interacting with Contacts.app.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.apps.Contacts.XAContactEmailAddress">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Contacts.</span></span><span class="sig-name descname"><span class="pre">XAContactEmailAddress</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Contacts.html#XAContactEmailAddress"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Contacts.XAContactEmailAddress" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XASBObject" title="PyXA.XABaseScriptable.XASBObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABaseScriptable.XASBObject</span></code></a></p>
+<p>A class for managing and interacting with email addresses of contacts in Contacts.app.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+<p><strong>Attributes:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Contacts.XAContactEmailAddress.id" title="PyXA.apps.Contacts.XAContactEmailAddress.id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">id</span></code></a></p></td>
+<td><p>A unique identifier for this address</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Contacts.XAContactEmailAddress.label" title="PyXA.apps.Contacts.XAContactEmailAddress.label"><code class="xref py py-obj docutils literal notranslate"><span class="pre">label</span></code></a></p></td>
+<td><p>The label, such as &quot;Work&quot;, given to this email address</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Contacts.XAContactEmailAddress.value" title="PyXA.apps.Contacts.XAContactEmailAddress.value"><code class="xref py py-obj docutils literal notranslate"><span class="pre">value</span></code></a></p></td>
+<td><p>The email address as a string</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.Contacts.XAContactEmailAddress.id">
+<span class="sig-name descname"><span class="pre">id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Contacts.XAContactEmailAddress.id" title="Permalink to this definition"></a></dt>
+<dd><p>A unique identifier for this address</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.Contacts.XAContactEmailAddress.label">
+<span class="sig-name descname"><span class="pre">label</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Contacts.XAContactEmailAddress.label" title="Permalink to this definition"></a></dt>
+<dd><p>The label, such as “Work”, given to this email address</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.Contacts.XAContactEmailAddress.value">
+<span class="sig-name descname"><span class="pre">value</span></span><a class="headerlink" href="#PyXA.apps.Contacts.XAContactEmailAddress.value" title="Permalink to this definition"></a></dt>
+<dd><p>The email address as a string</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.apps.Contacts.XAContactGroup">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Contacts.</span></span><span class="sig-name descname"><span class="pre">XAContactGroup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Contacts.html#XAContactGroup"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Contacts.XAContactGroup" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XASBPrintable" title="PyXA.XABaseScriptable.XASBPrintable"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABaseScriptable.XASBPrintable</span></code></a></p>
+<p>A class for managing and interacting with groups in Contacts.app.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+<p><strong>Attributes:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Contacts.XAContactGroup.id" title="PyXA.apps.Contacts.XAContactGroup.id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">id</span></code></a></p></td>
+<td><p>A unique identifier for this group</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.Contacts.XAContactGroup.creation_date">
+<span class="sig-name descname"><span class="pre">creation_date</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">datetime.datetime</span></em><a class="headerlink" href="#PyXA.apps.Contacts.XAContactGroup.creation_date" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.Contacts.XAContactGroup.id">
+<span class="sig-name descname"><span class="pre">id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Contacts.XAContactGroup.id" title="Permalink to this definition"></a></dt>
+<dd><p>A unique identifier for this group</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.Contacts.XAContactGroup.modification_date">
+<span class="sig-name descname"><span class="pre">modification_date</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">datetime.datetime</span></em><a class="headerlink" href="#PyXA.apps.Contacts.XAContactGroup.modification_date" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.Contacts.XAContactGroup.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Contacts.XAContactGroup.name" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.apps.Contacts.XAContactMessageAddress">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Contacts.</span></span><span class="sig-name descname"><span class="pre">XAContactMessageAddress</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Contacts.html#XAContactMessageAddress"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Contacts.XAContactMessageAddress" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XASBObject" title="PyXA.XABaseScriptable.XASBObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABaseScriptable.XASBObject</span></code></a></p>
+<p>A class for managing and interacting with instant message addresses of contacts in Contacts.app.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+<p><strong>Attributes:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Contacts.XAContactMessageAddress.id" title="PyXA.apps.Contacts.XAContactMessageAddress.id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">id</span></code></a></p></td>
+<td><p>A unique identifier for this address</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Contacts.XAContactMessageAddress.label" title="PyXA.apps.Contacts.XAContactMessageAddress.label"><code class="xref py py-obj docutils literal notranslate"><span class="pre">label</span></code></a></p></td>
+<td><p>The label, such as <cite>Other</cite>, given to this IM address</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Contacts.XAContactMessageAddress.service" title="PyXA.apps.Contacts.XAContactMessageAddress.service"><code class="xref py py-obj docutils literal notranslate"><span class="pre">service</span></code></a></p></td>
+<td><p>The IM service this address applies to</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Contacts.XAContactMessageAddress.username" title="PyXA.apps.Contacts.XAContactMessageAddress.username"><code class="xref py py-obj docutils literal notranslate"><span class="pre">username</span></code></a></p></td>
+<td><p>The user-provided username for this address entry</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.Contacts.XAContactMessageAddress.id">
+<span class="sig-name descname"><span class="pre">id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Contacts.XAContactMessageAddress.id" title="Permalink to this definition"></a></dt>
+<dd><p>A unique identifier for this address</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.Contacts.XAContactMessageAddress.label">
+<span class="sig-name descname"><span class="pre">label</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Contacts.XAContactMessageAddress.label" title="Permalink to this definition"></a></dt>
+<dd><p>The label, such as <cite>Other</cite>, given to this IM address</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.Contacts.XAContactMessageAddress.service">
+<span class="sig-name descname"><span class="pre">service</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Contacts.XAContactMessageAddress.service" title="Permalink to this definition"></a></dt>
+<dd><p>The IM service this address applies to</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.Contacts.XAContactMessageAddress.username">
+<span class="sig-name descname"><span class="pre">username</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Contacts.XAContactMessageAddress.username" title="Permalink to this definition"></a></dt>
+<dd><p>The user-provided username for this address entry</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.apps.Contacts.XAContactPerson">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Contacts.</span></span><span class="sig-name descname"><span class="pre">XAContactPerson</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Contacts.html#XAContactPerson"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Contacts.XAContactPerson" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XASBPrintable" title="PyXA.XABaseScriptable.XASBPrintable"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABaseScriptable.XASBPrintable</span></code></a></p>
+<p>A class for managing and interacting with individual contacts in Contacts.app.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+<p><strong>Methods:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Contacts.XAContactPerson.addresses" title="PyXA.apps.Contacts.XAContactPerson.addresses"><code class="xref py py-obj docutils literal notranslate"><span class="pre">addresses</span></code></a>()</p></td>
+<td><p>Gets a list of all addresses (of all types) associated with the contact.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Contacts.XAContactPerson.delete" title="PyXA.apps.Contacts.XAContactPerson.delete"><code class="xref py py-obj docutils literal notranslate"><span class="pre">delete</span></code></a>()</p></td>
+<td><p>Permanently deletes the contact.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Contacts.XAContactPerson.email_addresses" title="PyXA.apps.Contacts.XAContactPerson.email_addresses"><code class="xref py py-obj docutils literal notranslate"><span class="pre">email_addresses</span></code></a>()</p></td>
+<td><p>Gets a list of the contact's email addresses.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Contacts.XAContactPerson.message_addresses" title="PyXA.apps.Contacts.XAContactPerson.message_addresses"><code class="xref py py-obj docutils literal notranslate"><span class="pre">message_addresses</span></code></a>()</p></td>
+<td><p>Gets a list of the contact's instant message address objects.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Contacts.XAContactPerson.phone_numbers" title="PyXA.apps.Contacts.XAContactPerson.phone_numbers"><code class="xref py py-obj docutils literal notranslate"><span class="pre">phone_numbers</span></code></a>()</p></td>
+<td><p>Gets a list of phone numbers associated with the contact.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Contacts.XAContactPerson.postal_addresses" title="PyXA.apps.Contacts.XAContactPerson.postal_addresses"><code class="xref py py-obj docutils literal notranslate"><span class="pre">postal_addresses</span></code></a>()</p></td>
+<td><p>Gets a list of the contact's postal addresses.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Contacts.XAContactPerson.show" title="PyXA.apps.Contacts.XAContactPerson.show"><code class="xref py py-obj docutils literal notranslate"><span class="pre">show</span></code></a>()</p></td>
+<td><p>Shows the contact card for this contact in Contacts.app.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Contacts.XAContactPerson.url_addresses" title="PyXA.apps.Contacts.XAContactPerson.url_addresses"><code class="xref py py-obj docutils literal notranslate"><span class="pre">url_addresses</span></code></a>()</p></td>
+<td><p>Gets a list of the contact's URL address objects.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Contacts.XAContactPerson.vcard" title="PyXA.apps.Contacts.XAContactPerson.vcard"><code class="xref py py-obj docutils literal notranslate"><span class="pre">vcard</span></code></a>()</p></td>
+<td><p>Gets the vcard representation of the contact.</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Attributes:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Contacts.XAContactPerson.birthday" title="PyXA.apps.Contacts.XAContactPerson.birthday"><code class="xref py py-obj docutils literal notranslate"><span class="pre">birthday</span></code></a></p></td>
+<td><p>The contact's birthday</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Contacts.XAContactPerson.creation_date" title="PyXA.apps.Contacts.XAContactPerson.creation_date"><code class="xref py py-obj docutils literal notranslate"><span class="pre">creation_date</span></code></a></p></td>
+<td><p>The date the contact was created</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Contacts.XAContactPerson.family_name" title="PyXA.apps.Contacts.XAContactPerson.family_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">family_name</span></code></a></p></td>
+<td><p>The contact's last name</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Contacts.XAContactPerson.given_name" title="PyXA.apps.Contacts.XAContactPerson.given_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">given_name</span></code></a></p></td>
+<td><p>The contact's first name</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Contacts.XAContactPerson.id" title="PyXA.apps.Contacts.XAContactPerson.id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">id</span></code></a></p></td>
+<td><p>A unique identifier for this contact</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Contacts.XAContactPerson.job_title" title="PyXA.apps.Contacts.XAContactPerson.job_title"><code class="xref py py-obj docutils literal notranslate"><span class="pre">job_title</span></code></a></p></td>
+<td><p>The name of the contact's job position</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Contacts.XAContactPerson.middle_name" title="PyXA.apps.Contacts.XAContactPerson.middle_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">middle_name</span></code></a></p></td>
+<td><p>The contact's middle name</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Contacts.XAContactPerson.modification_date" title="PyXA.apps.Contacts.XAContactPerson.modification_date"><code class="xref py py-obj docutils literal notranslate"><span class="pre">modification_date</span></code></a></p></td>
+<td><p>The date the contact was last modified</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Contacts.XAContactPerson.name_prefix" title="PyXA.apps.Contacts.XAContactPerson.name_prefix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name_prefix</span></code></a></p></td>
+<td><p>The contact's title, such as Dr.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Contacts.XAContactPerson.name_suffix" title="PyXA.apps.Contacts.XAContactPerson.name_suffix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name_suffix</span></code></a></p></td>
+<td><p>Post-nominal letters such as PhD.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Contacts.XAContactPerson.nickname" title="PyXA.apps.Contacts.XAContactPerson.nickname"><code class="xref py py-obj docutils literal notranslate"><span class="pre">nickname</span></code></a></p></td>
+<td><p>The contact's nickname</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Contacts.XAContactPerson.addresses">
+<span class="sig-name descname"><span class="pre">addresses</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Contacts.XAContactPostalAddress" title="PyXA.apps.Contacts.XAContactPostalAddress"><span class="pre">PyXA.apps.Contacts.XAContactPostalAddress</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.apps.Contacts.XAContactEmailAddress" title="PyXA.apps.Contacts.XAContactEmailAddress"><span class="pre">PyXA.apps.Contacts.XAContactEmailAddress</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.apps.Contacts.XAContactMessageAddress" title="PyXA.apps.Contacts.XAContactMessageAddress"><span class="pre">PyXA.apps.Contacts.XAContactMessageAddress</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.apps.Contacts.XAContactURLAddress" title="PyXA.apps.Contacts.XAContactURLAddress"><span class="pre">PyXA.apps.Contacts.XAContactURLAddress</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Contacts.html#XAContactPerson.addresses"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Contacts.XAContactPerson.addresses" title="Permalink to this definition"></a></dt>
+<dd><p>Gets a list of all addresses (of all types) associated with the contact.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The list of addresses.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>List[Union[<a class="reference internal" href="#PyXA.apps.Contacts.XAContactPostalAddress" title="PyXA.apps.Contacts.XAContactPostalAddress">XAContactPostalAddress</a>, <a class="reference internal" href="#PyXA.apps.Contacts.XAContactEmailAddress" title="PyXA.apps.Contacts.XAContactEmailAddress">XAContactEmailAddress</a>, <a class="reference internal" href="#PyXA.apps.Contacts.XAContactMessageAddress" title="PyXA.apps.Contacts.XAContactMessageAddress">XAContactMessageAddress</a>, <a class="reference internal" href="#PyXA.apps.Contacts.XAContactURLAddress" title="PyXA.apps.Contacts.XAContactURLAddress">XAContactURLAddress</a>]]</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.Contacts.XAContactPerson.birthday">
+<span class="sig-name descname"><span class="pre">birthday</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">datetime.datetime</span></em><a class="headerlink" href="#PyXA.apps.Contacts.XAContactPerson.birthday" title="Permalink to this definition"></a></dt>
+<dd><p>The contact’s birthday</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.Contacts.XAContactPerson.creation_date">
+<span class="sig-name descname"><span class="pre">creation_date</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">datetime.datetime</span></em><a class="headerlink" href="#PyXA.apps.Contacts.XAContactPerson.creation_date" title="Permalink to this definition"></a></dt>
+<dd><p>The date the contact was created</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Contacts.XAContactPerson.delete">
+<span class="sig-name descname"><span class="pre">delete</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Contacts.html#XAContactPerson.delete"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Contacts.XAContactPerson.delete" title="Permalink to this definition"></a></dt>
+<dd><p>Permanently deletes the contact.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Contacts.XAContactPerson.email_addresses">
+<span class="sig-name descname"><span class="pre">email_addresses</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Contacts.XAContactEmailAddress" title="PyXA.apps.Contacts.XAContactEmailAddress"><span class="pre">PyXA.apps.Contacts.XAContactEmailAddress</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Contacts.html#XAContactPerson.email_addresses"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Contacts.XAContactPerson.email_addresses" title="Permalink to this definition"></a></dt>
+<dd><p>Gets a list of the contact’s email addresses.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The list of email addresses.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>List[<a class="reference internal" href="#PyXA.apps.Contacts.XAContactEmailAddress" title="PyXA.apps.Contacts.XAContactEmailAddress">XAContactEmailAddress</a>]</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.Contacts.XAContactPerson.family_name">
+<span class="sig-name descname"><span class="pre">family_name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Contacts.XAContactPerson.family_name" title="Permalink to this definition"></a></dt>
+<dd><p>The contact’s last name</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.Contacts.XAContactPerson.given_name">
+<span class="sig-name descname"><span class="pre">given_name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Contacts.XAContactPerson.given_name" title="Permalink to this definition"></a></dt>
+<dd><p>The contact’s first name</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.Contacts.XAContactPerson.id">
+<span class="sig-name descname"><span class="pre">id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Contacts.XAContactPerson.id" title="Permalink to this definition"></a></dt>
+<dd><p>A unique identifier for this contact</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.Contacts.XAContactPerson.job_title">
+<span class="sig-name descname"><span class="pre">job_title</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Contacts.XAContactPerson.job_title" title="Permalink to this definition"></a></dt>
+<dd><p>The name of the contact’s job position</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Contacts.XAContactPerson.message_addresses">
+<span class="sig-name descname"><span class="pre">message_addresses</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Contacts.XAContactMessageAddress" title="PyXA.apps.Contacts.XAContactMessageAddress"><span class="pre">PyXA.apps.Contacts.XAContactMessageAddress</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Contacts.html#XAContactPerson.message_addresses"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Contacts.XAContactPerson.message_addresses" title="Permalink to this definition"></a></dt>
+<dd><p>Gets a list of the contact’s instant message address objects.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The list of instant message addresses.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>List[<a class="reference internal" href="#PyXA.apps.Contacts.XAContactMessageAddress" title="PyXA.apps.Contacts.XAContactMessageAddress">XAContactMessageAddress</a>]</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.Contacts.XAContactPerson.middle_name">
+<span class="sig-name descname"><span class="pre">middle_name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Contacts.XAContactPerson.middle_name" title="Permalink to this definition"></a></dt>
+<dd><p>The contact’s middle name</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.Contacts.XAContactPerson.modification_date">
+<span class="sig-name descname"><span class="pre">modification_date</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">datetime.datetime</span></em><a class="headerlink" href="#PyXA.apps.Contacts.XAContactPerson.modification_date" title="Permalink to this definition"></a></dt>
+<dd><p>The date the contact was last modified</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.Contacts.XAContactPerson.name_prefix">
+<span class="sig-name descname"><span class="pre">name_prefix</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Contacts.XAContactPerson.name_prefix" title="Permalink to this definition"></a></dt>
+<dd><p>The contact’s title, such as Dr.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.Contacts.XAContactPerson.name_suffix">
+<span class="sig-name descname"><span class="pre">name_suffix</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Contacts.XAContactPerson.name_suffix" title="Permalink to this definition"></a></dt>
+<dd><p>Post-nominal letters such as PhD. or III</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.Contacts.XAContactPerson.nickname">
+<span class="sig-name descname"><span class="pre">nickname</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Contacts.XAContactPerson.nickname" title="Permalink to this definition"></a></dt>
+<dd><p>The contact’s nickname</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.Contacts.XAContactPerson.note">
+<span class="sig-name descname"><span class="pre">note</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Contacts.XAContactPerson.note" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.Contacts.XAContactPerson.organization_name">
+<span class="sig-name descname"><span class="pre">organization_name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Contacts.XAContactPerson.organization_name" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Contacts.XAContactPerson.phone_numbers">
+<span class="sig-name descname"><span class="pre">phone_numbers</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Contacts.XAContactPhoneNumber" title="PyXA.apps.Contacts.XAContactPhoneNumber"><span class="pre">PyXA.apps.Contacts.XAContactPhoneNumber</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Contacts.html#XAContactPerson.phone_numbers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Contacts.XAContactPerson.phone_numbers" title="Permalink to this definition"></a></dt>
+<dd><p>Gets a list of phone numbers associated with the contact.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The list of phone numbers.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#PyXA.apps.Contacts.XAContactPhoneNumber" title="PyXA.apps.Contacts.XAContactPhoneNumber">XAContactPhoneNumber</a></p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Contacts.XAContactPerson.postal_addresses">
+<span class="sig-name descname"><span class="pre">postal_addresses</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Contacts.XAContactPostalAddress" title="PyXA.apps.Contacts.XAContactPostalAddress"><span class="pre">PyXA.apps.Contacts.XAContactPostalAddress</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Contacts.html#XAContactPerson.postal_addresses"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Contacts.XAContactPerson.postal_addresses" title="Permalink to this definition"></a></dt>
+<dd><p>Gets a list of the contact’s postal addresses.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The list of postal addresses.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>List[<a class="reference internal" href="#PyXA.apps.Contacts.XAContactPostalAddress" title="PyXA.apps.Contacts.XAContactPostalAddress">XAContactPostalAddress</a>]</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Contacts.XAContactPerson.show">
+<span class="sig-name descname"><span class="pre">show</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Contacts.html#XAContactPerson.show"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Contacts.XAContactPerson.show" title="Permalink to this definition"></a></dt>
+<dd><p>Shows the contact card for this contact in Contacts.app.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.Contacts.XAContactPerson.sorting_family_name">
+<span class="sig-name descname"><span class="pre">sorting_family_name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Contacts.XAContactPerson.sorting_family_name" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.Contacts.XAContactPerson.sorting_given_name">
+<span class="sig-name descname"><span class="pre">sorting_given_name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Contacts.XAContactPerson.sorting_given_name" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Contacts.XAContactPerson.url_addresses">
+<span class="sig-name descname"><span class="pre">url_addresses</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Contacts.XAContactURLAddress" title="PyXA.apps.Contacts.XAContactURLAddress"><span class="pre">PyXA.apps.Contacts.XAContactURLAddress</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Contacts.html#XAContactPerson.url_addresses"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Contacts.XAContactPerson.url_addresses" title="Permalink to this definition"></a></dt>
+<dd><p>Gets a list of the contact’s URL address objects.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The list of URL addresses.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>List[<a class="reference internal" href="#PyXA.apps.Contacts.XAContactURLAddress" title="PyXA.apps.Contacts.XAContactURLAddress">XAContactURLAddress</a>]</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Contacts.XAContactPerson.vcard">
+<span class="sig-name descname"><span class="pre">vcard</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bytes</span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Contacts.html#XAContactPerson.vcard"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Contacts.XAContactPerson.vcard" title="Permalink to this definition"></a></dt>
+<dd><p>Gets the vcard representation of the contact.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The vcard format of the contact in bytes.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>bytes</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.apps.Contacts.XAContactPhoneNumber">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Contacts.</span></span><span class="sig-name descname"><span class="pre">XAContactPhoneNumber</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Contacts.html#XAContactPhoneNumber"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Contacts.XAContactPhoneNumber" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XASBObject" title="PyXA.XABaseScriptable.XASBObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABaseScriptable.XASBObject</span></code></a></p>
+<p>A class for managing and interacting with phone numbers of contacts in Contacts.app.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+<p><strong>Attributes:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Contacts.XAContactPhoneNumber.country_code" title="PyXA.apps.Contacts.XAContactPhoneNumber.country_code"><code class="xref py py-obj docutils literal notranslate"><span class="pre">country_code</span></code></a></p></td>
+<td><p>The user-specified country code</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Contacts.XAContactPhoneNumber.id" title="PyXA.apps.Contacts.XAContactPhoneNumber.id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">id</span></code></a></p></td>
+<td><p>A unique identifier for this phone number</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Contacts.XAContactPhoneNumber.label" title="PyXA.apps.Contacts.XAContactPhoneNumber.label"><code class="xref py py-obj docutils literal notranslate"><span class="pre">label</span></code></a></p></td>
+<td><p>The label, such as <cite>Home</cite>, given to this phone number</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Contacts.XAContactPhoneNumber.value" title="PyXA.apps.Contacts.XAContactPhoneNumber.value"><code class="xref py py-obj docutils literal notranslate"><span class="pre">value</span></code></a></p></td>
+<td><p>The phone number as a string</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.Contacts.XAContactPhoneNumber.country_code">
+<span class="sig-name descname"><span class="pre">country_code</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Contacts.XAContactPhoneNumber.country_code" title="Permalink to this definition"></a></dt>
+<dd><p>The user-specified country code</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.Contacts.XAContactPhoneNumber.id">
+<span class="sig-name descname"><span class="pre">id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Contacts.XAContactPhoneNumber.id" title="Permalink to this definition"></a></dt>
+<dd><p>A unique identifier for this phone number</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.Contacts.XAContactPhoneNumber.label">
+<span class="sig-name descname"><span class="pre">label</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Contacts.XAContactPhoneNumber.label" title="Permalink to this definition"></a></dt>
+<dd><p>The label, such as <cite>Home</cite>, given to this phone number</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.Contacts.XAContactPhoneNumber.value">
+<span class="sig-name descname"><span class="pre">value</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Contacts.XAContactPhoneNumber.value" title="Permalink to this definition"></a></dt>
+<dd><p>The phone number as a string</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.apps.Contacts.XAContactPostalAddress">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Contacts.</span></span><span class="sig-name descname"><span class="pre">XAContactPostalAddress</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Contacts.html#XAContactPostalAddress"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Contacts.XAContactPostalAddress" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XASBObject" title="PyXA.XABaseScriptable.XASBObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABaseScriptable.XASBObject</span></code></a></p>
+<p>A class for managing and interacting with postal addresses of contacts in Contacts.app.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+<p><strong>Attributes:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Contacts.XAContactPostalAddress.id" title="PyXA.apps.Contacts.XAContactPostalAddress.id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">id</span></code></a></p></td>
+<td><p>A unique identifier for this address</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.Contacts.XAContactPostalAddress.city">
+<span class="sig-name descname"><span class="pre">city</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Contacts.XAContactPostalAddress.city" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.Contacts.XAContactPostalAddress.country">
+<span class="sig-name descname"><span class="pre">country</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Contacts.XAContactPostalAddress.country" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.Contacts.XAContactPostalAddress.country_code">
+<span class="sig-name descname"><span class="pre">country_code</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Contacts.XAContactPostalAddress.country_code" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.Contacts.XAContactPostalAddress.id">
+<span class="sig-name descname"><span class="pre">id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Contacts.XAContactPostalAddress.id" title="Permalink to this definition"></a></dt>
+<dd><p>A unique identifier for this address</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.Contacts.XAContactPostalAddress.label">
+<span class="sig-name descname"><span class="pre">label</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Contacts.XAContactPostalAddress.label" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.Contacts.XAContactPostalAddress.postal_code">
+<span class="sig-name descname"><span class="pre">postal_code</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Contacts.XAContactPostalAddress.postal_code" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.Contacts.XAContactPostalAddress.state">
+<span class="sig-name descname"><span class="pre">state</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Contacts.XAContactPostalAddress.state" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.Contacts.XAContactPostalAddress.street">
+<span class="sig-name descname"><span class="pre">street</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Contacts.XAContactPostalAddress.street" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.Contacts.XAContactPostalAddress.sub_administrative_area">
+<span class="sig-name descname"><span class="pre">sub_administrative_area</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Contacts.XAContactPostalAddress.sub_administrative_area" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.Contacts.XAContactPostalAddress.sub_locality">
+<span class="sig-name descname"><span class="pre">sub_locality</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Contacts.XAContactPostalAddress.sub_locality" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.apps.Contacts.XAContactURLAddress">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Contacts.</span></span><span class="sig-name descname"><span class="pre">XAContactURLAddress</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Contacts.html#XAContactURLAddress"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Contacts.XAContactURLAddress" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XASBObject" title="PyXA.XABaseScriptable.XASBObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABaseScriptable.XASBObject</span></code></a></p>
+<p>A class for managing and interacting with URL addresses of contacts in Contacts.app.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+<p><strong>Attributes:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Contacts.XAContactURLAddress.id" title="PyXA.apps.Contacts.XAContactURLAddress.id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">id</span></code></a></p></td>
+<td><p>A unique identifier for this address</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Contacts.XAContactURLAddress.label" title="PyXA.apps.Contacts.XAContactURLAddress.label"><code class="xref py py-obj docutils literal notranslate"><span class="pre">label</span></code></a></p></td>
+<td><p>The label, such as <cite>Homepage</cite>, given to this URL</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Contacts.XAContactURLAddress.value" title="PyXA.apps.Contacts.XAContactURLAddress.value"><code class="xref py py-obj docutils literal notranslate"><span class="pre">value</span></code></a></p></td>
+<td><p>The URL as a string</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.Contacts.XAContactURLAddress.id">
+<span class="sig-name descname"><span class="pre">id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Contacts.XAContactURLAddress.id" title="Permalink to this definition"></a></dt>
+<dd><p>A unique identifier for this address</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.Contacts.XAContactURLAddress.label">
+<span class="sig-name descname"><span class="pre">label</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Contacts.XAContactURLAddress.label" title="Permalink to this definition"></a></dt>
+<dd><p>The label, such as <cite>Homepage</cite>, given to this URL</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.Contacts.XAContactURLAddress.value">
+<span class="sig-name descname"><span class="pre">value</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Contacts.XAContactURLAddress.value" title="Permalink to this definition"></a></dt>
+<dd><p>The URL as a string</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.apps.Contacts.XAContactsApplication">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Contacts.</span></span><span class="sig-name descname"><span class="pre">XAContactsApplication</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Contacts.html#XAContactsApplication"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Contacts.XAContactsApplication" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XASBApplication" title="PyXA.XABaseScriptable.XASBApplication"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABaseScriptable.XASBApplication</span></code></a></p>
+<p>A class for managing and interacting with Contacts.app.</p>
+<blockquote>
+<div><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#PyXA.apps.Contacts.XAContactGroup" title="PyXA.apps.Contacts.XAContactGroup"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAContactGroup</span></code></a>, <a class="reference internal" href="#PyXA.apps.Contacts.XAContactPerson" title="PyXA.apps.Contacts.XAContactPerson"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAContactPerson</span></code></a></p>
+</div>
+</div></blockquote>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+<p><strong>Methods:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Contacts.XAContactsApplication.contacts" title="PyXA.apps.Contacts.XAContactsApplication.contacts"><code class="xref py py-obj docutils literal notranslate"><span class="pre">contacts</span></code></a>([filter])</p></td>
+<td><p>Returns a list of contacts matching the filter.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Contacts.XAContactsApplication.groups" title="PyXA.apps.Contacts.XAContactsApplication.groups"><code class="xref py py-obj docutils literal notranslate"><span class="pre">groups</span></code></a>([filter])</p></td>
+<td><p>Returns a list of groups matching the filter.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Contacts.XAContactsApplication.new_contact" title="PyXA.apps.Contacts.XAContactsApplication.new_contact"><code class="xref py py-obj docutils literal notranslate"><span class="pre">new_contact</span></code></a>(properties)</p></td>
+<td><p>Creates a new contact.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Contacts.XAContactsApplication.selection" title="PyXA.apps.Contacts.XAContactsApplication.selection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">selection</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Contacts.XAContactsApplication.contacts">
+<span class="sig-name descname"><span class="pre">contacts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Contacts.XAContactPerson" title="PyXA.apps.Contacts.XAContactPerson"><span class="pre">PyXA.apps.Contacts.XAContactPerson</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Contacts.html#XAContactsApplication.contacts"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Contacts.XAContactsApplication.contacts" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a list of contacts matching the filter.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Contacts.XAContactsApplication.groups">
+<span class="sig-name descname"><span class="pre">groups</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Contacts.XAContactGroup" title="PyXA.apps.Contacts.XAContactGroup"><span class="pre">PyXA.apps.Contacts.XAContactGroup</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Contacts.html#XAContactsApplication.groups"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Contacts.XAContactsApplication.groups" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a list of groups matching the filter.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Contacts.XAContactsApplication.new_contact">
+<span class="sig-name descname"><span class="pre">new_contact</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Contacts.XAContactPerson" title="PyXA.apps.Contacts.XAContactPerson"><span class="pre">PyXA.apps.Contacts.XAContactPerson</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Contacts.html#XAContactsApplication.new_contact"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Contacts.XAContactsApplication.new_contact" title="Permalink to this definition"></a></dt>
+<dd><p>Creates a new contact.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>properties</strong> (<em>dict</em>) – Properties and values to give to the new contact</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The newly created PyXA contact object.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#PyXA.apps.Contacts.XAContactPerson" title="PyXA.apps.Contacts.XAContactPerson">XAContactPerson</a></p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Contacts.XAContactsApplication.selection">
+<span class="sig-name descname"><span class="pre">selection</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Contacts.html#XAContactsApplication.selection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Contacts.XAContactsApplication.selection" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../api/apps/calendar/XACalendarAttachment/PyXA.apps.Calendar.XACalendarAttachment.open.html" class="btn btn-neutral float-left" title="XACalendarAttachment.open" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="dictionary.html" class="btn btn-neutral float-right" title="Dictionary Module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Stephen Kaplan.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

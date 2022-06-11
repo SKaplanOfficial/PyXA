@@ -106,16 +106,12 @@
     <span class="k">def</span> <span class="nf">chats</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;XAChat&#39;</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Returns a list of chats matching the filter.</span>
 
-<span class="sd">        .. seealso:: :func:`scriptable_elements`</span>
-
 <span class="sd">        .. versionadded:: 0.0.1</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">scriptable_elements</span><span class="p">(</span><span class="s2">&quot;chats&quot;</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XAChat</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">chat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">dict</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAChat&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Returns the first chat that matches the filter.</span>
-
-<span class="sd">        .. seealso:: :func:`scriptable_element_with_properties`</span>
 
 <span class="sd">        .. versionadded:: 0.0.1</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -124,16 +120,12 @@
     <span class="k">def</span> <span class="nf">first_chat</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAChat&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Returns the chat at the first index of the chats array.</span>
 
-<span class="sd">        .. seealso:: :func:`first_scriptable_element`</span>
-
 <span class="sd">        .. versionadded:: 0.0.1</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">first_scriptable_element</span><span class="p">(</span><span class="s2">&quot;chats&quot;</span><span class="p">,</span> <span class="n">XAChat</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">last_chat</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAChat&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Returns the chat at the last (-1) index of the chats array.</span>
-
-<span class="sd">        .. seealso:: :func:`last_scriptable_element`</span>
 
 <span class="sd">        .. versionadded:: 0.0.1</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -148,16 +140,12 @@
     <span class="k">def</span> <span class="nf">file_transfers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;XAMessagesFileTransfer&#39;</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Returns a list of file transfers matching the filter.</span>
 
-<span class="sd">        .. seealso:: :func:`scriptable_elements`</span>
-
 <span class="sd">        .. versionadded:: 0.0.1</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">scriptable_elements</span><span class="p">(</span><span class="s2">&quot;fileTransfers&quot;</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XAMessagesFileTransfer</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">file_transfer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">dict</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAMessagesFileTransfer&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Returns the first file transfer that matches the filter.</span>
-
-<span class="sd">        .. seealso:: :func:`scriptable_element_with_properties`</span>
 
 <span class="sd">        .. versionadded:: 0.0.1</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -166,16 +154,12 @@
     <span class="k">def</span> <span class="nf">first_file_transfer</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAMessagesFileTransfer&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Returns the file transfer at the first index of the file transfers array.</span>
 
-<span class="sd">        .. seealso:: :func:`first_scriptable_element`</span>
-
 <span class="sd">        .. versionadded:: 0.0.1</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">first_scriptable_element</span><span class="p">(</span><span class="s2">&quot;fileTransfers&quot;</span><span class="p">,</span> <span class="n">XAMessagesFileTransfer</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">last_file_transfer</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAMessagesFileTransfer&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Returns the file transfer at the last (-1) index of the file transfers array.</span>
-
-<span class="sd">        .. seealso:: :func:`last_scriptable_element`</span>
 
 <span class="sd">        .. versionadded:: 0.0.1</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -190,16 +174,12 @@
     <span class="k">def</span> <span class="nf">participants</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;XAMessagesParticipant&#39;</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Returns a list of participants matching the filter.</span>
 
-<span class="sd">        .. seealso:: :func:`scriptable_elements`</span>
-
 <span class="sd">        .. versionadded:: 0.0.1</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">scriptable_elements</span><span class="p">(</span><span class="s2">&quot;participants&quot;</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XAMessagesParticipant</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">participant</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">dict</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAMessagesParticipant&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Returns the first participant that matches the filter.</span>
-
-<span class="sd">        .. seealso:: :func:`scriptable_element_with_properties`</span>
 
 <span class="sd">        .. versionadded:: 0.0.1</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -208,16 +188,12 @@
     <span class="k">def</span> <span class="nf">first_participant</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAMessagesParticipant&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Returns the participant at the first index of the participants array.</span>
 
-<span class="sd">        .. seealso:: :func:`first_scriptable_element`</span>
-
 <span class="sd">        .. versionadded:: 0.0.1</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">first_scriptable_element</span><span class="p">(</span><span class="s2">&quot;participants&quot;</span><span class="p">,</span> <span class="n">XAMessagesParticipant</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">last_participant</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAMessagesParticipant&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Returns the participant at the last (-1) index of the participants array.</span>
-
-<span class="sd">        .. seealso:: :func:`last_scriptable_element`</span>
 
 <span class="sd">        .. versionadded:: 0.0.1</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -232,16 +208,12 @@
     <span class="k">def</span> <span class="nf">accounts</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;XAMessagesAccount&#39;</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Returns a list of accounts matching the filter.</span>
 
-<span class="sd">        .. seealso:: :func:`scriptable_elements`</span>
-
 <span class="sd">        .. versionadded:: 0.0.1</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">scriptable_elements</span><span class="p">(</span><span class="s2">&quot;accounts&quot;</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XAMessagesAccount</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">account</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">dict</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAMessagesAccount&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Returns the first account that matches the filter.</span>
-
-<span class="sd">        .. seealso:: :func:`scriptable_element_with_properties`</span>
 
 <span class="sd">        .. versionadded:: 0.0.1</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -250,16 +222,12 @@
     <span class="k">def</span> <span class="nf">first_account</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAMessagesAccount&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Returns the account at the first index of the accounts array.</span>
 
-<span class="sd">        .. seealso:: :func:`first_scriptable_element`</span>
-
 <span class="sd">        .. versionadded:: 0.0.1</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">first_scriptable_element</span><span class="p">(</span><span class="s2">&quot;accounts&quot;</span><span class="p">,</span> <span class="n">XAMessagesAccount</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">last_account</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAMessagesAccount&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Returns the account at the last (-1) index of the accounts array.</span>
-
-<span class="sd">        .. seealso:: :func:`last_scriptable_element`</span>
 
 <span class="sd">        .. versionadded:: 0.0.1</span>
 <span class="sd">        &quot;&quot;&quot;</span>

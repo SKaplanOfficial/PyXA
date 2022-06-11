@@ -319,16 +319,12 @@
 <div class="viewcode-block" id="XAMusicApplication.tracks"><a class="viewcode-back" href="../../../reference/apps/music.html#PyXA.apps.Music.XAMusicApplication.tracks">[docs]</a>    <span class="k">def</span> <span class="nf">tracks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;XAMediaTrack&#39;</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Returns a list of tracks matching the filter.</span>
 
-<span class="sd">        .. seealso:: :func:`scriptable_elements`</span>
-
 <span class="sd">        .. versionadded:: 0.0.1</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">scriptable_elements</span><span class="p">(</span><span class="s2">&quot;tracks&quot;</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XAMediaTrack</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="XAMusicApplication.track"><a class="viewcode-back" href="../../../reference/apps/music.html#PyXA.apps.Music.XAMusicApplication.track">[docs]</a>    <span class="k">def</span> <span class="nf">track</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">dict</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAMediaTrack&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Returns the first track that matches the filter.</span>
-
-<span class="sd">        .. seealso:: :func:`scriptable_element_with_properties`</span>
 
 <span class="sd">        .. versionadded:: 0.0.1</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -337,16 +333,12 @@
 <div class="viewcode-block" id="XAMusicApplication.first_track"><a class="viewcode-back" href="../../../reference/apps/music.html#PyXA.apps.Music.XAMusicApplication.first_track">[docs]</a>    <span class="k">def</span> <span class="nf">first_track</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAMediaTrack&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Returns the track at the first index of the tracks array.</span>
 
-<span class="sd">        .. seealso:: :func:`first_scriptable_element`</span>
-
 <span class="sd">        .. versionadded:: 0.0.1</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">first_scriptable_element</span><span class="p">(</span><span class="s2">&quot;tracks&quot;</span><span class="p">,</span> <span class="n">XAMediaTrack</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="XAMusicApplication.last_track"><a class="viewcode-back" href="../../../reference/apps/music.html#PyXA.apps.Music.XAMusicApplication.last_track">[docs]</a>    <span class="k">def</span> <span class="nf">last_track</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAMediaTrack&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Returns the track at the last (-1) index of the tracks array.</span>
-
-<span class="sd">        .. seealso:: :func:`last_scriptable_element`</span>
 
 <span class="sd">        .. versionadded:: 0.0.1</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -371,16 +363,12 @@
 <div class="viewcode-block" id="XAMusicApplication.playlists"><a class="viewcode-back" href="../../../reference/apps/music.html#PyXA.apps.Music.XAMusicApplication.playlists">[docs]</a>    <span class="k">def</span> <span class="nf">playlists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;XAMediaPlaylist&#39;</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Returns a list of playlists matching the filter.</span>
 
-<span class="sd">        .. seealso:: :func:`scriptable_elements`</span>
-
 <span class="sd">        .. versionadded:: 0.0.1</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">scriptable_elements</span><span class="p">(</span><span class="s2">&quot;playlists&quot;</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XAMediaPlaylist</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="XAMusicApplication.playlist"><a class="viewcode-back" href="../../../reference/apps/music.html#PyXA.apps.Music.XAMusicApplication.playlist">[docs]</a>    <span class="k">def</span> <span class="nf">playlist</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">dict</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAMediaPlaylist&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Returns the first playlist that matches the filter.</span>
-
-<span class="sd">        .. seealso:: :func:`scriptable_element_with_properties`</span>
 
 <span class="sd">        .. versionadded:: 0.0.1</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -389,16 +377,12 @@
 <div class="viewcode-block" id="XAMusicApplication.first_playlist"><a class="viewcode-back" href="../../../reference/apps/music.html#PyXA.apps.Music.XAMusicApplication.first_playlist">[docs]</a>    <span class="k">def</span> <span class="nf">first_playlist</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAMediaPlaylist&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Returns the playlist at the first index of the playlists array.</span>
 
-<span class="sd">        .. seealso:: :func:`first_scriptable_element`</span>
-
 <span class="sd">        .. versionadded:: 0.0.1</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">first_scriptable_element</span><span class="p">(</span><span class="s2">&quot;playlists&quot;</span><span class="p">,</span> <span class="n">XAMediaPlaylist</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="XAMusicApplication.last_playlist"><a class="viewcode-back" href="../../../reference/apps/music.html#PyXA.apps.Music.XAMusicApplication.last_playlist">[docs]</a>    <span class="k">def</span> <span class="nf">last_playlist</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAMediaPlaylist&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Returns the playlist at the last (-1) index of the playlists array.</span>
-
-<span class="sd">        .. seealso:: :func:`last_scriptable_element`</span>
 
 <span class="sd">        .. versionadded:: 0.0.1</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -467,8 +451,6 @@
 <div class="viewcode-block" id="XAMediaPlaylist"><a class="viewcode-back" href="../../../reference/apps/music.html#PyXA.apps.Music.XAMediaPlaylist">[docs]</a><span class="k">class</span> <span class="nc">XAMediaPlaylist</span><span class="p">(</span><span class="n">XAMediaItem</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAHasElements</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A class for managing and interacting with playlists in Music.app.</span>
 
-<span class="sd">    .. seealso:: :class:`XAMediaItem`</span>
-
 <span class="sd">    .. versionadded:: 0.0.1</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
@@ -477,16 +459,12 @@
 <div class="viewcode-block" id="XAMediaPlaylist.tracks"><a class="viewcode-back" href="../../../reference/apps/music.html#PyXA.apps.Music.XAMediaPlaylist.tracks">[docs]</a>    <span class="k">def</span> <span class="nf">tracks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;XAMediaTrack&#39;</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Returns a list of tracks matching the filter.</span>
 
-<span class="sd">        .. seealso:: :func:`elements`</span>
-
 <span class="sd">        .. versionadded:: 0.0.1</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">elements</span><span class="p">(</span><span class="s2">&quot;tracks&quot;</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XAMediaTrack</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="XAMediaPlaylist.track"><a class="viewcode-back" href="../../../reference/apps/music.html#PyXA.apps.Music.XAMediaPlaylist.track">[docs]</a>    <span class="k">def</span> <span class="nf">track</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">dict</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAMediaTrack&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Returns the first track that matches the filter.</span>
-
-<span class="sd">        .. seealso:: :func:`element_with_properties`</span>
 
 <span class="sd">        .. versionadded:: 0.0.1</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -495,16 +473,12 @@
 <div class="viewcode-block" id="XAMediaPlaylist.first_track"><a class="viewcode-back" href="../../../reference/apps/music.html#PyXA.apps.Music.XAMediaPlaylist.first_track">[docs]</a>    <span class="k">def</span> <span class="nf">first_track</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAMediaTrack&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Returns the track at the first index of the tracks array.</span>
 
-<span class="sd">        .. seealso:: :func:`first_element`</span>
-
 <span class="sd">        .. versionadded:: 0.0.1</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">first_element</span><span class="p">(</span><span class="s2">&quot;tracks&quot;</span><span class="p">,</span> <span class="n">XAMediaTrack</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="XAMediaPlaylist.last_track"><a class="viewcode-back" href="../../../reference/apps/music.html#PyXA.apps.Music.XAMediaPlaylist.last_track">[docs]</a>    <span class="k">def</span> <span class="nf">last_track</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAMediaTrack&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Returns the track at the last (-1) index of the tracks array.</span>
-
-<span class="sd">        .. seealso:: :func:`last_element`</span>
 
 <span class="sd">        .. versionadded:: 0.0.1</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -513,8 +487,6 @@
 
 <div class="viewcode-block" id="XAMediaTrack"><a class="viewcode-back" href="../../../reference/apps/music.html#PyXA.apps.Music.XAMediaTrack">[docs]</a><span class="k">class</span> <span class="nc">XAMediaTrack</span><span class="p">(</span><span class="n">XAMediaItem</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A class for managing and interacting with tracks in Music.app.</span>
-
-<span class="sd">    .. seealso:: :class:`XAMediaItem`</span>
 
 <span class="sd">    .. versionadded:: 0.0.1</span>
 <span class="sd">    &quot;&quot;&quot;</span>

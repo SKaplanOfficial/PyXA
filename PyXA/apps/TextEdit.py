@@ -35,16 +35,12 @@ class XATextEditApplication(XABaseScriptable.XASBApplication, XABase.XACanConstr
     def documents(self, filter: dict = None) -> List['XATextEditDocument']:
         """Returns a list of documents matching the filter.
 
-        .. seealso:: :func:`scriptable_elements`
-
         .. versionadded:: 0.0.1
         """
         return self.scriptable_elements("documents", filter, XATextEditDocument)
 
     def document(self, filter: Union[int, dict]) -> 'XATextEditDocument':
         """Returns the first document that matches the filter.
-
-        .. seealso:: :func:`scriptable_element_with_properties`
 
         .. versionadded:: 0.0.1
         """
@@ -53,16 +49,12 @@ class XATextEditApplication(XABaseScriptable.XASBApplication, XABase.XACanConstr
     def first_document(self) -> 'XATextEditDocument':
         """Returns the document at the first index of the documents array.
 
-        .. seealso:: :func:`first_scriptable_element`
-
         .. versionadded:: 0.0.1
         """
         return self.first_scriptable_element("documents", XATextEditDocument)
 
     def last_document(self) -> 'XATextEditDocument':
         """Returns the document at the last (-1) index of the documents array.
-
-        .. seealso:: :func:`last_scriptable_element`
 
         .. versionadded:: 0.0.1
         """

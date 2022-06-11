@@ -1,4 +1,4 @@
-<img src="./reference/source/_static/assets/PyXALogoTransparent.png" alt="The dark logo for PyXA" height="250px">
+<img src="./sphinx/source/_static/assets/PyXALogoTransparent.png" alt="The dark logo for PyXA" height="250px">
 
 # Python for Automation
 Python for Automation, or PyXA for short, is a wrapper around Apple's Scripting Bridge framework that enables AppleScript- and JXA-like control over macOS applications from within Python. PyXA delivers intuitive application scripting by mapping existing AppleScript specifiers and commands, defined in sdef files, to per-application Python classes and associated methods. PyXA then expands on the capabilities of AppleScript by interfacing with low-level Objective-C frameworks.
@@ -90,7 +90,7 @@ notes.new_note(f"<h1>Agenda for {end_date}</h1>", note_text)
 ```
 When run, the above script creates a note in the Notes application similar to the following:
 
-![A note in the Notes app showing a summary of reminders and events for the day](./reference/source/_static/assets/Example3_Notes.png)
+![A note in the Notes app showing a summary of reminders and events for the day](./sphinx/source/_static/assets/Example3_Notes.png)
 
 # Installation
 To install the latest version of PyXA on macOS, use the following pip command:
@@ -99,7 +99,7 @@ python -m pip install mac-pyxa
 ```
 
 # Documentation
-The best way to learn about PyXA is to visit the [Reference](./reference/build/html/index.html) section of this repository. From there, you can find tutorials, examples, in-depth class and method documentation, and additional resources.
+The best way to learn about PyXA is to visit the [Reference](./docs/index.html) section of this repository. From there, you can find tutorials, examples, in-depth class and method documentation, and additional resources.
 
 For further help, consider joining the (PyXA Discord Server](https://discord.gg/Crypg65dxK) and asking your questions there.
 
@@ -111,7 +111,7 @@ For further help, consider joining the (PyXA Discord Server](https://discord.gg/
 Limitations of specific applications and methods are noted in their respective reference documents.
 
 # Contributing
-Contributions are welcome, big or small. Please refer to the [Contributing Guidelines](./reference/build/html/about/contributing_guidelines.html) for any contributions larger than a spelling correction. For small fixes such as spelling corrections, no issue needs to be created; you can go right to making a pull request. Other small issues include general grammar fixes, short comment additions, and formatting (whitespace) changes.
+Contributions are welcome, big or small. Please refer to the [Contributing Guidelines](./docs/about/contributing_guidelines.html) for any contributions larger than a spelling correction. For small fixes such as spelling corrections, no issue needs to be created; you can go right to making a pull request. Other small issues include general grammar fixes, short comment additions, and formatting (whitespace) changes.
 
 # Contact
 If you have any questions about PyXA that are not addressed in the documentation, or if you just want to talk, feel free to email [stephen.kaplan@maine.edu](mailto:stephen.kaplan@maine.edu).

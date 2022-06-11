@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PyXA.apps.Contacts &mdash; PyXA 0.0.2 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> PyXA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../about/index.html">Project Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reference/index.html">Code Documentation and Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../bugs.html">Bugs</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">PyXA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      <li>PyXA.apps.Contacts</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for PyXA.apps.Contacts</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;.. versionadded:: 0.0.2</span>
+
+<span class="sd">Control the macOS Contacts application using JXA-like syntax.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">AppKit</span> <span class="kn">import</span> <span class="n">NSFileManager</span><span class="p">,</span> <span class="n">NSURL</span><span class="p">,</span> <span class="n">NSSet</span>
+
+<span class="kn">import</span> <span class="nn">Contacts</span>
+<span class="kn">import</span> <span class="nn">objc</span>
+<span class="kn">from</span> <span class="nn">AppKit</span> <span class="kn">import</span> <span class="n">NSPredicate</span><span class="p">,</span> <span class="n">NSMutableArray</span>
+
+<span class="kn">from</span> <span class="nn">PyXA</span> <span class="kn">import</span> <span class="n">XABase</span>
+<span class="kn">from</span> <span class="nn">PyXA</span> <span class="kn">import</span> <span class="n">XABaseScriptable</span>
+
+
+<div class="viewcode-block" id="XAContactsApplication"><a class="viewcode-back" href="../../../reference/apps/contacts.html#PyXA.apps.Contacts.XAContactsApplication">[docs]</a><span class="k">class</span> <span class="nc">XAContactsApplication</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBApplication</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A class for managing and interacting with Contacts.app.</span>
+
+<span class="sd">     .. seealso:: :class:`XAContactGroup`, :class:`XAContactPerson`</span>
+
+<span class="sd">    .. versionadded:: 0.0.2</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_cstr</span> <span class="o">=</span> <span class="n">Contacts</span><span class="o">.</span><span class="n">CNContactStore</span><span class="o">.</span><span class="n">alloc</span><span class="p">()</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+    
+<div class="viewcode-block" id="XAContactsApplication.selection"><a class="viewcode-back" href="../../../reference/apps/contacts.html#PyXA.apps.Contacts.XAContactsApplication.selection">[docs]</a>    <span class="k">def</span> <span class="nf">selection</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">selected_contacts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">selection</span><span class="p">()</span>
+
+        <span class="n">elements</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">scriptable_contact</span> <span class="ow">in</span> <span class="n">selected_contacts</span><span class="p">:</span>
+            <span class="n">contact_predicate</span> <span class="o">=</span> <span class="n">Contacts</span><span class="o">.</span><span class="n">CNContact</span><span class="o">.</span><span class="n">predicateForContactsWithIdentifiers_</span><span class="p">([</span><span class="n">scriptable_contact</span><span class="o">.</span><span class="n">id</span><span class="p">()])</span>
+            <span class="n">keys</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">Contacts</span><span class="o">.</span><span class="n">CNContact</span><span class="o">.</span><span class="n">alloc</span><span class="p">()</span><span class="o">.</span><span class="n">init</span><span class="p">()</span><span class="o">.</span><span class="n">availableKeys</span><span class="p">())</span>
+            <span class="n">contact</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_cstr</span><span class="o">.</span><span class="n">unifiedContactsMatchingPredicate_keysToFetch_error_</span><span class="p">(</span><span class="n">contact_predicate</span><span class="p">,</span> <span class="n">keys</span><span class="p">,</span> <span class="kc">None</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">properties</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">&quot;parent&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="p">,</span>
+                <span class="s2">&quot;appspace&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_apsp</span><span class="p">,</span>
+                <span class="s2">&quot;workspace&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_wksp</span><span class="p">,</span>
+                <span class="s2">&quot;element&quot;</span><span class="p">:</span> <span class="n">contact</span><span class="p">,</span>
+                <span class="s2">&quot;scriptable_element&quot;</span><span class="p">:</span> <span class="n">scriptable_contact</span><span class="p">,</span>
+                <span class="s2">&quot;appref&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_aref</span><span class="p">,</span>
+                <span class="s2">&quot;system_events&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_sevt</span><span class="p">,</span>
+                <span class="s2">&quot;contact_store&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_cstr</span><span class="p">,</span>
+            <span class="p">}</span>
+            <span class="n">elements</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">XAContactPerson</span><span class="p">(</span><span class="n">properties</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">elements</span></div>
+
+    <span class="c1"># Groups</span>
+<div class="viewcode-block" id="XAContactsApplication.groups"><a class="viewcode-back" href="../../../reference/apps/contacts.html#PyXA.apps.Contacts.XAContactsApplication.groups">[docs]</a>    <span class="k">def</span> <span class="nf">groups</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;XAContactGroup&#39;</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Returns a list of groups matching the filter.</span>
+
+<span class="sd">        .. versionadded:: 0.0.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">groups_predicate</span> <span class="o">=</span> <span class="n">Contacts</span><span class="o">.</span><span class="n">CNGroup</span><span class="o">.</span><span class="n">predicateForAllGroups</span><span class="p">()</span>
+        <span class="n">groups</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_cstr</span><span class="o">.</span><span class="n">groupsMatchingPredicate_error_</span><span class="p">(</span><span class="n">groups_predicate</span><span class="p">,</span> <span class="kc">None</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="nb">filter</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">predicate</span> <span class="o">=</span> <span class="n">NSPredicate</span><span class="o">.</span><span class="n">predicateWithFormat_</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">xa_predicate_format</span><span class="p">(</span><span class="nb">filter</span><span class="p">))</span>
+            <span class="n">groups</span> <span class="o">=</span> <span class="n">groups</span><span class="o">.</span><span class="n">filteredArrayUsingPredicate_</span><span class="p">(</span><span class="n">predicate</span><span class="p">)</span>
+
+        <span class="n">elements</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">groups</span><span class="p">:</span>
+            <span class="n">predicate</span> <span class="o">=</span> <span class="n">NSPredicate</span><span class="o">.</span><span class="n">predicateWithFormat_</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">xa_predicate_format</span><span class="p">({</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">group</span><span class="o">.</span><span class="n">identifier</span><span class="p">()}))</span>
+            <span class="n">scriptable_groups</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">groups</span><span class="p">()</span>
+            <span class="n">scriptable_group</span> <span class="o">=</span> <span class="n">scriptable_groups</span><span class="o">.</span><span class="n">filteredArrayUsingPredicate_</span><span class="p">(</span><span class="n">predicate</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">properties</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">&quot;parent&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="p">,</span>
+                <span class="s2">&quot;appspace&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_apsp</span><span class="p">,</span>
+                <span class="s2">&quot;workspace&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_wksp</span><span class="p">,</span>
+                <span class="s2">&quot;element&quot;</span><span class="p">:</span> <span class="n">group</span><span class="p">,</span>
+                <span class="s2">&quot;scriptable_element&quot;</span><span class="p">:</span> <span class="n">scriptable_group</span><span class="p">,</span>
+                <span class="s2">&quot;appref&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_aref</span><span class="p">,</span>
+                <span class="s2">&quot;system_events&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_sevt</span><span class="p">,</span>
+                <span class="s2">&quot;contact_store&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_cstr</span><span class="p">,</span>
+            <span class="p">}</span>
+            <span class="n">elements</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">XAContactGroup</span><span class="p">(</span><span class="n">properties</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">elements</span></div>
+
+    <span class="c1"># Contacts</span>
+<div class="viewcode-block" id="XAContactsApplication.new_contact"><a class="viewcode-back" href="../../../reference/apps/contacts.html#PyXA.apps.Contacts.XAContactsApplication.new_contact">[docs]</a>    <span class="k">def</span> <span class="nf">new_contact</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAContactPerson&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Creates a new contact.</span>
+
+
+<span class="sd">        :param properties: Properties and values to give to the new contact</span>
+<span class="sd">        :type properties: dict</span>
+<span class="sd">        :return: The newly created PyXA contact object.</span>
+<span class="sd">        :rtype: XAContactPerson</span>
+
+<span class="sd">        .. versionadded:: 0.0.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">contact</span> <span class="o">=</span> <span class="n">Contacts</span><span class="o">.</span><span class="n">CNMutableContact</span><span class="o">.</span><span class="n">alloc</span><span class="p">()</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+
+        <span class="n">contact</span><span class="o">.</span><span class="n">setGivenName_</span><span class="p">(</span><span class="n">properties</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;givenName&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">properties</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;given_name&quot;</span><span class="p">))</span>
+        <span class="n">contact</span><span class="o">.</span><span class="n">setMiddleName_</span><span class="p">(</span><span class="n">properties</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;middleName&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">properties</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;middle_name&quot;</span><span class="p">))</span>
+        <span class="n">contact</span><span class="o">.</span><span class="n">setFamilyName_</span><span class="p">(</span><span class="n">properties</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;familyName&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">properties</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;family_name&quot;</span><span class="p">))</span>
+        <span class="n">contact</span><span class="o">.</span><span class="n">setNamePrefix_</span><span class="p">(</span><span class="n">properties</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;namePrefix&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">properties</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name_prefix&quot;</span><span class="p">))</span>
+        <span class="n">contact</span><span class="o">.</span><span class="n">setNameSuffix_</span><span class="p">(</span><span class="n">properties</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;nameSuffix&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">properties</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name_suffix&quot;</span><span class="p">))</span>
+        <span class="n">contact</span><span class="o">.</span><span class="n">setNickname_</span><span class="p">(</span><span class="n">properties</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;nickname&quot;</span><span class="p">))</span>
+        <span class="n">contact</span><span class="o">.</span><span class="n">setBirthday_</span><span class="p">(</span><span class="n">properties</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;birthday&quot;</span><span class="p">))</span>
+        <span class="n">contact</span><span class="o">.</span><span class="n">setJobTitle_</span><span class="p">(</span><span class="n">properties</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;jobTitle&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">properties</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;job_title&quot;</span><span class="p">))</span>
+        <span class="n">contact</span><span class="o">.</span><span class="n">setNote_</span><span class="p">(</span><span class="n">properties</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;note&quot;</span><span class="p">))</span>
+
+        <span class="n">request</span> <span class="o">=</span> <span class="n">Contacts</span><span class="o">.</span><span class="n">CNSaveRequest</span><span class="o">.</span><span class="n">alloc</span><span class="p">()</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+        <span class="n">request</span><span class="o">.</span><span class="n">addContact_toContainerWithIdentifier_</span><span class="p">(</span><span class="n">contact</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_exec_suppresed</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_cstr</span><span class="o">.</span><span class="n">executeSaveRequest_error_</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+        <span class="n">predicate</span> <span class="o">=</span> <span class="n">NSPredicate</span><span class="o">.</span><span class="n">predicateWithFormat_</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">xa_predicate_format</span><span class="p">({</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">contact</span><span class="o">.</span><span class="n">identifier</span><span class="p">()}))</span>
+        <span class="n">scriptable_contacts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">people</span><span class="p">()</span>
+        <span class="n">scriptable_contact</span> <span class="o">=</span> <span class="n">scriptable_contacts</span><span class="o">.</span><span class="n">filteredArrayUsingPredicate_</span><span class="p">(</span><span class="n">predicate</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">properties</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">&quot;parent&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="p">,</span>
+                <span class="s2">&quot;appspace&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_apsp</span><span class="p">,</span>
+                <span class="s2">&quot;workspace&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_wksp</span><span class="p">,</span>
+                <span class="s2">&quot;element&quot;</span><span class="p">:</span> <span class="n">contact</span><span class="p">,</span>
+                <span class="s2">&quot;scriptable_element&quot;</span><span class="p">:</span> <span class="n">scriptable_contact</span><span class="p">,</span>
+                <span class="s2">&quot;appref&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_aref</span><span class="p">,</span>
+                <span class="s2">&quot;system_events&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_sevt</span><span class="p">,</span>
+                <span class="s2">&quot;contact_store&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_cstr</span><span class="p">,</span>
+            <span class="p">}</span>
+        <span class="k">return</span> <span class="n">XAContactPerson</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XAContactsApplication.contacts"><a class="viewcode-back" href="../../../reference/apps/contacts.html#PyXA.apps.Contacts.XAContactsApplication.contacts">[docs]</a>    <span class="k">def</span> <span class="nf">contacts</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;XAContactPerson&#39;</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Returns a list of contacts matching the filter.</span>
+
+<span class="sd">        .. versionadded:: 0.0.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">contacts_predicate</span> <span class="o">=</span> <span class="n">Contacts</span><span class="o">.</span><span class="n">CNContact</span><span class="o">.</span><span class="n">predicateForAllContacts</span><span class="p">()</span>
+        <span class="n">keys</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">Contacts</span><span class="o">.</span><span class="n">CNContact</span><span class="o">.</span><span class="n">alloc</span><span class="p">()</span><span class="o">.</span><span class="n">init</span><span class="p">()</span><span class="o">.</span><span class="n">availableKeys</span><span class="p">())</span>
+        <span class="n">contacts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_exec_suppresed</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_cstr</span><span class="o">.</span><span class="n">unifiedContactsMatchingPredicate_keysToFetch_error_</span><span class="p">,</span> <span class="n">contacts_predicate</span><span class="p">,</span> <span class="n">keys</span><span class="p">,</span> <span class="kc">None</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="nb">filter</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">predicate</span> <span class="o">=</span> <span class="n">NSPredicate</span><span class="o">.</span><span class="n">predicateWithFormat_</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">xa_predicate_format</span><span class="p">(</span><span class="nb">filter</span><span class="p">))</span>
+            <span class="n">contacts</span> <span class="o">=</span> <span class="n">contacts</span><span class="o">.</span><span class="n">filteredArrayUsingPredicate_</span><span class="p">(</span><span class="n">predicate</span><span class="p">)</span>
+
+        <span class="n">elements</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">contact</span> <span class="ow">in</span> <span class="n">contacts</span><span class="p">:</span>
+            <span class="n">predicate</span> <span class="o">=</span> <span class="n">NSPredicate</span><span class="o">.</span><span class="n">predicateWithFormat_</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">xa_predicate_format</span><span class="p">({</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">contact</span><span class="o">.</span><span class="n">identifier</span><span class="p">()}))</span>
+            <span class="n">scriptable_contacts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">people</span><span class="p">()</span>
+            <span class="n">scriptable_contact</span> <span class="o">=</span> <span class="n">scriptable_contacts</span><span class="o">.</span><span class="n">filteredArrayUsingPredicate_</span><span class="p">(</span><span class="n">predicate</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">properties</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">&quot;parent&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="p">,</span>
+                <span class="s2">&quot;appspace&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_apsp</span><span class="p">,</span>
+                <span class="s2">&quot;workspace&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_wksp</span><span class="p">,</span>
+                <span class="s2">&quot;element&quot;</span><span class="p">:</span> <span class="n">contact</span><span class="p">,</span>
+                <span class="s2">&quot;scriptable_element&quot;</span><span class="p">:</span> <span class="n">scriptable_contact</span><span class="p">,</span>
+                <span class="s2">&quot;appref&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_aref</span><span class="p">,</span>
+                <span class="s2">&quot;system_events&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_sevt</span><span class="p">,</span>
+                <span class="s2">&quot;contact_store&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_cstr</span><span class="p">,</span>
+            <span class="p">}</span>
+            <span class="n">elements</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">XAContactPerson</span><span class="p">(</span><span class="n">properties</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">elements</span></div></div>
+
+<div class="viewcode-block" id="XAContactGroup"><a class="viewcode-back" href="../../../reference/apps/contacts.html#PyXA.apps.Contacts.XAContactGroup">[docs]</a><span class="k">class</span> <span class="nc">XAContactGroup</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBPrintable</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A class for managing and interacting with groups in Contacts.app.</span>
+
+<span class="sd">    .. versionadded:: 0.0.2</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_cstr</span> <span class="o">=</span> <span class="n">properties</span><span class="p">[</span><span class="s2">&quot;contact_store&quot;</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">identifier</span><span class="p">()</span> <span class="c1">#: A unique identifier for this group</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">name</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">creation_date</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">creationDate</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">modification_date</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">modificationDate</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="XAContactPerson"><a class="viewcode-back" href="../../../reference/apps/contacts.html#PyXA.apps.Contacts.XAContactPerson">[docs]</a><span class="k">class</span> <span class="nc">XAContactPerson</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBPrintable</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A class for managing and interacting with individual contacts in Contacts.app.</span>
+
+<span class="sd">    .. versionadded:: 0.0.2</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_cstr</span> <span class="o">=</span> <span class="n">properties</span><span class="p">[</span><span class="s2">&quot;contact_store&quot;</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">identifier</span><span class="p">()</span> <span class="c1">#: A unique identifier for this contact</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">contactType</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">given_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">givenName</span><span class="p">()</span> <span class="c1">#: The contact&#39;s first name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">middle_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">middleName</span><span class="p">()</span> <span class="c1">#: The contact&#39;s middle name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">family_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">familyName</span><span class="p">()</span> <span class="c1">#: The contact&#39;s last name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name_prefix</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">namePrefix</span><span class="p">()</span> <span class="c1">#: The contact&#39;s title, such as Dr.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name_suffix</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">nameSuffix</span><span class="p">()</span> <span class="c1">#: Post-nominal letters such as PhD. or III</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nickname</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">nickname</span><span class="p">()</span> <span class="c1">#: The contact&#39;s nickname</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">creation_date</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">creationDate</span><span class="p">()</span> <span class="c1">#: The date the contact was created</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">modification_date</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">modificationDate</span><span class="p">()</span> <span class="c1">#: The date the contact was last modified</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">birthday</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">birthday</span><span class="p">()</span> <span class="c1">#: The contact&#39;s birthday</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">job_title</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">jobTitle</span><span class="p">()</span> <span class="c1">#: The name of the contact&#39;s job position</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">linked_contacts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">linkedContacts</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">maps_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">mapsData</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">note</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">note</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">organization_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">organizationName</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">snapshot</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">snapshot</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">social_profiles</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">socialProfiles</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sorting_family_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">sortingFamilyName</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sorting_given_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">sortingGivenName</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">text_alert</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">textAlert</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">call_alert</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">callAlert</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">image_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">imageData</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">thumbnail_image_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">thumbnailImageData</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">memoji_metadata</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">memojiMetadata</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">contact_relations</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">contactRelations</span><span class="p">()</span>
+
+<div class="viewcode-block" id="XAContactPerson.show"><a class="viewcode-back" href="../../../reference/apps/contacts.html#PyXA.apps.Contacts.XAContactPerson.show">[docs]</a>    <span class="k">def</span> <span class="nf">show</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Shows the contact card for this contact in Contacts.app.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_wksp</span><span class="o">.</span><span class="n">openURL_</span><span class="p">(</span><span class="n">NSURL</span><span class="o">.</span><span class="n">alloc</span><span class="p">()</span><span class="o">.</span><span class="n">initWithString_</span><span class="p">(</span><span class="s2">&quot;addressbook://&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="XAContactPerson.delete"><a class="viewcode-back" href="../../../reference/apps/contacts.html#PyXA.apps.Contacts.XAContactPerson.delete">[docs]</a>    <span class="k">def</span> <span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Permanently deletes the contact.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">request</span> <span class="o">=</span> <span class="n">Contacts</span><span class="o">.</span><span class="n">CNSaveRequest</span><span class="o">.</span><span class="n">alloc</span><span class="p">()</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+        <span class="n">request</span><span class="o">.</span><span class="n">deleteContact_</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">mutableCopy</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_exec_suppresed</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_cstr</span><span class="o">.</span><span class="n">executeSaveRequest_error_</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XAContactPerson.phone_numbers"><a class="viewcode-back" href="../../../reference/apps/contacts.html#PyXA.apps.Contacts.XAContactPerson.phone_numbers">[docs]</a>    <span class="k">def</span> <span class="nf">phone_numbers</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;XAContactPhoneNumber&#39;</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Gets a list of phone numbers associated with the contact.</span>
+
+<span class="sd">        :return: The list of phone numbers.</span>
+<span class="sd">        :rtype: XAContactPhoneNumber</span>
+
+<span class="sd">        .. versionadded:: 0.0.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">numbers</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">phoneNumbers</span><span class="p">()</span>
+        <span class="n">elements</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">number</span> <span class="ow">in</span> <span class="n">numbers</span><span class="p">:</span>
+            <span class="n">properties</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">&quot;parent&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="p">,</span>
+                <span class="s2">&quot;appspace&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_apsp</span><span class="p">,</span>
+                <span class="s2">&quot;workspace&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_wksp</span><span class="p">,</span>
+                <span class="s2">&quot;element&quot;</span><span class="p">:</span> <span class="n">number</span><span class="p">,</span>
+                <span class="s2">&quot;appref&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_aref</span><span class="p">,</span>
+                <span class="s2">&quot;system_events&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_sevt</span><span class="p">,</span>
+                <span class="s2">&quot;contact_store&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_cstr</span><span class="p">,</span>
+            <span class="p">}</span>
+            <span class="n">elements</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">XAContactPhoneNumber</span><span class="p">(</span><span class="n">properties</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">elements</span></div>
+
+<div class="viewcode-block" id="XAContactPerson.addresses"><a class="viewcode-back" href="../../../reference/apps/contacts.html#PyXA.apps.Contacts.XAContactPerson.addresses">[docs]</a>    <span class="k">def</span> <span class="nf">addresses</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XAContactPostalAddress&#39;</span><span class="p">,</span> <span class="s1">&#39;XAContactEmailAddress&#39;</span><span class="p">,</span> <span class="s1">&#39;XAContactMessageAddress&#39;</span><span class="p">,</span> <span class="s1">&#39;XAContactURLAddress&#39;</span><span class="p">]]:</span>
+        <span class="sd">&quot;&quot;&quot;Gets a list of all addresses (of all types) associated with the contact.</span>
+
+<span class="sd">        :return: The list of addresses.</span>
+<span class="sd">        :rtype: List[Union[XAContactPostalAddress, XAContactEmailAddress, XAContactMessageAddress, XAContactURLAddress]]</span>
+
+<span class="sd">        .. versionadded:: 0.0.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">elements</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">postal_addresses</span><span class="p">()</span>
+        <span class="n">elements</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">email_addresses</span><span class="p">())</span>
+        <span class="n">elements</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">message_addresses</span><span class="p">())</span>
+        <span class="n">elements</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">url_addresses</span><span class="p">())</span>
+        <span class="k">return</span> <span class="n">elements</span></div>
+
+<div class="viewcode-block" id="XAContactPerson.postal_addresses"><a class="viewcode-back" href="../../../reference/apps/contacts.html#PyXA.apps.Contacts.XAContactPerson.postal_addresses">[docs]</a>    <span class="k">def</span> <span class="nf">postal_addresses</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;XAContactPostalAddress&#39;</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Gets a list of the contact&#39;s postal addresses.</span>
+
+<span class="sd">        :return: The list of postal addresses.</span>
+<span class="sd">        :rtype: List[XAContactPostalAddress]</span>
+
+<span class="sd">        .. versionadded:: 0.0.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">addresses</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">postalAddresses</span><span class="p">()</span>
+        <span class="n">elements</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">address</span> <span class="ow">in</span> <span class="n">addresses</span><span class="p">:</span>
+            <span class="n">properties</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">&quot;parent&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="p">,</span>
+                <span class="s2">&quot;appspace&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_apsp</span><span class="p">,</span>
+                <span class="s2">&quot;workspace&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_wksp</span><span class="p">,</span>
+                <span class="s2">&quot;element&quot;</span><span class="p">:</span> <span class="n">address</span><span class="p">,</span>
+                <span class="s2">&quot;appref&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_aref</span><span class="p">,</span>
+                <span class="s2">&quot;system_events&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_sevt</span><span class="p">,</span>
+                <span class="s2">&quot;contact_store&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_cstr</span><span class="p">,</span>
+            <span class="p">}</span>
+            <span class="n">elements</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">XAContactPostalAddress</span><span class="p">(</span><span class="n">properties</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">elements</span></div>
+
+<div class="viewcode-block" id="XAContactPerson.email_addresses"><a class="viewcode-back" href="../../../reference/apps/contacts.html#PyXA.apps.Contacts.XAContactPerson.email_addresses">[docs]</a>    <span class="k">def</span> <span class="nf">email_addresses</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;XAContactEmailAddress&#39;</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Gets a list of the contact&#39;s email addresses.</span>
+
+<span class="sd">        :return: The list of email addresses.</span>
+<span class="sd">        :rtype: List[XAContactEmailAddress]</span>
+
+<span class="sd">        .. versionadded:: 0.0.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">addresses</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">emailAddresses</span><span class="p">()</span>
+        <span class="n">elements</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">address</span> <span class="ow">in</span> <span class="n">addresses</span><span class="p">:</span>
+            <span class="n">properties</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">&quot;parent&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="p">,</span>
+                <span class="s2">&quot;appspace&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_apsp</span><span class="p">,</span>
+                <span class="s2">&quot;workspace&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_wksp</span><span class="p">,</span>
+                <span class="s2">&quot;element&quot;</span><span class="p">:</span> <span class="n">address</span><span class="p">,</span>
+                <span class="s2">&quot;appref&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_aref</span><span class="p">,</span>
+                <span class="s2">&quot;system_events&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_sevt</span><span class="p">,</span>
+                <span class="s2">&quot;contact_store&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_cstr</span><span class="p">,</span>
+            <span class="p">}</span>
+            <span class="n">elements</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">XAContactEmailAddress</span><span class="p">(</span><span class="n">properties</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">elements</span></div>
+
+<div class="viewcode-block" id="XAContactPerson.message_addresses"><a class="viewcode-back" href="../../../reference/apps/contacts.html#PyXA.apps.Contacts.XAContactPerson.message_addresses">[docs]</a>    <span class="k">def</span> <span class="nf">message_addresses</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;XAContactMessageAddress&#39;</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Gets a list of the contact&#39;s instant message address objects.</span>
+
+<span class="sd">        :return: The list of instant message addresses.</span>
+<span class="sd">        :rtype: List[XAContactMessageAddress]</span>
+
+<span class="sd">        .. versionadded:: 0.0.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">addresses</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">instantMessageAddresses</span><span class="p">()</span>
+        <span class="n">elements</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">address</span> <span class="ow">in</span> <span class="n">addresses</span><span class="p">:</span>
+            <span class="n">properties</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">&quot;parent&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="p">,</span>
+                <span class="s2">&quot;appspace&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_apsp</span><span class="p">,</span>
+                <span class="s2">&quot;workspace&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_wksp</span><span class="p">,</span>
+                <span class="s2">&quot;element&quot;</span><span class="p">:</span> <span class="n">address</span><span class="p">,</span>
+                <span class="s2">&quot;appref&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_aref</span><span class="p">,</span>
+                <span class="s2">&quot;system_events&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_sevt</span><span class="p">,</span>
+                <span class="s2">&quot;contact_store&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_cstr</span><span class="p">,</span>
+            <span class="p">}</span>
+            <span class="n">elements</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">XAContactMessageAddress</span><span class="p">(</span><span class="n">properties</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">elements</span></div>
+
+<div class="viewcode-block" id="XAContactPerson.url_addresses"><a class="viewcode-back" href="../../../reference/apps/contacts.html#PyXA.apps.Contacts.XAContactPerson.url_addresses">[docs]</a>    <span class="k">def</span> <span class="nf">url_addresses</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;XAContactURLAddress&#39;</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Gets a list of the contact&#39;s URL address objects.</span>
+
+<span class="sd">        :return: The list of URL addresses.</span>
+<span class="sd">        :rtype: List[XAContactURLAddress]</span>
+
+<span class="sd">        .. versionadded:: 0.0.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">addresses</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">urlAddresses</span><span class="p">()</span>
+        <span class="n">elements</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">address</span> <span class="ow">in</span> <span class="n">addresses</span><span class="p">:</span>
+            <span class="n">properties</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">&quot;parent&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="p">,</span>
+                <span class="s2">&quot;appspace&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_apsp</span><span class="p">,</span>
+                <span class="s2">&quot;workspace&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_wksp</span><span class="p">,</span>
+                <span class="s2">&quot;element&quot;</span><span class="p">:</span> <span class="n">address</span><span class="p">,</span>
+                <span class="s2">&quot;appref&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_aref</span><span class="p">,</span>
+                <span class="s2">&quot;system_events&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_sevt</span><span class="p">,</span>
+                <span class="s2">&quot;contact_store&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_cstr</span><span class="p">,</span>
+            <span class="p">}</span>
+            <span class="n">elements</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">XAContactURLAddress</span><span class="p">(</span><span class="n">properties</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">elements</span></div>
+
+<div class="viewcode-block" id="XAContactPerson.vcard"><a class="viewcode-back" href="../../../reference/apps/contacts.html#PyXA.apps.Contacts.XAContactPerson.vcard">[docs]</a>    <span class="k">def</span> <span class="nf">vcard</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Gets the vcard representation of the contact.</span>
+
+<span class="sd">        :return: The vcard format of the contact in bytes.</span>
+<span class="sd">        :rtype: bytes</span>
+
+<span class="sd">        .. versionadded:: 0.0.2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">Contacts</span><span class="o">.</span><span class="n">CNContactVCardSerialization</span><span class="o">.</span><span class="n">dataWithContacts_error_</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">],</span> <span class="kc">None</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span></div>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;&lt;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">given_name</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">family_name</span> <span class="o">+</span> <span class="s2">&quot;, id=&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span></div>
+
+
+<div class="viewcode-block" id="XAContactPhoneNumber"><a class="viewcode-back" href="../../../reference/apps/contacts.html#PyXA.apps.Contacts.XAContactPhoneNumber">[docs]</a><span class="k">class</span> <span class="nc">XAContactPhoneNumber</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBObject</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A class for managing and interacting with phone numbers of contacts in Contacts.app.</span>
+
+<span class="sd">    .. versionadded:: 0.0.2</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_cstr</span> <span class="o">=</span> <span class="n">properties</span><span class="p">[</span><span class="s2">&quot;contact_store&quot;</span><span class="p">]</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">identifier</span><span class="p">()</span> <span class="c1">#: A unique identifier for this phone number</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">label</span><span class="p">()</span> <span class="c1">#: The label, such as `Home`, given to this phone number</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">value</span><span class="p">()</span><span class="o">.</span><span class="n">stringValue</span><span class="p">()</span> <span class="c1">#: The phone number as a string</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">country_code</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">value</span><span class="p">()</span><span class="o">.</span><span class="n">initialCountryCode</span><span class="p">()</span> <span class="c1">#: The user-specified country code</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;&lt;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">+</span> <span class="s2">&quot;, id=&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span></div>
+
+
+<div class="viewcode-block" id="XAContactPostalAddress"><a class="viewcode-back" href="../../../reference/apps/contacts.html#PyXA.apps.Contacts.XAContactPostalAddress">[docs]</a><span class="k">class</span> <span class="nc">XAContactPostalAddress</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBObject</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A class for managing and interacting with postal addresses of contacts in Contacts.app.</span>
+
+<span class="sd">    .. versionadded:: 0.0.2</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_cstr</span> <span class="o">=</span> <span class="n">properties</span><span class="p">[</span><span class="s2">&quot;contact_store&quot;</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">identifier</span><span class="p">()</span> <span class="c1">#: A unique identifier for this address</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">label</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">street</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">value</span><span class="p">()</span><span class="o">.</span><span class="n">street</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sub_locality</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">value</span><span class="p">()</span><span class="o">.</span><span class="n">subLocality</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">city</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">value</span><span class="p">()</span><span class="o">.</span><span class="n">city</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sub_administrative_area</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">value</span><span class="p">()</span><span class="o">.</span><span class="n">subAdministrativeArea</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">value</span><span class="p">()</span><span class="o">.</span><span class="n">state</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">postal_code</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">value</span><span class="p">()</span><span class="o">.</span><span class="n">postalCode</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">country</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">value</span><span class="p">()</span><span class="o">.</span><span class="n">country</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">country_code</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">value</span><span class="p">()</span><span class="o">.</span><span class="n">ISOCountryCode</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="XAContactEmailAddress"><a class="viewcode-back" href="../../../reference/apps/contacts.html#PyXA.apps.Contacts.XAContactEmailAddress">[docs]</a><span class="k">class</span> <span class="nc">XAContactEmailAddress</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBObject</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A class for managing and interacting with email addresses of contacts in Contacts.app.</span>
+
+<span class="sd">    .. versionadded:: 0.0.2</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_cstr</span> <span class="o">=</span> <span class="n">properties</span><span class="p">[</span><span class="s2">&quot;contact_store&quot;</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">identifier</span><span class="p">()</span> <span class="c1">#: A unique identifier for this address</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">label</span><span class="p">()</span> <span class="c1">#: The label, such as &quot;Work&quot;, given to this email address</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">value</span><span class="p">()</span> <span class="c1">#: The email address as a string</span></div>
+
+
+<div class="viewcode-block" id="XAContactMessageAddress"><a class="viewcode-back" href="../../../reference/apps/contacts.html#PyXA.apps.Contacts.XAContactMessageAddress">[docs]</a><span class="k">class</span> <span class="nc">XAContactMessageAddress</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBObject</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A class for managing and interacting with instant message addresses of contacts in Contacts.app.</span>
+
+<span class="sd">    .. versionadded:: 0.0.2</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_cstr</span> <span class="o">=</span> <span class="n">properties</span><span class="p">[</span><span class="s2">&quot;contact_store&quot;</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">identifier</span><span class="p">()</span> <span class="c1">#: A unique identifier for this address</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">label</span><span class="p">()</span> <span class="c1">#: The label, such as `Other`, given to this IM address</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">username</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">value</span><span class="p">()</span><span class="o">.</span><span class="n">username</span><span class="p">()</span> <span class="c1">#: The user-provided username for this address entry</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">service</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">value</span><span class="p">()</span><span class="o">.</span><span class="n">service</span><span class="p">()</span> <span class="c1">#: The IM service this address applies to</span></div>
+
+    
+<div class="viewcode-block" id="XAContactURLAddress"><a class="viewcode-back" href="../../../reference/apps/contacts.html#PyXA.apps.Contacts.XAContactURLAddress">[docs]</a><span class="k">class</span> <span class="nc">XAContactURLAddress</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBObject</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A class for managing and interacting with URL addresses of contacts in Contacts.app.</span>
+
+<span class="sd">    .. versionadded:: 0.0.2</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_cstr</span> <span class="o">=</span> <span class="n">properties</span><span class="p">[</span><span class="s2">&quot;contact_store&quot;</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">identifier</span><span class="p">()</span> <span class="c1">#: A unique identifier for this address</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">label</span><span class="p">()</span> <span class="c1">#: The label, such as `Homepage`, given to this URL</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">value</span><span class="p">()</span> <span class="c1">#: The URL as a string</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Stephen Kaplan.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

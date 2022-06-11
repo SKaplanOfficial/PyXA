@@ -180,20 +180,20 @@ Calendar Classes and Methods
 .. toctree::
    :maxdepth: 1
    
-   ../api/apps/calendar/XACalendarApplication/PyXA.apps.Calendar.XACalendarAttachment.open
+   ../api/apps/calendar/XACalendarEvent/PyXA.apps.Calendar.XACalendarEvent.add_attachment
+   ../api/apps/calendar/XACalendarEvent/PyXA.apps.Calendar.XACalendarEvent.attachments
+   ../api/apps/calendar/XACalendarEvent/PyXA.apps.Calendar.XACalendarEvent.attendees
+   ../api/apps/calendar/XACalendarEvent/PyXA.apps.Calendar.XACalendarEvent.copy_to
+   ../api/apps/calendar/XACalendarEvent/PyXA.apps.Calendar.XACalendarEvent.delete
+   ../api/apps/calendar/XACalendarEvent/PyXA.apps.Calendar.XACalendarEvent.duplicate
+   ../api/apps/calendar/XACalendarEvent/PyXA.apps.Calendar.XACalendarEvent.move_to
+   ../api/apps/calendar/XACalendarEvent/PyXA.apps.Calendar.XACalendarEvent.rename
+   ../api/apps/calendar/XACalendarEvent/PyXA.apps.Calendar.XACalendarEvent.show
 
 .. toctree::
    :maxdepth: 1
    
-   ../api/apps/calendar/XACalendarApplication/PyXA.apps.Calendar.XACalendarEvent.add_attachment
-   ../api/apps/calendar/XACalendarApplication/PyXA.apps.Calendar.XACalendarEvent.attachments
-   ../api/apps/calendar/XACalendarApplication/PyXA.apps.Calendar.XACalendarEvent.attendees
-   ../api/apps/calendar/XACalendarApplication/PyXA.apps.Calendar.XACalendarEvent.copy_to
-   ../api/apps/calendar/XACalendarApplication/PyXA.apps.Calendar.XACalendarEvent.delete
-   ../api/apps/calendar/XACalendarApplication/PyXA.apps.Calendar.XACalendarEvent.duplicate
-   ../api/apps/calendar/XACalendarApplication/PyXA.apps.Calendar.XACalendarEvent.move_to
-   ../api/apps/calendar/XACalendarApplication/PyXA.apps.Calendar.XACalendarEvent.rename
-   ../api/apps/calendar/XACalendarApplication/PyXA.apps.Calendar.XACalendarEvent.show
+   ../api/apps/calendar/XACalendarAttachment/PyXA.apps.Calendar.XACalendarAttachment.open
 
 For all classes, methods, and inherited members on one page, see the :ref:`Complete Calendar API`
 

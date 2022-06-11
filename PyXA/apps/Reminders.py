@@ -410,7 +410,7 @@ class XAReminderList(XABase.XAObject):
     def show(self):
         """Shows the reminders list in Reminders.app.
 
-        .. versionadded: 0.0.2
+        .. versionadded:: 0.0.2
         """
         self.xa_scel.show()
 
@@ -474,7 +474,7 @@ class XAReminder(XABase.XAObject):
     def show(self):
         """Shows the reminder in Reminders.app.
 
-        .. versionadded: 0.0.2
+        .. versionadded:: 0.0.2
         """
         self.xa_estr.requestAccessToEntityType_completion_(EventKit.EKEntityTypeReminder, None)
         self.xa_scel.show()

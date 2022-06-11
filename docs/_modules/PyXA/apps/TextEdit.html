@@ -105,16 +105,12 @@
 <div class="viewcode-block" id="XATextEditApplication.documents"><a class="viewcode-back" href="../../../reference/apps/textedit.html#PyXA.apps.TextEdit.XATextEditApplication.documents">[docs]</a>    <span class="k">def</span> <span class="nf">documents</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;XATextEditDocument&#39;</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Returns a list of documents matching the filter.</span>
 
-<span class="sd">        .. seealso:: :func:`scriptable_elements`</span>
-
 <span class="sd">        .. versionadded:: 0.0.1</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">scriptable_elements</span><span class="p">(</span><span class="s2">&quot;documents&quot;</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XATextEditDocument</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="XATextEditApplication.document"><a class="viewcode-back" href="../../../reference/apps/textedit.html#PyXA.apps.TextEdit.XATextEditApplication.document">[docs]</a>    <span class="k">def</span> <span class="nf">document</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">dict</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s1">&#39;XATextEditDocument&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Returns the first document that matches the filter.</span>
-
-<span class="sd">        .. seealso:: :func:`scriptable_element_with_properties`</span>
 
 <span class="sd">        .. versionadded:: 0.0.1</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -123,16 +119,12 @@
 <div class="viewcode-block" id="XATextEditApplication.first_document"><a class="viewcode-back" href="../../../reference/apps/textedit.html#PyXA.apps.TextEdit.XATextEditApplication.first_document">[docs]</a>    <span class="k">def</span> <span class="nf">first_document</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XATextEditDocument&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Returns the document at the first index of the documents array.</span>
 
-<span class="sd">        .. seealso:: :func:`first_scriptable_element`</span>
-
 <span class="sd">        .. versionadded:: 0.0.1</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">first_scriptable_element</span><span class="p">(</span><span class="s2">&quot;documents&quot;</span><span class="p">,</span> <span class="n">XATextEditDocument</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="XATextEditApplication.last_document"><a class="viewcode-back" href="../../../reference/apps/textedit.html#PyXA.apps.TextEdit.XATextEditApplication.last_document">[docs]</a>    <span class="k">def</span> <span class="nf">last_document</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XATextEditDocument&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Returns the document at the last (-1) index of the documents array.</span>
-
-<span class="sd">        .. seealso:: :func:`last_scriptable_element`</span>
 
 <span class="sd">        .. versionadded:: 0.0.1</span>
 <span class="sd">        &quot;&quot;&quot;</span>

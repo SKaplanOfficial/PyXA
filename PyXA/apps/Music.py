@@ -249,16 +249,12 @@ class XAMusicApplication(XABaseScriptable.XASBApplication, XABaseScriptable.XAHa
     def tracks(self, filter: dict = None) -> List['XAMediaTrack']:
         """Returns a list of tracks matching the filter.
 
-        .. seealso:: :func:`scriptable_elements`
-
         .. versionadded:: 0.0.1
         """
         return self.scriptable_elements("tracks", filter, XAMediaTrack)
 
     def track(self, filter: Union[int, dict]) -> 'XAMediaTrack':
         """Returns the first track that matches the filter.
-
-        .. seealso:: :func:`scriptable_element_with_properties`
 
         .. versionadded:: 0.0.1
         """
@@ -267,16 +263,12 @@ class XAMusicApplication(XABaseScriptable.XASBApplication, XABaseScriptable.XAHa
     def first_track(self) -> 'XAMediaTrack':
         """Returns the track at the first index of the tracks array.
 
-        .. seealso:: :func:`first_scriptable_element`
-
         .. versionadded:: 0.0.1
         """
         return self.first_scriptable_element("tracks", XAMediaTrack)
 
     def last_track(self) -> 'XAMediaTrack':
         """Returns the track at the last (-1) index of the tracks array.
-
-        .. seealso:: :func:`last_scriptable_element`
 
         .. versionadded:: 0.0.1
         """
@@ -301,16 +293,12 @@ class XAMusicApplication(XABaseScriptable.XASBApplication, XABaseScriptable.XAHa
     def playlists(self, filter: dict = None) -> List['XAMediaPlaylist']:
         """Returns a list of playlists matching the filter.
 
-        .. seealso:: :func:`scriptable_elements`
-
         .. versionadded:: 0.0.1
         """
         return self.scriptable_elements("playlists", filter, XAMediaPlaylist)
 
     def playlist(self, filter: Union[int, dict]) -> 'XAMediaPlaylist':
         """Returns the first playlist that matches the filter.
-
-        .. seealso:: :func:`scriptable_element_with_properties`
 
         .. versionadded:: 0.0.1
         """
@@ -319,16 +307,12 @@ class XAMusicApplication(XABaseScriptable.XASBApplication, XABaseScriptable.XAHa
     def first_playlist(self) -> 'XAMediaPlaylist':
         """Returns the playlist at the first index of the playlists array.
 
-        .. seealso:: :func:`first_scriptable_element`
-
         .. versionadded:: 0.0.1
         """
         return self.first_scriptable_element("playlists", XAMediaPlaylist)
 
     def last_playlist(self) -> 'XAMediaPlaylist':
         """Returns the playlist at the last (-1) index of the playlists array.
-
-        .. seealso:: :func:`last_scriptable_element`
 
         .. versionadded:: 0.0.1
         """
@@ -397,8 +381,6 @@ class XAMediaItem(XABaseScriptable.XASBObject):
 class XAMediaPlaylist(XAMediaItem, XABase.XAHasElements):
     """A class for managing and interacting with playlists in Music.app.
 
-    .. seealso:: :class:`XAMediaItem`
-
     .. versionadded:: 0.0.1
     """
     def __init__(self, properties):
@@ -407,16 +389,12 @@ class XAMediaPlaylist(XAMediaItem, XABase.XAHasElements):
     def tracks(self, filter: dict = None) -> List['XAMediaTrack']:
         """Returns a list of tracks matching the filter.
 
-        .. seealso:: :func:`elements`
-
         .. versionadded:: 0.0.1
         """
         return self.elements("tracks", filter, XAMediaTrack)
 
     def track(self, filter: Union[int, dict]) -> 'XAMediaTrack':
         """Returns the first track that matches the filter.
-
-        .. seealso:: :func:`element_with_properties`
 
         .. versionadded:: 0.0.1
         """
@@ -425,16 +403,12 @@ class XAMediaPlaylist(XAMediaItem, XABase.XAHasElements):
     def first_track(self) -> 'XAMediaTrack':
         """Returns the track at the first index of the tracks array.
 
-        .. seealso:: :func:`first_element`
-
         .. versionadded:: 0.0.1
         """
         return self.first_element("tracks", XAMediaTrack)
 
     def last_track(self) -> 'XAMediaTrack':
         """Returns the track at the last (-1) index of the tracks array.
-
-        .. seealso:: :func:`last_element`
 
         .. versionadded:: 0.0.1
         """
@@ -443,8 +417,6 @@ class XAMediaPlaylist(XAMediaItem, XABase.XAHasElements):
 
 class XAMediaTrack(XAMediaItem):
     """A class for managing and interacting with tracks in Music.app.
-
-    .. seealso:: :class:`XAMediaItem`
 
     .. versionadded:: 0.0.1
     """

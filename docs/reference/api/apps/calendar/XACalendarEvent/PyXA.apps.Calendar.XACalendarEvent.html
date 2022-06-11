@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>XACalendarEvent &mdash; PyXA 0.0.2 documentation</title>
+      <link rel="stylesheet" href="../../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../_static/jquery.js"></script>
+        <script src="../../../../../_static/underscore.js"></script>
+        <script src="../../../../../_static/doctools.js"></script>
+    <script src="../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" />
+    <link rel="next" title="XACalendarWindow" href="../XACalendarWindow/PyXA.apps.Calendar.XACalendarWindow.html" />
+    <link rel="prev" title="XACalendarAttendee" href="../XACalendarAttendee/PyXA.apps.Calendar.XACalendarAttendee.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../../index.html" class="icon icon-home"> PyXA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../../../about/index.html">Project Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../tutorial/index.html">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../../../index.html">Code Documentation and Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../../../index.html#top-level-pyxa-modules">Top-level PyXA Modules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../index.html#pyxa-base-modules">PyXA Base Modules</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../../../../index.html#application-modules">Application Modules</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../../../../apps/calculator.html">Calculator Module</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../../../../apps/calendar.html">Calendar Module</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../../../../apps/calendar.html#overview">Overview</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../apps/calendar.html#tutorials">Tutorials</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../apps/calendar.html#examples">Examples</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../apps/calendar.html#resources">Resources</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="../../../../apps/calendar.html#calendar-classes-and-methods">Calendar Classes and Methods</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../apps/finder.html">Finder Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../apps/messages.html">Messages Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../apps/music.html">Music Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../apps/notes.html">Notes Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../apps/preview.html">Preview Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../apps/reminders.html">Reminders Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../apps/safari.html">Safari Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../apps/terminal.html">Terminal Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../apps/textedit.html">TextEdit Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../apps/tv.html">TV Module</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../bugs.html">Bugs</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../index.html">PyXA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../../../index.html">Code Documentation and Reference</a> &raquo;</li>
+          <li><a href="../../../../apps/calendar.html">Calendar Module</a> &raquo;</li>
+      <li>XACalendarEvent</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../../_sources/reference/api/apps/calendar/XACalendarEvent/PyXA.apps.Calendar.XACalendarEvent.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="xacalendarevent">
+<h1>XACalendarEvent<a class="headerlink" href="#xacalendarevent" title="Permalink to this headline"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.apps.Calendar.XACalendarEvent">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Calendar.</span></span><span class="sig-name descname"><span class="pre">XACalendarEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/PyXA/apps/Calendar.html#XACalendarEvent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Calendar.XACalendarEvent" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="../../../../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAObject</span></code></a></p>
+<p>A class for interacting with calendar events.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.1.</span></p>
+</div>
+<p class="rubric">Methods Summary</p>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="PyXA.apps.Calendar.XACalendarEvent.add_attachment.html#PyXA.apps.Calendar.XACalendarEvent.add_attachment" title="PyXA.apps.Calendar.XACalendarEvent.add_attachment"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_attachment</span></code></a>(path)</p></td>
+<td><p>Adds the file at the specified path as an attachment to the event.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="PyXA.apps.Calendar.XACalendarEvent.attachments.html#PyXA.apps.Calendar.XACalendarEvent.attachments" title="PyXA.apps.Calendar.XACalendarEvent.attachments"><code class="xref py py-obj docutils literal notranslate"><span class="pre">attachments</span></code></a>([filter])</p></td>
+<td><p>&quot;Returns a list of attachments, as PyXA objects, matching the given filter.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="PyXA.apps.Calendar.XACalendarEvent.attendees.html#PyXA.apps.Calendar.XACalendarEvent.attendees" title="PyXA.apps.Calendar.XACalendarEvent.attendees"><code class="xref py py-obj docutils literal notranslate"><span class="pre">attendees</span></code></a>([filter])</p></td>
+<td><p>&quot;Returns a list of attendees, as PyXA objects, matching the given filter.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="PyXA.apps.Calendar.XACalendarEvent.copy_to.html#PyXA.apps.Calendar.XACalendarEvent.copy_to" title="PyXA.apps.Calendar.XACalendarEvent.copy_to"><code class="xref py py-obj docutils literal notranslate"><span class="pre">copy_to</span></code></a>(calendar)</p></td>
+<td><p>Makes a copy of this event and places it on the specified calendar.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="PyXA.apps.Calendar.XACalendarEvent.delete.html#PyXA.apps.Calendar.XACalendarEvent.delete" title="PyXA.apps.Calendar.XACalendarEvent.delete"><code class="xref py py-obj docutils literal notranslate"><span class="pre">delete</span></code></a>()</p></td>
+<td><p>Deletes the event.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../PyXA.apps.Calendar.html#PyXA.apps.Calendar.XACalendarEvent.duplicate" title="PyXA.apps.Calendar.XACalendarEvent.duplicate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">duplicate</span></code></a>()</p></td>
+<td><p>Duplicates the event, placing the copy on the same calendar.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="PyXA.apps.Calendar.XACalendarEvent.move_to.html#PyXA.apps.Calendar.XACalendarEvent.move_to" title="PyXA.apps.Calendar.XACalendarEvent.move_to"><code class="xref py py-obj docutils literal notranslate"><span class="pre">move_to</span></code></a>(calendar)</p></td>
+<td><p>Moves this event to the specified calendar.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="PyXA.apps.Calendar.XACalendarEvent.rename.html#PyXA.apps.Calendar.XACalendarEvent.rename" title="PyXA.apps.Calendar.XACalendarEvent.rename"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rename</span></code></a>(new_title)</p></td>
+<td><p>Renames the event.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="PyXA.apps.Calendar.XACalendarEvent.show.html#PyXA.apps.Calendar.XACalendarEvent.show" title="PyXA.apps.Calendar.XACalendarEvent.show"><code class="xref py py-obj docutils literal notranslate"><span class="pre">show</span></code></a>()</p></td>
+<td><p>Shows the event in a calendar window.</p></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../XACalendarAttendee/PyXA.apps.Calendar.XACalendarAttendee.html" class="btn btn-neutral float-left" title="XACalendarAttendee" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../XACalendarWindow/PyXA.apps.Calendar.XACalendarWindow.html" class="btn btn-neutral float-right" title="XACalendarWindow" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Stephen Kaplan.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -135,10 +135,69 @@ Example 5 - Displaying Events in Calendar.app
 Resources
 #########
 
+Calendar Classes and Methods
+############################
+.. toctree::
+   :maxdepth: 1
+   :caption: Classes
 
-Class and Class Methods Reference
-#################################
-.. automodule:: PyXA.apps.Calendar
-   :members:
-   :undoc-members:
-   :show-inheritance:
+   ../api/apps/calendar/XACalendar/PyXA.apps.Calendar.XACalendar
+   ../api/apps/calendar/XACalendarApplication/PyXA.apps.Calendar.XACalendarApplication
+   ../api/apps/calendar/XACalendarAttachment/PyXA.apps.Calendar.XACalendarAttachment
+   ../api/apps/calendar/XACalendarAttendee/PyXA.apps.Calendar.XACalendarAttendee
+   ../api/apps/calendar/XACalendarEvent/PyXA.apps.Calendar.XACalendarEvent
+   ../api/apps/calendar/XACalendarWindow/PyXA.apps.Calendar.XACalendarWindow
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Methods
+
+   ../api/apps/calendar/XACalendar/PyXA.apps.Calendar.XACalendar.event
+   ../api/apps/calendar/XACalendar/PyXA.apps.Calendar.XACalendar.events
+   ../api/apps/calendar/XACalendar/PyXA.apps.Calendar.XACalendar.events_in_range
+   ../api/apps/calendar/XACalendar/PyXA.apps.Calendar.XACalendar.events_today
+   ../api/apps/calendar/XACalendar/PyXA.apps.Calendar.XACalendar.first_event
+   ../api/apps/calendar/XACalendar/PyXA.apps.Calendar.XACalendar.last_event
+   ../api/apps/calendar/XACalendar/PyXA.apps.Calendar.XACalendar.new_event
+   ../api/apps/calendar/XACalendar/PyXA.apps.Calendar.XACalendar.push
+   ../api/apps/calendar/XACalendar/PyXA.apps.Calendar.XACalendar.week_events
+   
+.. toctree::
+   :maxdepth: 1
+   
+   ../api/apps/calendar/XACalendarApplication/PyXA.apps.Calendar.XACalendarApplication.calendar
+   ../api/apps/calendar/XACalendarApplication/PyXA.apps.Calendar.XACalendarApplication.calendars
+   ../api/apps/calendar/XACalendarApplication/PyXA.apps.Calendar.XACalendarApplication.default_calendar
+   ../api/apps/calendar/XACalendarApplication/PyXA.apps.Calendar.XACalendarApplication.first_calendar
+   ../api/apps/calendar/XACalendarApplication/PyXA.apps.Calendar.XACalendarApplication.last_calendar
+   ../api/apps/calendar/XACalendarApplication/PyXA.apps.Calendar.XACalendarApplication.new_calendar
+   ../api/apps/calendar/XACalendarApplication/PyXA.apps.Calendar.XACalendarApplication.new_event
+   ../api/apps/calendar/XACalendarApplication/PyXA.apps.Calendar.XACalendarApplication.reload_calendars
+   ../api/apps/calendar/XACalendarApplication/PyXA.apps.Calendar.XACalendarApplication.subscribe_to
+   ../api/apps/calendar/XACalendarApplication/PyXA.apps.Calendar.XACalendarApplication.switch_view_to
+   ../api/apps/calendar/XACalendarApplication/PyXA.apps.Calendar.XACalendarApplication.view_calendar_at
+
+.. toctree::
+   :maxdepth: 1
+   
+   ../api/apps/calendar/XACalendarEvent/PyXA.apps.Calendar.XACalendarEvent.add_attachment
+   ../api/apps/calendar/XACalendarEvent/PyXA.apps.Calendar.XACalendarEvent.attachments
+   ../api/apps/calendar/XACalendarEvent/PyXA.apps.Calendar.XACalendarEvent.attendees
+   ../api/apps/calendar/XACalendarEvent/PyXA.apps.Calendar.XACalendarEvent.copy_to
+   ../api/apps/calendar/XACalendarEvent/PyXA.apps.Calendar.XACalendarEvent.delete
+   ../api/apps/calendar/XACalendarEvent/PyXA.apps.Calendar.XACalendarEvent.duplicate
+   ../api/apps/calendar/XACalendarEvent/PyXA.apps.Calendar.XACalendarEvent.move_to
+   ../api/apps/calendar/XACalendarEvent/PyXA.apps.Calendar.XACalendarEvent.rename
+   ../api/apps/calendar/XACalendarEvent/PyXA.apps.Calendar.XACalendarEvent.show
+
+.. toctree::
+   :maxdepth: 1
+   
+   ../api/apps/calendar/XACalendarAttachment/PyXA.apps.Calendar.XACalendarAttachment.open
+
+For all classes, methods, and inherited members on one page, see the :ref:`Complete Calendar API`
+
+
+.. .. automodapi:: PyXA.apps.Calendar
+..    :no-main-docstr:
+..    :skip: NSMutableArray, NSPredicate, NSURL, SBObject, date, datetime, timedelta

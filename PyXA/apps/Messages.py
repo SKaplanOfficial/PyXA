@@ -36,16 +36,12 @@ class _XAHasChats(XABaseScriptable.XAHasScriptableElements):
     def chats(self, filter: dict = None) -> List['XAChat']:
         """Returns a list of chats matching the filter.
 
-        .. seealso:: :func:`scriptable_elements`
-
         .. versionadded:: 0.0.1
         """
         return self.scriptable_elements("chats", filter, XAChat)
 
     def chat(self, filter: Union[int, dict]) -> 'XAChat':
         """Returns the first chat that matches the filter.
-
-        .. seealso:: :func:`scriptable_element_with_properties`
 
         .. versionadded:: 0.0.1
         """
@@ -54,16 +50,12 @@ class _XAHasChats(XABaseScriptable.XAHasScriptableElements):
     def first_chat(self) -> 'XAChat':
         """Returns the chat at the first index of the chats array.
 
-        .. seealso:: :func:`first_scriptable_element`
-
         .. versionadded:: 0.0.1
         """
         return self.first_scriptable_element("chats", XAChat)
 
     def last_chat(self) -> 'XAChat':
         """Returns the chat at the last (-1) index of the chats array.
-
-        .. seealso:: :func:`last_scriptable_element`
 
         .. versionadded:: 0.0.1
         """
@@ -78,16 +70,12 @@ class _XAHasFileTransfers(XABaseScriptable.XAHasScriptableElements):
     def file_transfers(self, filter: dict = None) -> List['XAMessagesFileTransfer']:
         """Returns a list of file transfers matching the filter.
 
-        .. seealso:: :func:`scriptable_elements`
-
         .. versionadded:: 0.0.1
         """
         return self.scriptable_elements("fileTransfers", filter, XAMessagesFileTransfer)
 
     def file_transfer(self, filter: Union[int, dict]) -> 'XAMessagesFileTransfer':
         """Returns the first file transfer that matches the filter.
-
-        .. seealso:: :func:`scriptable_element_with_properties`
 
         .. versionadded:: 0.0.1
         """
@@ -96,16 +84,12 @@ class _XAHasFileTransfers(XABaseScriptable.XAHasScriptableElements):
     def first_file_transfer(self) -> 'XAMessagesFileTransfer':
         """Returns the file transfer at the first index of the file transfers array.
 
-        .. seealso:: :func:`first_scriptable_element`
-
         .. versionadded:: 0.0.1
         """
         return self.first_scriptable_element("fileTransfers", XAMessagesFileTransfer)
 
     def last_file_transfer(self) -> 'XAMessagesFileTransfer':
         """Returns the file transfer at the last (-1) index of the file transfers array.
-
-        .. seealso:: :func:`last_scriptable_element`
 
         .. versionadded:: 0.0.1
         """
@@ -120,16 +104,12 @@ class _XAHasParticipants(XABaseScriptable.XAHasScriptableElements):
     def participants(self, filter: dict = None) -> List['XAMessagesParticipant']:
         """Returns a list of participants matching the filter.
 
-        .. seealso:: :func:`scriptable_elements`
-
         .. versionadded:: 0.0.1
         """
         return self.scriptable_elements("participants", filter, XAMessagesParticipant)
 
     def participant(self, filter: Union[int, dict]) -> 'XAMessagesParticipant':
         """Returns the first participant that matches the filter.
-
-        .. seealso:: :func:`scriptable_element_with_properties`
 
         .. versionadded:: 0.0.1
         """
@@ -138,16 +118,12 @@ class _XAHasParticipants(XABaseScriptable.XAHasScriptableElements):
     def first_participant(self) -> 'XAMessagesParticipant':
         """Returns the participant at the first index of the participants array.
 
-        .. seealso:: :func:`first_scriptable_element`
-
         .. versionadded:: 0.0.1
         """
         return self.first_scriptable_element("participants", XAMessagesParticipant)
 
     def last_participant(self) -> 'XAMessagesParticipant':
         """Returns the participant at the last (-1) index of the participants array.
-
-        .. seealso:: :func:`last_scriptable_element`
 
         .. versionadded:: 0.0.1
         """
@@ -162,16 +138,12 @@ class _XAHasMessagesAccounts(XABaseScriptable.XAHasScriptableElements):
     def accounts(self, filter: dict = None) -> List['XAMessagesAccount']:
         """Returns a list of accounts matching the filter.
 
-        .. seealso:: :func:`scriptable_elements`
-
         .. versionadded:: 0.0.1
         """
         return self.scriptable_elements("accounts", filter, XAMessagesAccount)
 
     def account(self, filter: Union[int, dict]) -> 'XAMessagesAccount':
         """Returns the first account that matches the filter.
-
-        .. seealso:: :func:`scriptable_element_with_properties`
 
         .. versionadded:: 0.0.1
         """
@@ -180,16 +152,12 @@ class _XAHasMessagesAccounts(XABaseScriptable.XAHasScriptableElements):
     def first_account(self) -> 'XAMessagesAccount':
         """Returns the account at the first index of the accounts array.
 
-        .. seealso:: :func:`first_scriptable_element`
-
         .. versionadded:: 0.0.1
         """
         return self.first_scriptable_element("accounts", XAMessagesAccount)
 
     def last_account(self) -> 'XAMessagesAccount':
         """Returns the account at the last (-1) index of the accounts array.
-
-        .. seealso:: :func:`last_scriptable_element`
 
         .. versionadded:: 0.0.1
         """

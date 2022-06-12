@@ -16,6 +16,7 @@ from .Contacts import XAContactsApplication
 from .Shortcuts import XAShortcutsApplication
 from .Dictionary import XADictionaryApplication
 from .PhotosApp import XAPhotosApplication
+from .SystemPreferences import XASystemPreferencesApplication
 
 application_classes = {
     "finder": XAFinderApplication,
@@ -37,4 +38,6 @@ application_classes = {
     "shortcuts": XAShortcutsApplication,
     "dictionary": XADictionaryApplication,
     "photos": XAPhotosApplication,
+    "system preferences": XASystemPreferencesApplication,
+    "systempreferences": XASystemPreferencesApplication,
 }

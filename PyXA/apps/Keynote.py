@@ -5,7 +5,7 @@ Control the macOS Keynote application using JXA-like syntax.
 from cgitb import text
 from enum import Enum
 from time import sleep
-from typing import List, Union
+from typing import Any, List, Union
 from AppKit import NSFileManager, NSURL, NSSet
 
 from AppKit import NSPredicate, NSMutableArray, NSData, NSMutableString, NSASCIIStringEncoding, NSPasteboard
@@ -192,6 +192,10 @@ class _KeynoteLegacyChartType(Enum):
 	KeynoteLegacyChartTypeStacked_area_3d           = OSType('sar3') # three-dimensional stacked area chart 
 	KeynoteLegacyChartTypeScatterplot_2d            = OSType('scp2') # two-dimensional scatterplot chart 
 
+class _KeynoteLegacyChartGrouping(Enum):
+	KeynoteLegacyChartGroupingChartRow      = OSType('KCgr') # group by row
+	KeynoteLegacyChartGroupingChartColumn   = OSType('KCgc') # group by column
+
 class _KeyActions(Enum):
     SystemEventsEMdsCommandDown = 'Kcmd' # command down
     SystemEventsEMdsControlDown = 'Kctl' # control down
@@ -373,11 +377,11 @@ class XAKeynoteDocument(XABase.XAHasElements, XABaseScriptable.XASBPrintable, XA
 
     # Slides
     def slides(self, properties: Union[dict, None] = None) -> List['XAKeynoteSlide']:
-        """Returns a list of documents, as PyXA objects, matching the given filter.
+        """Returns a list of slides, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned slides will have, or None
         :type filter: Union[dict, None]
-        :return: The list of documents
+        :return: The list of slides
         :rtype: List[XAKeynoteSlide]
 
         :Example 1: List all slides
@@ -401,7 +405,7 @@ class XAKeynoteDocument(XABase.XAHasElements, XABaseScriptable.XASBPrintable, XA
 
         :param filter: Either an array index or a dictionary specifying property-value pairs that the returned slide will have
         :type filter: Union[int, dict]
-        :return: The document
+        :return: The slide
         :rtype: XAKeynoteSlide
 
         :Example 1: Get a slide by index
@@ -463,11 +467,470 @@ class XAKeynoteTheme(XABaseScriptable.XASBObject):
     def __init__(self, properties):
         super().__init__(properties)
 
+class XAKeynoteContainer(XABase.XAHasElements):
+    """A class for managing and interacting with containers in Keynote.
 
-class XAKeynoteSlide(XABaseScriptable.XASBObject):
+    .. seealso:: :class:`XAKeynoteApplication`, :class:`XAKeynoteiWorkItem`
+
+    .. versionadded:: 0.0.2
+    """
+    def __init__(self, properties):
+        super().__init__(properties)
+
+    # iWork Items
+    def iwork_items(self, properties: Union[dict, None] = None) -> List['XAKeynoteiWorkItem']:
+        """Returns a list of iWork items, as PyXA objects, matching the given filter.
+
+        :param filter: A dictionary specifying property-value pairs that all returned iWork items will have, or None
+        :type filter: Union[dict, None]
+        :return: The list of iWork items
+        :rtype: List[XAKeynoteiWorkItem]
+
+        .. versionadded:: 0.0.2
+        """
+        return super().elements("iWorkItems", properties, XAKeynoteiWorkItem)
+
+    def iwork_item(self, properties: Union[int, dict]) -> 'XAKeynoteiWorkItem':
+        """Returns the first iWork item matching the given filter.
+
+        :param filter: Either an array index or a dictionary specifying property-value pairs that the returned iWork item will have
+        :type filter: Union[int, dict]
+        :return: The iWork item
+        :rtype: XAKeynoteiWorkItem
+
+        .. versionadded:: 0.0.2
+        """
+        return super().element_with_properties("iWorkItems", properties, XAKeynoteiWorkItem)
+
+    def first_iwork_item(self) -> 'XAKeynoteiWorkItem':
+        """Returns the iWork item at the zero index of the iWork items array.
+
+        :return: The first iWork item
+        :rtype: XAKeynoteiWorkItem
+
+        .. versionadded:: 0.0.2
+        """
+        return super().first_element("iWorkItems", XAKeynoteiWorkItem)
+
+    def last_iwork_item(self) -> 'XAKeynoteiWorkItem':
+        """Returns the iWork item at the last (-1) index of the iWork items array.
+
+        :return: The last iWork item
+        :rtype: XAKeynoteiWorkItem
+
+        .. versionadded:: 0.0.2
+        """
+        return super().last_element("iWorkItems", XAKeynoteiWorkItem)
+
+    # AudioClips
+    def audio_clips(self, properties: Union[dict, None] = None) -> List['XAKeynoteAudioClip']:
+        """Returns a list of audio clips, as PyXA objects, matching the given filter.
+
+        :param filter: A dictionary specifying property-value pairs that all returned audio clips will have, or None
+        :type filter: Union[dict, None]
+        :return: The list of audio clips
+        :rtype: List[XAKeynoteAudioClip]
+
+        .. versionadded:: 0.0.2
+        """
+        return super().elements("audioClips", properties, XAKeynoteAudioClip)
+
+    def audio_clip(self, properties: Union[int, dict]) -> 'XAKeynoteAudioClip':
+        """Returns the first image matching the given filter.
+
+        :param filter: Either an array index or a dictionary specifying property-value pairs that the returned audio clip will have
+        :type filter: Union[int, dict]
+        :return: The audio clip
+        :rtype: XAKeynoteAudioClip
+
+        .. versionadded:: 0.0.2
+        """
+        return super().element_with_properties("audioClips", properties, XAKeynoteAudioClip)
+
+    def first_audio_clip(self) -> 'XAKeynoteAudioClip':
+        """Returns the audio clip at the zero index of the audio clips array.
+
+        :return: The first image
+        :rtype: XAKeynoteAudioClip
+
+        .. versionadded:: 0.0.2
+        """
+        return super().first_element("audioClips", XAKeynoteAudioClip)
+
+    def last_audio_clip(self) -> 'XAKeynoteAudioClip':
+        """Returns the audio clip at the last (-1) index of the audio clips array.
+
+        :return: The last audio clip
+        :rtype: XAKeynoteAudioClip
+
+        .. versionadded:: 0.0.2
+        """
+        return super().last_element("audioClips", XAKeynoteAudioClip)
+
+    # Charts
+    def charts(self, properties: Union[dict, None] = None) -> List['XAKeynoteChart']:
+        """Returns a list of charts, as PyXA objects, matching the given filter.
+
+        :param filter: A dictionary specifying property-value pairs that all returned charts will have, or None
+        :type filter: Union[dict, None]
+        :return: The list of charts
+        :rtype: List[XAKeynoteChart]
+
+        .. versionadded:: 0.0.2
+        """
+        return super().elements("charts", properties, XAKeynoteChart)
+
+    def chart(self, properties: Union[int, dict]) -> 'XAKeynoteChart':
+        """Returns the first image matching the given filter.
+
+        :param filter: Either an array index or a dictionary specifying property-value pairs that the returned chart will have
+        :type filter: Union[int, dict]
+        :return: The chart
+        :rtype: XAKeynoteChart
+
+        .. versionadded:: 0.0.2
+        """
+        return super().element_with_properties("charts", properties, XAKeynoteChart)
+
+    def first_chart(self) -> 'XAKeynoteChart':
+        """Returns the chart at the zero index of the charts array.
+
+        :return: The first image
+        :rtype: XAKeynoteChart
+
+        .. versionadded:: 0.0.2
+        """
+        return super().first_element("charts", XAKeynoteChart)
+
+    def last_chart(self) -> 'XAKeynoteChart':
+        """Returns the chart at the last (-1) index of the charts array.
+
+        :return: The last chart
+        :rtype: XAKeynoteChart
+
+        .. versionadded:: 0.0.2
+        """
+        return super().last_element("charts", XAKeynoteChart)
+
+    # Images
+    def images(self, properties: Union[dict, None] = None) -> List['XAKeynoteImage']:
+        """Returns a list of images, as PyXA objects, matching the given filter.
+
+        :param filter: A dictionary specifying property-value pairs that all returned images will have, or None
+        :type filter: Union[dict, None]
+        :return: The list of images
+        :rtype: List[XAKeynoteImage]
+
+        .. versionadded:: 0.0.2
+        """
+        return super().elements("images", properties, XAKeynoteImage)
+
+    def image(self, properties: Union[int, dict]) -> 'XAKeynoteImage':
+        """Returns the first image matching the given filter.
+
+        :param filter: Either an array index or a dictionary specifying property-value pairs that the returned image will have
+        :type filter: Union[int, dict]
+        :return: The image
+        :rtype: XAKeynoteImage
+
+        .. versionadded:: 0.0.2
+        """
+        return super().element_with_properties("images", properties, XAKeynoteImage)
+
+    def first_image(self) -> 'XAKeynoteImage':
+        """Returns the image at the zero index of the images array.
+
+        :return: The first image
+        :rtype: XAKeynoteImage
+
+        .. versionadded:: 0.0.2
+        """
+        return super().first_element("images", XAKeynoteImage)
+
+    def last_image(self) -> 'XAKeynoteImage':
+        """Returns the image at the last (-1) index of the images array.
+
+        :return: The last image
+        :rtype: XAKeynoteImage
+
+        .. versionadded:: 0.0.2
+        """
+        return super().last_element("images", XAKeynoteImage)
+
+    # Groups
+    def groups(self, properties: Union[dict, None] = None) -> List['XAKeynoteGroup']:
+        """Returns a list of groups, as PyXA objects, matching the given filter.
+
+        :param filter: A dictionary specifying property-value pairs that all returned groups will have, or None
+        :type filter: Union[dict, None]
+        :return: The list of groups
+        :rtype: List[XAKeynoteGroup]
+
+        .. versionadded:: 0.0.2
+        """
+        return super().elements("groups", properties, XAKeynoteGroup)
+
+    def group(self, properties: Union[int, dict]) -> 'XAKeynoteGroup':
+        """Returns the first group matching the given filter.
+
+        :param filter: Either an array index or a dictionary specifying property-value pairs that the returned group will have
+        :type filter: Union[int, dict]
+        :return: The group
+        :rtype: XAKeynoteGroup
+
+        .. versionadded:: 0.0.2
+        """
+        return super().element_with_properties("groups", properties, XAKeynoteGroup)
+
+    def first_group(self) -> 'XAKeynoteGroup':
+        """Returns the group at the zero index of the groups array.
+
+        :return: The first group
+        :rtype: XAKeynoteGroup
+
+        .. versionadded:: 0.0.2
+        """
+        return super().first_element("groups", XAKeynoteGroup)
+
+    def last_group(self) -> 'XAKeynoteGroup':
+        """Returns the group at the last (-1) index of the groups array.
+
+        :return: The last group
+        :rtype: XAKeynoteGroup
+
+        .. versionadded:: 0.0.2
+        """
+        return super().last_element("groups", XAKeynoteGroup)
+
+    # Lines
+    def lines(self, properties: Union[dict, None] = None) -> List['XAKeynoteLine']:
+        """Returns a list of lines, as PyXA objects, matching the given filter.
+
+        :param filter: A dictionary specifying property-value pairs that all returned lines will have, or None
+        :type filter: Union[dict, None]
+        :return: The list of lines
+        :rtype: List[XAKeynoteLine]
+
+        .. versionadded:: 0.0.2
+        """
+        return super().elements("lines", properties, XAKeynoteLine)
+
+    def line(self, properties: Union[int, dict]) -> 'XAKeynoteLine':
+        """Returns the first line matching the given filter.
+
+        :param filter: Either an array index or a dictionary specifying property-value pairs that the returned line will have
+        :type filter: Union[int, dict]
+        :return: The line
+        :rtype: XAKeynoteLine
+
+        .. versionadded:: 0.0.2
+        """
+        return super().element_with_properties("lines", properties, XAKeynoteLine)
+
+    def first_line(self) -> 'XAKeynoteLine':
+        """Returns the line at the zero index of the lines array.
+
+        :return: The first line
+        :rtype: XAKeynoteLine
+
+        .. versionadded:: 0.0.2
+        """
+        return super().first_element("lines", XAKeynoteLine)
+
+    def last_line(self) -> 'XAKeynoteLine':
+        """Returns the line at the last (-1) index of the lines array.
+
+        :return: The last line
+        :rtype: XAKeynoteLine
+
+        .. versionadded:: 0.0.2
+        """
+        return super().last_element("lines", XAKeynoteLine)
+
+    # Movies
+    def movies(self, properties: Union[dict, None] = None) -> List['XAKeynoteMovie']:
+        """Returns a list of movies, as PyXA objects, matching the given filter.
+
+        :param filter: A dictionary specifying property-value pairs that all returned movies will have, or None
+        :type filter: Union[dict, None]
+        :return: The list of movies
+        :rtype: List[XAKeynoteMovie]
+
+        .. versionadded:: 0.0.2
+        """
+        return super().elements("movies", properties, XAKeynoteMovie)
+
+    def movie(self, properties: Union[int, dict]) -> 'XAKeynoteMovie':
+        """Returns the first movie matching the given filter.
+
+        :param filter: Either an array index or a dictionary specifying property-value pairs that the returned movie will have
+        :type filter: Union[int, dict]
+        :return: The movie
+        :rtype: XAKeynoteMovie
+
+        .. versionadded:: 0.0.2
+        """
+        return super().element_with_properties("movies", properties, XAKeynoteMovie)
+
+    def first_movie(self) -> 'XAKeynoteMovie':
+        """Returns the movie at the zero index of the movies array.
+
+        :return: The first movie
+        :rtype: XAKeynoteMovie
+
+        .. versionadded:: 0.0.2
+        """
+        return super().first_element("movies", XAKeynoteMovie)
+
+    def last_movie(self) -> 'XAKeynoteMovie':
+        """Returns the movie at the last (-1) index of the movies array.
+
+        :return: The last movie
+        :rtype: XAKeynoteMovie
+
+        .. versionadded:: 0.0.2
+        """
+        return super().last_element("movies", XAKeynoteMovie)
+
+    # Shapes
+    def shapes(self, properties: Union[dict, None] = None) -> List['XAKeynoteShape']:
+        """Returns a list of shapes, as PyXA objects, matching the given filter.
+
+        :param filter: A dictionary specifying property-value pairs that all returned shapes will have, or None
+        :type filter: Union[dict, None]
+        :return: The list of shapes
+        :rtype: List[XAKeynoteShape]
+
+        .. versionadded:: 0.0.2
+        """
+        return super().elements("shapes", properties, XAKeynoteShape)
+
+    def shape(self, properties: Union[int, dict]) -> 'XAKeynoteShape':
+        """Returns the first shape matching the given filter.
+
+        :param filter: Either an array index or a dictionary specifying property-value pairs that the returned shape will have
+        :type filter: Union[int, dict]
+        :return: The shape
+        :rtype: XAKeynoteShape
+
+        .. versionadded:: 0.0.2
+        """
+        return super().element_with_properties("shapes", properties, XAKeynoteShape)
+
+    def first_shape(self) -> 'XAKeynoteShape':
+        """Returns the shape at the zero index of the shapes array.
+
+        :return: The first shape
+        :rtype: XAKeynoteShape
+
+        .. versionadded:: 0.0.2
+        """
+        return super().first_element("shapes", XAKeynoteShape)
+
+    def last_shape(self) -> 'XAKeynoteShape':
+        """Returns the shape at the last (-1) index of the shapes array.
+
+        :return: The last shape
+        :rtype: XAKeynoteShape
+
+        .. versionadded:: 0.0.2
+        """
+        return super().last_element("shapes", XAKeynoteShape)
+
+    # Tables
+    def tables(self, properties: Union[dict, None] = None) -> List['XAKeynoteTable']:
+        """Returns a list of tables, as PyXA objects, matching the given filter.
+
+        :param filter: A dictionary specifying property-value pairs that all returned tables will have, or None
+        :type filter: Union[dict, None]
+        :return: The list of tables
+        :rtype: List[XAKeynoteTable]
+
+        .. versionadded:: 0.0.2
+        """
+        return super().elements("tables", properties, XAKeynoteTable)
+
+    def table(self, properties: Union[int, dict]) -> 'XAKeynoteTable':
+        """Returns the first table matching the given filter.
+
+        :param filter: Either an array index or a dictionary specifying property-value pairs that the returned table will have
+        :type filter: Union[int, dict]
+        :return: The table
+        :rtype: XAKeynoteTable
+
+        .. versionadded:: 0.0.2
+        """
+        return super().element_with_properties("tables", properties, XAKeynoteTable)
+
+    def first_table(self) -> 'XAKeynoteTable':
+        """Returns the table at the zero index of the tables array.
+
+        :return: The first table
+        :rtype: XAKeynoteTable
+
+        .. versionadded:: 0.0.2
+        """
+        return super().first_element("tables", XAKeynoteTable)
+
+    def last_table(self) -> 'XAKeynoteTable':
+        """Returns the table at the last (-1) index of the tables array.
+
+        :return: The last table
+        :rtype: XAKeynoteTable
+
+        .. versionadded:: 0.0.2
+        """
+        return super().last_element("tables", XAKeynoteTable)
+
+    # Text Items
+    def text_items(self, properties: Union[dict, None] = None) -> List['XAKeynoteTextItem']:
+        """Returns a list of text_items, as PyXA objects, matching the given filter.
+
+        :param filter: A dictionary specifying property-value pairs that all returned text_items will have, or None
+        :type filter: Union[dict, None]
+        :return: The list of text_items
+        :rtype: List[XAKeynoteTextItem]
+
+        .. versionadded:: 0.0.2
+        """
+        return super().elements("text_items", properties, XAKeynoteTextItem)
+
+    def text_item(self, properties: Union[int, dict]) -> 'XAKeynoteTextItem':
+        """Returns the first text_item matching the given filter.
+
+        :param filter: Either an array index or a dictionary specifying property-value pairs that the returned text_item will have
+        :type filter: Union[int, dict]
+        :return: The text_item
+        :rtype: XAKeynoteTextItem
+
+        .. versionadded:: 0.0.2
+        """
+        return super().element_with_properties("text_items", properties, XAKeynoteTextItem)
+
+    def first_text_item(self) -> 'XAKeynoteTextItem':
+        """Returns the text_item at the zero index of the text_items array.
+
+        :return: The first text_item
+        :rtype: XAKeynoteTextItem
+
+        .. versionadded:: 0.0.2
+        """
+        return super().first_element("text_items", XAKeynoteTextItem)
+
+    def last_text_item(self) -> 'XAKeynoteTextItem':
+        """Returns the text_item at the last (-1) index of the text_items array.
+
+        :return: The last text_item
+        :rtype: XAKeynoteTextItem
+
+        .. versionadded:: 0.0.2
+        """
+        return super().last_element("text_items", XAKeynoteTextItem)
+
+class XAKeynoteSlide(XAKeynoteContainer):
     """A class for managing and interacting with TextEdit documents.
 
-    .. seealso:: :class:`XAKeynoteApplication`
+    .. seealso:: :class:`XAKeynoteApplication`, :class:`XAKeynoteiWorkItem`
 
     .. versionadded:: 0.0.2
     """
@@ -487,7 +950,7 @@ class XAKeynoteSlide(XABaseScriptable.XASBObject):
     def duplicate(self) -> 'XAKeynoteSlide':
         """Duplicates the slide, mimicking the action of copying and pasting the slide manually.
 
-        :return: A reference to the PyXA slide object that called this command
+        :return: A reference to the PyXA slide object that called this command.
         :rtype: XAKeynoteSlide
 
         .. versionadded:: 0.0.2
@@ -496,35 +959,325 @@ class XAKeynoteSlide(XABaseScriptable.XASBObject):
         return self
 
     def delete(self):
+        """Deletes the slide.
+
+        .. versionadded:: 0.0.2
+        """
         self.xa_elem.delete()
 
-    def add_image(self, file_path: str = None):
-        url = NSURL.alloc().initFileURLWithPath_("/Users/steven/Documents/eek/Avery.jpg")
+    def add_image(self, file_path: Union[str, NSURL]) -> 'XAKeynoteImage':
+        """Adds the image at the specified path to the slide.
+
+        :param file_path: The path to the image file.
+        :type file_path: Union[str, NSURL]
+        :return: The newly created image object.
+        :rtype: XAKeynoteImage
+
+        .. versionadded:: 0.0.2
+        """
+        url = file_path
+        if isinstance(url, str):
+            url = NSURL.alloc().initFileURLWithPath_(file_path)
         image = self.xa_prnt.xa_prnt.construct("image", {
             "file": url,
         })
-        print(self.xa_elem.images())
         self.xa_elem.images().addObject_(image)
-        print(image)
+        properties = {
+            "parent": self,
+            "appspace": self.xa_apsp,
+            "workspace": self.xa_wksp,
+            "element": image,
+            "appref": self.xa_aref,
+            "system_events": self.xa_sevt,
+        }
+        return XAKeynoteImage(properties)
+
+    def add_chart(self, row_names: List[str], column_names: List[str], data: List[List[Any]], type: int = _KeynoteLegacyChartType.KeynoteLegacyChartTypeLine_2d.value, group_by: int = _KeynoteLegacyChartGrouping.KeynoteLegacyChartGroupingChartRow.value) -> 'XAKeynoteChart':
+        """_summary_
+
+        _extended_summary_
+
+        :param row_names: A list of row names.
+        :type row_names: List[str]
+        :param column_names: A list of column names.
+        :type column_names: List[str]
+        :param data: A 2d array 
+        :type data: List[List[Any]]
+        :param type: The chart type, defaults to _KeynoteLegacyChartType.KeynoteLegacyChartTypeLine_2d.value
+        :type type: int, optional
+        :param group_by: The grouping schema, defaults to _KeynoteLegacyChartGrouping.KeynoteLegacyChartGroupingChartRow.value
+        :type group_by: int, optional
+        :return: A reference to the newly created chart object.
+        :rtype: XAKeynoteChart
+
+        .. versionadded:: 0.0.2
+        """
+        self.xa_prnt.set_property("currentSlide", self.xa_elem)
+        self.xa_elem.addChartRowNames_columnNames_data_type_groupBy_(row_names, column_names, data, type, group_by)
+        chart = self.xa_elem.charts()[-1].get()
+        properties = {
+            "parent": self,
+            "appspace": self.xa_apsp,
+            "workspace": self.xa_wksp,
+            "element": chart,
+            "appref": self.xa_aref,
+            "system_events": self.xa_sevt,
+        }
+        return XAKeynoteChart(properties)
 
 
 class XAKeynoteSlideLayout(XABaseScriptable.XASBObject):
     """A class for managing and interacting with TextEdit documents.
 
+    .. seealso:: :class:`XAKeynoteSlide`
+
+    .. versionadded:: 0.0.2
+    """
+    def __init__(self, properties):
+        super().__init__(properties)
+        self.name = self.xa_elem.name()
+
+
+class XAKeynoteiWorkItem(XABase.XAObject):
+    """A class for managing and interacting with text, shapes, images, and other elements in Keynote.
+
     .. seealso:: :class:`XAKeynoteApplication`
 
     .. versionadded:: 0.0.2
     """
     def __init__(self, properties):
         super().__init__(properties)
+        self.height: int = self.xa_elem.height()
+        self.locked: bool = self.xa_elem.locked()
+        self.width: int = self.xa_elem.width()
+        self.__parent = None
+        self.__position = None
 
+    def delete(self):
+        """Deletes the item.
 
-class XAKeynoteiWorkItem(XABaseScriptable.XASBObject):
-    """A class for managing and interacting with TextEdit documents.
+        .. versionadded:: 0.0.2
+        """
+        self.xa_elem.delete()
 
-    .. seealso:: :class:`XAKeynoteApplication`
+    def duplicate(self) -> 'XAKeynoteiWorkItem':
+        """Duplicates the item.
+
+        :return: A reference to the PyXA object that called this method.
+        :rtype: XAKeynoteiWorkItem
+
+        .. versionadded:: 0.0.2
+        """
+        self.xa_elem.duplicateTo_withProperties_(self.xa_prnt.xa_elem.iWorkItems(), None)
+        return self
+
+    def resize(self, width: int, height: int) -> 'XAKeynoteiWorkItem':
+        """Sets the width and height of the item.
+
+        :param width: The desired width, in pixels
+        :type width: int
+        :param height: The desired height, in pixels
+        :type height: int
+        :return: The iWork item
+        :rtype: XAKeynoteiWorkItem
+
+        .. versionadded:: 0.0.2
+        """
+        self.set_properties({
+            "width": width,
+            "height": height,
+        })
+        return self
+
+    def lock(self) -> 'XAKeynoteiWorkItem':
+        """Locks the properties of the item, preventing changes.
+
+        :return: The iWork item
+        :rtype: XAKeynoteiWorkItem
+
+        .. versionadded:: 0.0.2
+        """
+        self.set_property("locked", True)
+        return self
+
+    def unlock(self) -> 'XAKeynoteiWorkItem':
+        """Unlocks the properties of the item, allowing changes.
+
+        :return: The iWork item
+        :rtype: XAKeynoteiWorkItem
+
+        .. versionadded:: 0.0.2
+        """
+        self.set_property("locked", False)
+        return self
+
+class XAKeynoteGroup(XAKeynoteiWorkItem):
+    """A class for managing and interacting with iWork item groups in Keynote.
 
     .. versionadded:: 0.0.2
     """
     def __init__(self, properties):
         super().__init__(properties)
+
+class XAKeynoteImage(XAKeynoteiWorkItem):
+    """A class for managing and interacting with images in Keynote.
+
+    .. versionadded:: 0.0.2
+    """
+    def __init__(self, properties):
+        super().__init__(properties)
+        self.description: str = self.xa_elem.objectDescription()
+        self.file = self.xa_elem.file()
+        self.file_name: str = self.xa_elem.fileName().get()
+        self.opacity: int = self.xa_elem.opacity()
+        self.reflection_showing: bool = self.xa_elem.reflectionShowing()
+        self.reflection_value: int = self.xa_elem.reflectionValue()
+        self.rotation: int = self.xa_elem.rotation()
+
+    def rotate(self, degrees: int) -> 'XAKeynoteImage':
+        """Rotates the image by the specified number of degrees.
+
+        :param degrees: The amount to rotate the image, in degrees, from -359 to 359
+        :type degrees: int
+        :return: The image.
+        :rtype: XAKeynoteImage
+
+        .. versionadded:: 0.0.2
+        """
+        self.set_property("rotation", self.rotation + degrees)
+        return self
+
+    def replace_with(self, img_path: Union[str, NSURL]) -> 'XAKeynoteImage':
+        """Removes the image and inserts another in its place with the same width and height.
+
+        :param img_path: The path to the new image file.
+        :type img_path: Union[str, NSURL]
+        :return: A reference to the new PyXA image object.
+        :rtype: XAKeynoteImage
+
+        .. versionadded:: 0.0.2
+        """
+        self.delete()
+        return self.xa_prnt.add_image(img_path)
+
+class XAKeynoteAudioClip(XAKeynoteiWorkItem):
+    """A class for managing and interacting with audio clips in Keynote.
+
+    .. versionadded:: 0.0.2
+    """
+    def __init__(self, properties):
+        super().__init__(properties)
+        self.file_name: str = self.xa_elem.fileName()
+        self.clip_volume: int = self.xa_elem.clipVolume()
+        self.repitition_method: int = self.xa_elem.repetitionMethod()
+
+class XAKeynoteShape(XAKeynoteiWorkItem):
+    """A class for managing and interacting with shapes in Keynote.
+
+    .. versionadded:: 0.0.2
+    """
+    def __init__(self, properties):
+        super().__init__(properties)
+        self.background_fill_type: int = self.xa_elem.backgroundFillType()
+        self.text: str = self.xa_elem.objectText()
+        self.opacity: int = self.xa_elem.opacity()
+        self.reflection_showing: bool = self.xa_elem.reflectionShowing()
+        self.reflection_value: int = self.xa_elem.reflectionValue()
+        self.rotation: int = self.xa_elem.rotation()
+
+    def rotate(self, degrees: int) -> 'XAKeynoteShape':
+        """Rotates the shape by the specified number of degrees.
+
+        :param degrees: The amount to rotate the shape, in degrees, from -359 to 359
+        :type degrees: int
+        :return: The shape.
+        :rtype: XAKeynoteShape
+
+        .. versionadded:: 0.0.2
+        """
+        self.set_property("rotation", self.rotation + degrees)
+        return self
+
+class XAKeynoteChart(XAKeynoteiWorkItem):
+    """A class for managing and interacting with charts in Keynote.
+
+    .. versionadded:: 0.0.2
+    """
+    def __init__(self, properties):
+        super().__init__(properties)
+
+class XAKeynoteLine(XAKeynoteiWorkItem):
+    """A class for managing and interacting with lines in Keynote.
+
+    .. versionadded:: 0.0.2
+    """
+    def __init__(self, properties):
+        super().__init__(properties)
+
+class XAKeynoteMovie(XAKeynoteiWorkItem):
+    """A class for managing and interacting with movie containers in Keynote.
+
+    .. versionadded:: 0.0.2
+    """
+    def __init__(self, properties):
+        super().__init__(properties)
+
+class XAKeynoteTextItem(XAKeynoteiWorkItem):
+    """A class for managing and interacting with text items in Keynote.
+
+    .. versionadded:: 0.0.2
+    """
+    def __init__(self, properties):
+        super().__init__(properties)
+
+class XAKeynoteTable(XAKeynoteiWorkItem):
+    """A class for managing and interacting with tables in Keynote.
+
+    .. versionadded:: 0.0.2
+    """
+    def __init__(self, properties):
+        super().__init__(properties)
+
+class XAKeynoteRange(XABase.XAObject):
+    """A class for managing and interacting with ranges of table cells in Keynote.
+
+    .. versionadded:: 0.0.2
+    """
+    def __init__(self, properties):
+        super().__init__(properties)
+        self.properties = self.xa_elem.properties()
+        self.font_name: str = self.properties["fontName"]
+
+class XAKeynoteRow(XAKeynoteRange):
+    """A class for managing and interacting with table rows in Keynote.
+
+    .. versionadded:: 0.0.2
+    """
+    def __init__(self, properties):
+        super().__init__(properties)
+        self.address: int = self.xa_elem.address()
+        self.height: float = self.xa_elem.height()
+
+class XAKeynoteColumn(XAKeynoteRange):
+    """A class for managing and interacting with table columns in Keynote.
+
+    .. versionadded:: 0.0.2
+    """
+    def __init__(self, properties):
+        super().__init__(properties)
+        self.address: int = self.xa_elem.address()
+        self.width: float = self.xa_elem.width()
+
+class XAKeynoteCell(XAKeynoteRange):
+    """A class for managing and interacting with table cells in Keynote.
+
+    .. versionadded:: 0.0.2
+    """
+    def __init__(self, properties):
+        super().__init__(properties)
+        self.formatted_value: str = self.xa_elem.formattedValue()
+        self.formula:str = self.xa_elem.formula()
+        self.value = self.xa_elem.value()
+        print(self.value)
+        self.__column = None
+        self.__row = None

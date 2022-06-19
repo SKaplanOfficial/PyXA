@@ -29,7 +29,7 @@ class XAHasScriptableElements(XABase.XAObject):
                 "parent": self,
                 "appspace": self.xa_apsp,
                 "workspace": self.xa_wksp,
-                "element": element,
+                "element": element.get(),
                 "appref": self.xa_aref,
                 "system_events": self.xa_sevt,
             }
@@ -151,6 +151,7 @@ class XASBApplication(XASBObject, XABase.XAApplication, XAHasScriptableElements)
     def __init__(self, properties):
         super().__init__(properties)
         self.xa_scel = ScriptingBridge.SBApplication.alloc().initWithBundleIdentifier_(self.xa_elem.bundleIdentifier())
+
         self.xa_wcls = XASBWindow
 
         self.element_properties = self.xa_scel.properties()

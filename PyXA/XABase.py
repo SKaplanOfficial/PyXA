@@ -12,6 +12,9 @@ from CoreLocation import CLLocation
 from ScriptingBridge import SBApplication, SBElementArray
 from Foundation import NSURL, NSString
 
+def OSType(s):
+    return int.from_bytes(s.encode("UTF-8"), "big")
+
 class XAObject():
     """A general class for PyXA scripting objects.
 
@@ -283,7 +286,7 @@ class XACanConstructElement(XAObject):
 
         .. versionadded:: 0.0.1
         """
-        if self.scel is not None:
+        if self.xa_scel is not None:
             return self.xa_scel.classForScriptingClass_(specifier).alloc().initWithProperties_(properties)
         return self.xa_elem.classForScriptingClass_(specifier).alloc().initWithProperties_(properties)
         

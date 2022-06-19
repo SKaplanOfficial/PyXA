@@ -5,8 +5,8 @@ Control the macOS Keynote application using JXA-like syntax.
 from cgitb import text
 from enum import Enum
 from time import sleep
-from typing import Any, List, Union
-from AppKit import NSFileManager, NSURL, NSSet
+from typing import Any, List, Tuple, Union
+from AppKit import NSFileManager, NSURL, NSSet, NSPoint, NSValue
 
 from AppKit import NSPredicate, NSMutableArray, NSData, NSMutableString, NSASCIIStringEncoding, NSPasteboard
 import AppleScriptObjC
@@ -16,191 +16,9 @@ from PyXA.XABase import OSType
 from PyXA import XABaseScriptable
 import ctypes
 
+from PyXA.XABase import XAColor
+
 from PyXA import XAEvents
-
-class _KeynoteSaveOptions(Enum):
-	KeynoteSaveOptionsYes   = OSType('yes ') # Save the file. 
-	KeynoteSaveOptionsNo    = OSType('no  ') # Do not save the file. 
-	KeynoteSaveOptionsAsk   = OSType('ask ') # Ask the user whether or not to save the file. 
-
-class _KeynotePrintingErrorHandling(Enum):
-	KeynotePrintingErrorHandlingStandard = OSType('lwst') # Standard PostScript error handling 
-	KeynotePrintingErrorHandlingDetailed = OSType('lwdt') # print a detailed report of PostScript errors 
-
-class _KeynoteSaveableFileFormat(Enum):
-	KeynoteSaveableFileFormatKeynote = OSType('Knff') # The Keynote native file format 
-
-class _KeynoteExportFormat(Enum):
-	KeynoteExportFormatHTML                 = OSType('Khtm') # HTML 
-	KeynoteExportFormatQuickTimeMovie       = OSType('Kmov') # QuickTime movie 
-	KeynoteExportFormatPDF                  = OSType('Kpdf') # PDF 
-	KeynoteExportFormatSlideImages          = OSType('Kimg') # image 
-	KeynoteExportFormatMicrosoftPowerPoint  = OSType('Kppt') # Microsoft PowerPoint 
-	KeynoteExportFormatKeynote09            = OSType('Kkey') # Keynote 09 
-
-class _KeynoteImageExportFormats(Enum):
-	KeynoteImageExportFormatsJPEG   = OSType('Kifj') # JPEG 
-	KeynoteImageExportFormatsPNG    = OSType('Kifp') # PNG 
-	KeynoteImageExportFormatsTIFF   = OSType('Kift') # TIFF 
-
-class _KeynoteMovieExportFormats(Enum):
-	KeynoteMovieExportFormatsFormat360p     = OSType('Kmf3') # 360p 
-	KeynoteMovieExportFormatsFormat540p     = OSType('Kmf5') # 540p 
-	KeynoteMovieExportFormatsFormat720p     = OSType('Kmf7') # 720p 
-	KeynoteMovieExportFormatsFormat1080p    = OSType('Kmf8') # 1080p 
-	KeynoteMovieExportFormatsFormat2160p    = OSType('Kmf4') # DCI 4K (4096x2160) 
-	KeynoteMovieExportFormatsNativeSize     = OSType('KmfN') # Exported movie will have the same dimensions as the document, up to 4096x2160 
-
-class _KeynoteMovieCodecs(Enum):
-	KeynoteMovieCodecsH264                  = OSType('Kmc1') # H.264 
-	KeynoteMovieCodecsAppleProRes422        = OSType('Kmc2') # Apple ProRes 422 
-	KeynoteMovieCodecsAppleProRes4444       = OSType('Kmc3') # Apple ProRes 4444 
-	KeynoteMovieCodecsAppleProRes422LT      = OSType('Kmc4') # Apple ProRes 422LT 
-	KeynoteMovieCodecsAppleProRes422HQ      = OSType('Kmc5') # Apple ProRes 422HQ 
-	KeynoteMovieCodecsAppleProRes422Proxy   = OSType('Kmc6') # Apple ProRes 422Proxy 
-	KeynoteMovieCodecsHEVC                  = OSType('Kmc7') # HEVC 
-
-class _KeynoteMovieFramerates(Enum):
-	KeynoteMovieFrameratesFPS12     = OSType('Kfr1') # 12 FPS 
-	KeynoteMovieFrameratesFPS2398   = OSType('Kfr2') # 23.98 FPS 
-	KeynoteMovieFrameratesFPS24     = OSType('Kfr3') # 24 FPS 
-	KeynoteMovieFrameratesFPS25     = OSType('Kfr4') # 25 FPS 
-	KeynoteMovieFrameratesFPS2997   = OSType('Kfr5') # 29.97 FPS 
-	KeynoteMovieFrameratesFPS30     = OSType('Kfr6') # 30 FPS 
-	KeynoteMovieFrameratesFPS50     = OSType('Kfr7') # 50 FPS 
-	KeynoteMovieFrameratesFPS5994   = OSType('Kfr8') # 59.94 FPS 
-	KeynoteMovieFrameratesFPS60     = OSType('Kfr9') # 60 FPS 
-
-class _KeynotePrintWhat(Enum):
-	KeynotePrintWhatIndividualSlides    = OSType('Kpwi') # individual slides 
-	KeynotePrintWhatSlideWithNotes      = OSType('Kpwn') # slides with notes 
-	KeynotePrintWhatHandouts            = OSType('Kpwh') # handouts 
-
-class _KeynotePDFImageQuality(Enum):
-	KeynotePDFImageQualityGood      = OSType('KnP0') # good quality 
-	KeynotePDFImageQualityBetter    = OSType('KnP1') # better quality 
-	KeynotePDFImageQualityBest      = OSType('KnP2') # best quality 
-
-class _KeynoteTransitionEffects(Enum):
-	KeynoteTransitionEffectsNoTransitionEffect  = OSType('tnil') 
-	KeynoteTransitionEffectsMagicMove           = OSType('tmjv')   
-	KeynoteTransitionEffectsShimmer             = OSType('tshm')  
-	KeynoteTransitionEffectsSparkle             = OSType('tspk')   
-	KeynoteTransitionEffectsSwing               = OSType('tswg')   
-	KeynoteTransitionEffectsObjectCube          = OSType('tocb')   
-	KeynoteTransitionEffectsObjectFlip          = OSType('tofp')   
-	KeynoteTransitionEffectsObjectPop           = OSType('topp')   
-	KeynoteTransitionEffectsObjectPush          = OSType('toph')   
-	KeynoteTransitionEffectsObjectRevolve       = OSType('torv')   
-	KeynoteTransitionEffectsObjectZoom          = OSType('tozm')   
-	KeynoteTransitionEffectsPerspective         = OSType('tprs')   
-	KeynoteTransitionEffectsClothesline         = OSType('tclo')   
-	KeynoteTransitionEffectsConfetti            = OSType('tcft')   
-	KeynoteTransitionEffectsDissolve            = OSType('tdis')   
-	KeynoteTransitionEffectsDrop                = OSType('tdrp')   
-	KeynoteTransitionEffectsDroplet             = OSType('tdpl')   
-	KeynoteTransitionEffectsFadeThroughColor    = OSType('tftc')   
-	KeynoteTransitionEffectsGrid                = OSType('tgrd')   
-	KeynoteTransitionEffectsIris                = OSType('tirs')   
-	KeynoteTransitionEffectsMoveIn              = OSType('tmvi')   
-	KeynoteTransitionEffectsPush                = OSType('tpsh')   
-	KeynoteTransitionEffectsReveal              = OSType('trvl')   
-	KeynoteTransitionEffectsSwitch              = OSType('tswi')   
-	KeynoteTransitionEffectsWipe                = OSType('twpe')   
-	KeynoteTransitionEffectsBlinds              = OSType('tbld')   
-	KeynoteTransitionEffectsColorPlanes         = OSType('tcpl')   
-	KeynoteTransitionEffectsCube                = OSType('tcub')   
-	KeynoteTransitionEffectsDoorway             = OSType('tdwy')   
-	KeynoteTransitionEffectsFall                = OSType('tfal')   
-	KeynoteTransitionEffectsFlip                = OSType('tfip')   
-	KeynoteTransitionEffectsFlop                = OSType('tfop')   
-	KeynoteTransitionEffectsMosaic              = OSType('tmsc')   
-	KeynoteTransitionEffectsPageFlip            = OSType('tpfl')   
-	KeynoteTransitionEffectsPivot               = OSType('tpvt')   
-	KeynoteTransitionEffectsReflection          = OSType('trfl')   
-	KeynoteTransitionEffectsRevolvingDoor       = OSType('trev')   
-	KeynoteTransitionEffectsScale               = OSType('tscl')   
-	KeynoteTransitionEffectsSwap                = OSType('tswp')   
-	KeynoteTransitionEffectsSwoosh              = OSType('tsws')   
-	KeynoteTransitionEffectsTwirl               = OSType('ttwl')   
-	KeynoteTransitionEffectsTwist               = OSType('ttwi')   
-	KeynoteTransitionEffectsFadeAndMove         = OSType('tfad')   
-
-class _KeynoteTAVT(Enum):
-	KeynoteTAVTBottom   = OSType('avbt') # Right-align content. 
-	KeynoteTAVTCenter   = OSType('actr') # Center-align content. 
-	KeynoteTAVTTop      = OSType('avtp') # Top-align content. 
-
-class _KeynoteTAHT(Enum):
-	KeynoteTAHTAutoAlign    = OSType('aaut') # Auto-align based on content type. 
-	KeynoteTAHTCenter       = OSType('actr') # Center-align content. 
-	KeynoteTAHTJustify      = OSType('ajst') # Fully justify (left and right) content. 
-	KeynoteTAHTLeft         = OSType('alft') # Left-align content. 
-	KeynoteTAHTRight        = OSType('arit') # Right-align content. 
-
-class _KeynoteNMSD(Enum):
-	KeynoteNMSDAscending    = OSType('ascn') # Sort in increasing value order 
-	KeynoteNMSDDescending   = OSType('dscn') # Sort in decreasing value order 
-
-class _KeynoteNMCT(Enum):
-	KeynoteNMCTAutomatic        = OSType('faut') # Automatic format 
-	KeynoteNMCTCheckbox         = OSType('fcch') # Checkbox control format (Numbers only) 
-	KeynoteNMCTCurrency         = OSType('fcur') # Currency number format 
-	KeynoteNMCTDateAndTime      = OSType('fdtm') # Date and time format 
-	KeynoteNMCTFraction         = OSType('ffra') # Fraction number format 
-	KeynoteNMCTNumber           = OSType('nmbr') # Decimal number format 
-	KeynoteNMCTPercent          = OSType('fper') # Percentage number format 
-	KeynoteNMCTPopUpMenu        = OSType('fcpp') # Pop-up menu control format (Numbers only) 
-	KeynoteNMCTScientific       = OSType('fsci') # Scientific notation format 
-	KeynoteNMCTSlider           = OSType('fcsl') # Slider control format (Numbers only) 
-	KeynoteNMCTStepper          = OSType('fcst') # Stepper control format (Numbers only) 
-	KeynoteNMCTText             = OSType('ctxt') # Text format 
-	KeynoteNMCTDuration         = OSType('fdur') # Duration format 
-	KeynoteNMCTRating           = OSType('frat') # Rating format. (Numbers only) 
-	KeynoteNMCTNumeralSystem    = OSType('fcns') # Numeral System 
-
-class _KeynoteItemFillOptions(Enum):
-	KeynoteItemFillOptionsNoFill                = OSType('fino')   
-	KeynoteItemFillOptionsColorFill             = OSType('fico')   
-	KeynoteItemFillOptionsGradientFill          = OSType('figr')   
-	KeynoteItemFillOptionsAdvancedGradientFill  = OSType('fiag')   
-	KeynoteItemFillOptionsImageFill             = OSType('fiim')   
-	KeynoteItemFillOptionsAdvancedImageFill     = OSType('fiai')   
-
-class _KeynotePlaybackRepetitionMethod(Enum):
-	KeynotePlaybackRepetitionMethodNone             = OSType('mvrn')   
-	KeynotePlaybackRepetitionMethodLoop             = OSType('mvlp')   
-	KeynotePlaybackRepetitionMethodLoopBackAndForth = OSType('mvbf')   
-
-# Visual style of chart
-class _KeynoteLegacyChartType(Enum):
-	KeynoteLegacyChartTypePie_2d                    = OSType('pie2') # two-dimensional pie chart 
-	KeynoteLegacyChartTypeVertical_bar_2d           = OSType('vbr2') # two-dimensional vertical bar chart 
-	KeynoteLegacyChartTypeStacked_vertical_bar_2d   = OSType('svb2') # two-dimensional stacked vertical bar chart 
-	KeynoteLegacyChartTypeHorizontal_bar_2d         = OSType('hbr2') # two-dimensional horizontal bar chart 
-	KeynoteLegacyChartTypeStacked_horizontal_bar_2d = OSType('shb2') # two-dimensional stacked horizontal bar chart 
-	KeynoteLegacyChartTypePie_3d                    = OSType('pie3') # three-dimensional pie chart. 
-	KeynoteLegacyChartTypeVertical_bar_3d           = OSType('vbr3') # three-dimensional vertical bar chart 
-	KeynoteLegacyChartTypeStacked_vertical_bar_3d   = OSType('svb3') # three-dimensional stacked bar chart 
-	KeynoteLegacyChartTypeHorizontal_bar_3d         = OSType('hbr3') # three-dimensional horizontal bar chart 
-	KeynoteLegacyChartTypeStacked_horizontal_bar_3d = OSType('shb3') # three-dimensional stacked horizontal bar chart 
-	KeynoteLegacyChartTypeArea_2d                   = OSType('are2') # two-dimensional area chart. 
-	KeynoteLegacyChartTypeStacked_area_2d           = OSType('sar2') # two-dimensional stacked area chart 
-	KeynoteLegacyChartTypeLine_2d                   = OSType('lin2') # two-dimensional line chart. 
-	KeynoteLegacyChartTypeLine_3d                   = OSType('lin3') # three-dimensional line chart 
-	KeynoteLegacyChartTypeArea_3d                   = OSType('are3') # three-dimensional area chart 
-	KeynoteLegacyChartTypeStacked_area_3d           = OSType('sar3') # three-dimensional stacked area chart 
-	KeynoteLegacyChartTypeScatterplot_2d            = OSType('scp2') # two-dimensional scatterplot chart 
-
-class _KeynoteLegacyChartGrouping(Enum):
-	KeynoteLegacyChartGroupingChartRow      = OSType('KCgr') # group by row
-	KeynoteLegacyChartGroupingChartColumn   = OSType('KCgc') # group by column
-
-class _KeyActions(Enum):
-    SystemEventsEMdsCommandDown = 'Kcmd' # command down
-    SystemEventsEMdsControlDown = 'Kctl' # control down
-    SystemEventsEMdsOptionDown  = 'Kopt' # option down
-    SystemEventsEMdsShiftDown   = 'Ksft' # shift down
 
 class XAKeynoteApplication(XABaseScriptable.XASBApplication, XABase.XAAcceptsPushedElements, XABase.XACanConstructElement):
     """A class for managing and interacting with Podcasts.app.
@@ -209,6 +27,209 @@ class XAKeynoteApplication(XABaseScriptable.XASBApplication, XABase.XAAcceptsPus
 
     .. versionadded:: 0.0.2
     """
+    class SaveOption(Enum):
+        """Options for what to do when calling a save event.
+        """
+        SAVE_FILE   = OSType('yes ') #: Save the file. 
+        DONT_SAVE   = OSType('no  ') #: Do not save the file. 
+        ASK         = OSType('ask ') #: Ask the user whether or not to save the file. 
+
+    class ExportFormat(Enum):
+        """Options for what format to export a Keynote project as.
+        """
+        KEYNOTE         = OSType('Knff') # The Keynote native file format 
+        HTML                 = OSType('Khtm') # HTML 
+        QUICKTIME_MOVIE       = OSType('Kmov') # QuickTime movie 
+        PDF                  = OSType('Kpdf') # PDF 
+        SLIDE_IMAGES          = OSType('Kimg') # image 
+        MICROSOFT_POWERPOINT  = OSType('Kppt') # Microsoft PowerPoint 
+        KEYNOTE_09            = OSType('Kkey') # Keynote 09 
+        JPEG   = OSType('Kifj') # JPEG 
+        PNG    = OSType('Kifp') # PNG 
+        TIFF   = OSType('Kift') # TIFF 
+        f360p     = OSType('Kmf3') # 360p 
+        f540p     = OSType('Kmf5') # 540p 
+        f720p     = OSType('Kmf7') # 720p 
+        f1080p    = OSType('Kmf8') # 1080p 
+        f2160p    = OSType('Kmf4') # DCI 4K (4096x2160) 
+        NativeSize     = OSType('KmfN') # Exported movie will have the same dimensions as the document, up to 4096x2160 
+
+    class Codec(Enum):
+        """Options for which video codec to use.
+        """
+        H264                  = OSType('Kmc1') # H.264 
+        APPLE_PRO_RES_422        = OSType('Kmc2') # Apple ProRes 422 
+        APPLE_PRO_RES_4444       = OSType('Kmc3') # Apple ProRes 4444 
+        APPLE_PRO_RES_422LT      = OSType('Kmc4') # Apple ProRes 422LT 
+        APPLE_PRO_RES_422HQ      = OSType('Kmc5') # Apple ProRes 422HQ 
+        APPLE_PRO_RES_422Proxy   = OSType('Kmc6') # Apple ProRes 422Proxy 
+        HEVC                  = OSType('Kmc7') # HEVC 
+
+    class Framerate(Enum):
+        """Options for which framerate to use when exporting a Keynote project as a video.
+        """
+        FPS_12     = OSType('Kfr1') # 12 FPS 
+        FPS_2398   = OSType('Kfr2') # 23.98 FPS 
+        FPS_24     = OSType('Kfr3') # 24 FPS 
+        FPS_25     = OSType('Kfr4') # 25 FPS 
+        FPS_2997   = OSType('Kfr5') # 29.97 FPS 
+        FPS_30     = OSType('Kfr6') # 30 FPS 
+        FPS_50     = OSType('Kfr7') # 50 FPS 
+        FPS_5994   = OSType('Kfr8') # 59.94 FPS 
+        FPS_60     = OSType('Kfr9') # 60 FPS 
+
+    class PrintSetting(Enum):
+        """Options to use when printing slides.
+        """
+        STANDARD_ERROR_HANDLING = OSType('lwst') # Standard PostScript error handling 
+        DETAILED_ERROR_HANDLING = OSType('lwdt') # print a detailed report of PostScript errors 
+        INDIVIDUAL_SLIDES    = OSType('Kpwi') # individual slides 
+        SLIDE_WITH_NOTES      = OSType('Kpwn') # slides with notes 
+        HANDOUTS            = OSType('Kpwh') # handouts 
+
+    class ImageQuality(Enum):
+        """Options for the quality of exported images.
+        """
+        GOOD      = OSType('KnP0') # good quality 
+        BETTER    = OSType('KnP1') # better quality 
+        BEST      = OSType('KnP2') # best quality 
+
+    class Transition(Enum):
+        """The available options for transitions to assign to slides.
+        """
+        NONE  = OSType('tnil') 
+        MAGIC_MOVE           = OSType('tmjv')   
+        SHIMMER             = OSType('tshm')  
+        SPARKLE             = OSType('tspk')   
+        SWING               = OSType('tswg')   
+        OBJECT_CUBE          = OSType('tocb')   
+        OBJECT_FLIP          = OSType('tofp')   
+        OBJECT_POP           = OSType('topp')   
+        OBJECT_PUSH          = OSType('toph')   
+        OBJECT_REVOLVE       = OSType('torv')   
+        OBJECT_ZOOM          = OSType('tozm')   
+        PERSPECTIVE         = OSType('tprs')   
+        CLOTHESLINE         = OSType('tclo')   
+        CONFETTI            = OSType('tcft')   
+        DISSOLVE            = OSType('tdis')   
+        DROP                = OSType('tdrp')   
+        DROPLET             = OSType('tdpl')   
+        FADE_THROUGH_COLOR    = OSType('tftc')   
+        GRID                = OSType('tgrd')   
+        IRIS                = OSType('tirs')   
+        MOVE_IN              = OSType('tmvi')   
+        PUSH                = OSType('tpsh')   
+        REVEAL              = OSType('trvl')   
+        SWITCH              = OSType('tswi')   
+        WIPE                = OSType('twpe')   
+        BLINDS              = OSType('tbld')   
+        COLOR_PANES         = OSType('tcpl')   
+        CUBE                = OSType('tcub')   
+        DOORWAY             = OSType('tdwy')   
+        FALL                = OSType('tfal')   
+        FLIP                = OSType('tfip')   
+        FLOP                = OSType('tfop')   
+        MOSAIC              = OSType('tmsc')   
+        PAGE_FLIP            = OSType('tpfl')   
+        PIVOT               = OSType('tpvt')   
+        REFLECTION          = OSType('trfl')   
+        REVOLVING_DOOR       = OSType('trev')   
+        SCALE               = OSType('tscl')   
+        SWAP                = OSType('tswp')   
+        SWOOSH              = OSType('tsws')   
+        TWIRL               = OSType('ttwl')   
+        TWIST               = OSType('ttwi')   
+        FADE_AND_MOVE         = OSType('tfad')   
+
+    class Alignment(Enum):
+        """Options for the horizontal and vertical alignment of content within table containers.
+        """
+        BOTTOM                  = OSType('avbt') #: Bottom-align content. 
+        CENTER_VERTICAL         = OSType('actr') #: Center-align content. 
+        TOP                     = OSType('avtp') #: Top-align content. 
+        AUTO                    = OSType('aaut') #: Auto-align based on content type. 
+        CENTER_HORIZONTAL       = OSType('actr') #: Center-align content. 
+        JUSTIFY                 = OSType('ajst') #: Fully justify (left and right) content. 
+        LEFT                    = OSType('alft') #: Left-align content. 
+        RIGHT                   = OSType('arit') #: Right-align content. 
+
+    class SortDirection(Enum):
+        """Options for the direction of sorting when sorting table cells.
+        """
+        ASCENDING               = OSType('ascn') #: Sort in increasing value order 
+        DESCENDING              = OSType('dscn') #: Sort in decreasing value order 
+
+    class CellFormat(Enum):
+        """Options for the format to use when formatting table cells.
+        """
+        AUTO                    = OSType('faut') #: Automatic format 
+        CHECKBOX                = OSType('fcch') #: Checkbox control format (Numbers only) 
+        CURRENCY                = OSType('fcur') #: Currency number format 
+        DATE_AND_TIME           = OSType('fdtm') #: Date and time format 
+        FRACTION                = OSType('ffra') #: Fraction number format 
+        DECIMAL_NUMBER          = OSType('nmbr') #: Decimal number format 
+        PERCENT                 = OSType('fper') #: Percentage number format 
+        POPUP_MENU              = OSType('fcpp') #: Pop-up menu control format (Numbers only) 
+        SCIENTIFIC              = OSType('fsci') #: Scientific notation format 
+        SLIDER                  = OSType('fcsl') #: Slider control format (Numbers only) 
+        STEPPER                 = OSType('fcst') #: Stepper control format (Numbers only) 
+        TEXT                    = OSType('ctxt') #: Text format 
+        DURATION                = OSType('fdur') #: Duration format 
+        RATING                  = OSType('frat') #: Rating format. (Numbers only) 
+        NUMERAL_SYSTEM          = OSType('fcns') #: Numeral System 
+
+    class FillOption(Enum):
+        """Options for the type of fill to use.
+        """
+        NO_FILL                 = OSType('fino')   
+        COLOR_FILL              = OSType('fico')   
+        GRADIENT_FILL           = OSType('figr')   
+        ADVANCED_GRADIENT_FILL  = OSType('fiag')   
+        IMAGE_FILL              = OSType('fiim')   
+        ADVANCED_IMAGE_FILL     = OSType('fiai')   
+
+    class RepetitionMethod(Enum):
+        """Options for whether and how a clip will repeat.
+        """
+        NONE                    = OSType('mvrn')   
+        LOOP                    = OSType('mvlp')   
+        LOOP_BACK_AND_FORTH     = OSType('mvbf')   
+
+    class ChartType(Enum):
+        """Options for available chart types.
+        """
+        PIE_2D                      = OSType('pie2') #: Two-dimensional pie chart 
+        VERTICAL_BAR_2D             = OSType('vbr2') #: Two-dimensional vertical bar chart 
+        STACKED_VERTICAL_BAR_2D     = OSType('svb2') #: Two-dimensional stacked vertical bar chart 
+        HORIZONTAL_BAR_2D           = OSType('hbr2') #: Two-dimensional horizontal bar chart 
+        STACKED_HORIZONTAL_BAR_2D   = OSType('shb2') #: Two-dimensional stacked horizontal bar chart 
+        PIE_3D                      = OSType('pie3') #: Three-dimensional pie chart. 
+        VERTICAL_BAR_3D             = OSType('vbr3') #: Three-dimensional vertical bar chart 
+        STACKED_VERTICAL_BAR_3D     = OSType('svb3') #: Three-dimensional stacked bar chart 
+        HORIZONTAL_BAR_3D           = OSType('hbr3') #: Three-dimensional horizontal bar chart 
+        STACKED_HORIZONTAL_BAR_3D   = OSType('shb3') #: Three-dimensional stacked horizontal bar chart 
+        AREA_2D                     = OSType('are2') #: Two-dimensional area chart. 
+        STACKED_AREA_2D             = OSType('sar2') #: Two-dimensional stacked area chart 
+        LINE_2D                     = OSType('lin2') #: Two-dimensional line chart. 
+        LINE_3D                     = OSType('lin3') #: Three-dimensional line chart 
+        AREA_3D                     = OSType('are3') #: Three-dimensional area chart 
+        STACKED_AREA_3D             = OSType('sar3') #: Three-dimensional stacked area chart 
+        SCATTERPLOT_2D              = OSType('scp2') #: Two-dimensional scatterplot chart 
+
+    class ChartGrouping(Enum):
+        """Options for how data is grouped within a chart.
+        """
+        ROW      = OSType('KCgr') # group by row
+        COLUMN   = OSType('KCgc') # group by column
+
+    class KeyAction(Enum):
+        """Options for key states and interactions.
+        """
+        COMMAND_DOWN = 'Kcmd'
+        CONTROL_DOWN = 'Kctl'
+        OPTION_DOWN  = 'Kopt'
+        SHIFT_DOWN   = 'Ksft'
+
     def __init__(self, properties):
         super().__init__(properties)
         self.properties = self.xa_scel.properties()
@@ -314,18 +335,18 @@ class XAKeynoteDocument(XABase.XAHasElements, XABaseScriptable.XASBPrintable, XA
     def __init__(self, properties):
         super().__init__(properties)
         self.properties: dict = self.xa_elem.properties()
-        self.name: str = self.properties["name"]
-        self.modified: bool = self.properties["modified"]
-        self.file: str = self.properties["file"]
-        self.id: str = self.properties["id"]
-        self.slide_numbers_showing: bool = self.properties["slideNumbersShowing"]
-        self.auto_loop: bool = self.properties["autoLoop"]
-        self.auto_play: bool = self.properties["autoPlay"]
-        self.auto_restart: bool = self.properties["autoRestart"]
-        self.maximum_idle_duration: int = self.properties["maximumIdleDuration"]
-        self.height: int = self.properties["height"]
-        self.width: int = self.properties["width"]
-        self.password_protected: bool = self.properties["passwordProtected"]
+        self.name: str = self.xa_elem.name()
+        self.modified: bool = self.xa_elem.modified()
+        self.file: str = self.xa_elem.file()
+        self.id: str = self.xa_elem.id()
+        self.slide_numbers_showing: bool = self.xa_elem.slideNumbersShowing()
+        self.auto_loop: bool = self.xa_elem.autoLoop()
+        self.auto_play: bool = self.xa_elem.autoPlay()
+        self.auto_restart: bool = self.xa_elem.autoRestart()
+        self.maximum_idle_duration: int = self.xa_elem.maximumIdleDuration()
+        self.height: int = self.xa_elem.height()
+        self.width: int = self.xa_elem.width()
+        self.password_protected: bool = self.xa_elem.passwordProtected()
         self.__document_theme: 'XAKeynoteTheme' = None
         self.__current_slide: 'XAKeynoteSlide' = None
         self.__selection: List['XAKeynoteiWorkItem'] = None
@@ -992,7 +1013,7 @@ class XAKeynoteSlide(XAKeynoteContainer):
         }
         return XAKeynoteImage(properties)
 
-    def add_chart(self, row_names: List[str], column_names: List[str], data: List[List[Any]], type: int = _KeynoteLegacyChartType.KeynoteLegacyChartTypeLine_2d.value, group_by: int = _KeynoteLegacyChartGrouping.KeynoteLegacyChartGroupingChartRow.value) -> 'XAKeynoteChart':
+    def add_chart(self, row_names: List[str], column_names: List[str], data: List[List[Any]], type: int = XAKeynoteApplication.ChartType.LINE_2D.value, group_by: int = XAKeynoteApplication.ChartGrouping.ROW.value) -> 'XAKeynoteChart':
         """_summary_
 
         _extended_summary_
@@ -1050,8 +1071,14 @@ class XAKeynoteiWorkItem(XABase.XAObject):
         self.height: int = self.xa_elem.height()
         self.locked: bool = self.xa_elem.locked()
         self.width: int = self.xa_elem.width()
+        self.position: Tuple[int, int] = self.xa_elem.position()
         self.__parent = None
-        self.__position = None
+
+    @property
+    def parent(self):
+        if self.__parent == None:
+            self.__parent = self.xa_prnt
+        return self.__parent
 
     def delete(self):
         """Deletes the item.
@@ -1111,13 +1138,28 @@ class XAKeynoteiWorkItem(XABase.XAObject):
         self.set_property("locked", False)
         return self
 
-class XAKeynoteGroup(XAKeynoteiWorkItem):
+    def set_position(self, x: int, y: int) -> 'XAKeynoteiWorkItem':
+        position = NSValue.valueWithPoint_(NSPoint(x, y))
+        self.xa_elem.setValue_forKey_(position, "position")
+
+class XAKeynoteGroup(XAKeynoteContainer):
     """A class for managing and interacting with iWork item groups in Keynote.
 
     .. versionadded:: 0.0.2
     """
     def __init__(self, properties):
         super().__init__(properties)
+        self.height: int = self.xa_elem.height()
+        self.position: Tuple[int, int] = self.xa_elem.position()
+        self.width: int = self.xa_elem.width()
+        self.rotation: int = self.xa_elem.rotation()
+        self.__parent = None
+
+    @property
+    def parent(self):
+        if self.__parent == None:
+            self.__parent = self.xa_prnt
+        return self.__parent
 
 class XAKeynoteImage(XAKeynoteiWorkItem):
     """A class for managing and interacting with images in Keynote.
@@ -1213,6 +1255,11 @@ class XAKeynoteLine(XAKeynoteiWorkItem):
     """
     def __init__(self, properties):
         super().__init__(properties)
+        self.end_point: Tuple[int, int] = self.xa_elem.endPoint()
+        self.reflection_showing: bool = self.xa_elem.reflectionShowing()
+        self.reflection_value: int = self.xa_elem.reflectionValue()
+        self.rotation: int = self.xa_elem.rotation()
+        self.start_point: Tuple[int, int] = self.xa_elem.startPoint()
 
 class XAKeynoteMovie(XAKeynoteiWorkItem):
     """A class for managing and interacting with movie containers in Keynote.
@@ -1221,6 +1268,13 @@ class XAKeynoteMovie(XAKeynoteiWorkItem):
     """
     def __init__(self, properties):
         super().__init__(properties)
+        self.file_name: str = self.xa_elem.fileName()
+        self.movie_volume: int = self.xa_elem.movieVolume()
+        self.opacity: int = self.xa_elem.opacity()
+        self.reflection_showing: bool = self.xa_elem.reflectionShowing()
+        self.reflection_value: int = self.xa_elem.reflectionValue()
+        self.repetition_method: int = self.xa_elem.repetitionMethod()
+        self.rotation: int = self.xa_elem.rotation()
 
 class XAKeynoteTextItem(XAKeynoteiWorkItem):
     """A class for managing and interacting with text items in Keynote.
@@ -1229,14 +1283,216 @@ class XAKeynoteTextItem(XAKeynoteiWorkItem):
     """
     def __init__(self, properties):
         super().__init__(properties)
+        self.background_fill_type: int = self.xa_elem.backgroundFillType()
+        self.text = XABase.XAText(self.xa_elem.objectText().properties())
+        print(self.text)
+        self.opacity: int = self.xa_elem.opacity()
+        self.reflection_showing: bool = self.xa_elem.reflectionShowing()
+        self.reflection_value: int = self.xa_elem.reflectionValue()
+        self.rotation: int = self.xa_elem.rotation()
 
-class XAKeynoteTable(XAKeynoteiWorkItem):
+class XAKeynoteTable(XAKeynoteiWorkItem, XABase.XAHasElements):
     """A class for managing and interacting with tables in Keynote.
 
     .. versionadded:: 0.0.2
     """
     def __init__(self, properties):
         super().__init__(properties)
+        self.name: str = self.xa_elem.name()
+        self.row_count: int = self.xa_elem.rowCount()
+        self.column_count: int = self.xa_elem.columnCount()
+        self.header_row_count: int = self.xa_elem.headerRowCount()
+        self.header_column_count: int = self.xa_elem.headerColumnCount()
+        self.footer_row_count: int = self.xa_elem.footerRowCount()
+        self.__cell_range = None
+        self.__selection_range = None
+
+    # TODO
+    def sort(self, columns: List['XAKeynoteColumn'], rows: List['XAKeynoteRow'], direction: XAKeynoteApplication.SortDirection = XAKeynoteApplication.SortDirection.ASCENDING) -> 'XAKeynoteTable':
+        column_objs = [column.xa_elem for column in columns]
+        row_objs = [row.xa_elem for row in rows]
+        self.xa_elem.sortBy_direction_inRows_(column_objs[0], direction.value, row_objs)
+        return self
+
+    # Cells
+    def cells(self, properties: Union[dict, None] = None) -> List['XAKeynoteCell']:
+        """Returns a list of cells, as PyXA objects, matching the given filter.
+
+        :param filter: A dictionary specifying property-value pairs that all returned cells will have, or None
+        :type filter: Union[dict, None]
+        :return: The list of cells
+        :rtype: List[XAKeynoteCell]
+
+        .. versionadded:: 0.0.2
+        """
+        return super().elements("cells", properties, XAKeynoteCell)
+
+    def cell(self, properties: Union[int, dict]) -> 'XAKeynoteCell':
+        """Returns the first cell matching the given filter.
+
+        :param filter: Either an array index or a dictionary specifying property-value pairs that the returned cell will have
+        :type filter: Union[int, dict]
+        :return: The cell
+        :rtype: XAKeynoteCell
+
+        .. versionadded:: 0.0.2
+        """
+        return super().element_with_properties("cells", properties, XAKeynoteCell)
+
+    def first_cell(self) -> 'XAKeynoteCell':
+        """Returns the cell at the zero index of the cells array.
+
+        :return: The first cell
+        :rtype: XAKeynoteCell
+
+        .. versionadded:: 0.0.2
+        """
+        return super().first_element("cells", XAKeynoteCell)
+
+    def last_cell(self) -> 'XAKeynoteCell':
+        """Returns the cell at the last (-1) index of the cells array.
+
+        :return: The last cell
+        :rtype: XAKeynoteCell
+
+        .. versionadded:: 0.0.2
+        """
+        return super().last_element("cells", XAKeynoteCell)
+
+    # Columns
+    def columns(self, properties: Union[dict, None] = None) -> List['XAKeynoteColumn']:
+        """Returns a list of columns, as PyXA objects, matching the given filter.
+
+        :param filter: A dictionary specifying property-value pairs that all returned columns will have, or None
+        :type filter: Union[dict, None]
+        :return: The list of columns
+        :rtype: List[XAKeynoteColumn]
+
+        .. versionadded:: 0.0.2
+        """
+        return super().elements("columns", properties, XAKeynoteColumn)
+
+    def column(self, properties: Union[int, dict]) -> 'XAKeynoteColumn':
+        """Returns the first column matching the given filter.
+
+        :param filter: Either an array index or a dictionary specifying property-value pairs that the returned column will have
+        :type filter: Union[int, dict]
+        :return: The column
+        :rtype: XAKeynoteColumn
+
+        .. versionadded:: 0.0.2
+        """
+        return super().element_with_properties("columns", properties, XAKeynoteColumn)
+
+    def first_column(self) -> 'XAKeynoteColumn':
+        """Returns the column at the zero index of the columns array.
+
+        :return: The first column
+        :rtype: XAKeynoteColumn
+
+        .. versionadded:: 0.0.2
+        """
+        return super().first_element("columns", XAKeynoteColumn)
+
+    def last_column(self) -> 'XAKeynoteColumn':
+        """Returns the column at the last (-1) index of the columns array.
+
+        :return: The last column
+        :rtype: XAKeynoteColumn
+
+        .. versionadded:: 0.0.2
+        """
+        return super().last_element("columns", XAKeynoteColumn)
+
+    # Rows
+    def rows(self, properties: Union[dict, None] = None) -> List['XAKeynoteRow']:
+        """Returns a list of rows, as PyXA objects, matching the given filter.
+
+        :param filter: A dictionary specifying property-value pairs that all returned rows will have, or None
+        :type filter: Union[dict, None]
+        :return: The list of rows
+        :rtype: List[XAKeynoteRow]
+
+        .. versionadded:: 0.0.2
+        """
+        return super().elements("rows", properties, XAKeynoteRow)
+
+    def row(self, properties: Union[int, dict]) -> 'XAKeynoteRow':
+        """Returns the first row matching the given filter.
+
+        :param filter: Either an array index or a dictionary specifying property-value pairs that the returned row will have
+        :type filter: Union[int, dict]
+        :return: The row
+        :rtype: XAKeynoteRow
+
+        .. versionadded:: 0.0.2
+        """
+        return super().element_with_properties("rows", properties, XAKeynoteRow)
+
+    def first_row(self) -> 'XAKeynoteRow':
+        """Returns the row at the zero index of the rows array.
+
+        :return: The first row
+        :rtype: XAKeynoteRow
+
+        .. versionadded:: 0.0.2
+        """
+        return super().first_element("rows", XAKeynoteRow)
+
+    def last_row(self) -> 'XAKeynoteRow':
+        """Returns the row at the last (-1) index of the rows array.
+
+        :return: The last row
+        :rtype: XAKeynoteRow
+
+        .. versionadded:: 0.0.2
+        """
+        return super().last_element("rows", XAKeynoteRow)
+
+    # Ranges
+    def ranges(self, properties: Union[dict, None] = None) -> List['XAKeynoteRange']:
+        """Returns a list of ranges, as PyXA objects, matching the given filter.
+
+        :param filter: A dictionary specifying property-value pairs that all returned ranges will have, or None
+        :type filter: Union[dict, None]
+        :return: The list of ranges
+        :rtype: List[XAKeynoteRange]
+
+        .. versionadded:: 0.0.2
+        """
+        return super().elements("ranges", properties, XAKeynoteRange)
+
+    def range(self, properties: Union[int, dict]) -> 'XAKeynoteRange':
+        """Returns the first range matching the given filter.
+
+        :param filter: Either an array index or a dictionary specifying property-value pairs that the returned range will have
+        :type filter: Union[int, dict]
+        :return: The range
+        :rtype: XAKeynoteRange
+
+        .. versionadded:: 0.0.2
+        """
+        return super().element_with_properties("ranges", properties, XAKeynoteRange)
+
+    def first_range(self) -> 'XAKeynoteRange':
+        """Returns the range at the zero index of the ranges array.
+
+        :return: The first range
+        :rtype: XAKeynoteRange
+
+        .. versionadded:: 0.0.2
+        """
+        return super().first_element("ranges", XAKeynoteRange)
+
+    def last_range(self) -> 'XAKeynoteRange':
+        """Returns the range at the last (-1) index of the ranges array.
+
+        :return: The last range
+        :rtype: XAKeynoteRange
+
+        .. versionadded:: 0.0.2
+        """
+        return super().last_element("ranges", XAKeynoteRange)
 
 class XAKeynoteRange(XABase.XAObject):
     """A class for managing and interacting with ranges of table cells in Keynote.
@@ -1246,7 +1502,29 @@ class XAKeynoteRange(XABase.XAObject):
     def __init__(self, properties):
         super().__init__(properties)
         self.properties = self.xa_elem.properties()
-        self.font_name: str = self.properties["fontName"]
+        self.font_name: str = self.xa_elem.fontName()
+        self.font_size: float = self.xa_elem.fontSize()
+        self.format: int = self.xa_elem.format()
+        self.alignment: int = self.xa_elem.alignment()
+        self.name: str = self.xa_elem.name()
+        self.text_wrap: bool = self.xa_elem.textWrap()
+        self.vertical_alignment: int = self.xa_elem.verticalAlignment()
+        self.__text_color = None
+        self.__background_color = None
+
+       # self.text_color = XAColor()
+
+    def clear(self) -> 'XAKeynoteRange':
+        self.xa_elem.clear()
+        return self
+
+    def merge(self) -> 'XAKeynoteRange':
+        self.xa_elem.merge()
+        return self
+
+    def unmerge(self) -> 'XAKeynoteRange':
+        self.xa_elem.unmerge()
+        return self
 
 class XAKeynoteRow(XAKeynoteRange):
     """A class for managing and interacting with table rows in Keynote.
@@ -1255,8 +1533,8 @@ class XAKeynoteRow(XAKeynoteRange):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.address: int = self.xa_elem.address()
-        self.height: float = self.xa_elem.height()
+        self.address: int = self.xa_elem.address() #: The index of the row in the table
+        self.height: float = self.xa_elem.height() #: The height of the row in pixels
 
 class XAKeynoteColumn(XAKeynoteRange):
     """A class for managing and interacting with table columns in Keynote.
@@ -1265,8 +1543,8 @@ class XAKeynoteColumn(XAKeynoteRange):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.address: int = self.xa_elem.address()
-        self.width: float = self.xa_elem.width()
+        self.address: int = self.xa_elem.address() #: The index of the column in the tabel
+        self.width: float = self.xa_elem.width() #: The width of the column in pixels
 
 class XAKeynoteCell(XAKeynoteRange):
     """A class for managing and interacting with table cells in Keynote.
@@ -1275,9 +1553,36 @@ class XAKeynoteCell(XAKeynoteRange):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.formatted_value: str = self.xa_elem.formattedValue()
-        self.formula:str = self.xa_elem.formula()
-        self.value = self.xa_elem.value()
-        print(self.value)
-        self.__column = None
-        self.__row = None
+        self.formatted_value: str = self.xa_elem.formattedValue() #: The formatted form of the value stored in the cell
+        self.formula: str = self.xa_elem.formula() #: The formula in the cell as text
+        self.value = self.xa_elem.value() #: The value stored in the cell
+        self.__column: XAKeynoteColumn = None #: The cell's column
+        self.__row: XAKeynoteRow = None #: The cell's row
+
+    @property
+    def column(self) -> XAKeynoteColumn:
+        if self.__column is None:
+            properties = {
+                "parent": self,
+                "appspace": self.xa_apsp,
+                "workspace": self.xa_wksp,
+                "element": self.xa_elem.column(),
+                "appref": self.xa_aref,
+                "system_events": self.xa_sevt,
+            }
+            self.__column = XAKeynoteColumn(properties)
+        return self.__column
+
+    @property
+    def row(self) -> XAKeynoteRow:
+        if self.__row is None:
+            properties = {
+                "parent": self,
+                "appspace": self.xa_apsp,
+                "workspace": self.xa_wksp,
+                "element": self.xa_elem.row(),
+                "appref": self.xa_aref,
+                "system_events": self.xa_sevt,
+            }
+            self.__row = XAKeynoteRow(properties)
+        return self.__row

@@ -8,22 +8,14 @@ from time import sleep
 from typing import Any, List, Tuple, Union
 from AppKit import NSFileManager, NSURL, NSSet, NSPoint, NSValue
 
-from AppKit import NSPredicate, NSMutableArray, NSData, NSMutableString, NSASCIIStringEncoding, NSPasteboard
-import AppleScriptObjC
-
 from PyXA import XABase
 from PyXA.XABase import OSType
 from PyXA import XABaseScriptable
-import ctypes
 
-from PyXA.XABase import XAColor
+class XAKeynoteApplication(XABaseScriptable.XASBApplication, XABase.XAAcceptsPushedElements, XABase.XACanConstructElement, XABase.XACanOpenPath):
+    """A class for managing and interacting with Keynote.app.
 
-from PyXA import XAEvents
-
-class XAKeynoteApplication(XABaseScriptable.XASBApplication, XABase.XAAcceptsPushedElements, XABase.XACanConstructElement):
-    """A class for managing and interacting with Podcasts.app.
-
-     .. seealso:: :class:`XAKeynoteWindow`, :class:`XAKeynoteDocument`
+    .. seealso:: :class:`XAKeynoteWindow`, :class:`XAKeynoteDocument`
 
     .. versionadded:: 0.0.2
     """
@@ -37,33 +29,33 @@ class XAKeynoteApplication(XABaseScriptable.XASBApplication, XABase.XAAcceptsPus
     class ExportFormat(Enum):
         """Options for what format to export a Keynote project as.
         """
-        KEYNOTE         = OSType('Knff') # The Keynote native file format 
-        HTML                 = OSType('Khtm') # HTML 
-        QUICKTIME_MOVIE       = OSType('Kmov') # QuickTime movie 
-        PDF                  = OSType('Kpdf') # PDF 
-        SLIDE_IMAGES          = OSType('Kimg') # image 
-        MICROSOFT_POWERPOINT  = OSType('Kppt') # Microsoft PowerPoint 
-        KEYNOTE_09            = OSType('Kkey') # Keynote 09 
-        JPEG   = OSType('Kifj') # JPEG 
-        PNG    = OSType('Kifp') # PNG 
-        TIFF   = OSType('Kift') # TIFF 
-        f360p     = OSType('Kmf3') # 360p 
-        f540p     = OSType('Kmf5') # 540p 
-        f720p     = OSType('Kmf7') # 720p 
-        f1080p    = OSType('Kmf8') # 1080p 
-        f2160p    = OSType('Kmf4') # DCI 4K (4096x2160) 
-        NativeSize     = OSType('KmfN') # Exported movie will have the same dimensions as the document, up to 4096x2160 
+        KEYNOTE                 = OSType('Knff') # The Keynote native file format 
+        HTML                    = OSType('Khtm') # HTML 
+        QUICKTIME_MOVIE         = OSType('Kmov') # QuickTime movie 
+        PDF                     = OSType('Kpdf') # PDF 
+        SLIDE_IMAGES            = OSType('Kimg') # image 
+        MICROSOFT_POWERPOINT    = OSType('Kppt') # Microsoft PowerPoint 
+        KEYNOTE_09              = OSType('Kkey') # Keynote 09 
+        JPEG                    = OSType('Kifj') # JPEG 
+        PNG                     = OSType('Kifp') # PNG 
+        TIFF                    = OSType('Kift') # TIFF 
+        f360p                   = OSType('Kmf3') # 360p 
+        f540p                   = OSType('Kmf5') # 540p 
+        f720p                   = OSType('Kmf7') # 720p 
+        f1080p                  = OSType('Kmf8') # 1080p 
+        f2160p                  = OSType('Kmf4') # DCI 4K (4096x2160) 
+        NativeSize              = OSType('KmfN') # Exported movie will have the same dimensions as the document, up to 4096x2160 
 
     class Codec(Enum):
         """Options for which video codec to use.
         """
-        H264                  = OSType('Kmc1') # H.264 
-        APPLE_PRO_RES_422        = OSType('Kmc2') # Apple ProRes 422 
-        APPLE_PRO_RES_4444       = OSType('Kmc3') # Apple ProRes 4444 
-        APPLE_PRO_RES_422LT      = OSType('Kmc4') # Apple ProRes 422LT 
-        APPLE_PRO_RES_422HQ      = OSType('Kmc5') # Apple ProRes 422HQ 
-        APPLE_PRO_RES_422Proxy   = OSType('Kmc6') # Apple ProRes 422Proxy 
-        HEVC                  = OSType('Kmc7') # HEVC 
+        H264                    = OSType('Kmc1') # H.264 
+        APPLE_PRO_RES_422       = OSType('Kmc2') # Apple ProRes 422 
+        APPLE_PRO_RES_4444      = OSType('Kmc3') # Apple ProRes 4444 
+        APPLE_PRO_RES_422LT     = OSType('Kmc4') # Apple ProRes 422LT 
+        APPLE_PRO_RES_422HQ     = OSType('Kmc5') # Apple ProRes 422HQ 
+        APPLE_PRO_RES_422Proxy  = OSType('Kmc6') # Apple ProRes 422Proxy 
+        HEVC                    = OSType('Kmc7') # HEVC 
 
     class Framerate(Enum):
         """Options for which framerate to use when exporting a Keynote project as a video.
@@ -83,9 +75,9 @@ class XAKeynoteApplication(XABaseScriptable.XASBApplication, XABase.XAAcceptsPus
         """
         STANDARD_ERROR_HANDLING = OSType('lwst') # Standard PostScript error handling 
         DETAILED_ERROR_HANDLING = OSType('lwdt') # print a detailed report of PostScript errors 
-        INDIVIDUAL_SLIDES    = OSType('Kpwi') # individual slides 
-        SLIDE_WITH_NOTES      = OSType('Kpwn') # slides with notes 
-        HANDOUTS            = OSType('Kpwh') # handouts 
+        INDIVIDUAL_SLIDES       = OSType('Kpwi') # individual slides 
+        SLIDE_WITH_NOTES        = OSType('Kpwn') # slides with notes 
+        HANDOUTS                = OSType('Kpwh') # handouts 
 
     class ImageQuality(Enum):
         """Options for the quality of exported images.
@@ -98,26 +90,26 @@ class XAKeynoteApplication(XABaseScriptable.XASBApplication, XABase.XAAcceptsPus
         """The available options for transitions to assign to slides.
         """
         NONE  = OSType('tnil') 
-        MAGIC_MOVE           = OSType('tmjv')   
+        MAGIC_MOVE          = OSType('tmjv')   
         SHIMMER             = OSType('tshm')  
         SPARKLE             = OSType('tspk')   
         SWING               = OSType('tswg')   
-        OBJECT_CUBE          = OSType('tocb')   
-        OBJECT_FLIP          = OSType('tofp')   
-        OBJECT_POP           = OSType('topp')   
-        OBJECT_PUSH          = OSType('toph')   
-        OBJECT_REVOLVE       = OSType('torv')   
-        OBJECT_ZOOM          = OSType('tozm')   
+        OBJECT_CUBE         = OSType('tocb')   
+        OBJECT_FLIP         = OSType('tofp')   
+        OBJECT_POP          = OSType('topp')   
+        OBJECT_PUSH         = OSType('toph')   
+        OBJECT_REVOLVE      = OSType('torv')   
+        OBJECT_ZOOM         = OSType('tozm')   
         PERSPECTIVE         = OSType('tprs')   
         CLOTHESLINE         = OSType('tclo')   
         CONFETTI            = OSType('tcft')   
         DISSOLVE            = OSType('tdis')   
         DROP                = OSType('tdrp')   
         DROPLET             = OSType('tdpl')   
-        FADE_THROUGH_COLOR    = OSType('tftc')   
+        FADE_THROUGH_COLOR  = OSType('tftc')   
         GRID                = OSType('tgrd')   
         IRIS                = OSType('tirs')   
-        MOVE_IN              = OSType('tmvi')   
+        MOVE_IN             = OSType('tmvi')   
         PUSH                = OSType('tpsh')   
         REVEAL              = OSType('trvl')   
         SWITCH              = OSType('tswi')   
@@ -130,16 +122,16 @@ class XAKeynoteApplication(XABaseScriptable.XASBApplication, XABase.XAAcceptsPus
         FLIP                = OSType('tfip')   
         FLOP                = OSType('tfop')   
         MOSAIC              = OSType('tmsc')   
-        PAGE_FLIP            = OSType('tpfl')   
+        PAGE_FLIP           = OSType('tpfl')   
         PIVOT               = OSType('tpvt')   
         REFLECTION          = OSType('trfl')   
-        REVOLVING_DOOR       = OSType('trev')   
+        REVOLVING_DOOR      = OSType('trev')   
         SCALE               = OSType('tscl')   
         SWAP                = OSType('tswp')   
         SWOOSH              = OSType('tsws')   
         TWIRL               = OSType('ttwl')   
         TWIST               = OSType('ttwi')   
-        FADE_AND_MOVE         = OSType('tfad')   
+        FADE_AND_MOVE       = OSType('tfad')   
 
     class Alignment(Enum):
         """Options for the horizontal and vertical alignment of content within table containers.
@@ -225,13 +217,15 @@ class XAKeynoteApplication(XABaseScriptable.XASBApplication, XABase.XAAcceptsPus
     class KeyAction(Enum):
         """Options for key states and interactions.
         """
-        COMMAND_DOWN = 'Kcmd'
-        CONTROL_DOWN = 'Kctl'
-        OPTION_DOWN  = 'Kopt'
-        SHIFT_DOWN   = 'Ksft'
+        COMMAND_DOWN = OSType('Kcmd')
+        CONTROL_DOWN = OSType('Kctl')
+        OPTION_DOWN  = OSType('Kopt')
+        SHIFT_DOWN   = OSType('Ksft')
 
     def __init__(self, properties):
         super().__init__(properties)
+        self.xa_wcls = XAKeynoteWindow
+
         self.properties = self.xa_scel.properties()
         self.name = self.properties["name"] #: The name of the Keynote application
         self.frontmost = self.properties["frontmost"] #: Whether Keynote is the active application
@@ -325,6 +319,98 @@ class XAKeynoteApplication(XABaseScriptable.XASBApplication, XABase.XAAcceptsPus
     def new_slide(self, document: 'XAKeynoteDocument', properties: dict):
         return self.push("slide", properties, document.xa_elem.slides())
 
+    # Themes
+    def themes(self, properties: Union[dict, None] = None) -> List['XAKeynoteTheme']:
+        """Returns a list of themes, as PyXA objects, matching the given filter.
+
+        :param filter: A dictionary specifying property-value pairs that all returned themes will have, or None
+        :type filter: Union[dict, None]
+        :return: The list of themes
+        :rtype: List[XAKeynoteTheme]
+
+        :Example 1: List all themes
+
+        >>> import PyXA
+        >>> app = PyXA.application("System Preferences")
+        >>> print(app.panes())
+
+        :Example 2: List themes after applying a filter
+
+        >>> import PyXA
+        >>> app = PyXA.application("System Preferences")
+        >>> print(app.panes({"name": "Accessibility"}))
+
+        .. versionadded:: 0.0.2
+        """
+        return super().scriptable_elements("themes", properties, XAKeynoteTheme)
+
+    def theme(self, properties: Union[int, dict]) -> 'XAKeynoteTheme':
+        """Returns the first theme matching the given filter.
+
+        :param filter: Either an array index or a dictionary specifying property-value pairs that the returned theme will have
+        :type filter: Union[int, dict]
+        :return: The theme
+        :rtype: XAKeynoteTheme
+
+        :Example 1: Get a theme by index
+
+        >>> import PyXA
+        >>> app = PyXA.application("System Preferences")
+        >>> print(app.pane(0))
+
+        :Example 2: Get a theme by using a filter
+
+        >>> import PyXA
+        >>> app = PyXA.application("System Preferences")
+        >>> print(app.panes({"name": "Accessibility"}))
+
+        .. versionadded:: 0.0.2
+        """
+        return super().scriptable_element_with_properties("themes", properties, XAKeynoteTheme)
+
+    def first_theme(self) -> 'XAKeynoteTheme':
+        """Returns the theme at the zero index of the themes array.
+
+        :return: The first theme
+        :rtype: XAKeynoteTheme
+
+        .. versionadded:: 0.0.2
+        """
+        return super().first_scriptable_element("themes", XAKeynoteTheme)
+
+    def last_theme(self) -> 'XAKeynoteTheme':
+        """Returns the theme at the last (-1) index of the themes array.
+
+        :return: The last theme
+        :rtype: XAKeynoteTheme
+
+        .. versionadded:: 0.0.2
+        """
+        return super().last_scriptable_element("themes", XAKeynoteTheme)
+
+class XAKeynoteWindow(XABaseScriptable.XASBWindow, XABaseScriptable.XASBPrintable, XABase.XAHasElements):
+    """A class for managing and interacting with windows in Keynote.app.
+
+    .. versionadded:: 0.0.1
+    """
+    def __init__(self, properties):
+        super().__init__(properties)
+        
+    @property
+    def document(self) -> 'XAKeynoteDocument':
+        if self.__document is None:
+            properties = {
+                "parent": self,
+                "appspace": self.xa_apsp,
+                "workspace": self.xa_wksp,
+                "element": self.xa_scel.document(),
+                "scriptable_element": self.xa_scel.document(),
+                "appref": self.xa_aref,
+                "system_events": self.xa_sevt,
+            }
+            self.__column = XAKeynoteDocument(properties)
+        return self.__document
+
 class XAKeynoteDocument(XABase.XAHasElements, XABaseScriptable.XASBPrintable, XABaseScriptable.XASBCloseable, XABase.XAAcceptsPushedElements, XABase.XACanConstructElement):
     """A class for managing and interacting with TextEdit documents.
 
@@ -350,6 +436,72 @@ class XAKeynoteDocument(XABase.XAHasElements, XABaseScriptable.XASBPrintable, XA
         self.__document_theme: 'XAKeynoteTheme' = None
         self.__current_slide: 'XAKeynoteSlide' = None
         self.__selection: List['XAKeynoteiWorkItem'] = None
+
+    @property
+    def document_theme(self) -> 'XAKeynoteTheme':
+        if self.__document_theme is None:
+            properties = {
+                "parent": self,
+                "appspace": self.xa_apsp,
+                "workspace": self.xa_wksp,
+                "element": self.xa_elem.documentTheme(),
+                "appref": self.xa_aref,
+                "system_events": self.xa_sevt,
+            }
+            self.__document_theme = XAKeynoteTheme(properties)
+        return self.__document_theme
+
+    @property
+    def current_slide(self) -> 'XAKeynoteSlide':
+        if self.__current_slide is None:
+            properties = {
+                "parent": self,
+                "appspace": self.xa_apsp,
+                "workspace": self.xa_wksp,
+                "element": self.xa_elem.currentSlide(),
+                "appref": self.xa_aref,
+                "system_events": self.xa_sevt,
+            }
+            self.__current_slide = XAKeynoteSlide(properties)
+        return self.__current_slide
+
+    @property
+    def selection(self) -> 'XAKeynoteiWorkItem':
+        if self.__selection is None:
+            objects = []
+            items = self.xa_elem.selection()
+            for item in items:
+                properties = {
+                    "parent": self,
+                    "appspace": self.xa_apsp,
+                    "workspace": self.xa_wksp,
+                    "element": item,
+                    "appref": self.xa_aref,
+                    "system_events": self.xa_sevt,
+                }
+                description = item.specifierDescription()
+                element_class = XAKeynoteiWorkItem
+                if "defaultBodyItem" in description or "defaultTitleItem" in description or "sshp" in description:
+                    element_class = XAKeynoteShape
+                elif "shtx" in description:
+                    element_class = XAKeynoteTextItem
+                elif "imag" in description:
+                    element_class = XAKeynoteImage
+                elif "igrp" in description:
+                    element_class = XAKeynoteGroup
+                elif 'iWln' in description:
+                    element_class = XAKeynoteLine
+                elif "NmTb" in description:
+                    element_class = XAKeynoteTable
+                elif "shau" in description:
+                    element_class = XAKeynoteAudioClip
+                elif "shmv" in description:
+                    element_class = XAKeynoteMovie
+                elif "shct" in description:
+                    element_class = XAKeynoteChart
+                objects.append(element_class(properties))
+            self.__selection = objects
+        return self.__selection
 
     def start_from(self, slide: 'XAKeynoteSlide') -> 'XAKeynoteSlide':
         self.xa_elem.startFrom_(slide.xa_elem)
@@ -378,16 +530,25 @@ class XAKeynoteDocument(XABase.XAHasElements, XABaseScriptable.XASBPrintable, XA
 
     def save(self, file_path: str = None, file_type: str = None):
         file_path = "/Users/steven/Downloads/Test.key"
-        export_format = _KeynoteSaveableFileFormat.KeynoteSaveableFileFormatKeynote.value
+        export_format = XAKeynoteApplication.ExportFormat.KEYNOTE.value
         url = NSURL.alloc().initFileURLWithPath_(file_path)
         # self.xa_elem.exportTo_as_withProperties_(url, export_format, None)
         self.xa_elem.saveIn_as_(url, export_format)
 
     def export(self, file_path: str = None, file_type: str = None):
         file_path = "/Users/steven/Downloads/wowwwwww.pdf"
-        export_format = _KeynoteExportFormat.KeynoteExportFormatPDF.value
+        export_format = XAKeynoteApplication.ExportFormat.PDF.value
         url = NSURL.alloc().initFileURLWithPath_(file_path)
         self.xa_elem.exportTo_as_withProperties_(url, export_format, None)
+
+    def make_image_slides(self, files: List[Union[str, NSURL]], set_titles: bool = False, slide_layout: 'XAKeynoteSlideLayout' = None) -> 'XAKeynoteDocument':
+        urls = []
+        for file in files:
+            if isinstance(file, str):
+                file = NSURL.alloc().initFileURLWithPath_(file)
+            urls.append(file)
+        self.xa_elem.makeImageSlidesFiles_setTitles_slideLayout_(urls, set_titles, slide_layout)
+        return self
 
     # def save(self, file_path: str = None):
     #     # file_path = "/Users/steven/Documents/eek/wow"
@@ -477,6 +638,75 @@ class XAKeynoteDocument(XABase.XAHasElements, XABaseScriptable.XASBPrintable, XA
         """
         return self.xa_prnt.new_slide(self, properties)
 
+    # Slide Layouts
+    def slide_layouts(self, properties: Union[dict, None] = None) -> List['XAKeynoteSlideLayout']:
+        """Returns a list of slide_layouts, as PyXA objects, matching the given filter.
+
+        :param filter: A dictionary specifying property-value pairs that all returned slide_layouts will have, or None
+        :type filter: Union[dict, None]
+        :return: The list of slide_layouts
+        :rtype: List[XAKeynoteSlideLayout]
+
+        :Example 1: List all slide_layouts
+
+        >>> import PyXA
+        >>> app = PyXA.application("System Preferences")
+        >>> print(app.panes())
+
+        :Example 2: List slide_layouts after applying a filter
+
+        >>> import PyXA
+        >>> app = PyXA.application("System Preferences")
+        >>> print(app.panes({"name": "Accessibility"}))
+
+        .. versionadded:: 0.0.2
+        """
+        return super().elements("slideLayouts", properties, XAKeynoteSlideLayout)
+
+    def slide_layout(self, properties: Union[int, dict]) -> 'XAKeynoteSlideLayout':
+        """Returns the first slide_layout matching the given filter.
+
+        :param filter: Either an array index or a dictionary specifying property-value pairs that the returned slide_layout will have
+        :type filter: Union[int, dict]
+        :return: The slide_layout
+        :rtype: XAKeynoteSlideLayout
+
+        :Example 1: Get a slide_layout by index
+
+        >>> import PyXA
+        >>> app = PyXA.application("System Preferences")
+        >>> print(app.pane(0))
+
+        :Example 2: Get a slide_layout by using a filter
+
+        >>> import PyXA
+        >>> app = PyXA.application("System Preferences")
+        >>> print(app.panes({"name": "Accessibility"}))
+
+        .. versionadded:: 0.0.2
+        """
+        return super().element_with_properties("slideLayouts", properties, XAKeynoteSlideLayout)
+
+    def first_slide_layout(self) -> 'XAKeynoteSlideLayout':
+        """Returns the slide_layout at the zero index of the slide_layouts array.
+
+        :return: The first slide_layout
+        :rtype: XAKeynoteSlideLayout
+
+        .. versionadded:: 0.0.2
+        """
+        return super().first_element("slideLayouts", XAKeynoteSlideLayout)
+
+    def last_slide_layout(self) -> 'XAKeynoteSlideLayout':
+        """Returns the slide_layout at the last (-1) index of the slide_layouts array.
+
+        :return: The last slide_layout
+        :rtype: XAKeynoteSlideLayout
+
+        .. versionadded:: 0.0.2
+        """
+        return super().last_element("slideLayouts", XAKeynoteSlideLayout)
+
 
 class XAKeynoteTheme(XABaseScriptable.XASBObject):
     """A class for managing and interacting with Keynote themes.
@@ -487,6 +717,8 @@ class XAKeynoteTheme(XABaseScriptable.XASBObject):
     """
     def __init__(self, properties):
         super().__init__(properties)
+        self.id = self.xa_elem.id()
+        self.name = self.xa_elem.name()
 
 class XAKeynoteContainer(XABase.XAHasElements):
     """A class for managing and interacting with containers in Keynote.
@@ -962,11 +1194,67 @@ class XAKeynoteSlide(XAKeynoteContainer):
         self.skipped: bool = self.properties["skipped"]
         self.slide_number: int = self.properties["slideNumber"]
         self.title_showing: bool = self.properties["titleShowing"]
+        self.transition_properties: dict = self.properties["transitionProperties"]
         self.__base_layout = None
         self.__default_body_item = None
         self.__default_title_item = None
         self.__presenter_notes = None
-        self.__transition_properties = None
+
+    @property
+    def base_layout(self) -> 'XAKeynoteSlideLayout':
+        if self.__base_layout is None:
+            properties = {
+                "parent": self,
+                "appspace": self.xa_apsp,
+                "workspace": self.xa_wksp,
+                "element": self.xa_elem.baseLayout(),
+                "appref": self.xa_aref,
+                "system_events": self.xa_sevt,
+            }
+            self.__base_layout = XAKeynoteSlideLayout(properties)
+        return self.__base_layout
+
+    @property
+    def default_body_item(self) -> 'XAKeynoteSlideLayout':
+        if self.__default_body_item is None:
+            properties = {
+                "parent": self,
+                "appspace": self.xa_apsp,
+                "workspace": self.xa_wksp,
+                "element": self.xa_elem.defaultBodyItem(),
+                "appref": self.xa_aref,
+                "system_events": self.xa_sevt,
+            }
+            self.__default_body_item = XAKeynoteShape(properties)
+        return self.__default_body_item
+
+    @property
+    def default_title_item(self) -> 'XAKeynoteSlideLayout':
+        if self.__default_title_item is None:
+            properties = {
+                "parent": self,
+                "appspace": self.xa_apsp,
+                "workspace": self.xa_wksp,
+                "element": self.xa_elem.defaultTitleItem(),
+                "appref": self.xa_aref,
+                "system_events": self.xa_sevt,
+            }
+            self.__default_title_item = XAKeynoteShape(properties)
+        return self.__default_title_item
+
+    @property
+    def presenter_notes(self) -> 'XAKeynoteSlideLayout':
+        if self.__presenter_notes is None:
+            properties = {
+                "parent": self,
+                "appspace": self.xa_apsp,
+                "workspace": self.xa_wksp,
+                "element": self.xa_elem.presenterNotes(),
+                "appref": self.xa_aref,
+                "system_events": self.xa_sevt,
+            }
+            self.__presenter_notes = XABase.XAText(properties)
+        return self.__presenter_notes
 
     def duplicate(self) -> 'XAKeynoteSlide':
         """Duplicates the slide, mimicking the action of copying and pasting the slide manually.
@@ -1047,7 +1335,7 @@ class XAKeynoteSlide(XAKeynoteContainer):
         return XAKeynoteChart(properties)
 
 
-class XAKeynoteSlideLayout(XABaseScriptable.XASBObject):
+class XAKeynoteSlideLayout(XAKeynoteSlide):
     """A class for managing and interacting with TextEdit documents.
 
     .. seealso:: :class:`XAKeynoteSlide`
@@ -1298,14 +1586,42 @@ class XAKeynoteTable(XAKeynoteiWorkItem, XABase.XAHasElements):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.name: str = self.xa_elem.name()
-        self.row_count: int = self.xa_elem.rowCount()
-        self.column_count: int = self.xa_elem.columnCount()
-        self.header_row_count: int = self.xa_elem.headerRowCount()
-        self.header_column_count: int = self.xa_elem.headerColumnCount()
-        self.footer_row_count: int = self.xa_elem.footerRowCount()
-        self.__cell_range = None
-        self.__selection_range = None
+        self.name: str = self.xa_elem.name() #: The name of the table
+        self.row_count: int = self.xa_elem.rowCount() #: The number of rows in the table
+        self.column_count: int = self.xa_elem.columnCount() #: The number of columns in the table
+        self.header_row_count: int = self.xa_elem.headerRowCount() #: The number of header rows in the table
+        self.header_column_count: int = self.xa_elem.headerColumnCount() #: The number of header columns in the table
+        self.footer_row_count: int = self.xa_elem.footerRowCount() #: The number of footer rows in the table
+        self.__cell_range = None #: The range of all cells in the table
+        self.__selection_range = None #: The currently selected cells
+
+    @property
+    def cell_range(self) -> 'XAKeynoteRange':
+        if self.__cell_range is None:
+            properties = {
+                "parent": self,
+                "appspace": self.xa_apsp,
+                "workspace": self.xa_wksp,
+                "element": self.xa_elem.cellRange(),
+                "appref": self.xa_aref,
+                "system_events": self.xa_sevt,
+            }
+            self.__cell_range = XAKeynoteRange(properties)
+        return self.__cell_range
+
+    @property
+    def selection_range(self) -> 'XAKeynoteRange':
+        if self.__selection_range is None:
+            properties = {
+                "parent": self,
+                "appspace": self.xa_apsp,
+                "workspace": self.xa_wksp,
+                "element": self.xa_elem.selectionRange(),
+                "appref": self.xa_aref,
+                "system_events": self.xa_sevt,
+            }
+            self.__selection_range = XAKeynoteRange(properties)
+        return self.__selection_range
 
     # TODO
     def sort(self, columns: List['XAKeynoteColumn'], rows: List['XAKeynoteRow'], direction: XAKeynoteApplication.SortDirection = XAKeynoteApplication.SortDirection.ASCENDING) -> 'XAKeynoteTable':
@@ -1494,7 +1810,7 @@ class XAKeynoteTable(XAKeynoteiWorkItem, XABase.XAHasElements):
         """
         return super().last_element("ranges", XAKeynoteRange)
 
-class XAKeynoteRange(XABase.XAObject):
+class XAKeynoteRange(XABase.XAHasElements):
     """A class for managing and interacting with ranges of table cells in Keynote.
 
     .. versionadded:: 0.0.2
@@ -1512,7 +1828,21 @@ class XAKeynoteRange(XABase.XAObject):
         self.__text_color = None
         self.__background_color = None
 
-       # self.text_color = XAColor()
+    @property
+    def text_color(self) -> XABase.XAColor:
+        if self.__text_color == None:
+            color_obj = self.xa_elem.textColor()
+            if color_obj is not None:
+                self.__text_color = XABase.XAColor().copy_color(color_obj)
+        return self.__text_color
+
+    @property
+    def background_color(self) -> XABase.XAColor:
+        if self.__background_color == None:
+            color_obj = self.xa_elem.backgroundColor()
+            if color_obj is not None:
+                self.__background_color = XABase.XAColor().copy_color(color_obj)
+        return self.__background_color
 
     def clear(self) -> 'XAKeynoteRange':
         self.xa_elem.clear()
@@ -1525,6 +1855,141 @@ class XAKeynoteRange(XABase.XAObject):
     def unmerge(self) -> 'XAKeynoteRange':
         self.xa_elem.unmerge()
         return self
+
+    # Cells
+    def cells(self, properties: Union[dict, None] = None) -> List['XAKeynoteCell']:
+        """Returns a list of cells, as PyXA objects, matching the given filter.
+
+        :param filter: A dictionary specifying property-value pairs that all returned cells will have, or None
+        :type filter: Union[dict, None]
+        :return: The list of cells
+        :rtype: List[XAKeynoteCell]
+
+        .. versionadded:: 0.0.2
+        """
+        return super().elements("cells", properties, XAKeynoteCell)
+
+    def cell(self, properties: Union[int, dict]) -> 'XAKeynoteCell':
+        """Returns the first cell matching the given filter.
+
+        :param filter: Either an array index or a dictionary specifying property-value pairs that the returned cell will have
+        :type filter: Union[int, dict]
+        :return: The cell
+        :rtype: XAKeynoteCell
+
+        .. versionadded:: 0.0.2
+        """
+        return super().element_with_properties("cells", properties, XAKeynoteCell)
+
+    def first_cell(self) -> 'XAKeynoteCell':
+        """Returns the cell at the zero index of the cells array.
+
+        :return: The first cell
+        :rtype: XAKeynoteCell
+
+        .. versionadded:: 0.0.2
+        """
+        return super().first_element("cells", XAKeynoteCell)
+
+    def last_cell(self) -> 'XAKeynoteCell':
+        """Returns the cell at the last (-1) index of the cells array.
+
+        :return: The last cell
+        :rtype: XAKeynoteCell
+
+        .. versionadded:: 0.0.2
+        """
+        return super().last_element("cells", XAKeynoteCell)
+
+    # Columns
+    def columns(self, properties: Union[dict, None] = None) -> List['XAKeynoteColumn']:
+        """Returns a list of columns, as PyXA objects, matching the given filter.
+
+        :param filter: A dictionary specifying property-value pairs that all returned columns will have, or None
+        :type filter: Union[dict, None]
+        :return: The list of columns
+        :rtype: List[XAKeynoteColumn]
+
+        .. versionadded:: 0.0.2
+        """
+        return super().elements("columns", properties, XAKeynoteColumn)
+
+    def column(self, properties: Union[int, dict]) -> 'XAKeynoteColumn':
+        """Returns the first column matching the given filter.
+
+        :param filter: Either an array index or a dictionary specifying property-value pairs that the returned column will have
+        :type filter: Union[int, dict]
+        :return: The column
+        :rtype: XAKeynoteColumn
+
+        .. versionadded:: 0.0.2
+        """
+        return super().element_with_properties("columns", properties, XAKeynoteColumn)
+
+    def first_column(self) -> 'XAKeynoteColumn':
+        """Returns the column at the zero index of the columns array.
+
+        :return: The first column
+        :rtype: XAKeynoteColumn
+
+        .. versionadded:: 0.0.2
+        """
+        return super().first_element("columns", XAKeynoteColumn)
+
+    def last_column(self) -> 'XAKeynoteColumn':
+        """Returns the column at the last (-1) index of the columns array.
+
+        :return: The last column
+        :rtype: XAKeynoteColumn
+
+        .. versionadded:: 0.0.2
+        """
+        return super().last_element("columns", XAKeynoteColumn)
+
+    # Rows
+    def rows(self, properties: Union[dict, None] = None) -> List['XAKeynoteRow']:
+        """Returns a list of rows, as PyXA objects, matching the given filter.
+
+        :param filter: A dictionary specifying property-value pairs that all returned rows will have, or None
+        :type filter: Union[dict, None]
+        :return: The list of rows
+        :rtype: List[XAKeynoteRow]
+
+        .. versionadded:: 0.0.2
+        """
+        return super().elements("rows", properties, XAKeynoteRow)
+
+    def row(self, properties: Union[int, dict]) -> 'XAKeynoteRow':
+        """Returns the first row matching the given filter.
+
+        :param filter: Either an array index or a dictionary specifying property-value pairs that the returned row will have
+        :type filter: Union[int, dict]
+        :return: The row
+        :rtype: XAKeynoteRow
+
+        .. versionadded:: 0.0.2
+        """
+        return super().element_with_properties("rows", properties, XAKeynoteRow)
+
+    def first_row(self) -> 'XAKeynoteRow':
+        """Returns the row at the zero index of the rows array.
+
+        :return: The first row
+        :rtype: XAKeynoteRow
+
+        .. versionadded:: 0.0.2
+        """
+        return super().first_element("rows", XAKeynoteRow)
+
+    def last_row(self) -> 'XAKeynoteRow':
+        """Returns the row at the last (-1) index of the rows array.
+
+        :return: The last row
+        :rtype: XAKeynoteRow
+
+        .. versionadded:: 0.0.2
+        """
+        return super().last_element("rows", XAKeynoteRow)
 
 class XAKeynoteRow(XAKeynoteRange):
     """A class for managing and interacting with table rows in Keynote.

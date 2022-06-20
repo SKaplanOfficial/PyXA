@@ -13,7 +13,7 @@ from PyXA import XABaseScriptable
 class XAShortcutsApplication(XABaseScriptable.XASBApplication):
     """A class for managing and interacting with Podcasts.app.
 
-     .. seealso:: :class:`XATextEditWindow`, :class:`XATextEditDocument`
+    .. seealso:: :class:`XATextEditWindow`, :class:`XATextEditDocument`
 
     .. versionadded:: 0.0.2
     """

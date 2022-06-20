@@ -18,7 +18,7 @@ _DETAILED_ERRORS = 1819763828
 class XATextEditApplication(XABaseScriptable.XASBApplication, XABase.XACanConstructElement, XABase.XAAcceptsPushedElements, XABase.XACanOpenPath):
     """A class for managing and interacting with TextEdit.app.
 
-     .. seealso:: :class:`XATextEditWindow`, :class:`XATextEditDocument`
+    .. seealso:: :class:`XATextEditWindow`, :class:`XATextEditDocument`
 
     .. versionadded:: 0.0.1
     """

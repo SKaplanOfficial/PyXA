@@ -10,7 +10,7 @@ from PyXA import XABaseScriptable
 class XASystemPreferencesApplication(XABaseScriptable.XASBApplication):
     """A class for managing and interacting with Podcasts.app.
 
-     .. seealso:: :class:`XAPreferencePane`, :class:`XAPreferenceAnchor`
+    .. seealso:: :class:`XAPreferencePane`, :class:`XAPreferenceAnchor`
 
     .. versionadded:: 0.0.2
     """
@@ -65,7 +65,7 @@ class XASystemPreferencesApplication(XABaseScriptable.XASBApplication):
 
         >>> import PyXA
         >>> app = PyXA.application("System Preferences")
-        >>> print(app.panes({"name": "Accessibility"}))
+        >>> print(app.pane({"name": "Accessibility"}))
         <<class 'PyXA.apps.SystemPreferences.XAPreferencePane'>Accessibility, id=com.apple.preference.universalaccess>
 
         .. versionadded:: 0.0.2

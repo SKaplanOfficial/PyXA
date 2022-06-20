@@ -18,7 +18,7 @@ from PyXA import XABaseScriptable
 class XAContactsApplication(XABaseScriptable.XASBApplication):
     """A class for managing and interacting with Contacts.app.
 
-     .. seealso:: :class:`XAContactGroup`, :class:`XAContactPerson`
+    .. seealso:: :class:`XAContactGroup`, :class:`XAContactPerson`
 
     .. versionadded:: 0.0.2
     """

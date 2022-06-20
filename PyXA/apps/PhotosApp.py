@@ -18,13 +18,15 @@ import Photos
 from AppKit import NSPredicate, NSImage, NSURL
 from Foundation import NSSortDescriptor
 
+from PyXA import XAEvents
+
 from PyXA import XABase
 from PyXA import XABaseScriptable
 
 class XAPhotosApplication(XABaseScriptable.XASBApplication):
     """A class for managing and interacting with Photos.app.
 
-     .. seealso:: :class:`XATextEditWindow`, :class:`XAPhotosMediaItem`
+    .. seealso:: :class:`XATextEditWindow`, :class:`XAPhotosMediaItem`
 
     .. versionadded:: 0.0.2
     """

@@ -19,7 +19,7 @@ _DETAILED_ERRORS = 1819763828
 class XAPreviewApplication(XABaseScriptable.XASBApplication, XABase.XACanConstructElement, XABase.XAAcceptsPushedElements, XABase.XACanOpenPath):
     """A class for managing and interacting with Preview.app.
 
-     .. seealso:: :class:`XAPreviewWindow`, :class:`XAPreviewDocument`
+    .. seealso:: :class:`XAPreviewWindow`, :class:`XAPreviewDocument`
 
     .. versionadded:: 0.0.1
     """

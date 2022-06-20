@@ -16,7 +16,7 @@ from PyXA import XABaseScriptable
 class XADictionaryApplication(XABase.XAApplication):
     """A class for managing and interacting with Dictionary.app.
 
-     .. seealso:: :class:`XADictionaryDefinition`
+    .. seealso:: :class:`XADictionaryDefinition`
 
     .. versionadded:: 0.0.2
     """

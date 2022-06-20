@@ -17,7 +17,7 @@ _DETAILED_ERRORS = 1819763828
 class XATerminalApplication(XABaseScriptable.XASBApplication, XABase.XACanConstructElement, XABase.XAAcceptsPushedElements, XABase.XACanOpenPath):
     """A class for managing and interacting with Messages.app
 
-     .. seealso:: :class:`XATerminalWindow`, :class:`XATerminalTab`, :class:`XATerminalSettingsSet`
+    .. seealso:: :class:`XATerminalWindow`, :class:`XATerminalTab`, :class:`XATerminalSettingsSet`
 
     .. versionadded:: 0.0.1
     """

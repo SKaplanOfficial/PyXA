@@ -167,7 +167,7 @@ class _XAHasMessagesAccounts(XABaseScriptable.XAHasScriptableElements):
 class XAMessagesApplication(XABaseScriptable.XASBApplication, XABase.XACanConstructElement, XABase.XAAcceptsPushedElements, _XAHasChats, _XAHasFileTransfers, _XAHasParticipants, _XAHasMessagesAccounts):
     """A class for managing and interacting with Messages.app
 
-     .. seealso:: :class:`XAChat`, :class:`XAMessagesFileTransfer`, :class:`XAMessagesParticipant`, :class:`XAMessagesAccount`
+    .. seealso:: :class:`XAChat`, :class:`XAMessagesFileTransfer`, :class:`XAMessagesParticipant`, :class:`XAMessagesAccount`
 
     .. versionadded:: 0.0.1
     """

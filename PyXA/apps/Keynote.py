@@ -2,13 +2,14 @@
 
 Control the macOS Keynote application using JXA-like syntax.
 """
-from cgitb import text
 from enum import Enum
 from time import sleep
 from typing import Any, List, Tuple, Union
-from AppKit import NSFileManager, NSURL, NSSet, NSPoint, NSValue
+from AppKit import NSURL, NSPoint, NSValue
 
-from PyXA import XABase
+from PyXA import XABase, XAEvents
+import ApplicationServices
+
 from PyXA.XABase import OSType
 from PyXA import XABaseScriptable
 
@@ -256,17 +257,15 @@ class XAKeynoteApplication(XABaseScriptable.XASBApplication, XABase.XAAcceptsPus
         :return: The list of documents
         :rtype: List[XAKeynoteDocument]
 
-        :Example 1: List all documents
+        :Example 1: List the name of every open Keynote document
 
         >>> import PyXA
-        >>> app = PyXA.application("System Preferences")
-        >>> print(app.panes())
-
-        :Example 2: List documents after applying a filter
-
-        >>> import PyXA
-        >>> app = PyXA.application("System Preferences")
-        >>> print(app.panes({"name": "Accessibility"}))
+        >>> app = PyXA.application("Keynote")
+        >>> docs = app.documents()
+        >>> for doc in docs:
+        >>>     print(doc.name)
+        Example1.key
+        Example2.key
 
         .. versionadded:: 0.0.2
         """
@@ -280,17 +279,12 @@ class XAKeynoteApplication(XABaseScriptable.XASBApplication, XABase.XAAcceptsPus
         :return: The document
         :rtype: XAKeynoteDocument
 
-        :Example 1: Get a document by index
+        :Example 1: Export the document that has a specific name
 
         >>> import PyXA
-        >>> app = PyXA.application("System Preferences")
-        >>> print(app.pane(0))
-
-        :Example 2: Get a document by using a filter
-
-        >>> import PyXA
-        >>> app = PyXA.application("System Preferences")
-        >>> print(app.panes({"name": "Accessibility"}))
+        >>> app = PyXA.application("Keynote")
+        >>> doc = app.document({"name": "Example1.key"})
+        >>> doc.export("/Users/exampleuser/Documents/Example1.pdf", app.ExportFormat.PDF)
 
         .. versionadded:: 0.0.2
         """
@@ -316,6 +310,16 @@ class XAKeynoteApplication(XABaseScriptable.XASBApplication, XABase.XAAcceptsPus
         """
         return super().last_scriptable_element("documents", XAKeynoteDocument)
 
+    def new_document(self, file_path: str = "./Untitled.key", theme: 'XAKeynoteTheme' = None) -> 'XAKeynoteDocument':
+        if isinstance(file_path, str):
+            file_path = NSURL.alloc().initFileURLWithPath_(file_path)
+        properties = {
+            "file": file_path,
+        }
+        if theme is not None:
+            properties["documentTheme"] = theme.xa_elem
+        return self.push("document", properties, self.xa_scel.documents())
+
     def new_slide(self, document: 'XAKeynoteDocument', properties: dict):
         return self.push("slide", properties, document.xa_elem.slides())
 
@@ -328,17 +332,13 @@ class XAKeynoteApplication(XABaseScriptable.XASBApplication, XABase.XAAcceptsPus
         :return: The list of themes
         :rtype: List[XAKeynoteTheme]
 
-        :Example 1: List all themes
+        :Example 1: List the name of each theme
 
         >>> import PyXA
-        >>> app = PyXA.application("System Preferences")
-        >>> print(app.panes())
-
-        :Example 2: List themes after applying a filter
-
-        >>> import PyXA
-        >>> app = PyXA.application("System Preferences")
-        >>> print(app.panes({"name": "Accessibility"}))
+        >>> app = PyXA.application("Keynote")
+        >>> themes = app.themes()
+        >>> print([theme.name for theme in themes])
+        ['Basic White', 'Basic Black', 'Classic White', 'White', 'Black', 'Basic Color', 'Color Gradient Light', 'Color Gradient', 'Gradient', 'Showroom', 'Modern Portfolio', 'Slate', 'Photo Essay', 'Bold Color', 'Showcase', 'Briefing', 'Academy', 'Modern Type', 'Exhibition', 'Feature Story', 'Look Book', 'Classic', 'Editorial', 'Cream Paper', 'Industrial', 'Blueprint', 'Graph Paper', 'Chalkboard', 'Photo Portfolio', 'Leather Book', 'Artisan', 'Improv', 'Drafting', 'Kyoto', 'Brushed Canvas', 'Craft', 'Parchment', 'Renaissance', 'Moroccan', 'Hard Cover', 'Linen Book', 'Vintage', 'Typeset', 'Harmony', 'Formal']
 
         .. versionadded:: 0.0.2
         """
@@ -352,17 +352,12 @@ class XAKeynoteApplication(XABaseScriptable.XASBApplication, XABase.XAAcceptsPus
         :return: The theme
         :rtype: XAKeynoteTheme
 
-        :Example 1: Get a theme by index
+        :Example 1: Create a new document with a specific theme
 
         >>> import PyXA
-        >>> app = PyXA.application("System Preferences")
-        >>> print(app.pane(0))
-
-        :Example 2: Get a theme by using a filter
-
-        >>> import PyXA
-        >>> app = PyXA.application("System Preferences")
-        >>> print(app.panes({"name": "Accessibility"}))
+        >>> app = PyXA.application("Keynote")
+        >>> exhibition_theme = app.theme({"name": "Exhibition"})
+        >>> app.new_document(theme = exhibition_theme)
 
         .. versionadded:: 0.0.2
         """
@@ -504,44 +499,102 @@ class XAKeynoteDocument(XABase.XAHasElements, XABaseScriptable.XASBPrintable, XA
         return self.__selection
 
     def start_from(self, slide: 'XAKeynoteSlide') -> 'XAKeynoteSlide':
+        """Starts the slideshow from the specified slide.
+        
+        .. versionadded:: 0.0.3
+        """
         self.xa_elem.startFrom_(slide.xa_elem)
         return self
 
     def stop(self):
+        """Stops the currently playing slideshow.
+        
+        .. versionadded:: 0.0.3
+        """
         self.xa_elem.stop()
 
     def show_slide_switcher(self):
+        """Shows the slide switch within the active slideshow interface.
+        
+        .. versionadded:: 0.0.3
+        """
         self.xa_elem.showSlideSwitcher()
 
     def hide_slide_switcher(self):
+        """Hides the slide switcher.
+        
+        .. versionadded:: 0.0.3
+        """
         self.xa_elem.hideSlideSwitcher()
 
     def move_slide_switcher_forward(self):
+        """Advances the slide switcher one slide forward.
+        
+        .. versionadded:: 0.0.3
+        """
         self.xa_elem.moveSlideSwitcherForward()
 
     def move_slide_switcher_backward(self):
+        """Goes back one slide in the slide switcher.
+        
+        .. versionadded:: 0.0.3
+        """
         self.xa_elem.moveSlideSwitcherBackward()
 
     def cancel_slide_switcher(self):
+        """Dismisses the slide switcher.
+        
+        .. versionadded:: 0.0.3
+        """
         self.xa_elem.cancelSlideSwitcher()
 
     def accept_slide_switcher(self):
+        """Advances the slideshow to the selected slide of the slide switcher.
+        
+        .. versionadded:: 0.0.3
+        """
         self.xa_elem.acceptSlideSwitcher()
 
-    def save(self, file_path: str = None, file_type: str = None):
-        file_path = "/Users/steven/Downloads/Test.key"
+    def save(self):
+        """Saves the Keynote file.
+        
+        .. versionadded:: 0.0.3
+        """
         export_format = XAKeynoteApplication.ExportFormat.KEYNOTE.value
-        url = NSURL.alloc().initFileURLWithPath_(file_path)
-        # self.xa_elem.exportTo_as_withProperties_(url, export_format, None)
-        self.xa_elem.saveIn_as_(url, export_format)
+        self.xa_elem.saveIn_as_(self.file, export_format)
 
-    def export(self, file_path: str = None, file_type: str = None):
-        file_path = "/Users/steven/Downloads/wowwwwww.pdf"
-        export_format = XAKeynoteApplication.ExportFormat.PDF.value
-        url = NSURL.alloc().initFileURLWithPath_(file_path)
-        self.xa_elem.exportTo_as_withProperties_(url, export_format, None)
+    def export(self, file_path: Union[str, NSURL] = None, format: XAKeynoteApplication.ExportFormat = XAKeynoteApplication.ExportFormat.PDF):
+        """Exports the slideshow in the specified format.
+
+        :param file_path: The path to save the exported file at, defaults to None
+        :type file_path: Union[str, NSURL], optional
+        :param format: The format to export the file in, defaults to XAKeynoteApplication.ExportFormat.PDF
+        :type format: XAKeynoteApplication.ExportFormat, optional
+
+        .. versionadded:: 0.0.3
+        """
+        if file_path is None:
+            file_path = self.file.path()[:-4] + ".pdf"
+        if isinstance(file_path, str):
+            file_path = NSURL.alloc().initFileURLWithPath_(file_path)
+        self.xa_elem.exportTo_as_withProperties_(file_path, format.value, None)
 
     def make_image_slides(self, files: List[Union[str, NSURL]], set_titles: bool = False, slide_layout: 'XAKeynoteSlideLayout' = None) -> 'XAKeynoteDocument':
+        """Creates slides out of image files.
+
+        Creates a new slide for each image file path in the files list, if the image can be found.
+
+        :param files: A list of paths to image files
+        :type files: List[Union[str, NSURL]]
+        :param set_titles: Whether to set the slide titles to the image file name, defaults to False
+        :type set_titles: bool, optional
+        :param slide_layout: The base slide layout to use for the new slides, defaults to None
+        :type slide_layout: XAKeynoteSlideLayout, optional
+        :return: A reference back to this PyXA object.
+        :rtype: XAKeynoteDocument
+
+        .. versionadded:: 0.0.3
+        """
         urls = []
         for file in files:
             if isinstance(file, str):
@@ -549,13 +602,6 @@ class XAKeynoteDocument(XABase.XAHasElements, XABaseScriptable.XASBPrintable, XA
             urls.append(file)
         self.xa_elem.makeImageSlidesFiles_setTitles_slideLayout_(urls, set_titles, slide_layout)
         return self
-
-    # def save(self, file_path: str = None):
-    #     # file_path = "/Users/steven/Documents/eek/wow"
-    #     url = self.file
-    #     if file_path is not None:
-    #         url = NSURL.alloc().initFileURLWithPath_(file_path)
-    #     self.xa_elem.saveIn_as_(url, _KeynoteSaveableFileFormat.KeynoteSaveableFileFormatKeynote.value)
 
     # Slides
     def slides(self, properties: Union[dict, None] = None) -> List['XAKeynoteSlide']:
@@ -569,13 +615,13 @@ class XAKeynoteDocument(XABase.XAHasElements, XABaseScriptable.XASBPrintable, XA
         :Example 1: List all slides
 
         >>> import PyXA
-        >>> app = PyXA.application("System Preferences")
+        >>> app = PyXA.application("Keynotes")
         >>> print(app.panes())
 
         :Example 2: List slides after applying a filter
 
         >>> import PyXA
-        >>> app = PyXA.application("System Preferences")
+        >>> app = PyXA.application("Keynotes")
         >>> print(app.panes({"name": "Accessibility"}))
 
         .. versionadded:: 0.0.2
@@ -593,13 +639,13 @@ class XAKeynoteDocument(XABase.XAHasElements, XABaseScriptable.XASBPrintable, XA
         :Example 1: Get a slide by index
 
         >>> import PyXA
-        >>> app = PyXA.application("System Preferences")
+        >>> app = PyXA.application("Keynotes")
         >>> print(app.pane(0))
 
         :Example 2: Get a slide by using a filter
 
         >>> import PyXA
-        >>> app = PyXA.application("System Preferences")
+        >>> app = PyXA.application("Keynotes")
         >>> print(app.panes({"name": "Accessibility"}))
 
         .. versionadded:: 0.0.2
@@ -650,13 +696,13 @@ class XAKeynoteDocument(XABase.XAHasElements, XABaseScriptable.XASBPrintable, XA
         :Example 1: List all slide_layouts
 
         >>> import PyXA
-        >>> app = PyXA.application("System Preferences")
+        >>> app = PyXA.application("Keynotes")
         >>> print(app.panes())
 
         :Example 2: List slide_layouts after applying a filter
 
         >>> import PyXA
-        >>> app = PyXA.application("System Preferences")
+        >>> app = PyXA.application("Keynotes")
         >>> print(app.panes({"name": "Accessibility"}))
 
         .. versionadded:: 0.0.2
@@ -674,13 +720,13 @@ class XAKeynoteDocument(XABase.XAHasElements, XABaseScriptable.XASBPrintable, XA
         :Example 1: Get a slide_layout by index
 
         >>> import PyXA
-        >>> app = PyXA.application("System Preferences")
+        >>> app = PyXA.application("Keynotes")
         >>> print(app.pane(0))
 
         :Example 2: Get a slide_layout by using a filter
 
         >>> import PyXA
-        >>> app = PyXA.application("System Preferences")
+        >>> app = PyXA.application("Keynotes")
         >>> print(app.panes({"name": "Accessibility"}))
 
         .. versionadded:: 0.0.2
@@ -719,6 +765,9 @@ class XAKeynoteTheme(XABaseScriptable.XASBObject):
         super().__init__(properties)
         self.id = self.xa_elem.id()
         self.name = self.xa_elem.name()
+
+    def __repr__(self):
+        return f"<{str(type(self))}{self.name}, id={str(self.id)}>"
 
 class XAKeynoteContainer(XABase.XAHasElements):
     """A class for managing and interacting with containers in Keynote.
@@ -1825,6 +1874,7 @@ class XAKeynoteRange(XABase.XAHasElements):
         self.name: str = self.xa_elem.name()
         self.text_wrap: bool = self.xa_elem.textWrap()
         self.vertical_alignment: int = self.xa_elem.verticalAlignment()
+        self.size: int = len(self.xa_elem.cells()) #: The number of cells in the range
         self.__text_color = None
         self.__background_color = None
 
@@ -1845,14 +1895,69 @@ class XAKeynoteRange(XABase.XAHasElements):
         return self.__background_color
 
     def clear(self) -> 'XAKeynoteRange':
+        """Clears the content of every cell in the range.
+
+        :Example 1: Clear all cells in a table
+
+        >>> import PyXA
+        >>> app = PyXA.application("Keynote")
+        >>> range = app.document(0).slide(0).table(0).cell_range
+        >>> range.clear()
+
+        :Example 2: Clear all cells whose value is 3
+
+        >>> import PyXA
+        >>> app = PyXA.application("Keynote")
+        >>> cells = app.document(0).slide(0).table(0).cells()
+        >>> for cell in cells:
+        >>>     if cell.value == 3:
+        >>>         cell.clear()
+
+        .. versionadded:: 0.0.3
+        """
         self.xa_elem.clear()
         return self
 
     def merge(self) -> 'XAKeynoteRange':
+        """Merges all cells in the range.
+
+        :Example 1: Merge all cells in the first row of a table
+
+        >>> import PyXA
+        >>> app = PyXA.application("Keynote")
+        >>> table = app.document(0).slide(0).table(0)
+        >>> row = table.row(0)
+        >>> row.merge()
+
+        :Example 2: Merge all cells in the first column of a table
+
+        >>> import PyXA
+        >>> app = PyXA.application("Keynote")
+        >>> table = app.document(0).slide(0).table(0)
+        >>> col = table.column(0)
+        >>> col.merge()
+
+        .. note::
+
+           If you merge an entire row, then merge an entire column, all cells in the table will be merged. The same is true if the row and column operations are flipped.
+
+        .. versionadded:: 0.0.3
+        """
         self.xa_elem.merge()
         return self
 
     def unmerge(self) -> 'XAKeynoteRange':
+        """Unmerges all cells in the range.
+
+        :Example 1: Unmerge all merged cells
+
+        >>> import PyXA
+        >>> app = PyXA.application("Keynote")
+        >>> range = app.document(0).slide(0).table(0).cell_range
+        >>> range.unmerge()
+
+        .. versionadded:: 0.0.3
+        """
         self.xa_elem.unmerge()
         return self
 
@@ -2020,7 +2125,7 @@ class XAKeynoteCell(XAKeynoteRange):
         super().__init__(properties)
         self.formatted_value: str = self.xa_elem.formattedValue() #: The formatted form of the value stored in the cell
         self.formula: str = self.xa_elem.formula() #: The formula in the cell as text
-        self.value = self.xa_elem.value() #: The value stored in the cell
+        self.value = self.xa_elem.value().get() #: The value stored in the cell
         self.__column: XAKeynoteColumn = None #: The cell's column
         self.__row: XAKeynoteRow = None #: The cell's row
 

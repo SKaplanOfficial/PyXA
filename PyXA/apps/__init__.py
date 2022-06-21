@@ -18,6 +18,8 @@ from .Dictionary import XADictionaryApplication
 from .PhotosApp import XAPhotosApplication
 from .SystemPreferences import XASystemPreferencesApplication
 from .Keynote import XAKeynoteApplication
+from .Firefox import XAFirefoxApplication
+from .Brave import XABraveApplication
 
 application_classes = {
     "finder": XAFinderApplication,
@@ -40,6 +42,9 @@ application_classes = {
     "dictionary": XADictionaryApplication,
     "photos": XAPhotosApplication,
     "system preferences": XASystemPreferencesApplication,
-    "systempreferences": XASystemPreferencesApplication,
     "keynote": XAKeynoteApplication,
+
+    # Third Party Apps
+    "firefox": XAFirefoxApplication,
+    "brave browser": XABraveApplication,
 }

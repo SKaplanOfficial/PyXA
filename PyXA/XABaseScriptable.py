@@ -1,9 +1,23 @@
 from typing import List, Union
 import threading
 import ScriptingBridge
-from AppKit import NSPredicate
+from AppKit import NSPredicate, NSMutableArray
 
 from PyXA import XABase
+
+import signal
+
+class timeout:
+    def __init__(self, seconds=1, error_message='Timeout'):
+        self.seconds = seconds
+        self.error_message = error_message
+    def handle_timeout(self, signum, frame):
+        raise TimeoutError(self.error_message)
+    def __enter__(self):
+        signal.signal(signal.SIGALRM, self.handle_timeout)
+        signal.alarm(self.seconds)
+    def __exit__(self, type, value, traceback):
+        signal.alarm(0)
 
 class XASBObject(XABase.XAObject):
     """A class for PyXA objects scriptable with AppleScript/JXA.
@@ -18,23 +32,27 @@ class XASBObject(XABase.XAObject):
 
 class XAHasScriptableElements(XABase.XAObject):
     def scriptable_elements(self, specifier, filter, obj_type):
+        self.elements = []
         ls = self.xa_scel.__getattribute__(specifier)()
         if filter is not None:
             predicate = NSPredicate.predicateWithFormat_(XABase.xa_predicate_format(filter))
             ls = ls.filteredArrayUsingPredicate_(predicate)
 
-        elements = []
-        for element in ls:
-            properties = {
-                "parent": self,
-                "appspace": self.xa_apsp,
-                "workspace": self.xa_wksp,
-                "element": element.get(),
-                "appref": self.xa_aref,
-                "system_events": self.xa_sevt,
-            }
-            elements.append(obj_type(properties))
-        return elements
+        def append_with_timeout(obj: ScriptingBridge.SBObject, index: int, stop: bool):
+            with timeout(seconds = 2):
+                properties = {
+                    "parent": self,
+                    "appspace": self.xa_apsp,
+                    "workspace": self.xa_wksp,
+                    "element": obj,
+                    "scriptable_element": obj,
+                    "appref": self.xa_aref,
+                    "system_events": self.xa_sevt,
+                }
+                self.elements.append(obj_type(properties))
+
+        ls.enumerateObjectsUsingBlock_(append_with_timeout)
+        return self.elements
 
     def scriptable_element_with_properties(self, specifier, filter, obj_type):
         if isinstance(filter, int):
@@ -44,6 +62,7 @@ class XAHasScriptableElements(XABase.XAObject):
                 "appspace": self.xa_apsp,
                 "workspace": self.xa_wksp,
                 "element": element,
+                "scriptable_element": element,
                 "appref": self.xa_aref,
                 "system_events": self.xa_sevt,
             }
@@ -57,6 +76,7 @@ class XAHasScriptableElements(XABase.XAObject):
             "appspace": self.xa_apsp,
             "workspace": self.xa_wksp,
             "element": element,
+            "scriptable_element": element,
             "appref": self.xa_aref,
             "system_events": self.xa_sevt,
         }
@@ -69,6 +89,7 @@ class XAHasScriptableElements(XABase.XAObject):
             "appspace": self.xa_apsp,
             "workspace": self.xa_wksp,
             "element": element,
+            "scriptable_element": element,
             "appref": self.xa_aref,
             "system_events": self.xa_sevt,
         }
@@ -173,6 +194,16 @@ class XASBApplication(XASBObject, XABase.XAApplication, XAHasScriptableElements)
 class XASBWindow(XASBObject):
     def __init__(self, properties):
         super().__init__(properties)
+        self.name = self.xa_scel.name() #: The title of the window
+        self.id = self.xa_scel.id() #: The unique identifier for the window
+        self.index = self.xa_scel.index() #: The index of the window, ordered front to back
+        self.bounds = self.xa_scel.bounds() #: The bounding rectangle of the window
+        self.closeable = self.xa_scel.closeable() #: Whether the window has a close button
+        self.resizable = self.xa_scel.resizable() #: Whether the window can be resized
+        self.visible = self.xa_scel.visible() #: Whether the window is currently visible
+        self.zoomable = self.xa_scel.zoomable() #: Whether the window has a zoom button
+        self.zoomed = self.xa_scel.zoomed() #: Whether the window is currently zoomed
+        self.__document = None #: The current document displayed in the window
 
     def collapse(self) -> 'XABase.XAWindow':
         """Collapses (minimizes) the window.
@@ -180,6 +211,7 @@ class XASBWindow(XASBObject):
         :return: A reference to the now-collapsed window object.
         :rtype: XABase.XAWindow
         """
+        self.miniaturized = True
         self.set_property("miniaturized", True)
         return self
 
@@ -189,7 +221,18 @@ class XASBWindow(XASBObject):
         :return: A reference to the uncollapsed window object.
         :rtype: XABase.XAWindow
         """
+        self.miniaturized = False
         self.set_property("miniaturized", False)
+        return self
+
+    def toggle_zoom(self) -> 'XABase.XAWindow':
+        """Uncollapses (unminimizes/expands) the window.
+
+        :return: A reference to the uncollapsed window object.
+        :rtype: XABase.XAWindow
+        """
+        self.zoomed = not self.zoomed
+        self.set_property("zoomed", self.zoomed)
         return self
 
     # TODO:

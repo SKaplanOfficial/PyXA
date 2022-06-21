@@ -3,6 +3,7 @@
 General classes and methods applicable to any PyXA object.
 """
 
+from datetime import datetime
 import time, os, sys
 from typing import Any, Callable, Union, List, Dict
 import threading
@@ -28,6 +29,10 @@ class XAObject():
         :param properties: A dictionary of properties to assign to this object.
         :type properties: dict, optional
 
+        .. versionchanged:: 0.0.3
+
+           Removed on-the-fly creation of class attributes. All objects should concretely define their properties.
+
         .. versionadded:: 0.0.1
         """
         self.xa_prnt = properties.get("parent", None)
@@ -37,19 +42,6 @@ class XAObject():
         self.xa_scel = properties.get("scriptable_element", None)
         self.xa_aref = properties.get("appref", None)
         self.xa_sevt = properties.get("system_events", SBApplication.alloc().initWithBundleIdentifier_("com.apple.systemevents"))
-
-        try:
-            self.element_properties = properties["element"].properties()
-        except:
-            self.element_properties = None
-
-        if self.element_properties is not None:
-            for attr in self.element_properties:
-                try:
-                    if not hasattr(self, attr):
-                        self.__setattr__(attr, self.element_properties[attr])
-                except:
-                    pass
 
     def _exec_suppresed(self, f: Callable[..., Any], *args: Any) -> Any:
         """Silences unwanted and otherwise unavoidable warning messages.
@@ -84,7 +76,7 @@ class XAObject():
             raise error
         return value
 
-    def _new_element(self, obj: AppKit.NSObject, obj_class: type = 'XAObject') -> 'XAObject':
+    def _new_element(self, obj: AppKit.NSObject, obj_class: type = 'XAObject', *args: List[Any]) -> 'XAObject':
         """Wrapper for creating a new PyXA object.
 
         :param folder_obj: The Objective-C representation of an object.
@@ -102,7 +94,7 @@ class XAObject():
             "appref": self.xa_aref,
             "system_events": self.xa_sevt,
         }
-        return obj_class(properties)
+        return obj_class(properties, *args)
 
     def has_element(self) -> bool:
         """Whether this object has an AppleScript/JXA/Objective-C scripting element associated with it.
@@ -184,6 +176,89 @@ class XAObject():
         else:
             pb.writeObjects_(AppKit.NSArray.arrayWithObject_(content))
     
+
+class XAList(XAObject):
+    """A wrapper around NSArray and NSMutableArray objects enabling fast enumeration and lazy evaluation of Objective-C objects.
+
+    .. versionadded:: 0.0.3
+    """
+    def __init__(self, properties, object_class = None, filter: Union[dict, None] = None):
+        super().__init__(properties)
+        self.xa_ocls = object_class
+
+        if filter is not None:
+            predicate = AppKit.NSPredicate.predicateWithFormat_(xa_predicate_format(filter))
+            self.xa_elem = self.xa_elem.filteredArrayUsingPredicate_(predicate)
+
+    def first(self) -> XAObject:
+        """Retrieves the first element of the list as a wrapped PyXA object.
+
+        :return: The wrapped object
+        :rtype: XAObject
+
+        .. versionadded:: 0.0.3
+        """
+        return self._new_element(self.xa_elem.firstObject(), self.xa_ocls)
+
+    def last(self) -> XAObject:
+        """Retrieves the last element of the list as a wrapped PyXA object.
+
+        :return: The wrapped object
+        :rtype: XAObject
+
+        .. versionadded:: 0.0.3
+        """
+        return self._new_element(self.xa_elem.lastObject(), self.xa_ocls)
+
+    def shuffle(self) -> 'XAList':
+        """Randomizes the order of objects in the list.
+
+        :return: A reference to the shuffled XAList
+        :rtype: XAList
+
+        .. versionadded:: 0.0.3
+        """
+        self.xa_elem = self.xa_elem.shuffledArray()
+        return self
+
+    def push(self, element: XAObject):
+        """Appends the object referenced by the provided PyXA wrapper to the end of the list.
+
+        .. versionadded:: 0.0.3
+        """
+        self.xa_elem.addObject_(element.xa_elem)
+
+    def insert(self, element: XAObject, index: int):
+        """Inserts the object referenced by the provided PyXA wrapper at the specified index.
+
+        .. versionadded:: 0.0.3
+        """
+        self.xa_elem.insertObject_atIndex_(element.xa_elem, index)
+
+    def pop(self, index: int = -1) -> XAObject:
+        """Removes the object at the specified index from the list and returns it.
+
+        .. versionadded:: 0.0.3
+        """
+        removed = self.xa_elem.lastObject()
+        self.xa_elem.removeLastObject()
+        return self._new_element(removed, self.xa_ocls)
+
+    def __getitem__(self, key: Union[int, slice]):
+        if isinstance(key, slice):
+            arr = AppKit.NSArray.alloc().initWithArray_([self.xa_elem[index] for index in range(key.start, key.stop, key.step or 1)])
+            return self._new_element(arr, self.__class__)
+        return self._new_element(self.xa_elem[key], self.xa_ocls)
+
+    def __len__(self):
+        return self.xa_elem.count()
+
+    def __reversed__(self):
+        self.xa_elem = self.xa_elem.reverseObjectEnumerator().allObjects()
+
+    def __iter__(self):
+        return (self._new_element(object, self.xa_ocls) for object in self.xa_elem.objectEnumerator())
+
 
 ### Mixins
 ## Action Mixins
@@ -430,6 +505,8 @@ class XAProcess(XAHasElements):
     def __init__(self, properties):
         super().__init__(properties)
         self.xa_wcls = properties["window_class"]
+        self.id = self.xa_elem.id()
+        self.unix_id = self.xa_elem.unixId()
 
     # Windows
     def windows(self, filter: dict = None) -> List['XAWindow']:
@@ -850,7 +927,7 @@ def xa_path(filepath: str):
     return NSURL.alloc().initWithString_(filepath)
 
 def xa_predicate_format(ref_dict: dict):
-    """Constructs a predicate format string from the keys and values of the supplied reference dictionary.add()
+    """Constructs a predicate format string from the keys and values of the supplied reference dictionary.
 
     Predicate format strings are of the form "(key1 = 'value1') && (key2 = 'value2')..."
 
@@ -864,6 +941,13 @@ def xa_predicate_format(ref_dict: dict):
     predicate_format = ""
     for key, value in ref_dict.items():
         if isinstance(value, list) or isinstance(value, tuple):
+            if isinstance(value[1], str):
+                value[1] = value[1].replace("'", "\\'")
+                if not value[1].startswith("'"):
+                    value[1] = "'" + value[1]
+                if not value[1].endswith("'"):
+                    value[1] = value[1] + "'"
+
             if value[0] == ">":
                 predicate_format += f"({key} > {value[1]}) &&"
             elif value[0] == "<":
@@ -871,19 +955,23 @@ def xa_predicate_format(ref_dict: dict):
             elif value[0] == "!":
                 predicate_format += f"({key} != {value[1]}) &&"
             elif value[0].lower() == "contains":
-                predicate_format += f"({key} CONTAINS '{value[1]}') &&"
+                predicate_format += f"({key} CONTAINS {value[1]}) &&"
             elif value[0].lower() == "like":
-                predicate_format += f"({key} LIKE '{value[1]}') &&"
+                predicate_format += f"({key} LIKE {value[1]}) &&"
             elif value[0].lower() == "matches":
-                predicate_format += f"({key} MATCHES '{value[1]}') &&"
+                predicate_format += f"({key} MATCHES {value[1]}) &&"
             elif value[0].lower() == "beginswith":
-                predicate_format += f"({key} BEGINSWITH '{value[1]}') &&"
+                predicate_format += f"({key} BEGINSWITH {value[1]}) &&"
             elif value[0].lower() == "endswith":
-                predicate_format += f"({key} ENDSWITH '{value[1]}') &&"
+                predicate_format += f"({key} ENDSWITH {value[1]}) &&"
         else:
             if isinstance(value, str):
                 value = value.replace("'", "\\'")
-            predicate_format += f"({key} = '{value}') &&"
+                if not value.startswith("'"):
+                    value = "'" + value
+                if not value.endswith("'"):
+                    value = value + "'"
+            predicate_format += f"({key} = {value}) &&"
     return predicate_format[:-3]
 
 def xa_or_predicate_format(ref_list: dict):
@@ -1610,6 +1698,9 @@ class XAColor():
     def darken(self, amount: float = 0.5) -> 'XAColor':
         self.value.shadowWithLevel_(amount)
         return self
+
+    def __repr__(self):
+        return f"<{str(type(self))}r={str(self.red())}, g={self.green()}, b={self.blue()}, a={self.alpha()}>"
 
 
 class XAImage():

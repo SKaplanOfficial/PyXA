@@ -140,7 +140,13 @@ class XAObject():
 
         .. versionadded:: 0.0.1
         """
-        self.xa_elem.setValuesForKeysWithDictionary_(properties)
+        property_dict = {}
+        for key in properties:
+            parts = key.split("_")
+            titled_parts = [part.title() for part in parts[1:]]
+            property_name = parts[0] + "".join(titled_parts)
+            property_dict[property_name] = properties[key]
+        self.xa_elem.setValuesForKeysWithDictionary_(property_dict)
         return self
 
     def set_property(self, property_name: str, value: Any) -> 'XAObject':
@@ -155,8 +161,10 @@ class XAObject():
 
         .. versionadded:: 0.0.1
         """
-        self.xa_elem._scriptingSetValue_forKey_(value, property_name)
-        self.__setattr__(property_name, value)
+        parts = property_name.split("_")
+        titled_parts = [part.title() for part in parts[1:]]
+        property_name = parts[0] + "".join(titled_parts)
+        self.xa_elem.setValue_forKey_(value, property_name)
         return self
 
     def set_clipboard(self, content: Any) -> None:
@@ -1702,6 +1710,13 @@ class XAColor():
     def __repr__(self):
         return f"<{str(type(self))}r={str(self.red())}, g={self.green()}, b={self.blue()}, a={self.alpha()}>"
 
+class XAImageList(XAList):
+    """A wrapper around lists of images that employs fast enumeration techniques.
+
+    .. versionadded:: 0.0.3
+    """
+    def __init__(self, properties: dict, filter: Union[dict, None] = None):
+        super().__init__(properties, XAImage, filter)
 
 class XAImage():
     def __init__(self, file_url: Union[str, NSURL, None] = None):

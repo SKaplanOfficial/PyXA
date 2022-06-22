@@ -28,7 +28,10 @@ class XASBObject(XABase.XAObject):
         super().__init__(properties)
 
     def set_property(self, property_name, value):
-        self.xa_scel._scriptingSetValue_forKey_(value, property_name)
+        parts = property_name.split("_")
+        titled_parts = [part.title() for part in parts[1:]]
+        property_name = parts[0] + "".join(titled_parts)
+        self.xa_scel.setValue_forKey_(value, property_name)
 
 class XAHasScriptableElements(XABase.XAObject):
     def scriptable_elements(self, specifier, filter, obj_type):

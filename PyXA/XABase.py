@@ -198,6 +198,11 @@ class XAList(XAObject):
             predicate = AppKit.NSPredicate.predicateWithFormat_(xa_predicate_format(filter))
             self.xa_elem = self.xa_elem.filteredArrayUsingPredicate_(predicate)
 
+    def by_property(self, property: str, value: Any) -> XAObject:
+        predicate = AppKit.NSPredicate.predicateWithFormat_(xa_predicate_format({property: value}))
+        obj = self.xa_elem.filteredArrayUsingPredicate_(predicate)[0]
+        return self._new_element(obj, self.xa_ocls)
+
     def first(self) -> XAObject:
         """Retrieves the first element of the list as a wrapped PyXA object.
 

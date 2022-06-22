@@ -4,7 +4,7 @@ Control the macOS TextEdit application using JXA-like syntax.
 """
 
 from typing import List, Union
-from AppKit import NSFileManager, NSURL
+from AppKit import NSFileManager, NSURL, NSPredicate
 
 from PyXA import XABase
 from PyXA import XABaseScriptable
@@ -32,7 +32,7 @@ class XATextEditApplication(XABaseScriptable.XASBApplication, XABase.XACanConstr
         self.xa_scel.print_printDialog_withProperties_(path, show_prompt, None)
 
     # Documents
-    def documents(self, filter: dict = None) -> List['XATextEditDocument']:
+    def documents(self, filter: dict = None) -> 'XATextEditDocumentList':
         """Returns a list of documents matching the filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned documents will have
@@ -45,58 +45,18 @@ class XATextEditApplication(XABaseScriptable.XASBApplication, XABase.XACanConstr
         >>> import PyXA
         >>> app = PyXA.application("TextEdit")
         >>> print(app.documents())
-        [<<class 'PyXA.apps.TextEdit.XATextEditDocument'>Current Document>, <<class 'PyXA.apps.TextEdit.XATextEditDocument'>Another Document>, ...]
+        [<<class 'PyXA.apps.TextEdit.XATextEditDocument'>Current Document.txt>, <<class 'PyXA.apps.TextEdit.XATextEditDocument'>Another Document.txt>, ...]
 
         :Example 2: List documents after applying a filter
 
         >>> import PyXA
         >>> app = PyXA.application("TextEdit")
-        >>> print(app.documents({"name": "Another Document"}))
-        [<<class 'PyXA.apps.TextEdit.XATextEditDocument'>Another Document>]
+        >>> print(app.documents({"name": "Another Document.txt"}))
+        [<<class 'PyXA.apps.TextEdit.XATextEditDocument'>Another Document.txt>]
 
         .. versionadded:: 0.0.1
         """
-        return self.scriptable_elements("documents", filter, XATextEditDocument)
-
-    def document(self, filter: Union[int, dict]) -> 'XATextEditDocument':
-        """Returns the first document that matches the filter.
-
-        :param filter: Either an array index or a dictionary specifying property-value pairs that the returned document will have
-        :type filter: Union[int, dict]
-        :return: The first matching document
-        :rtype: XATextEditDocument
-
-        :Example 1: Get a document by index
-
-        >>> import PyXA
-        >>> app = PyXA.application("TextEdit")
-        >>> print(app.document(0))
-        <<class 'PyXA.apps.TextEdit.XATextEditDocument'>Current Document>
-
-        :Example 2: Get a document by applying a filter
-
-        >>> import PyXA
-        >>> app = PyXA.application("TextEdit")
-        >>> print(app.document({"name": "Another Document"}))
-        <<class 'PyXA.apps.TextEdit.XATextEditDocument'>Another Document>
-
-        .. versionadded:: 0.0.1
-        """
-        return self.scriptable_element_with_properties("documents", filter, XATextEditDocument)
-
-    def first_document(self) -> 'XATextEditDocument':
-        """Returns the document at the first index of the documents array.
-
-        .. versionadded:: 0.0.1
-        """
-        return self.first_scriptable_element("documents", XATextEditDocument)
-
-    def last_document(self) -> 'XATextEditDocument':
-        """Returns the document at the last (-1) index of the documents array.
-
-        .. versionadded:: 0.0.1
-        """
-        return self.last_scriptable_element("documents", XATextEditDocument)
+        return self._new_element(self.xa_scel.documents(), XATextEditDocumentList, filter)
 
     def new_document(self, name: Union[str, None] = "Untitled.txt", text: Union[str, None] = "", location: Union[str, None] = None) -> 'XATextEditDocument':
         """Creates a new document with the given name and initializes it with the supplied text. If no location is provided, the document file is created in the user's Documents folder.
@@ -134,6 +94,7 @@ class XATextEditApplication(XABaseScriptable.XASBApplication, XABase.XACanConstr
             location = location + name
         return self.push("document", {"name": name, "text": text, "path": location}, self.xa_scel.documents(), XATextEditDocument)
 
+
 class XATextEditWindow(XABaseScriptable.XASBPrintable):
     """A class for managing and interacting with TextEdit windows.
 
@@ -144,6 +105,36 @@ class XATextEditWindow(XABaseScriptable.XASBPrintable):
     def __init__(self, properties):
         super().__init__(properties)
         self.document = self._new_element(self.document, XATextEditDocument)
+
+
+class XATextEditDocumentList(XABase.XAList):
+    """A wrapper around lists of documents that employs fast enumeration techniques.
+
+    All properties of documents can be called as methods on the wrapped list, returning a list containing each documents's value for the property.
+
+    .. versionadded:: 0.0.3
+    """
+    def __init__(self, properties: dict, filter: Union[dict, None] = None):
+        super().__init__(properties, XATextEditDocument, filter)
+
+    def path(self) -> List[str]:
+        return list(self.xa_elem.arrayByApplyingSelector_("path"))
+
+    def name(self) -> List[str]:
+        return list(self.xa_elem.arrayByApplyingSelector_("name"))
+
+    def modified(self) -> List[str]:
+        return list(self.xa_elem.arrayByApplyingSelector_("modified"))
+
+    def by_path(self, path: str) -> 'XATextEditDocument':
+        return self.by_property("path", path)
+
+    def by_name(self, name: str) -> 'XATextEditDocument':
+        return self.by_property("name", name)
+
+    def by_modified(self, modified: bool) -> 'XATextEditDocument':
+        return self.by_property("modified", modified)
+
 
 class XATextEditDocument(XABase.XACanConstructElement, XABase.XAAcceptsPushedElements, XABase.XATextDocument, XABaseScriptable.XASBPrintable):
     """A class for managing and interacting with TextEdit documents.
@@ -158,9 +149,21 @@ class XATextEditDocument(XABase.XACanConstructElement, XABase.XAAcceptsPushedEle
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.path = self.xa_elem.path() #: The path at which the document is stored
-        self.name = self.xa_elem.name() #: The name of the document, including the file extension
-        self.modified #: Whether the document has been modified since the last save
+        self.path: str #: The path at which the document is stored
+        self.name: str #: The name of the document, including the file extension
+        self.modified: bool #: Whether the document has been modified since the last save
+
+    @property
+    def path(self) -> str:
+        return self.xa_elem.path()
+
+    @property
+    def name(self) -> str:
+        return self.xa_elem.name()
+
+    @property
+    def modified(self) -> bool:
+        return self.xa_elem.modified()
 
     def close(self):
         """Closes the document.
@@ -192,10 +195,6 @@ class XATextEditDocument(XABase.XACanConstructElement, XABase.XAAcceptsPushedEle
         """
         url =  NSURL.alloc().initFileURLWithPath_(self.path)
         self.set_clipboard([self.text, url])
-
-    @property
-    def modified(self):
-        return self.xa_elem.modified()
 
     def __repr__(self):
         return "<" + str(type(self)) + self.name + ">"

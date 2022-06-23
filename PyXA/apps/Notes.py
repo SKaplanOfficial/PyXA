@@ -4,12 +4,11 @@ Control the macOS Notes application using JXA-like syntax.
 """
 
 from datetime import datetime
-from typing import List, Union
-from Foundation import NSURL, NSArray
-
-from ScriptingBridge import SBObject
+from enum import Enum
+from typing import List, Tuple, Union
 
 from PyXA import XABase
+from PyXA.XABase import OSType
 from PyXA import XABaseScriptable
 
 class XANotesApplication(XABaseScriptable.XASBApplication, XABase.XACanOpenPath):
@@ -23,18 +22,58 @@ class XANotesApplication(XABaseScriptable.XASBApplication, XABase.XACanOpenPath)
 
     .. versionadded:: 0.0.1
     """
+    class SaveOption(Enum):
+        """Options for whether to save documents when closing them.
+        """
+        YES = OSType('yes ') #: Save the file
+        NO  = OSType('no  ') #: Do not save the file
+        ASK = OSType('ask ') #: Ask user whether to save the file (bring up dialog)
+
+    class PrintErrorHandling(Enum):
+        """Options for how to handle errors while printing.
+        """
+        STANDARD = 'lwst' #: Standard PostScript error handling
+        DETAILED = 'lwdt' #: Print a detailed report of PostScript errors
+
+    class FileFormat(Enum):
+        NATIVE = OSType('item') #: The native Notes format
 
     def __init__(self, properties):
         super().__init__(properties)
         self.xa_wcls = XANotesWindow
-        self.default_account = self._new_element(self.xa_scel.defaultAccount(), XANotesAccount)
-        self.__selection = None
+
+        self.name: str #: The name of the application
+        self.frontmost: bool #: Whether Notes is the active application
+        self.version: str #: The version number of Notes.app
+        self.default_account: XANotesAccount #: The account that new notes are created in by default
+        self.selection: XANoteList #: A list of currently selected notes
+
+    @property
+    def name(self) -> str:
+        return self.xa_scel.name()
+
+    @property
+    def frontmost(self) -> bool:
+        return self.xa_scel.frontmost()
+
+    @property
+    def version(self) -> str:
+        return self.xa_scel.version()
+
+    @property
+    def default_account(self) -> 'XANotesAccount':
+        return self._new_element(self.xa_scel.defaultAccount(), XANotesAccount)
         
     @property
     def selection(self) -> 'XANoteList':
-        if self.__selection is None:
-            self.__selection = self._new_element(self.xa_scel.selection(), XANoteList)
-        return self.__selection
+        return self._new_element(self.xa_scel.selection(), XANoteList)
+
+    def documents(self, filter: Union[dict, None] = None) -> 'XANotesDocumentList':
+        """Returns a list of documents, as PyXA objects, matching the given filter.
+
+        .. versionadded:: 0.0.3
+        """
+        return self._new_element(self.xa_scel.documents(), XANotesDocumentList, filter)
 
     def notes(self, filter: Union[dict, None] = None) -> 'XANoteList':
         """Returns a list of notes, as PyXA objects, matching the given filter.
@@ -79,6 +118,13 @@ class XANotesApplication(XABaseScriptable.XASBApplication, XABase.XACanOpenPath)
 
     def folders(self, filter: Union[dict, None] = None) -> 'XANotesFolderList':
         """Returns a list of Notes folders, as PyXA objects, matching the given filter.
+
+        :Example 1: Retrieve the name of each folder
+
+        >>> import PyXA
+        >>> app = PyXA.application("Notes")
+        >>> print(app.folders().name())
+        ['ExampleFolder1', 'ExampleFolder2', 'ExampleFolder3', ...]
 
         .. versionchanged:: 0.0.3
 
@@ -202,106 +248,93 @@ class XANoteList(XABase.XAList):
         super().__init__(properties, XANote, filter)
 
     def name(self) -> List[str]:
-        """Retrieves the names of all notes in the list.
-
-        :return: The list of names
-        :rtype: List[str]
-
-        .. versionadded:: 0.0.3
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
     def id(self) -> List[str]:
-        """Retrieves the IDs of all notes in the list.
-
-        .. versionadded:: 0.0.3
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("id"))
 
     def body(self) -> List[str]:
-        """Retrieves the body HTML of all notes in the list.
-
-        :return: The list of HTML strings
-        :rtype: List[str]
-
-        .. versionadded:: 0.0.3
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("body"))
 
     def plaintext(self) -> List[str]:
-        """Retrieves the plaintext of all notes in the list.
-
-        :return: The list of plaintext strings
-        :rtype: List[str]
-
-        .. versionadded:: 0.0.3
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("plaintext"))
 
     def creation_date(self) -> List[datetime]:
-        """Retrieves the creation date of all notes in the list.
-
-        :return: The list of creation dates
-        :rtype: List[datetime]
-
-        .. versionadded:: 0.0.3
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("creationDate"))
 
     def modification_date(self) -> List[datetime]:
-        """Retrieves the last modification date of all notes in the list.
-
-        :return: The list of modification dates
-        :rtype: List[datetime]
-
-        .. versionadded:: 0.0.3
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("modificationDate"))
 
     def password_protected(self) -> List[bool]:
-        """Retrieves the password protection status of all notes in the list.
-
-        :return: The list of password protect statuses
-        :rtype: List[bool]
-
-        .. versionadded:: 0.0.3
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("passwordProtected"))
 
     def shared(self) -> List[bool]:
-        """Retrieves the shared status of all notes in the list.
-
-        :return: The list of shared statuses
-        :rtype: List[bool]
-
-        .. versionadded:: 0.0.3
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("shared"))
 
     def container(self) -> 'XANotesFolderList':
-        """Retrieves the containing folder of each note in the list.
-
-        :return: The list of folders
-        :rtype: XANotesFolderList
-
-        .. versionadded:: 0.0.3
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("container")
         return self._new_element(ls, XANotesFolderList)
 
     def attachments(self) -> 'XANotesAttachmentList':
-        """Retrieves the attachments of all notes in the list.
-
-        :return: The list of attachments
-        :rtype: XANotesAttachmentList
-
-        .. versionadded:: 0.0.3
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("attachments")
         return self._new_element(ls, XANotesAttachmentList)
 
+    def by_name(self, name: str) -> 'XANote':
+        return self.by_property("name", name)
+
+    def by_id(self, id: str) -> 'XANote':
+        return self.by_property("id", id)
+
+    def by_body(self, body: str) -> 'XANote':
+        return self.by_property("body", body)
+
+    def by_plaintext(self, plaintext: str) -> 'XANote':
+        return self.by_property("plaintext", plaintext)
+
+    def by_creation_date(self, creation_date: datetime) -> 'XANote':
+        return self.by_property("creationDate", creation_date)
+
+    def by_modification_date(self, modification_date: datetime) -> 'XANote':
+        return self.by_property("modificationDate", modification_date)
+
+    def by_password_protected(self, password_protected: bool) -> 'XANote':
+        return self.by_property("passwordProtected", password_protected)
+
+    def by_shared(self, shared: bool) -> 'XANote':
+        return self.by_property("shared", shared)
+
+    def by_container(self, container: 'XANotesFolder') -> 'XANote':
+        return self.by_property("container", container.value)
+
     def __repr__(self):
         return str(list(zip(self.name(), self.id())))
+
+
+class XANotesDocumentList(XABase.XAList):
+    """A wrapper around a list of documents.
+
+    .. versionadded:: 0.0.3
+    """
+    def __init__(self, properties: dict, filter: Union[dict, None] = None):
+        super().__init__(properties, XANotesDocument, filter)
+
+    def name(self) -> List[str]:
+        return list(self.xa_elem.arrayByApplyingSelector_("name"))
+
+    def modified(self) -> List[bool]:
+        return list(self.xa_elem.arrayByApplyingSelector_("modified"))
+
+    def file(self) -> List[str]:
+        return list(self.xa_elem.arrayByApplyingSelector_("file"))
+
+    def by_name(self, name: str) -> 'XANotesDocument':
+        return self.by_property("name", name)
+
+    def by_modified(self, modified: bool) -> 'XANotesDocument':
+        return self.by_property("modified", modified)
+
+    def by_file(self, file: str) -> 'XANotesDocument':
+        return self.by_property("file", file)
 
 
 class XANotesAccountList(XABase.XAList):
@@ -313,67 +346,37 @@ class XANotesAccountList(XABase.XAList):
         super().__init__(properties, XANotesAccount, filter)
 
     def name(self) -> List[str]:
-        """Retrieves the name of each account in the list.
-
-        :return: The list of names
-        :rtype: List[str]
-
-        .. versionadded:: 0.0.3
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
     def upgraded(self) -> List[bool]:
-        """Retrieves the upgrade status of each account in the list.
-
-        :return: The list of upgrade statuses
-        :rtype: List[bool]
-
-        .. versionadded:: 0.0.3
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("upgraded"))
 
     def id(self) -> List[str]:
-        """Retrieves the ID of each account in the list.
-
-        :return: The list of IDs
-        :rtype: List[str]
-
-        .. versionadded:: 0.0.3
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("id"))
 
     def default_folder(self) -> 'XANotesFolderList':
-        """Retrieves the default folder of each account in the list.
-
-        :return: The list of default folders
-        :rtype: XANotesFolderList
-
-        .. versionadded:: 0.0.3
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("defaultFolder")
         return self._new_element(ls, XANotesFolderList)
 
     def notes(self) -> 'XANoteList':
-        """Retrieves all notes of each account in the list.
-
-        :return: The list of notes
-        :rtype: XANoteList
-
-        .. versionadded:: 0.0.3
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("notes")
         return self._new_element(ls, XANoteList)
 
     def folders(self) -> 'XANotesFolderList':
-        """Retrieves all folders of each account in the list.
-
-        :return: The list of folders
-        :rtype: XANotesFolderList
-
-        .. versionadded:: 0.0.3
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("folders")
         return self._new_element(ls, XANotesFolderList)
+
+    def by_name(self, name: str) -> 'XANotesAccount':
+        return self.by_property("name", name)
+
+    def by_upgraded(self, upgraded: bool) -> 'XANotesAccount':
+        return self.by_property("upgraded", upgraded)
+
+    def by_id(self, id: str) -> 'XANotesAccount':
+        return self.by_property("id", id)
+
+    def by_default_folder(self, default_folder: 'XANotesFolder') -> 'XANotesAccount':
+        return self.by_property("defaultFolder", default_folder.value)
 
     def __repr__(self):
         return str(list(zip(self.name(), self.id())))
@@ -388,56 +391,37 @@ class XANotesFolderList(XABase.XAList):
         super().__init__(properties, XANotesFolder, filter)
 
     def name(self) -> List[str]:
-        """Retrieves the name of each folder in the list.
-
-        :return: The list of names
-        :rtype: List[str]
-
-        .. versionadded:: 0.0.3
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
     def id(self) -> List[str]:
-        """Retrieves the ID of each folder in the list.
-
-        :return: The list of IDs
-        :rtype: List[str]
-
-        .. versionadded:: 0.0.3
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("id"))
 
     def shared(self) -> List[bool]:
-        """Retrieves the shared status of each folder in the list.
-
-        :return: The list of shared statuses
-        :rtype: List[bool]
-
-        .. versionadded:: 0.0.3
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("shared"))
 
     def container(self) -> XANotesAccountList:
-        """Retrieves the containing account of each folder in the list.
-
-        :return: The list of accounts
-        :rtype: List[XANotesAccount]
-
-        .. versionadded:: 0.0.3
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("container")
         return self._new_element(ls, XANotesAccountList)
 
+    def folders(self) -> 'XANotesFolderList':
+        ls = self.xa_elem.arrayByApplyingSelector_("folders")
+        return self._new_element(ls, XANotesFolderList)
+
     def notes(self) -> XANoteList:
-        """Retrieves all notes of each folders in the list.
-
-        :return: The list of notes
-        :rtype: XANoteList
-
-        .. versionadded:: 0.0.3
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("notes")
         return self._new_element(ls, XANoteList)
+
+    def by_name(self, name: str) -> 'XANotesFolder':
+        return self.by_property("name", name)
+
+    def by_id(self, id: str) -> 'XANotesFolder':
+        return self.by_property("id", id)
+
+    def by_shared(self, shared: bool) -> 'XANotesFolder':
+        return self.by_property("shared", shared)
+
+    def by_container(self, container: 'XANotesAccount') -> 'XANotesFolder':
+        return self.by_property("container", container.value)
 
     def __repr__(self):
         return str(list(zip(self.name(), self.id())))
@@ -452,85 +436,53 @@ class XANotesAttachmentList(XABase.XAList):
         super().__init__(properties, XANoteAttachment, filter)
 
     def name(self) -> List[str]:
-        """Retrieves the name of each attachment in the list.
-
-        :return: The list of names
-        :rtype: List[str]
-
-        .. versionadded:: 0.0.3
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
     def id(self) -> List[str]:
-        """Retrieves the ID of each attachment in the list.
-
-        :return: The list of IDs
-        :rtype: List[str]
-
-        .. versionadded:: 0.0.3
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("id"))
 
     def content_identifier(self) -> List[str]:
-        """Retrieves the content identifier of each attachment in the list.
-
-        :return: The list of content identifiers
-        :rtype: List[str]
-
-        .. versionadded:: 0.0.3
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("contentIdentifier"))
 
     def creation_date(self) -> List[datetime]:
-        """Retrieves the creation date of each attachment in the list.
-
-        :return: The list of creation dates
-        :rtype: List[datetime]
-
-        .. versionadded:: 0.0.3
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("creationDate"))
 
     def modification_date(self) -> List[datetime]:
-        """Retrieves the last modification date of each attachment in the list.
-
-        :return: The list of modification dates
-        :rtype: List[datetime]
-
-        .. versionadded:: 0.0.3
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("modificationDate"))
 
     def url(self) -> List[str]:
-        """Retrieves the URL of each attachment in the list.
-
-        :return: The list of URLs
-        :rtype: List[str]
-
-        .. versionadded:: 0.0.3
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("URL"))
 
     def shared(self) -> List[bool]:
-        """Retrieves the shared status of each attachment in the list.
-
-        :return: The list of shared statuses
-        :rtype: List[bool]
-
-        .. versionadded:: 0.0.3
-        """
         return list(self.xa_elem.arrayByApplyingSelector_("shared"))
 
     def container(self) -> XANoteList:
-        """Retrieves the containing note of each attachment in the list.
-
-        :return: The list of notes
-        :rtype: XANoteList
-
-        .. versionadded:: 0.0.3
-        """
         ls = self.xa_elem.arrayByApplyingSelector_("container")
         return self._new_element(ls, XANoteList)
+
+    def by_name(self, name: str) -> 'XANoteAttachment':
+        return self.by_property("name", name)
+
+    def by_id(self, id: str) -> 'XANoteAttachment':
+        return self.by_property("id", id)
+
+    def by_content_identifier(self, content_identifier: str) -> 'XANoteAttachment':
+        return self.by_property("contentIdentifier", content_identifier)
+
+    def by_creation_date(self, creation_date: datetime) -> 'XANoteAttachment':
+        return self.by_property("creationDate", creation_date)
+
+    def by_modification_date(self, modification_date: datetime) -> 'XANoteAttachment':
+        return self.by_property("modificationDate", modification_date)
+
+    def by_url(self, url: str) -> 'XANoteAttachment':
+        return self.by_property("URL", url)
+
+    def by_shared(self, shared: bool) -> 'XANoteAttachment':
+        return self.by_property("shared", shared)
+
+    def by_container(self, container: 'XANote') -> 'XANoteAttachment':
+        return self.by_property("container", container.value)
 
     def __repr__(self):
         return str(list(zip(self.name(), self.id())))
@@ -543,6 +495,66 @@ class XANotesWindow(XABase.XAWindow, XABase.XACanConstructElement, XABase.XAAcce
     """
     def __init__(self, properties):
         super().__init__(properties)
+        self.name: str #: The full title of the window
+        self.id: int #: The unique identifier for the window
+        self.index: int #: The index of the window in front-to-back ordering
+        self.bounds: Tuple[Tuple[int, int], Tuple[int, int]] #: The bounding rectangle of the window
+        self.closeable: bool #: Whether the window has a close button
+        self.miniaturizable: bool #: Whether the window can be minimized
+        self.miniaturized: bool #: Whether the window is currently minimized
+        self.resizable: bool #: Whether the window can be resized
+        self.visible: bool #: Whether the window is currently visible
+        self.zoomable: bool #: Whether the window can be zoomed
+        self.zoomed: bool #: Whether the window is currently zoomed
+        self.document: 'XANotesDocument' #: The active document
+
+    @property
+    def name(self) -> str:
+        return self.xa_scel.name()
+
+    @property
+    def id(self) -> int:
+        return self.xa_scel.id()
+
+    @property
+    def index(self) -> int:
+        return self.xa_scel.index()
+
+    @property
+    def bounds(self) -> Tuple[Tuple[int, int], Tuple[int, int]]:
+        return self.xa_scel.bounds()
+
+    @property
+    def closeable(self) -> bool:
+        return self.xa_scel.closeable()
+
+    @property
+    def miniaturizable(self) -> bool:
+        return self.xa_scel.miniaturizable()
+
+    @property
+    def miniaturized(self) -> bool:
+        return self.xa_scel.miniaturized()
+
+    @property
+    def resizable(self) -> bool:
+        return self.xa_scel.resizable()
+
+    @property
+    def visible(self) -> bool:
+        return self.xa_scel.visible()
+
+    @property
+    def zoomable(self) -> bool:
+        return self.xa_scel.zoomable()
+
+    @property
+    def zoomed(self) -> bool:
+        return self.xa_scel.zoomed()
+
+    @property
+    def document(self) -> 'XANotesDocument':
+        return self._new_element(self.xa_scel.document(), XANotesDocument)
 
 
 class XANotesFolder(XABase.XACanConstructElement, XABase.XAAcceptsPushedElements, XABase.XAHasElements):
@@ -558,42 +570,26 @@ class XANotesFolder(XABase.XACanConstructElement, XABase.XAAcceptsPushedElements
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.__name: str = None #: The name of the folder
-        self.__id: str = None #: The unique identifier for the folder
-        self.__shared: bool = None #: Whether the folder is shared
-        self.__container = None #: The account the folder belongs to
+        self.name: str #: The name of the folder
+        self.id: str #: The unique identifier for the folder
+        self.shared: bool #: Whether the folder is shared
+        self.container: XANotesAccount #: The account the folder belongs to
 
     @property
     def name(self) -> str:
-        if self.__name is None:
-            self.__name = self.xa_elem.name()
-        return self.__name
+        return self.xa_elem.name()
 
     @property
     def id(self) -> str:
-        if self.__id is None:
-            self.__id = self.xa_elem.id()
-        return self.__id
+        return self.xa_elem.id()
 
     @property
     def shared(self) -> bool:
-        if self.__shared is None:
-            self.__shared = self.xa_elem.shared()
-        return self.__shared
+        return self.xa_elem.shared()
 
     @property
     def container(self) -> 'XANotesAccount':
-        if self.__container == None:
-            properties = {
-                "parent": self,
-                "appspace": self.xa_apsp,
-                "workspace": self.xa_wksp,
-                "element": self.xa_elem.container(),
-                "appref": self.xa_aref,
-                "system_events": self.xa_sevt,
-            }
-            self.__container = XANotesAccount(properties)
-        return self.__container
+        return self._new_element(self.xa_elem.container(), XANotesAccount)
 
     def show(self) -> 'XANotesFolder':
         """Shows the folder in the main Notes window.
@@ -620,6 +616,30 @@ class XANotesFolder(XABase.XACanConstructElement, XABase.XAAcceptsPushedElements
         return self._new_element(self.xa_elem.notes(), XANoteList, filter)
 
 
+class XANotesDocument(XABase.XACanConstructElement, XABase.XAAcceptsPushedElements, XABase.XAHasElements):
+    """A class for interacting with documents in Notes.app.
+
+    .. versionadded:: 0.0.3
+    """
+    def __init__(self, properties):
+        super().__init__(properties)
+        self.name: str #: The name of the document
+        self.modified: bool #: Whether the document has been modified since the last save
+        self.file: str #: The location of the document on the disk, if one exists
+
+    @property
+    def name(self) -> str:
+        return self.xa_elem.name()
+
+    @property
+    def modified(self) -> bool:
+        return self.xa_elem.modified()
+
+    @property
+    def file(self) -> str:
+        return self.xa_elem.file()
+
+
 class XANote(XABase.XACanConstructElement, XABase.XAAcceptsPushedElements, XABase.XAHasElements):
     """A class for interacting with notes in the Notes application.
 
@@ -633,77 +653,51 @@ class XANote(XABase.XACanConstructElement, XABase.XAAcceptsPushedElements, XABas
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.__name: str = None #: The name of the note (generally the first line of the body)
-        self.__id: str = None #: The unique identifier for the note
-        self.__body: str = None #: The HTML content of the note
-        self.__plaintext: str = None #: The plaintext content of the note
-        self.__creation_date: datetime = None #: The date and time the note was created
-        self.__modification_date: datetime = None #: The date and time the note was last modified
-        self.__password_protected: bool = None #: Whether the note is password protected
-        self.__shared: bool = None #: Whether the note is shared
-        self.__container = None #: The folder that the note is in
+        self.name: str #: The name of the note (generally the first line of the body)
+        self.id: str #: The unique identifier for the note
+        self.body: str #: The HTML content of the note
+        self.plaintext: str #: The plaintext content of the note
+        self.creation_date: datetime #: The date and time the note was created
+        self.modification_date: datetime #: The date and time the note was last modified
+        self.password_protected: bool #: Whether the note is password protected
+        self.shared: bool #: Whether the note is shared
+        self.container: XANotesFolder #: The folder that the note is in
 
     @property
     def name(self) -> str:
-        if self.__name is None:
-            self.__name = self.xa_elem.name()
-        return self.__name
+        return self.xa_elem.name()
 
     @property
     def id(self) -> str:
-        if self.__id is None:
-            self.__id = self.xa_elem.id()
-        return self.__id
+        return self.xa_elem.id()
 
     @property
     def body(self) -> str:
-        if self.__body is None:
-            self.__body = self.xa_elem.body()
-        return self.__body
+        return self.xa_elem.body()
 
     @property
     def plaintext(self) -> str:
-        if self.__plaintext is None:
-            self.__plaintext = self.xa_elem.plaintext()
-        return self.__plaintext
+        return self.xa_elem.plaintext()
 
     @property
     def creation_date(self) -> datetime:
-        if self.__creation_date is None:
-            self.__creation_date = self.xa_elem.creationDate()
-        return self.__creation_date
+        return self.xa_elem.creationDate()
 
     @property
     def modification_date(self) -> datetime:
-        if self.__modification_date is None:
-            self.__modification_date = self.xa_elem.modificationDate()
-        return self.__modification_date
+        return self.xa_elem.modificationDate()
 
     @property
     def password_protected(self) -> bool:
-        if self.__password_protected is None:
-            self.__password_protected = self.xa_elem.passwordProtected()
-        return self.__password_protected
+        return self.xa_elem.passwordProtected()
 
     @property
     def shared(self) -> bool:
-        if self.__shared is None:
-            self.__shared = self.xa_elem.shared()
-        return self.__shared
+        return self.xa_elem.shared()
 
     @property
-    def container(self) -> 'XANotesFolder':
-        if self.__container == None:
-            properties = {
-                "parent": self,
-                "appspace": self.xa_apsp,
-                "workspace": self.xa_wksp,
-                "element": self.xa_elem.container(),
-                "appref": self.xa_aref,
-                "system_events": self.xa_sevt,
-            }
-            self.__container = XANotesFolder(properties)
-        return self.__container
+    def container(self) -> XANotesFolder:
+        return self._new_element(self.xa_elem.container(), XANotesFolder)
 
     def show(self) -> 'XANote':
         """Shows the note in the main Notes window.
@@ -749,70 +743,46 @@ class XANoteAttachment(XABase.XACanConstructElement, XABase.XAAcceptsPushedEleme
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.__name: str = None #: The name of the attachment
-        self.__id: str = None #: The unique identifier for the attachment
-        self.__content_identifier: str = None #: The content ID of the attachment in the note's HTML
-        self.__creation_date: datetime = None #: The date the attachment was created
-        self.__modification_date: datetime = None #: The date the attachment was last modified
-        self.__url: str = None #: The URL that the attachment represents, if any
-        self.__shared: bool = None #: Whether the attachment is shared
-        self.__container: XANote = None #: The note containing the attachment
+        self.name: str #: The name of the attachment
+        self.id: str #: The unique identifier for the attachment
+        self.content_identifier: str #: The content ID of the attachment in the note's HTML
+        self.creation_date: datetime #: The date the attachment was created
+        self.modification_date: datetime #: The date the attachment was last modified
+        self.url: str #: The URL that the attachment represents, if any
+        self.shared: bool #: Whether the attachment is shared
+        self.container: XANote #: The note containing the attachment
 
     @property
     def name(self) -> str:
-        if self.__name is None:
-            self.__name = self.xa_elem.name()
-        return self.__name
+        return self.xa_elem.name()
 
     @property
     def id(self) -> str:
-        if self.__id is None:
-            self.__id = self.xa_elem.id()
-        return self.__id
+        return self.xa_elem.id()
 
     @property
     def content_identifier(self) -> str:
-        if self.__content_identifier is None:
-            self.__content_identifier = self.xa_elem.contentIdentifier()
-        return self.__content_identifier
+        return  self.xa_elem.contentIdentifier()
 
     @property
     def creation_date(self) -> datetime:
-        if self.__creation_date is None:
-            self.__creation_date = self.xa_elem.creationDate()
-        return self.__creation_date
+        return  self.xa_elem.creationDate()
 
     @property
     def modification_date(self) -> datetime:
-        if self.__modification_date is None:
-            self.__modification_date = self.xa_elem.modificationDate()
-        return self.__modification_date
+        return self.xa_elem.modificationDate()
 
     @property
     def url(self) -> str:
-        if self.__url is None:
-            self.__url = self.xa_elem.URL()
-        return self.__url
+        return self.xa_elem.URL()
 
     @property
     def shared(self) -> bool:
-        if self.__shared is None:
-            self.__shared = self.xa_elem.shared()
-        return self.__shared
+        return self.xa_elem.shared()
 
     @property
     def container(self) -> 'XANote':
-        if self.__container == None:
-            properties = {
-                "parent": self,
-                "appspace": self.xa_apsp,
-                "workspace": self.xa_wksp,
-                "element": self.xa_elem.container(),
-                "appref": self.xa_aref,
-                "system_events": self.xa_sevt,
-            }
-            self.__container = XANote(properties)
-        return self.__container
+        return self._new_element(self.xa_elem.container(), XANote)
 
     def show(self) -> 'XANoteAttachment':
         """Shows the attachment in the main Notes window.
@@ -842,42 +812,25 @@ class XANotesAccount(XABase.XACanConstructElement, XABase.XAAcceptsPushedElement
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.__name: str = None #: The name of the account
-        self.__upgraded: bool = None #: Whether the account is upgraded
-        self.__id: str = None #: The unique identifier of the account
-        self.__default_folder: XANotesFolder = None #: The default folder for creating new notes
+        self.name: str #: The name of the account
+        self.upgraded: bool #: Whether the account is upgraded
+        self.id: str #: The unique identifier of the account
+        self.default_folder: XANotesFolder #: The default folder for creating new notes
 
     @property
     def name(self) -> str:
-        if self.__name is None:
-            self.__name = self.xa_elem.name()
-        return self.__name
-
+        return self.xa_elem.name()
     @property
-    def upgraded(self) -> str:
-        if self.__upgraded is None:
-            self.__upgraded = self.xa_elem.upgraded()
-        return self.__upgraded
+    def upgraded(self) -> bool:
+        return self.xa_elem.upgraded()
 
     @property
     def id(self) -> str:
-        if self.__id is None:
-            self.__id = self.xa_elem.id()
-        return self.__id
+        return self.xa_elem.id()
 
     @property
     def default_folder(self) -> 'XANotesFolder':
-        if self.__default_folder == None:
-            properties = {
-                "parent": self,
-                "appspace": self.xa_apsp,
-                "workspace": self.xa_wksp,
-                "element": self.xa_elem.defaultFolder(),
-                "appref": self.xa_aref,
-                "system_events": self.xa_sevt,
-            }
-            self.__default_folder = XANotesFolder(properties)
-        return self.__default_folder
+        return self._new_element(self.xa_elem.defaultFolder(), XANotesFolder)
 
     def show(self) -> 'XANoteAttachment':
         """Shows the first folder belonging to the account.

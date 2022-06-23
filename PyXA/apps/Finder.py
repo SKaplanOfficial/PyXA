@@ -5,19 +5,11 @@ Control Finder using JXA-like syntax.
 
 from datetime import datetime
 from enum import Enum
-from operator import contains
-import os
-from re import X
-from select import select
-import threading
-from time import sleep
 from typing import Any, List, Tuple, Union
 from Foundation import NSFileManager
 
 from AppKit import NSString, NSURL, NSArray, NSPoint, NSValue, NSMakeRect
 from ScriptingBridge import SBObject
-from numpy import isin
-from requests import options
 
 from PyXA import XABase
 from PyXA.XABase import OSType, XAImage, XAList
@@ -34,8 +26,6 @@ class XAFinderApplication(XABaseScriptable.XASBApplication):
     """
     class PrivacySetting(Enum):
         """Options for privacy settings on Finder items.
-
-        .. versionadded:: 0.0.3
         """
         READ_ONLY   = OSType('read')
         READ_WRITE  = OSType('rdwr')
@@ -44,8 +34,6 @@ class XAFinderApplication(XABaseScriptable.XASBApplication):
 
     class ItemFormat(Enum):
         """Options for file and disk formats of Finder items.
-
-        .. versionadded:: 0.0.3
         """
         MACOS               = OSType('dfhf')
         MACOS_EXTENDED      = OSType('dfh+')
@@ -72,8 +60,6 @@ class XAFinderApplication(XABaseScriptable.XASBApplication):
 
     class Panel(Enum):
         """Options for information panels in Finder.
-
-        .. versionadded:: 0.0.3
         """
         GENERAL_INFORMATION     = OSType('gpnl')
         SHARING                 = OSType('spnl')
@@ -95,8 +81,6 @@ class XAFinderApplication(XABaseScriptable.XASBApplication):
 
     class ViewSetting(Enum):
         """View options for lists of items in Finder windows.
-
-        .. versionadded:: 0.0.3
         """
         ICON_VIEW   = OSType('icnv')
         LIST_VIEW   = OSType('lsvw')
@@ -106,8 +90,6 @@ class XAFinderApplication(XABaseScriptable.XASBApplication):
 
     class Arrangement(Enum):
         """Arrangement options for lists of items in Finder windows.
-
-        .. versionadded:: 0.0.3
         """
         NOT_ARRANGED            = OSType('narr')
         SNAP_TO_GRID            = OSType('grda')
@@ -120,24 +102,18 @@ class XAFinderApplication(XABaseScriptable.XASBApplication):
 
     class LabelPosition(Enum):
         """Options for the label position of items in Finder windows.
-
-        .. versionadded:: 0.0.3
         """
         RIGHT   = OSType('lrgt')
         BOTTOM  = OSType('lbot')
 
     class SortDirection(Enum):
         """Options for sort direction of lists of Finder items.
-
-        .. versionadded:: 0.0.3
         """
         NORMAL      = OSType('snrm')
         REVERSED    = OSType('srvs')
 
     class ColumnName(Enum):
         """Columns in Finder windows.
-
-        .. versionadded:: 0.0.3
         """
         NAME            = OSType('esln')
         MODIFICATE_DATE = OSType('elsm')
@@ -150,8 +126,6 @@ class XAFinderApplication(XABaseScriptable.XASBApplication):
 
     class IconSize(Enum):
         """Options for the size of icons in Finder windows.
-
-        .. versionadded:: 0.0.3
         """
         SMALL   = OSType('smic')
         LARGE   = OSType('lgic')
@@ -1136,6 +1110,36 @@ class XAFinderContainerList(XAFinderItemList):
     def container_window(self) -> List['XAFinderFinderWindow']:
         ls = self.xa_elem.arrayByApplyingSelector_("containerWindow")
         return self._new_element(ls, XAFinderFinderWindowList)
+
+    def items(self) -> XAFinderItemList:
+        return self._new_element(self.xa_elem.arrayByApplyingSelector_("items"))
+
+    def containers(self) -> 'XAFinderContainerList':
+        return self._new_element(self.xa_elem.arrayByApplyingSelector_("containers"))
+
+    def folders(self) -> 'XAFinderFolderList':
+        return self._new_element(self.xa_elem.arrayByApplyingSelector_("folders"))
+
+    def files(self) -> 'XAFinderFileList':
+        return self._new_element(self.xa_elem.arrayByApplyingSelector_("files"))
+
+    def alias_files(self) -> 'XAFinderAliasFileList':
+        return self._new_element(self.xa_elem.arrayByApplyingSelector_("aliasFiles"))
+
+    def application_files(self) -> 'XAFinderApplicationFileList':
+        return self._new_element(self.xa_elem.arrayByApplyingSelector_("applicationFiles"))
+
+    def document_files(self) -> 'XAFinderDocumentFileList':
+        return self._new_element(self.xa_elem.arrayByApplyingSelector_("documentFiles"))
+
+    def internet_location_files(self) -> 'XAFinderInternetLocationFileList':
+        return self._new_element(self.xa_elem.arrayByApplyingSelector_("internetLocationFiles"))
+
+    def clippings(self) -> 'XAFinderClippingList':
+        return self._new_element(self.xa_elem.arrayByApplyingSelector_("clippings"))
+
+    def packages(self) -> 'XAFinderPackageList':
+        return self._new_element(self.xa_elem.arrayByApplyingSelector_("packages"))
 
     def by_entire_contents(self, entire_contents: XAFinderItemList) -> 'XAFinderContainer':
         return self.by_property("entireContents", entire_contents.xa_elem)
@@ -2280,6 +2284,58 @@ class XAFinderListViewOptions(XABaseScriptable.XASBObject):
         """
         return self._new_element(self.xa_elem.columns(), XAFinderColumn, filter)
 
+
+class XAFinderColumnList(XABase.XAList):
+    """A wrapper around lists of Finder columns that employs fast enumeration techniques.
+
+    All properties of Finder columns can be called as methods on the wrapped list, returning a list containing each columns's value for the property.
+
+    .. versionadded:: 0.0.3
+    """
+    def __init__(self, properties: dict, filter: Union[dict, None] = None):
+        super().__init__(properties, XAFinderColumn, filter)
+
+    def index(self) -> List[int]:
+        return list(self.xa_elem.arrayByApplyingSelector_("index"))
+
+    def name(self) -> List[str]:
+        return list(self.xa_elem.arrayByApplyingSelector_("name"))
+
+    def sort_direction(self) -> List[XAFinderApplication.SortDirection]:
+        return list(self.xa_elem.arrayByApplyingSelector_("sortDirection"))
+
+    def width(self) -> List[int]:
+        return list(self.xa_elem.arrayByApplyingSelector_("width"))
+
+    def minimum_width(self) -> List[int]:
+        return list(self.xa_elem.arrayByApplyingSelector_("minimum_width"))
+
+    def maximum_width(self) -> List[int]:
+        return list(self.xa_elem.arrayByApplyingSelector_("maximum_width"))
+
+    def visible(self) -> List[bool]:
+        return list(self.xa_elem.arrayByApplyingSelector_("visible"))
+
+    def by_index(self, index: int) -> 'XAFinderColumn':
+        return self.by_property("index", index)
+
+    def by_name(self, name: str) -> 'XAFinderColumn':
+        return self.by_property("name", name)
+
+    def by_sort_direction(self, sort_direction: XAFinderApplication.SortDirection) -> 'XAFinderColumn':
+        return self.by_property("sortDirection", sort_direction.value)
+
+    def by_width(self, width: int) -> 'XAFinderColumn':
+        return self.by_property("width", width)
+
+    def by_minimum_width(self, minimum_width: int) -> 'XAFinderColumn':
+        return self.by_property("minimumWidth", minimum_width)
+
+    def by_maximum_width(self, maximum_width: int) -> 'XAFinderColumn':
+        return self.by_property("maximumWidth", maximum_width)
+
+    def by_visible(self, visible: bool) -> 'XAFinderColumn':
+        return self.by_property("visible", visible)
 
 class XAFinderColumn(XABaseScriptable.XASBObject):
     """A class for managing and interacting with columns in Finder windows.

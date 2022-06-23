@@ -571,6 +571,47 @@ class XAApplication(XAObject):
         }
         self.xa_prcs = XAProcess(properties)
 
+        self.bundle_id: str #: The bundle identifier for Calculator.app
+        self.bundle_url: str #: The file URL of the application bundle
+        self.executable_url: str #: The file URL of the Calculator executable
+        self.frontmost: bool #: Whether Calculator is the active application
+        self.launch_date: datetime #: The date and time that Calculator was launched
+        self.name: str #: The application's name
+        self.owns_menu_bar: bool #: Whether Calculator owns the top menu bar
+        self.process_id: str #: The process identifier for the current Calculator instance
+
+    @property
+    def bundle_id(self) -> str:
+        return self.xa_elem.bundleIdentifier()
+
+    @property
+    def bundle_url(self) -> str:
+        return self.xa_elem.bundleURL()
+
+    @property
+    def executable_url(self) -> str:
+        return self.xa_elem.executableURL()
+
+    @property
+    def frontmost(self) -> bool:
+        return self.xa_elem.isActive()
+
+    @property
+    def launch_date(self) -> datetime:
+        return self.xa_elem.launchDate()
+
+    @property
+    def name(self) -> str:
+        return self.xa_elem.localizedName()
+
+    @property
+    def owns_menu_bar(self) -> bool:
+        return self.xa_elem.ownsMenuBar()
+
+    @property
+    def process_id(self) -> str:
+        return self.xa_elem.processIdentifier()
+
     def activate(self) -> 'XAApplication':
         """Activates the application, bringing its window(s) to the front and launching the application beforehand if necessary.
 

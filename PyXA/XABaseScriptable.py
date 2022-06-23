@@ -178,11 +178,6 @@ class XASBApplication(XASBObject, XABase.XAApplication, XAHasScriptableElements)
 
         self.xa_wcls = XASBWindow
 
-        self.element_properties = self.xa_scel.properties()
-        self.name = self.xa_scel.name()
-        self.frontmost = self.xa_scel.frontmost()
-        self.version = self.xa_scel.version()
-
     ### Windows
     def windows(self, filter: dict = None) -> List['XASBWindow']:
         return super().scriptable_elements("windows", filter, self.xa_wcls)

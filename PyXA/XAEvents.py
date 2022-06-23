@@ -1,22 +1,56 @@
-from typing import List
+from time import sleep
+from typing import Any, List
+from click import command
 import objc
 import CoreServices
 import ApplicationServices
 import struct
 
 from AppKit import NSURL
+import AppKit
+import Quartz
 
 from Foundation import NSBundle
+
+def send_save_event(pid: str):
+    s_down = Quartz.CGEventCreateKeyboardEvent(None, 1, True)
+    s_up = Quartz.CGEventCreateKeyboardEvent(None, 1, False)
+    shift_down = Quartz.CGEventCreateKeyboardEvent(None, 56, True)
+    shift_up = Quartz.CGEventCreateKeyboardEvent(None, 56, False)
+    command_down = Quartz.CGEventCreateKeyboardEvent(None, 55, True)
+    command_up = Quartz.CGEventCreateKeyboardEvent(None, 55, False)
+
+    Quartz.CGEventPostToPid(pid, shift_down)
+    Quartz.CGEventPostToPid(pid, s_down)
+    Quartz.CGEventPostToPid(pid, s_up)
+    Quartz.CGEventPostToPid(pid, s_down)
+    Quartz.CGEventPostToPid(pid, s_up)
+    Quartz.CGEventPostToPid(pid, shift_up)
+
+    # print(s_down)
+    # Quartz.CGEventPost(Quartz.kCGHIDEventTap, s_down)
+    # Quartz.CGEventPost(Quartz.kCGHIDEventTap, command_down)
+
+def send_copy_event(pid: str):
+    c_down = Quartz.CGEventCreateKeyboardEvent(objc.NULL, 8, True)
+    c_up = Quartz.CGEventCreateKeyboardEvent(objc.NULL, 8, False)
+    command_down = Quartz.CGEventCreateKeyboardEvent(objc.NULL, 55, True)
+    command_up = Quartz.CGEventCreateKeyboardEvent(objc.NULL, 55, False)
+
+    Quartz.CGEventPostToPid(pid, c_down)
+    Quartz.CGEventPostToPid(pid, command_down)
+    Quartz.CGEventPostToPid(pid, c_up)
+    Quartz.CGEventPostToPid(pid, command_up)
 
 def OSType(s):
     return int.from_bytes(s.encode("UTF-8"), "big")
 
 event_manager = ApplicationServices.NSAppleEventManager.sharedAppleEventManager()
 
-def send_event_to_bundle(event: int, bundle: str):
+def send_event_to_bundle(event_type: int, event: int, bundle: str):
     app_desc = ApplicationServices.NSAppleEventDescriptor.alloc().initWithDescriptorType_data_(typeApplicationBundleID, bundle.encode("UTF-8"))
 
-    new_event = ApplicationServices.NSAppleEventDescriptor.appleEventWithEventClass_eventID_targetDescriptor_returnID_transactionID_(typeAppleEvent, event, app_desc, kAutoGenerateReturnID, kAnyTransactionID)
+    new_event = ApplicationServices.NSAppleEventDescriptor.appleEventWithEventClass_eventID_targetDescriptor_returnID_transactionID_(event_type, event, app_desc, kAutoGenerateReturnID, kAnyTransactionID)
 
     new_event.sendEventWithOptions_timeout_error_(kAEWaitReply|kAECanInteract, kAEDefaultTimeout, None)
 
@@ -65,6 +99,7 @@ typeProcessSerialNumber       = OSType('psn ')
 typeFixed                     = OSType('fixd')
 typeBookmarkData              = OSType('bmrk')
 typeWildCard                  = OSType('****')
+typeKeyword                   = OSType('keyw')
 
 kAEOpenApplication            = OSType('oapp')
 kAEOpenDocuments              = OSType('odoc')
@@ -571,6 +606,7 @@ typeMachineLoc                = OSType('mLoc')
 typeOval                      = OSType('covl')
 typeParamInfo                 = OSType('pmin')
 typePict                      = OSType('PICT')
+typeObjectSpecifier           = OSType('obj ')
 
 typePixelMap                  = OSType('cpix')
 typePixMapMinus               = OSType('tpmm')
@@ -627,6 +663,570 @@ kByKindView                   = 5
 kByCommentView                = 6
 kByLabelView                  = 7
 kByVersionView                = 8
+
+kAEInfo                       = 11
+kAEMain                       = 0
+kAESharing                    = 13
+
+kAEZoomIn                     = 7
+kAEZoomOut                    = 8
+
+kTextServiceClass             = OSType('tsvc')
+kUpdateActiveInputArea        = OSType('updt')
+kShowHideInputWindow          = OSType('shiw')
+kPos2Offset                   = OSType('p2st')
+kOffset2Pos                   = OSType('st2p')
+kUnicodeNotFromInputMethod    = OSType('unim')
+kGetSelectedText              = OSType('gtxt')
+keyAETSMDocumentRefcon        = OSType('refc')
+keyAEServerInstance           = OSType('srvi')
+keyAETheData                  = OSType('kdat')
+keyAEFixLength                = OSType('fixl')
+keyAEUpdateRange              = OSType('udng')
+keyAECurrentPoint             = OSType('cpos')
+keyAEBufferSize               = OSType('buff')
+keyAEMoveView                 = OSType('mvvw')
+keyAENextBody                 = OSType('nxbd')
+keyAETSMScriptTag             = OSType('sclg')
+keyAETSMTextFont              = OSType('ktxf')
+keyAETSMTextFMFont            = OSType('ktxm')
+keyAETSMTextPointSize         = OSType('ktps')
+keyAETSMEventRecord           = OSType('tevt')
+keyAETSMEventRef              = OSType('tevr')
+keyAETextServiceEncoding      = OSType('tsen')
+keyAETextServiceMacEncoding   = OSType('tmen')
+keyAETSMGlyphInfoArray        = OSType('tgia')
+typeTextRange                 = OSType('txrn')
+typeComponentInstance         = OSType('cmpi')
+typeOffsetArray               = OSType('ofay')
+typeTextRangeArray            = OSType('tray')
+typeLowLevelEventRecord       = OSType('evtr')
+typeGlyphInfoArray            = OSType('glia')
+typeEventRef                  = OSType('evrf')
+typeText                      = OSType('')
+
+kTSMOutsideOfBody               = 1
+kTSMInsideOfBody                = 2
+kTSMInsideOfActiveInputArea     = 3
+
+kNextBody                       = 1
+kPreviousBody                   = 2
+
+kTSMHiliteCaretPosition         = 1
+kTSMHiliteRawText               = 2
+kTSMHiliteSelectedRawText       = 3
+kTSMHiliteConvertedText         = 4
+kTSMHiliteSelectedConvertedText = 5
+kTSMHiliteBlockFillText         = 6
+kTSMHiliteOutlineText           = 7
+kTSMHiliteSelectedText          = 8
+kTSMHiliteNoHilite              = 9
+
+kCaretPosition                = kTSMHiliteCaretPosition
+kRawText                      = kTSMHiliteRawText
+kSelectedRawText              = kTSMHiliteSelectedRawText
+kConvertedText                = kTSMHiliteConvertedText
+kSelectedConvertedText        = kTSMHiliteSelectedConvertedText
+kBlockFillText                = kTSMHiliteBlockFillText
+kOutlineText                  = kTSMHiliteOutlineText
+kSelectedText                 = kTSMHiliteSelectedText
+
+keyAEHiliteRange              = OSType('hrng')
+keyAEPinRange                 = OSType('pnrg')
+keyAEClauseOffsets            = OSType('clau')
+keyAEOffset                   = OSType('ofst')
+keyAEPoint                    = OSType('gpos')
+keyAELeftSide                 = OSType('klef')
+keyAERegionClass              = OSType('rgnc')
+keyAEDragging                 = OSType('bool')
+
+keyAELeadingEdge              = keyAELeftSide
+
+typeMeters                    = OSType('metr')
+typeInches                    = OSType('inch')
+typeFeet                      = OSType('feet')
+typeYards                     = OSType('yard')
+typeMiles                     = OSType('mile')
+typeKilometers                = OSType('kmtr')
+typeCentimeters               = OSType('cmtr')
+typeSquareMeters              = OSType('sqrm')
+typeSquareFeet                = OSType('sqft')
+typeSquareYards               = OSType('sqyd')
+typeSquareMiles               = OSType('sqmi')
+typeSquareKilometers          = OSType('sqkm')
+typeLiters                    = OSType('litr')
+typeQuarts                    = OSType('qrts')
+typeGallons                   = OSType('galn')
+typeCubicMeters               = OSType('cmet')
+typeCubicFeet                 = OSType('cfet')
+typeCubicInches               = OSType('cuin')
+typeCubicCentimeter           = OSType('ccmt')
+typeCubicYards                = OSType('cyrd')
+typeKilograms                 = OSType('kgrm')
+typeGrams                     = OSType('gram')
+typeOunces                    = OSType('ozs ')
+typePounds                    = OSType('lbs ')
+typeDegreesC                  = OSType('degc')
+typeDegreesF                  = OSType('degf')
+typeDegreesK                  = OSType('degk')
+
+kFAServerApp                  = OSType('ssrv')
+kDoFolderActionEvent          = OSType('fola')
+kFolderActionCode             = OSType('actn')
+kFolderOpenedEvent            = OSType('fopn')
+kFolderClosedEvent            = OSType('fclo')
+kFolderWindowMovedEvent       = OSType('fsiz')
+kFolderItemsAddedEvent        = OSType('fget')
+kFolderItemsRemovedEvent      = OSType('flos')
+kItemList                     = OSType('flst')
+kNewSizeParameter             = OSType('fnsz')
+kFASuiteCode                  = OSType('faco')
+kFAAttachCommand              = OSType('atfa')
+kFARemoveCommand              = OSType('rmfa')
+kFAEditCommand                = OSType('edfa')
+kFAFileParam                  = OSType('faal')
+kFAIndexParam                 = OSType('indx')
+
+kAEInternetSuite              = OSType('gurl')
+kAEISWebStarSuite             = 0x575757BD
+
+kAEISGetURL                   = OSType('gurl')
+KAEISHandleCGI                = OSType('sdoc')
+
+cURL                          = OSType('url ')
+cInternetAddress              = OSType('IPAD')
+cHTML                         = OSType('html')
+cFTPItem                      = OSType('ftp ')
+
+kAEISHTTPSearchArgs           = OSType('kfor')
+kAEISPostArgs                 = OSType('post')
+kAEISMethod                   = OSType('meth')
+kAEISClientAddress            = OSType('addr')
+kAEISUserName                 = OSType('user')
+kAEISPassword                 = OSType('pass')
+kAEISFromUser                 = OSType('frmu')
+kAEISServerName               = OSType('svnm')
+kAEISServerPort               = OSType('svpt')
+kAEISScriptName               = OSType('scnm')
+kAEISContentType              = OSType('ctyp')
+kAEISReferrer                 = OSType('refr')
+kAEISUserAgent                = OSType('Agnt')
+kAEISAction                   = OSType('Kact')
+kAEISActionPath               = OSType('Kapt')
+kAEISClientIP                 = OSType('Kcip')
+kAEISFullRequest              = OSType('Kfrq')
+
+pScheme                       = OSType('pusc')
+pHost                         = OSType('HOST')
+pPath                         = OSType('FTPc')
+pUserName                     = OSType('RAun')
+pUserPassword                 = OSType('RApw')
+pDNSForm                      = OSType('pDNS')
+pURL                          = OSType('pURL')
+pTextEncoding                 = OSType('ptxe')
+pFTPKind                      = OSType('kind')
+
+eScheme                       = OSType('esch')
+eurlHTTP                      = OSType('http')
+eurlHTTPS                     = OSType('htps')
+eurlFTP                       = OSType('ftp ')
+eurlMail                      = OSType('mail')
+eurlFile                      = OSType('file')
+eurlGopher                    = OSType('gphr')
+eurlTelnet                    = OSType('tlnt')
+eurlNews                      = OSType('news')
+eurlSNews                     = OSType('snws')
+eurlNNTP                      = OSType('nntp')
+eurlMessage                   = OSType('mess')
+eurlMailbox                   = OSType('mbox')
+eurlMulti                     = OSType('mult')
+eurlLaunch                    = OSType('laun')
+eurlAFP                       = OSType('afp ')
+eurlAT                        = OSType('at  ')
+eurlEPPC                      = OSType('eppc')
+eurlRTSP                      = OSType('rtsp')
+eurlIMAP                      = OSType('imap')
+eurlNFS                       = OSType('unfs')
+eurlPOP                       = OSType('upop')
+eurlLDAP                      = OSType('uldp')
+eurlUnknown                   = OSType('url?')
+
+kConnSuite                    = OSType('macc')
+cDevSpec                      = OSType('cdev')
+cAddressSpec                  = OSType('cadr')
+cADBAddress                   = OSType('cadb')
+cAppleTalkAddress             = OSType('cat ')
+cBusAddress                   = OSType('cbus')
+cEthernetAddress              = OSType('cen ')
+cFireWireAddress              = OSType('cfw ')
+cIPAddress                    = OSType('cip ')
+cLocalTalkAddress             = OSType('clt ')
+cSCSIAddress                  = OSType('cscs')
+cTokenRingAddress             = OSType('ctok')
+cUSBAddress                   = OSType('cusb')
+
+pDeviceType                   = OSType('pdvt')
+pDeviceAddress                = OSType('pdva')
+pConduit                      = OSType('pcon')
+pProtocol                     = OSType('pprt')
+pATMachine                    = OSType('patm')
+pATZone                       = OSType('patz')
+pATType                       = OSType('patt')
+pDottedDecimal                = OSType('pipd')
+pDNS                          = OSType('pdns')
+pPort                         = OSType('ppor')
+pNetwork                      = OSType('pnet')
+pNode                         = OSType('pnod')
+pSocket                       = OSType('psoc')
+pSCSIBus                      = OSType('pscb')
+pSCSILUN                      = OSType('pslu')
+
+eDeviceType                   = OSType('edvt')
+eAddressSpec                  = OSType('eads')
+eConduit                      = OSType('econ')
+eProtocol                     = OSType('epro')
+eADB                          = OSType('eadb')
+eAnalogAudio                  = OSType('epau')
+eAppleTalk                    = OSType('epat')
+eAudioLineIn                  = OSType('ecai')
+eAudioLineOut                 = OSType('ecal')
+eAudioOut                     = OSType('ecao')
+eBus                          = OSType('ebus')
+eCDROM                        = OSType('ecd ')
+eCommSlot                     = OSType('eccm')
+eDigitalAudio                 = OSType('epda')
+eDisplay                      = OSType('edds')
+eDVD                          = OSType('edvd')
+eEthernet                     = OSType('ecen')
+eFireWire                     = OSType('ecfw')
+eFloppy                       = OSType('efd ')
+eHD                           = OSType('ehd ')
+eInfrared                     = OSType('ecir')
+eIP                           = OSType('epip')
+eIrDA                         = OSType('epir')
+eIRTalk                       = OSType('epit')
+eKeyboard                     = OSType('ekbd')
+eLCD                          = OSType('edlc')
+eLocalTalk                    = OSType('eclt')
+eMacIP                        = OSType('epmi')
+eMacVideo                     = OSType('epmv')
+eMicrophone                   = OSType('ecmi')
+eModemPort                    = OSType('ecmp')
+eModemPrinterPort             = OSType('empp')
+eModem                        = OSType('edmm')
+eMonitorOut                   = OSType('ecmn')
+eMouse                        = OSType('emou')
+eNuBusCard                    = OSType('ednb')
+eNuBus                        = OSType('enub')
+ePCcard                       = OSType('ecpc')
+ePCIbus                       = OSType('ecpi')
+ePCIcard                      = OSType('edpi')
+ePDSslot                      = OSType('ecpd')
+ePDScard                      = OSType('epds')
+ePointingDevice               = OSType('edpd')
+ePostScript                   = OSType('epps')
+ePPP                          = OSType('eppp')
+ePrinterPort                  = OSType('ecpp')
+ePrinter                      = OSType('edpr')
+eSvideo                       = OSType('epsv')
+eSCSI                         = OSType('ecsc')
+eSerial                       = OSType('epsr')
+eSpeakers                     = OSType('edsp')
+eStorageDevice                = OSType('edst')
+eSVGA                         = OSType('epsg')
+eTokenRing                    = OSType('etok')
+eTrackball                    = OSType('etrk')
+eTrackpad                     = OSType('edtp')
+eUSB                          = OSType('ecus')
+eVideoIn                      = OSType('ecvi')
+eVideoMonitor                 = OSType('edvm')
+eVideoOut                     = OSType('ecvo')
+
+cKeystroke                    = OSType('kprs')
+pKeystrokeKey                 = OSType('kMsg')
+pModifiers                    = OSType('kMod')
+pKeyKind                      = OSType('kknd')
+eModifiers                    = OSType('eMds')
+eOptionDown                   = OSType('Kopt')
+eCommandDown                  = OSType('Kcmd')
+eControlDown                  = OSType('Kctl')
+eShiftDown                    = OSType('Ksft')
+eCapsLockDown                 = OSType('Kclk')
+eKeyKind                      = OSType('ekst')
+
+eEscapeKey                    = 0x6B733500
+eDeleteKey                    = 0x6B733300
+eTabKey                       = 0x6B733000
+eReturnKey                    = 0x6B732400
+eClearKey                     = 0x6B734700
+eEnterKey                     = 0x6B734C00
+eUpArrowKey                   = 0x6B737E00
+eDownArrowKey                 = 0x6B737D00
+eLeftArrowKey                 = 0x6B737B00
+eRightArrowKey                = 0x6B737C00
+eHelpKey                      = 0x6B737200
+eHomeKey                      = 0x6B737300
+ePageUpKey                    = 0x6B737400
+ePageDownKey                  = 0x6B737900
+eForwardDelKey                = 0x6B737500
+eEndKey                       = 0x6B737700
+eF1Key                        = 0x6B737A00
+eF2Key                        = 0x6B737800
+eF3Key                        = 0x6B736300
+eF4Key                        = 0x6B737600
+eF5Key                        = 0x6B736000
+eF6Key                        = 0x6B736100
+eF7Key                        = 0x6B736200
+eF8Key                        = 0x6B736400
+eF9Key                        = 0x6B736500
+eF10Key                       = 0x6B736D00
+eF11Key                       = 0x6B736700
+eF12Key                       = 0x6B736F00
+eF13Key                       = 0x6B736900
+eF14Key                       = 0x6B736B00
+eF15Key                       = 0x6B737100
+
+keyAELaunchedAsLogInItem      = OSType('lgit')
+keyAELaunchedAsServiceItem    = OSType('svit')
+
+keyDirectObject               = OSType('----')
+keyErrorNumber                = OSType('errn')
+keyErrorString                = OSType('errs')
+keyProcessSerialNumber        = OSType('psn ')
+keyPreDispatch                = OSType('phac')
+keySelectProc                 = OSType('selh')
+
+keyAERecorderCount            = OSType('recr')
+
+keyAEVersion                  = OSType('vers')
+
+kCoreEventClass               = OSType('aevt')
+
+kAEOpenApplication            = OSType('oapp')
+kAEOpenDocuments              = OSType('odoc')
+kAEPrintDocuments             = OSType('pdoc')
+kAEOpenContents               = OSType('ocon')
+kAEQuitApplication            = OSType('quit')
+
+kAEAnswer                     = OSType('ansr')
+kAEApplicationDied            = OSType('obit')
+kAEShowPreferences            = OSType('pref')
+
+kAEStartRecording             = OSType('reca')
+kAEStopRecording              = OSType('recc')
+kAENotifyStartRecording       = OSType('rec1')
+kAENotifyStopRecording        = OSType('rec0')
+kAENotifyRecording            = OSType('recr')
+
+kAEUnknownSource              = 0
+kAEDirectCall                 = 1
+kAESameProcess                = 2
+kAELocalProcess               = 3
+kAERemoteProcess              = 4
+
+errAETargetAddressNotPermitted	 = 	-1742
+errAEEventNotPermitted = -1743
+
+formPropertyID = OSType('prop')
+formName       = OSType('name')
+
+def xaevent_activate_app_by_bundle_id(paths: List[str]):
+    send_event_to_bundle(kAEMiscStandards, kAEActivate, "com.apple.MobileSMS")
+
+def xaevent_reopen_app_by_bundle_id(paths: List[str]):
+    send_event_to_bundle(typeAppleEvent, kAEReopenApplication, "com.apple.MobileSMS")
+
+def xaevent_open_in_app_by_bundle_id(path: str, bundle_id: str):
+    app_desc = ApplicationServices.NSAppleEventDescriptor.alloc().initWithDescriptorType_data_(typeApplicationBundleID, "com.apple.TextEdit".encode("UTF-8"))
+
+    openEvent = ApplicationServices.NSAppleEventDescriptor.appleEventWithEventClass_eventID_targetDescriptor_returnID_transactionID_(typeAppleEvent, kAEOpenDocuments, app_desc, kAutoGenerateReturnID, kAnyTransactionID)
+
+    url = NSURL.alloc().initFileURLWithPath_(path)
+    desc = ApplicationServices.NSAppleEventDescriptor.alloc().initWithDescriptorType_data_(typeFileURL, url.absoluteString().encode("UTF-8"))
+
+    openEvent.setParamDescriptor_forKeyword_(desc, keyDirectObject)
+    openEvent.sendEventWithOptions_timeout_error_(kAEWaitReply|kAECanInteract, kAEDefaultTimeout, None)
+
+def xaevent_print_immediately_from_app_by_bundle_id(path: str, bundle_id: str):
+    app_desc = ApplicationServices.NSAppleEventDescriptor.alloc().initWithDescriptorType_data_(typeApplicationBundleID, "com.apple.TextEdit".encode("UTF-8"))
+
+    openEvent = ApplicationServices.NSAppleEventDescriptor.appleEventWithEventClass_eventID_targetDescriptor_returnID_transactionID_(typeAppleEvent, kAEPrintDocuments, app_desc, kAutoGenerateReturnID, kAnyTransactionID)
+
+    url = NSURL.alloc().initFileURLWithPath_(path)
+    desc = ApplicationServices.NSAppleEventDescriptor.alloc().initWithDescriptorType_data_(typeFileURL, url.absoluteString().encode("UTF-8"))
+
+    openEvent.setParamDescriptor_forKeyword_(desc, keyDirectObject)
+    openEvent.sendEventWithOptions_timeout_error_(kAEWaitReply|kAECanInteract, kAEDefaultTimeout, None)
+
+def test():
+    # Target
+    app_desc = ApplicationServices.NSAppleEventDescriptor.alloc().initWithDescriptorType_data_(typeApplicationBundleID, "com.apple.TextEdit".encode("UTF-8"))
+
+    openEvent = ApplicationServices.NSAppleEventDescriptor.appleEventWithEventClass_eventID_targetDescriptor_returnID_transactionID_(kAECoreSuite, kAECreateElement, app_desc, kAutoGenerateReturnID, kAnyTransactionID)
+
+    # keyData = ApplicationServices.NSAppleEventDescriptor.descriptorWithTypeCode_(cSelection)
+
+    # test =  ApplicationServices.NSAppleEventDescriptor.alloc().initRecordDescriptor()
+    # test.setParamDescriptor_forKeyword_(keyData, cProperty)
+
+    # initWithContainerSpecifier_key_(ApplicationServices.NSScriptObjectSpecifier.alloc().init(), formPropertyID)
+    # doc_desc = ApplicationServices.NSAppleEventDescriptor.alloc().initWithDescriptorType_data_(typeObjectSpecifier, "cDocument".encode("UTF-8"))
+    # openEvent.setParamDescriptor_forKeyword_(app_desc, keyAEInsertHere)
+    # docu_desc.setAssociatedObject_(doc)
+
+    # doc = ApplicationServices.NSAppleEventDescriptor.descriptorWithTypeCode_(cDocument)
+    # obj = ApplicationServices.NSScriptObjectSpecifier.objectSpecifierWithDescriptor_(doc)
+    # test = ApplicationServices.NSScriptObjectSpecifier.alloc().initWithContainerSpecifier_key_(obj, formName)
+
+    doc = ApplicationServices.NSAppleEventDescriptor.descriptorWithTypeCode_(cDocument)
+    # # record = ApplicationServices.NSAppleEventDescriptor.alloc().initRecordDescriptor()
+    # # doc = ApplicationServices.NSAppleEventDescriptor.descriptorWithTypeCode_(cDocument)
+    # # record.insertDescriptor_atIndex_(doc, 1)
+    # # print(record)
+    # record = ApplicationServices.NSAppleEventDescriptor.alloc().initRecordDescriptor()
+    # record.setParamDescriptor_forKeyword_(doc, typeObjectSpecifier)
+
+    openEvent.setParamDescriptor_forKeyword_(doc, keyAEObjectClass)
+
+    print(openEvent)
+    test = openEvent.sendEventWithOptions_timeout_error_(kAEWaitReply|kAECanInteract, kAEDefaultTimeout, None)
+
+    print(test)
+
+def get_selection(bundle_id: str):
+    app_desc = ApplicationServices.NSAppleEventDescriptor.alloc().initWithDescriptorType_data_(typeApplicationBundleID, bundle_id.encode("UTF-8"))
+
+    openEvent = ApplicationServices.NSAppleEventDescriptor.appleEventWithEventClass_eventID_targetDescriptor_returnID_transactionID_(kAECoreSuite, kAEGetData, app_desc, kAutoGenerateReturnID, kAnyTransactionID)
+
+    # doc = ApplicationServices.NSAppleEventDescriptor.descriptorWithTypeCode_(cDocument)
+    # openEvent.setParamDescriptor_forKeyword_(doc, keyAEObjectClass)
+
+    record = ApplicationServices.NSAppleEventDescriptor.alloc().initRecordDescriptor()
+    prop1 = ApplicationServices.NSAppleEventDescriptor.descriptorWithTypeCode_(cProperty)
+    prop2 = ApplicationServices.NSAppleEventDescriptor.descriptorWithTypeCode_(cProperty)
+    sele = ApplicationServices.NSAppleEventDescriptor.descriptorWithTypeCode_(pSelection)
+    nul = ApplicationServices.NSAppleEventDescriptor.nullDescriptor()
+    record.setParamDescriptor_forKeyword_(prop1, OSType('form'))
+    record.setParamDescriptor_forKeyword_(prop2, OSType('want'))
+    record.setParamDescriptor_forKeyword_(sele, OSType('seld'))
+    record.setParamDescriptor_forKeyword_(nul, OSType('from'))
+
+    # test = ApplicationServices.NSScriptObjectSpecifier.objectSpecifierWithDescriptor_(record)
+    # print(test)
+
+    # obj = ApplicationServices.NSAppleEventDescriptor.descriptorWithTypeCode_(typeObjectSpecifier)
+
+    obj = record.coerceToDescriptorType_(typeObjectSpecifier)
+
+    openEvent.setParamDescriptor_forKeyword_(obj, keyDirectObject)
+
+    sig = ApplicationServices.NSAppleEventDescriptor.descriptorWithInt32_(65536)
+    openEvent.setAttributeDescriptor_forKeyword_(sig, OSType('csig'))
+    
+    print(openEvent.description())
+    test = openEvent.sendEventWithOptions_timeout_error_(kAEWaitReply|kAECanInteract, kAEDefaultTimeout, None)
+    print(test)
+
+def get_window(bundle_id: str):
+    app_desc = ApplicationServices.NSAppleEventDescriptor.alloc().initWithDescriptorType_data_(typeApplicationBundleID, bundle_id.encode("UTF-8"))
+
+    openEvent = ApplicationServices.NSAppleEventDescriptor.appleEventWithEventClass_eventID_targetDescriptor_returnID_transactionID_(kAECoreSuite, kAEGetData, app_desc, kAutoGenerateReturnID, kAnyTransactionID)
+
+    # doc = ApplicationServices.NSAppleEventDescriptor.descriptorWithTypeCode_(cDocument)
+    # openEvent.setParamDescriptor_forKeyword_(doc, keyAEObjectClass)
+
+    record = ApplicationServices.NSAppleEventDescriptor.alloc().initRecordDescriptor()
+    indx = ApplicationServices.NSAppleEventDescriptor.descriptorWithTypeCode_(OSType('indx'))
+    #indx = ApplicationServices.NSAppleEventDescriptor.descriptorWithTypeCode_(OSType('cwin'))
+    cwin = ApplicationServices.NSAppleEventDescriptor.descriptorWithTypeCode_(cWindow)
+    seld = ApplicationServices.NSAppleEventDescriptor.descriptorWithInt32_(1)
+    # seld = ApplicationServices.NSAppleEventDescriptor.descriptorWithTypeCode_(cDocument)
+    #seld = ApplicationServices.NSAppleEventDescriptor.descriptorWithString_("name")
+    nul = ApplicationServices.NSAppleEventDescriptor.nullDescriptor()
+    record.setParamDescriptor_forKeyword_(nul, OSType('from'))
+    record.setParamDescriptor_forKeyword_(cwin, OSType('want'))
+    record.setParamDescriptor_forKeyword_(indx, OSType('form'))
+    record.setParamDescriptor_forKeyword_(seld, OSType('seld'))
+
+    # obj = ApplicationServices.NSAppleEventDescriptor.descriptorWithTypeCode_(typeObjectSpecifier)
+
+    obj = record.coerceToDescriptorType_(typeObjectSpecifier)
+
+    print(obj)
+
+    #test = ApplicationServices.NSAppleEventDescriptor.alloc().initWithDescriptorType_data_(typeObjectSpecifier, )
+
+    openEvent.setParamDescriptor_forKeyword_(obj, keyDirectObject)
+
+    sig = ApplicationServices.NSAppleEventDescriptor.descriptorWithInt32_(65536)
+    openEvent.setAttributeDescriptor_forKeyword_(sig, OSType('csig'))
+    
+    print(openEvent.description())
+    test = openEvent.sendEventWithOptions_timeout_error_(kAEWaitReply|kAECanInteract, kAEDefaultTimeout, None)
+    print(test)
+
+def xaevent_minimize_app(bundle_id: str, param: Any = None):
+    app_desc = ApplicationServices.NSAppleEventDescriptor.alloc().initWithDescriptorType_data_(typeApplicationBundleID, bundle_id.encode("UTF-8"))
+
+    openEvent = ApplicationServices.NSAppleEventDescriptor.appleEventWithEventClass_eventID_targetDescriptor_returnID_transactionID_(kAECoreSuite, kAECreateElement, app_desc, kAutoGenerateReturnID, kAnyTransactionID)
+
+    doc = ApplicationServices.NSAppleEventDescriptor.descriptorWithTypeCode_(cDocument)
+    openEvent.setParamDescriptor_forKeyword_(doc, keyAEObjectClass)
+
+    record = ApplicationServices.NSAppleEventDescriptor.alloc().initRecordDescriptor()
+    name = ApplicationServices.NSAppleEventDescriptor.descriptorWithString_(param)
+    record.setParamDescriptor_forKeyword_(name, keyAEName)
+
+    openEvent.setParamDescriptor_forKeyword_(record, keyAEPropData)
+    
+    print(openEvent)
+    test = openEvent.sendEventWithOptions_timeout_error_(kAEWaitReply|kAECanInteract, kAEDefaultTimeout, None)
+
+def xaevent_create_new_doc_named(bundle_id: str, param: Any = None):
+    app_desc = ApplicationServices.NSAppleEventDescriptor.alloc().initWithDescriptorType_data_(typeApplicationBundleID, bundle_id.encode("UTF-8"))
+
+    openEvent = ApplicationServices.NSAppleEventDescriptor.appleEventWithEventClass_eventID_targetDescriptor_returnID_transactionID_(kAECoreSuite, kAECreateElement, app_desc, kAutoGenerateReturnID, kAnyTransactionID)
+
+    doc = ApplicationServices.NSAppleEventDescriptor.descriptorWithTypeCode_(cDocument)
+    openEvent.setParamDescriptor_forKeyword_(doc, keyAEObjectClass)
+
+    record = ApplicationServices.NSAppleEventDescriptor.alloc().initRecordDescriptor()
+    name = ApplicationServices.NSAppleEventDescriptor.descriptorWithString_(param)
+    record.setParamDescriptor_forKeyword_(name, keyAEName)
+
+    openEvent.setParamDescriptor_forKeyword_(record, keyAEPropData)
+    
+    print(openEvent)
+    test = openEvent.sendEventWithOptions_timeout_error_(kAEWaitReply|kAECanInteract, kAEDefaultTimeout, None)
+
+def xaevent_create_new(bundle_id: str, specifier: str, param: Any = None):
+    app_desc = ApplicationServices.NSAppleEventDescriptor.alloc().initWithDescriptorType_data_(typeApplicationBundleID, bundle_id.encode("UTF-8"))
+
+    openEvent = ApplicationServices.NSAppleEventDescriptor.appleEventWithEventClass_eventID_targetDescriptor_returnID_transactionID_(kAECoreSuite, kAECreateElement, app_desc, kAutoGenerateReturnID, kAnyTransactionID)
+
+    doc = ApplicationServices.NSAppleEventDescriptor.descriptorWithString_(specifier)
+    openEvent.setParamDescriptor_forKeyword_(doc, keyAEObjectClass)
+
+    record = ApplicationServices.NSAppleEventDescriptor.alloc().initRecordDescriptor()
+    text = ApplicationServices.NSAppleEventDescriptor.descriptorWithString_(param)
+    #name = ApplicationServices.NSAppleEventDescriptor.alloc().initWithDescriptorType_data_(keyAEName, param.encode("UTF-8"))
+    record.setParamDescriptor_forKeyword_(text, keyAEName)
+    # record.setParamDescriptor_forKeyword_(text, OSType('body'))
+
+    openEvent.setParamDescriptor_forKeyword_(record, keyAEPropData)
+    
+    print(openEvent)
+    test = openEvent.sendEventWithOptions_timeout_error_(kAEWaitReply|kAECanInteract, kAEDefaultTimeout, None)
+
+def xaevent_create_new_document(bundle_id: str):
+    app_desc = ApplicationServices.NSAppleEventDescriptor.alloc().initWithDescriptorType_data_(typeApplicationBundleID, bundle_id.encode("UTF-8"))
+
+    openEvent = ApplicationServices.NSAppleEventDescriptor.appleEventWithEventClass_eventID_targetDescriptor_returnID_transactionID_(kAECoreSuite, kAECreateElement, app_desc, kAutoGenerateReturnID, kAnyTransactionID)
+
+    doc = ApplicationServices.NSAppleEventDescriptor.descriptorWithTypeCode_(cDocument)
+    openEvent.setParamDescriptor_forKeyword_(doc, keyAEObjectClass)
+
+    test = openEvent.sendEventWithOptions_timeout_error_(kAEWaitReply|kAECanInteract, kAEDefaultTimeout, None)
 
 def xaevent_open_items_at_paths(paths: List[str]):
     app_desc = ApplicationServices.NSAppleEventDescriptor.alloc().initWithDescriptorType_data_(typeApplicationBundleID, "com.apple.Finder".encode("UTF-8"))

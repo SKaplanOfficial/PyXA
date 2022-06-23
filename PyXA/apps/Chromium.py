@@ -4,9 +4,7 @@ Control Chromium using JXA-like syntax.
 """
 
 from typing import Any, List, Tuple, Union
-from AppKit import NSFileManager, NSURL, NSSet
-
-from AppKit import NSPredicate, NSMutableArray
+from AppKit import NSURL
 
 from PyXA import XABase
 from PyXA import XABaseScriptable

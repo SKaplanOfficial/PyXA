@@ -200,7 +200,8 @@ class XAList(XAObject):
 
     def by_property(self, property: str, value: Any) -> XAObject:
         predicate = AppKit.NSPredicate.predicateWithFormat_(xa_predicate_format({property: value}))
-        obj = self.xa_elem.filteredArrayUsingPredicate_(predicate)[0]
+        self.xa_elem = self.xa_elem.filteredArrayUsingPredicate_(predicate).get()
+        obj = self.xa_elem[0]
         return self._new_element(obj, self.xa_ocls)
 
     def first(self) -> XAObject:

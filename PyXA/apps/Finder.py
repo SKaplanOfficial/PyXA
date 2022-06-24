@@ -1731,7 +1731,7 @@ class XAFinderWindowList(XAList):
     def by_properties(self, properties: dict) -> 'XAFinderWindow':
         return self.by_property("properties", properties)
 
-class XAFinderWindow(XABaseScriptable.XASBPrintable):
+class XAFinderWindow(XABaseScriptable.XASBWindow, XABaseScriptable.XASBPrintable):
     """A class for managing and interacting with windows of Finder.app.
 
     :Example 1: Setting the bounds of a Finder window

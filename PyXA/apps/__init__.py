@@ -18,10 +18,12 @@ from .Dictionary import XADictionaryApplication
 from .PhotosApp import XAPhotosApplication
 from .SystemPreferences import XASystemPreferencesApplication
 from .Keynote import XAKeynoteApplication
-from .Firefox import XAFirefoxApplication
-from .Brave import XABraveApplication
+from .Chromium import XAChromiumApplication
+from .Mail import XAMailApplication
+
 
 application_classes = {
+    # First Party Apps
     "finder": XAFinderApplication,
     "safari": XASafariApplication,
     "music": XAMusicApplication,
@@ -43,8 +45,16 @@ application_classes = {
     "photos": XAPhotosApplication,
     "system preferences": XASystemPreferencesApplication,
     "keynote": XAKeynoteApplication,
+    "mail": XAMailApplication,
 
-    # Third Party Apps
-    "firefox": XAFirefoxApplication,
-    "brave browser": XABraveApplication,
+    ### Third Party Apps
+    # Chromium
+    "chromium": XAChromiumApplication,
+    "brave browser": XAChromiumApplication,
+    "microsoft edge": XAChromiumApplication,
+    "google chrome": XAChromiumApplication,
+    "opera": XAChromiumApplication,
+    "vivaldi": XAChromiumApplication,
+    "blisk": XAChromiumApplication,
+    "iridium": XAChromiumApplication,
 }

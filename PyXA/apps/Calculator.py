@@ -3,11 +3,7 @@
 Control the macOS Calculator application using JXA-like syntax.
 """
 
-from typing import List, Union
-from AppKit import NSFileManager, NSURL, NSDocumentController
-
 from PyXA import XABase
-from PyXA import XABaseScriptable
 
 class XACalculatorApplication(XABase.XAApplication):
     """A class for managing and interacting with Calculator.app.

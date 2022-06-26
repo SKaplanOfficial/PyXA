@@ -90,7 +90,6 @@ class XATextEditApplication(XABaseScriptable.XASBApplication, XABase.XACanConstr
             file = NSURL.alloc().initFileURLWithPath_(file.path)
         self.xa_scel.print_printDialog_withProperties_(file, show_prompt, print_settings)
 
-    # Documents
     def documents(self, filter: dict = None) -> 'XATextEditDocumentList':
         """Returns a list of documents matching the filter.
 
@@ -113,6 +112,24 @@ class XATextEditApplication(XABaseScriptable.XASBApplication, XABase.XACanConstr
         >>> print(list(app.documents({"name": "Another Document.txt"})))
         [<<class 'PyXA.apps.TextEdit.XATextEditDocument'>Another Document.txt>]
 
+        :Example 3: List all paragraphs, words, and characters in all currently open documents
+
+        >>> import PyXA
+        >>> app = PyXA.application("TextEdit")
+        >>> documents = app.documents()
+        >>> print("Paragraphs:", documents.paragraphs())
+        >>> print("Words:", documents.words())
+        >>> print("Characters:", documents.characters())
+        Paragraphs: [This is note 1
+        , This is note 2
+        , This is note 3
+        ]
+        Words: [This, is, note, 1, This, is, note, 2, This, is, note, 3]
+        Characters: [T, h, i, s,  , i, s, , n, o, t, e,  , 1, 
+        , T, h, i, s, , i, s, , n, o, t, e, , 2, 
+        , T, h, i, s, , i, s, , n, o, t, e, , 3, 
+        ]
+
         .. versionadded:: 0.0.1
         """
         return self._new_element(self.xa_scel.documents(), XATextEditDocumentList, filter)
@@ -129,7 +146,7 @@ class XATextEditApplication(XABaseScriptable.XASBApplication, XABase.XACanConstr
         :return: A reference to the newly created document.
         :rtype: XATextEditDocument
 
-        :Example:
+        :Example 1: Create a new document with a name and initial body content
 
         >>> import PyXA
         >>> app = PyXA.application("TextEdit")
@@ -164,6 +181,18 @@ class XATextEditApplication(XABaseScriptable.XASBApplication, XABase.XACanConstr
         :type properties: dict
         :return: A PyXA wrapped form of the object
         :rtype: XABase.XAObject
+
+        :Example 1: Make a new document and push it onto the list of documents
+
+        >>> import PyXA
+        >>> app = PyXA.application("TextEdit")
+        >>> properties = {
+        >>>     "name": "Example.txt",
+        >>>     "path": "/Users/exampleuser/Downloads/Example.txt",
+        >>>     "text": "Some example text"
+        >>> }
+        >>> new_doc = app.make("document", properties)
+        >>> app.documents().push(new_doc)
 
         .. versionadded:: 0.0.3
         """
@@ -270,7 +299,7 @@ class XATextEditDocumentList(XABase.XAList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XATextEditDocument, filter)
 
-    def path(self) -> List[dict]:
+    def properties(self) -> List[dict]:
         return list(self.xa_elem.arrayByApplyingSelector_("properties"))
 
     def path(self) -> List[str]:
@@ -278,6 +307,30 @@ class XATextEditDocumentList(XABase.XAList):
 
     def name(self) -> List[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
+
+    def text(self) -> List[XABase.XAText]:
+        ls = self.xa_elem.arrayByApplyingSelector_("text")
+        return [self._new_element(text, XABase.XAText) for text in ls]
+
+    def paragraphs(self) -> List[XABase.XAWord]:
+        ls = self.xa_elem.arrayByApplyingSelector_("paragraphs")
+        return [self._new_element(paragraph, XABase.XAParagraph) for paragraph in [plist for plist in ls]]
+
+    def words(self) -> List[XABase.XAWord]:
+        ls = self.xa_elem.arrayByApplyingSelector_("words")
+        return [self._new_element(word, XABase.XAWord) for word in [wordlist for wordlist in ls]]
+
+    def characters(self) -> List[XABase.XACharacter]:
+        ls = self.xa_elem.arrayByApplyingSelector_("characters")
+        return [self._new_element(character, XABase.XACharacter) for character in [charlist for charlist in ls]]
+
+    def attribute_runs(self) -> List[XABase.XAAttributeRun]:
+        ls = self.xa_elem.arrayByApplyingSelector_("attributeRuns")
+        return [self._new_element(attribute_run, XABase.XAAttributeRun) for attribute_run in [runlist for runlist in ls]]
+
+    def attachments(self) -> List[XABase.XAAttachment]:
+        ls = self.xa_elem.arrayByApplyingSelector_("attachments")
+        return [self._new_element(attachment, XABase.XAAttributeRun) for attachment in [attachmentlist for attachmentlist in ls]]
 
     def modified(self) -> List[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("modified"))
@@ -294,6 +347,72 @@ class XATextEditDocumentList(XABase.XAList):
     def by_modified(self, modified: bool) -> 'XATextEditDocument':
         return self.by_property("modified", modified)
 
+    def prepend(self, text: str) -> 'XATextEditDocumentList':
+        """Inserts the provided text at the beginning of every document in the list.
+
+        :param text: The text to insert.
+        :type text: str
+        :return: A reference to the document object.
+        :rtype: XATextDocument
+
+        :Example 1: Prepend a string at the beginning of every open document
+
+        >>> import PyXA
+        >>> app = PyXA.application("TextEdit")
+        >>> documents = app.documents()
+        >>> documents.prepend("-- PyXA Notes --\n\n")
+
+        .. seealso:: :func:`append`
+
+        .. versionadded:: 0.0.4
+        """
+        for doc in self.xa_elem:
+            old_text = doc.text().get()
+            doc.setValue_forKey_(text + old_text, "text")
+        return self
+
+    def append(self, text: str) -> 'XATextEditDocumentList':
+        """Appends the provided text to the end of every document in the list.
+
+        :param text: The text to append.
+        :type text: str
+        :return: A reference to the document object.
+        :rtype: XATextDocument
+
+        :Example 1: Append a string at the end of every open document
+
+        >>> import PyXA
+        >>> app = PyXA.application("TextEdit")
+        >>> documents = app.documents()
+        >>> documents.append("\n\n-- End Of Notes --")
+
+        .. seealso:: :func:`prepend`
+
+        .. versionadded:: 0.0.4
+        """
+        for doc in self.xa_elem:
+            old_text = doc.text().get()
+            doc.setValue_forKey_(old_text + text, "text")
+        return self
+
+    def reverse(self) -> 'XATextEditDocumentList':
+        """Reverses the text of every document in the list.
+
+        :return: A reference to the document object.
+        :rtype: XATextDocument
+
+        :Example 1: Reverse the text of every open document
+
+        >>> import PyXA
+        >>> app = PyXA.application("TextEdit")
+        >>> documents = app.documents()
+        >>> documents.reverse()
+
+        .. versionadded:: 0.0.4
+        """
+        for doc in self.xa_elem:
+            doc.setValue_forKey_(doc.text().get()[::-1], "text")
+        return self
 
 class XATextEditDocument(XABase.XACanConstructElement, XABase.XAAcceptsPushedElements, XABase.XATextDocument, XABaseScriptable.XASBPrintable):
     """A class for managing and interacting with TextEdit documents.
@@ -339,7 +458,7 @@ class XATextEditDocument(XABase.XACanConstructElement, XABase.XAAcceptsPushedEle
     def save(self, file_path: str = None):
         """Saves the document.
 
-        If a file path is provided, TextEdit will attempt to create a new file at the target location and of the specified file extension. If no file path is provided, a save dialog for the document will open.
+        If a file path is provided, TextEdit will attempt to create a new file at the target location and of the specified file extension. If no file path is provided, and the document does not have a current path on the disk, a save dialog for the document will open.
 
         :param file_path: The path to save the document at, defaults to None
         :type file_path: str, optional

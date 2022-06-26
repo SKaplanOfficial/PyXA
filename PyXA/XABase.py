@@ -1525,8 +1525,8 @@ class XAUIElement(XAHasElements):
         return self.last_element("groups", XAUIGroup)
 
     # Buttons
-    def buttons(self, filter: dict = None) -> List['XAButton']:
-        return self.elements("buttons", filter, XAButton)
+    def buttons(self, filter: Union[dict, None] = None) -> List['XAButton']:
+        return self._new_element(self.xa_elem.buttons(), XAButtonList, filter)
 
     def button(self, filter: Union[int, dict]) -> 'XAButton':
         return self.element_with_properties("buttons", filter, XAButton)
@@ -1662,6 +1662,15 @@ class XAUIToolbar(XAUIElement):
 class XAUIGroup(XAUIElement):
     def __init__(self, properties):
         super().__init__(properties)
+
+
+class XAButtonList(XAList):
+    """A wrapper around lists of buttons that employs fast enumeration techniques.
+
+    .. versionadded:: 0.0.4
+    """
+    def __init__(self, properties: dict, filter: Union[dict, None] = None):
+        super().__init__(properties, XAButton, filter)
 
 class XAButton(XAUIElement):
     def __init__(self, properties):
@@ -1964,6 +1973,17 @@ class XATextDocument(XAHasParagraphs, XAHasWords, XAHasCharacters, XAHasAttribut
         """
         old_text = self.text
         self.set_property("text", old_text + text)
+        return self
+
+    def reverse(self) -> 'XATextDocument':
+        """Reverses the text of the document.
+
+        :return: A reference to the document object.
+        :rtype: XATextDocument
+
+        .. versionadded:: 0.0.4
+        """
+        self.set_property("text", reversed(self.text))
         return self
 
 

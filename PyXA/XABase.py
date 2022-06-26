@@ -2040,11 +2040,18 @@ class XAAttachment(XAObject):
 
 
 class XAColor():
-    def __init__(self, red = 255, green = 255, blue = 255, alpha = 1.0):
-        self.value = AppKit.NSCalibratedRGBColor.alloc().initWithRed_green_blue_alpha_(red, green, blue, alpha)
+    def __init__(self, *args):
+        if len(args) == 1:
+            self.copy_color(args[0])
+        else:
+            red = args[0] if len(args) > 1 else 255
+            green = args[1] if len(args) > 2 else 255
+            blue = args[2] if len(args) > 3 else 255
+            alpha = args[3] if len(args) == 4 else 1.0
+            self.xa_elem = AppKit.NSCalibratedRGBColor.alloc().initWithRed_green_blue_alpha_(red, green, blue, alpha)
 
     def copy_color(self, color: AppKit.NSColor) -> 'XAColor':
-        self.value = AppKit.NSCalibratedRGBColor.alloc().initWithRed_green_blue_alpha_(
+        self.xa_elem = AppKit.NSCalibratedRGBColor.alloc().initWithRed_green_blue_alpha_(
             color.redComponent(),
             color.greenComponent(),
             color.blueComponent(),
@@ -2053,45 +2060,45 @@ class XAColor():
         return self
     
     def set_rgba(self, red, green, blue, alpha):
-        self.value = AppKit.NSCalibratedRGBColor.alloc().initWithRed_green_blue_alpha_(red, green, blue, alpha)
+        self.xa_elem = AppKit.NSCalibratedRGBColor.alloc().initWithRed_green_blue_alpha_(red, green, blue, alpha)
         return self
 
     def red(self):
-        return self.value.redComponent()
+        return self.xa_elem.redComponent()
 
     def green(self):
-        return self.value.greenComponent()
+        return self.xa_elem.greenComponent()
 
     def blue(self):
-        return self.value.blueComponent()
+        return self.xa_elem.blueComponent()
 
     def alpha(self):
-        return self.value.alphaComponent()
+        return self.xa_elem.alphaComponent()
 
     def set_hsla(self, hue, saturation, brightness, alpha):
         # Alpha is 0.0 to 1.0
-        self.value = AppKit.NSCalibratedRGBColor.initWithHue_saturation_brightness_alpha_(hue, saturation, brightness, alpha)
+        self.xa_elem = AppKit.NSCalibratedRGBColor.initWithHue_saturation_brightness_alpha_(hue, saturation, brightness, alpha)
         return self
 
     def hue(self):
-        return self.value.hueComponent()
+        return self.xa_elem.hueComponent()
 
     def saturation(self):
-        return self.value.saturationComponent()
+        return self.xa_elem.saturationComponent()
 
     def brightness(self):
-        return self.value.brightnessComponent()
+        return self.xa_elem.brightnessComponent()
 
     def mix_with(self, color: 'XAColor', fraction: int = 0.5) -> 'XAColor':
-        new_color = self.value.blendedColorWithFraction_ofColor_(0.5, color.value)
+        new_color = self.xa_elem.blendedColorWithFraction_ofColor_(fraction, color.xa_elem)
         return XAColor(new_color.redComponent(), new_color.greenComponent(), new_color.blueComponent(), new_color.alphaComponent())
 
     def brighten(self, amount: float = 0.5) -> 'XAColor':
-        self.value.highlightWithLevel_(amount)
+        self.xa_elem.highlightWithLevel_(amount)
         return self
 
     def darken(self, amount: float = 0.5) -> 'XAColor':
-        self.value.shadowWithLevel_(amount)
+        self.xa_elem.shadowWithLevel_(amount)
         return self
 
     def __repr__(self):
@@ -2108,17 +2115,20 @@ class XAImageList(XAList):
 class XAImage():
     def __init__(self, file_url: Union[str, NSURL, None] = None):
         if file_url is None:
-            self.value = AppKit.NSImage.alloc().init()
+            self.xa_elem = AppKit.NSImage.alloc().init()
         else:
-            if isinstance(file_url, str):
-                if file_url.startswith("/"):
-                    file_url = NSURL.alloc().initFileURLWithPath_(file_url)
-                else:
-                    file_url = NSURL.alloc().initWithString_(file_url)
-            self.value = AppKit.NSImage.alloc().initWithContentsOfURL_(file_url)
+            if isinstance(file_url, AppKit.NSImage):
+                self.xa_elem = AppKit.NSImage.alloc().initWithData_(file_url.TIFFRepresentation())
+            else:
+                if isinstance(file_url, str):
+                    if file_url.startswith("/"):
+                        file_url = NSURL.alloc().initFileURLWithPath_(file_url)
+                    else:
+                        file_url = NSURL.alloc().initWithString_(file_url)
+                self.xa_elem = AppKit.NSImage.alloc().initWithContentsOfURL_(file_url)
 
     def size(self):
-        return self.value.size()
+        return self.xa_elem.size()
 
 class XALocation():
     def __init__(self, raw_value: Any = None, title: str = None, latitude: float = 0, longitude: float = 0, altitude: float = None, radius: int = 0, address: str = None, url: str = None, route_type: str = None, handle: str = None):

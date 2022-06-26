@@ -41,6 +41,7 @@ application_classes = {
     "tv": XATVApplication,
     "contacts": XAContactsApplication,
     "shortcuts": XAShortcutsApplication,
+    "shortcuts events": XAShortcutsApplication,
     "dictionary": XADictionaryApplication,
     "photos": XAPhotosApplication,
     "system preferences": XASystemPreferencesApplication,

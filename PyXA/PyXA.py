@@ -1,5 +1,7 @@
+import math
 import os
 from pathlib import Path
+from random import random
 from time import sleep
 from typing import Any, List, Union
 
@@ -11,12 +13,19 @@ from AppKit import (
     NSArray,
     NSPasteboardTypeString,
     NSAppleScript,
+    NSRunningApplication,
+    NSMutableArray
 )
 from Foundation import NSURL, NSBundle
+
+import threading
+
+from Quartz import CGWindowListCopyWindowInfo, kCGWindowListOptionOnScreenOnly, kCGNullWindowID, kCGWindowListOptionIncludingWindow, kCGWindowListExcludeDesktopElements, kCGWindowListOptionOnScreenAboveWindow, kCGWindowListOptionOnScreenBelowWindow, kCGWindowListOptionAll
 
 from .XABase import (
     XAApplication,
     XASound,
+    timeout,
 )
 
 from .XAErrors import ApplicationNotFoundError
@@ -55,14 +64,35 @@ def get_running_applications() -> List[XAApplication]:
 
     :return: A list of PyXA application objects.
     :rtype: List[XAApplication]
+    
+    .. versionadded:: 0.0.1
     """
-    apps = []
-    for app in workspace.runningApplications():
-        if not app.isHidden():
-            try:
-                apps.append(application(app.localizedName().lower()))
-            except ApplicationNotFoundError as e:
-                print("Couldn't create a reference to " + e.name)
+
+    windows = CGWindowListCopyWindowInfo(kCGWindowListOptionAll, kCGNullWindowID)
+    layers = [window["kCGWindowLayer"] for window in windows]
+    names = [window["kCGWindowOwnerName"] for window in windows]
+
+    def append_app(name, apps):
+        try:
+            apps.append(application(name.lower()))
+        except ApplicationNotFoundError as e:
+            pass
+            #print("Couldn't create a reference to " + e.name)
+    
+    threads = []
+    for index, name in enumerate(names):
+        if layers[index] == 0:
+            app_thread = threading.Thread(target=append_app, args=(name.lower(), apps), name="Append App", daemon=False)
+            threads.append(app_thread)
+            app_thread.start()
+    
+    wait = True
+    while wait != False:
+        wait = False
+        for thread in threads:
+            if thread.is_alive():
+                wait = True
+
     return apps
 
 def current_application() -> XAApplication:

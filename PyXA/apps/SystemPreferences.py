@@ -2,13 +2,14 @@
 
 Control the macOS System Preferences application using JXA-like syntax.
 """
+
 from typing import List, Union
 
 from PyXA import XABase
 from PyXA import XABaseScriptable
 
 class XASystemPreferencesApplication(XABaseScriptable.XASBApplication):
-    """A class for managing and interacting with Podcasts.app.
+    """A class for interacting with System Preferences.app.
 
     .. seealso:: :class:`XAPreferencePane`, :class:`XAPreferenceAnchor`
 
@@ -16,11 +17,38 @@ class XASystemPreferencesApplication(XABaseScriptable.XASBApplication):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.show_all = self.xa_scel.showAll() #: Whether the system preferences is in show all view
-        self.__current_pane = None #: The currently selected preference pane
-        self.__preferences_window = None #: The main preferences window
+        self.name: str #: The name of the application
+        self.frontmost: bool #: Whether System Preferences is the active application
+        self.version: str #: The version of System Preferences.app
+        self.show_all: bool #: Whether the system preferences is in show all view
+        self.current_pane: XAPreferencePane #: The currently selected preference pane
+        self.preferences_window: XABaseScriptable.XASBWindow #: The main preferences window
 
-    def panes(self, properties: Union[dict, None] = None) -> List['XAPreferencePane']:
+    @property
+    def name(self) -> str:
+        return self.xa_scel.name()
+
+    @property
+    def frontmost(self) -> bool:
+        return self.xa_scel.frontmost()
+
+    @property
+    def version(self) -> str:
+        return self.xa_scel.version()
+
+    @property
+    def show_all(self) -> bool:
+        return self.xa_scel.showAll()
+
+    @property
+    def current_pane(self) -> 'XAPreferencePane':
+        return self._new_element(self.xa_scel.currentPane(), XAPreferencePane)
+
+    @property
+    def preferences_window(self) -> XABaseScriptable.XASBWindow:
+        return self._new_element(self.xa_scel.preferencesWindow(), XABaseScriptable.XASBWindow)
+
+    def panes(self, filter: Union[dict, None] = None) -> List['XAPreferencePane']:
         """Returns a list of preference panes, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned preference panes will have, or None
@@ -33,67 +61,68 @@ class XASystemPreferencesApplication(XABaseScriptable.XASBApplication):
         >>> import PyXA
         >>> app = PyXA.application("System Preferences")
         >>> print(app.panes())
-        [<<class 'PyXA.apps.SystemPreferences.XAPreferencePane'>Accessibility, id=com.apple.preference.universalaccess>, <<class 'PyXA.apps.SystemPreferences.XAPreferencePane'>Apple ID, id=com.apple.preferences.AppleIDPrefPane>, ...]
+        <<class 'PyXA.apps.SystemPreferences.XAPreferencePaneList'>['Accessibility', 'Apple ID', 'Battery', ...]>
 
         :Example 2: List preference panes after applying a filter
 
         >>> import PyXA
         >>> app = PyXA.application("System Preferences")
-        >>> print(app.panes({"name": "Accessibility"}))
-        [<<class 'PyXA.apps.SystemPreferences.XAPreferencePane'>Accessibility, id=com.apple.preference.universalaccess>]
+        >>> print(app.panes({"name": "Battery"}))
+        <<class 'PyXA.apps.SystemPreferences.XAPreferencePaneList'>['Battery']>
 
         .. versionadded:: 0.0.2
         """
-        return super().scriptable_elements("panes", properties, XAPreferencePane)
-
-    def pane(self, properties: Union[int, dict]) -> List['XAPreferencePane']:
-        """Returns the first preference pane matching the given filter.
-
-        :param filter: Either an array index or a dictionary specifying property-value pairs that the returned preference pane will have
-        :type filter: Union[int, dict]
-        :return: The preference pane
-        :rtype: XAPreferencePane
-
-        :Example 1: Get a preference pane by index
-
-        >>> import PyXA
-        >>> app = PyXA.application("System Preferences")
-        >>> print(app.pane(0))
-        <<class 'PyXA.apps.SystemPreferences.XAPreferencePane'>Accessibility, id=com.apple.preference.universalaccess>
-
-        :Example 2: Get a preference pane by using a filter
-
-        >>> import PyXA
-        >>> app = PyXA.application("System Preferences")
-        >>> print(app.pane({"name": "Accessibility"}))
-        <<class 'PyXA.apps.SystemPreferences.XAPreferencePane'>Accessibility, id=com.apple.preference.universalaccess>
-
-        .. versionadded:: 0.0.2
-        """
-        return super().scriptable_element_with_properties("panes", properties, XAPreferencePane)
-
-    def first_pane(self) -> 'XAPreferencePane':
-        """Returns the preference pane at the zero index of the panes array.
-
-        :return: The first preference pane
-        :rtype: XAPreferencePane
-
-        .. versionadded:: 0.0.2
-        """
-        return super().first_scriptable_element("panes", XAPreferencePane)
-
-    def last_pane(self) -> 'XAPreferencePane':
-        """Returns the preference pane at the last (-1) index of the panes array.
-
-        :return: The last preference pane
-        :rtype: XAPreferencePane
-
-        .. versionadded:: 0.0.2
-        """
-        return super().last_scriptable_element("panes", XAPreferencePane)
+        return self._new_element(self.xa_scel.panes(), XAPreferencePaneList, filter)
 
 
-class XAPreferencePane(XABase.XAHasElements, XABase.XARevealable):
+class XAPreferencePaneList(XABase.XAList):
+    """A wrapper around lists of preference panes that employs fast enumeration techniques.
+
+    All properties of panes can be called as methods on the wrapped list, returning a list containing each pane's value for the property.
+
+    :Example 1: List the name of each preference pane
+
+    >>> import PyXA
+    >>> app = PyXA.application("System Preferences")
+    >>> print(app.panes().name())
+    ['Accessibility', 'Apple ID', 'Battery', 'Bluetooth', ...]
+
+    :Example 2: Get a preference pane by name (two ways)
+
+    >>> import PyXA
+    >>> app = PyXA.application("System Preferences")
+    >>> pane1 = app.panes().by_name("Battery")
+    >>> pane2 = app.panes({"name": "Battery"})[0]
+    >>> print(pane1 == pane2)
+    True
+
+    .. versionadded:: 0.0.4
+    """
+    def __init__(self, properties: dict, filter: Union[dict, None] = None):
+        super().__init__(properties, XAPreferencePane, filter)
+
+    def id(self) -> List[str]:
+        return list(self.xa_elem.arrayByApplyingSelector_("id"))
+
+    def localized_name(self) -> List[str]:
+        return list(self.xa_elem.arrayByApplyingSelector_("localizedName"))
+
+    def name(self) -> List[str]:
+        return list(self.xa_elem.arrayByApplyingSelector_("name"))
+
+    def by_id(self, id: str) -> 'XAPreferencePane':
+        return self.by_property("id", id)
+
+    def by_localized_name(self, localized_name: str) -> 'XAPreferencePane':
+        return self.by_property("localizedName", localized_name)
+
+    def by_name(self, name: str) -> 'XAPreferencePane':
+        return self.by_property("name", name)
+
+    def __repr__(self):
+        return "<" + str(type(self)) + str(self.name()) + ">"
+
+class XAPreferencePane(XABase.XAHasElements):
     """A class for managing and interacting with preference panes in System Preferences.
 
     .. seealso:: :class:`XAPreferenceAnchor`
@@ -102,14 +131,23 @@ class XAPreferencePane(XABase.XAHasElements, XABase.XARevealable):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.id: str = self.xa_elem.id() #: A unique identifier for the preference pane independent of locale
-        self.localized_name: str = self.xa_elem.localizedName() #: The locale-dependant name of the preference pane
-        self.name: str = self.xa_elem.name() #: The name of the preference pane as it appears in the title bar
+        self.id: str #: A unique identifier for the preference pane independent of locale
+        self.localized_name: str #: The locale-dependant name of the preference pane
+        self.name: str #: The name of the preference pane as it appears in the title bar
 
-    def authorize(self):
-        self.xa_scel.authorize()
+    @property
+    def id(self) -> str:
+        return self.xa_elem.id()
 
-    def anchors(self, properties: Union[dict, None] = None) -> List['XAPreferenceAnchor']:
+    @property
+    def localized_name(self) -> str:
+        return self.xa_elem.localizedName()
+
+    @property
+    def name(self) -> str:
+        return self.xa_elem.name()
+
+    def anchors(self, filter: Union[dict, None] = None) -> List['XAPreferenceAnchor']:
         """Returns a list of anchors, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned anchors will have, or None
@@ -121,82 +159,114 @@ class XAPreferencePane(XABase.XAHasElements, XABase.XARevealable):
         
         >>> import PyXA
         >>> app = PyXA.application("System Preferences")
-        >>> pane = app.pane(0)
+        >>> pane = app.panes()[0]
         >>> print(pane.anchors())
-        [<<class 'PyXA.apps.SystemPreferences.XAPreferenceAnchor'>Accessibility_Shortcut>, <<class 'PyXA.apps.SystemPreferences.XAPreferenceAnchor'>Seeing_Cursor>, ...]
+        <<class 'PyXA.apps.SystemPreferences.XAPreferenceAnchorList'>['Accessibility_Shortcut', 'Seeing_Cursor', ...]>
 
-        :Example 2: List anchors after applying a filter
+        .. versionadded:: 0.0.2
+        """
+        return self._new_element(self.xa_elem.anchors(), XAPreferenceAnchorList, filter)
+
+    def reveal(self) -> 'XAPreferencePane':
+        """Reveals the preference pane in the System Preferences window.
+
+        :return: A reference to the pane object.
+        :rtype: XAPreferencePane
+
+        :Example 1: Reveal the `Displays` preference pane
 
         >>> import PyXA
         >>> app = PyXA.application("System Preferences")
-        >>> pane = app.pane(0)
-        >>> print(pane.anchors({"name": "Keyboard"}))
-        [<<class 'PyXA.apps.SystemPreferences.XAPreferenceAnchor'>Keyboard>]
+        >>> app.activate()
+        >>> app.panes().by_name("Displays").reveal()
 
-        .. versionadded:: 0.0.2
+        .. versionadded:: 0.0.4
         """
-        return super().elements("anchors", properties, XAPreferenceAnchor)
+        self.xa_elem.reveal()
+        return self
 
-    def anchor(self, properties: Union[int, dict]) -> List['XAPreferenceAnchor']:
-        """Returns the first anchor matching the given filter.
+    def authorize(self) -> 'XAPreferencePane':
+        """Prompts for authorization for the preference pane.
 
-        :param filter: Either an array index or a dictionary specifying property-value pairs that the returned anchor will have
-        :type filter: Union[int, dict]
-        :return: The anchor
-        :rtype: XAPreferenceAnchor
+        :return: A reference to the pane object.
+        :rtype: XAPreferencePane
 
-        :Example 1: Get an anchor by index
+        :Example 1: Prompt for authorization for the `Date & Time` pane
 
         >>> import PyXA
+        >>> from time import sleep
         >>> app = PyXA.application("System Preferences")
-        >>> pane = app.pane(0)
-        >>> print(pane.anchor(0))
-        <<class 'PyXA.apps.SystemPreferences.XAPreferenceAnchor'>Accessibility_Shortcut>
-
-        :Example 2: Get an anchor by applying a filter
-
-        >>> import PyXA
-        >>> app = PyXA.application("System Preferences")
-        >>> pane = app.pane(0)
-        >>> print(pane.anchor({"name": "Full_Keyboard_Access"}))
-        <<class 'PyXA.apps.SystemPreferences.XAPreferenceAnchor'>Full_Keyboard_Access>
+        >>> app.activate()
+        >>> pane = app.panes().by_name("Date & Time")
+        >>> pane.reveal()
+        >>> sleep(0.5) # Wait for animation to finish
+        >>> pane.authorize()
 
         .. versionadded:: 0.0.2
         """
-        return super().element_with_properties("anchors", properties, XAPreferenceAnchor)
-
-    def first_anchor(self) -> 'XAPreferenceAnchor':
-        """Returns the anchor at the zero index of the anchors array.
-
-        :return: The first anchor
-        :rtype: XAPreferenceAnchor
-
-        .. versionadded:: 0.0.2
-        """
-        return super().first_element("anchors", XAPreferenceAnchor)
-
-    def last_anchor(self) -> 'XAPreferenceAnchor':
-        """Returns the anchor at the last (-1) index of the anchors array.
-
-        :return: The last anchor
-        :rtype: XAPreferenceAnchor
-
-        .. versionadded:: 0.0.2
-        """
-        return super().last_element("anchors", XAPreferenceAnchor)
+        self.xa_elem.authorize()
+        return self
 
     def __repr__(self):
         return "<" + str(type(self)) + self.name + ", id=" + str(self.id) + ">"
 
+    def __eq__(self, other: 'XAPreferencePane'):
+        return self.id == other.id
 
-class XAPreferenceAnchor(XABase.XARevealable):
+
+class XAPreferenceAnchorList(XABase.XAList):
+    """A wrapper around lists of preference anchors that employs fast enumeration techniques.
+
+    All properties of anchors can be called as methods on the wrapped list, returning a list containing each anchor's value for the property.
+
+    .. versionadded:: 0.0.4
+    """
+    def __init__(self, properties: dict, filter: Union[dict, None] = None):
+        super().__init__(properties, XAPreferenceAnchor, filter)
+
+    def name(self) -> List[str]:
+        return list(self.xa_elem.arrayByApplyingSelector_("name"))
+
+    def by_name(self, name: str) -> 'XAPreferenceAnchor':
+        return self.by_property("name", name)
+
+    def __repr__(self):
+        return "<" + str(type(self)) + str(self.name()) + ">"
+
+class XAPreferenceAnchor(XABaseScriptable.XASBObject):
     """A class for managing and interacting with anchors in System Preferences.
 
     .. versionadded:: 0.0.2
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.name = self.xa_elem.name() #: The name of the anchor
+        self.name: str #: The name of the anchor
+
+    @property
+    def name(self) -> str:
+        return self.xa_elem.name()
+
+    def reveal(self) -> 'XAPreferenceAnchor':
+        """Reveals the anchor in the System Preferences window.
+
+        :return: A reference to the anchor object.
+        :rtype: XAPreferenceAnchor
+
+        :Example 1: Reveal the `Siri` anchor in the `Accessibility` pane
+
+        >>> import PyXA
+        >>> app = PyXA.application("System Preferences")
+        >>> pane = app.panes().by_name("Accessibility")
+        >>> anchor = pane.anchors().by_name("Siri")
+        >>> anchor.reveal()
+
+        .. versionadded:: 0.0.4
+        """
+        self.xa_elem.reveal()
+        return self
 
     def __repr__(self):
         return "<" + str(type(self)) + self.name + ">"
+
+    def __eq__(self, other: 'XAPreferenceAnchor'):
+        return self.name == other.name

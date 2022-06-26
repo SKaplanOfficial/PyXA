@@ -501,18 +501,6 @@ class XAShowable(XAObject):
         """
         self.xa_elem.show()
 
-
-class XARevealable(XAObject):
-    def reveal(self) -> XAObject:
-        """Reveals a document, window, or item, selecting it from a list of other items.
-
-        :return: A reference to the PyXA object that called this method.
-        :rtype: XAObject
-
-        .. versionadded:: 0.0.1
-        """
-        self.xa_elem.reveal()
-
 class XASelectable(XAObject):
     def select(self) -> XAObject:
         """Selects a document or item. This may open a new window, depending on which kind of object and application it acts on.

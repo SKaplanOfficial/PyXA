@@ -1,7 +1,6 @@
 from typing import List, Union
 import threading
 import ScriptingBridge
-from AppKit import NSPredicate, NSMutableArray
 
 from PyXA import XABase
 
@@ -38,8 +37,7 @@ class XAHasScriptableElements(XABase.XAObject):
         self.elements = []
         ls = self.xa_scel.__getattribute__(specifier)()
         if filter is not None:
-            predicate = NSPredicate.predicateWithFormat_(XABase.xa_predicate_format(filter))
-            ls = ls.filteredArrayUsingPredicate_(predicate)
+            ls = XABase.XAPredicate().from_dict(filter).evaluate(ls)
 
         def append_with_timeout(obj: ScriptingBridge.SBObject, index: int, stop: bool):
             with timeout(seconds = 2):
@@ -192,16 +190,16 @@ class XASBApplication(XASBObject, XABase.XAApplication, XAHasScriptableElements)
 class XASBWindow(XASBObject):
     def __init__(self, properties):
         super().__init__(properties)
-        self.name = self.xa_scel.name() #: The title of the window
-        self.id = self.xa_scel.id() #: The unique identifier for the window
-        self.index = self.xa_scel.index() #: The index of the window, ordered front to back
-        self.bounds = self.xa_scel.bounds() #: The bounding rectangle of the window
-        self.closeable = self.xa_scel.closeable() #: Whether the window has a close button
-        self.resizable = self.xa_scel.resizable() #: Whether the window can be resized
-        self.visible = self.xa_scel.visible() #: Whether the window is currently visible
-        self.zoomable = self.xa_scel.zoomable() #: Whether the window has a zoom button
-        self.zoomed = self.xa_scel.zoomed() #: Whether the window is currently zoomed
-        self.__document = None #: The current document displayed in the window
+        # self.name = self.xa_scel.name() #: The title of the window
+        # self.id = self.xa_scel.id() #: The unique identifier for the window
+        # self.index = self.xa_scel.index() #: The index of the window, ordered front to back
+        # self.bounds = self.xa_scel.bounds() #: The bounding rectangle of the window
+        # self.closeable = self.xa_scel.closeable() #: Whether the window has a close button
+        # self.resizable = self.xa_scel.resizable() #: Whether the window can be resized
+        # self.visible = self.xa_scel.visible() #: Whether the window is currently visible
+        # self.zoomable = self.xa_scel.zoomable() #: Whether the window has a zoom button
+        # self.zoomed = self.xa_scel.zoomed() #: Whether the window is currently zoomed
+        # self.__document = None #: The current document displayed in the window
 
     def collapse(self) -> 'XABase.XAWindow':
         """Collapses (minimizes) the window.

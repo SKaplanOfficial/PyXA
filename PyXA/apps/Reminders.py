@@ -53,9 +53,7 @@ class XARemindersApplication(XABaseScriptable.XASBApplication, XABase.XACanConst
 
         .. versionadded:: 0.0.2
         """
-        predicate = NSPredicate.predicateWithFormat_(XABase.xa_predicate_format({"id": list_obj.calendarIdentifier()}))
-        scriptable_lists = self.xa_scel.lists()
-        scriptable_list = scriptable_lists.filteredArrayUsingPredicate_(predicate)[0]
+        scriptable_list = XABase.XAPredicate().from_args("id", list_obj.calendarIdentifier()).evaluate(self.xa_scel.lists())[0]
         properties = {
             "parent": self,
             "appspace": self.xa_apsp,
@@ -92,9 +90,7 @@ class XARemindersApplication(XABaseScriptable.XASBApplication, XABase.XACanConst
 
         .. versionadded:: 0.0.1
         """
-        lists = self.xa_estr.allCalendars()
-        predicate = NSPredicate.predicateWithFormat_(XABase.xa_or_predicate_format([("allowReminders", True)]))
-        lists = lists.filteredArrayUsingPredicate_(predicate)
+        lists = XABase.XAPredicate().from_args("allowReminders", True).evaluate(self.xa_estr.allCalendars())
 
         if filter is not None:
             if "id" in filter:

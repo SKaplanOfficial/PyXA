@@ -12,9 +12,29 @@ import AppKit
 from CoreLocation import CLLocation
 from ScriptingBridge import SBApplication, SBElementArray
 from Foundation import NSURL, NSString
+from regex import P
 
-def OSType(s):
+import threading, signal
+
+from PyXA.XAErrors import InvalidPredicateError
+
+class timeout:
+    def __init__(self, seconds=1, error_message='Timeout'):
+        self.seconds = seconds
+        self.error_message = error_message
+    def handle_timeout(self, signum, frame):
+        raise TimeoutError(self.error_message)
+    def __enter__(self):
+        signal.signal(signal.SIGALRM, self.handle_timeout)
+        signal.alarm(self.seconds)
+    def __exit__(self, type, value, traceback):
+        signal.alarm(0)
+
+def OSType(s: str):
     return int.from_bytes(s.encode("UTF-8"), "big")
+
+def unOSType(i: int):
+    return i.to_bytes((i.bit_length() + 7) // 8, 'big').decode()
 
 class XAObject():
     """A general class for PyXA scripting objects.
@@ -195,12 +215,12 @@ class XAList(XAObject):
         self.xa_ocls = object_class
 
         if filter is not None:
-            predicate = AppKit.NSPredicate.predicateWithFormat_(xa_predicate_format(filter))
-            self.xa_elem = self.xa_elem.filteredArrayUsingPredicate_(predicate)
+            self.xa_elem = XAPredicate().from_dict(filter).evaluate(self.xa_elem)
 
     def by_property(self, property: str, value: Any) -> XAObject:
-        predicate = AppKit.NSPredicate.predicateWithFormat_(xa_predicate_format({property: value}))
-        self.xa_elem = self.xa_elem.filteredArrayUsingPredicate_(predicate).get()
+        predicate = XAPredicate()
+        predicate.add_eq_condition(property, value)
+        self.xa_elem = predicate.evaluate(self.xa_elem)
         obj = self.xa_elem[0]
         return self._new_element(obj, self.xa_ocls)
 
@@ -272,6 +292,9 @@ class XAList(XAObject):
 
     def __iter__(self):
         return (self._new_element(object, self.xa_ocls) for object in self.xa_elem.objectEnumerator())
+
+    def __repr__(self):
+        return "<" + str(type(self)) + str(self.xa_elem) + ">"
 
 
 ### Mixins
@@ -384,8 +407,7 @@ class XAHasElements(XAObject):
     def elements(self, specifier, filter, obj_type):
         ls = self.xa_elem.__getattribute__(specifier)()
         if filter is not None:
-            predicate = AppKit.NSPredicate.predicateWithFormat_(xa_predicate_format(filter))
-            ls = ls.filteredArrayUsingPredicate_(predicate)
+            ls = XAPredicate.evaluate_with_dict(ls, filter)
 
         elements = []
         for element in ls:
@@ -556,8 +578,7 @@ class XAApplication(XAObject):
         super().__init__(properties)
         self.xa_wcls = XAWindow
 
-        properties = {"name": self.xa_elem.localizedName()}
-        predicate = AppKit.NSPredicate.predicateWithFormat_(xa_predicate_format(properties))
+        predicate = AppKit.NSPredicate.predicateWithFormat_("name == %@", self.xa_elem.localizedName())
         process = self.xa_sevt.processes().filteredArrayUsingPredicate_(predicate)[0]
 
         properties = {
@@ -981,92 +1002,414 @@ def xa_path(filepath: str):
     """
     return NSURL.alloc().initWithString_(filepath)
 
-def xa_predicate_format(ref_dict: dict):
-    """Constructs a predicate format string from the keys and values of the supplied reference dictionary.
 
-    Predicate format strings are of the form "(key1 = 'value1') && (key2 = 'value2')..."
+class XAPredicate():
+    def __init__(self):
+        self.keys: List[str] = []
+        self.operators: List[str] = []
+        self.values: List[str] = []
 
-    :param ref_dict: The dictionary to construct a predicate format string from.
-    :type ref_dict: dict
-    :return: The resulting predicate format string.
-    :rtype: str
+    def from_dict(self, ref_dict: dict) -> 'XAPredicate':
+        for key, value in ref_dict.items():
+            self.keys.append(key)
+            self.operators.append("==")
+            self.values.append(value)
+        return self
 
-    .. versionadded:: 0.0.1
-    """
-    predicate_format = ""
-    for key, value in ref_dict.items():
-        if isinstance(value, list) or isinstance(value, tuple):
-            if isinstance(value[1], str):
-                value[1] = value[1].replace("'", "\\'")
-                if not value[1].startswith("'"):
-                    value[1] = "'" + value[1]
-                if not value[1].endswith("'"):
-                    value[1] = value[1] + "'"
+    def from_args(self, *args):
+        arg_num = len(args)
+        if arg_num % 2 != 0:
+            raise InvalidPredicateError("The number of keys and values must be equal; the number of arguments must be an even number.")
+        
+        for index, value in enumerate(args):
+            if index % 2 == 0:
+                self.keys.append(value)
+                self.operators.append("==")
+                self.values.append(args[index + 1])
+        return self
 
-            if value[0] == ">":
-                predicate_format += f"({key} > {value[1]}) &&"
-            elif value[0] == "<":
-                predicate_format += f"({key} < {value[1]}) &&"
-            elif value[0] == "!":
-                predicate_format += f"({key} != {value[1]}) &&"
-            elif value[0].lower() == "contains":
-                predicate_format += f"({key} CONTAINS {value[1]}) &&"
-            elif value[0].lower() == "like":
-                predicate_format += f"({key} LIKE {value[1]}) &&"
-            elif value[0].lower() == "matches":
-                predicate_format += f"({key} MATCHES {value[1]}) &&"
-            elif value[0].lower() == "beginswith":
-                predicate_format += f"({key} BEGINSWITH {value[1]}) &&"
-            elif value[0].lower() == "endswith":
-                predicate_format += f"({key} ENDSWITH {value[1]}) &&"
-        else:
+    def evaluate(self, target: AppKit.NSArray) -> AppKit.NSArray:
+        placeholders = ["%@"] * len(self.values)
+        expressions = [" ".join(expr) for expr in zip(self.keys, self.operators, placeholders)]
+        format = "( " + " ) && ( ".join(expressions) + " )"
+        predicate = AppKit.NSPredicate.predicateWithFormat_(format, *self.values)
+        return target.filteredArrayUsingPredicate_(predicate)
+
+    def evaluate_with_format(target: AppKit.NSArray, fmt: str) -> AppKit.NSArray:
+        predicate = AppKit.NSPredicate.predicateWithFormat_(fmt)
+        return target.filteredArrayUsingPredicate_(predicate)
+
+    def evaluate_with_dict(target: AppKit.NSArray, properties_dict: dict) -> AppKit.NSArray:
+        fmt = ""
+        for key, value in properties_dict.items():
             if isinstance(value, str):
-                value = value.replace("'", "\\'")
-                if not value.startswith("'"):
-                    value = "'" + value
-                if not value.endswith("'"):
-                    value = value + "'"
-            predicate_format += f"({key} = {value}) &&"
-    return predicate_format[:-3]
+                value = "'" + value + "'"
+            fmt += f"( {key} == {value} ) &&"
+        predicate = AppKit.NSPredicate.predicateWithFormat_(fmt[:-3])
+        return target.filteredArrayUsingPredicate_(predicate)
 
-def xa_or_predicate_format(ref_list: dict):
-    """Constructs a predicate format string from the keys and values of the supplied reference dictionary.add()
+    # EQUAL
+    def add_eq_condition(self, property: str, value: Any):
+        """Appends an `==` condition to the end of the predicate format.
 
-    Predicate format strings are of the form "(key1 = 'value1') && (key2 = 'value2')..."
+        The added condition will have the form `property == value`.
 
-    :param ref_dict: The dictionary to construct a predicate format string from.
-    :type ref_dict: dict
-    :return: The resulting predicate format string.
-    :rtype: str
+        :param property: A property of an object to check the condition against
+        :type property: str
+        :param value: The target value of the condition
+        :type value: Any
 
-    .. versionadded:: 0.0.2
-    """
-    predicate_format = ""
-    for pair in ref_list:
-        key = pair[0]
-        value = pair[1]
-        if isinstance(value, list) or isinstance(value, tuple):
-            if value[0] == ">":
-                predicate_format += f"({key} > {value[1]}) ||"
-            elif value[0] == "<":
-                predicate_format += f"({key} < {value[1]}) ||"
-            elif value[0] == "!":
-                predicate_format += f"({key} != {value[1]}) ||"
-            elif value[0].lower() == "contains":
-                predicate_format += f"({key} CONTAINS '{value[1]}') ||"
-            elif value[0].lower() == "like":
-                predicate_format += f"({key} LIKE '{value[1]}') ||"
-            elif value[0].lower() == "matches":
-                predicate_format += f"({key} MATCHES '{value[1]}') ||"
-            elif value[0].lower() == "beginswith":
-                predicate_format += f"({key} BEGINSWITH '{value[1]}') ||"
-            elif value[0].lower() == "endswith":
-                predicate_format += f"({key} ENDSWITH '{value[1]}') ||"
-        else:
-            if isinstance(value, str):
-                value = value.replace("'", "\\'")
-            predicate_format += f"({key} = {value}) ||"
-    return predicate_format[:-3]
+        .. versionadded:: 0.0.4
+        """
+        self.keys.append(property)
+        self.operators.append("==")
+        self.values.append(value)
+
+    def insert_eq_condition(self, index: int, property: str, value: Any):
+        """Inserts an `==` condition to the predicate format at the desired location, specified by index.
+
+        The added condition will have the form `property == value`.
+
+        :param property: A property of an object to check the condition against
+        :type property: str
+        :param value: The target value of the condition
+        :type value: Any
+
+        .. versionadded:: 0.0.4
+        """
+        self.keys.insert(index, property)
+        self.operators.insert(index, "==")
+        self.values.insert(index, value)
+
+    # NOT EQUAL
+    def add_neq_condition(self, property: str, value: Any):
+        """Appends a `!=` condition to the end of the predicate format.
+
+        The added condition will have the form `property != value`.
+
+        :param property: A property of an object to check the condition against
+        :type property: str
+        :param value: The target value of the condition
+        :type value: Any
+
+        .. versionadded:: 0.0.4
+        """
+        self.keys.append(property)
+        self.operators.append("!=")
+        self.values.append(value)
+
+    def insert_neq_condition(self, index: int, property: str, value: Any):
+        """Inserts a `!=` condition to the predicate format at the desired location, specified by index.
+
+        The added condition will have the form `property != value`.
+
+        :param property: A property of an object to check the condition against
+        :type property: str
+        :param value: The target value of the condition
+        :type value: Any
+
+        .. versionadded:: 0.0.4
+        """
+        self.keys.insert(index, property)
+        self.operators.insert(index, "!=")
+        self.values.insert(index, value)
+
+    # GREATER THAN OR EQUAL
+    def add_geq_condition(self, property: str, value: Any):
+        """Appends a `>=` condition to the end of the predicate format.
+
+        The added condition will have the form `property >= value`.
+
+        :param property: A property of an object to check the condition against
+        :type property: str
+        :param value: The target value of the condition
+        :type value: Any
+
+        .. versionadded:: 0.0.4
+        """
+        self.keys.append(property)
+        self.operators.append(">=")
+        self.values.append(value)
+
+    def insert_geq_condition(self, index: int, property: str, value: Any):
+        """Inserts a `>=` condition to the predicate format at the desired location, specified by index.
+
+        The added condition will have the form `property >= value`.
+
+        :param property: A property of an object to check the condition against
+        :type property: str
+        :param value: The target value of the condition
+        :type value: Any
+
+        .. versionadded:: 0.0.4
+        """
+        self.keys.insert(index, property)
+        self.operators.insert(index, ">=")
+        self.values.insert(index, value)
+
+    # LESS THAN OR EQUAL
+    def add_leq_condition(self, property: str, value: Any):
+        """Appends a `<=` condition to the end of the predicate format.
+
+        The added condition will have the form `property <= value`.
+
+        :param property: A property of an object to check the condition against
+        :type property: str
+        :param value: The target value of the condition
+        :type value: Any
+
+        .. versionadded:: 0.0.4
+        """
+        self.keys.append(property)
+        self.operators.append("<=")
+        self.values.append(value)
+
+    def insert_leq_condition(self, index: int, property: str, value: Any):
+        """Inserts a `<=` condition to the predicate format at the desired location, specified by index.
+
+        The added condition will have the form `property <= value`.
+
+        :param property: A property of an object to check the condition against
+        :type property: str
+        :param value: The target value of the condition
+        :type value: Any
+
+        .. versionadded:: 0.0.4
+        """
+        self.keys.insert(index, property)
+        self.operators.insert(index, "<=")
+        self.values.insert(index, value)
+
+    # GREATER THAN
+    def add_gt_condition(self, property: str, value: Any):
+        """Appends a `>` condition to the end of the predicate format.
+
+        The added condition will have the form `property > value`.
+
+        :param property: A property of an object to check the condition against
+        :type property: str
+        :param value: The target value of the condition
+        :type value: Any
+
+        .. versionadded:: 0.0.4
+        """
+        self.keys.append(property)
+        self.operators.append(">")
+        self.values.append(value)
+
+    def insert_gt_condition(self, index: int, property: str, value: Any):
+        """Inserts a `>` condition to the predicate format at the desired location, specified by index.
+
+        The added condition will have the form `property > value`.
+
+        :param property: A property of an object to check the condition against
+        :type property: str
+        :param value: The target value of the condition
+        :type value: Any
+
+        .. versionadded:: 0.0.4
+        """
+        self.keys.insert(index, property)
+        self.operators.insert(index, ">")
+        self.values.insert(index, value)
+
+    # LESS THAN
+    def add_lt_condition(self, property: str, value: Any):
+        """Appends a `<` condition to the end of the predicate format.
+
+        The added condition will have the form `property < value`.
+
+        :param property: A property of an object to check the condition against
+        :type property: str
+        :param value: The target value of the condition
+        :type value: Any
+
+        .. versionadded:: 0.0.4
+        """
+        self.keys.append(property)
+        self.operators.append("<")
+        self.values.append(value)
+
+    def insert_lt_condition(self, index: int, property: str, value: Any):
+        """Inserts a `<` condition to the predicate format at the desired location, specified by index.
+
+        The added condition will have the form `property < value`.
+
+        :param property: A property of an object to check the condition against
+        :type property: str
+        :param value: The target value of the condition
+        :type value: Any
+
+        .. versionadded:: 0.0.4
+        """
+        self.keys.insert(index, property)
+        self.operators.insert(index, "<")
+        self.values.insert(index, value)
+
+    # BETWEEN
+    def add_between_condition(self, property: str, value1: Any, value2: Any):
+        """Appends a `BETWEEN` condition to the end of the predicate format.
+
+        The added condition will have the form `property BETWEEN [value1, value2]`.
+
+        :param property: A property of an object to check the condition against
+        :type property: str
+        :param value: The target value of the condition
+        :type value: Any
+
+        .. versionadded:: 0.0.4
+        """
+        self.keys.append(property)
+        self.operators.append("BETWEEN")
+        self.values.append([value1, value2])
+
+    def insert_between_condition(self, index: int, property: str, value1: Any, value2: Any):
+        """Inserts a `BETWEEN` condition to the predicate format at the desired location, specified by index.
+
+        The added condition will have the form `property BETWEEN [value1, value2]`.
+
+        :param property: A property of an object to check the condition against
+        :type property: str
+        :param value: The target value of the condition
+        :type value: Any
+
+        .. versionadded:: 0.0.4
+        """
+        self.keys.insert(index, property)
+        self.operators.insert(index, "BETWEEN")
+        self.values.insert(index, [value1, value2])
+
+    # BEGINSWITH
+    def add_begins_with_condition(self, property: str, value: Any):
+        """Appends a `BEGINSWITH` condition to the end of the predicate format.
+
+        The added condition will have the form `property BEGINSWITH value`.
+
+        :param property: A property of an object to check the condition against
+        :type property: str
+        :param value: The target value of the condition
+        :type value: Any
+
+        .. versionadded:: 0.0.4
+        """
+        self.keys.append(property)
+        self.operators.append("BEGINSWITH")
+        self.values.append(value)
+
+    def insert_begins_with_condition(self, index: int, property: str, value: Any):
+        """Inserts a `BEGINSWITH` condition to the predicate format at the desired location, specified by index.
+
+        The added condition will have the form `property BEGINSWITH value`.
+
+        :param property: A property of an object to check the condition against
+        :type property: str
+        :param value: The target value of the condition
+        :type value: Any
+
+        .. versionadded:: 0.0.4
+        """
+        self.keys.insert(index, property)
+        self.operators.insert(index, "BEGINSWITH")
+        self.values.insert(index, value)
+
+    # ENDSWITH
+    def add_end_with_condition(self, property: str, value: Any):
+        """Appends a `ENDSWITH` condition to the end of the predicate format.
+
+        The added condition will have the form `property ENDSWITH value`.
+
+        :param property: A property of an object to check the condition against
+        :type property: str
+        :param value: The target value of the condition
+        :type value: Any
+
+        .. versionadded:: 0.0.4
+        """
+        self.keys.append(property)
+        self.operators.append("ENDSWITH")
+        self.values.append(value)
+
+    def insert_ends_with_condition(self, index: int, property: str, value: Any):
+        """Inserts a `ENDSWITH` condition to the predicate format at the desired location, specified by index.
+
+        The added condition will have the form `property ENDSWITH value`.
+
+        :param property: A property of an object to check the condition against
+        :type property: str
+        :param value: The target value of the condition
+        :type value: Any
+
+        .. versionadded:: 0.0.4
+        """
+        self.keys.insert(index, property)
+        self.operators.insert(index, "ENDSWITH")
+        self.values.insert(index, value)
+
+    # CONTAINS
+    def add_contains_condition(self, property: str, value: Any):
+        """Appends a `CONTAINS` condition to the end of the predicate format.
+
+        The added condition will have the form `property CONTAINS value`.
+
+        :param property: A property of an object to check the condition against
+        :type property: str
+        :param value: The target value of the condition
+        :type value: Any
+
+        .. versionadded:: 0.0.4
+        """
+        self.keys.append(property)
+        self.operators.append("CONTAINS")
+        self.values.append(value)
+
+    def insert_contains_condition(self, index: int, property: str, value: Any):
+        """Inserts a `CONTAINS` condition to the predicate format at the desired location, specified by index.
+
+        The added condition will have the form `property CONTAINS value`.
+
+        :param property: A property of an object to check the condition against
+        :type property: str
+        :param value: The target value of the condition
+        :type value: Any
+
+        .. versionadded:: 0.0.4
+        """
+        self.keys.insert(index, property)
+        self.operators.insert(index, "CONTAINS")
+        self.values.insert(index, value)
+
+    # MATCHES
+    def add_match_condition(self, property: str, value: Any):
+        """Appends a `MATCHES` condition to the end of the predicate format.
+
+        The added condition will have the form `property MATCHES value`.
+
+        :param property: A property of an object to check the condition against
+        :type property: str
+        :param value: The target value of the condition
+        :type value: Any
+
+        .. versionadded:: 0.0.4
+        """
+        self.keys.append(property)
+        self.operators.append("MATCHES")
+        self.values.append(value)
+
+    def insert_match_condition(self, index: int, property: str, value: Any):
+        """Inserts a `MATCHES` condition to the predicate format at the desired location, specified by index.
+
+        The added condition will have the form `property MATCHES value`.
+
+        :param property: A property of an object to check the condition against
+        :type property: str
+        :param value: The target value of the condition
+        :type value: Any
+
+        .. versionadded:: 0.0.4
+        """
+        self.keys.insert(index, property)
+        self.operators.insert(index, "MATCHES")
+        self.values.insert(index, value)
 
 ### UI Components
 class XAUIElement(XAHasElements):
@@ -1277,7 +1620,7 @@ class XAWindow(XAUIElement):
         .. versionadded:: 0.0.1
         """
         if hasattr(self.xa_elem.properties(), "miniaturized"):
-            self.xa_elem._setValue_forKey_(True, "miniaturized")
+            self.xa_elem.setValue_forKey_(True, "miniaturized")
         else:
             close_button = self.button({"subrole": "AXMinimizeButton"})
             close_button.click()
@@ -1291,11 +1634,12 @@ class XAWindow(XAUIElement):
 
         .. versionadded:: 0.0.1
         """
-        process_predicate = AppKit.NSPredicate.predicateWithFormat_(xa_predicate_format({"name": "Dock"}))
-        dock_process = self.xa_sevt.applicationProcesses().filteredArrayUsingPredicate_(process_predicate)[0]
+        ls = self.xa_sevt.applicationProcesses()
+        dock_process = XAPredicate.evaluate_with_format(ls, "name == 'Dock'")[0]
 
-        app_predicate = AppKit.NSPredicate.predicateWithFormat_(xa_predicate_format({"name": self.xa_prnt.xa_prnt.element.localizedName()}))
-        app_icon = dock_process.lists()[0].UIElements().filteredArrayUsingPredicate_(app_predicate)[0]
+        ls = dock_process.lists()[0].UIElements()
+        name = self.xa_prnt.xa_prnt.xa_elem.localizedName()
+        app_icon = XAPredicate.evaluate_with_format(ls, f"name == '{name}'")[0]
         app_icon.actions()[0].perform()
         return self
 
@@ -1336,7 +1680,7 @@ class XAButton(XAUIElement):
         super().__init__(properties)
 
     def click(self):
-        self.action({"name": "AXPress"})[0].perform()
+        self.actions({"name": "AXPress"})[0].perform()
         return self
 
     def press(self):
@@ -1634,6 +1978,14 @@ class XATextDocument(XAHasParagraphs, XAHasWords, XAHasCharacters, XAHasAttribut
         self.set_property("text", old_text + text)
         return self
 
+
+class XATextList(XAList):
+    """A wrapper around lists of text objects that employs fast enumeration techniques.
+
+    .. versionadded:: 0.0.4
+    """
+    def __init__(self, properties: dict, filter: Union[dict, None] = None):
+        super().__init__(properties, XAText, filter)
 
 class XAText(XAHasParagraphs, XAHasWords, XAHasCharacters, XAHasAttributeRuns, XAHasAttachments):
     """A class for managing and interacting with the text of documents.

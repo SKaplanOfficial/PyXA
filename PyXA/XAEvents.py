@@ -1,12 +1,13 @@
 from time import sleep
 from typing import Any, List
+from aem import Application
 from click import command
 import objc
 import CoreServices
 import ApplicationServices
 import struct
 
-from AppKit import NSURL
+from AppKit import NSURL, NSApp
 import AppKit
 import Quartz
 
@@ -1030,6 +1031,27 @@ errAEEventNotPermitted = -1743
 formPropertyID = OSType('prop')
 formName       = OSType('name')
 
+def event_from_int(i: int) -> ApplicationServices.NSAppleEventDescriptor:
+    """Creates an Apple Event descriptor of event type typeSInt32 that stores the provided integer.
+
+    .. versionadded:: 0.0.4
+    """
+    return ApplicationServices.NSAppleEventDescriptor.descriptorWithInt32_(i)
+
+def event_from_str(s: str) -> ApplicationServices.NSAppleEventDescriptor:
+    """Creates an Apple Event descriptor of event type typeUnicodeText that stores the provided string.
+
+    .. versionadded:: 0.0.4
+    """
+    return ApplicationServices.NSAppleEventDescriptor.descriptorWithString_(s)
+
+def event_from_bool(b: bool) -> ApplicationServices.NSAppleEventDescriptor:
+    """Creates an Apple Event descriptor of event type typeBoolean that stores the provided boolean value.
+
+    .. versionadded:: 0.0.4
+    """
+    return ApplicationServices.NSAppleEventDescriptor.descriptorWithBoolean_(b)
+
 def xaevent_activate_app_by_bundle_id(paths: List[str]):
     send_event_to_bundle(kAEMiscStandards, kAEActivate, "com.apple.MobileSMS")
 
@@ -1102,21 +1124,40 @@ def get_selection(bundle_id: str):
     # openEvent.setParamDescriptor_forKeyword_(doc, keyAEObjectClass)
 
     record = ApplicationServices.NSAppleEventDescriptor.alloc().initRecordDescriptor()
-    prop1 = ApplicationServices.NSAppleEventDescriptor.descriptorWithTypeCode_(cProperty)
-    prop2 = ApplicationServices.NSAppleEventDescriptor.descriptorWithTypeCode_(cProperty)
-    sele = ApplicationServices.NSAppleEventDescriptor.descriptorWithTypeCode_(pSelection)
+    prop1 = ApplicationServices.NSAppleEventDescriptor.descriptorWithTypeCode_(OSType('indx'))
+    prop2 = ApplicationServices.NSAppleEventDescriptor.descriptorWithTypeCode_(OSType('cwin'))
+
+    sele = ApplicationServices.NSAppleEventDescriptor.alloc().initWithDescriptorType_data_(OSType('abso'), bytes(' lla'.encode("UTF-8")))
+
     nul = ApplicationServices.NSAppleEventDescriptor.nullDescriptor()
-    record.setParamDescriptor_forKeyword_(prop1, OSType('form'))
-    record.setParamDescriptor_forKeyword_(prop2, OSType('want'))
-    record.setParamDescriptor_forKeyword_(sele, OSType('seld'))
-    record.setParamDescriptor_forKeyword_(nul, OSType('from'))
+
+    record.setDescriptor_forKeyword_(prop1, OSType('form'))
+    record.setDescriptor_forKeyword_(prop2, OSType('want'))
+    record.setDescriptor_forKeyword_(sele, OSType('seld'))
+    record.setDescriptor_forKeyword_(nul, OSType('from'))
+
+    # print(record)
+
+    # print(bytes.fromhex('206C6C61').decode('utf-8'))
 
     # test = ApplicationServices.NSScriptObjectSpecifier.objectSpecifierWithDescriptor_(record)
     # print(test)
 
     # obj = ApplicationServices.NSAppleEventDescriptor.descriptorWithTypeCode_(typeObjectSpecifier)
 
-    obj = record.coerceToDescriptorType_(typeObjectSpecifier)
+    #obj = record.coerceToDescriptorType_(typeObjectSpecifier)
+    obj = ApplicationServices.NSAppleEventDescriptor.descriptorWithTypeCode_(typeObjectSpecifier)
+    # obj.setDescriptor_forKeyword_(prop1, OSType('form'))
+    # obj.setDescriptor_forKeyword_(prop2, OSType('want'))
+    # obj.setDescriptor_forKeyword_(sele, OSType('seld'))
+    # obj.setDescriptor_forKeyword_(nul, OSType('from'))
+
+    # app_desc = ApplicationServices.NSScriptClassDescription.classDescriptionForClass_(NSapp.__class__)
+    # test = ApplicationServices.NSScriptObjectSpecifier.alloc().initWithContainerClassDescription_containerSpecifier_key_(record, "windows", )
+    # print(test)
+    # print(obj)
+
+    test = ApplicationServices.NSAppleEventDescriptor.alloc().initWithAEDescNoCopy_(record.aeDesc())
 
     openEvent.setParamDescriptor_forKeyword_(obj, keyDirectObject)
 

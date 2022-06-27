@@ -292,7 +292,7 @@ class XATextEditWindow(XABaseScriptable.XASBPrintable):
 class XATextEditDocumentList(XABase.XAList):
     """A wrapper around lists of documents that employs fast enumeration techniques.
 
-    All properties of documents can be called as methods on the wrapped list, returning a list containing each documents's value for the property.
+    All properties of documents can be called as methods on the wrapped list, returning a list containing each document's value for the property.
 
     .. versionadded:: 0.0.3
     """

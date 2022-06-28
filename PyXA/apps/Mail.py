@@ -5,15 +5,11 @@ Control the macOS Mail application using JXA-like syntax.
 
 from datetime import datetime
 from enum import Enum
-from pickletools import int4
-from pprint import pprint
 from typing import List, Tuple, Union
-from AppKit import NSFileManager, NSURL, NSSet
-
-from AppKit import NSPredicate, NSMutableArray, NSArray
+from AppKit import NSURL
 
 from PyXA import XABase
-from PyXA.XABase import OSType, XAApplication, unOSType
+from PyXA.XABase import OSType, unOSType
 from PyXA import XABaseScriptable
 from PyXA.XAEvents import event_from_str
 

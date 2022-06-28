@@ -135,12 +135,11 @@ class XAFinderApplication(XABaseScriptable.XASBApplication):
         self.xa_wcls = XAFinderWindow
         self.xa_fmgr = NSFileManager.defaultManager()
 
-        self.name: str = self.xa_scel.name() #: The name of Finder
-        self.visible: bool = self.xa_scel.visible() #: Whether Finder is currently visible
-        self.frontmost: bool = self.xa_scel.frontmost() #: Whether Finder is the active application
-        self.product_version: str = self.xa_scel.productVersion() #: The system software version
-        self.version: str = self.xa_scel.version() #: The version of Finder
-
+        self.name: str #: The name of Finder
+        self.visible: bool #: Whether Finder is currently visible
+        self.frontmost: bool #: Whether Finder is the active application
+        self.product_version: str #: The system software version
+        self.version: str #: The version of Finder
         self.selection: XAFinderItemList #: The currently selected items in Finder
         self.insertion_location: XAFinderFolder #: The container in which a new folder would be created in by default in the frontmost window
         self.startup_disk: XAFinderDisk #: The startup disk for this system
@@ -150,6 +149,26 @@ class XAFinderApplication(XABaseScriptable.XASBApplication):
         self.computer_container #: The computer directory
         self.finder_preferences #: Preferences for Finder as a whole
         self.desktop_picture: XAFinderFile #: The desktop picture of the main monitor
+
+    @property
+    def name(self) -> str:
+        return self.xa_scel.name()
+
+    @property
+    def visible(self) -> bool:
+        return self.xa_scel.visible()
+
+    @property
+    def frontmost(self) -> bool:
+        return self.xa_scel.frontmost()
+
+    @property
+    def product_version(self) -> str:
+        return self.xa_scel.productVersion()
+
+    @property
+    def version(self) -> str:
+        return self.xa_scel.version()
 
     @property
     def selection(self) -> 'XAFinderItemList':
@@ -864,7 +883,10 @@ class XAFinderItemList(XABase.XAList):
     def by_information_window(self, information_window: 'XAFinderInformationWindow') -> 'XAFinderItem':
         return self.by_property("informationWindow", information_window.xa_elem)
 
-class XAFinderItem(XABase.XARevealable, XABase.XASelectable, XABase.XADeletable):
+    def __repr__(self):
+        return str(self.name())
+
+class XAFinderItem(XABase.XASelectable, XABase.XADeletable):
     """A generic class with methods common to the various item classes of Finder.
 
     .. seealso:: :class:`XAFinderContainer`, :class:`XAFinderFile`
@@ -1026,6 +1048,17 @@ class XAFinderItem(XABase.XARevealable, XABase.XASelectable, XABase.XADeletable)
         window_obj = self.xa_elem.informationWindow()
         return self._new_element(window_obj, XAFinderInformationWindow)
 
+    def reveal(self) -> 'XAFinderItem':
+        """Reveals the item in the frontmost Finder window.
+
+        :return: A reference to the item object
+        :rtype: XAFinderItem
+
+        .. versionadded:: 0.0.4
+        """
+        self.xa_elem.reveal()
+        return self
+
     def copy(self) -> 'XAFinderItem':
         """Copies the item to the clipboard.
 
@@ -1112,34 +1145,34 @@ class XAFinderContainerList(XAFinderItemList):
         return self._new_element(ls, XAFinderFinderWindowList)
 
     def items(self) -> XAFinderItemList:
-        return self._new_element(self.xa_elem.arrayByApplyingSelector_("items"))
+        return self._new_element(self.xa_elem.arrayByApplyingSelector_("items"), XAFinderItemList)
 
     def containers(self) -> 'XAFinderContainerList':
-        return self._new_element(self.xa_elem.arrayByApplyingSelector_("containers"))
+        return self._new_element(self.xa_elem.arrayByApplyingSelector_("containers"), XAFinderContainerList)
 
     def folders(self) -> 'XAFinderFolderList':
-        return self._new_element(self.xa_elem.arrayByApplyingSelector_("folders"))
+        return self._new_element(self.xa_elem.arrayByApplyingSelector_("folders"), XAFinderFolderList)
 
     def files(self) -> 'XAFinderFileList':
-        return self._new_element(self.xa_elem.arrayByApplyingSelector_("files"))
+        return self._new_element(self.xa_elem.arrayByApplyingSelector_("files"), XAFinderFileList)
 
     def alias_files(self) -> 'XAFinderAliasFileList':
-        return self._new_element(self.xa_elem.arrayByApplyingSelector_("aliasFiles"))
+        return self._new_element(self.xa_elem.arrayByApplyingSelector_("aliasFiles"), XAFinderAliasFileList)
 
     def application_files(self) -> 'XAFinderApplicationFileList':
-        return self._new_element(self.xa_elem.arrayByApplyingSelector_("applicationFiles"))
+        return self._new_element(self.xa_elem.arrayByApplyingSelector_("applicationFiles"), XAFinderApplicationFileList)
 
     def document_files(self) -> 'XAFinderDocumentFileList':
-        return self._new_element(self.xa_elem.arrayByApplyingSelector_("documentFiles"))
+        return self._new_element(self.xa_elem.arrayByApplyingSelector_("documentFiles"), XAFinderDocumentFileList)
 
     def internet_location_files(self) -> 'XAFinderInternetLocationFileList':
-        return self._new_element(self.xa_elem.arrayByApplyingSelector_("internetLocationFiles"))
+        return self._new_element(self.xa_elem.arrayByApplyingSelector_("internetLocationFiles"), XAFinderInternetLocationFileList)
 
     def clippings(self) -> 'XAFinderClippingList':
-        return self._new_element(self.xa_elem.arrayByApplyingSelector_("clippings"))
+        return self._new_element(self.xa_elem.arrayByApplyingSelector_("clippings"), XAFinderClippingList)
 
     def packages(self) -> 'XAFinderPackageList':
-        return self._new_element(self.xa_elem.arrayByApplyingSelector_("packages"))
+        return self._new_element(self.xa_elem.arrayByApplyingSelector_("packages"), XAFinderPackageList)
 
     def by_entire_contents(self, entire_contents: XAFinderItemList) -> 'XAFinderContainer':
         return self.by_property("entireContents", entire_contents.xa_elem)
@@ -1174,70 +1207,70 @@ class XAFinderContainer(XAFinderItem, XABase.XAHasElements):
 
         .. versionadded:: 0.0.3
         """
-        return self._new_element(self.xa_scel.items(), XAFinderItemList, filter)
+        return self._new_element(self.xa_elem.items(), XAFinderItemList, filter)
 
     def containers(self, filter: dict = None) -> 'XAFinderContainerList':
         """Returns a list of containers matching the filter.
 
         .. versionadded:: 0.0.3
         """
-        return self._new_element(self.xa_scel.containers(), XAFinderContainerList, filter)
+        return self._new_element(self.xa_elem.containers(), XAFinderContainerList, filter)
 
     def folders(self, filter: dict = None) -> 'XAFinderFolderList':
         """Returns a list of folders matching the filter.
 
         .. versionadded:: 0.0.1
         """
-        return self._new_element(self.xa_scel.folders(), XAFinderFolderList, filter)
+        return self._new_element(self.xa_elem.folders(), XAFinderFolderList, filter)
 
     def files(self, filter: dict = None) -> 'XAFinderFileList':
         """Returns a list of files matching the filter.
 
         .. versionadded:: 0.0.1
         """
-        return self._new_element(self.xa_scel.files(), XAFinderFileList, filter)
+        return self._new_element(self.xa_elem.files(), XAFinderFileList, filter)
 
     def alias_files(self, filter: dict = None) -> 'XAFinderAliasFileList':
         """Returns a list of alias files matching the filter.
 
         .. versionadded:: 0.0.3
         """
-        return self._new_element(self.xa_scel.aliasFiles(), XAFinderAliasFileList, filter)
+        return self._new_element(self.xa_elem.aliasFiles(), XAFinderAliasFileList, filter)
 
     def application_files(self, filter: dict = None) -> 'XAFinderApplicationFileList':
         """Returns a list of application files matching the filter.
 
         .. versionadded:: 0.0.3
         """
-        return self._new_element(self.xa_scel.applicationFiles(), XAFinderApplicationFileList, filter)
+        return self._new_element(self.xa_elem.applicationFiles(), XAFinderApplicationFileList, filter)
 
     def document_files(self, filter: dict = None) -> 'XAFinderDocumentFileList':
         """Returns a list of document files matching the filter.
 
         .. versionadded:: 0.0.3
         """
-        return self._new_element(self.xa_scel.documentFiles(), XAFinderDocumentFileList, filter)
+        return self._new_element(self.xa_elem.documentFiles(), XAFinderDocumentFileList, filter)
 
     def internet_location_files(self, filter: dict = None) -> 'XAFinderInternetLocationFileList':
         """Returns a list of internet location files matching the filter.
 
         .. versionadded:: 0.0.3
         """
-        return self._new_element(self.xa_scel.internetLocationFiles(), XAFinderInternetLocationFileList, filter)
+        return self._new_element(self.xa_elem.internetLocationFiles(), XAFinderInternetLocationFileList, filter)
 
     def clippings(self, filter: dict = None) -> 'XAFinderClippingList':
         """Returns a list of clippings matching the filter.
 
         .. versionadded:: 0.0.3
         """
-        return self._new_element(self.xa_scel.clippings(), XAFinderClippingList, filter)
+        return self._new_element(self.xa_elem.clippings(), XAFinderClippingList, filter)
 
     def packages(self, filter: dict = None) -> 'XAFinderPackageList':
         """Returns a list of packages matching the filter.
 
         .. versionadded:: 0.0.3
         """
-        return self._new_element(self.xa_scel.packages(), XAFinderPackageList, filter)
+        return self._new_element(self.xa_elem.packages(), XAFinderPackageList, filter)
 
 
 class XAFinderDiskList(XAFinderContainerList):

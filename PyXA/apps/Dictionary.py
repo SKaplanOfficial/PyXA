@@ -3,15 +3,9 @@
 Control the macOS Dictionary application using JXA-like syntax.
 """
 
-from typing import List, Union
-from AppKit import NSFileManager, NSURL, NSSet
-
-from AppKit import NSPredicate, NSMutableArray
-
 from CoreServices import DCSCopyTextDefinition
 
 from PyXA import XABase
-from PyXA import XABaseScriptable
 
 class XADictionaryApplication(XABase.XAApplication):
     """A class for managing and interacting with Dictionary.app.

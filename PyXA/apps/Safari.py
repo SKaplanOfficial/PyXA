@@ -199,8 +199,12 @@ class XASafariApplication(XABaseScriptable.XASBApplication, XABaseScriptable.XAS
         """
         self.xa_scel.emailContentsOf_(item.xa_elem)
 
-    def documents(self, filter: dict = None) -> List['XASafariDocument']:
+    def documents(self, filter: dict = None) -> 'XASafariDocumentList':
         """Returns a list of documents matching the given filter.
+
+        .. versionchanged:: 0.0.4
+
+           Now returns an object of :class:`XASafariDocumentList` instead of a default list.
 
         .. versionadded:: 0.0.1
         """
@@ -240,8 +244,6 @@ class XASafariApplication(XABaseScriptable.XASBApplication, XABaseScriptable.XAS
             return self._new_element(obj, XASafariDocument)
         elif specifier == "tab":
             return self._new_element(obj, XASafariTab)
-        elif specifier == "window":
-            return self._new_element(obj, XASafariWindow)
 
 
 class XASafariWindow(XABaseScriptable.XASBWindow, XABaseScriptable.XASBSaveable, XABaseScriptable.XASBCloseable, XABaseScriptable.XASBPrintable, XABase.XAHasElements):
@@ -317,8 +319,12 @@ class XASafariWindow(XABaseScriptable.XASBWindow, XABaseScriptable.XASBSaveable,
     def current_tab(self) -> 'XASafariTab':
         return self._new_element(self.xa_scel.currentTab(), XASafariTab)
 
-    def tabs(self, filter: dict = None) -> List['XASafariTab']:
+    def tabs(self, filter: dict = None) -> 'XASafariTabList':
         """Returns a list of tabs matching the given filter.
+
+        .. versionchanged:: 0.0.4
+
+           Now returns an object of :class:`XASafariTabList` instead of a default list.
 
         .. versionadded:: 0.0.1
         """

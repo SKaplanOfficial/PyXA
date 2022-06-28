@@ -130,6 +130,10 @@ class XATextEditApplication(XABaseScriptable.XASBApplication, XABase.XACanConstr
         , T, h, i, s, , i, s, , n, o, t, e, , 3, 
         ]
 
+        .. versionchanged:: 0.0.4
+
+           Now returns an object of :class:`XATextEditDocumentList` instead of a default list.
+
         .. versionadded:: 0.0.1
         """
         return self._new_element(self.xa_scel.documents(), XATextEditDocumentList, filter)

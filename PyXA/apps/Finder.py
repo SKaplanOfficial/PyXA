@@ -1121,6 +1121,13 @@ class XAFinderItem(XABase.XASelectable, XABase.XADeletable):
                 value = NSValue.valueWithRect_(NSMakeRect(x, y, w, h))
         super().set_property(property_name, value)
 
+    def delete(self):
+        """Permanently deletes the item.
+
+        .. versionadded:: 0.0.4
+        """
+        self.xa_elem.delete()
+
     def __repr__(self):
         return "<" + str(type(self)) + self.name + ">"
 

@@ -747,6 +747,13 @@ class XAMailSignature(XABaseScriptable.XASBObject):
     def name(self) -> str:
         return self.xa_elem.name()
 
+    def delete(self):
+        """Permanently deletes the signature.
+
+        .. versionadded:: 0.0.4
+        """
+        self.xa_elem.delete()
+
 
 class XAMailAccountList(XABase.XAList):
     """A wrapper around lists of mail accounts that employs fast enumeration techniques.
@@ -1307,6 +1314,13 @@ class XAMailDocument(XABaseScriptable.XASBObject):
     def file(self) -> str:
         return self.xa_elem.file()
 
+    def delete(self):
+        """Permanently deletes the document.
+
+        .. versionadded:: 0.0.4
+        """
+        self.xa_elem.delete()
+
 
 class XAMailboxList(XABase.XAList):
     """A wrapper around lists of mailboxes that employs fast enumeration techniques.
@@ -1371,6 +1385,13 @@ class XAMailbox(XABaseScriptable.XASBObject):
     @property
     def container(self) -> 'XAMailbox':
         return self._new_element(self.xa_elem.container(), XAMailbox)
+
+    def delete(self):
+        """Permanently deletes the mailboxs.
+
+        .. versionadded:: 0.0.4
+        """
+        self.xa_elem.delete()
 
 
 class XAMailContainerList(XAMailboxList):
@@ -1668,6 +1689,13 @@ class XAMailMessage(XABaseScriptable.XASBObject):
         msg = self.xa_elem.replyOpeningWindow_replyToAll_(open_window, reply_all)
         return self._new_element(msg, XAMailOutgoingMessage)
 
+    def delete(self):
+        """Permanently deletes the message.
+
+        .. versionadded:: 0.0.4
+        """
+        self.xa_elem.delete()
+
     def bcc_recipients(self, filter: dict = None) -> 'XAMailBccRecipientList':
         """Returns a list of Bcc recipients matching the filter.
 
@@ -1806,6 +1834,13 @@ class XAMailOutgoingMessage(XABaseScriptable.XASBObject):
 
     def close(self, save: XAMailApplication.SaveOption = XAMailApplication.SaveOption.YES):
         self.xa_elem.closeSaving_savingIn_(save.value, None)
+
+    def delete(self):
+        """Permanently deletes the outgoing message.
+
+        .. versionadded:: 0.0.4
+        """
+        self.xa_elem.delete()
 
 
 class XAMailRecipientList(XABase.XAList):
@@ -2021,6 +2056,13 @@ class XAMailAttachment(XABaseScriptable.XASBObject):
     @property
     def id(self) -> str:
         return self.xa_elem.id()
+
+    def delete(self):
+        """Permanently deletes the attachment.
+
+        .. versionadded:: 0.0.4
+        """
+        self.xa_elem.delete()
 
 
 class XAMailRuleList(XABase.XAList):
@@ -2264,13 +2306,19 @@ class XAMailRule(XABaseScriptable.XASBObject):
     def stop_evaluating_rule(self) -> bool:
         return self.xa_elem.stopEvaluatingRule()
 
+    def delete(self):
+        """Permanently deletes the rule.
+
+        .. versionadded:: 0.0.4
+        """
+        self.xa_elem.delete()
+
     def rule_conditions(self, filter: dict = None) -> 'XAMailRuleConditionList':
         """Returns a list of rule conditions matching the filter.
 
         .. versionadded:: 0.0.4
         """
         return self._new_element(self.xa_elem.ruleConditions(), XAMailRuleConditionList, filter)
-
 
 class XAMailRuleConditionList(XABase.XAList):
     """A wrapper around lists of rule conditions that employs fast enumeration techniques.
@@ -2335,3 +2383,10 @@ class XAMailRuleCondition(XABaseScriptable.XASBObject):
     @property
     def rule_type(self) -> XAMailApplication.RuleType:
         return XAMailApplication.RuleType(OSType(self.xa_elem.ruleType().stringValue()))
+
+    def delete(self):
+        """Permanently deletes the rule condition.
+
+        .. versionadded:: 0.0.4
+        """
+        self.xa_elem.delete()

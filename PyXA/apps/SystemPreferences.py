@@ -48,7 +48,7 @@ class XASystemPreferencesApplication(XABaseScriptable.XASBApplication):
     def preferences_window(self) -> XABaseScriptable.XASBWindow:
         return self._new_element(self.xa_scel.preferencesWindow(), XABaseScriptable.XASBWindow)
 
-    def panes(self, filter: Union[dict, None] = None) -> List['XAPreferencePane']:
+    def panes(self, filter: Union[dict, None] = None) -> 'XAPreferencePaneList':
         """Returns a list of preference panes, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned preference panes will have, or None
@@ -69,6 +69,10 @@ class XASystemPreferencesApplication(XABaseScriptable.XASBApplication):
         >>> app = PyXA.application("System Preferences")
         >>> print(app.panes({"name": "Battery"}))
         <<class 'PyXA.apps.SystemPreferences.XAPreferencePaneList'>['Battery']>
+
+        .. versionchanged:: 0.0.4
+
+           Now returns an object of :class:`XAPreferencePaneList` instead of a default list.
 
         .. versionadded:: 0.0.2
         """
@@ -147,7 +151,7 @@ class XAPreferencePane(XABase.XAHasElements):
     def name(self) -> str:
         return self.xa_elem.name()
 
-    def anchors(self, filter: Union[dict, None] = None) -> List['XAPreferenceAnchor']:
+    def anchors(self, filter: Union[dict, None] = None) -> 'XAPreferenceAnchorList':
         """Returns a list of anchors, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned anchors will have, or None
@@ -162,6 +166,10 @@ class XAPreferencePane(XABase.XAHasElements):
         >>> pane = app.panes()[0]
         >>> print(pane.anchors())
         <<class 'PyXA.apps.SystemPreferences.XAPreferenceAnchorList'>['Accessibility_Shortcut', 'Seeing_Cursor', ...]>
+
+        .. versionchanged:: 0.0.4
+
+           Now returns an object of :class:`XAPreferenceAnchorList` instead of a default list.
 
         .. versionadded:: 0.0.2
         """

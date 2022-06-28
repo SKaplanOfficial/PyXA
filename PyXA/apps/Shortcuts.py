@@ -20,7 +20,7 @@ class XAShortcutsApplication(XABaseScriptable.XASBApplication):
     def run(self, shortcut: 'XAShortcut', input: Any = None) -> Any:
         return shortcut.run(input)
 
-    def folders(self, filter: dict = None) -> List['XAShortcutFolder']:
+    def folders(self, filter: dict = None) -> 'XAShortcutFolderList':
         """Returns a list of folders matching the given filter.
 
         :Example 1: Get all folders
@@ -39,11 +39,15 @@ class XAShortcutsApplication(XABaseScriptable.XASBApplication):
         >>> print(lengths)
         [4, 3, 2, 15, 12, ...]
 
+        .. versionchanged:: 0.0.4
+
+           Now returns an object of :class:`XAShortcutFolderList` instead of a default list.
+
         .. versionadded:: 0.0.2
         """
         return self._new_element(self.xa_scel.folders(), XAShortcutFolderList, filter)
 
-    def shortcuts(self, filter: dict = None) -> List['XAShortcut']:
+    def shortcuts(self, filter: dict = None) -> 'XAShortcutList':
         """Returns a list of shortcuts matching the given filter.
 
         :Example 1: Get all shortcuts
@@ -52,6 +56,10 @@ class XAShortcutsApplication(XABaseScriptable.XASBApplication):
         >>> app = PyXA.application("Shortcuts")
         >>> print(app.shortcuts())
         <<class 'PyXA.apps.Shortcuts.XAShortcutList'>['Combine Screenshots & Share', 'Travel plans', 'Paywall Bypasser via Facebook', 'Display Notification', 'Text Converter For iMessage', ...]>
+
+        .. versionchanged:: 0.0.4
+
+           Now returns an object of :class:`XAShortcutList` instead of a default list.
 
         .. versionadded:: 0.0.2
         """
@@ -108,7 +116,7 @@ class XAShortcutFolder(XABaseScriptable.XASBObject, XABase.XAHasAttachments):
         return self.xa_elem.name()
 
     # Shortcuts
-    def shortcuts(self, filter: dict = None) -> List['XAShortcut']:
+    def shortcuts(self, filter: dict = None) -> 'XAShortcutList':
         """Returns a list of shortcuts matching the given filter.
 
         :Example 1: Get all shortcuts in a folder
@@ -126,6 +134,10 @@ class XAShortcutFolder(XABaseScriptable.XASBObject, XABase.XAHasAttachments):
         >>> folder = app.folders()[0]
         >>> print(folder.shortcuts().color())
         [<<class 'PyXA.XABase.XAColor'>r=0.21521323919296265, g=0.7715266942977905, b=0.32515448331832886, a=0.0>, <<class 'PyXA.XABase.XAColor'>r=0.2379034161567688, g=0.3681696951389313, b=0.7627069354057312, a=0.0>, ...]>
+
+        .. versionchanged:: 0.0.4
+
+           Now returns an object of :class:`XAShortcutList` instead of a default list.
 
         .. versionadded:: 0.0.2
         """

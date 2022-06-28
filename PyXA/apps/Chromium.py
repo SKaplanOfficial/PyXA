@@ -54,7 +54,7 @@ class XAChromiumApplication(XABaseScriptable.XASBApplication):
         :return: A reference to the Chromium application object.
         :rtype: XAChromiumApplication
 
-        :Example:
+        :Example 1: Open a local or external URL
 
            >>> import PyXA
            >>> app = PyXA.application("Chromium")
@@ -88,6 +88,26 @@ class XAChromiumApplication(XABaseScriptable.XASBApplication):
         """
         return self._new_element(self.xa_scel.bookmarkFolders(), XAChromiumBookmarkFolderList, filter)
 
+    def make(self, specifier: str, properties: dict):
+        """Creates a new element of the given specifier class without adding it to any list.
+
+        Use :func:`XABase.XAList.push` to push the element onto a list.
+
+        :param specifier: The classname of the object to create
+        :type specifier: str
+        :param properties: The properties to give the object
+        :type properties: dict
+        :return: A PyXA wrapped form of the object
+        :rtype: XABase.XAObject
+
+        .. versionadded:: 0.0.4
+        """
+        obj = self.xa_scel.classForScriptingClass_(specifier).alloc().initWithProperties_(properties)
+
+        if specifier == "tab":
+            return self._new_element(obj, XAChromiumTab)
+
+    
 class XAChromiumWindow(XABaseScriptable.XASBWindow):
     """A class for managing and interacting with Chromium windows.
 
@@ -227,10 +247,10 @@ class XAChromiumTab(XABaseScriptable.XASBObject):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.id = None
-        self.title = None
-        self.url = None
-        self.loading = None
+        self.id: int
+        self.title: str
+        self.url: str
+        self.loading: bool
 
     @property
     def id(self) -> int:
@@ -312,6 +332,67 @@ class XAChromiumTab(XABaseScriptable.XASBObject):
     def execute(self, script: str) -> Any:
         return self.xa_elem.executeJavascript_(script)
 
+    def move_to(self, window: 'XAChromiumWindow') -> 'XAChromiumWindow':
+        """Moves the tab to the specified window. After, the tab will exist in only one location.
+
+        :param window: The window to move the tab to.
+        :type window: XASafariWindow
+        :return: A reference to the tab object.
+        :rtype: XASafariGeneric
+
+        :Example 1: Move the current tab to the second window
+
+        >>> import PyXA
+        >>> app = PyXA.application("Chromium")
+        >>> tab = app.front_window().active_tab
+        >>> window2 = app.window(1)
+        >>> tab.move_to(window2)
+
+        .. seealso:: :func:`duplicate_to`
+
+        .. versionadded:: 0.0.1
+        """
+        current = self.xa_elem.get()
+        properties = {"URL": self.url}
+        if isinstance(self.xa_prnt, XABase.XAList):
+            new_tab = self.xa_prnt.xa_prnt.xa_prnt.make("tab", properties)
+        else:
+            new_tab = self.xa_prnt.xa_prnt.make("tab", properties)
+        window.tabs().push(new_tab)
+        current.close()
+        return self
+
+    def duplicate_to(self, window: 'XAChromiumWindow') -> 'XAChromiumWindow':
+        """Duplicates the tab in the specified window. The tab will then exist in two locations.
+
+        :param window: The window to duplicate the tab in.
+        :type window: XASafariWindow
+        :return: A reference to the tab object.
+        :rtype: XASafariTab
+
+        :Example 1: Duplicate the current tab in the second window
+
+        >>> import PyXA
+        >>> app = PyXA.application("Chromium")
+        >>> tab = app.front_window().active_tab
+        >>> window2 = app.window(1)
+        >>> tab.duplicate_to(window2)
+
+        .. seealso:: :func:`move_to`
+
+        .. versionadded:: 0.0.1
+        """
+        properties = {"URL": self.url}
+
+        new_tab = None
+        print(self.xa_prnt)
+        if isinstance(self.xa_prnt, XABase.XAList):
+            new_tab = self.xa_prnt.xa_prnt.xa_prnt.make("tab", properties)
+        else:
+            new_tab = self.xa_prnt.xa_prnt.make("tab", properties)
+        window.tabs().push(new_tab)
+        return self
+
 
 class XAChromiumBookmarkFolderList(XABase.XAList):
     """A wrapper around a list of bookmark folders.
@@ -386,6 +467,13 @@ class XAChromiumBookmarkFolder(XABaseScriptable.XASBObject):
         """
         return self._new_element(self.xa_elem.bookmarkItems(), XAChromiumBookmarkItemList, filter)
 
+    def delete(self):
+        """Permanently deletes the bookmark folder.
+
+        .. versionadded:: 0.0.4
+        """
+        self.xa_elem.delete()
+
 
 class XAChromiumBookmarkItemList(XABase.XAList):
     """A wrapper around a list of bookmark items.
@@ -446,3 +534,10 @@ class XAChromiumBookmarkItem(XABaseScriptable.XASBObject):
     @property
     def index(self) -> int:
         return self.xa_elem.index()
+
+    def delete(self):
+        """Permanently deletes the bookmark.
+
+        .. versionadded:: 0.0.4
+        """
+        self.xa_elem.delete()

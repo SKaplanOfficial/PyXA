@@ -30,7 +30,10 @@ class XASBObject(XABase.XAObject):
         parts = property_name.split("_")
         titled_parts = [part.title() for part in parts[1:]]
         property_name = parts[0] + "".join(titled_parts)
-        self.xa_scel.setValue_forKey_(value, property_name)
+        if self.xa_scel is not None:
+            self.xa_scel.setValue_forKey_(value, property_name)
+        else:
+            self.xa_elem.setValue_forKey_(value, property_name)
 
 class XAHasScriptableElements(XABase.XAObject):
     def scriptable_elements(self, specifier, filter, obj_type):

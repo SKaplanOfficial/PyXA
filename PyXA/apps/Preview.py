@@ -65,7 +65,7 @@ class XAPreviewApplication(XABaseScriptable.XASBApplication, XABase.XACanConstru
         self.xa_scel.print_printDialog_withProperties_(path, show_prompt, None)
 
     # Documents
-    def documents(self, filter: dict = None) -> List['XAPreviewDocument']:
+    def documents(self, filter: dict = None) -> 'XAPreviewDocumentList':
         """Returns a list of documents matching the filter.
 
         :Example 1: List all documents
@@ -74,6 +74,10 @@ class XAPreviewApplication(XABaseScriptable.XASBApplication, XABase.XACanConstru
         >>> app = PyXA.application("Preview")
         >>> print(app.documents())
         <<class 'PyXA.apps.Preview.XAPreviewDocumentList'>['Example1.pdf', 'Example2.pdf']>
+
+        .. versionchanged:: 0.0.4
+
+           Now returns an object of :class:`XAPreviewDocumentList` instead of a default list.
 
         .. versionadded:: 0.0.1
         """

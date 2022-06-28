@@ -6,6 +6,10 @@ Control the macOS Notes application using JXA-like syntax.
 from datetime import datetime
 from enum import Enum
 from typing import List, Tuple, Union
+from AppKit import NSURL
+from numpy import isin
+
+from ScriptingBridge import SBElementArray
 
 from PyXA import XABase
 from PyXA.XABase import OSType
@@ -167,7 +171,7 @@ class XANotesApplication(XABaseScriptable.XASBApplication, XABase.XACanOpenPath)
         >>> app = PyXA.application("Notes")
         >>> note = app.new_note("PyXA Notes", "Example text of new note.")
         >>> print(note)
-        example here
+        <<class 'PyXA.apps.Notes.XANote'>PyXA Notes, x-coredata://224D909C-B449-42B0-96EC-380EE22332E2/ICNote/p3388>
 
         .. seealso:: :class:`XANote`, :func:`new_folder`
 
@@ -196,9 +200,9 @@ class XANotesApplication(XABaseScriptable.XASBApplication, XABase.XACanOpenPath)
 
         >>> import PyXA
         >>> app = PyXA.application("Notes")
-        >>> folder = app.new_folder("PyXA Notes")
-        >>> print(folder.element_properties)
-        example here
+        >>> folder = app.new_folder("PyXA Notes Folder")
+        >>> print(folder)
+        <<class 'PyXA.apps.Notes.XANotesFolder'>PyXA Notes Folder, x-coredata://224D909C-B449-42B0-96EC-380EE22332E2/ICFolder/p3389>
 
         .. seealso:: :class:`XANotesFolder`, :func:`new_note`
 
@@ -224,6 +228,15 @@ class XANotesApplication(XABaseScriptable.XASBApplication, XABase.XACanOpenPath)
         :type properties: dict
         :return: A PyXA wrapped form of the object
         :rtype: XABase.XAObject
+
+        :Example 1: Make a new folder and add a new note to that folder
+
+        >>> import PyXA
+        >>> app = PyXA.application("Notes")
+        >>> new_folder = app.make("folder", {"name": "Example Folder"})
+        >>> new_note = app.make("note", {"name": "Example Note"})
+        >>> app.folders().push(new_folder)
+        >>> new_folder.notes().push(new_note)
 
         .. versionadded:: 0.0.3
         """
@@ -306,8 +319,23 @@ class XANoteList(XABase.XAList):
     def by_container(self, container: 'XANotesFolder') -> 'XANote':
         return self.by_property("container", container.value)
 
+    def show_separately(self) -> 'XANoteList':
+        """Shows each note in the list in a separate window.
+
+        :Example 1: Show the currently selected notes in separate windows
+
+        >>> import PyXA
+        >>> app = PyXA.application("Notes")
+        >>> notes = app.selection.show_separately()
+        
+        .. versionadded:: 0.0.4
+        """
+        for note in self.xa_elem:
+            note.showSeparately_(True)
+        return self
+
     def __repr__(self):
-        return str(list(zip(self.name(), self.id())))
+        return "<" + str(type(self)) + str(list(zip(self.name(), self.id()))) + ">"
 
 
 class XANotesDocumentList(XABase.XAList):
@@ -379,7 +407,7 @@ class XANotesAccountList(XABase.XAList):
         return self.by_property("defaultFolder", default_folder.value)
 
     def __repr__(self):
-        return str(list(zip(self.name(), self.id())))
+        return "<" + str(type(self)) + str(list(zip(self.name(), self.id()))) + ">"
 
 
 class XANotesFolderList(XABase.XAList):
@@ -424,7 +452,7 @@ class XANotesFolderList(XABase.XAList):
         return self.by_property("container", container.value)
 
     def __repr__(self):
-        return str(list(zip(self.name(), self.id())))
+        return "<" + str(type(self)) + str(list(zip(self.name(), self.id()))) + ">"
 
 
 class XANotesAttachmentList(XABase.XAList):
@@ -484,8 +512,34 @@ class XANotesAttachmentList(XABase.XAList):
     def by_container(self, container: 'XANote') -> 'XANoteAttachment':
         return self.by_property("container", container.value)
 
+    def save(self, directory: str) -> 'XANotesAttachmentList':
+        """Saves all attachments in the list in the specified directory.
+
+        :param directory: The directory to store the saved attachments in
+        :type directory: str
+        :return: A reference to the attachment list object
+        :rtype: XANotesAttachmentList
+
+        :Example 1: Save the attachments in currently selected notes to the downloads folder
+
+        >>> import PyXA
+        >>> app = PyXA.application("Notes")
+        >>> app.selection.attachments().save("/Users/exampleuser/Downloads/")
+
+        .. versionadded:: 0.0.4
+        """
+        for attachment_ls in self.xa_elem:
+            if isinstance(attachment_ls, SBElementArray):
+                for attachment in attachment_ls:
+                    url = NSURL.alloc().initFileURLWithPath_(directory + attachment.name())
+                    attachment.saveIn_as_(url, XANotesApplication.FileFormat.NATIVE.value)
+            else:
+                url = NSURL.alloc().initFileURLWithPath_(directory + attachment_ls.name())
+                attachment_ls.saveIn_as_(url, XANotesApplication.FileFormat.NATIVE.value)
+        return self
+
     def __repr__(self):
-        return str(list(zip(self.name(), self.id())))
+        return "<" + str(type(self)) + str(list(zip(self.name(), self.id()))) + ">"
 
 
 class XANotesWindow(XABase.XAWindow, XABase.XACanConstructElement, XABase.XAAcceptsPushedElements):
@@ -560,7 +614,7 @@ class XANotesWindow(XABase.XAWindow, XABase.XACanConstructElement, XABase.XAAcce
 class XANotesFolder(XABase.XACanConstructElement, XABase.XAAcceptsPushedElements, XABase.XAHasElements):
     """A class for interacting with Notes folders and their contents.
 
-    .. seealso:: class:`XANote`, :class:`XABase.XACanConstructElement`
+    .. seealso:: class:`XANote`
 
     .. versionchanged:: 0.0.3
 
@@ -615,6 +669,16 @@ class XANotesFolder(XABase.XACanConstructElement, XABase.XAAcceptsPushedElements
         """
         return self._new_element(self.xa_elem.notes(), XANoteList, filter)
 
+    def delete(self):
+        """Permanently deletes the folder.
+
+        .. versionadded:: 0.0.4
+        """
+        self.xa_elem.delete()
+
+    def __repr__(self):
+        return "<" + str(type(self)) + self.name + ", " + self.id + ">"
+
 
 class XANotesDocument(XABase.XACanConstructElement, XABase.XAAcceptsPushedElements, XABase.XAHasElements):
     """A class for interacting with documents in Notes.app.
@@ -638,6 +702,9 @@ class XANotesDocument(XABase.XACanConstructElement, XABase.XAAcceptsPushedElemen
     @property
     def file(self) -> str:
         return self.xa_elem.file()
+
+    def __repr__(self):
+        return "<" + str(type(self)) + self.name + ">"
 
 
 class XANote(XABase.XACanConstructElement, XABase.XAAcceptsPushedElements, XABase.XAHasElements):
@@ -701,6 +768,9 @@ class XANote(XABase.XACanConstructElement, XABase.XAAcceptsPushedElements, XABas
 
     def show(self) -> 'XANote':
         """Shows the note in the main Notes window.
+
+        :return: A reference to the note object
+        :rtype: XANote
         
         .. versionadded:: 0.0.3
         """
@@ -709,6 +779,9 @@ class XANote(XABase.XACanConstructElement, XABase.XAAcceptsPushedElements, XABas
 
     def show_separately(self) -> 'XANote':
         """Shows the note in a separate window.
+
+        :return: A reference to the note object
+        :rtype: XANote
         
         .. versionadded:: 0.0.3
         """
@@ -722,6 +795,21 @@ class XANote(XABase.XACanConstructElement, XABase.XAAcceptsPushedElements, XABas
         :type filter: dict, optional
         :return: A PyXA list object wrapping a list of attachments
         :rtype: XANotesAttachmentList
+        
+        :Example 1: List all attachments of a note
+
+        >>> import PyXA
+        >>> app = PyXA.application("Notes")
+        >>> note = app.notes()[-4]
+        >>> print(note.attachments())
+        <<class 'PyXA.apps.Notes.XANotesAttachmentList'>[('Example.pdf, 'x-coredata://224D909C-B449-42B0-96EC-380EE22332E2/ICAttachment/p526')]>
+
+        :Example 2: Save the attachments of a note to the Downloads folder
+
+        >>> import PyXA
+        >>> app = PyXA.application("Notes")
+        >>> note = app.notes()[0]
+        >>> print(note.attachments().save("/Users/exampleuser/Downloads/"))
 
         .. versionchanged:: 0.0.3
 
@@ -730,6 +818,29 @@ class XANote(XABase.XACanConstructElement, XABase.XAAcceptsPushedElements, XABas
         .. versionadded:: 0.0.1
         """
         return self._new_element(self.xa_elem.attachments(), XANotesAttachmentList, filter)
+
+    def delete(self):
+        """Permanently deletes the note.
+
+        .. versionadded:: 0.0.4
+        """
+        self.xa_elem.delete()
+
+    def move_to(self, folder: 'XANotesFolder') -> 'XANote':
+        """Moves the note to the specified folder.
+
+        :param folder: The folder to move the note to
+        :type folder: XANotesFolder
+        :return: A reference to the note object
+        :rtype: XANote
+        
+        .. versionadded:: 0.0.4
+        """
+        self.xa_elem.moveTo_(folder.xa_elem)
+        return self
+
+    def __repr__(self):
+        return "<" + str(type(self)) + self.name + ", " + self.id + ">"
 
 
 class XANoteAttachment(XABase.XACanConstructElement, XABase.XAAcceptsPushedElements):
@@ -786,6 +897,9 @@ class XANoteAttachment(XABase.XACanConstructElement, XABase.XAAcceptsPushedEleme
 
     def show(self) -> 'XANoteAttachment':
         """Shows the attachment in the main Notes window.
+
+        :return: A reference to the attachment object
+        :rtype: XANoteAttachment
         
         .. versionadded:: 0.0.3
         """
@@ -794,11 +908,38 @@ class XANoteAttachment(XABase.XACanConstructElement, XABase.XAAcceptsPushedEleme
 
     def show_separately(self) -> 'XANoteAttachment':
         """Shows the attachment in a separate window.
+
+        :return: A reference to the attachment object
+        :rtype: XANoteAttachment
         
         .. versionadded:: 0.0.3
         """
         self.xa_elem.showSeparately_(True)
         return self
+
+    def save(self, directory: str) -> 'XANoteAttachment':
+        """Saves the attachment to the specified directory.
+
+        :param directory: The directory to store the saved attachment in
+        :type directory: str
+        :return: A reference to the attachment object
+        :rtype: XANoteAttachment
+
+        .. versionadded:: 0.0.4
+        """
+        url = NSURL.alloc().initFileURLWithPath_(directory + self.name)
+        self.xa_elem.saveIn_as_(url, XANotesApplication.FileFormat.NATIVE.value)
+        return self
+
+    def delete(self):
+        """Permanently deletes the attachment.
+
+        .. versionadded:: 0.0.4
+        """
+        self.xa_elem.delete()
+
+    def __repr__(self):
+        return "<" + str(type(self)) + self.name + ", " + self.id + ">"
 
 
 class XANotesAccount(XABase.XACanConstructElement, XABase.XAAcceptsPushedElements, XABase.XAHasElements):
@@ -832,8 +973,11 @@ class XANotesAccount(XABase.XACanConstructElement, XABase.XAAcceptsPushedElement
     def default_folder(self) -> 'XANotesFolder':
         return self._new_element(self.xa_elem.defaultFolder(), XANotesFolder)
 
-    def show(self) -> 'XANoteAttachment':
+    def show(self) -> 'XANotesAccount':
         """Shows the first folder belonging to the account.
+
+        :return: A reference to the account object
+        :rtype: XANotesAccount
         
         .. versionadded:: 0.0.3
         """
@@ -847,6 +991,14 @@ class XANotesAccount(XABase.XACanConstructElement, XABase.XAAcceptsPushedElement
         :type filter: dict, optional
         :return: A PyXA list object wrapping a list of notes
         :rtype: XANoteList
+
+        :Example 1: List all notes belonging to an account
+
+        >>> import PyXA
+        >>> app = PyXA.application("Notes")
+        >>> account = app.accounts()[0]
+        >>> print(account.notes())
+        <<class 'PyXA.apps.Notes.XANoteList'>[('PyXA Stuff', 'x-coredata://224D909C-B449-42B0-96EC-380EE22332E2/ICNote/p3380'), ('Important Note', 'x-coredata://224D909C-B449-42B0-96EC-380EE22332E2/ICNote/p614'), ...]>
 
         .. versionchanged:: 0.0.3
 
@@ -864,6 +1016,14 @@ class XANotesAccount(XABase.XACanConstructElement, XABase.XAAcceptsPushedElement
         :return: A PyXA list object wrapping a list of folders
         :rtype: XANotesFolderList
 
+        :Example 1: List all folders belonging to an account
+
+        >>> import PyXA
+        >>> app = PyXA.application("Notes")
+        >>> account = app.accounts()[0]
+        >>> print(account.folders())
+        <<class 'PyXA.apps.Notes.XANotesFolderList'>[('Imported Notes', 'x-coredata://224D909C-B449-42B0-96EC-380EE22332E2/ICFolder/p3104'), ('Notes', 'x-coredata://224D909C-B449-42B0-96EC-380EE22332E2/ICFolder/p3123'), ...]>
+
         .. versionchanged:: 0.0.3
 
            Now returns an object of :class:`XANotesFolderList` instead of a default list.
@@ -871,3 +1031,6 @@ class XANotesAccount(XABase.XACanConstructElement, XABase.XAAcceptsPushedElement
         .. versionadded:: 0.0.1
         """
         return self._new_element(self.xa_elem.folders(), XANotesFolderList, filter)
+
+    def __repr__(self):
+        return "<" + str(type(self)) + self.name + ", " + self.id + ">"

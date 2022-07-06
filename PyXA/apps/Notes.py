@@ -542,7 +542,7 @@ class XANotesAttachmentList(XABase.XAList):
         return "<" + str(type(self)) + str(list(zip(self.name(), self.id()))) + ">"
 
 
-class XANotesWindow(XABase.XAWindow, XABase.XACanConstructElement, XABase.XAAcceptsPushedElements):
+class XANotesWindow(XABaseScriptable.XASBWindow, XABase.XACanConstructElement, XABase.XAAcceptsPushedElements):
     """A class for interacting with windows of Notes.app.
 
     .. versionadded:: 0.0.1

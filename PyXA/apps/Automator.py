@@ -1,4 +1,4 @@
-""".. versionadded:: 0.0.1
+""".. versionadded:: 0.0.4
 
 Control Automator using JXA-like syntax.
 """

@@ -110,7 +110,7 @@ class XATerminalApplication(XABaseScriptable.XASBApplication, XABase.XACanConstr
         """
         return self.last_scriptable_element("settingsSets", XATerminalSettingsSet)
 
-class XATerminalWindow(XABase.XAWindow, XABaseScriptable.XASBPrintable, XABase.XAHasElements):
+class XATerminalWindow(XABaseScriptable.XASBWindow, XABaseScriptable.XASBPrintable, XABase.XAHasElements):
     """A class for managing and interacting with windows in Terminal.app.
 
     .. versionadded:: 0.0.1

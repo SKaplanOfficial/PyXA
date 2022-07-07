@@ -20,10 +20,11 @@ from .SystemPreferences import XASystemPreferencesApplication
 from .Keynote import XAKeynoteApplication
 from .Chromium import XAChromiumApplication
 from .Mail import XAMailApplication
-
+from .Automator import XAAutomatorApplication
+from .Console import XAConsoleApplication
 
 application_classes = {
-    # First Party Apps
+    ### First Party Scriptable Apps
     "finder": XAFinderApplication,
     "safari": XASafariApplication,
     "music": XAMusicApplication,
@@ -37,18 +38,22 @@ application_classes = {
     "systemevents": XASystemEventsApplication,
     "terminal": XATerminalApplication,
     "preview": XAPreviewApplication,
-    "calculator": XACalculatorApplication,
     "tv": XATVApplication,
     "contacts": XAContactsApplication,
     "shortcuts": XAShortcutsApplication,
     "shortcuts events": XAShortcutsApplication,
-    "dictionary": XADictionaryApplication,
     "photos": XAPhotosApplication,
     "system preferences": XASystemPreferencesApplication,
     "keynote": XAKeynoteApplication,
     "mail": XAMailApplication,
+    "automator": XAAutomatorApplication,
+    "console": XAConsoleApplication,
 
-    ### Third Party Apps
+    ### First Party Non-scriptable Apps
+    "calculator": XACalculatorApplication,
+    "dictionary": XADictionaryApplication,
+
+    ### Third Party Scriptable Apps
     # Chromium
     "chromium": XAChromiumApplication,
     "brave browser": XAChromiumApplication,

@@ -1,4 +1,4 @@
-from typing import List, Union
+from typing import List, Tuple, Union
 import threading
 import ScriptingBridge
 
@@ -180,29 +180,82 @@ class XASBApplication(XASBObject, XABase.XAApplication, XAHasScriptableElements)
         self.xa_wcls = XASBWindow
 
     ### Windows
-    def windows(self, filter: dict = None) -> List['XASBWindow']:
-        return super().scriptable_elements("windows", filter, self.xa_wcls)
+    def windows(self, filter: dict = None) -> 'XASBWindowList':
+        return self._new_element(self.xa_scel.windows(), XASBWindowList)
 
-    def window(self, filter: Union[int, dict]) -> 'XASBWindow':
-        return super().scriptable_element_with_properties("windows", filter, self.xa_wcls)
+    def front_window(self) -> 'XASBWindow':
+        return self._new_element(self.xa_scel.windows()[0], XASBWindow)
 
-    def front_window(self) -> 'XABase.XAWindow':
-        return super().first_scriptable_element("windows", self.xa_wcls)
 
+
+
+class XASBWindowList(XABase.XAList):
+    """A wrapper around a list of windows.
+
+    .. versionadded:: 0.0.5
+    """
+    def __init__(self, properties: dict, filter: Union[dict, None] = None):
+        super().__init__(properties, XASBWindow, filter)
+
+    # def name(self) -> List[str]:
+    #     return list(self.xa_elem.arrayByApplyingSelector_("name"))
+
+    def collapse(self):
+        """Collapses all windows in the list.
+
+        .. versionadded:: 0.0.5
+        """
+        for window in self:
+            window.collapse()
 
 class XASBWindow(XASBObject):
     def __init__(self, properties):
         super().__init__(properties)
-        # self.name = self.xa_scel.name() #: The title of the window
-        # self.id = self.xa_scel.id() #: The unique identifier for the window
-        # self.index = self.xa_scel.index() #: The index of the window, ordered front to back
-        # self.bounds = self.xa_scel.bounds() #: The bounding rectangle of the window
-        # self.closeable = self.xa_scel.closeable() #: Whether the window has a close button
-        # self.resizable = self.xa_scel.resizable() #: Whether the window can be resized
-        # self.visible = self.xa_scel.visible() #: Whether the window is currently visible
-        # self.zoomable = self.xa_scel.zoomable() #: Whether the window has a zoom button
-        # self.zoomed = self.xa_scel.zoomed() #: Whether the window is currently zoomed
-        # self.__document = None #: The current document displayed in the window
+        self.name: str #: The title of the window
+        self.id: str #: The unique identifier for the window
+        self.index: int #: The index of the window, ordered front to back
+        self.bounds: Tuple[Tuple[int, int]] #: The bounding rectangle of the window
+        self.closeable: bool #: Whether the window has a close button
+        self.resizable: bool #: Whether the window can be resized
+        self.visible: bool #: Whether the window is currently visible
+        self.zoomable: bool #: Whether the window has a zoom button
+        self.zoomed: bool  #: Whether the window is currently zoomed
+
+    @property
+    def name(self) -> str:
+        return self.xa_elem.name()
+
+    @property
+    def id(self) -> str:
+        return self.xa_elem.id()
+
+    @property
+    def index(self) -> int:
+        return self.xa_elem.index()
+
+    @property
+    def bounds(self) -> Tuple[Tuple[int, int]]:
+        return self.xa_elem.bounds()
+
+    @property
+    def closeable(self) -> bool:
+        return self.xa_elem.closeable()
+
+    @property
+    def resizable(self) -> bool:
+        return self.xa_elem.resizable()
+
+    @property
+    def visible(self) -> bool:
+        return self.xa_elem.visible()
+
+    @property
+    def zoomable(self) -> bool:
+        return self.xa_elem.zoomable()
+
+    @property
+    def zoomed(self) -> bool:
+        return self.xa_elem.zoomed()
 
     def collapse(self) -> 'XABase.XAWindow':
         """Collapses (minimizes) the window.
@@ -210,8 +263,13 @@ class XASBWindow(XASBObject):
         :return: A reference to the now-collapsed window object.
         :rtype: XABase.XAWindow
         """
-        self.miniaturized = True
-        self.set_property("miniaturized", True)
+        try:
+            self.set_property("miniaturized", True)
+        except:
+            try:
+                self.set_property("minimized", True)
+            except:
+                self.set_property("collapsed", True)
         return self
 
     def uncollapse(self) -> 'XABase.XAWindow':
@@ -220,8 +278,13 @@ class XASBWindow(XASBObject):
         :return: A reference to the uncollapsed window object.
         :rtype: XABase.XAWindow
         """
-        self.miniaturized = False
-        self.set_property("miniaturized", False)
+        try:
+            self.set_property("miniaturized", False)
+        except:
+            try:
+                self.set_property("minimized", False)
+            except:
+                self.set_property("collapsed", False)
         return self
 
     def toggle_zoom(self) -> 'XABase.XAWindow':

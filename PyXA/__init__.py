@@ -1,12 +1,19 @@
 from .PyXA import (
+    current_application,
     application,
-    launch_application, 
-    get_running_applications,
+    running_applications,
     open_url,
-    sound,
-    play_sound,
     get_clipboard,
     get_clipboard_strings,
     set_clipboard,
     run_applescript,
+    PyXAScript, PyXAAction
+)
+
+from .XABase import (
+    XAAlert, XAAlertStyle,
+    XAColorPicker, XAColorPickerStyle,
+    XASound,
+    XAURL,
+    AppleScript,
 )

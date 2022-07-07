@@ -4,15 +4,14 @@ General classes and methods applicable to any PyXA object.
 """
 
 from datetime import datetime
+from enum import Enum
 import time, os, sys
-from typing import Any, Callable, Union, List, Dict
+from typing import Any, Callable, Tuple, Union, List, Dict
 import threading
 
 import AppKit
 from CoreLocation import CLLocation
 from ScriptingBridge import SBApplication, SBElementArray
-from Foundation import NSURL, NSString
-from regex import P
 
 import threading, signal
 
@@ -36,6 +35,58 @@ def OSType(s: str):
 def unOSType(i: int):
     return i.to_bytes((i.bit_length() + 7) // 8, 'big').decode()
 
+
+
+
+class AppleScript():
+    """A class for constructing and executing AppleScript scripts.
+
+    .. versionadded:: 0.0.5
+    """
+    def __init__(self, script: Union[str, List[str], None] = None):
+        if isinstance(script, str):
+            self.script = [script]
+        elif isinstance(script, list):
+            self.script = script
+        elif script == None:
+            self.script = []
+
+    def add(self, script: Union[str, List[str], 'AppleScript']):
+        """Adds the supplied string, list of strings, or script as a new line entry in the script.
+
+        :param script: The script to append to the current script string.
+        :type script: Union[str, List[str], AppleScript]
+
+        .. versionadded:: 0.0.5
+        """
+        if isinstance(script, str):
+            self.script.append(script)
+        elif isinstance(script, list):
+            self.script.extend(script)
+        elif isinstance(script, AppleScript):
+            self.script.extend(script.script)
+
+    def run(self) -> Any:
+        """Compiles and runs the script, returning the result.
+
+        :return: The return value of the script.
+        :rtype: Any
+        
+        .. versionadded:: 0.0.5
+        """
+        value = None
+        script = ""
+        for line in self.script:
+            script += line + "\n"
+        script = AppKit.NSAppleScript.alloc().initWithSource_(script)
+        result = script.executeAndReturnError_(None)[0]
+        
+        if result is not None:
+            return result.stringValue()
+
+
+
+
 class XAObject():
     """A general class for PyXA scripting objects.
 
@@ -50,7 +101,6 @@ class XAObject():
         :type properties: dict, optional
 
         .. versionchanged:: 0.0.3
-
            Removed on-the-fly creation of class attributes. All objects should concretely define their properties.
 
         .. versionadded:: 0.0.1
@@ -67,8 +117,6 @@ class XAObject():
         """Silences unwanted and otherwise unavoidable warning messages.
 
         Taken from: https://stackoverflow.com/a/3946828
-
-        _extended_summary_
         
         :param f: The function to execute
         :type f: Callable[...]
@@ -195,6 +243,9 @@ class XAObject():
 
         .. seealso:: :func:`get_clipboard`, :func:`get_clipboard_strings`
 
+        .. deprecated:: 0.0.5
+           Use :func:`XAClipboard.set_contents` instead
+
         .. versionadded:: 0.0.1
         """
         pb = AppKit.NSPasteboard.generalPasteboard()
@@ -204,6 +255,39 @@ class XAObject():
         else:
             pb.writeObjects_(AppKit.NSArray.arrayWithObject_(content))
     
+
+
+
+class XAClipboard(XAObject):
+    """A wrapper class for managing and interacting with the system pasteboard
+
+    .. versionadded:: 0.0.5
+    """
+    def __init__(self):
+        self.xa_elem = AppKit.NSPasteboard.generalPasteboard()
+        self.content #: The content of the clipboard
+
+    @property
+    def content(self) -> Any:
+        items = []
+        for item in self.xa_elem.pasteboardItems():
+            for item_type in item.types():
+                items.append(item.dataForType_(item_type))
+        return items
+
+    def clear(self):
+        """Clears the system clipboard.
+        
+        .. versionadded:: 0.0.5
+        """
+        self.xa_elem.clearContents()
+
+    def set_contents(self, content: List[Any]):
+        self.xa_elem.clearContents()
+        self.xa_elem.writeObjects_(content)
+
+
+
 
 class XAList(XAObject):
     """A wrapper around NSArray and NSMutableArray objects enabling fast enumeration and lazy evaluation of Objective-C objects.
@@ -302,11 +386,11 @@ class XAList(XAObject):
 class XACanPrintPath(XAObject):
     """A class for scriptable objects that can print the file at a given path.
     """
-    def print(self, target: Union[str, NSURL]) -> XAObject:
+    def print(self, target: Union[str, AppKit.NSURL]) -> XAObject:
         """pens the file/website at the given filepath/URL.
 
         :param target: The path to a file or the URL to a website to print.
-        :type target: Union[str, NSURL]
+        :type target: Union[str, AppKit.NSURL]
         :return: A reference to the PyXA object that called this method.
         :rtype: XAObject
 
@@ -316,8 +400,8 @@ class XACanPrintPath(XAObject):
 
         .. versionadded:: 0.0.1
         """
-        if not isinstance(target, NSURL):
-            target = xa_path(target)
+        if not isinstance(target, AppKit.NSURL):
+            target = XAPath(target)
         self.xa_elem.print(target)
         return self
 
@@ -328,22 +412,19 @@ class XACanOpenPath(XAObject):
 
     .. versionadded:: 0.0.1
     """
-    def open(self, target: Union[str, NSURL]) -> XAObject:
+    def open(self, path: Union[str, AppKit.NSURL]) -> XAObject:
         """Opens the file/website at the given filepath/URL.
 
         :param target: The path to a file or the URL to a website to open.
-        :type target: Union[str, NSURL]
+        :type target: Union[str, AppKit.NSURL]
         :return: A reference to the PyXA object that called this method.
         :rtype: XAObject
 
         .. versionadded:: 0.0.1
         """
-        url = target
-        if not isinstance(url, NSURL):
-            url = xa_url(target)
-        if target.startswith("/"):
-            url = NSURL.alloc().initFileURLWithPath_(target)
-        self.xa_wksp.openURLs_withAppBundleIdentifier_options_additionalEventParamDescriptor_launchIdentifiers_([url], self.xa_elem.bundleIdentifier(), 0, None, None)
+        if not isinstance(path, AppKit.NSURL):
+            path = XAPath(path)
+        self.xa_wksp.openURLs_withAppBundleIdentifier_options_additionalEventParamDescriptor_launchIdentifiers_([path.xa_elem], self.xa_elem.bundleIdentifier(), 0, None, None)
         return self
 
 class XAAcceptsPushedElements(XAObject):
@@ -460,35 +541,6 @@ class XAHasElements(XAObject):
         }
         return obj_type(properties)
 
-## Property Mixins
-# class XASBCloseSavePrintable(XAObject):
-#     def close(self) -> XAObject:
-#         """Closes a document, window, or item.
-
-#         :return: A reference to the PyXA object that called this method.
-#         :rtype: XAObject
-#         """
-#         self.element.close()
-#         return self
-
-#     def save(self, location: str = "~/Documents") -> XAObject:
-#         """Saves a document, window, or item.
-
-#         :return: A reference to the PyXA object that called this method.
-#         :rtype: XAObject
-#         """
-#         self.element.saveIn_(location)
-#         return self
-
-#     def print(self, properties: dict = None, print_dialog = None) -> XAObject:
-#         """Prints a document, window, or item.
-
-#         :return: A reference to the PyXA object that called this method.
-#         :rtype: XAObject
-#         """
-#         self.element.printWithProperties_printDialog_(properties, None)
-#         return self
-
 
 class XAShowable(XAObject):
     def show(self) -> XAObject:
@@ -533,14 +585,11 @@ class XAProcess(XAHasElements):
         self.unix_id = self.xa_elem.unixId()
 
     # Windows
-    def windows(self, filter: dict = None) -> List['XAWindow']:
-        return super().elements("windows", filter, self.xa_wcls)
-
-    def window(self, filter: Union[int, dict]) -> 'XAWindow':
-        return super().element_with_properties("windows", filter, self.xa_wcls)
+    def windows(self, filter: dict = None) -> 'XAWindowList':
+        return self._new_element(self.xa_elem.windows(), XAWindowList)
 
     def front_window(self) -> 'XAWindow':
-        return super().first_element("windows", self.xa_wcls)
+        return self._new_element(self.xa_elem.windows()[0], XAWindow)
 
     # Menu Bars
     def menu_bars(self, filter: dict = None) -> List['XAUIMenuBar']:
@@ -554,6 +603,9 @@ class XAProcess(XAHasElements):
 
     def last_menu_bar(self) -> 'XAWindow':
         return super().last_element("menuBars", XAUIMenuBar)
+
+
+
 
 class XAApplication(XAObject):
     """A general application class for both officially scriptable and non-scriptable applications.
@@ -580,17 +632,17 @@ class XAApplication(XAObject):
         }
         self.xa_prcs = XAProcess(properties)
 
-        self.bundle_id: str #: The bundle identifier for Calculator.app
+        self.bundle_identifier: str #: The bundle identifier for Calculator.app
         self.bundle_url: str #: The file URL of the application bundle
         self.executable_url: str #: The file URL of the Calculator executable
         self.frontmost: bool #: Whether Calculator is the active application
         self.launch_date: datetime #: The date and time that Calculator was launched
-        self.name: str #: The application's name
+        self.localized_name: str #: The application's name
         self.owns_menu_bar: bool #: Whether Calculator owns the top menu bar
-        self.process_id: str #: The process identifier for the current Calculator instance
+        self.process_identifier: str #: The process identifier for the current Calculator instance
 
     @property
-    def bundle_id(self) -> str:
+    def bundle_identifier(self) -> str:
         return self.xa_elem.bundleIdentifier()
 
     @property
@@ -610,7 +662,7 @@ class XAApplication(XAObject):
         return self.xa_elem.launchDate()
 
     @property
-    def name(self) -> str:
+    def localized_name(self) -> str:
         return self.xa_elem.localizedName()
 
     @property
@@ -618,7 +670,7 @@ class XAApplication(XAObject):
         return self.xa_elem.ownsMenuBar()
 
     @property
-    def process_id(self) -> str:
+    def process_identifier(self) -> str:
         return self.xa_elem.processIdentifier()
 
     def activate(self) -> 'XAApplication':
@@ -761,9 +813,6 @@ class XAApplication(XAObject):
     def windows(self, filter: dict = None) -> List['XAWindow']:
         return self.xa_prcs.windows(filter)
 
-    def window(self, filter: Union[int, dict]) -> 'XAWindow':
-        return self.xa_prcs.window(filter)
-
     def front_window(self) -> 'XAWindow':
         return self.xa_prcs.front_window()
 
@@ -781,39 +830,22 @@ class XAApplication(XAObject):
     def last_menu_bar(self) -> 'XAWindow':
         return self.xa_prcs.last_menu_bar()
 
-    # def windows(self) -> List['XAWindow']:
-    #     # properties = {"name": self.xa_elem.localizedName()}
-    #     # predicate = NSPredicate.predicateWithFormat_(xa_predicate_format(properties))
-    #     # process = self.system_events.processes().filteredArrayUsingPredicate_(predicate)[0]
 
-    #     # windows = []
-    #     # for window in process.windows():
-    #     #     windows.append(XAWindow(self, self.appspace, self.workspace, window, self.appref, self.system_events))
-    #     # return windows
 
-    #     # print(elements)
-    #     # return elements
-    #     # windowList = CGWindowListCopyWindowInfo(kCGWindowListOptionOnScreenOnly, kCGNullWindowID)
-    #     # print(windowList)
-    #     # windows = []
-    #     # for window in windowList:
-    #     #     if window["kCGWindowOwnerName"] == self.xa_elem.localizedName():
-    #     #         windows.append(XAWindow(self, self.appspace, self.workspace, self.name, window, self.appref))
-    #     # return windows
 
 class XASound(XAObject):
     """A wrapper class for NSSound objects and associated methods.
 
     .. versionadded:: 0.0.1
     """
-    def __init__(self, sound_file: Union[str, NSURL]):
+    def __init__(self, sound_file: Union[str, AppKit.NSURL]):
         if isinstance(sound_file, str):
             if "/" in sound_file:
-                sound_file = NSURL.alloc().initWithString_(sound_file)
+                sound_file = XAPath(sound_file)
             else:
-                sound_file = NSURL.alloc().initWithString_("/System/Library/Sounds/" + sound_file + ".aiff")
-        self.sound = AppKit.NSSound.alloc()
-        self.sound.initWithContentsOfURL_byReference_(sound_file, True)
+                sound_file = XAPath("/System/Library/Sounds/" + sound_file + ".aiff")
+        self.xa_elem = AppKit.NSSound.alloc()
+        self.xa_elem.initWithContentsOfURL_byReference_(sound_file.xa_elem, True)
 
     def play(self) -> 'XASound':
         """Plays the sound from the beginning.
@@ -831,9 +863,9 @@ class XASound(XAObject):
 
         .. versionadded:: 0.0.1
         """
-        self.sound.stop()
-        self.sound.play()
-        time.sleep(self.sound.duration())
+        self.xa_elem.stop()
+        self.xa_elem.play()
+        time.sleep(self.xa_elem.duration())
         return self
 
     def pause(self) -> 'XASound':
@@ -852,7 +884,7 @@ class XASound(XAObject):
 
         .. versionadded:: 0.0.1
         """
-        self.sound.pause()
+        self.xa_elem.pause()
         return self
 
     def resume(self) -> 'XASound':
@@ -871,7 +903,7 @@ class XASound(XAObject):
 
         .. versionadded:: 0.0.1
         """
-        self.sound.resume()
+        self.xa_elem.resume()
         return self
 
     def stop(self) -> 'XASound':
@@ -890,7 +922,7 @@ class XASound(XAObject):
 
         .. versionadded:: 0.0.1
         """
-        self.sound.stop()
+        self.xa_elem.stop()
         return self
 
     def set_volume(self, volume: int) -> 'XASound':
@@ -911,7 +943,7 @@ class XASound(XAObject):
 
         .. versionadded:: 0.0.1
         """
-        self.sound.setVolume_(volume)
+        self.xa_elem.setVolume_(volume)
         return self
 
     def volume(self) -> float:
@@ -931,7 +963,7 @@ class XASound(XAObject):
 
         .. versionadded:: 0.0.1
         """
-        return self.sound.volume()
+        return self.xa_elem.volume()
 
     def loop(self, times: int) -> 'XASound':
         """Plays the sound the specified number of times.
@@ -949,21 +981,34 @@ class XASound(XAObject):
 
         .. versionadded:: 0.0.1
         """
-        self.sound.setLoops_(times)
-        self.sound.play()
-        time.sleep(self.sound.duration() * times)
-        self.sound.stop()
-        self.sound.setLoops_(0)
+        self.xa_elem.setLoops_(times)
+        self.xa_elem.play()
+        time.sleep(self.xa_elem.duration() * times)
+        self.xa_elem.stop()
+        self.xa_elem.setLoops_(0)
         return self
 
 
-def xa_url(url: str) -> NSURL:
-    """Converts a string-type filepath/URL into an NSURL object. Synonymous with xa_path().
+
+
+class XAURL(object):
+    def __init__(self, url: Union[str, AppKit.NSURL]):
+        super().__init__()
+        if isinstance(url, str):
+            url = url.replace(" ", "%20")
+            url = AppKit.NSURL.alloc().initWithString_(url)
+        self.xa_elem = url
+
+    def open(self):
+        AppKit.NSWorkspace.sharedWorkspace().openURL_(self.xa_elem)
+
+def xa_url(url: str) -> AppKit.NSURL:
+    """Converts a string-type URL into an NSURL object.
 
     :param url: The filepath or URL to convert.
     :type url: str
     :return: The NSURL form of the supplied filepath/URL.
-    :rtype: NSURL
+    :rtype: AppKit.NSURL
 
     :Example:
 
@@ -974,21 +1019,46 @@ def xa_url(url: str) -> NSURL:
 
     .. seealso:: :func:`xa_path`
 
+    .. deprecated:: 0.0.5
+       Use :class:`XAURL` instead.
+
     .. versionadded:: 0.0.1
     """
-    return NSURL.alloc().initWithString_(url)
+    return AppKit.NSURL.alloc().initWithString_(url)
+
+
+
+
+class XAPath(object):
+    def __init__(self, path: Union[str, AppKit.NSURL]):
+        super().__init__()
+        if isinstance(path, str):
+            path = AppKit.NSURL.alloc().initFileURLWithPath_(path)
+        self.xa_elem = path
+        self.xa_wksp = AppKit.NSWorkspace.sharedWorkspace()
+
+    def open(self):
+        self.xa_wksp.openURL_(self.xa_elem)
+
+    def select(self):
+        self.xa_wksp.selectFile_inFileViewerRootedAtPath_(self.xa_elem)
 
 def xa_path(filepath: str):
-    """Converts a string-type filepath/URL into an NSURL object. Synonymous with xa_url().
+    """Converts a string-type filepath into an NSURL object.
 
     :param url: The filepath or URL to convert.
     :type url: str
     :return: The NSURL form of the supplied filepath/URL.
-    :rtype: NSURL
+    :rtype: AppKit.NSURL
+
+    .. deprecated:: 0.0.5
+       Use :class:`XAPath` instead.
 
     .. versionadded:: 0.0.1
     """
-    return NSURL.alloc().initWithString_(filepath)
+    return AppKit.NSURL.alloc().initWithString_(filepath)
+
+
 
 
 class XAPredicate():
@@ -1399,6 +1469,9 @@ class XAPredicate():
         self.operators.insert(index, "MATCHES")
         self.values.insert(index, value)
 
+
+
+
 ### UI Components
 class XAUIElement(XAHasElements):
     def __init__(self, properties):
@@ -1576,6 +1649,28 @@ class XAUIElement(XAHasElements):
     def last_static_text(self) -> 'XAUIStaticText':
         return self.last_element("staticTexts", XAUIStaticText)
 
+
+
+
+class XAWindowList(XAList):
+    """A wrapper around a list of windows.
+
+    .. versionadded:: 0.0.5
+    """
+    def __init__(self, properties: dict, filter: Union[dict, None] = None):
+        super().__init__(properties, XAWindow, filter)
+
+    # def name(self) -> List[str]:
+    #     return list(self.xa_elem.arrayByApplyingSelector_("name"))
+
+    def collapse(self):
+        """Collapses all windows in the list.
+
+        .. versionadded:: 0.0.5
+        """
+        for window in self:
+            window.collapse()
+
 class XAWindow(XAUIElement):
     """A general window class for windows of both officially scriptable and non-scriptable applications.
 
@@ -1585,6 +1680,37 @@ class XAWindow(XAUIElement):
     """
     def __init__(self, properties):
         super().__init__(properties)
+        self.entire_contents: Any #: The entire contents of the window
+        self.focused: bool #: Whether the window is the currently focused window
+        self.name: str #: The name of the window
+        self.title: str #: The title of the window (often the same as its name)
+        self.position: Tuple[int, int] #: The position of the top left corner of the window
+        self.size: Tuple[int, int] #: The width and height of the window, in pixels
+
+    @property
+    def entire_contents(self) -> List[XAObject]:
+        ls = self.xa_elem.entireContents()
+        return [self._new_element(x, XAObject) for x in ls]
+
+    @property
+    def focused(self) -> bool:
+        return self.xa_elem.focused()
+
+    @property
+    def name(self) -> str:
+        return self.xa_elem.name()
+
+    @property
+    def title(self) -> str:
+        return self.xa_elem.title()
+
+    @property
+    def position(self) -> Tuple[int, int]:
+        return self.xa_elem.position()
+
+    @property
+    def size(self) -> Tuple[int, int]:
+        return self.xa_elem.size()
 
     # Actions
     def close(self) -> 'XAWindow':
@@ -1631,17 +1757,29 @@ class XAWindow(XAUIElement):
         app_icon.actions()[0].perform()
         return self
 
+
+
+
 class XAUIMenuBar(XAUIElement):
     def __init__(self, properties):
         super().__init__(properties)
+
+
+
 
 class XAUIMenuBarItem(XAUIElement):
     def __init__(self, properties):
         super().__init__(properties)
 
+
+
+
 class XAUIMenu(XAUIElement):
     def __init__(self, properties):
         super().__init__(properties)
+
+
+
 
 class XAUIMenuItem(XAUIElement):
     def __init__(self, properties):
@@ -1655,13 +1793,21 @@ class XAUIMenuItem(XAUIElement):
         self.actions({"name": "AXPress"})[0].perform()
         return self
 
+
+
+
 class XAUIToolbar(XAUIElement):
     def __init__(self, properties):
         super().__init__(properties)
 
+
+
+
 class XAUIGroup(XAUIElement):
     def __init__(self, properties):
         super().__init__(properties)
+
+
 
 
 class XAButtonList(XAList):
@@ -1692,6 +1838,9 @@ class XAButton(XAUIElement):
         self.actions({"name": "AXShowMenu"})[0].perform()
         return self
 
+
+
+
 class XAUIAction(XAUIElement):
     def __init__(self, properties):
         super().__init__(properties)
@@ -1700,13 +1849,22 @@ class XAUIAction(XAUIElement):
         self.xa_elem.perform()
         return self
 
+
+
+
 class XAUITextfield(XAUIElement):
     def __init__(self, properties):
         super().__init__(properties)
 
+
+
+
 class XAUIStaticText(XAUIElement):
     def __init__(self, properties):
         super().__init__(properties)
+
+
+
 
 # Text Elements
 class XAHasParagraphs(XAHasElements):
@@ -2133,7 +2291,7 @@ class XAImageList(XAList):
         super().__init__(properties, XAImage, filter)
 
 class XAImage():
-    def __init__(self, file_url: Union[str, NSURL, None] = None):
+    def __init__(self, file_url: Union[str, AppKit.NSURL, None] = None):
         if file_url is None:
             self.xa_elem = AppKit.NSImage.alloc().init()
         else:
@@ -2142,10 +2300,10 @@ class XAImage():
             else:
                 if isinstance(file_url, str):
                     if file_url.startswith("/"):
-                        file_url = NSURL.alloc().initFileURLWithPath_(file_url)
+                        file_url = XAPath(file_url)
                     else:
-                        file_url = NSURL.alloc().initWithString_(file_url)
-                self.xa_elem = AppKit.NSImage.alloc().initWithContentsOfURL_(file_url)
+                        file_url = XAURL(file_url)
+                self.xa_elem = AppKit.NSImage.alloc().initWithContentsOfURL_(file_url.xa_elem)
 
     def size(self):
         return self.xa_elem.size()
@@ -2176,3 +2334,88 @@ class XALocation():
         self.raw_value.setMapKitHandle_(self.handle)
 
     
+class XAAlertStyle(Enum):
+    """Options for which alert style an alert should display with.
+    """
+    INFORMATIONAL   = AppKit.NSAlertStyleInformational
+    WARNING         = AppKit.NSAlertStyleWarning
+    CRITICAL        = AppKit.NSAlertStyleCritical
+
+class XAAlert(object):
+    """A class for creating and interacting with an alert dialog window.
+
+    .. versionadded:: 0.0.5
+    """
+    def __init__(self, title: str = "Alert!", message: str = "", style: XAAlertStyle = XAAlertStyle.INFORMATIONAL, buttons = ["Ok", "Cancel"]):
+        super().__init__()
+        self.title: str = title
+        self.message: str = message
+        self.style: XAAlertStyle = style
+        self.buttons: List[str] = buttons
+
+    def display(self) -> int:
+        """Displays the alert.
+
+        :return: A number representing the button that the user selected, if any
+        :rtype: int
+
+        .. versionadded:: 0.0.5
+        """
+        alert = AppKit.NSAlert.alloc().init()
+        alert.setMessageText_(self.title)
+        alert.setInformativeText_(self.message)
+        alert.setAlertStyle_(self.style.value)
+
+        for button in self.buttons:
+            alert.addButtonWithTitle_(button)
+        return alert.runModal()
+
+    def package_for_script(self) -> 'XAAlert':
+        return self
+
+
+class XAColorPickerStyle(Enum):
+    """Options for which tab a color picker should display when first opened.
+    """
+    GRAYSCALE       = AppKit.NSColorPanelModeGray
+    RGB_SLIDERS     = AppKit.NSColorPanelModeRGB
+    CMYK_SLIDERS    = AppKit.NSColorPanelModeCMYK
+    HSB_SLIDERS     = AppKit.NSColorPanelModeHSB
+    COLOR_LIST      = AppKit.NSColorPanelModeColorList
+    COLOR_WHEEL     = AppKit.NSColorPanelModeWheel
+    CRAYONS         = AppKit.NSColorPanelModeCrayon
+    IMAGE_PALETTE   = AppKit.NSColorPanelModeCustomPalette
+
+class XAColorPicker(object):
+    """A class for creating and interacting with a color picker window.
+
+    .. versionadded:: 0.0.5
+    """
+    def __init__(self, style: XAColorPickerStyle = XAColorPickerStyle.GRAYSCALE):
+        super().__init__()
+        self.style = style
+
+    def display(self) -> XAColor:
+        """Displays the color picket.
+
+        :return: The color that the user selected
+        :rtype: XAColor
+
+        .. versionadded:: 0.0.5
+        """
+        panel = AppKit.NSColorPanel.sharedColorPanel()
+        panel.setMode_(self.style.value)
+        panel.setShowsAlpha_(True)
+
+        def run_modal(panel):
+                initial_color = panel.color()
+                time.sleep(0.5)
+                while panel.isVisible() and panel.color() == initial_color:
+                    time.sleep(0.01)
+                AppKit.NSApp.stopModal()
+
+        modal_thread = threading.Thread(target=run_modal, args=(panel, ), name="Run Modal", daemon=True)
+        modal_thread.start()
+
+        AppKit.NSApp.runModalForWindow_(panel)
+        return XAColor(panel.color())

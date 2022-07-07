@@ -1,10 +1,13 @@
-import math
+from datetime import datetime
+from enum import Enum
 import os
-from pathlib import Path
-from random import random
 from time import sleep
-from typing import Any, List, Union
+from typing import Any, Callable, List, Union
+import threading
+from numpy import isin
+import yaml
 
+import AppKit
 from AppKit import (
     NSWorkspace,
     NSApplication,
@@ -13,53 +16,46 @@ from AppKit import (
     NSArray,
     NSPasteboardTypeString,
     NSAppleScript,
-    NSRunningApplication,
-    NSMutableArray
+    NSAlert, NSAlertStyleCritical, NSAlertStyleInformational, NSAlertStyleWarning,
+    NSColorPanel
 )
 from Foundation import NSURL, NSBundle
 
-import threading
+from Quartz import CGWindowListCopyWindowInfo, kCGNullWindowID, kCGWindowListOptionAll
 
-from Quartz import CGWindowListCopyWindowInfo, kCGWindowListOptionOnScreenOnly, kCGNullWindowID, kCGWindowListOptionIncludingWindow, kCGWindowListExcludeDesktopElements, kCGWindowListOptionOnScreenAboveWindow, kCGWindowListOptionOnScreenBelowWindow, kCGWindowListOptionAll
-
-from .XABase import (
-    XAApplication,
-    XASound,
-    timeout,
-)
-
+from .XABase import *
 from .XAErrors import ApplicationNotFoundError
-
 from .apps import application_classes
+
+VERSION = "0.0.5"
+DATE = str(datetime.now())
 
 appspace = NSApplication.sharedApplication()
 workspace = NSWorkspace.sharedWorkspace()
 apps = []
 
 def _get_path_to_app(app_identifier: str) -> str:
-    app_path = app_identifier
     if not app_identifier.endswith(".app"):
             app_identifier += ".app"
 
-    if not app_path.startswith("/"):
-        app_path = "/System/Applications/" + app_identifier
-        if not os.path.exists(app_path):
-            app_path = "/System/Applications/Utilities/" + app_identifier
-        if not os.path.exists(app_path):
-            app_path = str(Path.home()) + "/" + app_identifier
-        if not os.path.exists(app_path):
-            app_path = "/Applications/" + app_identifier
-        if not os.path.exists(app_path):
-            app_path = "/System/Library/CoreServices/" + app_identifier
-        if not os.path.exists(app_path):
-            app_path = "/System/Library/CoreServices/Applications" + app_identifier
+    def _check(path, _index, _stop):
+        nonlocal app_identifier
+        current_path = path + "/" + app_identifier
+        if os.path.exists(current_path):
+            app_identifier = current_path
 
-    if os.path.exists(app_path):
-        return app_path
+    if not app_identifier.startswith("/"):
+        locations = AppKit.NSMutableArray.arrayWithArray_(workspace._locationsForApplications())
+        locations.insertObject_atIndex_("/System/Applications", 0)
+        locations.insertObject_atIndex_("/Applications", 0)
+        locations.enumerateObjectsUsingBlock_(_check)
+
+    if os.path.exists(app_identifier):
+        return app_identifier
 
     raise ApplicationNotFoundError(app_identifier)
 
-def get_running_applications() -> List[XAApplication]:
+def running_applications() -> List[XAApplication]:
     """Gets PyXA references to all currently running applications whose app bundles are stored in typical application directories.
 
     :return: A list of PyXA application objects.
@@ -67,32 +63,12 @@ def get_running_applications() -> List[XAApplication]:
     
     .. versionadded:: 0.0.1
     """
-
     windows = CGWindowListCopyWindowInfo(kCGWindowListOptionAll, kCGNullWindowID)
-    layers = [window["kCGWindowLayer"] for window in windows]
-    names = [window["kCGWindowOwnerName"] for window in windows]
+    def enumerate_apps(obj, index, stop):
+        if windows[index].get("kCGWindowIsOnscreen") == 1 and windows[index]["kCGWindowLayer"] == 0 and windows[index]["kCGWindowStoreType"] == 1:
+            application(windows[index]["kCGWindowOwnerName"])
 
-    def append_app(name, apps):
-        try:
-            apps.append(application(name.lower()))
-        except ApplicationNotFoundError as e:
-            pass
-            #print("Couldn't create a reference to " + e.name)
-    
-    threads = []
-    for index, name in enumerate(names):
-        if layers[index] == 0:
-            app_thread = threading.Thread(target=append_app, args=(name.lower(), apps), name="Append App", daemon=False)
-            threads.append(app_thread)
-            app_thread.start()
-    
-    wait = True
-    while wait != False:
-        wait = False
-        for thread in threads:
-            if thread.is_alive():
-                wait = True
-
+    windows.enumerateObjectsUsingBlock_(enumerate_apps)
     return apps
 
 def current_application() -> XAApplication:
@@ -104,24 +80,15 @@ def current_application() -> XAApplication:
     .. versionadded:: 0.0.1
     """
     app = workspace.frontmostApplication()
-    app_identifier = app.localizedName().lower()
-    return application(app_identifier)
-
-def launch_application(app_identifier: str) -> XAApplication:
-    """Launches and activates an application, or activates an already running application, and returns its PyXA application object representation.
-
-    :param app_identifier: The name of the application to launch or activate.
-    :type app_identifier: str
-    :return: A PyXA application object referencing the target application.
-    :rtype: XAApplication
-
-    .. seealso:: :func:`application`
-
-    .. versionadded:: 0.0.1
-    """
-    app_identifier = app_identifier.lower()
-    app = application(app_identifier)
-    app.activate()
+    properties = {
+        "parent": None,
+        "appspace": appspace,
+        "workspace": workspace,
+        "element": app,
+        "appref": app,
+    }
+    app = application_classes.get(app.localizedName().lower(), XAApplication)(properties)
+    apps.append(app)
     return app
 
 def application(app_identifier: str) -> XAApplication:
@@ -132,37 +99,54 @@ def application(app_identifier: str) -> XAApplication:
     :return: A PyXA application object referencing the target application.
     :rtype: XAApplication
 
-    .. seealso:: :func:`launch_application`
-
     .. versionadded:: 0.0.1
     """
 
-    app_object = None
-    def _launch_completion_handler(app, _error):
-        nonlocal app_object
-        app_object = app
+    def _match_open_app(obj, index, stop):
+        return (obj.localizedName() == app_identifier, stop)
 
-    bundle = None
+    idx_set = workspace.runningApplications().indexesOfObjectsPassingTest_(_match_open_app)
+    if idx_set.count() == 1:
+        index = idx_set.firstIndex()
+        app = workspace.runningApplications()[index]
+        properties = {
+            "parent": None,
+            "appspace": appspace,
+            "workspace": workspace,
+            "element": app,
+            "appref": app,
+        }
+        app_ref = application_classes.get(app_identifier.lower(), XAApplication)(properties)
+        apps.append(app_ref)
+        return app_ref
+
     app_path = _get_path_to_app(app_identifier)
     bundle = NSBundle.alloc().initWithPath_(app_path)
     url = workspace.URLForApplicationWithBundleIdentifier_(bundle.bundleIdentifier())
-    workspace.openApplicationAtURL_configuration_completionHandler_(url, None, _launch_completion_handler)
-    while app_object is None:
-        sleep(0.1)
 
-    properties = {
-        "parent": None,
-        "appspace": appspace,
-        "workspace": workspace,
-        "element": app_object,
-        "appref": app_object,
-    }
-    if app_identifier.lower() in application_classes:
-        app = application_classes[app_identifier.lower()](properties)
-    else:
-        app = XAApplication(properties)
-    apps.append(app)
-    return app
+    config = AppKit.NSWorkspaceOpenConfiguration.alloc().init()
+    config.setActivates_(False)
+    config.setHides_(True)
+
+    app_ref = None
+    def _launch_completion_handler(app, _error):
+        nonlocal app_ref
+        properties = {
+            "parent": None,
+            "appspace": appspace,
+            "workspace": workspace,
+            "element": app,
+            "appref": app,
+        }
+        app = application_classes.get(app_identifier.lower(), XAApplication)(properties)
+        apps.append(app)
+        app_ref = app
+
+    
+    workspace.openApplicationAtURL_configuration_completionHandler_(url, config, _launch_completion_handler)
+    while app_ref is None:
+        sleep(0.01)
+    return app_ref
 
 def open_url(path: Union[str, NSURL]) -> None:
     """Opens the document at the given URL in its default application.
@@ -170,48 +154,17 @@ def open_url(path: Union[str, NSURL]) -> None:
     :param path: The path of the item to open. This can be a file path, folder path, web address, or application URL.
     :type path: Union[str, NSURL]
 
+    .. deprecated:: 0.0.5
+       Use :class:`XAURL` instead.
+
     .. versionadded:: 0.0.2
     """
     url = path
     if isinstance(path, str):
         url = NSURL.alloc().initWithString_(path)
-    if url.path().startswith("/"):
+    if not url.path().startswith("/"):
         url = NSURL.alloc().initFileURLWithPath_(url.path())
     workspace.openURL_(url)
-
-def sound(sound_file: Union[str, NSURL]) -> XASound:
-    """Creates a new XASound object.
-
-    :param sound_file: The sound file to associate with the XASound object
-    :type sound_file: Union[str, NSURL]
-    :return: A reference to the new XASound object.
-    :rtype: XASound
-
-    .. seealso:: :func:`play_sound`
-
-    .. versionadded:: 0.0.1
-    """
-    return XASound(sound_file)
-
-def play_sound(sound_file: Union[str, NSURL]) -> None:
-    """Immediately plays a sound from the specified file.
-
-    :param sound_file: The path to the file to play.
-    :type sound_file: Union[str, NSURL]
-
-    .. seealso:: :func:`sound`
-
-    .. versionadded:: 0.0.1
-    """
-    if isinstance(sound_file, str):
-        if "/" in sound_file:
-            sound_file = NSURL.alloc().initWithString_(sound_file)
-        else:
-            sound_file = NSURL.alloc().initWithString_("/System/Library/Sounds/" + sound_file + ".aiff")
-    sound = NSSound.alloc()
-    sound.initWithContentsOfURL_byReference_(sound_file, True)
-    sound.play()
-    sleep(sound.duration())
 
 def get_clipboard() -> List[bytes]:
     """Returns the byte representation of all items on the clipboard.
@@ -220,6 +173,9 @@ def get_clipboard() -> List[bytes]:
     :rtype: List[bytes]
 
     .. seealso:: :func:`get_clipboard_strings`, :func:`set_clipboard`
+
+    .. deprecated:: 0.0.5
+       Use :ivar:`XABase.XAClipboard.content` instead.
 
     .. versionadded:: 0.0.1
     """
@@ -237,6 +193,9 @@ def get_clipboard_strings() -> List[str]:
     :rtype: List[str]
 
     .. seealso:: :func:`get_clipboard`, :func:`set_clipboard`
+
+    .. deprecated:: 0.0.5
+       Use :ivar:`XABase.XAClipboard.content` instead.
 
     .. versionadded:: 0.0.1
     """
@@ -260,6 +219,9 @@ def set_clipboard(content: Any) -> None:
     :type content: Any
 
     .. seealso:: :func:`get_clipboard`, :func:`get_clipboard_strings`
+
+    .. deprecated:: 0.0.5
+       Use :func:`XABase.XAClipboard.set_content` instead.
 
     .. versionadded:: 0.0.1
     """
@@ -285,4 +247,186 @@ def run_applescript(source: Union[str, NSURL]) -> Any:
         script = NSAppleScript.initWithContentsOfURL_error_(source, None)
     else:
         script = NSAppleScript.alloc().initWithSource_(source)
-    return script.executeAndReturnError_(None)
+
+
+class PyXAAction(object):
+    """A class representing a single method call in a larger PyXA script.
+
+    .. versionadded:: 0.0.5
+    """
+    def __init__(self, method: Union[Callable[..., Any], str], args: List[Any] = None, specifier_names: List[str] = None, return_object_specifier: str = None):
+        self.method = method
+        self.args = args or []
+        self.specifier_names = specifier_names or []
+        self.return_object_specifier = return_object_specifier
+
+class PyXAScript(object):
+    """A class for creating, saving, and loading PyXA scripts that execute upon calling run().
+
+    :Example 1: Creating a script to search input on Google
+
+    >>> script = PyXA.PyXAScript()
+    >>> script.set_specifier("url_base", "https://www.google.com/search?q=")
+    >>> script.add_call(PyXA.open_url, ["<<url_base>><<input>>"])
+    >>> script.save("/Users/exampleuser/Documents/pyxa_scripts/search_google")
+
+    :Example 2: Loading and running the script from Example 1
+
+    >>> script = PyXA.PyXAScript().load("/Users/exampleuser/Documents/pyxa_scripts/search_google")
+    >>> script.run("Testing 1 2 3")
+
+    .. versionadded:: 0.0.5
+    """
+    def __init__(self, actions: List[PyXAAction] = None, specifiers: dict = None, name: str = None):
+        """Initializes a new PyXA script.
+
+        :param actions: The actions to include in this script, defaults to None
+        :type actions: List[PyXAAction], optional
+        :param specifiers: The specifiers to predefine for the script, defaults to None
+        :type specifiers: dict, optional
+        :param name: The name of the script, defaults to None
+        :type name: str, optional
+
+        .. versionadded:: 0.0.5
+        """
+        super().__init__()
+        self.specifiers = {}
+        self.actions = []
+        if specifiers is not None:
+            self.specifiers = specifiers
+        if actions is not None:
+            self.actions = actions
+        self.name = name
+
+    def set_specifier(self, name: str, value: Any):
+        """Sets a specifier for use when the script is called via run().
+
+        :param name: The name of the specifier
+        :type name: str
+        :param value: The value of the specifier
+        :type value: Any
+
+        .. versionadded:: 0.0.5
+        """
+        self.specifiers[name] = value
+
+    def add_action(self, action: PyXAAction):
+        """Adds an existing action to the script.
+
+        :param action: The action to add
+        :type action: PyXAAction
+
+        .. versionadded:: 0.0.5
+        """
+        self.actions.append(action)
+
+    def add_call(self, method: Union[Callable[..., Any], str], args: List[Any] = None, specifier_names: List[str] = None, return_object_specifier: str = None):
+        """Creates a new action and adds it to the script.
+
+        :param method: The method that this action invokes
+        :type method: Union[Callable[..., Any], str]
+        :param args: The arguments to pass to the method, defaults to None
+        :type args: List[Any], optional
+        :param specifier_names: The specifiers to save the action's results to, defaults to None
+        :type specifier_names: List[str], optional
+        :param return_object_specifier: If applicable, the specifier for the object that the method is called from, defaults to None
+        :type return_object_specifier: str, optional
+
+        .. versionadded:: 0.0.5
+        """
+        self.actions.append(PyXAAction(method, args, specifier_names, return_object_specifier))
+
+    def run(self, input: Union[Any, List[Any]] = None) -> Any:
+        """Runs the script.
+
+        :param input: The input(s) to pass to the script's method calls, defaults to None
+        :type input: Union[Any, List[Any]], optional
+        :raises ReferenceError: The script failed to run due to referencing a specifier that doesn't exist
+        :return: The value returned from the final method call
+        :rtype: Any
+
+        .. versionadded:: 0.0.5
+        """
+        specifiers = self.specifiers
+
+        for action in self.actions:
+            method = action.method
+            args = action.args
+            specifier_names = action.specifier_names
+            object_specifier = action.return_object_specifier
+
+            for index, arg in enumerate(args):
+                if isinstance(arg, str):
+                    if "<<"+arg+">>" in specifiers:
+                        args[index] = specifiers[arg]
+                    elif arg == "<<input>>":
+                        if isinstance(input, list):
+                            args[index] = input[0]
+                            input.pop(0)
+                        else:
+                            args[index] = input
+                    else:
+                        for key, value in specifiers.items():
+                            if "<<"+key+">>" in arg:
+                                args[index] = arg.replace("<<"+key+">>", value)
+                            if "<<input>>" in arg:
+                                if input is None:
+                                    raise ValueError("Input expected")
+                                if isinstance(input, list):
+                                    args[index] = args[index].replace("<<input>>", input[0])
+                                    input.pop(0)
+                                else:
+                                    args[index] = args[index].replace("<<input>>", input)
+            result = None
+            if object_specifier is not None:
+                if object_specifier in specifiers:
+                    result = specifiers[object_specifier].__getattribute__(method)(*args)
+                else:
+                    raise ReferenceError("Object specifier not found")
+            else:
+                result = method(*args)
+        
+            if len(specifier_names) > 0:
+                name = specifier_names[0]
+            else:
+                name = "specifier" + str(len(specifiers))
+            specifiers[name] = result
+        return result
+
+    def save(self, file_path: str):
+        """Saves a .pyxa script file.
+
+        If the file path does not end in .pyxa, the extension will be appended.
+
+        :param file_path: The path to save the script at.
+        :type file_path: str
+
+        .. versionadded:: 0.0.5
+        """
+        self.version = VERSION
+        self.date = DATE
+        if not file_path.endswith(".pyxa"):
+            file_path = file_path + ".pyxa"
+        with open(file_path, 'w') as f:
+            yaml.dump(self, f)
+
+    def load(self, file_path: str) -> 'PyXAScript':
+        """Loads a .pyxa script file into this PyXAScript object.
+
+        If the file path does not end in .pyxa, the extension will be appended.
+
+        :param file_path: The path to the script.
+        :type file_path: str
+        :return: The loaded script object
+        :rtype: PyXAScript
+
+        .. versionadded:: 0.0.5
+        """
+        if not file_path.endswith(".pyxa"):
+            file_path = file_path + ".pyxa"
+        with open(file_path, 'r') as f:
+            loaded_script = yaml.load(f, Loader=yaml.Loader)
+            self.__dict__.update(loaded_script.__dict__)
+        if self.version != VERSION:
+            print(f"Warning: Script was made with PyXA {self.version}, but the installed version is {VERSION}. Proceed with caution.")
+        return self

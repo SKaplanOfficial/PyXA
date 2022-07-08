@@ -116,18 +116,8 @@ class XASBCloseable(XABase.XAObject):
         self.xa_elem.closeSaving_savingIn_(saving_options["no"], "~")
         return self
 
-# TODO: FIX THIS
-class XASBSaveable(XABase.XAObject):
-    def save(self, location: str = None) -> XABase.XAObject:
-        """Saves a document, window, or item.
 
-        :return: A reference to the PyXA objects that called this method.
-        :rtype: XABase.XAObject
-        """
-        if location is None:
-            location = "/Users/steven/Downloads/test.pdf"
-        self.xa_elem.saveIn_as_(None, None)
-        return self
+
 
 class XASBPrintable(XABase.XAObject):
     def __print_dialog(self, show_prompt: bool = True):
@@ -164,9 +154,8 @@ class XASBPrintable(XABase.XAObject):
         print_thread.start()
         return self
 
-class XASBDeletable(XABase.XAObject):
-    def delete(self):
-        self.xa_elem.delete()
+
+
 
 class XASBApplication(XASBObject, XABase.XAApplication, XAHasScriptableElements):
     """An application class for scriptable applications.
@@ -181,10 +170,10 @@ class XASBApplication(XASBObject, XABase.XAApplication, XAHasScriptableElements)
 
     ### Windows
     def windows(self, filter: dict = None) -> 'XASBWindowList':
-        return self._new_element(self.xa_scel.windows(), XASBWindowList)
+        return self._new_element(self.xa_scel.windows(), self.xa_wcls)
 
     def front_window(self) -> 'XASBWindow':
-        return self._new_element(self.xa_scel.windows()[0], XASBWindow)
+        return self._new_element(self.xa_scel.windows()[0], self.xa_wcls)
 
 
 

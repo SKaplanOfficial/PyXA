@@ -9,7 +9,7 @@ from typing import Any, List, Tuple, Union
 from PyXA import XABase
 from PyXA import XABaseScriptable
 
-class XASafariApplication(XABaseScriptable.XASBApplication, XABaseScriptable.XASBSaveable, XABaseScriptable.XASBPrintable, XABaseScriptable.XAHasScriptableElements):
+class XASafariApplication(XABaseScriptable.XASBApplication, XABaseScriptable.XASBPrintable, XABaseScriptable.XAHasScriptableElements):
     """A class for interacting with Safari.app.
 
     .. seealso:: :class:`XASafariDocument`, :class:`XASafariTab`, :class:`XABaseScriptable.XASBApplication`, :class:`XABaseScriptable.XASBSaveable`, :class:`XABaseScriptable.XASBPrintable`
@@ -199,6 +199,9 @@ class XASafariApplication(XABaseScriptable.XASBApplication, XABaseScriptable.XAS
         """
         self.xa_scel.emailContentsOf_(item.xa_elem)
 
+    def save(self):
+        self.xa_elem.saveIn_as_(None, None)
+
     def documents(self, filter: dict = None) -> 'XASafariDocumentList':
         """Returns a list of documents matching the given filter.
 
@@ -246,7 +249,7 @@ class XASafariApplication(XABaseScriptable.XASBApplication, XABaseScriptable.XAS
             return self._new_element(obj, XASafariTab)
 
 
-class XASafariWindow(XABaseScriptable.XASBWindow, XABaseScriptable.XASBSaveable, XABaseScriptable.XASBCloseable, XABaseScriptable.XASBPrintable, XABase.XAHasElements):
+class XASafariWindow(XABaseScriptable.XASBWindow, XABaseScriptable.XASBCloseable, XABaseScriptable.XASBPrintable, XABase.XAHasElements):
     """A class for interacting with Safari windows.
 
     .. versionadded:: 0.0.1
@@ -318,6 +321,18 @@ class XASafariWindow(XABaseScriptable.XASBWindow, XABaseScriptable.XASBSaveable,
     @property
     def current_tab(self) -> 'XASafariTab':
         return self._new_element(self.xa_scel.currentTab(), XASafariTab)
+
+    # TODO: Get this working
+    def save(self, file_path: Union[str, XABase.XAURL, None] = None):
+        if isinstance(file_path, str):
+            file_path = XABase.XAPath(file_path).xa_elem
+        
+        script = XABase.AppleScript(f"""
+            tell application \"Safari\"
+                save document of window 1 in \"{file_path}\"
+            end tell
+        """)
+        script.run()
 
     def tabs(self, filter: dict = None) -> 'XASafariTabList':
         """Returns a list of tabs matching the given filter.
@@ -461,7 +476,7 @@ class XASafariDocumentList(XABase.XAList):
     def __repr__(self):
         return "<" + str(type(self)) + str(self.name()) + ">"
 
-class XASafariDocument(XASafariGeneric, XABaseScriptable.XASBPrintable, XABaseScriptable.XASBSaveable):
+class XASafariDocument(XASafariGeneric, XABaseScriptable.XASBPrintable):
     """A class for interacting with Safari documents.
 
     .. seealso:: :class:`XASafariGeneric`, :class:`XABaseScriptable.XASBPrintable`, :class:`XABaseScriptable.XASBSaveable`
@@ -500,6 +515,9 @@ class XASafariDocument(XASafariGeneric, XABaseScriptable.XASBPrintable, XABaseSc
     @property
     def text(self) -> str:
         return self.xa_elem.text()
+
+    def save(self):
+        self.xa_elem.saveIn_as_(None, None)
 
 
 class XASafariTabList(XABase.XAList):

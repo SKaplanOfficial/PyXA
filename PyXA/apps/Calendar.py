@@ -9,8 +9,6 @@ from typing import List, Literal, Union
 from ScriptingBridge import SBObject
 
 import EventKit
-import sys
-import os
 
 from Foundation import NSURL
 from AppKit import NSPredicate, NSMutableArray

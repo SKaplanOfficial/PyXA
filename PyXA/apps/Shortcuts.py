@@ -95,7 +95,7 @@ class XAShortcutFolderList(XABase.XAList):
     def __repr__(self):
         return "<" + str(type(self)) + str(self.name()) + ">"
 
-class XAShortcutFolder(XABaseScriptable.XASBObject, XABase.XAHasAttachments):
+class XAShortcutFolder(XABaseScriptable.XASBObject):
     """A class for managing and interacting with folders of shortcuts.
 
     .. seealso:: :class:`XAShortcutsApplication`

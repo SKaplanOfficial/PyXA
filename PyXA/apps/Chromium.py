@@ -12,7 +12,7 @@ from PyXA import XABaseScriptable
 class XAChromiumApplication(XABaseScriptable.XASBApplication):
     """A class for managing and interacting with Chromium.app.
 
-    .. seealso:: :class:`XAChromiumWindow`, :class:`XATextEditDocument`
+    .. seealso:: :class:`XAChromiumWindow`, :class:`XAChromiumBookmarkFolder`, :class:`XAChromiumBookmarkItem`, :class:`XAChromiumTab`
 
     .. versionadded:: 0.0.3
     """
@@ -46,7 +46,7 @@ class XAChromiumApplication(XABaseScriptable.XASBApplication):
     def other_bookmarks(self) -> 'XAChromiumBookmarkFolder':
         return self._new_element(self.xa_scel.otherBookmarks(), XAChromiumBookmarkFolder)
 
-    def open(self, url: Union[str, NSURL] = "https://google.com") -> 'XAChromiumApplication':
+    def open(self, url: Union[str, XABase.XAURL] = "https://google.com") -> 'XAChromiumApplication':
         """Opens a URL in a new tab.
 
         :param url: _description_, defaults to "http://google.com"
@@ -72,8 +72,8 @@ class XAChromiumApplication(XABaseScriptable.XASBApplication):
             # Otherwise, URL is web address
             elif not url.startswith("http"):
                 url = "http://" + url
-            url = XABase.xa_url(url)
-        self.xa_wksp.openURLs_withAppBundleIdentifier_options_additionalEventParamDescriptor_launchIdentifiers_([url], self.xa_elem.bundleIdentifier(), 0, None, None)
+            url = XABase.XAURL(url)
+        self.xa_wksp.openURLs_withAppBundleIdentifier_options_additionalEventParamDescriptor_launchIdentifiers_([url.xa_elem], self.xa_elem.bundleIdentifier(), 0, None, None)
         return self
 
     def bookmark_folders(self, filter: Union[dict, None] = None) -> 'XAChromiumBookmarkFolderList':
@@ -88,7 +88,55 @@ class XAChromiumApplication(XABaseScriptable.XASBApplication):
         """
         return self._new_element(self.xa_scel.bookmarkFolders(), XAChromiumBookmarkFolderList, filter)
 
-    def make(self, specifier: str, properties: dict):
+    def new_window(self, url: Union[str, XABase.XAURL, None] = None) -> 'XAChromiumWindow':
+        """Opens a new window at the specified URL.
+
+
+        :param url: The URL to open in a new window, or None to open the window at the homepage, defaults to None
+        :type url: Union[str, XABase.XAURL, None], optional
+        :return: The newly created window object
+        :rtype: XAChromiumWindow
+
+        .. seealso:: :func:`new_tab`, :func:`make`
+
+        .. versionadded:: 0.0.5
+        """
+        new_window = self.make("window")
+        self.windows().push(new_window)
+
+        if isinstance(url, str):
+            if url.startswith("/"):
+                # URL is a path to file
+                self.xa_wksp.openFile_application_(url, self.xa_scel)
+                return self
+            # Otherwise, URL is web address
+            elif not url.startswith("http"):
+                url = "http://" + url
+            url = XABase.XAURL(url)
+        new_window.active_tab.set_property("URL", url.xa_elem)
+        return new_window
+
+    def new_tab(self, url: Union[str, XABase.XAURL, None] = None) -> 'XAChromiumTab':
+        """Opens a new tab at the specified URL.
+
+        :param url: The URL to open in a new tab, or None to open the tab at the homepage, defaults to None
+        :type url: Union[str, XABase.XAURL, None], optional
+        :return: The newly created tab object
+        :rtype: XAChromiumTab
+
+        .. seealso:: :func:`new_window`, :func:`make`
+
+        .. versionadded:: 0.0.5
+        """
+        new_tab = None
+        if url is None:
+            new_tab = self.make("tab")
+        else:
+            new_tab = self.make("tab", {"URL": url})
+        self.front_window().tabs().push(new_tab)
+        return new_tab
+
+    def make(self, specifier: str, properties: dict = None):
         """Creates a new element of the given specifier class without adding it to any list.
 
         Use :func:`XABase.XAList.push` to push the element onto a list.
@@ -100,14 +148,23 @@ class XAChromiumApplication(XABaseScriptable.XASBApplication):
         :return: A PyXA wrapped form of the object
         :rtype: XABase.XAObject
 
+        .. seealso:: :func:`new_window`, :func:`new_tab`
+
         .. versionadded:: 0.0.4
         """
+        if properties is None:
+            properties = {}
+
         obj = self.xa_scel.classForScriptingClass_(specifier).alloc().initWithProperties_(properties)
 
         if specifier == "tab":
             return self._new_element(obj, XAChromiumTab)
+        elif specifier == "window":
+            return self._new_element(obj, XAChromiumWindow)
 
-    
+
+
+
 class XAChromiumWindow(XABaseScriptable.XASBWindow):
     """A class for managing and interacting with Chromium windows.
 
@@ -135,63 +192,81 @@ class XAChromiumWindow(XABaseScriptable.XASBWindow):
 
     @property
     def given_name(self) -> str:
-        return self.xa_scel.givenName()
+        return self.xa_elem.givenName()
 
     @property
     def name(self) -> str:
-        return self.xa_scel.name()
+        return self.xa_elem.name()
 
     @property
     def id(self) -> int:
-        return self.xa_scel.id()
+        return self.xa_elem.id()
 
     @property
     def index(self) -> int:
-        return self.xa_scel.index()
+        return self.xa_elem.index()
 
     @property
     def bounds(self) -> Tuple[Tuple[int, int], Tuple[int, int]]:
-        return self.xa_scel.bounds()
+        return self.xa_elem.bounds()
 
     @property
     def closeable(self) -> bool:
-        return self.xa_scel.closeable()
+        return self.xa_elem.closeable()
 
     @property
     def minimizable(self) -> bool:
-        return self.xa_scel.minimizable()
+        return self.xa_elem.minimizable()
 
     @property
     def minimized(self) -> bool:
-        return self.xa_scel.minimized()
+        return self.xa_elem.minimized()
 
     @property
     def resizable(self) -> bool:
-        return self.xa_scel.resizable()
+        return self.xa_elem.resizable()
 
     @property
     def visible(self) -> bool:
-        return self.xa_scel.visible()
+        return self.xa_elem.visible()
 
     @property
     def zoomable(self) -> bool:
-        return self.xa_scel.zoomable()
+        return self.xa_elem.zoomable()
 
     @property
     def zoomed(self) -> bool:
-        return self.xa_scel.zoomed()
+        return self.xa_elem.zoomed()
 
     @property
     def mode(self) -> str:
-        return self.xa_scel.mode()
+        return self.xa_elem.mode()
 
     @property
     def active_tab_index(self) -> int:
-        return self.xa_scel.activeTabIndex() 
+        return self.xa_elem.activeTabIndex() 
 
     @property
     def active_tab(self) -> 'XAChromiumTab':
-        return self._new_element(self.xa_scel.activeTab(), XAChromiumTab)
+        return self._new_element(self.xa_elem.activeTab(), XAChromiumTab)
+
+    def new_tab(self, url: Union[str, XABase.XAURL, None] = None) -> 'XAChromiumTab':
+        """Opens a new tab at the specified URL.
+
+        :param url: The URL to open in a new tab, or None to open the tab at the homepage, defaults to None
+        :type url: Union[str, XABase.XAURL, None], optional
+        :return: The newly created tab object
+        :rtype: XAChromiumTab
+
+        .. versionadded:: 0.0.5
+        """
+        new_tab = None
+        if url is None:
+            new_tab = self.xa_prnt.xa_prnt.make("tab")
+        else:
+            new_tab = self.xa_prnt.xa_prnt.make("tab", {"URL": url})
+        self.tabs().push(new_tab)
+        return new_tab
 
     def tabs(self, filter: Union[dict, None] = None) -> 'XAChromiumTabList':
         """Returns a list of tabs, as PyXA objects, matching the given filter.
@@ -203,11 +278,15 @@ class XAChromiumWindow(XABaseScriptable.XASBWindow):
 
         .. versionadded:: 0.0.3
         """
-        return self._new_element(self.xa_scel.tabs(), XAChromiumTabList, filter)
+        return self._new_element(self.xa_elem.tabs(), XAChromiumTabList, filter)
+
+
 
 
 class XAChromiumTabList(XABase.XAList):
     """A wrapper around a list of tabs.
+
+    .. seealso:: :class:`XAChromiumTab`
 
     .. versionadded:: 0.0.3
     """
@@ -215,33 +294,89 @@ class XAChromiumTabList(XABase.XAList):
         super().__init__(properties, XAChromiumTab, filter)
 
     def id(self) -> List[int]:
+        """Gets the ID of each tab in the list.
+
+        :return: A list of tab IDs
+        :rtype: List[int]
+        
+        .. versionadded:: 0.0.4
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("id"))
 
     def title(self) -> List[str]:
+        """Gets the title of each tab in the list.
+
+        :return: A list of tab titles
+        :rtype: List[str]
+        
+        .. versionadded:: 0.0.4
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("title"))
 
     def url(self) -> List[str]:
+        """Gets the URL of each tab in the list.
+
+        :return: A list of tab URLS
+        :rtype: List[str]
+        
+        .. versionadded:: 0.0.4
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("URL"))
 
     def loading(self) -> List[bool]:
+        """Gets the loading state of each tab in the list.
+
+        :return: A list of loading states; a list of booleans.
+        :rtype: List[bool]
+        
+        .. versionadded:: 0.0.4
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("loading"))
 
-    def by_id(self, id: int) -> 'XAChromiumTab':
+    def by_id(self, id: int) -> Union['XAChromiumTab', None]:
+        """Retrieves the tab whose ID matches the given ID, if one exists.
+
+        :return: The desired tab, if it is found
+        :rtype: Union[XAChromiumTab, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("id", id)
 
-    def by_title(self, title: str) -> 'XAChromiumTab':
+    def by_title(self, title: str) -> Union['XAChromiumTab', None]:
+        """Retrieves the first tab whose title matches the given title, if one exists.
+
+        :return: The desired tab, if it is found
+        :rtype: Union[XAChromiumTab, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("title", title)
 
-    def by_url(self, url: str) -> 'XAChromiumTab':
+    def by_url(self, url: str) -> Union['XAChromiumTab', None]:
+        """Retrieves the first tab whose URL matches the given URL, if one exists.
+
+        :return: The desired tab, if it is found
+        :rtype: Union[XAChromiumTab, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("url", url)
 
-    def by_loading(self, loading: bool) -> 'XAChromiumTab':
+    def by_loading(self, loading: bool) -> Union['XAChromiumTab', None]:
+        """Retrieves the first tab whose loading state matches the given boolean value, if one exists.
+
+        :return: The desired tab, if it is found
+        :rtype: Union[XAChromiumTab, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("loading", loading)
 
 class XAChromiumTab(XABaseScriptable.XASBObject):
     """A class for managing and interacting with Chromium tabs.
 
-    .. seealso:: :class:`XAChromiumWindow`
+    .. seealso:: :class:`XAChromiumWindow`, :class:`XAChromiumTabList`, :class:`XAChromiumWindow`
 
     .. versionadded:: 0.0.3
     """
@@ -269,50 +404,98 @@ class XAChromiumTab(XABaseScriptable.XASBObject):
         return self.xa_elem.loading()
 
     def undo(self) -> 'XAChromiumTab':
+        """Undoes the last action done on the tab.
+        
+        .. versionadded:: 0.0.4
+        """
         self.xa_elem.undo()
         return self
 
     def redo(self) -> 'XAChromiumTab':
+        """Redoes the last action done on the tab.
+        
+        .. versionadded:: 0.0.4
+        """
         self.xa_elem.redo()
         return self
 
     def cut_selection(self) -> 'XAChromiumTab':
+        """Attempts to cut the selected content and copy it to the clipboard. If the content cannot be deleted, then it is only copied to the clipboard.
+        
+        .. versionadded:: 0.0.4
+        """
         self.xa_elem.cutSelection()
         return self
 
     def copy_selection(self) -> 'XAChromiumTab':
+        """Copies the selected element to the clipboard.
+        
+        .. versionadded:: 0.0.4
+        """
         self.xa_elem.copySelection()
         return self
 
     def paste_selection(self) -> 'XAChromiumTab':
+        """Attempts to paste the clipboard into the selected element.
+        
+        .. versionadded:: 0.0.4
+        """
         self.xa_elem.pasteSelection()
         return self
 
     def select_all(self) -> 'XAChromiumTab':
+        """Selects all text content within the tab.
+        
+        .. versionadded:: 0.0.4
+        """
         self.xa_elem.selectAll()
         return self
 
     def go_back(self) -> 'XAChromiumTab':
+        """Goes to the previous URL in the tab's history.
+        
+        .. versionadded:: 0.0.4
+        """
         self.xa_elem.goBack()
         return self
 
     def go_forward(self) -> 'XAChromiumTab':
+        """Goes to the next URL in the tab's history, or does nothing if the current document is the most recent URL.
+        
+        .. versionadded:: 0.0.4
+        """
         self.xa_elem.goForward()
         return self
 
     def reload(self) -> 'XAChromiumTab':
+        """Reloads the tab.
+        
+        .. versionadded:: 0.0.4
+        """
         self.xa_elem.reload()
         return self
 
     def stop(self) -> 'XAChromiumTab':
+        """Forces the tab to stop loading.
+        
+        .. versionadded:: 0.0.4
+        """
         self.xa_elem.stop()
         return self
 
     def print(self) -> 'XAChromiumTab':
+        """Opens the print dialog for the tab.
+        
+        .. versionadded:: 0.0.4
+        """
         self.xa_elem.print()
         return self
 
     def view_source(self) -> 'XAChromiumTab':
+        """Opens the source HTML of the tab's document in a separate tab.
+        
+        .. versionadded:: 0.0.4
+        """
         self.xa_elem.viewSource()
         return self
 
@@ -326,10 +509,18 @@ class XAChromiumTab(XABaseScriptable.XASBObject):
         return self
 
     def close(self) -> 'XAChromiumTab':
+        """Closes the tab.
+        
+        .. versionadded:: 0.0.4
+        """
         self.xa_elem.close()
         return self
 
     def execute(self, script: str) -> Any:
+        """Executes JavaScript in the tab.
+        
+        .. versionadded:: 0.0.4
+        """
         return self.xa_elem.executeJavascript_(script)
 
     def move_to(self, window: 'XAChromiumWindow') -> 'XAChromiumWindow':
@@ -394,8 +585,12 @@ class XAChromiumTab(XABaseScriptable.XASBObject):
         return self
 
 
+
+
 class XAChromiumBookmarkFolderList(XABase.XAList):
     """A wrapper around a list of bookmark folders.
+
+    .. seealso:: :class:`XAChromiumBookmarkFolder`
 
     .. versionadded:: 0.0.3
     """
@@ -403,25 +598,69 @@ class XAChromiumBookmarkFolderList(XABase.XAList):
         super().__init__(properties, XAChromiumBookmarkFolder, filter)
 
     def id(self) -> List[int]:
+        """Gets the ID of each bookmark folder in the list.
+
+        :return: A list of bookmark folder IDs
+        :rtype: List[int]
+        
+        .. versionadded:: 0.0.4
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("id"))
 
     def title(self) -> List[str]:
+        """Gets the title of each bookmark folder in the list.
+
+        :return: A list of bookmark folder titles
+        :rtype: List[str]
+        
+        .. versionadded:: 0.0.4
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("title"))
 
     def index(self) -> List[int]:
+        """Gets the index of each bookmark folder in the list.
+
+        :return: A list of indexes
+        :rtype: List[int]
+        
+        .. versionadded:: 0.0.4
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("index"))
 
-    def by_id(self, id: int) -> 'XAChromiumBookmarkFolder':
+    def by_id(self, id: int) -> Union['XAChromiumBookmarkFolder', None]:
+        """Retrieves the bookmark folder whose ID matches the given ID, if one exists.
+
+        :return: The desired bookmark folder, if it is found
+        :rtype: Union[XAChromiumBookmarkFolder, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("id", id)
 
-    def by_title(self, title: str) -> 'XAChromiumBookmarkFolder':
+    def by_title(self, title: str) -> Union['XAChromiumBookmarkFolder', None]:
+        """Retrieves the first bookmark folder whose title matches the given title, if one exists.
+
+        :return: The desired bookmark folder, if it is found
+        :rtype: Union[XAChromiumBookmarkFolder, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("title", title)
 
-    def by_index(self, index: int) -> 'XAChromiumBookmarkFolder':
+    def by_index(self, index: int) -> Union['XAChromiumBookmarkFolder', None]:
+        """Retrieves the bookmark folder whose index matches the given index, if one exists.
+
+        :return: The desired bookmark folder, if it is found
+        :rtype: Union[XAChromiumBookmarkFolder, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("index", index)
 
 class XAChromiumBookmarkFolder(XABaseScriptable.XASBObject):
     """A class for managing and interacting with bookmark folders in Chromium.app.
+
+    .. seealso:: :class:`XAChromiumApplication`, :class:`XAChromiumBookmarkFolderList`
 
     .. versionadded:: 0.0.3
     """
@@ -475,8 +714,12 @@ class XAChromiumBookmarkFolder(XABaseScriptable.XASBObject):
         self.xa_elem.delete()
 
 
+
+
 class XAChromiumBookmarkItemList(XABase.XAList):
     """A wrapper around a list of bookmark items.
+
+    .. seealso:: :class:`XAChromiumBookmarkItem`
 
     .. versionadded:: 0.0.3
     """
@@ -484,31 +727,89 @@ class XAChromiumBookmarkItemList(XABase.XAList):
         super().__init__(properties, XAChromiumBookmarkItem, filter)
 
     def id(self) -> List[int]:
+        """Gets the ID of each item in the list.
+
+        :return: A list of bookmark item IDs
+        :rtype: List[int]
+        
+        .. versionadded:: 0.0.4
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("id"))
 
     def title(self) -> List[str]:
+        """Gets the title of each item in the list.
+
+        :return: A list of bookmark item titles
+        :rtype: List[str]
+        
+        .. versionadded:: 0.0.4
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("title"))
 
     def url(self) -> List[str]:
+        """Gets the url of each item in the list.
+
+        :return: A list of bookmark item URLs
+        :rtype: List[str]
+        
+        .. versionadded:: 0.0.4
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("URL"))
 
     def index(self) -> List[int]:
+        """Gets the index of each item in the list.
+
+        :return: A list of indexes
+        :rtype: List[int]
+        
+        .. versionadded:: 0.0.4
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("index"))
 
-    def by_id(self, id: int) -> 'XAChromiumBookmarkItem':
+    def by_id(self, id: int) -> Union['XAChromiumBookmarkItem', None]:
+        """Retrieves the bookmark item whose ID matches the given ID, if one exists.
+
+        :return: The desired bookmark item, if it is found
+        :rtype: Union[XAChromiumBookmarkItem, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("id", id)
 
-    def by_title(self, title: str) -> 'XAChromiumBookmarkItem':
+    def by_title(self, title: str) -> Union['XAChromiumBookmarkItem', None]:
+        """Retrieves the first bookmark item whose title matches the given title, if one exists.
+
+        :return: The desired bookmark item, if it is found
+        :rtype: Union[XAChromiumBookmarkItem, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("title", title)
 
-    def by_url(self, url: str) -> 'XAChromiumBookmarkItem':
+    def by_url(self, url: str) -> Union['XAChromiumBookmarkItem', None]:
+        """Retrieves the first bookmark item whose URL matches the given URL, if one exists.
+
+        :return: The desired bookmark item, if it is found
+        :rtype: Union[XAChromiumBookmarkItem, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("URL", url)
 
-    def by_index(self, index: int) -> 'XAChromiumBookmarkItem':
+    def by_index(self, index: int) -> Union['XAChromiumBookmarkItem', None]:
+        """Retrieves the bookmark item whose index matches the given index, if one exists.
+
+        :return: The desired bookmark item, if it is found
+        :rtype: Union[XAChromiumBookmarkItem, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("index", index)
 
 class XAChromiumBookmarkItem(XABaseScriptable.XASBObject):
     """A class for managing and interacting with bookmarks in Chromium.app.
+
+    .. seealso:: :class:`XAChromiumApplication`, :class:`XAChromiumBookmarkItemList`
 
     .. versionadded:: 0.0.3
     """

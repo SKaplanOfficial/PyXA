@@ -17,16 +17,20 @@ PyXA Base Modules
    xabase
    xabasescriptable
 
-Application Modules
--------------------
+First-Party Application Modules
+-------------------------------
 .. toctree::
    :maxdepth: 2
 
+   apps/automator
    apps/calculator
    apps/calendar
+   apps/console
    apps/contacts
    apps/dictionary
    apps/finder
+   apps/keynote
+   apps/mail
    apps/messages
    apps/music
    apps/notes
@@ -35,6 +39,14 @@ Application Modules
    apps/reminders
    apps/safari
    apps/shortcuts
+   apps/systempreferences
    apps/terminal
    apps/textedit
    apps/tv
+
+Third-Party Application Modules
+-------------------------------
+.. toctree::
+   :maxdepth: 2
+
+   apps/chromium

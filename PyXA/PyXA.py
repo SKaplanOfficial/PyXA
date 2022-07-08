@@ -64,12 +64,114 @@ def running_applications() -> List[XAApplication]:
     .. versionadded:: 0.0.1
     """
     windows = CGWindowListCopyWindowInfo(kCGWindowListOptionAll, kCGNullWindowID)
-    def enumerate_apps(obj, index, stop):
-        if windows[index].get("kCGWindowIsOnscreen") == 1 and windows[index]["kCGWindowLayer"] == 0 and windows[index]["kCGWindowStoreType"] == 1:
-            application(windows[index]["kCGWindowOwnerName"])
+    ls = XAPredicate.evaluate_with_format(windows, "kCGWindowIsOnscreen == 1 && kCGWindowLayer == 0")
+    properties = {
+        "parent": None,
+        "appspace": appspace,
+        "workspace": workspace,
+        "element": ls,
+    }
+    arr = XAApplicationList(properties, XAApplication)
+    return arr
 
-    windows.enumerateObjectsUsingBlock_(enumerate_apps)
-    return apps
+class XAApplicationList(XAList):
+    """A wrapper around a list of applications.
+
+    .. versionadded:: 0.0.5
+    """
+    def __init__(self, properties: dict, filter: Union[dict, None] = None):
+        super().__init__(properties, XAApplication, filter)
+        
+    def __init__(self, properties, object_class = None, filter: Union[dict, None] = None):
+        super().__init__(properties)
+        self.xa_ocls = object_class
+
+        if filter is not None:
+            self.xa_elem = XAPredicate().from_dict(filter).evaluate(self.xa_elem)
+
+    def by_property(self, property: str, value: Any) -> XAObject:
+        predicate = XAPredicate()
+        predicate.add_eq_condition(property, value)
+        self.xa_elem = predicate.evaluate(self.xa_elem)
+        obj = self.xa_elem[0]
+        return self._new_element(obj, self.xa_ocls)
+
+    def first(self) -> XAObject:
+        """Retrieves the first element of the list as a wrapped PyXA object.
+
+        :return: The wrapped object
+        :rtype: XAObject
+
+        .. versionadded:: 0.0.5
+        """
+        return self.__getitem__(0)
+
+    def last(self) -> XAObject:
+        """Retrieves the last element of the list as a wrapped PyXA object.
+
+        :return: The wrapped object
+        :rtype: XAObject
+
+        .. versionadded:: 0.0.5
+        """
+        return self.__getitem__(-1)
+
+    def pop(self, index: int = -1) -> XAObject:
+        """Removes the object at the specified index from the list and returns it.
+
+        .. versionadded:: 0.0.5
+        """
+        removed = self.xa_elem.lastObject()
+        self.xa_elem.removeLastObject()
+        app_name = removed["kCGWindowOwnerName"]
+        return application(app_name)
+
+    def __getitem__(self, key: Union[int, slice]):
+        if isinstance(key, slice):
+            arr = AppKit.NSArray.alloc().initWithArray_([self.xa_elem[index] for index in range(key.start, key.stop, key.step or 1)])
+            return self._new_element(arr, self.__class__)
+        app_name = self.xa_elem[key]["kCGWindowOwnerName"]
+        return application(app_name)
+
+    def bundle_identifier(self) -> List[str]:
+        return [app.bundle_identifier for app in self]
+
+    def bundle_url(self) -> List[str]:
+        return [app.bundle_url for app in self]
+
+    def executable_url(self) -> List[str]:
+        return [app.executable_url for app in self]
+
+    def launch_date(self) -> List[datetime]:
+        return [app.launch_date for app in self]
+
+    def localized_name(self) -> List[str]:
+        return [x.get("kCGWindowOwnerName") for x in self.xa_elem]
+
+    def process_identifier(self) -> List[str]:
+        return [x.get("kCGWindowOwnerPID") for x in self.xa_elem]
+
+    def hide(self):
+        for app in self:
+            app.hide()
+
+    def unhide(self):
+        for app in self:
+            app.unhide()
+
+    def terminate(self):
+        for app in self:
+            app.terminate()
+
+    def quit(self):
+        for app in self:
+            app.terminate()
+
+    def __iter__(self):
+        return (application(object["kCGWindowOwnerName"]) for object in self.xa_elem.objectEnumerator())
+
+    def __repr__(self):
+        return "<" + str(type(self)) + str(self.localized_name()) + ">"
 
 def current_application() -> XAApplication:
     """Retrieves a PyXA representation of the frontmost application.

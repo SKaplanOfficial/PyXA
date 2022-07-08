@@ -19,7 +19,8 @@ class XACalculatorApplication(XABase.XAApplication):
 
         .. versionadded:: 0.0.2
         """
-        buttons = self.front_window().last_group().buttons()
+        buttons = self.front_window().groups()[-1].buttons()
+        print(buttons[0].xa_elem.properties())
         self.xa_btns = {
             "0": buttons[4],
             "1": buttons[5],
@@ -49,7 +50,7 @@ class XACalculatorApplication(XABase.XAApplication):
 
         .. versionadded:: 0.0.2
         """
-        self.menu_bar(0).menu_bar_item(1).menu(0).menu_item(0).press()
+        self.menu_bars()[0].menu_bar_items()[1].menus()[0].menu_items()[0].press()
 
     # File Menu
     def save_tape(self):
@@ -57,21 +58,21 @@ class XACalculatorApplication(XABase.XAApplication):
 
         .. versionadded:: 0.0.2
         """
-        self.menu_bar(0).menu_bar_item(2).menu(0).menu_item(2).press()
+        self.menu_bars()[0].menu_bar_items()[2].menus()[0].menu_items()[2].press()
 
     def open_page_setup(self):
         """Opens the page setup dialog. Mimics clicking File->Page Setup...
 
         .. versionadded:: 0.0.2
         """
-        self.menu_bar(0).menu_bar_item(2).menu(0).menu_item(4).press()
+        self.menu_bars()[0].menu_bar_items()[2].menus()[0].menu_items()[4].press()
 
     def print_tape(self):
         """Opens the print tape dialog. Mimics clicking File->Print Tape...
 
         .. versionadded:: 0.0.2
         """
-        self.menu_bar(0).menu_bar_item(2).menu(0).menu_item(5).press()
+        self.menu_bars()[0].menu_bar_items()[2].menus()[0].menu_items()[5].press()
 
     # Edit Menu
     def copy_value(self):
@@ -79,7 +80,7 @@ class XACalculatorApplication(XABase.XAApplication):
 
         .. versionadded:: 0.0.2
         """
-        self.menu_bar(0).menu_bar_item(3).menu(0).menu_item(4).press()
+        self.menu_bars()[0].menu_bar_items()[3].menus()[0].menu_items()[4].press()
 
     # View Menu
     def show_basic_calculator(self):
@@ -87,35 +88,35 @@ class XACalculatorApplication(XABase.XAApplication):
 
         .. versionadded:: 0.0.2
         """
-        self.menu_bar(0).menu_bar_item(4).menu(0).menu_item(0).press()
+        self.menu_bars()[0].menu_bar_items()[4].menus()[0].menu_items()[0].press()
 
     def show_scientific_calculator(self):
         """Switches the view to the scientific calculator. Mimics clicking View->Scientific.
 
         .. versionadded:: 0.0.2
         """
-        self.menu_bar(0).menu_bar_item(4).menu(0).menu_item(1).press()
+        self.menu_bars()[0].menu_bar_items()[4].menus()[0].menu_items()[1].press()
 
     def show_programmer_calculator(self):
         """Switches the view to the programmer calculator. Mimics clicking View->Programmer.
 
         .. versionadded:: 0.0.2
         """
-        self.menu_bar(0).menu_bar_item(4).menu(0).menu_item(2).press()
+        self.menu_bars()[0].menu_bar_items()[4].menus()[0].menu_items()[2].press()
 
     def toggle_thousands_separators(self):
         """Toggles whether comma separators are shown at thousand intervals. Mimics clicking View->Show Thousands Separators.
 
         .. versionadded:: 0.0.2
         """
-        self.menu_bar(0).menu_bar_item(4).menu(0).menu_item(4).press()
+        self.menu_bars()[0].menu_bar_items()[4].menus()[0].menu_items()[4].press()
 
     def toggle_RPN_mode(self):
         """Toggles Reverse Polish Notation. Mimics clicking View->RPN Mode.
 
         .. versionadded:: 0.0.2
         """
-        self.menu_bar(0).menu_bar_item(4).menu(0).menu_item(6).press()
+        self.menu_bars()[0].menu_bar_items()[4].menus()[0].menu_items()[6].press()
 
     # Window Menu
     def show_paper_tape(self):
@@ -123,7 +124,7 @@ class XACalculatorApplication(XABase.XAApplication):
 
         .. versionadded:: 0.0.2
         """
-        self.menu_bar(0).menu_bar_item(7).menu(0).menu_item(6).press()
+        self.menu_bars()[0].menu_bar_items()[7].menus()[0].menu_items()[6].press()
 
     # Help Menu
     def show_help(self):
@@ -131,7 +132,7 @@ class XACalculatorApplication(XABase.XAApplication):
 
         .. versionadded:: 0.0.2
         """
-        self.menu_bar(0).menu_bar_item(8).menu(0).menu_item(1).press()
+        self.menu_bars()[0].menu_bar_items()[8].menus()[0].menu_items()[1].press()
 
     # Actions
     def clear_value(self):
@@ -164,10 +165,6 @@ class XACalculatorApplication(XABase.XAApplication):
         >>> import PyXA
         >>> app = PyXA.application("Calculator")
         >>> app.input("2*3.14*5*5=")
-
-        .. note::
-
-           This is very slow and should not be used for anything beyond demonstration purposes. It is meant as a proof of concept for how PyXA can bring scripting to traditionally non-scriptable applications.
 
         .. versionadded:: 0.0.2
         """

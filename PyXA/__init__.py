@@ -7,7 +7,6 @@ from .PyXA import (
     get_clipboard_strings,
     set_clipboard,
     run_applescript,
-    PyXAScript, PyXAAction
 )
 
 from .XABase import (

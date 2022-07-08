@@ -319,7 +319,7 @@ class XATVApplication(XABaseScriptable.XASBApplication, XABaseScriptable.XAHasSc
         self.current_stream_title = self.xa_scel.currentStreamTitle() #: The name of the current streaming track
         self.current_stream_url = self.xa_scel.currentStreamURL() #: The URL of the current streaming track
         self.fixed_indexing = self.xa_scel.fixedIndexing() #: Whether the track indices are independent of the order of the current playlist or not
-        self.frontmost = self.xa_scel.frontmost() #: Whether the application is active or not
+        self.frontmost #: Whether the application is active or not
         self.fullscreen = self.xa_scel.fullScreen() #: Whether the app is fullscreen or not
         self.name = self.xa_scel.name() #: The name of the application
         self.mute = self.xa_scel.mute() #: Whether sound output is muted or not
@@ -659,7 +659,7 @@ class XATVApplication(XABaseScriptable.XASBApplication, XABaseScriptable.XAHasSc
         return self.last_scriptable_element("playlists", XATVPlaylist)
 
 
-class XATVWindow(XABase.XAWindow, XABase.XAHasElements):
+class XATVWindow(XABaseScriptable.XASBWindow, XABase.XAHasElements):
     """A class for managing and interacting with windows in TV.app.
 
     .. seealso:: :class:`XATVBrowserWindow`, :class:`XATVPlaylistWindow`, :class:`XATVVideoWindow`
@@ -668,13 +668,14 @@ class XATVWindow(XABase.XAWindow, XABase.XAHasElements):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        if self.objectClass.data() == _BROWSER_WINDOW:
+        obj_class = self.xa_elem.objectClass().data()
+        if obj_class == _BROWSER_WINDOW:
             self.__class__ = XATVBrowserWindow
             self.__init__()
-        elif self.objectClass.data() == _PLAYLIST_WINDOW:
+        elif obj_class == _PLAYLIST_WINDOW:
             self.__class__ = XATVPlaylistWindow
             self.__init__()
-        elif self.objectClass.data() == _VIDEO_WINDOW:
+        elif obj_class == _VIDEO_WINDOW:
             self.__class__ = XATVVideoWindow
             self.__init__()
 

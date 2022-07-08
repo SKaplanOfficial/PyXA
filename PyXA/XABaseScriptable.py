@@ -170,7 +170,7 @@ class XASBApplication(XASBObject, XABase.XAApplication, XAHasScriptableElements)
 
     ### Windows
     def windows(self, filter: dict = None) -> 'XASBWindowList':
-        return self._new_element(self.xa_scel.windows(), self.xa_wcls)
+        return self._new_element(self.xa_scel.windows(), XASBWindowList)
 
     def front_window(self) -> 'XASBWindow':
         return self._new_element(self.xa_scel.windows()[0], self.xa_wcls)
@@ -184,7 +184,8 @@ class XASBWindowList(XABase.XAList):
     .. versionadded:: 0.0.5
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XASBWindow, filter)
+        super().__init__(properties, None, filter)
+        self.xa_ocls = self.xa_prnt.xa_wcls
 
     # def name(self) -> List[str]:
     #     return list(self.xa_elem.arrayByApplyingSelector_("name"))
@@ -212,39 +213,39 @@ class XASBWindow(XASBObject):
 
     @property
     def name(self) -> str:
-        return self.xa_elem.name()
+        return self.xa_scel.name()
 
     @property
     def id(self) -> str:
-        return self.xa_elem.id()
+        return self.xa_scel.id()
 
     @property
     def index(self) -> int:
-        return self.xa_elem.index()
+        return self.xa_scel.index()
 
     @property
     def bounds(self) -> Tuple[Tuple[int, int]]:
-        return self.xa_elem.bounds()
+        return self.xa_scel.bounds()
 
     @property
     def closeable(self) -> bool:
-        return self.xa_elem.closeable()
+        return self.xa_scel.closeable()
 
     @property
     def resizable(self) -> bool:
-        return self.xa_elem.resizable()
+        return self.xa_scel.resizable()
 
     @property
     def visible(self) -> bool:
-        return self.xa_elem.visible()
+        return self.xa_scel.visible()
 
     @property
     def zoomable(self) -> bool:
-        return self.xa_elem.zoomable()
+        return self.xa_scel.zoomable()
 
     @property
     def zoomed(self) -> bool:
-        return self.xa_elem.zoomed()
+        return self.xa_scel.zoomed()
 
     def collapse(self) -> 'XABase.XAWindow':
         """Collapses (minimizes) the window.

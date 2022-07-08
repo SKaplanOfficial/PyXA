@@ -1726,7 +1726,7 @@ class XAWindowList(XAUIElementList):
 class XAWindow(XAUIElement):
     """A general window class for windows of both officially scriptable and non-scriptable applications.
 
-    .. seealso:: :class:`XAApplication`, :class:`XASBWindow`
+    .. seealso:: :class:`XAApplication`
 
     .. versionadded:: 0.0.1
     """
@@ -1757,7 +1757,7 @@ class XAWindow(XAUIElement):
         if hasattr(self.xa_elem.properties(), "miniaturized"):
             self.xa_elem.setValue_forKey_(True, "miniaturized")
         else:
-            close_button = self.button({"subrole": "AXMinimizeButton"})
+            close_button = self.buttons({"subrole": "AXMinimizeButton"})[0]
             close_button.click()
         return self
 

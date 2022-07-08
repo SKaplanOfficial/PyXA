@@ -3,13 +3,11 @@
 Control the macOS Contacts application using JXA-like syntax.
 """
 from datetime import datetime
-import os, sys
 from typing import List, Union
-from AppKit import NSFileManager, NSURL, NSSet
+from AppKit import NSURL
 
 import Contacts
-import objc
-from AppKit import NSPredicate, NSMutableArray
+from AppKit import NSPredicate
 
 from PyXA import XABase
 from PyXA import XABaseScriptable
@@ -57,14 +55,11 @@ class XAContactsApplication(XABaseScriptable.XASBApplication):
         groups = self.xa_cstr.groupsMatchingPredicate_error_(groups_predicate, None)[0]
 
         if filter is not None:
-            predicate = NSPredicate.predicateWithFormat_(XABase.xa_predicate_format(filter))
-            groups = groups.filteredArrayUsingPredicate_(predicate)
+            groups = XABase.XAPredicate.evaluate_with_dict(groups, filter)
 
         elements = []
         for group in groups:
-            predicate = NSPredicate.predicateWithFormat_(XABase.xa_predicate_format({"id": group.identifier()}))
-            scriptable_groups = self.xa_scel.groups()
-            scriptable_group = scriptable_groups.filteredArrayUsingPredicate_(predicate)[0]
+            scriptable_group = XABase.XAPredicate.evaluate_with_format(self.xa_scel.groups(), f"( id == '{group.identifier()}' )")[0]
             properties = {
                 "parent": self,
                 "appspace": self.xa_apsp,
@@ -106,9 +101,7 @@ class XAContactsApplication(XABaseScriptable.XASBApplication):
         request.addContact_toContainerWithIdentifier_(contact, None)
         self._exec_suppresed(self.xa_cstr.executeSaveRequest_error_, request, None)
 
-        predicate = NSPredicate.predicateWithFormat_(XABase.xa_predicate_format({"id": contact.identifier()}))
-        scriptable_contacts = self.xa_scel.people()
-        scriptable_contact = scriptable_contacts.filteredArrayUsingPredicate_(predicate)[0]
+        scriptable_contact = XABase.XAPredicate.evaluate_with_format(self.xa_scel.people(), f"( id == '{contact.identifier()}' )")[0]
         properties = {
                 "parent": self,
                 "appspace": self.xa_apsp,
@@ -131,14 +124,11 @@ class XAContactsApplication(XABaseScriptable.XASBApplication):
         contacts = self._exec_suppresed(self.xa_cstr.unifiedContactsMatchingPredicate_keysToFetch_error_, contacts_predicate, keys, None)[0]
 
         if filter is not None:
-            predicate = NSPredicate.predicateWithFormat_(XABase.xa_predicate_format(filter))
-            contacts = contacts.filteredArrayUsingPredicate_(predicate)
+            contacts = XABase.XAPredicate.evaluate_with_dict(contacts, filter)
 
         elements = []
         for contact in contacts:
-            predicate = NSPredicate.predicateWithFormat_(XABase.xa_predicate_format({"id": contact.identifier()}))
-            scriptable_contacts = self.xa_scel.people()
-            scriptable_contact = scriptable_contacts.filteredArrayUsingPredicate_(predicate)[0]
+            scriptable_contact = XABase.XAPredicate.evaluate_with_format(self.xa_scel.people(), f"( id == '{contact.identifier()}' )")[0]
             properties = {
                 "parent": self,
                 "appspace": self.xa_apsp,
@@ -152,7 +142,7 @@ class XAContactsApplication(XABaseScriptable.XASBApplication):
             elements.append(XAContactPerson(properties))
         return elements
 
-class XAContactGroup(XABaseScriptable.XASBPrintable):
+class XAContactEntry(XABase.XAObject):
     """A class for managing and interacting with groups in Contacts.app.
 
     .. versionadded:: 0.0.2
@@ -161,12 +151,41 @@ class XAContactGroup(XABaseScriptable.XASBPrintable):
         super().__init__(properties)
         self.xa_cstr = properties["contact_store"]
 
-        self.id: str = self.xa_elem.identifier() #: A unique identifier for this group
-        self.name: str = self.xa_elem.name()
-        self.creation_date: datetime = self.xa_elem.creationDate()
-        self.modification_date: datetime = self.xa_elem.modificationDate()
+        self.identifier: str #: A unique identifier for this group
+        self.name: str #: The name of the entry
+        self.creation_date: datetime #: The date that the entry was created
+        self.modification_date: datetime #: The date that the entry was last modified
+        self.selected: bool #: Whether the entry is currently selected
 
-class XAContactPerson(XABaseScriptable.XASBPrintable):
+    @property
+    def identifier(self) -> str:
+        return self.xa_elem.identifier()
+
+    @property
+    def name(self) -> str:
+        return self.xa_elem.name()
+
+    @property
+    def creation_date(self) -> datetime:
+        return self.xa_scel.creationDate()
+
+    @property
+    def modification_date(self) -> datetime:
+        return self.xa_scel.modificationDate()
+
+    @property
+    def selected(self) -> bool:
+        return self.xa_scel.selected()
+
+class XAContactGroup(XAContactEntry):
+    """A class for managing and interacting with groups in Contacts.app.
+
+    .. versionadded:: 0.0.2
+    """
+    def __init__(self, properties):
+        super().__init__(properties)
+
+class XAContactPerson(XAContactEntry):
     """A class for managing and interacting with individual contacts in Contacts.app.
 
     .. versionadded:: 0.0.2
@@ -175,32 +194,147 @@ class XAContactPerson(XABaseScriptable.XASBPrintable):
         super().__init__(properties)
         self.xa_cstr = properties["contact_store"]
 
-        self.id: str = self.xa_elem.identifier() #: A unique identifier for this contact
-        self.type = self.xa_elem.contactType()
-        self.given_name: str = self.xa_elem.givenName() #: The contact's first name
-        self.middle_name: str = self.xa_elem.middleName() #: The contact's middle name
-        self.family_name: str = self.xa_elem.familyName() #: The contact's last name
-        self.name_prefix: str = self.xa_elem.namePrefix() #: The contact's title, such as Dr.
-        self.name_suffix: str = self.xa_elem.nameSuffix() #: Post-nominal letters such as PhD. or III
-        self.nickname: str = self.xa_elem.nickname() #: The contact's nickname
-        self.creation_date: datetime = self.xa_elem.creationDate() #: The date the contact was created
-        self.modification_date: datetime = self.xa_elem.modificationDate() #: The date the contact was last modified
-        self.birthday: datetime = self.xa_elem.birthday() #: The contact's birthday
-        self.job_title: str = self.xa_elem.jobTitle() #: The name of the contact's job position
-        self.linked_contacts = self.xa_elem.linkedContacts()
-        self.maps_data = self.xa_elem.mapsData()
-        self.note: str = self.xa_elem.note()
-        self.organization_name: str = self.xa_elem.organizationName()
-        self.snapshot = self.xa_elem.snapshot()
-        self.social_profiles = self.xa_elem.socialProfiles()
-        self.sorting_family_name: str = self.xa_elem.sortingFamilyName()
-        self.sorting_given_name: str = self.xa_elem.sortingGivenName()
-        self.text_alert = self.xa_elem.textAlert()
-        self.call_alert = self.xa_elem.callAlert()
-        self.image_data = self.xa_elem.imageData()
-        self.thumbnail_image_data = self.xa_elem.thumbnailImageData()
-        self.memoji_metadata = self.xa_elem.memojiMetadata()
-        self.contact_relations = self.xa_elem.contactRelations()
+        self.phonetic_first_name: str #: The phonetic version of the first name of the contact
+        self.phonetic_middle_name: str #: The phonetic version of the middle name of the contact
+        self.phonetic_last_name: str #: The phonetic version of the last name of the contact
+        self.mainden_name: str #: The maiden name of the person
+        self.first_name: str #: The contact's first name
+        self.middle_name: str #: The contact's middle name
+        self.last_name: str #: The contact's last name
+        self.name_prefix: str #: The contact's title, such as Dr.
+        self.name_suffix: str #: Post-nominal letters such as PhD. or III
+        self.nickname: str #: The contact's nickname
+        self.birth_date: datetime #: The contact's birthday
+        self.job_title: str #: The name of the contact's job position
+        self.linked_contacts #: Contacts linked to this contact by some relation
+        self.maps_data #: Location data for this contact
+        self.note: str #: The user-inputted note for this contact
+        self.organization: str #: The organization that the person works for
+        self.sorting_family_name: str #: The last name used when sorting by last name
+        self.sorting_given_name: str #: The first name used when sorting by first name
+        self.text_alert #: The text alert assigned to this contact
+        self.call_alert #: The call alert assigned to this contact
+        self.image #: The image for this person
+        self.thumbnail_image_data #: The raw data for the thumbnail image for this contact
+        self.memoji_metadata #: The memoji metadata for this contact
+        self.contact_relations #: Related contacts
+        self.company: bool #: Whether the record represents a company or a person
+        self.department: str #: The department that the person works for
+        self.home_page: str #: The home page URL for this contact
+        self.vcard: str #: The contact's information in vCard 3.0 format
+        self.title: str #: The title of the person (same as prefix)
+
+    @property
+    def company(self) -> bool:
+        return self.xa_scel.company()
+
+    @property
+    def phonetic_first_name(self) -> str:
+        return self.xa_scel.phoneticFirstName()
+
+    @property
+    def first_name(self) -> str:
+        return self.xa_scel.firstName()
+
+    @property
+    def middle_name(self) -> str:
+        return self.xa_scel.middleName()
+
+    @property
+    def phonetic_middle_name(self) -> str:
+        return self.xa_scel.phoneticMiddleName()
+
+    @property
+    def last_name(self) -> str:
+        return self.xa_scel.lastName()
+
+    @property
+    def phonetic_last_name(self) -> str:
+        return self.xa_scel.phoneticLastName()
+
+    @property
+    def name_prefix(self) -> str:
+        return self.xa_elem.namePrefix()
+
+    @property
+    def title(self) -> str:
+        return self.xa_scel.title()
+
+    @property
+    def name_suffix(self) -> str:
+        return self.xa_elem.nameSuffix()
+
+    @property
+    def nickname(self) -> str:
+        return self.xa_elem.nickname()
+
+    @property
+    def birth_date(self) -> str:
+        return self.xa_scel.birthDate()
+
+    @property
+    def job_title(self) -> str:
+        return self.xa_elem.jobTitle()
+
+    @property
+    def linked_contacts(self) -> str:
+        return self.xa_elem.linkedContacts()
+
+    @property
+    def maps_data(self) -> str:
+        return self.xa_elem.mapsData()
+
+    @property
+    def note(self) -> str:
+        return self.xa_elem.node()
+
+    @property
+    def organization(self) -> str:
+        return self.xa_scel.organization()
+
+    @property
+    def department(self) -> str:
+        return self.xa_scel.department()
+
+    @property
+    def sorting_family_name(self) -> str:
+        return self.xa_elem.sortingFamilyName()
+
+    @property
+    def sorting_given_name(self) -> str:
+        return self.xa_elem.sortingGivenName()
+
+    @property
+    def text_alert(self) -> str:
+        return self.xa_elem.textAlert()
+
+    @property
+    def call_alert(self) -> str:
+        return self.xa_elem.callAlert()
+
+    @property
+    def image(self) -> str:
+        return self.xa_scel.image()
+
+    @property
+    def thumbnail_image_data(self) -> str:
+        return self.xa_elem.thumbnailImageDate()
+
+    @property
+    def memoji_metadata(self) -> str:
+        return self.xa_elem.memojiMetadata()
+
+    @property
+    def contact_relations(self) -> str:
+        return self.xa_elem.contactRelations()
+
+    @property
+    def homePage(self) -> str:
+        return self.xa_scel.homePage()
+
+    @property
+    def vcard(self) -> str:
+        return self.xa_scel.vcard()
 
     def show(self) -> None:
         """Shows the contact card for this contact in Contacts.app.
@@ -344,19 +478,6 @@ class XAContactPerson(XABaseScriptable.XASBPrintable):
             elements.append(XAContactURLAddress(properties))
         return elements
 
-    def vcard(self) -> bytes:
-        """Gets the vcard representation of the contact.
-
-        :return: The vcard format of the contact in bytes.
-        :rtype: bytes
-
-        .. versionadded:: 0.0.2
-        """
-        return Contacts.CNContactVCardSerialization.dataWithContacts_error_([self.xa_elem], None)[0]
-
-    def __repr__(self):
-        return "<" + str(type(self)) + self.given_name + " " + self.family_name + ", id=" + self.id + ">"
-
 
 class XAContactPhoneNumber(XABaseScriptable.XASBObject):
     """A class for managing and interacting with phone numbers of contacts in Contacts.app.
@@ -367,10 +488,26 @@ class XAContactPhoneNumber(XABaseScriptable.XASBObject):
         super().__init__(properties)
         self.xa_cstr = properties["contact_store"]
         
-        self.id: str = self.xa_elem.identifier() #: A unique identifier for this phone number
-        self.label: str = self.xa_elem.label() #: The label, such as `Home`, given to this phone number
-        self.value: str = self.xa_elem.value().stringValue() #: The phone number as a string
-        self.country_code: str = self.xa_elem.value().initialCountryCode() #: The user-specified country code
+        self.identifier: str #: A unique identifier for this phone number
+        self.label: str #: The label, such as `Home`, given to this phone number
+        self.value: str #: The phone number as a string
+        self.initial_country_code: str #: The user-specified country code
+
+    @property
+    def identifier(self) -> str:
+        return self.xa_elem.identifier()
+
+    @property
+    def label(self) -> str:
+        return self.xa_elem.label()
+
+    @property
+    def value(self) -> str:
+        return self.xa_elem.value()
+
+    @property
+    def initial_country_code(self) -> str:
+        return self.xa_elem.initialCountryCode()
 
     def __repr__(self):
         return "<" + str(type(self)) + self.value + ", id=" + self.id + ">"
@@ -385,16 +522,56 @@ class XAContactPostalAddress(XABaseScriptable.XASBObject):
         super().__init__(properties)
         self.xa_cstr = properties["contact_store"]
 
-        self.id: str = self.xa_elem.identifier() #: A unique identifier for this address
-        self.label: str = self.xa_elem.label()
-        self.street: str = self.xa_elem.value().street()
-        self.sub_locality: str = self.xa_elem.value().subLocality()
-        self.city: str = self.xa_elem.value().city()
-        self.sub_administrative_area: str = self.xa_elem.value().subAdministrativeArea()
-        self.state: str = self.xa_elem.value().state()
-        self.postal_code: str = self.xa_elem.value().postalCode()
-        self.country: str = self.xa_elem.value().country()
-        self.country_code: str = self.xa_elem.value().ISOCountryCode()
+        self.identifier: str #: A unique identifier for this address
+        self.label: str #: The label, such as "Home", given to this postal address
+        self.street: str #: The street of the address
+        self.sub_locality: str #: Additional information about a location, such as neighborhood or landmark
+        self.city: str #: The city the address is in
+        self.sub_administrative_area: str #: The county or region the address is in
+        self.state: str #: The state that the address is in
+        self.postal_code: str #: The postal code of the address
+        self.country: str #: The country that the address is in
+        self.iso_country_code: str #: The country code of the country the address is in
+
+    @property
+    def identifier(self) -> str:
+        return self.xa_elem.identifier()
+
+    @property
+    def label(self) -> str:
+        return self.xa_elem.label()
+
+    @property
+    def street(self) -> str:
+        return self.xa_elem.street()
+
+    @property
+    def sub_locality(self) -> str:
+        return self.xa_elem.subLocality()
+
+    @property
+    def city(self) -> str:
+        return self.xa_elem.city()
+
+    @property
+    def sub_administrative_area(self) -> str:
+        return self.xa_elem.subAdministrativeArea()
+
+    @property
+    def state(self) -> str:
+        return self.xa_elem.state()
+
+    @property
+    def postal_code(self) -> str:
+        return self.xa_elem.postalCode()
+
+    @property
+    def country(self) -> str:
+        return self.xa_elem.country()
+
+    @property
+    def iso_country_code(self) -> str:
+        return self.xa_elem.ISOCountryCode()
 
 
 class XAContactEmailAddress(XABaseScriptable.XASBObject):
@@ -406,9 +583,21 @@ class XAContactEmailAddress(XABaseScriptable.XASBObject):
         super().__init__(properties)
         self.xa_cstr = properties["contact_store"]
 
-        self.id: str = self.xa_elem.identifier() #: A unique identifier for this address
-        self.label: str = self.xa_elem.label() #: The label, such as "Work", given to this email address
-        self.value = self.xa_elem.value() #: The email address as a string
+        self.identifier: str #: A unique identifier for this address
+        self.label: str #: The label, such as "Work", given to this email address
+        self.value #: The email address as a string
+
+    @property
+    def identifier(self) -> str:
+        return self.xa_elem.identifier()
+
+    @property
+    def label(self) -> str:
+        return self.xa_elem.label()
+
+    @property
+    def value(self) -> str:
+        return self.xa_elem.value()
 
 
 class XAContactMessageAddress(XABaseScriptable.XASBObject):
@@ -420,10 +609,26 @@ class XAContactMessageAddress(XABaseScriptable.XASBObject):
         super().__init__(properties)
         self.xa_cstr = properties["contact_store"]
 
-        self.id: str = self.xa_elem.identifier() #: A unique identifier for this address
-        self.label: str = self.xa_elem.label() #: The label, such as `Other`, given to this IM address
-        self.username: str = self.xa_elem.value().username() #: The user-provided username for this address entry
-        self.service: str = self.xa_elem.value().service() #: The IM service this address applies to
+        self.identifier: str #: A unique identifier for this address
+        self.label: str #: The label, such as `Other`, given to this IM address
+        self.username: str #: The user-provided username for this address entry
+        self.service: str #: The IM service this address applies to
+
+    @property
+    def identifier(self) -> str:
+        return self.xa_elem.identifier()
+
+    @property
+    def label(self) -> str:
+        return self.xa_elem.label()
+
+    @property
+    def username(self) -> str:
+        return self.xa_elem.username()
+
+    @property
+    def service(self) -> str:
+        return self.xa_elem.service()
 
     
 class XAContactURLAddress(XABaseScriptable.XASBObject):
@@ -435,6 +640,18 @@ class XAContactURLAddress(XABaseScriptable.XASBObject):
         super().__init__(properties)
         self.xa_cstr = properties["contact_store"]
 
-        self.id: str = self.xa_elem.identifier() #: A unique identifier for this address
-        self.label: str = self.xa_elem.label() #: The label, such as `Homepage`, given to this URL
-        self.value: str = self.xa_elem.value() #: The URL as a string
+        self.identifier: str #: A unique identifier for this address
+        self.label: str #: The label, such as `Homepage`, given to this URL
+        self.value: str #: The URL as a string
+
+    @property
+    def identifier(self) -> str:
+        return self.xa_elem.identifier()
+
+    @property
+    def label(self) -> str:
+        return self.xa_elem.label()
+
+    @property
+    def value(self) -> str:
+        return self.xa_elem.value()

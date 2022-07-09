@@ -7,8 +7,6 @@ Chromium Module
 
 Overview
 ########
-PyXA supports nearly all AppleScript/JXA commands for the Calendar application while adding some additional quality-of-life methods that AppleScript is missing. Alarms are not currently supported, but they will be by the time of PyXA's full release. New methods, such as :func:`PyXA.apps.Calendar.XACalendarEvent.add_attachment`, attempt to follow the style of JXA and make use of Apple's `EventKit Framework <https://developer.apple.com/documentation/eventkit>`_.
-
 PyXA has full support for Chromium and Chromium derivatives such as Google Chrome, Opera, Brave, Vivaldi, and Microsoft Edge. Some additional convenience methods, such as :func:`PyXA.apps.Chromium.XAChromiumApplication.new_tab`, are provided to simplify common scripting tasks. 
 
 Windows and Tabs

@@ -8,7 +8,7 @@ from turtle import st
 from typing import Any, List, Tuple, Union
 from AppKit import NSFileManager, NSURL, NSSet
 
-from AppKit import NSPredicate, NSMutableArray
+from AppKit import NSPredicate, NSMutableArray, NSFileManager
 
 from PyXA import XABase
 from PyXA import XABaseScriptable
@@ -143,7 +143,14 @@ class XAAutomatorApplication(XABaseScriptable.XASBApplication, XABase.XACanOpenP
         obj = self.xa_scel.classForScriptingClass_(specifier).alloc().initWithProperties_(properties)
 
         if specifier == "workflow":
-            return self._new_element(obj, XAAutomatorWindow)
+            if "path" not in properties and "name" in properties:
+                fm = NSFileManager.defaultManager()
+                properties.update({"path": f"{fm.homeDirectoryForCurrentUser().path()}/Downloads/{properties.get('name')}.workflow"})
+            elif not properties.get("path").endswith(".workflow"):
+                properties.update({"path": properties.get("path") + ".workflow"})
+
+            obj = self.xa_scel.classForScriptingClass_(specifier).alloc().initWithProperties_(properties)
+            return self._new_element(obj, XAAutomatorWorkflow)
         elif specifier == "variable":
             return self._new_element(obj, XAAutomatorVariable)
         elif specifier == "document":
@@ -1457,13 +1464,17 @@ class XAAutomatorWorkflow(XAAutomatorDocument):
 
     @property
     def execution_result(self) -> Any:
-        return self.xa_elem.executionResult()
+        return self.xa_elem.executionResult().get()
 
     @property
     def name(self) -> str:
         return self.xa_elem.name()
 
     def execute(self):
+        """Executes the workflow.
+
+        .. versionadded:: 0.0.5
+        """
         self.xa_elem.execute()
 
     def automator_actions(self, filter: Union[dict, None] = None) -> 'XAAutomatorActionList':
@@ -1496,6 +1507,17 @@ class XAAutomatorWorkflow(XAAutomatorDocument):
         .. versionadded:: 0.0.4
         """
         self.xa_elem.delete()
+
+    def save(self) -> 'XAAutomatorWorkflow':
+        """Saves the workflow to the disk at the location specified by :attribute:`XAAutomatorWorkflow.path`, or in the downloads folder if no path has been specified.
+
+        :return: The workflow object.
+        :rtype: XAAutomatorWorkflow
+
+        .. versionadded:: 0.0.5
+        """
+        self.xa_elem.saveAs_in_("workflow", self.path)
+        return self
 
     def __repr__(self):
         return "<" + str(type(self)) + self.name + ">"

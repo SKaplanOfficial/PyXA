@@ -1,7 +1,237 @@
 Automator Module
 ================
 
-.. automodule:: PyXA.apps.Automator
-   :members:
-   :undoc-members:
-   :show-inheritance:
+.. contents:: Table of Contents
+   :depth: 3
+   :local:
+
+Overview
+########
+PyXA supports all of Automator's OSA features, including but not limited to creating and executing workflows, managing Automator actions and their settings, and interacting with execution return values. PyXA can create workflows and variables, assign and arrange actions, and modify the attributes thereof. PyXA can also observe the execution of  workflow files, allowing you to use existing automation workflows aongside PyXA and Python in general.
+
+Automator Tutorials
+###################
+There are currently no tutorials for the Automator module.
+
+Automator Examples
+##################
+The examples below provide an overview of the capabilities of the Automator module.
+
+Example 1 - Creating workflows from scratch
+*******************************************
+
+The example below creates a workflow that displays a notification, waits five seconds, then starts the screen saver. The process for creating workflows begins with making a new workflow object, adding it to the list of workflows, and saving it to the disk. Without saving here, you may encounter errors as some methods and actions require access to the workflow file. With an empty workflow created, the next step is to add actions, which is most easily done by name. Next, you must retrieve a mutable form of the actions; you can think of the original ones as a template that you've now made a copy of. From there, you can change the value of settings however you desire.
+
+.. code-block:: python
+   :linenos:
+
+   import PyXA
+   app = PyXA.application("Automator")
+
+   # Create and save a new workflow
+   new_workflow = app.make("workflow", {"name": "New Workflow"})
+   app.workflows().push(new_workflow)
+   new_workflow.save()
+
+   # Add actions to the workflow
+   action1 = app.automator_actions().by_name("Display Notification")
+   action2 = app.automator_actions().by_name("Pause")
+   action3 = app.automator_actions().by_name("Start Screen Saver")
+   app.add(action1, new_workflow)
+   app.add(action2, new_workflow)
+   app.add(action3, new_workflow)
+
+   # Obtain actions in mutable form and change their settings
+   actions = new_workflow.automator_actions()
+   notification_text = actions[0].settings().by_name("title")
+   notification_text.set_property("value", "PyXA Notification")
+
+   pause_duration = actions[1].settings().by_name("pauseDuration")
+   pause_duration.set_property("value", 5)
+
+   # Run the workflow
+   new_workflow.execute()
+
+Example 2 - Running existing workflows
+**************************************
+
+In the short example below, we open an existing workflow file, run it, and display the execution's results.
+
+.. code-block:: python
+   :linenos:
+
+   import PyXA
+   app = PyXA.application("Automator")
+
+   app.open("/Users/exampleuser/Downloads/Example.workflow")
+   workflow = app.workflows().by_name("Example.workflow")
+   workflow.execute()
+
+   print(workflow.execution_result)
+
+Automator Resources
+###################
+- `Automator User Guide - Apple Support <https://support.apple.com/guide/automator/welcome/mac`_
+
+Automator Classes and Methods
+#############################
+.. toctree::
+   :maxdepth: 1
+   :caption: Classes
+
+   ../api/apps/automator/XAAutomatorApplication/PyXA.apps.Automator.XAAutomatorApplication
+   ../api/apps/automator/XAAutomatorDocumentList/PyXA.apps.Automator.XAAutomatorDocumentList
+   ../api/apps/automator/XAAutomatorDocument/PyXA.apps.Automator.XAAutomatorDocument
+   ../api/apps/automator/XAAutomatorActionList/PyXA.apps.Automator.XAAutomatorActionList
+   ../api/apps/automator/XAAutomatorAction/PyXA.apps.Automator.XAAutomatorAction
+   ../api/apps/automator/XAAutomatorRequiredResourceList/PyXA.apps.Automator.XAAutomatorRequiredResourceList
+   ../api/apps/automator/XAAutomatorRequiredResource/PyXA.apps.Automator.XAAutomatorRequiredResource
+   ../api/apps/automator/XAAutomatorSettingList/PyXA.apps.Automator.XAAutomatorSettingList
+   ../api/apps/automator/XAAutomatorSetting/PyXA.apps.Automator.XAAutomatorSetting
+   ../api/apps/automator/XAAutomatorVariableList/PyXA.apps.Automator.XAAutomatorVariableList
+   ../api/apps/automator/XAAutomatorVariable/PyXA.apps.Automator.XAAutomatorVariable
+   ../api/apps/automator/XAAutomatorWorkflowList/PyXA.apps.Automator.XAAutomatorWorkflowList
+   ../api/apps/automator/XAAutomatorWorkflow/PyXA.apps.Automator.XAAutomatorWorkflow
+   ../api/apps/automator/XAAutomatorWindow/PyXA.apps.Automator.XAAutomatorWindow
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Methods
+
+   ../api/apps/automator/XAAutomatorApplication/PyXA.apps.Automator.XAAutomatorApplication.add
+   ../api/apps/automator/XAAutomatorApplication/PyXA.apps.Automator.XAAutomatorApplication.documents
+   ../api/apps/automator/XAAutomatorApplication/PyXA.apps.Automator.XAAutomatorApplication.automator_actions
+   ../api/apps/automator/XAAutomatorApplication/PyXA.apps.Automator.XAAutomatorApplication.variables
+   ../api/apps/automator/XAAutomatorApplication/PyXA.apps.Automator.XAAutomatorApplication.workflows
+   ../api/apps/automator/XAAutomatorApplication/PyXA.apps.Automator.XAAutomatorApplication.make
+
+.. toctree::
+   :maxdepth: 1
+   
+   ../api/apps/automator/XAAutomatorDocumentList/PyXA.apps.Automator.XAAutomatorDocumentList.id
+   ../api/apps/automator/XAAutomatorDocumentList/PyXA.apps.Automator.XAAutomatorDocumentList.title
+   ../api/apps/automator/XAAutomatorDocumentList/PyXA.apps.Automator.XAAutomatorDocumentList.index
+   ../api/apps/automator/XAAutomatorDocumentList/PyXA.apps.Automator.XAAutomatorDocumentList.by_id
+   ../api/apps/automator/XAAutomatorDocumentList/PyXA.apps.Automator.XAAutomatorDocumentList.by_title
+   ../api/apps/automator/XAAutomatorDocumentList/PyXA.apps.Automator.XAAutomatorDocumentList.by_index
+
+.. toctree::
+   :maxdepth: 1
+   
+   ../api/apps/automator/XAAutomatorActionList/PyXA.apps.Automator.XAAutomatorActionList.bundle_id
+   ../api/apps/automator/XAAutomatorActionList/PyXA.apps.Automator.XAAutomatorActionList.category
+   ../api/apps/automator/XAAutomatorActionList/PyXA.apps.Automator.XAAutomatorActionList.comment
+   ../api/apps/automator/XAAutomatorActionList/PyXA.apps.Automator.XAAutomatorActionList.enabled
+   ../api/apps/automator/XAAutomatorActionList/PyXA.apps.Automator.XAAutomatorActionList.execution_error_message
+   ../api/apps/automator/XAAutomatorActionList/PyXA.apps.Automator.XAAutomatorActionList.execution_error_number
+   ../api/apps/automator/XAAutomatorActionList/PyXA.apps.Automator.XAAutomatorActionList.execution_result
+   ../api/apps/automator/XAAutomatorActionList/PyXA.apps.Automator.XAAutomatorActionList.icon_name
+   ../api/apps/automator/XAAutomatorActionList/PyXA.apps.Automator.XAAutomatorActionList.ignores_input
+   ../api/apps/automator/XAAutomatorActionList/PyXA.apps.Automator.XAAutomatorActionList.index
+   ../api/apps/automator/XAAutomatorActionList/PyXA.apps.Automator.XAAutomatorActionList.input_types
+   ../api/apps/automator/XAAutomatorActionList/PyXA.apps.Automator.XAAutomatorActionList.keywords
+   ../api/apps/automator/XAAutomatorActionList/PyXA.apps.Automator.XAAutomatorActionList.name
+   ../api/apps/automator/XAAutomatorActionList/PyXA.apps.Automator.XAAutomatorActionList.output_types
+   ../api/apps/automator/XAAutomatorActionList/PyXA.apps.Automator.XAAutomatorActionList.parent_workflow
+   ../api/apps/automator/XAAutomatorActionList/PyXA.apps.Automator.XAAutomatorActionList.path
+   ../api/apps/automator/XAAutomatorActionList/PyXA.apps.Automator.XAAutomatorActionList.show_action_when_run
+   ../api/apps/automator/XAAutomatorActionList/PyXA.apps.Automator.XAAutomatorActionList.target_application
+   ../api/apps/automator/XAAutomatorActionList/PyXA.apps.Automator.XAAutomatorActionList.version
+   ../api/apps/automator/XAAutomatorActionList/PyXA.apps.Automator.XAAutomatorActionList.warning_action
+   ../api/apps/automator/XAAutomatorActionList/PyXA.apps.Automator.XAAutomatorActionList.warning_level
+   ../api/apps/automator/XAAutomatorActionList/PyXA.apps.Automator.XAAutomatorActionList.warning_message
+   ../api/apps/automator/XAAutomatorActionList/PyXA.apps.Automator.XAAutomatorActionList.by_bundle_id
+   ../api/apps/automator/XAAutomatorActionList/PyXA.apps.Automator.XAAutomatorActionList.by_category
+   ../api/apps/automator/XAAutomatorActionList/PyXA.apps.Automator.XAAutomatorActionList.by_comment
+   ../api/apps/automator/XAAutomatorActionList/PyXA.apps.Automator.XAAutomatorActionList.by_enabled
+   ../api/apps/automator/XAAutomatorActionList/PyXA.apps.Automator.XAAutomatorActionList.by_execution_error_message
+   ../api/apps/automator/XAAutomatorActionList/PyXA.apps.Automator.XAAutomatorActionList.by_execution_error_number
+   ../api/apps/automator/XAAutomatorActionList/PyXA.apps.Automator.XAAutomatorActionList.by_execution_result
+   ../api/apps/automator/XAAutomatorActionList/PyXA.apps.Automator.XAAutomatorActionList.by_icon_name
+   ../api/apps/automator/XAAutomatorActionList/PyXA.apps.Automator.XAAutomatorActionList.by_id
+   ../api/apps/automator/XAAutomatorActionList/PyXA.apps.Automator.XAAutomatorActionList.by_ignores_input
+   ../api/apps/automator/XAAutomatorActionList/PyXA.apps.Automator.XAAutomatorActionList.by_input_types
+   ../api/apps/automator/XAAutomatorActionList/PyXA.apps.Automator.XAAutomatorActionList.by_keywords
+   ../api/apps/automator/XAAutomatorActionList/PyXA.apps.Automator.XAAutomatorActionList.by_name
+   ../api/apps/automator/XAAutomatorActionList/PyXA.apps.Automator.XAAutomatorActionList.by_output_types
+   ../api/apps/automator/XAAutomatorActionList/PyXA.apps.Automator.XAAutomatorActionList.by_parent_workflow
+   ../api/apps/automator/XAAutomatorActionList/PyXA.apps.Automator.XAAutomatorActionList.by_path
+   ../api/apps/automator/XAAutomatorActionList/PyXA.apps.Automator.XAAutomatorActionList.by_show_action_when_run
+   ../api/apps/automator/XAAutomatorActionList/PyXA.apps.Automator.XAAutomatorActionList.by_target_application
+   ../api/apps/automator/XAAutomatorActionList/PyXA.apps.Automator.XAAutomatorActionList.by_version
+   ../api/apps/automator/XAAutomatorActionList/PyXA.apps.Automator.XAAutomatorActionList.by_warning_action
+   ../api/apps/automator/XAAutomatorActionList/PyXA.apps.Automator.XAAutomatorActionList.by_warning_level
+   ../api/apps/automator/XAAutomatorActionList/PyXA.apps.Automator.XAAutomatorActionList.by_warning_message
+
+.. toctree::
+   :maxdepth: 1
+   
+   ../api/apps/automator/XAAutomatorAction/PyXA.apps.Automator.XAAutomatorAction.required_resources
+   ../api/apps/automator/XAAutomatorAction/PyXA.apps.Automator.XAAutomatorAction.settings
+
+.. toctree::
+   :maxdepth: 1
+
+   ../api/apps/automator/XAAutomatorRequiredResourceList/PyXA.apps.Automator.XAAutomatorRequiredResourceList.kind
+   ../api/apps/automator/XAAutomatorRequiredResourceList/PyXA.apps.Automator.XAAutomatorRequiredResourceList.name
+   ../api/apps/automator/XAAutomatorRequiredResourceList/PyXA.apps.Automator.XAAutomatorRequiredResourceList.resource
+   ../api/apps/automator/XAAutomatorRequiredResourceList/PyXA.apps.Automator.XAAutomatorRequiredResourceList.version
+   ../api/apps/automator/XAAutomatorRequiredResourceList/PyXA.apps.Automator.XAAutomatorRequiredResourceList.by_kind
+   ../api/apps/automator/XAAutomatorRequiredResourceList/PyXA.apps.Automator.XAAutomatorRequiredResourceList.by_name
+   ../api/apps/automator/XAAutomatorRequiredResourceList/PyXA.apps.Automator.XAAutomatorRequiredResourceList.by_resource
+   ../api/apps/automator/XAAutomatorRequiredResourceList/PyXA.apps.Automator.XAAutomatorRequiredResourceList.by_version
+
+.. toctree::
+   :maxdepth: 1
+   
+   ../api/apps/automator/XAAutomatorSettingList/PyXA.apps.Automator.XAAutomatorSettingList.default_value
+   ../api/apps/automator/XAAutomatorSettingList/PyXA.apps.Automator.XAAutomatorSettingList.name
+   ../api/apps/automator/XAAutomatorSettingList/PyXA.apps.Automator.XAAutomatorSettingList.value
+   ../api/apps/automator/XAAutomatorSettingList/PyXA.apps.Automator.XAAutomatorSettingList.by_default_value
+   ../api/apps/automator/XAAutomatorSettingList/PyXA.apps.Automator.XAAutomatorSettingList.by_name
+   ../api/apps/automator/XAAutomatorSettingList/PyXA.apps.Automator.XAAutomatorSettingList.by_value
+
+.. toctree::
+   :maxdepth: 1
+   
+   ../api/apps/automator/XAAutomatorVariableList/PyXA.apps.Automator.XAAutomatorVariableList.name
+   ../api/apps/automator/XAAutomatorVariableList/PyXA.apps.Automator.XAAutomatorVariableList.settable
+   ../api/apps/automator/XAAutomatorVariableList/PyXA.apps.Automator.XAAutomatorVariableList.value
+   ../api/apps/automator/XAAutomatorVariableList/PyXA.apps.Automator.XAAutomatorVariableList.by_name
+   ../api/apps/automator/XAAutomatorVariableList/PyXA.apps.Automator.XAAutomatorVariableList.by_settable
+   ../api/apps/automator/XAAutomatorVariableList/PyXA.apps.Automator.XAAutomatorVariableList.by_value
+
+.. toctree::
+   :maxdepth: 1
+   
+   ../api/apps/automator/XAAutomatorWorkflowList/PyXA.apps.Automator.XAAutomatorWorkflowList.current_action
+   ../api/apps/automator/XAAutomatorWorkflowList/PyXA.apps.Automator.XAAutomatorWorkflowList.execution_error_message
+   ../api/apps/automator/XAAutomatorWorkflowList/PyXA.apps.Automator.XAAutomatorWorkflowList.execution_error_number
+   ../api/apps/automator/XAAutomatorWorkflowList/PyXA.apps.Automator.XAAutomatorWorkflowList.execution_id
+   ../api/apps/automator/XAAutomatorWorkflowList/PyXA.apps.Automator.XAAutomatorWorkflowList.execution_result
+   ../api/apps/automator/XAAutomatorWorkflowList/PyXA.apps.Automator.XAAutomatorWorkflowList.name
+   ../api/apps/automator/XAAutomatorWorkflowList/PyXA.apps.Automator.XAAutomatorWorkflowList.by_current_action
+   ../api/apps/automator/XAAutomatorWorkflowList/PyXA.apps.Automator.XAAutomatorWorkflowList.by_execution_error_message
+   ../api/apps/automator/XAAutomatorWorkflowList/PyXA.apps.Automator.XAAutomatorWorkflowList.by_execution_error_number
+   ../api/apps/automator/XAAutomatorWorkflowList/PyXA.apps.Automator.XAAutomatorWorkflowList.by_execution_id
+   ../api/apps/automator/XAAutomatorWorkflowList/PyXA.apps.Automator.XAAutomatorWorkflowList.by_execution_result
+   ../api/apps/automator/XAAutomatorWorkflowList/PyXA.apps.Automator.XAAutomatorWorkflowList.by_name
+
+.. toctree::
+   :maxdepth: 1
+   
+   ../api/apps/automator/XAAutomatorWorkflow/PyXA.apps.Automator.XAAutomatorWorkflow.automator_actions
+   ../api/apps/automator/XAAutomatorWorkflow/PyXA.apps.Automator.XAAutomatorWorkflow.execute
+   ../api/apps/automator/XAAutomatorWorkflow/PyXA.apps.Automator.XAAutomatorWorkflow.variables
+   ../api/apps/automator/XAAutomatorWorkflow/PyXA.apps.Automator.XAAutomatorWorkflow.delete
+   ../api/apps/automator/XAAutomatorWorkflow/PyXA.apps.Automator.XAAutomatorWorkflow.save
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Enums
+
+   ../api/apps/automator/XAAutomatorApplication/PyXA.apps.Automator.XAAutomatorApplication.SaveOption
+   ../api/apps/automator/XAAutomatorApplication/PyXA.apps.Automator.XAAutomatorApplication.WarningLevel
+   ../api/apps/automator/XAAutomatorApplication/PyXA.apps.Automator.XAAutomatorApplication.PrintErrorHandling
+
+For all classes, methods, and inherited members on one page, see the :ref:`Complete Automator API`

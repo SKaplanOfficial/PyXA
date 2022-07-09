@@ -40,6 +40,7 @@ extensions = [
     'autodocsumm',
     'sphinx_automodapi.automodapi',
     'sphinx_automodapi.smart_resolver',
+    'sphinx_enum_extend',
 ]
 
 # Add any paths that contain templates here, relative to this directory.

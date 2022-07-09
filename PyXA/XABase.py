@@ -638,14 +638,14 @@ class XAApplication(XAObject):
         }
         self.xa_prcs = XAProcess(properties)
 
-        self.bundle_identifier: str #: The bundle identifier for Calculator.app
+        self.bundle_identifier: str #: The bundle identifier for the application
         self.bundle_url: str #: The file URL of the application bundle
-        self.executable_url: str #: The file URL of the Calculator executable
-        self.frontmost: bool #: Whether Calculator is the active application
-        self.launch_date: datetime #: The date and time that Calculator was launched
+        self.executable_url: str #: The file URL of the application's executable
+        self.frontmost: bool #: Whether the application is the active application
+        self.launch_date: datetime #: The date and time that the application was launched
         self.localized_name: str #: The application's name
-        self.owns_menu_bar: bool #: Whether Calculator owns the top menu bar
-        self.process_identifier: str #: The process identifier for the current Calculator instance
+        self.owns_menu_bar: bool #: Whether the application owns the top menu bar
+        self.process_identifier: str #: The process identifier for the application instance
 
     @property
     def bundle_identifier(self) -> str:

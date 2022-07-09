@@ -60,21 +60,25 @@ def running_applications() -> List[XAApplication]:
 
     :return: A list of PyXA application objects.
     :rtype: List[XAApplication]
+
+    :Example 1: Get the name of each running application
+
+    >>> import PyXA
+    >>> apps = PyXA.running_applications()
+    >>> print(apps.localized_name())
+    ['GitHub Desktop', 'Safari', 'Code', 'Terminal', 'Notes', 'Messages', 'TV']
     
     .. versionadded:: 0.0.1
     """
     windows = CGWindowListCopyWindowInfo(kCGWindowListOptionAll, kCGNullWindowID)
     ls = XAPredicate.evaluate_with_format(windows, "kCGWindowIsOnscreen == 1 && kCGWindowLayer == 0")
     properties = {
-        "parent": None,
         "appspace": appspace,
         "workspace": workspace,
         "element": ls,
     }
     arr = XAApplicationList(properties)
     return arr
-
-
 
 
 class XAApplicationList(XAList):
@@ -259,8 +263,6 @@ class XACombinedWindowList(XAList):
             window.collapse()
 
 
-
-
 def current_application() -> XAApplication:
     """Retrieves a PyXA representation of the frontmost application.
 
@@ -368,7 +370,7 @@ def get_clipboard() -> List[bytes]:
     .. seealso:: :func:`get_clipboard_strings`, :func:`set_clipboard`
 
     .. deprecated:: 0.0.5
-       Use :ivar:`XABase.XAClipboard.content` instead.
+       Use :attribute:`XABase.XAClipboard.content` instead.
 
     .. versionadded:: 0.0.1
     """
@@ -389,7 +391,7 @@ def get_clipboard_strings() -> List[str]:
     .. seealso:: :func:`get_clipboard`, :func:`set_clipboard`
 
     .. deprecated:: 0.0.5
-       Use :ivar:`XABase.XAClipboard.content` instead.
+       Use :attribute:`XABase.XAClipboard.content` instead.
 
     .. versionadded:: 0.0.1
     """
@@ -431,6 +433,9 @@ def run_applescript(source: Union[str, NSURL]) -> Any:
     :type source: Union[str, NSURL]
     :return: The value returned from the script upon completing execution.
     :rtype: Any
+
+    .. deprecated:: 0.0.5
+       Use :class:`AppleScript` instead.
 
     .. versionadded:: 0.0.1
     """

@@ -6,14 +6,11 @@ Control the macOS Reminders application using JXA-like syntax.
 from datetime import datetime, timedelta
 from typing import List, Literal, Union
 
-from ScriptingBridge import SBObject
-
 import EventKit
 import sys
 import os
 
-from Foundation import NSURL
-from AppKit import NSPredicate, NSMutableArray
+from AppKit import NSPredicate
 
 from PyXA import XABase
 from PyXA import XABaseScriptable

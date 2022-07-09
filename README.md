@@ -8,19 +8,20 @@ PyXA was created with the goals of:
 2. Disambiguating the capabilities of application scripting on macOS by providing easy-to-follow documentation throughout the entire project
 3. Introducing new features to macOS application scripting by creating simple, JXA-like methods for complex Objective-C procedures
 
-PyXA is not intended to replace AppleScript; rather, it is meant to provide general convenience in accomplishing AppleScript tasks via Python. PyXA simplifies the process of accomplishing AppleScript tasks from Python, filling the gap where current available frameworks ultimately fall short. AppleScript is still preferable in use cases requiring great speed due to the large number of Apple Events that PyXA sends during its operations. That said, there are plans to improve PyXA's speed in future versions, and there are countless use cases where PyXA's current speed is completely sufficient.
+PyXA is not intended to replace AppleScript; rather, it is meant to provide general convenience in accomplishing AppleScript tasks via Python. PyXA fills a gap where currently available frameworks ultimately fall short: it aims to be easy to learn. Unlike other Objc wrappers, PyXA's methods are hard-coded and documented inline, meaning that you can spend less time searching for answers and more time automating your life.
 
 # Feature Overview
 - Support for most AppleScript commands in built-in macOS applications (in progress)
-- Support for several operations on non-scriptable applications (e.g. `PyXA.application("Maps").front_window().collapse()`)
-- Command Chaining similar to JXA (e.g. `PyXA.application("Reminders").list(0).reminders()`)
-- Property extraction from scriptable objects, allowing access via attributes (e.g. `note.name`, `tab.URL`, or `track.artist`)
+- Support for direct operations on non-scriptable applications (e.g. `PyXA.application("Maps").front_window().collapse()`)
+- Command Chaining similar to JXA (e.g. `PyXA.application("Reminders").lists()[0].reminders().title()`)
+- Properties of scriptable elements accessible via object attributes (e.g. `note.name`, `tab.URL`, or `track.artist`)
+- Fast enumeration of scriptable objects
 - Automatic translation of clipboard items to PyXA objects
-- Support for executing AppleScript scripts via NSAppleScript
+- Support for compiling and executing AppleScript scripts via NSAppleScript
 
 # Some Examples
 ## Example 1: Open a URL in Safari and print the loaded page.
-PyXA can also be to control Safari and interact with its content. In this example, we use PyXA to obtain a reference to the Safari application, open a specific URL, then bring up the print dialog for the loaded page. If we wanted, we could pass additional parameters to the print() method to skip the print dialog and immediately print the page without any user interaction. 
+PyXA can control Safari and interact with its content. In this example, we use PyXA to obtain a reference to the Safari application, open a specific URL, then bring up the print dialog for the loaded page. If we wanted, we could pass additional parameters to the print() method to skip the print dialog and immediately print the page without any user interaction. 
 ```python
 import PyXA
 from time import sleep
@@ -31,7 +32,7 @@ safari.current_document().print()
 ```
 
 ## Example 2: Print Music track info whenever the track changes.
-PyXA can be used to control the Music app as well as extract information from in. In this example, we use PyXA to get a reference to the Music app, begin playback of the next-up song, then repeatedly print out some information about the track whenever the current track changes. The information will be printed regardless of *how* the track changes, so you can test this script by running it and skipping to the next song. 
+PyXA can also be used to interact with the Music app. In this example, we use PyXA to get a reference to the Music app, begin playback of the next-up song, then repeatedly print out some information about the track whenever the current track changes. The information will be printed regardless of *how* the track changes, so you can test this script by running it and skipping to the next song. 
 ```python
 import PyXA
 music = PyXA.application("Music")

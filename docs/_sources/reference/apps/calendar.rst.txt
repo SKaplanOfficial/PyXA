@@ -134,6 +134,7 @@ Example 5 - Displaying Events in Calendar.app
 
 Resources
 #########
+- `Calendar User Guide - Apple Support <https://support.apple.com/guide/calendar/welcome/mac>`_
 
 Calendar Classes and Methods
 ############################

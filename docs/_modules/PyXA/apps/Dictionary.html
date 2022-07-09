@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PyXA.apps.Dictionary &mdash; PyXA 0.0.2 documentation</title>
+  <title>PyXA.apps.Dictionary &mdash; PyXA 0.0.5 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -73,20 +73,14 @@
 <span class="sd">Control the macOS Dictionary application using JXA-like syntax.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span>
-<span class="kn">from</span> <span class="nn">AppKit</span> <span class="kn">import</span> <span class="n">NSFileManager</span><span class="p">,</span> <span class="n">NSURL</span><span class="p">,</span> <span class="n">NSSet</span>
-
-<span class="kn">from</span> <span class="nn">AppKit</span> <span class="kn">import</span> <span class="n">NSPredicate</span><span class="p">,</span> <span class="n">NSMutableArray</span>
-
 <span class="kn">from</span> <span class="nn">CoreServices</span> <span class="kn">import</span> <span class="n">DCSCopyTextDefinition</span>
 
 <span class="kn">from</span> <span class="nn">PyXA</span> <span class="kn">import</span> <span class="n">XABase</span>
-<span class="kn">from</span> <span class="nn">PyXA</span> <span class="kn">import</span> <span class="n">XABaseScriptable</span>
 
 <div class="viewcode-block" id="XADictionaryApplication"><a class="viewcode-back" href="../../../reference/apps/dictionary.html#PyXA.apps.Dictionary.XADictionaryApplication">[docs]</a><span class="k">class</span> <span class="nc">XADictionaryApplication</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAApplication</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A class for managing and interacting with Dictionary.app.</span>
 
-<span class="sd">     .. seealso:: :class:`XADictionaryDefinition`</span>
+<span class="sd">    .. seealso:: :class:`XADictionaryDefinition`</span>
 
 <span class="sd">    .. versionadded:: 0.0.2</span>
 <span class="sd">    &quot;&quot;&quot;</span>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PyXA.PyXA &mdash; PyXA 0.0.2 documentation</title>
+  <title>PyXA.PyXA &mdash; PyXA 0.0.5 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
@@ -68,15 +68,19 @@
            <div itemprop="articleBody">
              
   <h1>Source code for PyXA.PyXA</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span></span><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
+<span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">sleep</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">import</span> <span class="nn">threading</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">isin</span>
+<span class="kn">import</span> <span class="nn">yaml</span>
 
+<span class="kn">import</span> <span class="nn">AppKit</span>
 <span class="kn">from</span> <span class="nn">AppKit</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">NSWorkspace</span><span class="p">,</span>
     <span class="n">NSApplication</span><span class="p">,</span>
-    <span class="n">NSSound</span><span class="p">,</span>
     <span class="n">NSPasteboard</span><span class="p">,</span>
     <span class="n">NSArray</span><span class="p">,</span>
     <span class="n">NSPasteboardTypeString</span><span class="p">,</span>
@@ -84,56 +88,250 @@
 <span class="p">)</span>
 <span class="kn">from</span> <span class="nn">Foundation</span> <span class="kn">import</span> <span class="n">NSURL</span><span class="p">,</span> <span class="n">NSBundle</span>
 
-<span class="kn">from</span> <span class="nn">.XABase</span> <span class="kn">import</span> <span class="p">(</span>
-    <span class="n">XAApplication</span><span class="p">,</span>
-    <span class="n">XASound</span><span class="p">,</span>
-<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">Quartz</span> <span class="kn">import</span> <span class="n">CGWindowListCopyWindowInfo</span><span class="p">,</span> <span class="n">kCGNullWindowID</span><span class="p">,</span> <span class="n">kCGWindowListOptionAll</span>
 
+<span class="kn">from</span> <span class="nn">.XABase</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">.XABaseScriptable</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">.XAErrors</span> <span class="kn">import</span> <span class="n">ApplicationNotFoundError</span>
-
 <span class="kn">from</span> <span class="nn">.apps</span> <span class="kn">import</span> <span class="n">application_classes</span>
+<span class="kn">from</span> <span class="nn">PyXA</span> <span class="kn">import</span> <span class="n">XABaseScriptable</span>
+
+<span class="n">VERSION</span> <span class="o">=</span> <span class="s2">&quot;0.0.5&quot;</span>
+<span class="n">DATE</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">())</span>
 
 <span class="n">appspace</span> <span class="o">=</span> <span class="n">NSApplication</span><span class="o">.</span><span class="n">sharedApplication</span><span class="p">()</span>
 <span class="n">workspace</span> <span class="o">=</span> <span class="n">NSWorkspace</span><span class="o">.</span><span class="n">sharedWorkspace</span><span class="p">()</span>
 <span class="n">apps</span> <span class="o">=</span> <span class="p">[]</span>
 
 <span class="k">def</span> <span class="nf">_get_path_to_app</span><span class="p">(</span><span class="n">app_identifier</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-    <span class="n">app_path</span> <span class="o">=</span> <span class="n">app_identifier</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">app_identifier</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.app&quot;</span><span class="p">):</span>
             <span class="n">app_identifier</span> <span class="o">+=</span> <span class="s2">&quot;.app&quot;</span>
 
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">app_path</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">):</span>
-        <span class="n">app_path</span> <span class="o">=</span> <span class="s2">&quot;/System/Applications/&quot;</span> <span class="o">+</span> <span class="n">app_identifier</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">app_path</span><span class="p">):</span>
-            <span class="n">app_path</span> <span class="o">=</span> <span class="s2">&quot;/System/Applications/Utilities/&quot;</span> <span class="o">+</span> <span class="n">app_identifier</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">app_path</span><span class="p">):</span>
-            <span class="n">app_path</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">Path</span><span class="o">.</span><span class="n">home</span><span class="p">())</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="n">app_identifier</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">app_path</span><span class="p">):</span>
-            <span class="n">app_path</span> <span class="o">=</span> <span class="s2">&quot;/Applications/&quot;</span> <span class="o">+</span> <span class="n">app_identifier</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">app_path</span><span class="p">):</span>
-            <span class="n">app_path</span> <span class="o">=</span> <span class="s2">&quot;/System/Library/CoreServices/&quot;</span> <span class="o">+</span> <span class="n">app_identifier</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">app_path</span><span class="p">):</span>
-            <span class="n">app_path</span> <span class="o">=</span> <span class="s2">&quot;/System/Library/CoreServices/Applications&quot;</span> <span class="o">+</span> <span class="n">app_identifier</span>
+    <span class="k">def</span> <span class="nf">_check</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">_index</span><span class="p">,</span> <span class="n">_stop</span><span class="p">):</span>
+        <span class="k">nonlocal</span> <span class="n">app_identifier</span>
+        <span class="n">current_path</span> <span class="o">=</span> <span class="n">path</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="n">app_identifier</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">current_path</span><span class="p">):</span>
+            <span class="n">app_identifier</span> <span class="o">=</span> <span class="n">current_path</span>
 
-    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">app_path</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">app_path</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">app_identifier</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">):</span>
+        <span class="n">locations</span> <span class="o">=</span> <span class="n">AppKit</span><span class="o">.</span><span class="n">NSMutableArray</span><span class="o">.</span><span class="n">arrayWithArray_</span><span class="p">(</span><span class="n">workspace</span><span class="o">.</span><span class="n">_locationsForApplications</span><span class="p">())</span>
+        <span class="n">locations</span><span class="o">.</span><span class="n">insertObject_atIndex_</span><span class="p">(</span><span class="s2">&quot;/System/Applications&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">locations</span><span class="o">.</span><span class="n">insertObject_atIndex_</span><span class="p">(</span><span class="s2">&quot;/Applications&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">locations</span><span class="o">.</span><span class="n">enumerateObjectsUsingBlock_</span><span class="p">(</span><span class="n">_check</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">app_identifier</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">app_identifier</span>
 
     <span class="k">raise</span> <span class="n">ApplicationNotFoundError</span><span class="p">(</span><span class="n">app_identifier</span><span class="p">)</span>
 
-<div class="viewcode-block" id="get_running_applications"><a class="viewcode-back" href="../../reference/pyxa.html#PyXA.PyXA.get_running_applications">[docs]</a><span class="k">def</span> <span class="nf">get_running_applications</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">XAApplication</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;Gets PyXA references to all currently running applications whose app bundles are stored in typical application directories.</span>
+
+<div class="viewcode-block" id="running_applications"><a class="viewcode-back" href="../../reference/pyxa.html#PyXA.PyXA.running_applications">[docs]</a><span class="k">def</span> <span class="nf">running_applications</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">XAApplication</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;Gets PyXA references to all currently visible (not hidden or minimized) running applications whose app bundles are stored in typical application directories.</span>
 
 <span class="sd">    :return: A list of PyXA application objects.</span>
 <span class="sd">    :rtype: List[XAApplication]</span>
+
+<span class="sd">    :Example 1: Get the name of each running application</span>
+
+<span class="sd">    &gt;&gt;&gt; import PyXA</span>
+<span class="sd">    &gt;&gt;&gt; apps = PyXA.running_applications()</span>
+<span class="sd">    &gt;&gt;&gt; print(apps.localized_name())</span>
+<span class="sd">    [&#39;GitHub Desktop&#39;, &#39;Safari&#39;, &#39;Code&#39;, &#39;Terminal&#39;, &#39;Notes&#39;, &#39;Messages&#39;, &#39;TV&#39;]</span>
+<span class="sd">    </span>
+<span class="sd">    .. versionadded:: 0.0.1</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">apps</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">app</span> <span class="ow">in</span> <span class="n">workspace</span><span class="o">.</span><span class="n">runningApplications</span><span class="p">():</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">app</span><span class="o">.</span><span class="n">isHidden</span><span class="p">():</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="n">apps</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">application</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">localizedName</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()))</span>
-            <span class="k">except</span> <span class="n">ApplicationNotFoundError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Couldn&#39;t create a reference to &quot;</span> <span class="o">+</span> <span class="n">e</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">apps</span></div>
+    <span class="n">windows</span> <span class="o">=</span> <span class="n">CGWindowListCopyWindowInfo</span><span class="p">(</span><span class="n">kCGWindowListOptionAll</span><span class="p">,</span> <span class="n">kCGNullWindowID</span><span class="p">)</span>
+    <span class="n">ls</span> <span class="o">=</span> <span class="n">XAPredicate</span><span class="o">.</span><span class="n">evaluate_with_format</span><span class="p">(</span><span class="n">windows</span><span class="p">,</span> <span class="s2">&quot;kCGWindowIsOnscreen == 1 &amp;&amp; kCGWindowLayer == 0&quot;</span><span class="p">)</span>
+    <span class="n">properties</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;appspace&quot;</span><span class="p">:</span> <span class="n">appspace</span><span class="p">,</span>
+        <span class="s2">&quot;workspace&quot;</span><span class="p">:</span> <span class="n">workspace</span><span class="p">,</span>
+        <span class="s2">&quot;element&quot;</span><span class="p">:</span> <span class="n">ls</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="n">arr</span> <span class="o">=</span> <span class="n">XAApplicationList</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">arr</span></div>
+
+
+<div class="viewcode-block" id="XAApplicationList"><a class="viewcode-back" href="../../reference/pyxa.html#PyXA.PyXA.XAApplicationList">[docs]</a><span class="k">class</span> <span class="nc">XAApplicationList</span><span class="p">(</span><span class="n">XAList</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A wrapper around a list of applications.</span>
+
+<span class="sd">    .. versionadded:: 0.0.5</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">XAApplication</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">filter</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span> <span class="o">=</span> <span class="n">XAPredicate</span><span class="p">()</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="nb">filter</span><span class="p">)</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span>
+
+<div class="viewcode-block" id="XAApplicationList.first"><a class="viewcode-back" href="../../reference/pyxa.html#PyXA.PyXA.XAApplicationList.first">[docs]</a>    <span class="k">def</span> <span class="nf">first</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XAObject</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Retrieves the first element of the list as a wrapped PyXA application object.</span>
+
+<span class="sd">        :return: The wrapped object</span>
+<span class="sd">        :rtype: XAObject</span>
+
+<span class="sd">        .. versionadded:: 0.0.5</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__getitem__</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XAApplicationList.last"><a class="viewcode-back" href="../../reference/pyxa.html#PyXA.PyXA.XAApplicationList.last">[docs]</a>    <span class="k">def</span> <span class="nf">last</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XAObject</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Retrieves the last element of the list as a wrapped PyXA application object.</span>
+
+<span class="sd">        :return: The wrapped object</span>
+<span class="sd">        :rtype: XAObject</span>
+
+<span class="sd">        .. versionadded:: 0.0.5</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__getitem__</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XAApplicationList.pop"><a class="viewcode-back" href="../../reference/pyxa.html#PyXA.PyXA.XAApplicationList.pop">[docs]</a>    <span class="k">def</span> <span class="nf">pop</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XAObject</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Removes the application at the specified index from the list and returns it.</span>
+
+<span class="sd">        .. versionadded:: 0.0.5</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">removed</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">lastObject</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">removeLastObject</span><span class="p">()</span>
+        <span class="n">app_name</span> <span class="o">=</span> <span class="n">removed</span><span class="p">[</span><span class="s2">&quot;kCGWindowOwnerName&quot;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">application</span><span class="p">(</span><span class="n">app_name</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">slice</span><span class="p">]):</span>
+        <span class="sd">&quot;&quot;&quot;Retrieves the wrapped application object(s) at the specified key.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="nb">slice</span><span class="p">):</span>
+            <span class="n">arr</span> <span class="o">=</span> <span class="n">AppKit</span><span class="o">.</span><span class="n">NSArray</span><span class="o">.</span><span class="n">alloc</span><span class="p">()</span><span class="o">.</span><span class="n">initWithArray_</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">key</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="n">key</span><span class="o">.</span><span class="n">stop</span><span class="p">,</span> <span class="n">key</span><span class="o">.</span><span class="n">step</span> <span class="ow">or</span> <span class="mi">1</span><span class="p">)])</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">)</span>
+        <span class="n">app_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s2">&quot;kCGWindowOwnerName&quot;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">application</span><span class="p">(</span><span class="n">app_name</span><span class="p">)</span>
+
+<div class="viewcode-block" id="XAApplicationList.bundle_identifier"><a class="viewcode-back" href="../../reference/pyxa.html#PyXA.PyXA.XAApplicationList.bundle_identifier">[docs]</a>    <span class="k">def</span> <span class="nf">bundle_identifier</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">app</span><span class="o">.</span><span class="n">bundle_identifier</span> <span class="k">for</span> <span class="n">app</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="XAApplicationList.bundle_url"><a class="viewcode-back" href="../../reference/pyxa.html#PyXA.PyXA.XAApplicationList.bundle_url">[docs]</a>    <span class="k">def</span> <span class="nf">bundle_url</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">app</span><span class="o">.</span><span class="n">bundle_url</span> <span class="k">for</span> <span class="n">app</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="XAApplicationList.executable_url"><a class="viewcode-back" href="../../reference/pyxa.html#PyXA.PyXA.XAApplicationList.executable_url">[docs]</a>    <span class="k">def</span> <span class="nf">executable_url</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">app</span><span class="o">.</span><span class="n">executable_url</span> <span class="k">for</span> <span class="n">app</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="XAApplicationList.launch_date"><a class="viewcode-back" href="../../reference/pyxa.html#PyXA.PyXA.XAApplicationList.launch_date">[docs]</a>    <span class="k">def</span> <span class="nf">launch_date</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">datetime</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">app</span><span class="o">.</span><span class="n">launch_date</span> <span class="k">for</span> <span class="n">app</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="XAApplicationList.localized_name"><a class="viewcode-back" href="../../reference/pyxa.html#PyXA.PyXA.XAApplicationList.localized_name">[docs]</a>    <span class="k">def</span> <span class="nf">localized_name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;kCGWindowOwnerName&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="XAApplicationList.process_identifier"><a class="viewcode-back" href="../../reference/pyxa.html#PyXA.PyXA.XAApplicationList.process_identifier">[docs]</a>    <span class="k">def</span> <span class="nf">process_identifier</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;kCGWindowOwnerPID&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="XAApplicationList.hide"><a class="viewcode-back" href="../../reference/pyxa.html#PyXA.PyXA.XAApplicationList.hide">[docs]</a>    <span class="k">def</span> <span class="nf">hide</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Hides all applications in the list.</span>
+
+<span class="sd">        :Example 1: Hide all visible running applications</span>
+
+<span class="sd">        &gt;&gt;&gt; import PyXA</span>
+<span class="sd">        &gt;&gt;&gt; apps = PyXA.running_applications()</span>
+<span class="sd">        &gt;&gt;&gt; apps.hide()</span>
+
+<span class="sd">        .. seealso:: :func:`unhide`</span>
+
+<span class="sd">        .. versionadded:: 0.0.5</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">app</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
+            <span class="n">app</span><span class="o">.</span><span class="n">hide</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="XAApplicationList.unhide"><a class="viewcode-back" href="../../reference/pyxa.html#PyXA.PyXA.XAApplicationList.unhide">[docs]</a>    <span class="k">def</span> <span class="nf">unhide</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Unhides all applications in the list.</span>
+
+<span class="sd">        :Example 1: Hide then unhide all visible running applications</span>
+
+<span class="sd">        &gt;&gt;&gt; import PyXA</span>
+<span class="sd">        &gt;&gt;&gt; apps = PyXA.running_applications()</span>
+<span class="sd">        &gt;&gt;&gt; apps.hide()</span>
+<span class="sd">        &gt;&gt;&gt; apps.unhide()</span>
+
+<span class="sd">        .. seealso:: :func:`hide`</span>
+
+<span class="sd">        .. versionadded:: 0.0.5</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">app</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
+            <span class="n">app</span><span class="o">.</span><span class="n">unhide</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="XAApplicationList.terminate"><a class="viewcode-back" href="../../reference/pyxa.html#PyXA.PyXA.XAApplicationList.terminate">[docs]</a>    <span class="k">def</span> <span class="nf">terminate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Quits (terminates) all applications in the list. Synonymous with :func:`quit`.</span>
+
+<span class="sd">        :Example 1: Terminate all visible running applications</span>
+
+<span class="sd">        &gt;&gt;&gt; import PyXA</span>
+<span class="sd">        &gt;&gt;&gt; apps = PyXA.running_applications()</span>
+<span class="sd">        &gt;&gt;&gt; apps.terminate()</span>
+<span class="sd">        </span>
+<span class="sd">        .. versionadded:: 0.0.5</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">app</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
+            <span class="n">app</span><span class="o">.</span><span class="n">terminate</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="XAApplicationList.quit"><a class="viewcode-back" href="../../reference/pyxa.html#PyXA.PyXA.XAApplicationList.quit">[docs]</a>    <span class="k">def</span> <span class="nf">quit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Quits (terminates) all applications in the list. Synonymous with :func:`terminate`.</span>
+
+<span class="sd">        :Example 1: Quit all visible running applications</span>
+
+<span class="sd">        &gt;&gt;&gt; import PyXA</span>
+<span class="sd">        &gt;&gt;&gt; apps = PyXA.running_applications()</span>
+<span class="sd">        &gt;&gt;&gt; apps.quit()</span>
+<span class="sd">        </span>
+<span class="sd">        .. versionadded:: 0.0.5</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">app</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
+            <span class="n">app</span><span class="o">.</span><span class="n">terminate</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="XAApplicationList.windows"><a class="viewcode-back" href="../../reference/pyxa.html#PyXA.PyXA.XAApplicationList.windows">[docs]</a>    <span class="k">def</span> <span class="nf">windows</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XACombinedWindowList&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Retrieves a list of every window belonging to each application in the list.</span>
+
+<span class="sd">        Operations on the list of windows will specialized to scriptable and non-scriptable application window operations as necessary.</span>
+
+<span class="sd">        :return: A list containing both scriptable and non-scriptable windows</span>
+<span class="sd">        :rtype: XACombinedWindowList</span>
+
+<span class="sd">        .. versionadded:: 0.0.5</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ls</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">app</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
+            <span class="n">ls</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">windows</span><span class="p">()</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span>
+        <span class="n">ls</span> <span class="o">=</span> <span class="n">AppKit</span><span class="o">.</span><span class="n">NSArray</span><span class="o">.</span><span class="n">alloc</span><span class="p">()</span><span class="o">.</span><span class="n">initWithArray_</span><span class="p">(</span><span class="n">ls</span><span class="p">)</span>
+        <span class="n">window_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="n">ls</span><span class="p">,</span> <span class="n">XACombinedWindowList</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">window_list</span></div>
+
+    <span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">application</span><span class="p">(</span><span class="nb">object</span><span class="p">[</span><span class="s2">&quot;kCGWindowOwnerName&quot;</span><span class="p">])</span> <span class="k">for</span> <span class="nb">object</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">objectEnumerator</span><span class="p">())</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;&lt;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">localized_name</span><span class="p">())</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span></div>
+
+
+
+
+<div class="viewcode-block" id="XACombinedWindowList"><a class="viewcode-back" href="../../reference/pyxa.html#PyXA.PyXA.XACombinedWindowList">[docs]</a><span class="k">class</span> <span class="nc">XACombinedWindowList</span><span class="p">(</span><span class="n">XAList</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A wrapper around a combined list of both scriptable and non-scriptable windows.</span>
+
+<span class="sd">    This class contains methods that specialize to XAWindow and XASBWindow methods as necessary.</span>
+
+<span class="sd">    .. versionadded:: 0.0.5</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">XAWindow</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
+
+<div class="viewcode-block" id="XACombinedWindowList.collapse"><a class="viewcode-back" href="../../reference/pyxa.html#PyXA.PyXA.XACombinedWindowList.collapse">[docs]</a>    <span class="k">def</span> <span class="nf">collapse</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Collapses all windows in the list.</span>
+
+<span class="sd">        :Example 1: Collapse all windows for all currently visible running applications</span>
+
+<span class="sd">        &gt;&gt;&gt; import PyXA</span>
+<span class="sd">        &gt;&gt;&gt; apps = PyXA.running_applications()</span>
+<span class="sd">        &gt;&gt;&gt; apps.windows().collapse()</span>
+
+<span class="sd">        .. versionadded:: 0.0.5</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">window</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">window</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">,</span> <span class="s2">&quot;buttons&quot;</span><span class="p">):</span>
+                <span class="c1"># Specialize to XASBWindow</span>
+                <span class="n">window</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_prnt</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="n">window</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">,</span> <span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBWindow</span><span class="p">)</span>
+            <span class="n">window</span><span class="o">.</span><span class="n">collapse</span><span class="p">()</span></div></div>
+
 
 <div class="viewcode-block" id="current_application"><a class="viewcode-back" href="../../reference/pyxa.html#PyXA.PyXA.current_application">[docs]</a><span class="k">def</span> <span class="nf">current_application</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">XAApplication</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Retrieves a PyXA representation of the frontmost application.</span>
@@ -144,25 +342,17 @@
 <span class="sd">    .. versionadded:: 0.0.1</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">app</span> <span class="o">=</span> <span class="n">workspace</span><span class="o">.</span><span class="n">frontmostApplication</span><span class="p">()</span>
-    <span class="n">app_identifier</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">localizedName</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
-    <span class="k">return</span> <span class="n">application</span><span class="p">(</span><span class="n">app_identifier</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="launch_application"><a class="viewcode-back" href="../../reference/pyxa.html#PyXA.PyXA.launch_application">[docs]</a><span class="k">def</span> <span class="nf">launch_application</span><span class="p">(</span><span class="n">app_identifier</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XAApplication</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Launches and activates an application, or activates an already running application, and returns its PyXA application object representation.</span>
-
-<span class="sd">    :param app_identifier: The name of the application to launch or activate.</span>
-<span class="sd">    :type app_identifier: str</span>
-<span class="sd">    :return: A PyXA application object referencing the target application.</span>
-<span class="sd">    :rtype: XAApplication</span>
-
-<span class="sd">    .. seealso:: :func:`application`</span>
-
-<span class="sd">    .. versionadded:: 0.0.1</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">app_identifier</span> <span class="o">=</span> <span class="n">app_identifier</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
-    <span class="n">app</span> <span class="o">=</span> <span class="n">application</span><span class="p">(</span><span class="n">app_identifier</span><span class="p">)</span>
-    <span class="n">app</span><span class="o">.</span><span class="n">activate</span><span class="p">()</span>
+    <span class="n">properties</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;parent&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="s2">&quot;appspace&quot;</span><span class="p">:</span> <span class="n">appspace</span><span class="p">,</span>
+        <span class="s2">&quot;workspace&quot;</span><span class="p">:</span> <span class="n">workspace</span><span class="p">,</span>
+        <span class="s2">&quot;element&quot;</span><span class="p">:</span> <span class="n">app</span><span class="p">,</span>
+        <span class="s2">&quot;appref&quot;</span><span class="p">:</span> <span class="n">app</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="n">app</span> <span class="o">=</span> <span class="n">application_classes</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">localizedName</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="n">XAApplication</span><span class="p">)(</span><span class="n">properties</span><span class="p">)</span>
+    <span class="n">apps</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">app</span></div>
+
 
 <div class="viewcode-block" id="application"><a class="viewcode-back" href="../../reference/pyxa.html#PyXA.PyXA.application">[docs]</a><span class="k">def</span> <span class="nf">application</span><span class="p">(</span><span class="n">app_identifier</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XAApplication</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Retrieves a PyXA application object representation of the target application without launching or activating the application.</span>
@@ -172,37 +362,55 @@
 <span class="sd">    :return: A PyXA application object referencing the target application.</span>
 <span class="sd">    :rtype: XAApplication</span>
 
-<span class="sd">    .. seealso:: :func:`launch_application`</span>
-
 <span class="sd">    .. versionadded:: 0.0.1</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">app_object</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="k">def</span> <span class="nf">_launch_completion_handler</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">_error</span><span class="p">):</span>
-        <span class="k">nonlocal</span> <span class="n">app_object</span>
-        <span class="n">app_object</span> <span class="o">=</span> <span class="n">app</span>
+    <span class="k">def</span> <span class="nf">_match_open_app</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">stop</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">localizedName</span><span class="p">()</span> <span class="o">==</span> <span class="n">app_identifier</span><span class="p">,</span> <span class="n">stop</span><span class="p">)</span>
 
-    <span class="n">bundle</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">idx_set</span> <span class="o">=</span> <span class="n">workspace</span><span class="o">.</span><span class="n">runningApplications</span><span class="p">()</span><span class="o">.</span><span class="n">indexesOfObjectsPassingTest_</span><span class="p">(</span><span class="n">_match_open_app</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">idx_set</span><span class="o">.</span><span class="n">count</span><span class="p">()</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">index</span> <span class="o">=</span> <span class="n">idx_set</span><span class="o">.</span><span class="n">firstIndex</span><span class="p">()</span>
+        <span class="n">app</span> <span class="o">=</span> <span class="n">workspace</span><span class="o">.</span><span class="n">runningApplications</span><span class="p">()[</span><span class="n">index</span><span class="p">]</span>
+        <span class="n">properties</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;parent&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="s2">&quot;appspace&quot;</span><span class="p">:</span> <span class="n">appspace</span><span class="p">,</span>
+            <span class="s2">&quot;workspace&quot;</span><span class="p">:</span> <span class="n">workspace</span><span class="p">,</span>
+            <span class="s2">&quot;element&quot;</span><span class="p">:</span> <span class="n">app</span><span class="p">,</span>
+            <span class="s2">&quot;appref&quot;</span><span class="p">:</span> <span class="n">app</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="n">app_ref</span> <span class="o">=</span> <span class="n">application_classes</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">app_identifier</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="n">XAApplication</span><span class="p">)(</span><span class="n">properties</span><span class="p">)</span>
+        <span class="n">apps</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">app_ref</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">app_ref</span>
+
     <span class="n">app_path</span> <span class="o">=</span> <span class="n">_get_path_to_app</span><span class="p">(</span><span class="n">app_identifier</span><span class="p">)</span>
     <span class="n">bundle</span> <span class="o">=</span> <span class="n">NSBundle</span><span class="o">.</span><span class="n">alloc</span><span class="p">()</span><span class="o">.</span><span class="n">initWithPath_</span><span class="p">(</span><span class="n">app_path</span><span class="p">)</span>
     <span class="n">url</span> <span class="o">=</span> <span class="n">workspace</span><span class="o">.</span><span class="n">URLForApplicationWithBundleIdentifier_</span><span class="p">(</span><span class="n">bundle</span><span class="o">.</span><span class="n">bundleIdentifier</span><span class="p">())</span>
-    <span class="n">workspace</span><span class="o">.</span><span class="n">openApplicationAtURL_configuration_completionHandler_</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">_launch_completion_handler</span><span class="p">)</span>
-    <span class="k">while</span> <span class="n">app_object</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">sleep</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>
 
-    <span class="n">properties</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;parent&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="s2">&quot;appspace&quot;</span><span class="p">:</span> <span class="n">appspace</span><span class="p">,</span>
-        <span class="s2">&quot;workspace&quot;</span><span class="p">:</span> <span class="n">workspace</span><span class="p">,</span>
-        <span class="s2">&quot;element&quot;</span><span class="p">:</span> <span class="n">app_object</span><span class="p">,</span>
-        <span class="s2">&quot;appref&quot;</span><span class="p">:</span> <span class="n">app_object</span><span class="p">,</span>
-    <span class="p">}</span>
-    <span class="k">if</span> <span class="n">app_identifier</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="n">application_classes</span><span class="p">:</span>
-        <span class="n">app</span> <span class="o">=</span> <span class="n">application_classes</span><span class="p">[</span><span class="n">app_identifier</span><span class="o">.</span><span class="n">lower</span><span class="p">()](</span><span class="n">properties</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">app</span> <span class="o">=</span> <span class="n">XAApplication</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
-    <span class="n">apps</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">app</span></div>
+    <span class="n">config</span> <span class="o">=</span> <span class="n">AppKit</span><span class="o">.</span><span class="n">NSWorkspaceOpenConfiguration</span><span class="o">.</span><span class="n">alloc</span><span class="p">()</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+    <span class="n">config</span><span class="o">.</span><span class="n">setActivates_</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">config</span><span class="o">.</span><span class="n">setHides_</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">app_ref</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">def</span> <span class="nf">_launch_completion_handler</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">_error</span><span class="p">):</span>
+        <span class="k">nonlocal</span> <span class="n">app_ref</span>
+        <span class="n">properties</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;parent&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="s2">&quot;appspace&quot;</span><span class="p">:</span> <span class="n">appspace</span><span class="p">,</span>
+            <span class="s2">&quot;workspace&quot;</span><span class="p">:</span> <span class="n">workspace</span><span class="p">,</span>
+            <span class="s2">&quot;element&quot;</span><span class="p">:</span> <span class="n">app</span><span class="p">,</span>
+            <span class="s2">&quot;appref&quot;</span><span class="p">:</span> <span class="n">app</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="n">app</span> <span class="o">=</span> <span class="n">application_classes</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">app_identifier</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="n">XAApplication</span><span class="p">)(</span><span class="n">properties</span><span class="p">)</span>
+        <span class="n">apps</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
+        <span class="n">app_ref</span> <span class="o">=</span> <span class="n">app</span>
+
+    
+    <span class="n">workspace</span><span class="o">.</span><span class="n">openApplicationAtURL_configuration_completionHandler_</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="n">_launch_completion_handler</span><span class="p">)</span>
+    <span class="k">while</span> <span class="n">app_ref</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">sleep</span><span class="p">(</span><span class="mf">0.01</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">app_ref</span></div>
+
 
 <div class="viewcode-block" id="open_url"><a class="viewcode-back" href="../../reference/pyxa.html#PyXA.PyXA.open_url">[docs]</a><span class="k">def</span> <span class="nf">open_url</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">NSURL</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Opens the document at the given URL in its default application.</span>
@@ -210,48 +418,18 @@
 <span class="sd">    :param path: The path of the item to open. This can be a file path, folder path, web address, or application URL.</span>
 <span class="sd">    :type path: Union[str, NSURL]</span>
 
+<span class="sd">    .. deprecated:: 0.0.5</span>
+<span class="sd">       Use :class:`XAURL` instead.</span>
+
 <span class="sd">    .. versionadded:: 0.0.2</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">url</span> <span class="o">=</span> <span class="n">path</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
         <span class="n">url</span> <span class="o">=</span> <span class="n">NSURL</span><span class="o">.</span><span class="n">alloc</span><span class="p">()</span><span class="o">.</span><span class="n">initWithString_</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">url</span><span class="o">.</span><span class="n">path</span><span class="p">()</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">url</span><span class="o">.</span><span class="n">path</span><span class="p">()</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">):</span>
         <span class="n">url</span> <span class="o">=</span> <span class="n">NSURL</span><span class="o">.</span><span class="n">alloc</span><span class="p">()</span><span class="o">.</span><span class="n">initFileURLWithPath_</span><span class="p">(</span><span class="n">url</span><span class="o">.</span><span class="n">path</span><span class="p">())</span>
     <span class="n">workspace</span><span class="o">.</span><span class="n">openURL_</span><span class="p">(</span><span class="n">url</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="sound"><a class="viewcode-back" href="../../reference/pyxa.html#PyXA.PyXA.sound">[docs]</a><span class="k">def</span> <span class="nf">sound</span><span class="p">(</span><span class="n">sound_file</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">NSURL</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">XASound</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Creates a new XASound object.</span>
-
-<span class="sd">    :param sound_file: The sound file to associate with the XASound object</span>
-<span class="sd">    :type sound_file: Union[str, NSURL]</span>
-<span class="sd">    :return: A reference to the new XASound object.</span>
-<span class="sd">    :rtype: XASound</span>
-
-<span class="sd">    .. seealso:: :func:`play_sound`</span>
-
-<span class="sd">    .. versionadded:: 0.0.1</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">XASound</span><span class="p">(</span><span class="n">sound_file</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="play_sound"><a class="viewcode-back" href="../../reference/pyxa.html#PyXA.PyXA.play_sound">[docs]</a><span class="k">def</span> <span class="nf">play_sound</span><span class="p">(</span><span class="n">sound_file</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">NSURL</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Immediately plays a sound from the specified file.</span>
-
-<span class="sd">    :param sound_file: The path to the file to play.</span>
-<span class="sd">    :type sound_file: Union[str, NSURL]</span>
-
-<span class="sd">    .. seealso:: :func:`sound`</span>
-
-<span class="sd">    .. versionadded:: 0.0.1</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sound_file</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-        <span class="k">if</span> <span class="s2">&quot;/&quot;</span> <span class="ow">in</span> <span class="n">sound_file</span><span class="p">:</span>
-            <span class="n">sound_file</span> <span class="o">=</span> <span class="n">NSURL</span><span class="o">.</span><span class="n">alloc</span><span class="p">()</span><span class="o">.</span><span class="n">initWithString_</span><span class="p">(</span><span class="n">sound_file</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">sound_file</span> <span class="o">=</span> <span class="n">NSURL</span><span class="o">.</span><span class="n">alloc</span><span class="p">()</span><span class="o">.</span><span class="n">initWithString_</span><span class="p">(</span><span class="s2">&quot;/System/Library/Sounds/&quot;</span> <span class="o">+</span> <span class="n">sound_file</span> <span class="o">+</span> <span class="s2">&quot;.aiff&quot;</span><span class="p">)</span>
-    <span class="n">sound</span> <span class="o">=</span> <span class="n">NSSound</span><span class="o">.</span><span class="n">alloc</span><span class="p">()</span>
-    <span class="n">sound</span><span class="o">.</span><span class="n">initWithContentsOfURL_byReference_</span><span class="p">(</span><span class="n">sound_file</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
-    <span class="n">sound</span><span class="o">.</span><span class="n">play</span><span class="p">()</span>
-    <span class="n">sleep</span><span class="p">(</span><span class="n">sound</span><span class="o">.</span><span class="n">duration</span><span class="p">())</span></div>
 
 <div class="viewcode-block" id="get_clipboard"><a class="viewcode-back" href="../../reference/pyxa.html#PyXA.PyXA.get_clipboard">[docs]</a><span class="k">def</span> <span class="nf">get_clipboard</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">bytes</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot;Returns the byte representation of all items on the clipboard.</span>
@@ -260,6 +438,9 @@
 <span class="sd">    :rtype: List[bytes]</span>
 
 <span class="sd">    .. seealso:: :func:`get_clipboard_strings`, :func:`set_clipboard`</span>
+
+<span class="sd">    .. deprecated:: 0.0.5</span>
+<span class="sd">       Use :attribute:`XABase.XAClipboard.content` instead.</span>
 
 <span class="sd">    .. versionadded:: 0.0.1</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -270,6 +451,7 @@
             <span class="n">items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">dataForType_</span><span class="p">(</span><span class="n">item_type</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">items</span></div>
 
+
 <div class="viewcode-block" id="get_clipboard_strings"><a class="viewcode-back" href="../../reference/pyxa.html#PyXA.PyXA.get_clipboard_strings">[docs]</a><span class="k">def</span> <span class="nf">get_clipboard_strings</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot;Returns the string representation all items on the clipboard that can be represented as strings.</span>
 
@@ -277,6 +459,9 @@
 <span class="sd">    :rtype: List[str]</span>
 
 <span class="sd">    .. seealso:: :func:`get_clipboard`, :func:`set_clipboard`</span>
+
+<span class="sd">    .. deprecated:: 0.0.5</span>
+<span class="sd">       Use :attribute:`XABase.XAClipboard.content` instead.</span>
 
 <span class="sd">    .. versionadded:: 0.0.1</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -293,6 +478,7 @@
                 <span class="n">items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">decoded_item</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">items</span></div>
 
+
 <div class="viewcode-block" id="set_clipboard"><a class="viewcode-back" href="../../reference/pyxa.html#PyXA.PyXA.set_clipboard">[docs]</a><span class="k">def</span> <span class="nf">set_clipboard</span><span class="p">(</span><span class="n">content</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Sets the clipboard to the specified content.</span>
 
@@ -300,6 +486,9 @@
 <span class="sd">    :type content: Any</span>
 
 <span class="sd">    .. seealso:: :func:`get_clipboard`, :func:`get_clipboard_strings`</span>
+
+<span class="sd">    .. deprecated:: 0.0.5</span>
+<span class="sd">       Use :func:`XABase.XAClipboard.set_content` instead.</span>
 
 <span class="sd">    .. versionadded:: 0.0.1</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -315,6 +504,9 @@
 <span class="sd">    :return: The value returned from the script upon completing execution.</span>
 <span class="sd">    :rtype: Any</span>
 
+<span class="sd">    .. deprecated:: 0.0.5</span>
+<span class="sd">       Use :class:`AppleScript` instead.</span>
+
 <span class="sd">    .. versionadded:: 0.0.1</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">script</span> <span class="o">=</span> <span class="kc">None</span>
@@ -324,8 +516,7 @@
     <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">NSURL</span><span class="p">):</span>
         <span class="n">script</span> <span class="o">=</span> <span class="n">NSAppleScript</span><span class="o">.</span><span class="n">initWithContentsOfURL_error_</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">script</span> <span class="o">=</span> <span class="n">NSAppleScript</span><span class="o">.</span><span class="n">alloc</span><span class="p">()</span><span class="o">.</span><span class="n">initWithSource_</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">script</span><span class="o">.</span><span class="n">executeAndReturnError_</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span></div>
+        <span class="n">script</span> <span class="o">=</span> <span class="n">NSAppleScript</span><span class="o">.</span><span class="n">alloc</span><span class="p">()</span><span class="o">.</span><span class="n">initWithSource_</span><span class="p">(</span><span class="n">source</span><span class="p">)</span></div>
 </pre></div>
 
            </div>

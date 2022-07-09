@@ -61,6 +61,19 @@ class XAAutomatorApplication(XABaseScriptable.XASBApplication, XABase.XACanOpenP
         return self.xa_scel.version()
 
     def add(self, action: 'XAAutomatorAction', workflow: 'XAAutomatorWorkflow', index: int = -1) -> 'XAAutomatorApplication':
+        """Adds the specified action to a workflow at the specified index.
+
+        :param action: The action to add
+        :type action: XAAutomatorAction
+        :param workflow: The workflow to add the action to
+        :type workflow: XAAutomatorWorkflow
+        :param index: The index at which to add the action, defaults to -1
+        :type index: int, optional
+        :return: A reference to the application object
+        :rtype: XAAutomatorApplication
+
+        .. versionadded:: 0.0.4
+        """
         self.xa_scel.add_to_atIndex_(action.xa_elem, workflow.xa_elem, index)
         return self
 
@@ -239,21 +252,63 @@ class XAAutomatorDocumentList(XABase.XAList):
         super().__init__(properties, XAAutomatorDocument, filter)
 
     def id(self) -> List[int]:
+        """Retrieves the ID of each document in the list.
+
+        :return: The list of document IDs.
+        :rtype: List[int]
+
+        .. versionadded:: 0.0.4
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("id"))
 
     def title(self) -> List[str]:
+        """Retrieves the title of each document in the list.
+
+        :return: The list of document titles.
+        :rtype: List[str]
+
+        .. versionadded:: 0.0.4
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("title"))
 
     def index(self) -> List[int]:
+        """Retrieves the index of each document in the list.
+
+        :return: The list of document indexes.
+        :rtype: List[int]
+
+        .. versionadded:: 0.0.4
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("index"))
 
-    def by_id(self, id: int) -> 'XAAutomatorDocument':
+    def by_id(self, id: int) -> Union['XAAutomatorDocument', None]:
+        """Retrieves the document whose ID matches the given ID, if one exists.
+
+        :return: The desired document, if it is found
+        :rtype: Union[XAAutomatorDocument, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("id", id)
 
-    def by_title(self, title: str) -> 'XAAutomatorDocument':
+    def by_title(self, title: str) -> Union['XAAutomatorDocument', None]:
+        """Retrieves the first document whose title matches the given title, if one exists.
+
+        :return: The desired document, if it is found
+        :rtype: Union[XAAutomatorDocument, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("title", title)
 
-    def by_index(self, index: int) -> 'XAAutomatorDocument':
+    def by_index(self, index: int) -> Union['XAAutomatorDocument', None]:
+        """Retrieves the document whose index matches the given index, if one exists.
+
+        :return: The desired document, if it is found
+        :rtype: Union[XAAutomatorDocument, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("index", index)
 
     def __repr__(self):
@@ -299,137 +354,445 @@ class XAAutomatorActionList(XABase.XAList):
         super().__init__(properties, XAAutomatorAction, filter)
 
     def bundle_id(self) -> List[str]:
+        """Retrieves the bundle identifier of each action in the list.
+
+        :return: The list of bundle identifiers.
+        :rtype: List[str]
+
+        .. versionadded:: 0.0.4
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("bundleId"))
 
     def category(self) -> List[List[str]]:
+        """Retrieves the category/categories of each action in the list.
+
+        :return: The list of categories.
+        :rtype: List[List[str]]
+
+        .. versionadded:: 0.0.4
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("category"))
 
     def comment(self) -> List[str]:
+        """Retrieves the comments of each action in the list.
+
+        :return: The list of comments.
+        :rtype: List[str]
+
+        .. versionadded:: 0.0.4
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("comment"))
 
     def enabled(self) -> List[bool]:
+        """Retrieves the enabled status of each action in the list.
+
+        :return: The list of enabled status booleans.
+        :rtype: List[bool]
+
+        .. versionadded:: 0.0.4
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("enabled"))
 
     def execution_error_message(self) -> List[str]:
+        """Retrieves the execution error message of each action in the list.
+
+        :return: The list of error messages.
+        :rtype: List[str]
+
+        .. versionadded:: 0.0.4
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("executionErrorMessage"))
 
     def execution_error_number(self) -> List[int]:
+        """Retrieves the execution error number of each action in the list.
+
+        :return: The list of error numbers.
+        :rtype: List[int]
+
+        .. versionadded:: 0.0.4
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("executionErrorNumber"))
 
     def execution_result(self) -> List[Any]:
+        """Retrieves the result value of each action in the list.
+
+        :return: The list of results.
+        :rtype: List[Any]
+
+        .. versionadded:: 0.0.4
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("executionResult"))
 
     def icon_name(self) -> List[str]:
+        """Retrieves the icon name of each action in the list.
+
+        :return: The list of icon names.
+        :rtype: List[str]
+
+        .. versionadded:: 0.0.4
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("iconName"))
 
     def ignores_input(self) -> List[bool]:
+        """Retrieves the ignore input status of each action in the list.
+
+        :return: The list of ignore input status booleans.
+        :rtype: List[bool]
+
+        .. versionadded:: 0.0.4
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("ignoresInput"))
 
     def index(self) -> List[int]:
+        """Retrieves the index of each action in the list.
+
+        :return: The list of action indices.
+        :rtype: List[int]
+
+        .. versionadded:: 0.0.4
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("index"))
 
     def input_types(self) -> List[List[str]]:
+        """Retrieves the input types of each action in the list.
+
+        :return: The list of input types.
+        :rtype: List[List[str]]
+
+        .. versionadded:: 0.0.4
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("inputTypes"))
 
     def keywords(self) -> List[List[str]]:
+        """Retrieves the keywords of each action in the list.
+
+        :return: The list of keywords.
+        :rtype: List[List[str]]
+
+        .. versionadded:: 0.0.4
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("keywords"))
 
     def name(self) -> List[str]:
+        """Retrieves the name of each action in the list.
+
+        :return: The list of names.
+        :rtype: List[str]
+
+        .. versionadded:: 0.0.4
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
     def output_types(self) -> List[List[str]]:
+        """Retrieves the output types of each action in the list.
+
+        :return: The list of output types.
+        :rtype: List[List[str]]
+
+        .. versionadded:: 0.0.4
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("outputTypes"))
 
     def parent_workflow(self) -> 'XAAutomatorWorkflowList':
+        """Retrieves the parent workflow of each action in the list.
+
+        :return: The list of parent workflows.
+        :rtype: XAAutomatorWorkflowList
+
+        .. versionadded:: 0.0.4
+        """
         ls = self.xa_elem.arrayByApplyingSelector_("parentWorkflow")
         return self._new_element(ls, XAAutomatorWorkflowList)
 
     def path(self) -> List[str]:
+        """Retrieves the file path of each action in the list.
+
+        :return: The list of paths.
+        :rtype: List[str]
+
+        .. versionadded:: 0.0.4
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("path"))
 
     def show_action_when_run(self) -> List[bool]:
+        """Retrieves the status of the show action when run setting of each action in the list.
+
+        :return: The list of boolean statuses.
+        :rtype: List[bool]
+
+        .. versionadded:: 0.0.4
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("showActionWhenRun"))
 
     def target_application(self) -> List[List[str]]:
+        """Retrieves the target application name of each action in the list.
+
+        :return: The list of target application names.
+        :rtype: List[List[str]]
+
+        .. versionadded:: 0.0.4
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("targetApplication"))
 
     def version(self) -> List[str]:
+        """Retrieves the version of each action in the list.
+
+        :return: The list of versions.
+        :rtype: List[str]
+
+        .. versionadded:: 0.0.4
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("version"))
 
     def warning_action(self) -> List[str]:
+        """Retrieves the warning action of each action in the list.
+
+        :return: The list of warning actions.
+        :rtype: List[str]
+
+        .. versionadded:: 0.0.4
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("warningAction"))
 
     def warning_level(self) -> List[XAAutomatorApplication.WarningLevel]:
+        """Retrieves the warning level of each action in the list.
+
+        :return: The list of warning levels.
+        :rtype: List[XAAutomatorApplication.WarningLevel]
+
+        .. versionadded:: 0.0.4
+        """
         ls = self.xa_elem.arrayByApplyingSelector_("warningLevel")
         return [XAAutomatorApplication.WarningLevel(x) for x in ls]
 
     def warning_message(self) -> List[str]:
+        """Retrieves the warning message of each action in the list.
+
+        :return: The list of warning messages.
+        :rtype: List[str]
+
+        .. versionadded:: 0.0.4
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("warningMessage"))
 
-    def by_bundle_id(self, bundle_id: str) -> 'XAAutomatorAction':
+    def by_bundle_id(self, bundle_id: str) -> Union['XAAutomatorAction', None]:
+        """Retrieves the first action whose bundle identifier matches the given identifier, if one exists.
+
+        :return: The desired action, if it is found
+        :rtype: Union[XAAutomatorAction, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("bundleId", bundle_id)
 
-    def by_category(self, category: List[str]) -> 'XAAutomatorAction':
+    def by_category(self, category: List[str]) -> Union['XAAutomatorAction', None]:
+        """Retrieves the first action whose category matches the given category, if one exists.
+
+        :return: The desired action, if it is found
+        :rtype: Union[XAAutomatorAction, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("category", category)
 
-    def by_comment(self, comment: str) -> 'XAAutomatorAction':
+    def by_comment(self, comment: str) -> Union['XAAutomatorAction', None]:
+        """Retrieves the first action whose comment matches the given comment, if one exists.
+
+        :return: The desired action, if it is found
+        :rtype: Union[XAAutomatorAction, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("comment", comment)
 
-    def by_enabled(self, enabled: bool) -> 'XAAutomatorAction':
+    def by_enabled(self, enabled: bool) -> Union['XAAutomatorAction', None]:
+        """Retrieves the first action whose enabled status matches the given boolean value, if one exists.
+
+        :return: The desired action, if it is found
+        :rtype: Union[XAAutomatorAction, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("enabled", enabled)
 
-    def by_execution_error_message(self, execution_error_message: str) -> 'XAAutomatorAction':
+    def by_execution_error_message(self, execution_error_message: str) -> Union['XAAutomatorAction', None]:
+        """Retrieves the first action whose error message matches the given message, if one exists.
+
+        :return: The desired action, if it is found
+        :rtype: Union[XAAutomatorAction, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("executionErrorMessage", execution_error_message)
 
-    def by_execution_error_number(self, execution_error_number: int) -> 'XAAutomatorAction':
+    def by_execution_error_number(self, execution_error_number: int) -> Union['XAAutomatorAction', None]:
+        """Retrieves the first action whose error number matches the given error number, if one exists.
+
+        :return: The desired action, if it is found
+        :rtype: Union[XAAutomatorAction, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("executionErrorNumber", execution_error_number)
 
-    def by_execution_result(self, execution_result: Any) -> 'XAAutomatorAction':
+    def by_execution_result(self, execution_result: Any) -> Union['XAAutomatorAction', None]:
+        """Retrieves the first action whose execution result matches the given value, if one exists.
+
+        :return: The desired action, if it is found
+        :rtype: Union[XAAutomatorAction, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("executionResult", execution_result)
 
-    def by_icon_name(self, icon_name: str) -> 'XAAutomatorAction':
+    def by_icon_name(self, icon_name: str) -> Union['XAAutomatorAction', None]:
+        """Retrieves the first action whose icon name matches the given name, if one exists.
+
+        :return: The desired action, if it is found
+        :rtype: Union[XAAutomatorAction, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("iconName", icon_name)
 
-    def by_id(self, id: str) -> 'XAAutomatorAction':
+    def by_id(self, id: str) -> Union['XAAutomatorAction', None]:
+        """Retrieves the action whose ID matches the given ID, if one exists.
+
+        :return: The desired action, if it is found
+        :rtype: Union[XAAutomatorAction, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("id", id)
 
-    def by_ignores_input(self, ignores_input: bool) -> 'XAAutomatorAction':
+    def by_ignores_input(self, ignores_input: bool) -> Union['XAAutomatorAction', None]:
+        """Retrieves the first action whose ignore input status matches the given boolean value, if one exists.
+
+        :return: The desired action, if it is found
+        :rtype: Union[XAAutomatorAction, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("ignoresInput", ignores_input)
 
-    def by_input_types(self, input_types: List[str]) -> 'XAAutomatorAction':
+    def by_input_types(self, input_types: List[str]) -> Union['XAAutomatorAction', None]:
+        """Retrieves the first action whose input types match the given input types, if one exists.
+
+        :return: The desired action, if it is found
+        :rtype: Union[XAAutomatorAction, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("inputTypes", input_types)
 
-    def by_keywords(self, keywords: List[str]) -> 'XAAutomatorAction':
+    def by_keywords(self, keywords: List[str]) -> Union['XAAutomatorAction', None]:
+        """Retrieves the first action whose keywords match the given keywords, if one exists.
+
+        :return: The desired action, if it is found
+        :rtype: Union[XAAutomatorAction, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("keywords", keywords)
 
-    def by_name(self, name: str) -> 'XAAutomatorAction':
+    def by_name(self, name: str) -> Union['XAAutomatorAction', None]:
+        """Retrieves the first action whose name matches the given name, if one exists.
+
+        :return: The desired action, if it is found
+        :rtype: Union[XAAutomatorAction, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("name", name)
 
-    def by_output_types(self, output_types: List[str]) -> 'XAAutomatorAction':
+    def by_output_types(self, output_types: List[str]) -> Union['XAAutomatorAction', None]:
+        """Retrieves the first action whose output types match the given output types, if one exists.
+
+        :return: The desired action, if it is found
+        :rtype: Union[XAAutomatorAction, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("outputTypes", output_types)
 
-    def by_parent_workflow(self, parent_workflow: 'XAAutomatorWorkflow') -> 'XAAutomatorAction':
+    def by_parent_workflow(self, parent_workflow: 'XAAutomatorWorkflow') -> Union['XAAutomatorAction', None]:
+        """Retrieves the first action whose parent workflow matches the given workflow, if one exists.
+
+        :return: The desired action, if it is found
+        :rtype: Union[XAAutomatorAction, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("parentWorkflow", parent_workflow.xa_elem)
 
-    def by_path(self, path: str) -> 'XAAutomatorAction':
+    def by_path(self, path: str) -> Union['XAAutomatorAction', None]:
+        """Retrieves the first action whose path matches the given path, if one exists.
+
+        :return: The desired action, if it is found
+        :rtype: Union[XAAutomatorAction, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("path", path)
 
-    def by_show_action_when_run(self, show_action_when_run: bool) -> 'XAAutomatorAction':
+    def by_show_action_when_run(self, show_action_when_run: bool) -> Union['XAAutomatorAction', None]:
+        """Retrieves the first action whose show action when run status matches the given boolean value, if one exists.
+
+        :return: The desired action, if it is found
+        :rtype: Union[XAAutomatorAction, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("show_action_when_run", show_action_when_run)
 
-    def by_target_application(self, target_application: List[str]) -> 'XAAutomatorAction':
+    def by_target_application(self, target_application: List[str]) -> Union['XAAutomatorAction', None]:
+        """Retrieves the first action whose target application matches the given application name, if one exists.
+
+        :return: The desired action, if it is found
+        :rtype: Union[XAAutomatorAction, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("targetApplication", target_application)
 
-    def by_version(self, version: str) -> 'XAAutomatorAction':
+    def by_version(self, version: str) -> Union['XAAutomatorAction', None]:
+        """Retrieves the first action whose version matches the given version, if one exists.
+
+        :return: The desired action, if it is found
+        :rtype: Union[XAAutomatorAction, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("version", version)
 
-    def by_warning_action(self, warning_action: str) -> 'XAAutomatorAction':
+    def by_warning_action(self, warning_action: str) -> Union['XAAutomatorAction', None]:
+        """Retrieves the first action whose warning action matches the given action, if one exists.
+
+        :return: The desired action, if it is found
+        :rtype: Union[XAAutomatorAction, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("warningAction", warning_action)
 
-    def by_warning_level(self, warning_level: XAAutomatorApplication.WarningLevel) -> 'XAAutomatorAction':
+    def by_warning_level(self, warning_level: XAAutomatorApplication.WarningLevel) -> Union['XAAutomatorAction', None]:
+        """Retrieves the first action whose warning level matches the given warning level, if one exists.
+
+        :return: The desired action, if it is found
+        :rtype: Union[XAAutomatorAction, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("warningLevel", warning_level.value)
 
-    def by_warning_message(self, warning_message: str) -> 'XAAutomatorAction':
+    def by_warning_message(self, warning_message: str) -> Union['XAAutomatorAction', None]:
+        """Retrieves the first action whose warning message matches the given message, if one exists.
+
+        :return: The desired action, if it is found
+        :rtype: Union[XAAutomatorAction, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("warningMessage", warning_message)
 
     def __repr__(self):
@@ -600,27 +963,83 @@ class XAAutomatorRequiredResourceList(XABase.XAList):
         super().__init__(properties, XAAutomatorRequiredResource, filter)
 
     def kind(self) -> List[str]:
+        """Retrieves the resource type of each resource in the list.
+
+        :return: The list of resource types.
+        :rtype: List[str]
+
+        .. versionadded:: 0.0.4
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("kind"))
 
     def name(self) -> List[str]:
+        """Retrieves the name of each resource in the list.
+
+        :return: The list of resource names.
+        :rtype: List[str]
+
+        .. versionadded:: 0.0.4
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
     def resource(self) -> List[str]:
+        """Retrieves the specification of each resource in the list.
+
+        :return: The list of resource specifications.
+        :rtype: List[str]
+
+        .. versionadded:: 0.0.4
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("resource"))
 
     def version(self) -> List[int]:
+        """Retrieves the version of each resource in the list.
+
+        :return: The list of resource versions.
+        :rtype: List[int]
+
+        .. versionadded:: 0.0.4
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("version"))
 
-    def by_kind(self, kind: str) -> 'XAAutomatorRequiredResource':
+    def by_kind(self, kind: str) -> Union['XAAutomatorRequiredResource', None]:
+        """Retrieves the first resource whose kind matches the given kind, if one exists.
+
+        :return: The desired resource, if it is found
+        :rtype: Union[XAAutomatorRequiredResource, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("kind", kind)
 
-    def by_name(self, name: str) -> 'XAAutomatorRequiredResource':
+    def by_name(self, name: str) -> Union['XAAutomatorRequiredResource', None]:
+        """Retrieves the first resource whose name matches the given name, if one exists.
+
+        :return: The desired resource, if it is found
+        :rtype: Union[XAAutomatorRequiredResource, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("name", name)
 
-    def by_resource(self, resource: str) -> 'XAAutomatorRequiredResource':
+    def by_resource(self, resource: str) -> Union['XAAutomatorRequiredResource', None]:
+        """Retrieves the first resource whose specification matches the given specification, if one exists.
+
+        :return: The desired resource, if it is found
+        :rtype: Union[XAAutomatorRequiredResource, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("resource", resource)
 
-    def by_version(self, version: int) -> 'XAAutomatorRequiredResource':
+    def by_version(self, version: int) -> Union['XAAutomatorRequiredResource', None]:
+        """Retrieves the first resource whose version matches the given version, if one exists.
+
+        :return: The desired resource, if it is found
+        :rtype: Union[XAAutomatorRequiredResource, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("version", version)
 
     def __repr__(self):
@@ -671,23 +1090,65 @@ class XAAutomatorSettingList(XABase.XAList):
         super().__init__(properties, XAAutomatorSetting, filter)
 
     def default_value(self) -> List[Any]:
+        """Retrieves the default value of each setting in the list.
+
+        :return: The list of default values.
+        :rtype: List[Any]
+
+        .. versionadded:: 0.0.4
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("defaultValue"))
 
     def name(self) -> List[str]:
+        """Retrieves the name of each setting in the list.
+
+        :return: The list of setting names.
+        :rtype: List[str]
+
+        .. versionadded:: 0.0.4
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
     def value(self) -> List[Any]:
+        """Retrieves the current value of each setting in the list.
+
+        :return: The list of current values.
+        :rtype: List[Any]
+
+        .. versionadded:: 0.0.4
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("value"))
 
-    def by_default_value(self, default_value: Any) -> 'XAAutomatorSetting':
+    def by_default_value(self, default_value: Any) -> Union['XAAutomatorSetting', None]:
+        """Retrieves the first setting whose default value matches the given value, if one exists.
+
+        :return: The desired setting, if it is found
+        :rtype: Union[XAAutomatorSetting, None]
+        
+        .. versionadded:: 0.0.4
+        """
         if isinstance(default_value, XABase.XAObject):
             default_value = default_value.xa_elem
         return self.by_property("defaultValue", default_value)
 
-    def by_name(self, name: str) -> 'XAAutomatorSetting':
+    def by_name(self, name: str) -> Union['XAAutomatorSetting', None]:
+        """Retrieves the first setting whose name matches the given name, if one exists.
+
+        :return: The desired setting, if it is found
+        :rtype: Union[XAAutomatorSetting, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("name", name)
 
-    def by_value(self, value: Any) -> 'XAAutomatorSetting':
+    def by_value(self, value: Any) -> Union['XAAutomatorSetting', None]:
+        """Retrieves the first setting whose current value matches the given value, if one exists.
+
+        :return: The desired setting, if it is found
+        :rtype: Union[XAAutomatorSetting, None]
+        
+        .. versionadded:: 0.0.4
+        """
         if isinstance(value, XABase.XAObject):
             value = value.xa_elem
         return self.by_property("value", value)
@@ -735,21 +1196,63 @@ class XAAutomatorVariableList(XABase.XAList):
         super().__init__(properties, XAAutomatorVariable, filter)
 
     def name(self) -> List[str]:
+        """Retrieves the name of each variable in the list.
+
+        :return: The list of variable names.
+        :rtype: List[Any]
+
+        .. versionadded:: 0.0.4
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
     def settable(self) -> List[bool]:
+        """Retrieves the value of the settable attribute of each variable in the list.
+
+        :return: The list of settable status booleans.
+        :rtype: List[bool]
+
+        .. versionadded:: 0.0.4
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("settable"))
 
     def value(self) -> List[Any]:
+        """Retrieves the current value of each variable in the list.
+
+        :return: The list of current values.
+        :rtype: List[Any]
+
+        .. versionadded:: 0.0.4
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("value"))
 
-    def by_name(self, name: str) -> 'XAAutomatorVariable':
+    def by_name(self, name: str) -> Union['XAAutomatorVariable', None]:
+        """Retrieves the first variable whose name matches the given name, if one exists.
+
+        :return: The desired variable, if it is found
+        :rtype: Union[XAAutomatorVariable, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("name", name)
 
-    def by_settable(self, settable: bool) -> 'XAAutomatorVariable':
+    def by_settable(self, settable: bool) -> Union['XAAutomatorVariable', None]:
+        """Retrieves the first variable whose settable status matches the given boolean, if one exists.
+
+        :return: The desired variable, if it is found
+        :rtype: Union[XAAutomatorVariable, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("settable", settable)
 
-    def by_value(self, value: Any) -> 'XAAutomatorVariable':
+    def by_value(self, value: Any) -> Union['XAAutomatorVariable', None]:
+        """Retrieves the first variable whose current value matches the given value, if one exists.
+
+        :return: The desired variable, if it is found
+        :rtype: Union[XAAutomatorVariable, None]
+        
+        .. versionadded:: 0.0.4
+        """
         if isinstance(value, XABase.XAObject):
             value = value.xa_elem
         return self.by_property("value", value)
@@ -797,40 +1300,124 @@ class XAAutomatorWorkflowList(XABase.XAList):
         super().__init__(properties, XAAutomatorWorkflow, filter)
 
     def current_action(self) -> XAAutomatorActionList:
+        """Retrieves the current action of each workflow in the list.
+
+        :return: The list of current actions.
+        :rtype: XAAutomatorActionList
+
+        .. versionadded:: 0.0.4
+        """
         ls = self.xa_elem.arrayByApplyingSelector_("currentAction")
         return self._new_element(ls, XAAutomatorActionList)
 
     def execution_error_message(self) -> List[str]:
+        """Retrieves the execution error message of each workflow in the list.
+
+        :return: The list of error messages.
+        :rtype: List[str]
+
+        .. versionadded:: 0.0.4
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("executionErrorMessage"))
 
     def execution_error_number(self) -> List[int]:
+        """Retrieves the execution error numbers of each workflow in the list.
+
+        :return: The list of error numbers.
+        :rtype: List[int]
+
+        .. versionadded:: 0.0.4
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("executionErrorNumber"))
 
     def execution_id(self) -> List[str]:
+        """Retrieves the execution ID of each workflow in the list.
+
+        :return: The list of execution IDs.
+        :rtype: List[str]
+
+        .. versionadded:: 0.0.4
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("executionId"))
 
     def execution_result(self) -> List[Any]:
+        """Retrieves the execution result of each workflow in the list.
+
+        :return: The list of results.
+        :rtype: List[Any]
+
+        .. versionadded:: 0.0.4
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("executionResult"))
 
     def name(self) -> List[str]:
+        """Retrieves the name of each workflow in the list.
+
+        :return: The list of workflow names.
+        :rtype: List[str]
+
+        .. versionadded:: 0.0.4
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
-    def by_current_action(self, current_action: XAAutomatorAction) -> 'XAAutomatorWorkflow':
+    def by_current_action(self, current_action: XAAutomatorAction) -> Union['XAAutomatorWorkflow', None]:
+        """Retrieves the first workflow whose current action matches the given action, if one exists.
+
+        :return: The desired workflow, if it is found
+        :rtype: Union[XAAutomatorWorkflow, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("currentAction", current_action.xa_elem)
 
-    def by_execution_error_message(self, execution_error_message: str) -> 'XAAutomatorWorkflow':
+    def by_execution_error_message(self, execution_error_message: str) -> Union['XAAutomatorWorkflow', None]:
+        """Retrieves the first workflow whose error message matches the given message, if one exists.
+
+        :return: The desired workflow, if it is found
+        :rtype: Union[XAAutomatorWorkflow, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("executionErrorMessage", execution_error_message)
 
-    def by_execution_error_number(self, execution_error_number: int) -> 'XAAutomatorWorkflow':
+    def by_execution_error_number(self, execution_error_number: int) -> Union['XAAutomatorWorkflow', None]:
+        """Retrieves the first workflow whose error number matches the given error number, if one exists.
+
+        :return: The desired workflow, if it is found
+        :rtype: Union[XAAutomatorWorkflow, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("executionErrorNumber", execution_error_number)
 
-    def by_execution_id(self, execution_id: str) -> 'XAAutomatorWorkflow':
+    def by_execution_id(self, execution_id: str) -> Union['XAAutomatorWorkflow', None]:
+        """Retrieves the workflow whose execution ID matches the given ID, if one exists.
+
+        :return: The desired workflow, if it is found
+        :rtype: Union[XAAutomatorWorkflow, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("executionId", execution_id)
 
-    def by_execution_result(self, result: Any) -> 'XAAutomatorWorkflow':
+    def by_execution_result(self, result: Any) -> Union['XAAutomatorWorkflow', None]:
+        """Retrieves the first workflow whose execution result matches the given value, if one exists.
+
+        :return: The desired workflow, if it is found
+        :rtype: Union[XAAutomatorWorkflow, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("result", result)
 
-    def by_name(self, name: str) -> 'XAAutomatorWorkflow':
+    def by_name(self, name: str) -> Union['XAAutomatorWorkflow', None]:
+        """Retrieves the first workflow whose name matches the given name, if one exists.
+
+        :return: The desired workflow, if it is found
+        :rtype: Union[XAAutomatorWorkflow, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("name", name)
 
     def __repr__(self):

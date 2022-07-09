@@ -20,7 +20,6 @@ class XACalculatorApplication(XABase.XAApplication):
         .. versionadded:: 0.0.2
         """
         buttons = self.front_window().groups()[-1].buttons()
-        print(buttons[0].xa_elem.properties())
         self.xa_btns = {
             "0": buttons[4],
             "1": buttons[5],
@@ -164,7 +163,8 @@ class XACalculatorApplication(XABase.XAApplication):
 
         >>> import PyXA
         >>> app = PyXA.application("Calculator")
-        >>> app.input("2*3.14*5*5=")
+        >>> app.input("c2*3.14*5*5=")
+        34.54
 
         .. versionadded:: 0.0.2
         """
@@ -182,4 +182,4 @@ class XACalculatorApplication(XABase.XAApplication):
 
         .. versionadded:: 0.0.2
         """
-        return float(self.front_window().first_group().first_static_text().value)
+        return float(self.front_window().groups()[0].static_texts()[0].value.get())

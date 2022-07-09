@@ -165,10 +165,8 @@ class XASBApplication(XASBObject, XABase.XAApplication, XAHasScriptableElements)
     def __init__(self, properties):
         super().__init__(properties)
         self.xa_scel = ScriptingBridge.SBApplication.alloc().initWithBundleIdentifier_(self.xa_elem.bundleIdentifier())
-
         self.xa_wcls = XASBWindow
 
-    ### Windows
     def windows(self, filter: dict = None) -> 'XASBWindowList':
         return self._new_element(self.xa_scel.windows(), XASBWindowList)
 

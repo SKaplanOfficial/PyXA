@@ -6,6 +6,8 @@
 PyXA Documentation
 ==================
 
+Python for Automation is a wrapper around Apple's Scripting Bridge framework that enables AppleScript- and JXA-like control over macOS applications from within Python.
+
 .. toctree::
    :maxdepth: 3
    :caption: Contents:

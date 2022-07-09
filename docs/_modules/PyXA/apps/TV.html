@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PyXA.apps.TV &mdash; PyXA 0.0.2 documentation</title>
+  <title>PyXA.apps.TV &mdash; PyXA 0.0.5 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -389,7 +389,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">current_stream_title</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">currentStreamTitle</span><span class="p">()</span> <span class="c1">#: The name of the current streaming track</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">current_stream_url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">currentStreamURL</span><span class="p">()</span> <span class="c1">#: The URL of the current streaming track</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">fixed_indexing</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">fixedIndexing</span><span class="p">()</span> <span class="c1">#: Whether the track indices are independent of the order of the current playlist or not</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">frontmost</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">frontmost</span><span class="p">()</span> <span class="c1">#: Whether the application is active or not</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">frontmost</span> <span class="c1">#: Whether the application is active or not</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">fullscreen</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">fullScreen</span><span class="p">()</span> <span class="c1">#: Whether the app is fullscreen or not</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">name</span><span class="p">()</span> <span class="c1">#: The name of the application</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mute</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">mute</span><span class="p">()</span> <span class="c1">#: Whether sound output is muted or not</span>
@@ -729,7 +729,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_scriptable_element</span><span class="p">(</span><span class="s2">&quot;playlists&quot;</span><span class="p">,</span> <span class="n">XATVPlaylist</span><span class="p">)</span></div></div>
 
 
-<div class="viewcode-block" id="XATVWindow"><a class="viewcode-back" href="../../../reference/apps/tv.html#PyXA.apps.TV.XATVWindow">[docs]</a><span class="k">class</span> <span class="nc">XATVWindow</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAWindow</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAHasElements</span><span class="p">):</span>
+<div class="viewcode-block" id="XATVWindow"><a class="viewcode-back" href="../../../reference/apps/tv.html#PyXA.apps.TV.XATVWindow">[docs]</a><span class="k">class</span> <span class="nc">XATVWindow</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBWindow</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAHasElements</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A class for managing and interacting with windows in TV.app.</span>
 
 <span class="sd">    .. seealso:: :class:`XATVBrowserWindow`, :class:`XATVPlaylistWindow`, :class:`XATVVideoWindow`</span>
@@ -738,13 +738,14 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">objectClass</span><span class="o">.</span><span class="n">data</span><span class="p">()</span> <span class="o">==</span> <span class="n">_BROWSER_WINDOW</span><span class="p">:</span>
+        <span class="n">obj_class</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">objectClass</span><span class="p">()</span><span class="o">.</span><span class="n">data</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">obj_class</span> <span class="o">==</span> <span class="n">_BROWSER_WINDOW</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span> <span class="o">=</span> <span class="n">XATVBrowserWindow</span>
             <span class="bp">self</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">objectClass</span><span class="o">.</span><span class="n">data</span><span class="p">()</span> <span class="o">==</span> <span class="n">_PLAYLIST_WINDOW</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">obj_class</span> <span class="o">==</span> <span class="n">_PLAYLIST_WINDOW</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span> <span class="o">=</span> <span class="n">XATVPlaylistWindow</span>
             <span class="bp">self</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">objectClass</span><span class="o">.</span><span class="n">data</span><span class="p">()</span> <span class="o">==</span> <span class="n">_VIDEO_WINDOW</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">obj_class</span> <span class="o">==</span> <span class="n">_VIDEO_WINDOW</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span> <span class="o">=</span> <span class="n">XATVVideoWindow</span>
             <span class="bp">self</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span></div>
 

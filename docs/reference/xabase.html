@@ -205,7 +205,7 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XATextDocument" title="PyXA.XABase.XATextDocument"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XATextDocument</span></code></a>(properties)</p></td>
 <td><p>A class for managing and interacting with text documents.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XATextList" title="PyXA.XABase.XATextList"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XATextList</span></code></a>(properties[, filter])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XATextList" title="PyXA.XABase.XATextList"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XATextList</span></code></a>(properties[, obj_class, filter])</p></td>
 <td><p>A wrapper around lists of text objects that employs fast enumeration techniques.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIAction" title="PyXA.XABase.XAUIAction"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAUIAction</span></code></a>(properties)</p></td>
@@ -852,7 +852,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.XABase.XAAttachmentList">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.XABase.</span></span><span class="sig-name descname"><span class="pre">XAAttachmentList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAAttachmentList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAAttachmentList" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#PyXA.XABase.XAList" title="PyXA.XABase.XAList"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAList</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="#PyXA.XABase.XATextList" title="PyXA.XABase.XATextList"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XATextList</span></code></a></p>
 <p>A wrapper around lists of text attachments that employs fast enumeration techniques.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.5.</span></p>
@@ -872,7 +872,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.XABase.XAAttributeRunList">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.XABase.</span></span><span class="sig-name descname"><span class="pre">XAAttributeRunList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAAttributeRunList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAAttributeRunList" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#PyXA.XABase.XAList" title="PyXA.XABase.XAList"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAList</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="#PyXA.XABase.XATextList" title="PyXA.XABase.XATextList"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XATextList</span></code></a></p>
 <p>A wrapper around lists of attribute runs that employs fast enumeration techniques.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.5.</span></p>
@@ -1083,7 +1083,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.XABase.XACharacterList">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.XABase.</span></span><span class="sig-name descname"><span class="pre">XACharacterList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyXA/XABase.html#XACharacterList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XACharacterList" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#PyXA.XABase.XAList" title="PyXA.XABase.XAList"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAList</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="#PyXA.XABase.XATextList" title="PyXA.XABase.XATextList"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XATextList</span></code></a></p>
 <p>A wrapper around lists of characters that employs fast enumeration techniques.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.5.</span></p>
@@ -1825,7 +1825,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.XABase.XAParagraphList">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.XABase.</span></span><span class="sig-name descname"><span class="pre">XAParagraphList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAParagraphList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAParagraphList" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#PyXA.XABase.XAList" title="PyXA.XABase.XAList"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAList</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="#PyXA.XABase.XATextList" title="PyXA.XABase.XATextList"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XATextList</span></code></a></p>
 <p>A wrapper around lists of paragraphs that employs fast enumeration techniques.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.5.</span></p>
@@ -2755,7 +2755,10 @@
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAText.paragraphs" title="PyXA.XABase.XAText.paragraphs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">paragraphs</span></code></a>([filter])</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAText.words" title="PyXA.XABase.XAText.words"><code class="xref py py-obj docutils literal notranslate"><span class="pre">words</span></code></a>([filter])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAText.sentences" title="PyXA.XABase.XAText.sentences"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sentences</span></code></a>([filter])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAText.words" title="PyXA.XABase.XAText.words"><code class="xref py py-obj docutils literal notranslate"><span class="pre">words</span></code></a>([filter])</p></td>
 <td><p></p></td>
 </tr>
 </tbody>
@@ -2778,6 +2781,11 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.XABase.XAText.paragraphs">
 <span class="sig-name descname"><span class="pre">paragraphs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.XABase.XAParagraphList" title="PyXA.XABase.XAParagraphList"><span class="pre">PyXA.XABase.XAParagraphList</span></a></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAText.paragraphs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAText.paragraphs" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.XABase.XAText.sentences">
+<span class="sig-name descname"><span class="pre">sentences</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAText.sentences"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAText.sentences" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -2823,11 +2831,26 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XATextDocument.reverse" title="PyXA.XABase.XATextDocument.reverse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reverse</span></code></a>()</p></td>
 <td><p>Reverses the text of the document.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XATextDocument.set_text" title="PyXA.XABase.XATextDocument.set_text"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_text</span></code></a>(new_text)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XATextDocument.sentences" title="PyXA.XABase.XATextDocument.sentences"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sentences</span></code></a>([filter])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XATextDocument.set_text" title="PyXA.XABase.XATextDocument.set_text"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_text</span></code></a>(new_text)</p></td>
 <td><p>Sets the text of the document.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XATextDocument.words" title="PyXA.XABase.XATextDocument.words"><code class="xref py py-obj docutils literal notranslate"><span class="pre">words</span></code></a>([filter])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XATextDocument.words" title="PyXA.XABase.XATextDocument.words"><code class="xref py py-obj docutils literal notranslate"><span class="pre">words</span></code></a>([filter])</p></td>
 <td><p></p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Attributes:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XATextDocument.text" title="PyXA.XABase.XATextDocument.text"><code class="xref py py-obj docutils literal notranslate"><span class="pre">text</span></code></a></p></td>
+<td><p>The text of the document.</p></td>
 </tr>
 </tbody>
 </table>
@@ -2917,6 +2940,11 @@
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="PyXA.XABase.XATextDocument.sentences">
+<span class="sig-name descname"><span class="pre">sentences</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">XASentenceList</span></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XATextDocument.sentences"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XATextDocument.sentences" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="PyXA.XABase.XATextDocument.set_text">
 <span class="sig-name descname"><span class="pre">set_text</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.XABase.XATextDocument" title="PyXA.XABase.XATextDocument"><span class="pre">PyXA.XABase.XATextDocument</span></a></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XATextDocument.set_text"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XATextDocument.set_text" title="Permalink to this definition"></a></dt>
 <dd><p>Sets the text of the document.</p>
@@ -2940,6 +2968,12 @@
 </div>
 </dd></dl>
 
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.XABase.XATextDocument.text">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">text</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.XABase.XAText" title="PyXA.XABase.XAText"><span class="pre">PyXA.XABase.XAText</span></a></em><a class="headerlink" href="#PyXA.XABase.XATextDocument.text" title="Permalink to this definition"></a></dt>
+<dd><p>The text of the document.</p>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.XABase.XATextDocument.words">
 <span class="sig-name descname"><span class="pre">words</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.XABase.XAWordList" title="PyXA.XABase.XAWordList"><span class="pre">PyXA.XABase.XAWordList</span></a></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XATextDocument.words"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XATextDocument.words" title="Permalink to this definition"></a></dt>
@@ -2949,12 +2983,69 @@
 
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.XABase.XATextList">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.XABase.</span></span><span class="sig-name descname"><span class="pre">XATextList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyXA/XABase.html#XATextList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XATextList" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.XABase.</span></span><span class="sig-name descname"><span class="pre">XATextList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obj_class</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyXA/XABase.html#XATextList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XATextList" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#PyXA.XABase.XAList" title="PyXA.XABase.XAList"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAList</span></code></a></p>
 <p>A wrapper around lists of text objects that employs fast enumeration techniques.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.4.</span></p>
 </div>
+<p><strong>Methods:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XATextList.attachments" title="PyXA.XABase.XATextList.attachments"><code class="xref py py-obj docutils literal notranslate"><span class="pre">attachments</span></code></a>([filter])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XATextList.attribute_runs" title="PyXA.XABase.XATextList.attribute_runs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">attribute_runs</span></code></a>([filter])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XATextList.characters" title="PyXA.XABase.XATextList.characters"><code class="xref py py-obj docutils literal notranslate"><span class="pre">characters</span></code></a>([filter])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XATextList.paragraphs" title="PyXA.XABase.XATextList.paragraphs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">paragraphs</span></code></a>([filter])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XATextList.sentences" title="PyXA.XABase.XATextList.sentences"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sentences</span></code></a>([filter])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XATextList.words" title="PyXA.XABase.XATextList.words"><code class="xref py py-obj docutils literal notranslate"><span class="pre">words</span></code></a>([filter])</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.XABase.XATextList.attachments">
+<span class="sig-name descname"><span class="pre">attachments</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.XABase.XAAttachmentList" title="PyXA.XABase.XAAttachmentList"><span class="pre">PyXA.XABase.XAAttachmentList</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XATextList.attachments"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XATextList.attachments" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.XABase.XATextList.attribute_runs">
+<span class="sig-name descname"><span class="pre">attribute_runs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.XABase.XAAttributeRunList" title="PyXA.XABase.XAAttributeRunList"><span class="pre">PyXA.XABase.XAAttributeRunList</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XATextList.attribute_runs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XATextList.attribute_runs" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.XABase.XATextList.characters">
+<span class="sig-name descname"><span class="pre">characters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.XABase.XACharacterList" title="PyXA.XABase.XACharacterList"><span class="pre">PyXA.XABase.XACharacterList</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XATextList.characters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XATextList.characters" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.XABase.XATextList.paragraphs">
+<span class="sig-name descname"><span class="pre">paragraphs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.XABase.XAParagraphList" title="PyXA.XABase.XAParagraphList"><span class="pre">PyXA.XABase.XAParagraphList</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XATextList.paragraphs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XATextList.paragraphs" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.XABase.XATextList.sentences">
+<span class="sig-name descname"><span class="pre">sentences</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">XASentenceList</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XATextList.sentences"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XATextList.sentences" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.XABase.XATextList.words">
+<span class="sig-name descname"><span class="pre">words</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.XABase.XAWordList" title="PyXA.XABase.XAWordList"><span class="pre">PyXA.XABase.XAWordList</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XATextList.words"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XATextList.words" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 <dl class="py class">
@@ -3799,7 +3890,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.XABase.XAWordList">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.XABase.</span></span><span class="sig-name descname"><span class="pre">XAWordList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAWordList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAWordList" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#PyXA.XABase.XAList" title="PyXA.XABase.XAList"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAList</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="#PyXA.XABase.XATextList" title="PyXA.XABase.XATextList"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XATextList</span></code></a></p>
 <p>A wrapper around lists of words that employs fast enumeration techniques.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.5.</span></p>

@@ -19,7 +19,7 @@
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Contacts Module" href="contacts.html" />
+    <link rel="next" title="XAConsoleApplication" href="../api/apps/console/XAConsoleApplication/PyXA.apps.Console.XAConsoleApplication.html" />
     <link rel="prev" title="XACalendarAttachment.open" href="../api/apps/calendar/XACalendarAttachment/PyXA.apps.Calendar.XACalendarAttachment.open.html" /> 
 </head>
 
@@ -49,7 +49,14 @@
 <li class="toctree-l3"><a class="reference internal" href="automator.html">Automator Module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="calculator.html">Calculator Module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="calendar.html">Calendar Module</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">Console Module</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Console Module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#console-tutorials">Console Tutorials</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#examples">Examples</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#console-resources">Console Resources</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#console-classes-and-methods">Console Classes and Methods</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="contacts.html">Contacts Module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="dictionary.html">Dictionary Module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="finder.html">Finder Module</a></li>
@@ -100,51 +107,59 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="module-PyXA.apps.Console">
-<span id="console-module"></span><h1>Console Module<a class="headerlink" href="#module-PyXA.apps.Console" title="Permalink to this headline"></a></h1>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 0.0.5.</span></p>
+  <section id="console-module">
+<h1>Console Module<a class="headerlink" href="#console-module" title="Permalink to this headline"></a></h1>
+<div class="contents local topic" id="table-of-contents">
+<p class="topic-title">Table of Contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#overview" id="id1">Overview</a></p></li>
+<li><p><a class="reference internal" href="#console-tutorials" id="id2">Console Tutorials</a></p></li>
+<li><p><a class="reference internal" href="#examples" id="id3">Examples</a></p>
+<ul>
+<li><p><a class="reference internal" href="#example-1-coming-soon" id="id4">Example 1 - Coming Soon</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#console-resources" id="id5">Console Resources</a></p></li>
+<li><p><a class="reference internal" href="#console-classes-and-methods" id="id6">Console Classes and Methods</a></p></li>
+</ul>
 </div>
-<p>Control the macOS Console application using JXA-like syntax.</p>
-<p><strong>Classes:</strong></p>
-<table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
-<tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Console.XAConsoleApplication" title="PyXA.apps.Console.XAConsoleApplication"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAConsoleApplication</span></code></a>(properties)</p></td>
-<td><p>A class for managing and interacting with Console.app.</p></td>
-</tr>
-</tbody>
-</table>
-<dl class="py class">
-<dt class="sig sig-object py" id="PyXA.apps.Console.XAConsoleApplication">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Console.</span></span><span class="sig-name descname"><span class="pre">XAConsoleApplication</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Console.html#XAConsoleApplication"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Console.XAConsoleApplication" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XASBApplication" title="PyXA.XABaseScriptable.XASBApplication"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABaseScriptable.XASBApplication</span></code></a>, <a class="reference internal" href="../xabase.html#PyXA.XABase.XACanConstructElement" title="PyXA.XABase.XACanConstructElement"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XACanConstructElement</span></code></a>, <a class="reference internal" href="../xabase.html#PyXA.XABase.XAAcceptsPushedElements" title="PyXA.XABase.XAAcceptsPushedElements"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAAcceptsPushedElements</span></code></a>, <a class="reference internal" href="../xabase.html#PyXA.XABase.XACanOpenPath" title="PyXA.XABase.XACanOpenPath"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XACanOpenPath</span></code></a></p>
-<p>A class for managing and interacting with Console.app.</p>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 0.0.1.</span></p>
+<section id="overview">
+<h2><a class="toc-backref" href="#id1">Overview</a><a class="headerlink" href="#overview" title="Permalink to this headline"></a></h2>
+<p>PyXA has fully supports all scripting features of Console.app, but there is minimal support (from Apple) in the first place in that regard. Future versions of PyXA might explore expanding the feature offering through UI scripting, utilization of Objective-C frameworks, and other means.</p>
+</section>
+<section id="console-tutorials">
+<h2><a class="toc-backref" href="#id2">Console Tutorials</a><a class="headerlink" href="#console-tutorials" title="Permalink to this headline"></a></h2>
+<p>There are currently no tutorials for the Console module.</p>
+</section>
+<section id="examples">
+<h2><a class="toc-backref" href="#id3">Examples</a><a class="headerlink" href="#examples" title="Permalink to this headline"></a></h2>
+<section id="example-1-coming-soon">
+<h3><a class="toc-backref" href="#id4">Example 1 - Coming Soon</a><a class="headerlink" href="#example-1-coming-soon" title="Permalink to this headline"></a></h3>
+<p>An example will be added soon.</p>
+</section>
+</section>
+<section id="console-resources">
+<h2><a class="toc-backref" href="#id5">Console Resources</a><a class="headerlink" href="#console-resources" title="Permalink to this headline"></a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://support.apple.com/guide/console/welcome/mac">Console User Guide - Apple Support</a></p></li>
+</ul>
+</section>
+<section id="console-classes-and-methods">
+<h2><a class="toc-backref" href="#id6">Console Classes and Methods</a><a class="headerlink" href="#console-classes-and-methods" title="Permalink to this headline"></a></h2>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Classes</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/apps/console/XAConsoleApplication/PyXA.apps.Console.XAConsoleApplication.html">XAConsoleApplication</a></li>
+</ul>
 </div>
-<p><strong>Methods:</strong></p>
-<table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
-<tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Console.XAConsoleApplication.select_device" title="PyXA.apps.Console.XAConsoleApplication.select_device"><code class="xref py py-obj docutils literal notranslate"><span class="pre">select_device</span></code></a>(uuid)</p></td>
-<td><p></p></td>
-</tr>
-</tbody>
-</table>
-<dl class="py method">
-<dt class="sig sig-object py" id="PyXA.apps.Console.XAConsoleApplication.select_device">
-<span class="sig-name descname"><span class="pre">select_device</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">uuid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Console.XAConsoleApplication" title="PyXA.apps.Console.XAConsoleApplication"><span class="pre">PyXA.apps.Console.XAConsoleApplication</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Console.html#XAConsoleApplication.select_device"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Console.XAConsoleApplication.select_device" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Methods</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/apps/console/XAConsoleApplication/PyXA.apps.Console.XAConsoleApplication.select_device.html">XAConsoleApplication.select_device</a></li>
+</ul>
+</div>
+<p>For all classes, methods, and inherited members on one page, see the <a class="reference internal" href="../api/apps/console/PyXA.apps.Console.html#module-PyXA.apps.Console"><span class="std std-ref">Complete Console API</span></a></p>
+</section>
 </section>
 
 
@@ -152,7 +167,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="../api/apps/calendar/XACalendarAttachment/PyXA.apps.Calendar.XACalendarAttachment.open.html" class="btn btn-neutral float-left" title="XACalendarAttachment.open" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="contacts.html" class="btn btn-neutral float-right" title="Contacts Module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="../api/apps/console/XAConsoleApplication/PyXA.apps.Console.XAConsoleApplication.html" class="btn btn-neutral float-right" title="XAConsoleApplication" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

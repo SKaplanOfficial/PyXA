@@ -318,8 +318,8 @@ class XAList(XAObject):
     def by_property(self, property: str, value: Any) -> XAObject:
         predicate = XAPredicate()
         predicate.add_eq_condition(property, value)
-        self.xa_elem = predicate.evaluate(self.xa_elem)
-        obj = self.xa_elem[0]
+        ls = predicate.evaluate(self.xa_elem)
+        obj = ls[0]
         return self._new_element(obj, self.xa_ocls)
 
     def first(self) -> XAObject:
@@ -378,12 +378,14 @@ class XAList(XAObject):
 
     def __getitem__(self, key: Union[int, slice]):
         if isinstance(key, slice):
-            arr = AppKit.NSArray.alloc().initWithArray_([self.xa_elem[index] for index in range(key.start, key.stop, key.step or 1)])
+            arr = AppKit.NSMutableArray.alloc().initWithArray_([self.xa_elem[index] for index in range(key.start, key.stop, key.step or 1)])
             return self._new_element(arr, self.__class__)
         return self._new_element(self.xa_elem[key], self.xa_ocls)
 
     def __len__(self):
-        return self.xa_elem.count()
+        if hasattr(self.xa_elem, "count"):
+            return self.xa_elem.count()
+        return len(self.xa_elem)
 
     def __reversed__(self):
         self.xa_elem = self.xa_elem.reverseObjectEnumerator().allObjects()
@@ -1959,7 +1961,6 @@ class XAUIStaticText(XAUIElement):
 
 
 
-# Text Elements
 class XATextDocument(XAObject):
     """A class for managing and interacting with text documents.
 
@@ -1967,8 +1968,12 @@ class XATextDocument(XAObject):
     """
     def __init__(self, properties):
         super().__init__(properties)
+        self.text: XAText #: The text of the document.
 
-    ## Text
+    @property
+    def text(self) -> 'XAText':
+        return self._new_element(self.xa_elem.text(), XAText)
+
     def set_text(self, new_text: str) -> 'XATextDocument':
         """Sets the text of the document.
 
@@ -2028,19 +2033,22 @@ class XATextDocument(XAObject):
         return self
 
     def paragraphs(self, filter: dict = None) -> 'XAParagraphList':
-        return self._new_element(self.xa_elem.paragraphs(), XAParagraphList, filter)
+        return self.text.paragraphs(filter)
+
+    def sentences(self, filter: dict = None) -> 'XASentenceList':
+        return self.text.sentences(filter)
 
     def words(self, filter: dict = None) -> 'XAWordList':
-        return self._new_element(self.xa_elem.words(), XAWordList, filter)
+        return self.text.words(filter)
 
     def characters(self, filter: dict = None) -> 'XACharacterList':
-        return self._new_element(self.xa_elem.characters(), XACharacterList, filter)
+        return self.text.characters(filter)
 
     def attribute_runs(self, filter: dict = None) -> 'XAAttributeRunList':
-        return self._new_element(self.xa_elem.attributeRuns(), XAAttributeRunList, filter)
+        return self.text.attribute_runs(filter)
 
     def attachments(self, filter: dict = None) -> 'XAAttachmentList':
-        return self._new_element(self.xa_elem.attachments(), XAAttachmentList, filter)
+        return self.text.attachments(filter)
 
 
 
@@ -2050,8 +2058,36 @@ class XATextList(XAList):
 
     .. versionadded:: 0.0.4
     """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAText, filter)
+    def __init__(self, properties: dict, obj_class = None, filter: Union[dict, None] = None):
+        if obj_class is None:
+            obj_class = XAText
+        super().__init__(properties, obj_class, filter)
+
+    def paragraphs(self, filter: dict = None) -> List['XAParagraphList']:
+        ls = self.xa_elem.arrayByApplyingSelector_("paragraphs")
+        return [self._new_element(x, XAParagraphList) for x in ls]
+
+    def sentences(self, filter: dict = None) -> List['XASentenceList']:
+        return [x.sentences() for x in self]
+
+    def words(self, filter: dict = None) -> List['XAWordList']:
+        ls = self.xa_elem.arrayByApplyingSelector_("words")
+        return [self._new_element(x, XAWordList) for x in ls]
+
+    def characters(self, filter: dict = None) -> List['XACharacterList']:
+        ls = self.xa_elem.arrayByApplyingSelector_("characters")
+        return [self._new_element(x, XACharacterList) for x in ls]
+
+    def attribute_runs(self, filter: dict = None) -> List['XAAttributeRunList']:
+        ls = self.xa_elem.arrayByApplyingSelector_("attributeRuns")
+        return [self._new_element(x, XAAttributeRunList) for x in ls]
+
+    def attachments(self, filter: dict = None) -> List['XAAttachmentList']:
+        ls = self.xa_elem.arrayByApplyingSelector_("attachments")
+        return [self._new_element(x, XAAttachmentList) for x in ls]
+
+    def __repr__(self):
+        return "<" + str(type(self)) + str(self.xa_elem.get()) + ">"
 
 class XAText(XAObject):
     """A class for managing and interacting with the text of documents.
@@ -2061,25 +2097,42 @@ class XAText(XAObject):
     def __init__(self, properties):
         super().__init__(properties)
 
-    def __str__(self):
-        if isinstance(self.xa_elem, str):
-            return self.xa_elem
-        return str(self.xa_elem.get())
-
     def paragraphs(self, filter: dict = None) -> 'XAParagraphList':
         return self._new_element(self.xa_elem.paragraphs(), XAParagraphList, filter)
+
+    def sentences(self, filter: dict = None) ->  List[str]:
+        raw_string = self.xa_elem.get()
+        sentences = []
+        tokenizer = AppKit.NLTokenizer.alloc().initWithUnit_(AppKit.kCFStringTokenizerUnitSentence)
+        tokenizer.setString_(raw_string)
+        for char_range in tokenizer.tokensForRange_((0, len(raw_string))):
+            start = char_range.rangeValue().location
+            end = start + char_range.rangeValue().length
+            sentences.append(raw_string[start:end])
+        # TODO: Only use Python/ObjC methods, not ScriptingBridge, to handle this -> 0.0.7
+        # ls = AppKit.NSArray.alloc().initWithArray_(sentences)
+        # return self._new_element(sentences, XASentenceList, filter) 
+        return sentences
 
     def words(self, filter: dict = None) -> 'XAWordList':
         return self._new_element(self.xa_elem.words(), XAWordList, filter)
 
     def characters(self, filter: dict = None) -> 'XACharacterList':
-        return self._new_element(self.xa_elem.characters(), XACharacterList, filter)
+        return self._new_element(self.xa_elem.characters().get(), XACharacterList, filter)
 
     def attribute_runs(self, filter: dict = None) -> 'XAAttributeRunList':
         return self._new_element(self.xa_elem.attributeRuns(), XAAttributeRunList, filter)
 
     def attachments(self, filter: dict = None) -> 'XAAttachmentList':
         return self._new_element(self.xa_elem.attachments(), XAAttachmentList, filter)
+
+    def __len__(self):
+        return len(self.xa_elem.get())
+
+    def __str__(self):
+        if isinstance(self.xa_elem, str):
+            return self.xa_elem
+        return str(self.xa_elem.get())
 
     def __repr__(self):
         if isinstance(self.xa_elem, str):
@@ -2089,7 +2142,7 @@ class XAText(XAObject):
 
 
 
-class XAParagraphList(XAList):
+class XAParagraphList(XATextList):
     """A wrapper around lists of paragraphs that employs fast enumeration techniques.
 
     .. versionadded:: 0.0.5
@@ -2107,8 +2160,30 @@ class XAParagraph(XAText):
 
 
 
+# class XASentenceList(XATextList):
+#     """A wrapper around lists of sentences that employs fast enumeration techniques.
 
-class XAWordList(XAList):
+#     .. versionadded:: 0.0.5
+#     """
+#     def __init__(self, properties: dict, filter: Union[dict, None] = None):
+#         super().__init__(properties, XASentence, filter)
+
+# class XASentence(XAText):
+#     """A class for managing and interacting with sentences in text documents.
+
+#     .. versionadded:: 0.0.1
+#     """
+#     def __init__(self, properties):
+#         super().__init__(properties)
+
+#     def words(self, filter: dict = None) -> 'XAWordList':
+#         ls = AppKit.NSArray.alloc().initWithArray_(self.xa_elem.split(" "))
+#         return self._new_element(ls, XAWordList, filter)
+
+
+
+
+class XAWordList(XATextList):
     """A wrapper around lists of words that employs fast enumeration techniques.
 
     .. versionadded:: 0.0.5
@@ -2127,7 +2202,7 @@ class XAWord(XAText):
 
 
 
-class XACharacterList(XAList):
+class XACharacterList(XATextList):
     """A wrapper around lists of characters that employs fast enumeration techniques.
 
     .. versionadded:: 0.0.5
@@ -2146,7 +2221,7 @@ class XACharacter(XAText):
 
 
 
-class XAAttributeRunList(XAList):
+class XAAttributeRunList(XATextList):
     """A wrapper around lists of attribute runs that employs fast enumeration techniques.
 
     .. versionadded:: 0.0.5
@@ -2165,7 +2240,7 @@ class XAAttributeRun(XAText):
 
 
 
-class XAAttachmentList(XAList):
+class XAAttachmentList(XATextList):
     """A wrapper around lists of text attachments that employs fast enumeration techniques.
 
     .. versionadded:: 0.0.5

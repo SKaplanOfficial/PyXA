@@ -82,7 +82,7 @@ This example shows how to manually create new windows and tabs in Chromium. The 
 
 Chromium Resources
 ##################
-- `Chromium Quick Start Guide <https://www.chromium.org/chromium-os/quick-start-guide/`_
+- `Chromium Quick Start Guide <https://www.chromium.org/chromium-os/quick-start-guide/>`_
 
 Chromium Classes and Methods
 ############################

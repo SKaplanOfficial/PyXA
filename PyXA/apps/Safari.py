@@ -5,6 +5,7 @@ Control Safari using JXA-like syntax.
 
 from enum import Enum
 from typing import Any, List, Tuple, Union
+import threading
 
 from PyXA import XABase
 from PyXA import XABaseScriptable
@@ -249,6 +250,8 @@ class XASafariApplication(XABaseScriptable.XASBApplication, XABaseScriptable.XAS
             return self._new_element(obj, XASafariTab)
 
 
+
+
 class XASafariWindow(XABaseScriptable.XASBWindow, XABaseScriptable.XASBCloseable, XABaseScriptable.XASBPrintable, XABase.XAHasElements):
     """A class for interacting with Safari windows.
 
@@ -316,23 +319,11 @@ class XASafariWindow(XABaseScriptable.XASBWindow, XABaseScriptable.XASBCloseable
 
     @property
     def document(self) -> 'XASafariDocument':
-        return self._new_element(self.xa_scel.document(), XASafariDocument)
+        return self._new_element(self.xa_elem.document(), XASafariDocument)
 
     @property
     def current_tab(self) -> 'XASafariTab':
-        return self._new_element(self.xa_scel.currentTab(), XASafariTab)
-
-    # TODO: Get this working
-    def save(self, file_path: Union[str, XABase.XAURL, None] = None):
-        if isinstance(file_path, str):
-            file_path = XABase.XAPath(file_path).xa_elem
-        
-        script = XABase.AppleScript(f"""
-            tell application \"Safari\"
-                save document of window 1 in \"{file_path}\"
-            end tell
-        """)
-        script.run()
+        return self._new_element(self.xa_elem.currentTab(), XASafariTab)
 
     def tabs(self, filter: dict = None) -> 'XASafariTabList':
         """Returns a list of tabs matching the given filter.
@@ -343,7 +334,9 @@ class XASafariWindow(XABaseScriptable.XASBWindow, XABaseScriptable.XASBCloseable
 
         .. versionadded:: 0.0.1
         """
-        return self._new_element(self.xa_scel.tabs(), XASafariTabList, filter)
+        return self._new_element(self.xa_elem.tabs(), XASafariTabList, filter)
+
+
 
 
 class XASafariGeneric(XABaseScriptable.XASBCloseable, XABase.XAHasElements):
@@ -354,7 +347,7 @@ class XASafariGeneric(XABaseScriptable.XASBCloseable, XABase.XAHasElements):
     .. versionadded:: 0.0.1
     """
     def search(self, term: str) -> 'XASafariGeneric':
-        """Searches for the specified term in a tab or document.
+        """Searches for the specified term in the current tab or document.
 
         :param term: The term to search.
         :type term: str
@@ -404,15 +397,7 @@ class XASafariGeneric(XABaseScriptable.XASBCloseable, XABase.XAHasElements):
         """
         self.set_property("URL", self.url)
 
-    def search(self, query: str):
-        """Performs a web search in the current tab or document using the default search engine.
 
-        :param query: The query to search
-        :type query: str
-
-        .. versionadded:: 0.0.4
-        """
-        self.xa_elem.searchTheWebIn_for_(self.xa_elem, query)
 
 
 class XASafariDocumentList(XABase.XAList):
@@ -426,39 +411,123 @@ class XASafariDocumentList(XABase.XAList):
         super().__init__(properties, XASafariDocument, filter)
 
     def name(self) -> List[str]:
+        """Gets the name of each document in the list.
+
+        :return: A list of document names
+        :rtype: List[str]
+        
+        .. versionadded:: 0.0.4
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
     def modified(self) -> List[bool]:
+        """Gets the modified status of each document in the list.
+
+        :return: A list of modified status booleans
+        :rtype: List[bool]
+        
+        .. versionadded:: 0.0.4
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("modified"))
 
     def file(self) -> List[str]:
+        """Gets the file path of each document in the list.
+
+        :return: A list of file paths
+        :rtype: List[str]
+        
+        .. versionadded:: 0.0.4
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("file"))
 
     def source(self) -> List[str]:
+        """Gets the source HTML of each document in the list.
+
+        :return: A list of document source HTML
+        :rtype: List[str]
+        
+        .. versionadded:: 0.0.4
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("source"))
 
     def url(self) -> List[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("url"))
+        """Gets the file URL of each document in the list.
+
+        :return: A list of document URLs
+        :rtype: List[str]
+        
+        .. versionadded:: 0.0.
+        """
+        return list(self.xa_elem.arrayByApplyingSelector_("URL"))
 
     def text(self) -> List[str]:
+        """Gets the visible text of each document in the list.
+
+        :return: A list of document text
+        :rtype: List[str]
+        
+        .. versionadded:: 0.0.4
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("text"))
 
     def by_name(self, name: str) -> 'XASafariDocument':
+        """Retrieves the document whose name matches the given name, if one exists.
+
+        :return: The desired tab, if it is found
+        :rtype: Union[XASafariTab, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("name", name)
 
     def by_modified(self, modified: bool) -> 'XASafariDocument':
+        """Retrieves the tab whose modified status matches the given boolean value, if one exists.
+
+        :return: The desired tab, if it is found
+        :rtype: Union[XASafariTab, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("modified", modified)
 
     def by_file(self, file: str) -> 'XASafariDocument':
+        """Retrieves the tab whose file matches the given file path, if one exists.
+
+        :return: The desired tab, if it is found
+        :rtype: Union[XASafariTab, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("file", file)
 
     def by_source(self, source: str) -> 'XASafariDocument':
+        """Retrieves the tab whose source HTML matches the given HTML, if one exists.
+
+        :return: The desired tab, if it is found
+        :rtype: Union[XASafariTab, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("source", source)
 
     def by_url(self, url: str) -> 'XASafariDocument':
-        return self.by_property("url", url)
+        """Retrieves the tab whose URL matches the given URL, if one exists.
+
+        :return: The desired tab, if it is found
+        :rtype: Union[XASafariTab, None]
+        
+        .. versionadded:: 0.0.4
+        """
+        return self.by_property("URL", url)
     
     def by_text(self, text: str) -> 'XASafariDocument':
+        """Retrieves the tab whose visible text matches the given text, if one exists.
+
+        :return: The desired tab, if it is found
+        :rtype: Union[XASafariTab, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("text", text)
 
     def reload(self) -> 'XASafariDocumentList':
@@ -473,8 +542,62 @@ class XASafariDocumentList(XABase.XAList):
             document.setValue_forKey_(document.URL(), "URL")
         return self
 
-    def __repr__(self):
-        return "<" + str(type(self)) + str(self.name()) + ">"
+    def add_to_reading_list(self) -> 'XASafariDocumentList':
+        """Adds the URL of all documents in the list to the reading list.
+
+        :return: A reference to the document list object.
+        :rtype: XASafariDocumentList
+        
+        .. versionadded:: 0.0.5
+        """
+        for document in self:
+            document.add_to_reading_list()
+        return self
+
+    def email(self) -> 'XASafariDocumentList':
+        """Opens a new email draft with embedded links to the URL of each document in the list.
+
+        :return: A reference to the document list object.
+        :rtype: XASafariDocumentList
+        
+        .. versionadded:: 0.0.5
+        """
+        for document in self:
+            document.email()
+        return self
+
+    def do_javascript(self, script: str) -> 'XASafariDocumentList':
+        """Runs a given JavaScript script in each document in the list.
+
+        :return: A reference to the document list object.
+        :rtype: XASafariDocumentList
+        
+        .. versionadded:: 0.0.5
+        """
+        for document in self:
+            document.do_javascript(script)
+        return self
+
+    def search(self, term: str) -> 'XASafariDocumentList':
+        """Searches for the given term in each document in the list, using the default search engine.
+
+        :return: A reference to the document list object.
+        :rtype: XASafariDocumentList
+        
+        .. versionadded:: 0.0.5
+        """
+        for document in self:
+            document.search(term)
+        return self
+
+    def close(self):
+        """Closes each tab in the list.
+
+        .. versionadded:: 0.0.5
+        """
+        length = len(self)
+        for _index in range(length):
+            self[0].close()
 
 class XASafariDocument(XASafariGeneric, XABaseScriptable.XASBPrintable):
     """A class for interacting with Safari documents.
@@ -516,8 +639,21 @@ class XASafariDocument(XASafariGeneric, XABaseScriptable.XASBPrintable):
     def text(self) -> str:
         return self.xa_elem.text()
 
-    def save(self):
-        self.xa_elem.saveIn_as_(None, None)
+    def print(self, properties: dict = None, show_dialog: bool = True):
+        """Prints or opens the print dialog for the document.
+
+        :param properties: The print properties to pre-set for the print, defaults to None
+        :type properties: dict, optional
+        :param show_dialog: Whether to display the print dialog, defaults to True
+        :type show_dialog: bool, optional
+
+        .. versionadded:: 0.0.5
+        """
+        if properties is None:
+            properties = {}
+
+        print_thread = threading.Thread(target=self.xa_elem.printWithProperties_printDialog_, args=(properties, show_dialog), name="Print Document")
+        print_thread.start()
 
 
 class XASafariTabList(XABase.XAList):
@@ -531,39 +667,123 @@ class XASafariTabList(XABase.XAList):
         super().__init__(properties, XASafariTab, filter)
 
     def source(self) -> List[str]:
+        """Gets the source HTML of each tab in the list.
+
+        :return: A list of source HTML
+        :rtype: List[str]
+        
+        .. versionadded:: 0.0.4
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("source"))
 
     def url(self) -> List[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("url"))
+        """Gets the current URL of each tab in the list.
+
+        :return: A list of web URLs
+        :rtype: List[str]
+        
+        .. versionadded:: 0.0.4
+        """
+        return list(self.xa_elem.arrayByApplyingSelector_("URL"))
 
     def index(self) -> List[int]:
+        """Gets the index of each tab in the list.
+
+        :return: A list of indices
+        :rtype: List[int]
+        
+        .. versionadded:: 0.0.4
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("index"))
 
     def text(self) -> List[str]:
+        """Gets the visible text of each tab in the list.
+
+        :return: A list of visible text
+        :rtype: List[str]
+        
+        .. versionadded:: 0.0.4
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("text"))
 
     def visible(self) -> List[bool]:
+        """Gets the visible status of each tab in the list.
+
+        :return: A list of visible status booleans
+        :rtype: List[str]
+        
+        .. versionadded:: 0.0.4
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("visible"))
 
     def name(self) -> List[str]:
+        """Gets the name of each tab in the list.
+
+        :return: A list of tab names
+        :rtype: List[str]
+        
+        .. versionadded:: 0.0.4
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
-    def by_source(self, source: str) -> 'XASafariTab':
+    def by_source(self, source: str) -> Union['XASafariTab', None]:
+        """Retrieves the tab whose source HTML matches the given HTML, if one exists.
+
+        :return: The desired tab, if it is found
+        :rtype: Union[XASafariTab, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("source", source)
 
-    def by_url(self, url: str) -> 'XASafariTab':
-        return self.by_property("url", url)
+    def by_url(self, url: str) -> Union['XASafariTab', None]:
+        """Retrieves the tab whose URL matches the given URL, if one exists.
 
-    def by_index(self, index: int) -> 'XASafariTab':
+        :return: The desired tab, if it is found
+        :rtype: Union[XASafariTab, None]
+        
+        .. versionadded:: 0.0.4
+        """
+        return self.by_property("URL", url)
+
+    def by_index(self, index: int) -> Union['XASafariTab', None]:
+        """Retrieves the tab whose index matches the given index, if one exists.
+
+        :return: The desired tab, if it is found
+        :rtype: Union[XASafariTab, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("index", index)
 
-    def by_text(self, text: str) -> 'XASafariTab':
+    def by_text(self, text: str) -> Union['XASafariTab', None]:
+        """Retrieves the tab whose visible text matches the given text, if one exists.
+
+        :return: The desired tab, if it is found
+        :rtype: Union[XASafariTab, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("text", text)
 
-    def by_visible(self, visible: bool) -> 'XASafariTab':
+    def by_visible(self, visible: bool) -> Union['XASafariTab', None]:
+        """Retrieves the tab whose visible status matches the given boolean, if one exists.
+
+        :return: The desired tab, if it is found
+        :rtype: Union[XASafariTab, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("visible", visible)
 
-    def by_name(self, name: str) -> 'XASafariTab':
+    def by_name(self, name: str) -> Union['XASafariTab', None]:
+        """Retrieves the tab whose name matches the given name, if one exists.
+
+        :return: The desired tab, if it is found
+        :rtype: Union[XASafariTab, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("name", name)
 
     def reload(self) -> 'XASafariTabList':
@@ -577,6 +797,96 @@ class XASafariTabList(XABase.XAList):
         for tab in self.xa_elem:
             tab.setValue_forKey_(tab.URL(), "URL")
         return self
+
+    def add_to_reading_list(self) -> 'XASafariTabList':
+        """Adds the URL of all tabs in the list to the reading list.
+
+        :return: A reference to the tab list object.
+        :rtype: XASafariTabList
+        
+        .. versionadded:: 0.0.5
+        """
+        for tab in self:
+            tab.add_to_reading_list()
+        return self
+
+    def email(self) -> 'XASafariTabList':
+        """Opens a new email draft with embedded links to the URL of each tab in the list.
+
+        :return: A reference to the tab list object.
+        :rtype: XASafariTabList
+        
+        .. versionadded:: 0.0.5
+        """
+        for tab in self:
+            tab.email()
+        return self
+
+    def do_javascript(self, script: str) -> 'XASafariTabList':
+        """Runs a given JavaScript script in each tab in the list.
+
+        :return: A reference to the tab list object.
+        :rtype: XASafariTabList
+        
+        .. versionadded:: 0.0.5
+        """
+        for tab in self:
+            tab.do_javascript(script)
+        return self
+
+    def search(self, term: str) -> 'XASafariTabList':
+        """Searches for the given term in each tab in the list, using the default search engine.
+
+        :return: A reference to the tab list object.
+        :rtype: XASafariTabList
+        
+        .. versionadded:: 0.0.5
+        """
+        for tab in self:
+            tab.search(term)
+        return self
+
+    def move_to(self, window: XASafariWindow) -> 'XASafariTabList':
+        """Moves all tabs in the list to the specified window.
+
+        :param window: The window to move tabs to
+        :type window: XASafariWindow
+        :return: The tab list object
+        :rtype: XASafariTabList
+
+        .. seealso:: :func:`duplicate_to`
+
+        .. versionadded:: 0.0.5
+        """
+        for tab in self.xa_elem:
+            tab.moveTo_(window.xa_elem)
+            tab.close()
+        return self
+
+    def duplicate_to(self, window: XASafariWindow) -> 'XASafariTabList':
+        """Duplicate all tabs in the list in the specified window.
+
+        :param window: The window to duplicate tabs in
+        :type window: XASafariWindow
+        :return: The tab list object
+        :rtype: XASafariTabList
+
+        .. seealso:: :func:`move_to`
+
+        .. versionadded:: 0.0.5
+        """
+        for tab in self.xa_elem:
+            tab.moveTo_(window.xa_elem)
+        return self
+
+    def close(self):
+        """Closes each tab in the list.
+
+        .. versionadded:: 0.0.5
+        """
+        length = len(self)
+        for _index in range(length):
+            self[0].close()
 
     def __repr__(self):
         return "<" + str(type(self)) + str(self.name()) + ">"

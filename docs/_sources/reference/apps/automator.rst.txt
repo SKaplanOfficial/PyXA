@@ -15,7 +15,7 @@ There are currently no tutorials for the Automator module.
 
 Automator Examples
 ##################
-The examples below provide an overview of the capabilities of the Chromium module. They do not provide any output. For more in-depth examples that show output and provide more detailed explanations, refer to the previous section (:ref:`Chromium Tutorials`).
+The examples below provide an overview of the capabilities of the Automator module.
 
 Example 1 - Creating workflows from scratch
 *******************************************
@@ -73,8 +73,8 @@ Automator Resources
 ###################
 - `Automator User Guide - Apple Support <https://support.apple.com/guide/automator/welcome/mac`_
 
-Chromium Classes and Methods
-############################
+Automator Classes and Methods
+#############################
 .. toctree::
    :maxdepth: 1
    :caption: Classes

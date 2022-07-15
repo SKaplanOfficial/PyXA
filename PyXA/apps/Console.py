@@ -14,7 +14,7 @@ from PyXA import XABaseScriptable
 class XAConsoleApplication(XABaseScriptable.XASBApplication, XABase.XACanConstructElement, XABase.XAAcceptsPushedElements, XABase.XACanOpenPath):
     """A class for managing and interacting with Console.app.
 
-    .. versionadded:: 0.0.1
+    .. versionadded:: 0.0.5
     """
     def select_device(self, uuid: str) -> 'XAConsoleApplication':
         self.xa_scel.selectDevice_(uuid)

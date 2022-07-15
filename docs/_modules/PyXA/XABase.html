@@ -388,8 +388,8 @@
 <div class="viewcode-block" id="XAList.by_property"><a class="viewcode-back" href="../../reference/xabase.html#PyXA.XABase.XAList.by_property">[docs]</a>    <span class="k">def</span> <span class="nf">by_property</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">property</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XAObject</span><span class="p">:</span>
         <span class="n">predicate</span> <span class="o">=</span> <span class="n">XAPredicate</span><span class="p">()</span>
         <span class="n">predicate</span><span class="o">.</span><span class="n">add_eq_condition</span><span class="p">(</span><span class="nb">property</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span> <span class="o">=</span> <span class="n">predicate</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span>
-        <span class="n">obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">ls</span> <span class="o">=</span> <span class="n">predicate</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span>
+        <span class="n">obj</span> <span class="o">=</span> <span class="n">ls</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_ocls</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="XAList.first"><a class="viewcode-back" href="../../reference/xabase.html#PyXA.XABase.XAList.first">[docs]</a>    <span class="k">def</span> <span class="nf">first</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XAObject</span><span class="p">:</span>
@@ -448,12 +448,14 @@
 
     <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">slice</span><span class="p">]):</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="nb">slice</span><span class="p">):</span>
-            <span class="n">arr</span> <span class="o">=</span> <span class="n">AppKit</span><span class="o">.</span><span class="n">NSArray</span><span class="o">.</span><span class="n">alloc</span><span class="p">()</span><span class="o">.</span><span class="n">initWithArray_</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">key</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="n">key</span><span class="o">.</span><span class="n">stop</span><span class="p">,</span> <span class="n">key</span><span class="o">.</span><span class="n">step</span> <span class="ow">or</span> <span class="mi">1</span><span class="p">)])</span>
+            <span class="n">arr</span> <span class="o">=</span> <span class="n">AppKit</span><span class="o">.</span><span class="n">NSMutableArray</span><span class="o">.</span><span class="n">alloc</span><span class="p">()</span><span class="o">.</span><span class="n">initWithArray_</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">key</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="n">key</span><span class="o">.</span><span class="n">stop</span><span class="p">,</span> <span class="n">key</span><span class="o">.</span><span class="n">step</span> <span class="ow">or</span> <span class="mi">1</span><span class="p">)])</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_ocls</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">,</span> <span class="s2">&quot;count&quot;</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__reversed__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">reverseObjectEnumerator</span><span class="p">()</span><span class="o">.</span><span class="n">allObjects</span><span class="p">()</span>
@@ -2029,7 +2031,6 @@
 
 
 
-<span class="c1"># Text Elements</span>
 <div class="viewcode-block" id="XATextDocument"><a class="viewcode-back" href="../../reference/xabase.html#PyXA.XABase.XATextDocument">[docs]</a><span class="k">class</span> <span class="nc">XATextDocument</span><span class="p">(</span><span class="n">XAObject</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A class for managing and interacting with text documents.</span>
 
@@ -2037,8 +2038,12 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">text</span><span class="p">:</span> <span class="n">XAText</span> <span class="c1">#: The text of the document.</span>
 
-    <span class="c1">## Text</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">text</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAText&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">text</span><span class="p">(),</span> <span class="n">XAText</span><span class="p">)</span>
+
 <div class="viewcode-block" id="XATextDocument.set_text"><a class="viewcode-back" href="../../reference/xabase.html#PyXA.XABase.XATextDocument.set_text">[docs]</a>    <span class="k">def</span> <span class="nf">set_text</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XATextDocument&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Sets the text of the document.</span>
 
@@ -2098,19 +2103,22 @@
         <span class="k">return</span> <span class="bp">self</span></div>
 
 <div class="viewcode-block" id="XATextDocument.paragraphs"><a class="viewcode-back" href="../../reference/xabase.html#PyXA.XABase.XATextDocument.paragraphs">[docs]</a>    <span class="k">def</span> <span class="nf">paragraphs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAParagraphList&#39;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">paragraphs</span><span class="p">(),</span> <span class="n">XAParagraphList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">paragraphs</span><span class="p">(</span><span class="nb">filter</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XATextDocument.sentences"><a class="viewcode-back" href="../../reference/xabase.html#PyXA.XABase.XATextDocument.sentences">[docs]</a>    <span class="k">def</span> <span class="nf">sentences</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XASentenceList&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">sentences</span><span class="p">(</span><span class="nb">filter</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="XATextDocument.words"><a class="viewcode-back" href="../../reference/xabase.html#PyXA.XABase.XATextDocument.words">[docs]</a>    <span class="k">def</span> <span class="nf">words</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAWordList&#39;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">words</span><span class="p">(),</span> <span class="n">XAWordList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">words</span><span class="p">(</span><span class="nb">filter</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="XATextDocument.characters"><a class="viewcode-back" href="../../reference/xabase.html#PyXA.XABase.XATextDocument.characters">[docs]</a>    <span class="k">def</span> <span class="nf">characters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XACharacterList&#39;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">characters</span><span class="p">(),</span> <span class="n">XACharacterList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">characters</span><span class="p">(</span><span class="nb">filter</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="XATextDocument.attribute_runs"><a class="viewcode-back" href="../../reference/xabase.html#PyXA.XABase.XATextDocument.attribute_runs">[docs]</a>    <span class="k">def</span> <span class="nf">attribute_runs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAAttributeRunList&#39;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">attributeRuns</span><span class="p">(),</span> <span class="n">XAAttributeRunList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">attribute_runs</span><span class="p">(</span><span class="nb">filter</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="XATextDocument.attachments"><a class="viewcode-back" href="../../reference/xabase.html#PyXA.XABase.XATextDocument.attachments">[docs]</a>    <span class="k">def</span> <span class="nf">attachments</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAAttachmentList&#39;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">attachments</span><span class="p">(),</span> <span class="n">XAAttachmentList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">attachments</span><span class="p">(</span><span class="nb">filter</span><span class="p">)</span></div></div>
 
 
 
@@ -2120,8 +2128,36 @@
 
 <span class="sd">    .. versionadded:: 0.0.4</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">XAText</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">obj_class</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">obj_class</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">obj_class</span> <span class="o">=</span> <span class="n">XAText</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">obj_class</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
+
+<div class="viewcode-block" id="XATextList.paragraphs"><a class="viewcode-back" href="../../reference/xabase.html#PyXA.XABase.XATextList.paragraphs">[docs]</a>    <span class="k">def</span> <span class="nf">paragraphs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;XAParagraphList&#39;</span><span class="p">]:</span>
+        <span class="n">ls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;paragraphs&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">XAParagraphList</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">ls</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="XATextList.sentences"><a class="viewcode-back" href="../../reference/xabase.html#PyXA.XABase.XATextList.sentences">[docs]</a>    <span class="k">def</span> <span class="nf">sentences</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;XASentenceList&#39;</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">sentences</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="XATextList.words"><a class="viewcode-back" href="../../reference/xabase.html#PyXA.XABase.XATextList.words">[docs]</a>    <span class="k">def</span> <span class="nf">words</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;XAWordList&#39;</span><span class="p">]:</span>
+        <span class="n">ls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;words&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">XAWordList</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">ls</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="XATextList.characters"><a class="viewcode-back" href="../../reference/xabase.html#PyXA.XABase.XATextList.characters">[docs]</a>    <span class="k">def</span> <span class="nf">characters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;XACharacterList&#39;</span><span class="p">]:</span>
+        <span class="n">ls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;characters&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">XACharacterList</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">ls</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="XATextList.attribute_runs"><a class="viewcode-back" href="../../reference/xabase.html#PyXA.XABase.XATextList.attribute_runs">[docs]</a>    <span class="k">def</span> <span class="nf">attribute_runs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;XAAttributeRunList&#39;</span><span class="p">]:</span>
+        <span class="n">ls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;attributeRuns&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">XAAttributeRunList</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">ls</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="XATextList.attachments"><a class="viewcode-back" href="../../reference/xabase.html#PyXA.XABase.XATextList.attachments">[docs]</a>    <span class="k">def</span> <span class="nf">attachments</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;XAAttachmentList&#39;</span><span class="p">]:</span>
+        <span class="n">ls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;attachments&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">XAAttachmentList</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">ls</span><span class="p">]</span></div>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;&lt;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">get</span><span class="p">())</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span></div>
 
 <div class="viewcode-block" id="XAText"><a class="viewcode-back" href="../../reference/xabase.html#PyXA.XABase.XAText">[docs]</a><span class="k">class</span> <span class="nc">XAText</span><span class="p">(</span><span class="n">XAObject</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A class for managing and interacting with the text of documents.</span>
@@ -2131,25 +2167,42 @@
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span>
-        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
-
 <div class="viewcode-block" id="XAText.paragraphs"><a class="viewcode-back" href="../../reference/xabase.html#PyXA.XABase.XAText.paragraphs">[docs]</a>    <span class="k">def</span> <span class="nf">paragraphs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAParagraphList&#39;</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">paragraphs</span><span class="p">(),</span> <span class="n">XAParagraphList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XAText.sentences"><a class="viewcode-back" href="../../reference/xabase.html#PyXA.XABase.XAText.sentences">[docs]</a>    <span class="k">def</span> <span class="nf">sentences</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span>  <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="n">raw_string</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="n">sentences</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">AppKit</span><span class="o">.</span><span class="n">NLTokenizer</span><span class="o">.</span><span class="n">alloc</span><span class="p">()</span><span class="o">.</span><span class="n">initWithUnit_</span><span class="p">(</span><span class="n">AppKit</span><span class="o">.</span><span class="n">kCFStringTokenizerUnitSentence</span><span class="p">)</span>
+        <span class="n">tokenizer</span><span class="o">.</span><span class="n">setString_</span><span class="p">(</span><span class="n">raw_string</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">char_range</span> <span class="ow">in</span> <span class="n">tokenizer</span><span class="o">.</span><span class="n">tokensForRange_</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">raw_string</span><span class="p">))):</span>
+            <span class="n">start</span> <span class="o">=</span> <span class="n">char_range</span><span class="o">.</span><span class="n">rangeValue</span><span class="p">()</span><span class="o">.</span><span class="n">location</span>
+            <span class="n">end</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="n">char_range</span><span class="o">.</span><span class="n">rangeValue</span><span class="p">()</span><span class="o">.</span><span class="n">length</span>
+            <span class="n">sentences</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">raw_string</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">end</span><span class="p">])</span>
+        <span class="c1"># TODO: Only use Python/ObjC methods, not ScriptingBridge, to handle this -&gt; 0.0.7</span>
+        <span class="c1"># ls = AppKit.NSArray.alloc().initWithArray_(sentences)</span>
+        <span class="c1"># return self._new_element(sentences, XASentenceList, filter) </span>
+        <span class="k">return</span> <span class="n">sentences</span></div>
 
 <div class="viewcode-block" id="XAText.words"><a class="viewcode-back" href="../../reference/xabase.html#PyXA.XABase.XAText.words">[docs]</a>    <span class="k">def</span> <span class="nf">words</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAWordList&#39;</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">words</span><span class="p">(),</span> <span class="n">XAWordList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="XAText.characters"><a class="viewcode-back" href="../../reference/xabase.html#PyXA.XABase.XAText.characters">[docs]</a>    <span class="k">def</span> <span class="nf">characters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XACharacterList&#39;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">characters</span><span class="p">(),</span> <span class="n">XACharacterList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">characters</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(),</span> <span class="n">XACharacterList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="XAText.attribute_runs"><a class="viewcode-back" href="../../reference/xabase.html#PyXA.XABase.XAText.attribute_runs">[docs]</a>    <span class="k">def</span> <span class="nf">attribute_runs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAAttributeRunList&#39;</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">attributeRuns</span><span class="p">(),</span> <span class="n">XAAttributeRunList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="XAText.attachments"><a class="viewcode-back" href="../../reference/xabase.html#PyXA.XABase.XAText.attachments">[docs]</a>    <span class="k">def</span> <span class="nf">attachments</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAAttachmentList&#39;</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">attachments</span><span class="p">(),</span> <span class="n">XAAttachmentList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
@@ -2159,7 +2212,7 @@
 
 
 
-<div class="viewcode-block" id="XAParagraphList"><a class="viewcode-back" href="../../reference/xabase.html#PyXA.XABase.XAParagraphList">[docs]</a><span class="k">class</span> <span class="nc">XAParagraphList</span><span class="p">(</span><span class="n">XAList</span><span class="p">):</span>
+<div class="viewcode-block" id="XAParagraphList"><a class="viewcode-back" href="../../reference/xabase.html#PyXA.XABase.XAParagraphList">[docs]</a><span class="k">class</span> <span class="nc">XAParagraphList</span><span class="p">(</span><span class="n">XATextList</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A wrapper around lists of paragraphs that employs fast enumeration techniques.</span>
 
 <span class="sd">    .. versionadded:: 0.0.5</span>
@@ -2177,8 +2230,30 @@
 
 
 
+<span class="c1"># class XASentenceList(XATextList):</span>
+<span class="c1">#     &quot;&quot;&quot;A wrapper around lists of sentences that employs fast enumeration techniques.</span>
 
-<div class="viewcode-block" id="XAWordList"><a class="viewcode-back" href="../../reference/xabase.html#PyXA.XABase.XAWordList">[docs]</a><span class="k">class</span> <span class="nc">XAWordList</span><span class="p">(</span><span class="n">XAList</span><span class="p">):</span>
+<span class="c1">#     .. versionadded:: 0.0.5</span>
+<span class="c1">#     &quot;&quot;&quot;</span>
+<span class="c1">#     def __init__(self, properties: dict, filter: Union[dict, None] = None):</span>
+<span class="c1">#         super().__init__(properties, XASentence, filter)</span>
+
+<span class="c1"># class XASentence(XAText):</span>
+<span class="c1">#     &quot;&quot;&quot;A class for managing and interacting with sentences in text documents.</span>
+
+<span class="c1">#     .. versionadded:: 0.0.1</span>
+<span class="c1">#     &quot;&quot;&quot;</span>
+<span class="c1">#     def __init__(self, properties):</span>
+<span class="c1">#         super().__init__(properties)</span>
+
+<span class="c1">#     def words(self, filter: dict = None) -&gt; &#39;XAWordList&#39;:</span>
+<span class="c1">#         ls = AppKit.NSArray.alloc().initWithArray_(self.xa_elem.split(&quot; &quot;))</span>
+<span class="c1">#         return self._new_element(ls, XAWordList, filter)</span>
+
+
+
+
+<div class="viewcode-block" id="XAWordList"><a class="viewcode-back" href="../../reference/xabase.html#PyXA.XABase.XAWordList">[docs]</a><span class="k">class</span> <span class="nc">XAWordList</span><span class="p">(</span><span class="n">XATextList</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A wrapper around lists of words that employs fast enumeration techniques.</span>
 
 <span class="sd">    .. versionadded:: 0.0.5</span>
@@ -2197,7 +2272,7 @@
 
 
 
-<div class="viewcode-block" id="XACharacterList"><a class="viewcode-back" href="../../reference/xabase.html#PyXA.XABase.XACharacterList">[docs]</a><span class="k">class</span> <span class="nc">XACharacterList</span><span class="p">(</span><span class="n">XAList</span><span class="p">):</span>
+<div class="viewcode-block" id="XACharacterList"><a class="viewcode-back" href="../../reference/xabase.html#PyXA.XABase.XACharacterList">[docs]</a><span class="k">class</span> <span class="nc">XACharacterList</span><span class="p">(</span><span class="n">XATextList</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A wrapper around lists of characters that employs fast enumeration techniques.</span>
 
 <span class="sd">    .. versionadded:: 0.0.5</span>
@@ -2216,7 +2291,7 @@
 
 
 
-<div class="viewcode-block" id="XAAttributeRunList"><a class="viewcode-back" href="../../reference/xabase.html#PyXA.XABase.XAAttributeRunList">[docs]</a><span class="k">class</span> <span class="nc">XAAttributeRunList</span><span class="p">(</span><span class="n">XAList</span><span class="p">):</span>
+<div class="viewcode-block" id="XAAttributeRunList"><a class="viewcode-back" href="../../reference/xabase.html#PyXA.XABase.XAAttributeRunList">[docs]</a><span class="k">class</span> <span class="nc">XAAttributeRunList</span><span class="p">(</span><span class="n">XATextList</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A wrapper around lists of attribute runs that employs fast enumeration techniques.</span>
 
 <span class="sd">    .. versionadded:: 0.0.5</span>
@@ -2235,7 +2310,7 @@
 
 
 
-<div class="viewcode-block" id="XAAttachmentList"><a class="viewcode-back" href="../../reference/xabase.html#PyXA.XABase.XAAttachmentList">[docs]</a><span class="k">class</span> <span class="nc">XAAttachmentList</span><span class="p">(</span><span class="n">XAList</span><span class="p">):</span>
+<div class="viewcode-block" id="XAAttachmentList"><a class="viewcode-back" href="../../reference/xabase.html#PyXA.XABase.XAAttachmentList">[docs]</a><span class="k">class</span> <span class="nc">XAAttachmentList</span><span class="p">(</span><span class="n">XATextList</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A wrapper around lists of text attachments that employs fast enumeration techniques.</span>
 
 <span class="sd">    .. versionadded:: 0.0.5</span>

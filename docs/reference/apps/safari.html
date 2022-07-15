@@ -19,7 +19,7 @@
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Shortcuts Module" href="shortcuts.html" />
+    <link rel="next" title="XASafariApplication" href="../api/apps/safari/XASafariApplication/PyXA.apps.Safari.XASafariApplication.html" />
     <link rel="prev" title="Reminders Module" href="reminders.html" /> 
 </head>
 
@@ -61,7 +61,14 @@
 <li class="toctree-l3"><a class="reference internal" href="photos.html">Photos Module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="preview.html">Preview Module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="reminders.html">Reminders Module</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">Safari Module</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Safari Module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#safari-tutorials">Safari Tutorials</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#examples">Examples</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#safari-resources">Safari Resources</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#safari-classes-and-methods">Safari Classes and Methods</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="shortcuts.html">Shortcuts Module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="systempreferences.html">System Preferences Module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="terminal.html">Terminal Module</a></li>
@@ -100,1285 +107,193 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="module-PyXA.apps.Safari">
-<span id="safari-module"></span><h1>Safari Module<a class="headerlink" href="#module-PyXA.apps.Safari" title="Permalink to this headline"></a></h1>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 0.0.1.</span></p>
-</div>
-<p>Control Safari using JXA-like syntax.</p>
-<p><strong>Classes:</strong></p>
-<table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
-<tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariApplication" title="PyXA.apps.Safari.XASafariApplication"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XASafariApplication</span></code></a>(properties)</p></td>
-<td><p>A class for interacting with Safari.app.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariDocument" title="PyXA.apps.Safari.XASafariDocument"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XASafariDocument</span></code></a>(properties)</p></td>
-<td><p>A class for interacting with Safari documents.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariDocumentList" title="PyXA.apps.Safari.XASafariDocumentList"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XASafariDocumentList</span></code></a>(properties[, filter])</p></td>
-<td><p>A wrapper around lists of Safari documents that employs fast enumeration techniques.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariGeneric" title="PyXA.apps.Safari.XASafariGeneric"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XASafariGeneric</span></code></a>([properties])</p></td>
-<td><p>A generic class containing methods relevant to Safari tabs and documents.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariTab" title="PyXA.apps.Safari.XASafariTab"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XASafariTab</span></code></a>(properties)</p></td>
-<td><p>A class for interacting with Safari tabs.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariTabList" title="PyXA.apps.Safari.XASafariTabList"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XASafariTabList</span></code></a>(properties[, filter])</p></td>
-<td><p>A wrapper around lists of tabs that employs fast enumeration techniques.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariWindow" title="PyXA.apps.Safari.XASafariWindow"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XASafariWindow</span></code></a>(properties)</p></td>
-<td><p>A class for interacting with Safari windows.</p></td>
-</tr>
-</tbody>
-</table>
-<dl class="py class">
-<dt class="sig sig-object py" id="PyXA.apps.Safari.XASafariApplication">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Safari.</span></span><span class="sig-name descname"><span class="pre">XASafariApplication</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Safari.html#XASafariApplication"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Safari.XASafariApplication" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XASBApplication" title="PyXA.XABaseScriptable.XASBApplication"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABaseScriptable.XASBApplication</span></code></a>, <a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XASBPrintable" title="PyXA.XABaseScriptable.XASBPrintable"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABaseScriptable.XASBPrintable</span></code></a>, <a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XAHasScriptableElements" title="PyXA.XABaseScriptable.XAHasScriptableElements"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABaseScriptable.XAHasScriptableElements</span></code></a></p>
-<p>A class for interacting with Safari.app.</p>
-<div class="admonition seealso">
-<p class="admonition-title">See also</p>
-<p><a class="reference internal" href="#PyXA.apps.Safari.XASafariDocument" title="PyXA.apps.Safari.XASafariDocument"><code class="xref py py-class docutils literal notranslate"><span class="pre">XASafariDocument</span></code></a>, <a class="reference internal" href="#PyXA.apps.Safari.XASafariTab" title="PyXA.apps.Safari.XASafariTab"><code class="xref py py-class docutils literal notranslate"><span class="pre">XASafariTab</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">XABaseScriptable.XASBApplication</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">XABaseScriptable.XASBSaveable</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">XABaseScriptable.XASBPrintable</span></code></p>
-</div>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 0.0.1.</span></p>
-</div>
-<p><strong>Classes:</strong></p>
-<table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
-<tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariApplication.PrintErrorHandling" title="PyXA.apps.Safari.XASafariApplication.PrintErrorHandling"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PrintErrorHandling</span></code></a>(value)</p></td>
-<td><p>Options for how to handle errors while printing.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariApplication.SaveOption" title="PyXA.apps.Safari.XASafariApplication.SaveOption"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SaveOption</span></code></a>(value)</p></td>
-<td><p>Options for whether to save documents when closing them.</p></td>
-</tr>
-</tbody>
-</table>
-<p><strong>Methods:</strong></p>
-<table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
-<tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariApplication.add_to_reading_list" title="PyXA.apps.Safari.XASafariApplication.add_to_reading_list"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_to_reading_list</span></code></a>(item)</p></td>
-<td><p>Adds a URL to the reading list.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariApplication.do_javascript" title="PyXA.apps.Safari.XASafariApplication.do_javascript"><code class="xref py py-obj docutils literal notranslate"><span class="pre">do_javascript</span></code></a>(script[, tab])</p></td>
-<td><p>Runs JavaScript in the specified tab.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariApplication.documents" title="PyXA.apps.Safari.XASafariApplication.documents"><code class="xref py py-obj docutils literal notranslate"><span class="pre">documents</span></code></a>([filter])</p></td>
-<td><p>Returns a list of documents matching the given filter.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariApplication.email" title="PyXA.apps.Safari.XASafariApplication.email"><code class="xref py py-obj docutils literal notranslate"><span class="pre">email</span></code></a>(item)</p></td>
-<td><p>Opens a new email draft with the content of a tab or document.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariApplication.make" title="PyXA.apps.Safari.XASafariApplication.make"><code class="xref py py-obj docutils literal notranslate"><span class="pre">make</span></code></a>(specifier, properties)</p></td>
-<td><p>Creates a new element of the given specifier class without adding it to any list.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariApplication.open" title="PyXA.apps.Safari.XASafariApplication.open"><code class="xref py py-obj docutils literal notranslate"><span class="pre">open</span></code></a>([url])</p></td>
-<td><p>Opens a URL in new tab.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariApplication.save" title="PyXA.apps.Safari.XASafariApplication.save"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save</span></code></a>()</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariApplication.search" title="PyXA.apps.Safari.XASafariApplication.search"><code class="xref py py-obj docutils literal notranslate"><span class="pre">search</span></code></a>(term)</p></td>
-<td><p>Searches the specified string in a new tab of the frontmost Safari window.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariApplication.search_in_tab" title="PyXA.apps.Safari.XASafariApplication.search_in_tab"><code class="xref py py-obj docutils literal notranslate"><span class="pre">search_in_tab</span></code></a>(tab, term)</p></td>
-<td><p>Searches the given search string in the specified tab.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariApplication.show_bookmarks" title="PyXA.apps.Safari.XASafariApplication.show_bookmarks"><code class="xref py py-obj docutils literal notranslate"><span class="pre">show_bookmarks</span></code></a>()</p></td>
-<td><p>Opens Safari's bookmarks page.</p></td>
-</tr>
-</tbody>
-</table>
-<p><strong>Attributes:</strong></p>
-<table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
-<tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariApplication.current_document" title="PyXA.apps.Safari.XASafariApplication.current_document"><code class="xref py py-obj docutils literal notranslate"><span class="pre">current_document</span></code></a></p></td>
-<td><p>The currently displayed document in the active tab</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariApplication.frontmost" title="PyXA.apps.Safari.XASafariApplication.frontmost"><code class="xref py py-obj docutils literal notranslate"><span class="pre">frontmost</span></code></a></p></td>
-<td><p>Whether Safari is the active application</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariApplication.name" title="PyXA.apps.Safari.XASafariApplication.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a></p></td>
-<td><p>The name of the application</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariApplication.version" title="PyXA.apps.Safari.XASafariApplication.version"><code class="xref py py-obj docutils literal notranslate"><span class="pre">version</span></code></a></p></td>
-<td><p>The version of Safari.app</p></td>
-</tr>
-</tbody>
-</table>
-<dl class="py class">
-<dt class="sig sig-object py" id="PyXA.apps.Safari.XASafariApplication.PrintErrorHandling">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">PrintErrorHandling</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Safari.html#XASafariApplication.PrintErrorHandling"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Safari.XASafariApplication.PrintErrorHandling" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
-<p>Options for how to handle errors while printing.</p>
-<p><strong>Attributes:</strong></p>
-<table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
-<tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariApplication.PrintErrorHandling.DETAILED" title="PyXA.apps.Safari.XASafariApplication.PrintErrorHandling.DETAILED"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DETAILED</span></code></a></p></td>
-<td><p>Print a detailed report of PostScript errors</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariApplication.PrintErrorHandling.STANDARD" title="PyXA.apps.Safari.XASafariApplication.PrintErrorHandling.STANDARD"><code class="xref py py-obj docutils literal notranslate"><span class="pre">STANDARD</span></code></a></p></td>
-<td><p>Standard PostScript error handling</p></td>
-</tr>
-</tbody>
-</table>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="PyXA.apps.Safari.XASafariApplication.PrintErrorHandling.DETAILED">
-<span class="sig-name descname"><span class="pre">DETAILED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'lwdt'</span></em><a class="headerlink" href="#PyXA.apps.Safari.XASafariApplication.PrintErrorHandling.DETAILED" title="Permalink to this definition"></a></dt>
-<dd><p>Print a detailed report of PostScript errors</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="PyXA.apps.Safari.XASafariApplication.PrintErrorHandling.STANDARD">
-<span class="sig-name descname"><span class="pre">STANDARD</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'lwst'</span></em><a class="headerlink" href="#PyXA.apps.Safari.XASafariApplication.PrintErrorHandling.STANDARD" title="Permalink to this definition"></a></dt>
-<dd><p>Standard PostScript error handling</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="PyXA.apps.Safari.XASafariApplication.SaveOption">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">SaveOption</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Safari.html#XASafariApplication.SaveOption"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Safari.XASafariApplication.SaveOption" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
-<p>Options for whether to save documents when closing them.</p>
-<p><strong>Attributes:</strong></p>
-<table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
-<tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariApplication.SaveOption.ASK" title="PyXA.apps.Safari.XASafariApplication.SaveOption.ASK"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ASK</span></code></a></p></td>
-<td><p>Ask user whether to save the file (bring up dialog)</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariApplication.SaveOption.NO" title="PyXA.apps.Safari.XASafariApplication.SaveOption.NO"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NO</span></code></a></p></td>
-<td><p>Do not save the file</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariApplication.SaveOption.YES" title="PyXA.apps.Safari.XASafariApplication.SaveOption.YES"><code class="xref py py-obj docutils literal notranslate"><span class="pre">YES</span></code></a></p></td>
-<td><p>Save the file</p></td>
-</tr>
-</tbody>
-</table>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="PyXA.apps.Safari.XASafariApplication.SaveOption.ASK">
-<span class="sig-name descname"><span class="pre">ASK</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1634954016</span></em><a class="headerlink" href="#PyXA.apps.Safari.XASafariApplication.SaveOption.ASK" title="Permalink to this definition"></a></dt>
-<dd><p>Ask user whether to save the file (bring up dialog)</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="PyXA.apps.Safari.XASafariApplication.SaveOption.NO">
-<span class="sig-name descname"><span class="pre">NO</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1852776480</span></em><a class="headerlink" href="#PyXA.apps.Safari.XASafariApplication.SaveOption.NO" title="Permalink to this definition"></a></dt>
-<dd><p>Do not save the file</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="PyXA.apps.Safari.XASafariApplication.SaveOption.YES">
-<span class="sig-name descname"><span class="pre">YES</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2036691744</span></em><a class="headerlink" href="#PyXA.apps.Safari.XASafariApplication.SaveOption.YES" title="Permalink to this definition"></a></dt>
-<dd><p>Save the file</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="PyXA.apps.Safari.XASafariApplication.add_to_reading_list">
-<span class="sig-name descname"><span class="pre">add_to_reading_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.apps.Safari.XASafariTab" title="PyXA.apps.Safari.XASafariTab"><span class="pre">PyXA.apps.Safari.XASafariTab</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.apps.Safari.XASafariDocument" title="PyXA.apps.Safari.XASafariDocument"><span class="pre">PyXA.apps.Safari.XASafariDocument</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Safari.XASafariApplication" title="PyXA.apps.Safari.XASafariApplication"><span class="pre">PyXA.apps.Safari.XASafariApplication</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Safari.html#XASafariApplication.add_to_reading_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Safari.XASafariApplication.add_to_reading_list" title="Permalink to this definition"></a></dt>
-<dd><p>Adds a URL to the reading list.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>item</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><a class="reference internal" href="#PyXA.apps.Safari.XASafariTab" title="PyXA.apps.Safari.XASafariTab"><em>XASafariTab</em></a><em>, </em><a class="reference internal" href="#PyXA.apps.Safari.XASafariDocument" title="PyXA.apps.Safari.XASafariDocument"><em>XASafariDocument</em></a><em>]</em>) – A URL string or a Safari tab or document containing the URL to add to the reading list.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>A reference to the Safari application object.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariTab" title="PyXA.apps.Safari.XASafariTab">XASafariTab</a></p>
-</dd>
-<dt class="field-even">Example</dt>
-<dd class="field-even"><p></p></dd>
-</dl>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;Safari&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">window</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">front_window</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">doc</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">current_document</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">tab</span> <span class="o">=</span> <span class="n">window</span><span class="o">.</span><span class="n">current_tab</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">app</span><span class="o">.</span><span class="n">add_to_reading_list</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">app</span><span class="o">.</span><span class="n">add_to_reading_list</span><span class="p">(</span><span class="n">tab</span><span class="p">)</span>
-</pre></div>
-</div>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 0.0.1.</span></p>
-</div>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.apps.Safari.XASafariApplication.current_document">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">current_document</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.apps.Safari.XASafariDocument" title="PyXA.apps.Safari.XASafariDocument"><span class="pre">PyXA.apps.Safari.XASafariDocument</span></a></em><a class="headerlink" href="#PyXA.apps.Safari.XASafariApplication.current_document" title="Permalink to this definition"></a></dt>
-<dd><p>The currently displayed document in the active tab</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="PyXA.apps.Safari.XASafariApplication.do_javascript">
-<span class="sig-name descname"><span class="pre">do_javascript</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">script</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tab</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Safari.XASafariTab" title="PyXA.apps.Safari.XASafariTab"><span class="pre">PyXA.apps.Safari.XASafariTab</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Safari.html#XASafariApplication.do_javascript"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Safari.XASafariApplication.do_javascript" title="Permalink to this definition"></a></dt>
-<dd><p>Runs JavaScript in the specified tab. If no tab is specified, the script is run in the current tab of the frontmost Safari window.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>script</strong> (<em>str</em>) – The script to run.</p></li>
-<li><p><strong>tab</strong> (<a class="reference internal" href="#PyXA.apps.Safari.XASafariTab" title="PyXA.apps.Safari.XASafariTab"><em>XASafariTab</em></a>) – The tab to execute the JavaScript script in, defaults to None</p></li>
+  <section id="safari-module">
+<h1>Safari Module<a class="headerlink" href="#safari-module" title="Permalink to this headline"></a></h1>
+<div class="contents local topic" id="table-of-contents">
+<p class="topic-title">Table of Contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#overview" id="id1">Overview</a></p></li>
+<li><p><a class="reference internal" href="#safari-tutorials" id="id2">Safari Tutorials</a></p></li>
+<li><p><a class="reference internal" href="#examples" id="id3">Examples</a></p>
+<ul>
+<li><p><a class="reference internal" href="#example-1-using-safari-methods-and-attributes" id="id4">Example 1 - Using Safari Methods and Attributes</a></p></li>
 </ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>The value returned from the script after it completes execution.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>Any</p>
-</dd>
-<dt class="field-even">Example</dt>
-<dd class="field-even"><p></p></dd>
-</dl>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;Safari&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">tab</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">front_window</span><span class="p">()</span><span class="o">.</span><span class="n">current_tab</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">script</span> <span class="o">=</span> <span class="s2">&quot;(function example() { return 1 + 1 })()&quot;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">do_javascript</span><span class="p">(</span><span class="n">script</span><span class="p">,</span> <span class="n">tab</span><span class="p">))</span>
-<span class="go">2.0</span>
-</pre></div>
-</div>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 0.0.1.</span></p>
-</div>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="PyXA.apps.Safari.XASafariApplication.documents">
-<span class="sig-name descname"><span class="pre">documents</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Safari.XASafariDocumentList" title="PyXA.apps.Safari.XASafariDocumentList"><span class="pre">PyXA.apps.Safari.XASafariDocumentList</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Safari.html#XASafariApplication.documents"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Safari.XASafariApplication.documents" title="Permalink to this definition"></a></dt>
-<dd><p>Returns a list of documents matching the given filter.</p>
-<div class="versionchanged">
-<p><span class="versionmodified changed">Changed in version 0.0.4: </span>Now returns an object of <a class="reference internal" href="#PyXA.apps.Safari.XASafariDocumentList" title="PyXA.apps.Safari.XASafariDocumentList"><code class="xref py py-class docutils literal notranslate"><span class="pre">XASafariDocumentList</span></code></a> instead of a default list.</p>
-</div>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 0.0.1.</span></p>
-</div>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="PyXA.apps.Safari.XASafariApplication.email">
-<span class="sig-name descname"><span class="pre">email</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Safari.XASafariDocument" title="PyXA.apps.Safari.XASafariDocument"><span class="pre">PyXA.apps.Safari.XASafariDocument</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.apps.Safari.XASafariTab" title="PyXA.apps.Safari.XASafariTab"><span class="pre">PyXA.apps.Safari.XASafariTab</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Safari.html#XASafariApplication.email"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Safari.XASafariApplication.email" title="Permalink to this definition"></a></dt>
-<dd><p>Opens a new email draft with the content of a tab or document.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>item</strong> (<em>Union</em><em>[</em><a class="reference internal" href="#PyXA.apps.Safari.XASafariDocument" title="PyXA.apps.Safari.XASafariDocument"><em>XASafariDocument</em></a><em>, </em><a class="reference internal" href="#PyXA.apps.Safari.XASafariTab" title="PyXA.apps.Safari.XASafariTab"><em>XASafariTab</em></a><em>]</em>) – The object to email</p>
-</dd>
-</dl>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 0.0.4.</span></p>
-</div>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.apps.Safari.XASafariApplication.frontmost">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">frontmost</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Safari.XASafariApplication.frontmost" title="Permalink to this definition"></a></dt>
-<dd><p>Whether Safari is the active application</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="PyXA.apps.Safari.XASafariApplication.make">
-<span class="sig-name descname"><span class="pre">make</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">specifier</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Safari.html#XASafariApplication.make"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Safari.XASafariApplication.make" title="Permalink to this definition"></a></dt>
-<dd><p>Creates a new element of the given specifier class without adding it to any list.</p>
-<p>Use <code class="xref py py-func docutils literal notranslate"><span class="pre">XABase.XAList.push()</span></code> to push the element onto a list.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>specifier</strong> (<em>str</em>) – The classname of the object to create</p></li>
-<li><p><strong>properties</strong> (<em>dict</em>) – The properties to give the object</p></li>
+</li>
+<li><p><a class="reference internal" href="#safari-resources" id="id5">Safari Resources</a></p></li>
+<li><p><a class="reference internal" href="#safari-classes-and-methods" id="id6">Safari Classes and Methods</a></p></li>
 </ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>A PyXA wrapped form of the object</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject">XABase.XAObject</a></p>
-</dd>
-<dt class="field-even">Example 1</dt>
-<dd class="field-even"><p>Make a new tab in Safari’s front window</p>
-</dd>
-</dl>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;Safari&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">new_tab</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">make</span><span class="p">(</span><span class="s2">&quot;tab&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;URL&quot;</span><span class="p">:</span> <span class="s2">&quot;http://google.com&quot;</span><span class="p">})</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">app</span><span class="o">.</span><span class="n">front_window</span><span class="p">()</span><span class="o">.</span><span class="n">tabs</span><span class="p">()</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="n">new_tab</span><span class="p">)</span>
+</div>
+<section id="overview">
+<h2><a class="toc-backref" href="#id1">Overview</a><a class="headerlink" href="#overview" title="Permalink to this headline"></a></h2>
+<p>PyXA has full nearly complete feature support for Safari, but some functionalities, such as saving a document, are currently unavailable. These will be implemented in future versions of the Safari module.</p>
+</section>
+<section id="safari-tutorials">
+<h2><a class="toc-backref" href="#id2">Safari Tutorials</a><a class="headerlink" href="#safari-tutorials" title="Permalink to this headline"></a></h2>
+<p>There are currently no tutorials for the Safari module.</p>
+</section>
+<section id="examples">
+<h2><a class="toc-backref" href="#id3">Examples</a><a class="headerlink" href="#examples" title="Permalink to this headline"></a></h2>
+<p>The examples below provide an overview of the capabilities of the Safari module. For more in-depth examples that show output and provide more detailed explanations, refer to the previous section (<a class="reference internal" href="#safari-tutorials"><span class="std std-ref">Safari Tutorials</span></a>).</p>
+<section id="example-1-using-safari-methods-and-attributes">
+<h3><a class="toc-backref" href="#id4">Example 1 - Using Safari Methods and Attributes</a><a class="headerlink" href="#example-1-using-safari-methods-and-attributes" title="Permalink to this headline"></a></h3>
+<p>This example provides an overview of the most common methods and attributes of the Safari module.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="linenos"> 2</span>
+<span class="linenos"> 3</span><span class="c1"># Open URL in new tab</span>
+<span class="linenos"> 4</span><span class="n">safari</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;Safari&quot;</span><span class="p">)</span>
+<span class="linenos"> 5</span>
+<span class="linenos"> 6</span><span class="c1"># Get open windows, documents, and tabs</span>
+<span class="linenos"> 7</span><span class="n">window1</span> <span class="o">=</span> <span class="n">safari</span><span class="o">.</span><span class="n">front_window</span><span class="p">()</span>
+<span class="linenos"> 8</span><span class="n">window2</span> <span class="o">=</span> <span class="n">safari</span><span class="o">.</span><span class="n">windows</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span>
+<span class="linenos"> 9</span><span class="n">documents</span> <span class="o">=</span> <span class="n">safari</span><span class="o">.</span><span class="n">documents</span><span class="p">()</span>
+<span class="linenos">10</span><span class="n">current_doc</span> <span class="o">=</span> <span class="n">safari</span><span class="o">.</span><span class="n">current_document</span>
+<span class="linenos">11</span><span class="n">tabs</span> <span class="o">=</span> <span class="n">window1</span><span class="o">.</span><span class="n">tabs</span><span class="p">()</span>
+<span class="linenos">12</span><span class="n">current_tab</span> <span class="o">=</span> <span class="n">window1</span><span class="o">.</span><span class="n">current_tab</span>
+<span class="linenos">13</span>
+<span class="linenos">14</span><span class="c1"># Get properties of documents</span>
+<span class="linenos">15</span><span class="n">urls</span> <span class="o">=</span> <span class="n">documents</span><span class="o">.</span><span class="n">url</span><span class="p">()</span>
+<span class="linenos">16</span><span class="n">names</span> <span class="o">=</span> <span class="n">documents</span><span class="o">.</span><span class="n">name</span><span class="p">()</span>
+<span class="linenos">17</span><span class="n">html</span> <span class="o">=</span> <span class="n">current_doc</span><span class="o">.</span><span class="n">source</span><span class="p">()</span>
+<span class="linenos">18</span>
+<span class="linenos">19</span><span class="c1"># Get properties of tabs</span>
+<span class="linenos">20</span><span class="n">urls</span> <span class="o">=</span> <span class="n">tabs</span><span class="o">.</span><span class="n">url</span><span class="p">()</span>
+<span class="linenos">21</span><span class="n">texts</span> <span class="o">=</span> <span class="n">tabs</span><span class="o">.</span><span class="n">text</span><span class="p">()</span>
+<span class="linenos">22</span><span class="n">name</span> <span class="o">=</span> <span class="n">current_tab</span><span class="o">.</span><span class="n">name</span><span class="p">()</span>
+<span class="linenos">23</span>
+<span class="linenos">24</span><span class="c1"># Filter documents and tabs</span>
+<span class="linenos">25</span><span class="n">doc1</span> <span class="o">=</span> <span class="n">documents</span><span class="o">.</span><span class="n">by_url</span><span class="p">(</span><span class="s2">&quot;https://apple.com&quot;</span><span class="p">)</span>
+<span class="linenos">26</span><span class="n">doc2</span> <span class="o">=</span> <span class="n">documents</span><span class="o">.</span><span class="n">by_name</span><span class="p">(</span><span class="s2">&quot;Apple&quot;</span><span class="p">)</span>
+<span class="linenos">27</span><span class="n">tab1</span> <span class="o">=</span> <span class="n">tabs</span><span class="o">.</span><span class="n">by_index</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="linenos">28</span><span class="n">tab2</span> <span class="o">=</span> <span class="n">tabs</span><span class="o">.</span><span class="n">by_visible</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="linenos">29</span>
+<span class="linenos">30</span><span class="c1"># Bulk document operations</span>
+<span class="linenos">31</span><span class="n">documents</span><span class="o">.</span><span class="n">add_to_reading_list</span><span class="p">()</span>
+<span class="linenos">32</span><span class="n">documents</span><span class="o">.</span><span class="n">email</span><span class="p">()</span>
+<span class="linenos">33</span><span class="n">documents</span><span class="o">.</span><span class="n">do_javascript</span><span class="p">(</span><span class="s2">&quot;alert(&#39;Testing 1 2 3&#39;);&quot;</span><span class="p">)</span>
+<span class="linenos">34</span><span class="n">documents</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s2">&quot;Example&quot;</span><span class="p">)</span>
+<span class="linenos">35</span>
+<span class="linenos">36</span><span class="c1"># Bulk tab operations</span>
+<span class="linenos">37</span><span class="n">tabs</span><span class="o">.</span><span class="n">reload</span><span class="p">()</span>
+<span class="linenos">38</span><span class="n">tabs</span><span class="o">.</span><span class="n">add_to_reading_list</span><span class="p">()</span>
+<span class="linenos">39</span><span class="n">tabs</span><span class="o">.</span><span class="n">email</span><span class="p">()</span>
+<span class="linenos">40</span><span class="n">tabs</span><span class="o">.</span><span class="n">do_javascript</span><span class="p">(</span><span class="s2">&quot;alert(&#39;Hello!&#39;);&quot;</span><span class="p">)</span>
+<span class="linenos">41</span><span class="n">tabs</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s2">&quot;Example&quot;</span><span class="p">)</span>
+<span class="linenos">42</span><span class="n">tabs</span><span class="o">.</span><span class="n">move_to</span><span class="p">(</span><span class="n">window2</span><span class="p">)</span>
+<span class="linenos">43</span><span class="n">tabs</span><span class="o">.</span><span class="n">duplicate_to</span><span class="p">(</span><span class="n">window2</span><span class="p">)</span>
+<span class="linenos">44</span>
+<span class="linenos">45</span><span class="c1"># Sub-array operations</span>
+<span class="linenos">46</span><span class="n">some_tabs</span> <span class="o">=</span> <span class="n">tabs</span><span class="p">[</span><span class="mi">3</span><span class="p">:</span><span class="mi">5</span><span class="p">]</span>
+<span class="linenos">47</span><span class="n">some_tabs</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>
 </div>
-<dl class="field-list simple">
-<dt class="field-odd">Example 2</dt>
-<dd class="field-odd"><p>Open a page in a new window by making a new document</p>
-</dd>
-</dl>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;Safari&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">new_doc</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">make</span><span class="p">(</span><span class="s2">&quot;document&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;URL&quot;</span><span class="p">:</span> <span class="s2">&quot;http://google.com&quot;</span><span class="p">})</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">app</span><span class="o">.</span><span class="n">documents</span><span class="p">()</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="n">new_doc</span><span class="p">)</span>
-</pre></div>
-</div>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 0.0.4.</span></p>
-</div>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.apps.Safari.XASafariApplication.name">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Safari.XASafariApplication.name" title="Permalink to this definition"></a></dt>
-<dd><p>The name of the application</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="PyXA.apps.Safari.XASafariApplication.open">
-<span class="sig-name descname"><span class="pre">open</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'https://google.com'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Safari.XASafariApplication" title="PyXA.apps.Safari.XASafariApplication"><span class="pre">PyXA.apps.Safari.XASafariApplication</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Safari.html#XASafariApplication.open"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Safari.XASafariApplication.open" title="Permalink to this definition"></a></dt>
-<dd><p>Opens a URL in new tab.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>url</strong> (<em>str</em><em>, </em><em>optional</em>) – _description_, defaults to “<a class="reference external" href="http://google.com">http://google.com</a>”</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>A reference to the Safari application object.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariApplication" title="PyXA.apps.Safari.XASafariApplication">XASafariApplication</a></p>
-</dd>
-<dt class="field-even">Example 1</dt>
-<dd class="field-even"><p>Open local and external URLs</p>
-</dd>
-</dl>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;Safari&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">app</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;https://www.google.com&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">app</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;google.com&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">app</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;/Users/exampleuser/Documents/WebPage.html&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 0.0.1.</span></p>
-</div>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="PyXA.apps.Safari.XASafariApplication.save">
-<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Safari.html#XASafariApplication.save"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Safari.XASafariApplication.save" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="PyXA.apps.Safari.XASafariApplication.search">
-<span class="sig-name descname"><span class="pre">search</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">term</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Safari.XASafariApplication" title="PyXA.apps.Safari.XASafariApplication"><span class="pre">PyXA.apps.Safari.XASafariApplication</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Safari.html#XASafariApplication.search"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Safari.XASafariApplication.search" title="Permalink to this definition"></a></dt>
-<dd><p>Searches the specified string in a new tab of the frontmost Safari window. Uses the default search engine.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>term</strong> (<em>str</em>) – The string to search.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>A reference to the Safari application object.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariApplication" title="PyXA.apps.Safari.XASafariApplication">XASafariApplication</a></p>
-</dd>
-<dt class="field-even">Example</dt>
-<dd class="field-even"><p></p></dd>
-</dl>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;Safari&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">app</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s2">&quot;What is PyXA?&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-<div class="admonition seealso">
-<p class="admonition-title">See also</p>
-<p><a class="reference internal" href="#PyXA.apps.Safari.XASafariApplication.search_in_tab" title="PyXA.apps.Safari.XASafariApplication.search_in_tab"><code class="xref py py-func docutils literal notranslate"><span class="pre">search_in_tab()</span></code></a></p>
-</div>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 0.0.1.</span></p>
-</div>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="PyXA.apps.Safari.XASafariApplication.search_in_tab">
-<span class="sig-name descname"><span class="pre">search_in_tab</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tab</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#PyXA.apps.Safari.XASafariTab" title="PyXA.apps.Safari.XASafariTab"><span class="pre">PyXA.apps.Safari.XASafariTab</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">term</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Safari.XASafariApplication" title="PyXA.apps.Safari.XASafariApplication"><span class="pre">PyXA.apps.Safari.XASafariApplication</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Safari.html#XASafariApplication.search_in_tab"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Safari.XASafariApplication.search_in_tab" title="Permalink to this definition"></a></dt>
-<dd><p>Searches the given search string in the specified tab. Uses the default search engine.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>tab</strong> (<a class="reference internal" href="#PyXA.apps.Safari.XASafariTab" title="PyXA.apps.Safari.XASafariTab"><em>XASafariTab</em></a>) – The tab to conduct the web search in.</p></li>
-<li><p><strong>term</strong> (<em>str</em>) – The string to search.</p></li>
+</section>
+</section>
+<section id="safari-resources">
+<h2><a class="toc-backref" href="#id5">Safari Resources</a><a class="headerlink" href="#safari-resources" title="Permalink to this headline"></a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.safari.org/safari-os/quick-start-guide/">Safari Quick Start Guide</a></p></li>
 </ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>A reference to the Safari application object.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariApplication" title="PyXA.apps.Safari.XASafariApplication">XASafariApplication</a></p>
-</dd>
-<dt class="field-even">Example</dt>
-<dd class="field-even"><p></p></dd>
-</dl>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;Safari&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">tab</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">front_window</span><span class="p">()</span><span class="o">.</span><span class="n">current_tab</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">app</span><span class="o">.</span><span class="n">search_in_tab</span><span class="p">(</span><span class="n">tab</span><span class="p">,</span> <span class="s2">&quot;What is PyXA?&quot;</span><span class="p">)</span>
-</pre></div>
+</section>
+<section id="safari-classes-and-methods">
+<h2><a class="toc-backref" href="#id6">Safari Classes and Methods</a><a class="headerlink" href="#safari-classes-and-methods" title="Permalink to this headline"></a></h2>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Classes</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/apps/safari/XASafariApplication/PyXA.apps.Safari.XASafariApplication.html">XASafariApplication</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/apps/safari/XASafariGeneric/PyXA.apps.Safari.XASafariGeneric.html">XASafariGeneric</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/apps/safari/XASafariDocumentList/PyXA.apps.Safari.XASafariDocumentList.html">XASafariDocumentList</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/apps/safari/XASafariDocument/PyXA.apps.Safari.XASafariDocument.html">XASafariDocument</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/apps/safari/XASafariTabList/PyXA.apps.Safari.XASafariTabList.html">XASafariTabList</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/apps/safari/XASafariTab/PyXA.apps.Safari.XASafariTab.html">XASafariTab</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/apps/safari/XASafariWindow/PyXA.apps.Safari.XASafariWindow.html">XASafariWindow</a></li>
+</ul>
 </div>
-<div class="admonition seealso">
-<p class="admonition-title">See also</p>
-<p><a class="reference internal" href="#PyXA.apps.Safari.XASafariApplication.search" title="PyXA.apps.Safari.XASafariApplication.search"><code class="xref py py-func docutils literal notranslate"><span class="pre">search()</span></code></a></p>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Methods</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/apps/safari/XASafariApplication/PyXA.apps.Safari.XASafariApplication.open.html">XASafariApplication.open</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/apps/safari/XASafariApplication/PyXA.apps.Safari.XASafariApplication.show_bookmarks.html">XASafariApplication.show_bookmarks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/apps/safari/XASafariApplication/PyXA.apps.Safari.XASafariApplication.add_to_reading_list.html">XASafariApplication.add_to_reading_list</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/apps/safari/XASafariApplication/PyXA.apps.Safari.XASafariApplication.search.html">XASafariApplication.search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/apps/safari/XASafariApplication/PyXA.apps.Safari.XASafariApplication.search_in_tab.html">XASafariApplication.search_in_tab</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/apps/safari/XASafariApplication/PyXA.apps.Safari.XASafariApplication.do_javascript.html">XASafariApplication.do_javascript</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/apps/safari/XASafariApplication/PyXA.apps.Safari.XASafariApplication.email.html">XASafariApplication.email</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/apps/safari/XASafariApplication/PyXA.apps.Safari.XASafariApplication.make.html">XASafariApplication.make</a></li>
+</ul>
 </div>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 0.0.1.</span></p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/apps/safari/XASafariGeneric/PyXA.apps.Safari.XASafariGeneric.search.html">XASafariGeneric.search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/apps/safari/XASafariGeneric/PyXA.apps.Safari.XASafariGeneric.add_to_reading_list.html">XASafariGeneric.add_to_reading_list</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/apps/safari/XASafariGeneric/PyXA.apps.Safari.XASafariGeneric.do_javascript.html">XASafariGeneric.do_javascript</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/apps/safari/XASafariGeneric/PyXA.apps.Safari.XASafariGeneric.email.html">XASafariGeneric.email</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/apps/safari/XASafariGeneric/PyXA.apps.Safari.XASafariGeneric.reload.html">XASafariGeneric.reload</a></li>
+</ul>
 </div>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="PyXA.apps.Safari.XASafariApplication.show_bookmarks">
-<span class="sig-name descname"><span class="pre">show_bookmarks</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Safari.XASafariApplication" title="PyXA.apps.Safari.XASafariApplication"><span class="pre">PyXA.apps.Safari.XASafariApplication</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Safari.html#XASafariApplication.show_bookmarks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Safari.XASafariApplication.show_bookmarks" title="Permalink to this definition"></a></dt>
-<dd><p>Opens Safari’s bookmarks page.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>A reference to the Safari application object.</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariApplication" title="PyXA.apps.Safari.XASafariApplication">XASafariApplication</a></p>
-</dd>
-</dl>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 0.0.1.</span></p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/apps/safari/XASafariDocumentList/PyXA.apps.Safari.XASafariDocumentList.name.html">XASafariDocumentList.name</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/apps/safari/XASafariDocumentList/PyXA.apps.Safari.XASafariDocumentList.modified.html">XASafariDocumentList.modified</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/apps/safari/XASafariDocumentList/PyXA.apps.Safari.XASafariDocumentList.file.html">XASafariDocumentList.file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/apps/safari/XASafariDocumentList/PyXA.apps.Safari.XASafariDocumentList.source.html">XASafariDocumentList.source</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/apps/safari/XASafariDocumentList/PyXA.apps.Safari.XASafariDocumentList.url.html">XASafariDocumentList.url</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/apps/safari/XASafariDocumentList/PyXA.apps.Safari.XASafariDocumentList.text.html">XASafariDocumentList.text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/apps/safari/XASafariDocumentList/PyXA.apps.Safari.XASafariDocumentList.by_name.html">XASafariDocumentList.by_name</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/apps/safari/XASafariDocumentList/PyXA.apps.Safari.XASafariDocumentList.by_modified.html">XASafariDocumentList.by_modified</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/apps/safari/XASafariDocumentList/PyXA.apps.Safari.XASafariDocumentList.by_file.html">XASafariDocumentList.by_file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/apps/safari/XASafariDocumentList/PyXA.apps.Safari.XASafariDocumentList.by_source.html">XASafariDocumentList.by_source</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/apps/safari/XASafariDocumentList/PyXA.apps.Safari.XASafariDocumentList.by_url.html">XASafariDocumentList.by_url</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/apps/safari/XASafariDocumentList/PyXA.apps.Safari.XASafariDocumentList.by_text.html">XASafariDocumentList.by_text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/apps/safari/XASafariDocumentList/PyXA.apps.Safari.XASafariDocumentList.reload.html">XASafariDocumentList.reload</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/apps/safari/XASafariDocumentList/PyXA.apps.Safari.XASafariDocumentList.add_to_reading_list.html">XASafariDocumentList.add_to_reading_list</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/apps/safari/XASafariDocumentList/PyXA.apps.Safari.XASafariDocumentList.email.html">XASafariDocumentList.email</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/apps/safari/XASafariDocumentList/PyXA.apps.Safari.XASafariDocumentList.do_javascript.html">XASafariDocumentList.do_javascript</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/apps/safari/XASafariDocumentList/PyXA.apps.Safari.XASafariDocumentList.search.html">XASafariDocumentList.search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/apps/safari/XASafariDocumentList/PyXA.apps.Safari.XASafariDocumentList.close.html">XASafariDocumentList.close</a></li>
+</ul>
 </div>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.apps.Safari.XASafariApplication.version">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">version</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Safari.XASafariApplication.version" title="Permalink to this definition"></a></dt>
-<dd><p>The version of Safari.app</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="PyXA.apps.Safari.XASafariDocument">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Safari.</span></span><span class="sig-name descname"><span class="pre">XASafariDocument</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Safari.html#XASafariDocument"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Safari.XASafariDocument" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#PyXA.apps.Safari.XASafariGeneric" title="PyXA.apps.Safari.XASafariGeneric"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.apps.Safari.XASafariGeneric</span></code></a>, <a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XASBPrintable" title="PyXA.XABaseScriptable.XASBPrintable"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABaseScriptable.XASBPrintable</span></code></a></p>
-<p>A class for interacting with Safari documents.</p>
-<div class="admonition seealso">
-<p class="admonition-title">See also</p>
-<p><a class="reference internal" href="#PyXA.apps.Safari.XASafariGeneric" title="PyXA.apps.Safari.XASafariGeneric"><code class="xref py py-class docutils literal notranslate"><span class="pre">XASafariGeneric</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">XABaseScriptable.XASBPrintable</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">XABaseScriptable.XASBSaveable</span></code></p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/apps/safari/XASafariDocument/PyXA.apps.Safari.XASafariDocument.print.html">XASafariDocument.print</a></li>
+</ul>
 </div>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 0.0.1.</span></p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/apps/safari/XASafariTabList/PyXA.apps.Safari.XASafariTabList.source.html">XASafariTabList.source</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/apps/safari/XASafariTabList/PyXA.apps.Safari.XASafariTabList.url.html">XASafariTabList.url</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/apps/safari/XASafariTabList/PyXA.apps.Safari.XASafariTabList.index.html">XASafariTabList.index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/apps/safari/XASafariTabList/PyXA.apps.Safari.XASafariTabList.text.html">XASafariTabList.text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/apps/safari/XASafariTabList/PyXA.apps.Safari.XASafariTabList.visible.html">XASafariTabList.visible</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/apps/safari/XASafariTabList/PyXA.apps.Safari.XASafariTabList.name.html">XASafariTabList.name</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/apps/safari/XASafariTabList/PyXA.apps.Safari.XASafariTabList.by_source.html">XASafariTabList.by_source</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/apps/safari/XASafariTabList/PyXA.apps.Safari.XASafariTabList.by_url.html">XASafariTabList.by_url</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/apps/safari/XASafariTabList/PyXA.apps.Safari.XASafariTabList.by_index.html">XASafariTabList.by_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/apps/safari/XASafariTabList/PyXA.apps.Safari.XASafariTabList.by_text.html">XASafariTabList.by_text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/apps/safari/XASafariTabList/PyXA.apps.Safari.XASafariTabList.by_visible.html">XASafariTabList.by_visible</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/apps/safari/XASafariTabList/PyXA.apps.Safari.XASafariTabList.by_name.html">XASafariTabList.by_name</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/apps/safari/XASafariTabList/PyXA.apps.Safari.XASafariTabList.reload.html">XASafariTabList.reload</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/apps/safari/XASafariTabList/PyXA.apps.Safari.XASafariTabList.add_to_reading_list.html">XASafariTabList.add_to_reading_list</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/apps/safari/XASafariTabList/PyXA.apps.Safari.XASafariTabList.email.html">XASafariTabList.email</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/apps/safari/XASafariTabList/PyXA.apps.Safari.XASafariTabList.do_javascript.html">XASafariTabList.do_javascript</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/apps/safari/XASafariTabList/PyXA.apps.Safari.XASafariTabList.search.html">XASafariTabList.search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/apps/safari/XASafariTabList/PyXA.apps.Safari.XASafariTabList.move_to.html">XASafariTabList.move_to</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/apps/safari/XASafariTabList/PyXA.apps.Safari.XASafariTabList.duplicate_to.html">XASafariTabList.duplicate_to</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/apps/safari/XASafariTabList/PyXA.apps.Safari.XASafariTabList.close.html">XASafariTabList.close</a></li>
+</ul>
 </div>
-<p><strong>Attributes:</strong></p>
-<table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
-<tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariDocument.file" title="PyXA.apps.Safari.XASafariDocument.file"><code class="xref py py-obj docutils literal notranslate"><span class="pre">file</span></code></a></p></td>
-<td><p>The location of the document on the disk, if there is one</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariDocument.modified" title="PyXA.apps.Safari.XASafariDocument.modified"><code class="xref py py-obj docutils literal notranslate"><span class="pre">modified</span></code></a></p></td>
-<td><p>Whether the document has been modified since its last save</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariDocument.name" title="PyXA.apps.Safari.XASafariDocument.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a></p></td>
-<td><p>The title of the document</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariDocument.source" title="PyXA.apps.Safari.XASafariDocument.source"><code class="xref py py-obj docutils literal notranslate"><span class="pre">source</span></code></a></p></td>
-<td><p>The HTML source of the web page currently loaded in the document</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariDocument.text" title="PyXA.apps.Safari.XASafariDocument.text"><code class="xref py py-obj docutils literal notranslate"><span class="pre">text</span></code></a></p></td>
-<td><p>The text of the web page currently loaded in the document</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariDocument.url" title="PyXA.apps.Safari.XASafariDocument.url"><code class="xref py py-obj docutils literal notranslate"><span class="pre">url</span></code></a></p></td>
-<td><p>The current URL of the document</p></td>
-</tr>
-</tbody>
-</table>
-<p><strong>Methods:</strong></p>
-<table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
-<tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariDocument.save" title="PyXA.apps.Safari.XASafariDocument.save"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save</span></code></a>()</p></td>
-<td><p></p></td>
-</tr>
-</tbody>
-</table>
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.apps.Safari.XASafariDocument.file">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">file</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Safari.XASafariDocument.file" title="Permalink to this definition"></a></dt>
-<dd><p>The location of the document on the disk, if there is one</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.apps.Safari.XASafariDocument.modified">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">modified</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Safari.XASafariDocument.modified" title="Permalink to this definition"></a></dt>
-<dd><p>Whether the document has been modified since its last save</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.apps.Safari.XASafariDocument.name">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Safari.XASafariDocument.name" title="Permalink to this definition"></a></dt>
-<dd><p>The title of the document</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="PyXA.apps.Safari.XASafariDocument.save">
-<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Safari.html#XASafariDocument.save"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Safari.XASafariDocument.save" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.apps.Safari.XASafariDocument.source">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">source</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Safari.XASafariDocument.source" title="Permalink to this definition"></a></dt>
-<dd><p>The HTML source of the web page currently loaded in the document</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.apps.Safari.XASafariDocument.text">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">text</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Safari.XASafariDocument.text" title="Permalink to this definition"></a></dt>
-<dd><p>The text of the web page currently loaded in the document</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.apps.Safari.XASafariDocument.url">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">url</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Safari.XASafariDocument.url" title="Permalink to this definition"></a></dt>
-<dd><p>The current URL of the document</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="PyXA.apps.Safari.XASafariDocumentList">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Safari.</span></span><span class="sig-name descname"><span class="pre">XASafariDocumentList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Safari.html#XASafariDocumentList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Safari.XASafariDocumentList" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAList" title="PyXA.XABase.XAList"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAList</span></code></a></p>
-<p>A wrapper around lists of Safari documents that employs fast enumeration techniques.</p>
-<p>All properties of documents can be called as methods on the wrapped list, returning a list containing each document’s value for the property.</p>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 0.0.4.</span></p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/apps/safari/XASafariTab/PyXA.apps.Safari.XASafariTab.move_to.html">XASafariTab.move_to</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/apps/safari/XASafariTab/PyXA.apps.Safari.XASafariTab.duplicate_to.html">XASafariTab.duplicate_to</a></li>
+</ul>
 </div>
-<p><strong>Methods:</strong></p>
-<table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
-<tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariDocumentList.by_file" title="PyXA.apps.Safari.XASafariDocumentList.by_file"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_file</span></code></a>(file)</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariDocumentList.by_modified" title="PyXA.apps.Safari.XASafariDocumentList.by_modified"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_modified</span></code></a>(modified)</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariDocumentList.by_name" title="PyXA.apps.Safari.XASafariDocumentList.by_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_name</span></code></a>(name)</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariDocumentList.by_source" title="PyXA.apps.Safari.XASafariDocumentList.by_source"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_source</span></code></a>(source)</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariDocumentList.by_text" title="PyXA.apps.Safari.XASafariDocumentList.by_text"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_text</span></code></a>(text)</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariDocumentList.by_url" title="PyXA.apps.Safari.XASafariDocumentList.by_url"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_url</span></code></a>(url)</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariDocumentList.file" title="PyXA.apps.Safari.XASafariDocumentList.file"><code class="xref py py-obj docutils literal notranslate"><span class="pre">file</span></code></a>()</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariDocumentList.modified" title="PyXA.apps.Safari.XASafariDocumentList.modified"><code class="xref py py-obj docutils literal notranslate"><span class="pre">modified</span></code></a>()</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariDocumentList.name" title="PyXA.apps.Safari.XASafariDocumentList.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a>()</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariDocumentList.reload" title="PyXA.apps.Safari.XASafariDocumentList.reload"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reload</span></code></a>()</p></td>
-<td><p>Reloads all documents in the list.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariDocumentList.source" title="PyXA.apps.Safari.XASafariDocumentList.source"><code class="xref py py-obj docutils literal notranslate"><span class="pre">source</span></code></a>()</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariDocumentList.text" title="PyXA.apps.Safari.XASafariDocumentList.text"><code class="xref py py-obj docutils literal notranslate"><span class="pre">text</span></code></a>()</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariDocumentList.url" title="PyXA.apps.Safari.XASafariDocumentList.url"><code class="xref py py-obj docutils literal notranslate"><span class="pre">url</span></code></a>()</p></td>
-<td><p></p></td>
-</tr>
-</tbody>
-</table>
-<dl class="py method">
-<dt class="sig sig-object py" id="PyXA.apps.Safari.XASafariDocumentList.by_file">
-<span class="sig-name descname"><span class="pre">by_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Safari.XASafariDocument" title="PyXA.apps.Safari.XASafariDocument"><span class="pre">PyXA.apps.Safari.XASafariDocument</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Safari.html#XASafariDocumentList.by_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Safari.XASafariDocumentList.by_file" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="PyXA.apps.Safari.XASafariDocumentList.by_modified">
-<span class="sig-name descname"><span class="pre">by_modified</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">modified</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Safari.XASafariDocument" title="PyXA.apps.Safari.XASafariDocument"><span class="pre">PyXA.apps.Safari.XASafariDocument</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Safari.html#XASafariDocumentList.by_modified"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Safari.XASafariDocumentList.by_modified" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="PyXA.apps.Safari.XASafariDocumentList.by_name">
-<span class="sig-name descname"><span class="pre">by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Safari.XASafariDocument" title="PyXA.apps.Safari.XASafariDocument"><span class="pre">PyXA.apps.Safari.XASafariDocument</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Safari.html#XASafariDocumentList.by_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Safari.XASafariDocumentList.by_name" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="PyXA.apps.Safari.XASafariDocumentList.by_source">
-<span class="sig-name descname"><span class="pre">by_source</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Safari.XASafariDocument" title="PyXA.apps.Safari.XASafariDocument"><span class="pre">PyXA.apps.Safari.XASafariDocument</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Safari.html#XASafariDocumentList.by_source"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Safari.XASafariDocumentList.by_source" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="PyXA.apps.Safari.XASafariDocumentList.by_text">
-<span class="sig-name descname"><span class="pre">by_text</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Safari.XASafariDocument" title="PyXA.apps.Safari.XASafariDocument"><span class="pre">PyXA.apps.Safari.XASafariDocument</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Safari.html#XASafariDocumentList.by_text"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Safari.XASafariDocumentList.by_text" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="PyXA.apps.Safari.XASafariDocumentList.by_url">
-<span class="sig-name descname"><span class="pre">by_url</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Safari.XASafariDocument" title="PyXA.apps.Safari.XASafariDocument"><span class="pre">PyXA.apps.Safari.XASafariDocument</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Safari.html#XASafariDocumentList.by_url"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Safari.XASafariDocumentList.by_url" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="PyXA.apps.Safari.XASafariDocumentList.file">
-<span class="sig-name descname"><span class="pre">file</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Safari.html#XASafariDocumentList.file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Safari.XASafariDocumentList.file" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="PyXA.apps.Safari.XASafariDocumentList.modified">
-<span class="sig-name descname"><span class="pre">modified</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Safari.html#XASafariDocumentList.modified"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Safari.XASafariDocumentList.modified" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="PyXA.apps.Safari.XASafariDocumentList.name">
-<span class="sig-name descname"><span class="pre">name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Safari.html#XASafariDocumentList.name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Safari.XASafariDocumentList.name" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="PyXA.apps.Safari.XASafariDocumentList.reload">
-<span class="sig-name descname"><span class="pre">reload</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Safari.XASafariDocumentList" title="PyXA.apps.Safari.XASafariDocumentList"><span class="pre">PyXA.apps.Safari.XASafariDocumentList</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Safari.html#XASafariDocumentList.reload"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Safari.XASafariDocumentList.reload" title="Permalink to this definition"></a></dt>
-<dd><p>Reloads all documents in the list.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>A reference to the document list object.</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariDocumentList" title="PyXA.apps.Safari.XASafariDocumentList">XASafariDocumentList</a></p>
-</dd>
-</dl>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 0.0.4.</span></p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/apps/safari/XASafariWindow/PyXA.apps.Safari.XASafariWindow.tabs.html">XASafariWindow.tabs</a></li>
+</ul>
 </div>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="PyXA.apps.Safari.XASafariDocumentList.source">
-<span class="sig-name descname"><span class="pre">source</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Safari.html#XASafariDocumentList.source"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Safari.XASafariDocumentList.source" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="PyXA.apps.Safari.XASafariDocumentList.text">
-<span class="sig-name descname"><span class="pre">text</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Safari.html#XASafariDocumentList.text"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Safari.XASafariDocumentList.text" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="PyXA.apps.Safari.XASafariDocumentList.url">
-<span class="sig-name descname"><span class="pre">url</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Safari.html#XASafariDocumentList.url"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Safari.XASafariDocumentList.url" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="PyXA.apps.Safari.XASafariGeneric">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Safari.</span></span><span class="sig-name descname"><span class="pre">XASafariGeneric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Safari.html#XASafariGeneric"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Safari.XASafariGeneric" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XASBCloseable" title="PyXA.XABaseScriptable.XASBCloseable"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABaseScriptable.XASBCloseable</span></code></a>, <a class="reference internal" href="../xabase.html#PyXA.XABase.XAHasElements" title="PyXA.XABase.XAHasElements"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAHasElements</span></code></a></p>
-<p>A generic class containing methods relevant to Safari tabs and documents.</p>
-<div class="admonition seealso">
-<p class="admonition-title">See also</p>
-<p><a class="reference internal" href="#PyXA.apps.Safari.XASafariDocument" title="PyXA.apps.Safari.XASafariDocument"><code class="xref py py-class docutils literal notranslate"><span class="pre">XASafariDocument</span></code></a>, <a class="reference internal" href="#PyXA.apps.Safari.XASafariTab" title="PyXA.apps.Safari.XASafariTab"><code class="xref py py-class docutils literal notranslate"><span class="pre">XASafariTab</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">XABaseScriptable.XASBCloseable</span></code></p>
-</div>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 0.0.1.</span></p>
-</div>
-<p><strong>Methods:</strong></p>
-<table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
-<tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariGeneric.add_to_reading_list" title="PyXA.apps.Safari.XASafariGeneric.add_to_reading_list"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_to_reading_list</span></code></a>()</p></td>
-<td><p>Adds the URL of a tab or document to the reading list.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariGeneric.do_javascript" title="PyXA.apps.Safari.XASafariGeneric.do_javascript"><code class="xref py py-obj docutils literal notranslate"><span class="pre">do_javascript</span></code></a>(script)</p></td>
-<td><p>Runs JavaScript in a tab or document.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariGeneric.email" title="PyXA.apps.Safari.XASafariGeneric.email"><code class="xref py py-obj docutils literal notranslate"><span class="pre">email</span></code></a>()</p></td>
-<td><p>Opens a new email draft with the content of a tab or document.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariGeneric.reload" title="PyXA.apps.Safari.XASafariGeneric.reload"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reload</span></code></a>()</p></td>
-<td><p>Reloads the tab or document.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariGeneric.search" title="PyXA.apps.Safari.XASafariGeneric.search"><code class="xref py py-obj docutils literal notranslate"><span class="pre">search</span></code></a>(query)</p></td>
-<td><p>Performs a web search in the current tab or document using the default search engine.</p></td>
-</tr>
-</tbody>
-</table>
-<dl class="py method">
-<dt class="sig sig-object py" id="PyXA.apps.Safari.XASafariGeneric.add_to_reading_list">
-<span class="sig-name descname"><span class="pre">add_to_reading_list</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Safari.XASafariGeneric" title="PyXA.apps.Safari.XASafariGeneric"><span class="pre">PyXA.apps.Safari.XASafariGeneric</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Safari.html#XASafariGeneric.add_to_reading_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Safari.XASafariGeneric.add_to_reading_list" title="Permalink to this definition"></a></dt>
-<dd><p>Adds the URL of a tab or document to the reading list.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>A reference to the object that called this method.</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariGeneric" title="PyXA.apps.Safari.XASafariGeneric">XASafariGeneric</a></p>
-</dd>
-</dl>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 0.0.1.</span></p>
-</div>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="PyXA.apps.Safari.XASafariGeneric.do_javascript">
-<span class="sig-name descname"><span class="pre">do_javascript</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">script</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Safari.html#XASafariGeneric.do_javascript"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Safari.XASafariGeneric.do_javascript" title="Permalink to this definition"></a></dt>
-<dd><p>Runs JavaScript in a tab or document.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>The value returned from the script after it completes execution.</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>Any</p>
-</dd>
-</dl>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 0.0.1.</span></p>
-</div>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="PyXA.apps.Safari.XASafariGeneric.email">
-<span class="sig-name descname"><span class="pre">email</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Safari.html#XASafariGeneric.email"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Safari.XASafariGeneric.email" title="Permalink to this definition"></a></dt>
-<dd><p>Opens a new email draft with the content of a tab or document.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>item</strong> (<em>Union</em><em>[</em><a class="reference internal" href="#PyXA.apps.Safari.XASafariDocument" title="PyXA.apps.Safari.XASafariDocument"><em>XASafariDocument</em></a><em>, </em><a class="reference internal" href="#PyXA.apps.Safari.XASafariTab" title="PyXA.apps.Safari.XASafariTab"><em>XASafariTab</em></a><em>]</em>) – The object to email</p>
-</dd>
-</dl>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 0.0.4.</span></p>
-</div>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="PyXA.apps.Safari.XASafariGeneric.reload">
-<span class="sig-name descname"><span class="pre">reload</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Safari.html#XASafariGeneric.reload"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Safari.XASafariGeneric.reload" title="Permalink to this definition"></a></dt>
-<dd><p>Reloads the tab or document.</p>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 0.0.4.</span></p>
-</div>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="PyXA.apps.Safari.XASafariGeneric.search">
-<span class="sig-name descname"><span class="pre">search</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Safari.html#XASafariGeneric.search"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Safari.XASafariGeneric.search" title="Permalink to this definition"></a></dt>
-<dd><p>Performs a web search in the current tab or document using the default search engine.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>query</strong> (<em>str</em>) – The query to search</p>
-</dd>
-</dl>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 0.0.4.</span></p>
-</div>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="PyXA.apps.Safari.XASafariTab">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Safari.</span></span><span class="sig-name descname"><span class="pre">XASafariTab</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Safari.html#XASafariTab"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Safari.XASafariTab" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#PyXA.apps.Safari.XASafariGeneric" title="PyXA.apps.Safari.XASafariGeneric"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.apps.Safari.XASafariGeneric</span></code></a></p>
-<p>A class for interacting with Safari tabs.</p>
-<div class="admonition seealso">
-<p class="admonition-title">See also</p>
-<p><a class="reference internal" href="#PyXA.apps.Safari.XASafariGeneric" title="PyXA.apps.Safari.XASafariGeneric"><code class="xref py py-class docutils literal notranslate"><span class="pre">XASafariGeneric</span></code></a></p>
-</div>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 0.0.1.</span></p>
-</div>
-<p><strong>Methods:</strong></p>
-<table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
-<tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariTab.duplicate_to" title="PyXA.apps.Safari.XASafariTab.duplicate_to"><code class="xref py py-obj docutils literal notranslate"><span class="pre">duplicate_to</span></code></a>(window)</p></td>
-<td><p>Duplicates the tab in the specified window.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariTab.move_to" title="PyXA.apps.Safari.XASafariTab.move_to"><code class="xref py py-obj docutils literal notranslate"><span class="pre">move_to</span></code></a>(window)</p></td>
-<td><p>Moves the tab to the specified window.</p></td>
-</tr>
-</tbody>
-</table>
-<p><strong>Attributes:</strong></p>
-<table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
-<tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariTab.index" title="PyXA.apps.Safari.XASafariTab.index"><code class="xref py py-obj docutils literal notranslate"><span class="pre">index</span></code></a></p></td>
-<td><p>The index of the tab, ordered left to right</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariTab.name" title="PyXA.apps.Safari.XASafariTab.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a></p></td>
-<td><p>The title of the tab</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariTab.source" title="PyXA.apps.Safari.XASafariTab.source"><code class="xref py py-obj docutils literal notranslate"><span class="pre">source</span></code></a></p></td>
-<td><p>The HTML source of the web page currently loaded in the tab</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariTab.text" title="PyXA.apps.Safari.XASafariTab.text"><code class="xref py py-obj docutils literal notranslate"><span class="pre">text</span></code></a></p></td>
-<td><p>The text of the web page currently loaded in the tab</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariTab.url" title="PyXA.apps.Safari.XASafariTab.url"><code class="xref py py-obj docutils literal notranslate"><span class="pre">url</span></code></a></p></td>
-<td><p>The current URL of the tab</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariTab.visible" title="PyXA.apps.Safari.XASafariTab.visible"><code class="xref py py-obj docutils literal notranslate"><span class="pre">visible</span></code></a></p></td>
-<td><p>Whether the tab is currently visible</p></td>
-</tr>
-</tbody>
-</table>
-<dl class="py method">
-<dt class="sig sig-object py" id="PyXA.apps.Safari.XASafariTab.duplicate_to">
-<span class="sig-name descname"><span class="pre">duplicate_to</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">window</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#PyXA.apps.Safari.XASafariWindow" title="PyXA.apps.Safari.XASafariWindow"><span class="pre">PyXA.apps.Safari.XASafariWindow</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Safari.XASafariTab" title="PyXA.apps.Safari.XASafariTab"><span class="pre">PyXA.apps.Safari.XASafariTab</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Safari.html#XASafariTab.duplicate_to"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Safari.XASafariTab.duplicate_to" title="Permalink to this definition"></a></dt>
-<dd><p>Duplicates the tab in the specified window. The tab will then exist in two locations.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>window</strong> (<a class="reference internal" href="#PyXA.apps.Safari.XASafariWindow" title="PyXA.apps.Safari.XASafariWindow"><em>XASafariWindow</em></a>) – The window to duplicate the tab in.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>A reference to the tab object.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariTab" title="PyXA.apps.Safari.XASafariTab">XASafariTab</a></p>
-</dd>
-<dt class="field-even">Example</dt>
-<dd class="field-even"><p></p></dd>
-</dl>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;Safari&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">tab</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">front_window</span><span class="p">()</span><span class="o">.</span><span class="n">current_tab</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">window2</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">window</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">tab</span><span class="o">.</span><span class="n">duplicate_to</span><span class="p">(</span><span class="n">window2</span><span class="p">)</span>
-</pre></div>
-</div>
-<div class="admonition seealso">
-<p class="admonition-title">See also</p>
-<p><a class="reference internal" href="#PyXA.apps.Safari.XASafariTab.move_to" title="PyXA.apps.Safari.XASafariTab.move_to"><code class="xref py py-func docutils literal notranslate"><span class="pre">move_to()</span></code></a></p>
-</div>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 0.0.1.</span></p>
-</div>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.apps.Safari.XASafariTab.index">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">index</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#PyXA.apps.Safari.XASafariTab.index" title="Permalink to this definition"></a></dt>
-<dd><p>The index of the tab, ordered left to right</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="PyXA.apps.Safari.XASafariTab.move_to">
-<span class="sig-name descname"><span class="pre">move_to</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">window</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#PyXA.apps.Safari.XASafariWindow" title="PyXA.apps.Safari.XASafariWindow"><span class="pre">PyXA.apps.Safari.XASafariWindow</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Safari.XASafariTab" title="PyXA.apps.Safari.XASafariTab"><span class="pre">PyXA.apps.Safari.XASafariTab</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Safari.html#XASafariTab.move_to"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Safari.XASafariTab.move_to" title="Permalink to this definition"></a></dt>
-<dd><p>Moves the tab to the specified window. After, the tab will exist in only one location.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>window</strong> (<a class="reference internal" href="#PyXA.apps.Safari.XASafariWindow" title="PyXA.apps.Safari.XASafariWindow"><em>XASafariWindow</em></a>) – The window to move the tab to.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>A reference to the tab object.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariGeneric" title="PyXA.apps.Safari.XASafariGeneric">XASafariGeneric</a></p>
-</dd>
-<dt class="field-even">Example</dt>
-<dd class="field-even"><p></p></dd>
-</dl>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;Safari&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">tab</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">front_window</span><span class="p">()</span><span class="o">.</span><span class="n">current_tab</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">window2</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">window</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">tab</span><span class="o">.</span><span class="n">move_to</span><span class="p">(</span><span class="n">window2</span><span class="p">)</span>
-</pre></div>
-</div>
-<div class="admonition seealso">
-<p class="admonition-title">See also</p>
-<p><a class="reference internal" href="#PyXA.apps.Safari.XASafariTab.duplicate_to" title="PyXA.apps.Safari.XASafariTab.duplicate_to"><code class="xref py py-func docutils literal notranslate"><span class="pre">duplicate_to()</span></code></a></p>
-</div>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 0.0.1.</span></p>
-</div>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.apps.Safari.XASafariTab.name">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Safari.XASafariTab.name" title="Permalink to this definition"></a></dt>
-<dd><p>The title of the tab</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.apps.Safari.XASafariTab.source">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">source</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Safari.XASafariTab.source" title="Permalink to this definition"></a></dt>
-<dd><p>The HTML source of the web page currently loaded in the tab</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.apps.Safari.XASafariTab.text">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">text</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Safari.XASafariTab.text" title="Permalink to this definition"></a></dt>
-<dd><p>The text of the web page currently loaded in the tab</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.apps.Safari.XASafariTab.url">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">url</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Safari.XASafariTab.url" title="Permalink to this definition"></a></dt>
-<dd><p>The current URL of the tab</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.apps.Safari.XASafariTab.visible">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">visible</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Safari.XASafariTab.visible" title="Permalink to this definition"></a></dt>
-<dd><p>Whether the tab is currently visible</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="PyXA.apps.Safari.XASafariTabList">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Safari.</span></span><span class="sig-name descname"><span class="pre">XASafariTabList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Safari.html#XASafariTabList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Safari.XASafariTabList" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAList" title="PyXA.XABase.XAList"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAList</span></code></a></p>
-<p>A wrapper around lists of tabs that employs fast enumeration techniques.</p>
-<p>All properties of tabs can be called as methods on the wrapped list, returning a list containing each tab’s value for the property.</p>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 0.0.4.</span></p>
-</div>
-<p><strong>Methods:</strong></p>
-<table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
-<tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariTabList.by_index" title="PyXA.apps.Safari.XASafariTabList.by_index"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_index</span></code></a>(index)</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariTabList.by_name" title="PyXA.apps.Safari.XASafariTabList.by_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_name</span></code></a>(name)</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariTabList.by_source" title="PyXA.apps.Safari.XASafariTabList.by_source"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_source</span></code></a>(source)</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariTabList.by_text" title="PyXA.apps.Safari.XASafariTabList.by_text"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_text</span></code></a>(text)</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariTabList.by_url" title="PyXA.apps.Safari.XASafariTabList.by_url"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_url</span></code></a>(url)</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariTabList.by_visible" title="PyXA.apps.Safari.XASafariTabList.by_visible"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_visible</span></code></a>(visible)</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariTabList.index" title="PyXA.apps.Safari.XASafariTabList.index"><code class="xref py py-obj docutils literal notranslate"><span class="pre">index</span></code></a>()</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariTabList.name" title="PyXA.apps.Safari.XASafariTabList.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a>()</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariTabList.reload" title="PyXA.apps.Safari.XASafariTabList.reload"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reload</span></code></a>()</p></td>
-<td><p>Reloads all tabs in the list.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariTabList.source" title="PyXA.apps.Safari.XASafariTabList.source"><code class="xref py py-obj docutils literal notranslate"><span class="pre">source</span></code></a>()</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariTabList.text" title="PyXA.apps.Safari.XASafariTabList.text"><code class="xref py py-obj docutils literal notranslate"><span class="pre">text</span></code></a>()</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariTabList.url" title="PyXA.apps.Safari.XASafariTabList.url"><code class="xref py py-obj docutils literal notranslate"><span class="pre">url</span></code></a>()</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariTabList.visible" title="PyXA.apps.Safari.XASafariTabList.visible"><code class="xref py py-obj docutils literal notranslate"><span class="pre">visible</span></code></a>()</p></td>
-<td><p></p></td>
-</tr>
-</tbody>
-</table>
-<dl class="py method">
-<dt class="sig sig-object py" id="PyXA.apps.Safari.XASafariTabList.by_index">
-<span class="sig-name descname"><span class="pre">by_index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Safari.XASafariTab" title="PyXA.apps.Safari.XASafariTab"><span class="pre">PyXA.apps.Safari.XASafariTab</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Safari.html#XASafariTabList.by_index"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Safari.XASafariTabList.by_index" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="PyXA.apps.Safari.XASafariTabList.by_name">
-<span class="sig-name descname"><span class="pre">by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Safari.XASafariTab" title="PyXA.apps.Safari.XASafariTab"><span class="pre">PyXA.apps.Safari.XASafariTab</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Safari.html#XASafariTabList.by_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Safari.XASafariTabList.by_name" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="PyXA.apps.Safari.XASafariTabList.by_source">
-<span class="sig-name descname"><span class="pre">by_source</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Safari.XASafariTab" title="PyXA.apps.Safari.XASafariTab"><span class="pre">PyXA.apps.Safari.XASafariTab</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Safari.html#XASafariTabList.by_source"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Safari.XASafariTabList.by_source" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="PyXA.apps.Safari.XASafariTabList.by_text">
-<span class="sig-name descname"><span class="pre">by_text</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Safari.XASafariTab" title="PyXA.apps.Safari.XASafariTab"><span class="pre">PyXA.apps.Safari.XASafariTab</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Safari.html#XASafariTabList.by_text"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Safari.XASafariTabList.by_text" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="PyXA.apps.Safari.XASafariTabList.by_url">
-<span class="sig-name descname"><span class="pre">by_url</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Safari.XASafariTab" title="PyXA.apps.Safari.XASafariTab"><span class="pre">PyXA.apps.Safari.XASafariTab</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Safari.html#XASafariTabList.by_url"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Safari.XASafariTabList.by_url" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="PyXA.apps.Safari.XASafariTabList.by_visible">
-<span class="sig-name descname"><span class="pre">by_visible</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">visible</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Safari.XASafariTab" title="PyXA.apps.Safari.XASafariTab"><span class="pre">PyXA.apps.Safari.XASafariTab</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Safari.html#XASafariTabList.by_visible"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Safari.XASafariTabList.by_visible" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="PyXA.apps.Safari.XASafariTabList.index">
-<span class="sig-name descname"><span class="pre">index</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Safari.html#XASafariTabList.index"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Safari.XASafariTabList.index" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="PyXA.apps.Safari.XASafariTabList.name">
-<span class="sig-name descname"><span class="pre">name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Safari.html#XASafariTabList.name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Safari.XASafariTabList.name" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="PyXA.apps.Safari.XASafariTabList.reload">
-<span class="sig-name descname"><span class="pre">reload</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Safari.XASafariTabList" title="PyXA.apps.Safari.XASafariTabList"><span class="pre">PyXA.apps.Safari.XASafariTabList</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Safari.html#XASafariTabList.reload"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Safari.XASafariTabList.reload" title="Permalink to this definition"></a></dt>
-<dd><p>Reloads all tabs in the list.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>A reference to the tab list object.</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariTabList" title="PyXA.apps.Safari.XASafariTabList">XASafariTabList</a></p>
-</dd>
-</dl>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 0.0.4.</span></p>
-</div>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="PyXA.apps.Safari.XASafariTabList.source">
-<span class="sig-name descname"><span class="pre">source</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Safari.html#XASafariTabList.source"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Safari.XASafariTabList.source" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="PyXA.apps.Safari.XASafariTabList.text">
-<span class="sig-name descname"><span class="pre">text</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Safari.html#XASafariTabList.text"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Safari.XASafariTabList.text" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="PyXA.apps.Safari.XASafariTabList.url">
-<span class="sig-name descname"><span class="pre">url</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Safari.html#XASafariTabList.url"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Safari.XASafariTabList.url" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="PyXA.apps.Safari.XASafariTabList.visible">
-<span class="sig-name descname"><span class="pre">visible</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Safari.html#XASafariTabList.visible"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Safari.XASafariTabList.visible" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="PyXA.apps.Safari.XASafariWindow">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Safari.</span></span><span class="sig-name descname"><span class="pre">XASafariWindow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Safari.html#XASafariWindow"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Safari.XASafariWindow" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XASBWindow" title="PyXA.XABaseScriptable.XASBWindow"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABaseScriptable.XASBWindow</span></code></a>, <a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XASBCloseable" title="PyXA.XABaseScriptable.XASBCloseable"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABaseScriptable.XASBCloseable</span></code></a>, <a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XASBPrintable" title="PyXA.XABaseScriptable.XASBPrintable"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABaseScriptable.XASBPrintable</span></code></a>, <a class="reference internal" href="../xabase.html#PyXA.XABase.XAHasElements" title="PyXA.XABase.XAHasElements"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAHasElements</span></code></a></p>
-<p>A class for interacting with Safari windows.</p>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 0.0.1.</span></p>
-</div>
-<p><strong>Attributes:</strong></p>
-<table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
-<tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariWindow.bounds" title="PyXA.apps.Safari.XASafariWindow.bounds"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bounds</span></code></a></p></td>
-<td><p>The bounding rectangle of the window</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariWindow.closeable" title="PyXA.apps.Safari.XASafariWindow.closeable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">closeable</span></code></a></p></td>
-<td><p>Whether the window has a close button</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariWindow.current_tab" title="PyXA.apps.Safari.XASafariWindow.current_tab"><code class="xref py py-obj docutils literal notranslate"><span class="pre">current_tab</span></code></a></p></td>
-<td><p>The currently selected tab</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariWindow.document" title="PyXA.apps.Safari.XASafariWindow.document"><code class="xref py py-obj docutils literal notranslate"><span class="pre">document</span></code></a></p></td>
-<td><p>The document currently displayed in the window</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariWindow.id" title="PyXA.apps.Safari.XASafariWindow.id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">id</span></code></a></p></td>
-<td><p>The unique identifier for the window</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariWindow.index" title="PyXA.apps.Safari.XASafariWindow.index"><code class="xref py py-obj docutils literal notranslate"><span class="pre">index</span></code></a></p></td>
-<td><p>The index of the window in the front-to-back ordering</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariWindow.miniaturizable" title="PyXA.apps.Safari.XASafariWindow.miniaturizable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">miniaturizable</span></code></a></p></td>
-<td><p>Whether the window can be minimized</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariWindow.miniaturized" title="PyXA.apps.Safari.XASafariWindow.miniaturized"><code class="xref py py-obj docutils literal notranslate"><span class="pre">miniaturized</span></code></a></p></td>
-<td><p>Whether the window is currently minimized</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariWindow.name" title="PyXA.apps.Safari.XASafariWindow.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a></p></td>
-<td><p>The title of the window</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariWindow.resizable" title="PyXA.apps.Safari.XASafariWindow.resizable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">resizable</span></code></a></p></td>
-<td><p>Whether the window can be resized</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariWindow.visible" title="PyXA.apps.Safari.XASafariWindow.visible"><code class="xref py py-obj docutils literal notranslate"><span class="pre">visible</span></code></a></p></td>
-<td><p>Whether the window is currently visible</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariWindow.zoomable" title="PyXA.apps.Safari.XASafariWindow.zoomable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">zoomable</span></code></a></p></td>
-<td><p>Whether the window can be zoomed</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariWindow.zoomed" title="PyXA.apps.Safari.XASafariWindow.zoomed"><code class="xref py py-obj docutils literal notranslate"><span class="pre">zoomed</span></code></a></p></td>
-<td><p>Whether the window is currently zoomed</p></td>
-</tr>
-</tbody>
-</table>
-<p><strong>Methods:</strong></p>
-<table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
-<tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariWindow.save" title="PyXA.apps.Safari.XASafariWindow.save"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save</span></code></a>([file_path])</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Safari.XASafariWindow.tabs" title="PyXA.apps.Safari.XASafariWindow.tabs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tabs</span></code></a>([filter])</p></td>
-<td><p>Returns a list of tabs matching the given filter.</p></td>
-</tr>
-</tbody>
-</table>
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.apps.Safari.XASafariWindow.bounds">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">bounds</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#PyXA.apps.Safari.XASafariWindow.bounds" title="Permalink to this definition"></a></dt>
-<dd><p>The bounding rectangle of the window</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.apps.Safari.XASafariWindow.closeable">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">closeable</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Safari.XASafariWindow.closeable" title="Permalink to this definition"></a></dt>
-<dd><p>Whether the window has a close button</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.apps.Safari.XASafariWindow.current_tab">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">current_tab</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.apps.Safari.XASafariTab" title="PyXA.apps.Safari.XASafariTab"><span class="pre">PyXA.apps.Safari.XASafariTab</span></a></em><a class="headerlink" href="#PyXA.apps.Safari.XASafariWindow.current_tab" title="Permalink to this definition"></a></dt>
-<dd><p>The currently selected tab</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.apps.Safari.XASafariWindow.document">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">document</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.apps.Safari.XASafariDocument" title="PyXA.apps.Safari.XASafariDocument"><span class="pre">PyXA.apps.Safari.XASafariDocument</span></a></em><a class="headerlink" href="#PyXA.apps.Safari.XASafariWindow.document" title="Permalink to this definition"></a></dt>
-<dd><p>The document currently displayed in the window</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.apps.Safari.XASafariWindow.id">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#PyXA.apps.Safari.XASafariWindow.id" title="Permalink to this definition"></a></dt>
-<dd><p>The unique identifier for the window</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.apps.Safari.XASafariWindow.index">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">index</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#PyXA.apps.Safari.XASafariWindow.index" title="Permalink to this definition"></a></dt>
-<dd><p>The index of the window in the front-to-back ordering</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.apps.Safari.XASafariWindow.miniaturizable">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">miniaturizable</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Safari.XASafariWindow.miniaturizable" title="Permalink to this definition"></a></dt>
-<dd><p>Whether the window can be minimized</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.apps.Safari.XASafariWindow.miniaturized">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">miniaturized</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Safari.XASafariWindow.miniaturized" title="Permalink to this definition"></a></dt>
-<dd><p>Whether the window is currently minimized</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.apps.Safari.XASafariWindow.name">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Safari.XASafariWindow.name" title="Permalink to this definition"></a></dt>
-<dd><p>The title of the window</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.apps.Safari.XASafariWindow.resizable">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">resizable</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Safari.XASafariWindow.resizable" title="Permalink to this definition"></a></dt>
-<dd><p>Whether the window can be resized</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="PyXA.apps.Safari.XASafariWindow.save">
-<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAURL" title="PyXA.XABase.XAURL"><span class="pre">PyXA.XABase.XAURL</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Safari.html#XASafariWindow.save"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Safari.XASafariWindow.save" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="PyXA.apps.Safari.XASafariWindow.tabs">
-<span class="sig-name descname"><span class="pre">tabs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Safari.XASafariTabList" title="PyXA.apps.Safari.XASafariTabList"><span class="pre">PyXA.apps.Safari.XASafariTabList</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Safari.html#XASafariWindow.tabs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Safari.XASafariWindow.tabs" title="Permalink to this definition"></a></dt>
-<dd><p>Returns a list of tabs matching the given filter.</p>
-<div class="versionchanged">
-<p><span class="versionmodified changed">Changed in version 0.0.4: </span>Now returns an object of <a class="reference internal" href="#PyXA.apps.Safari.XASafariTabList" title="PyXA.apps.Safari.XASafariTabList"><code class="xref py py-class docutils literal notranslate"><span class="pre">XASafariTabList</span></code></a> instead of a default list.</p>
-</div>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 0.0.1.</span></p>
-</div>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.apps.Safari.XASafariWindow.visible">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">visible</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Safari.XASafariWindow.visible" title="Permalink to this definition"></a></dt>
-<dd><p>Whether the window is currently visible</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.apps.Safari.XASafariWindow.zoomable">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">zoomable</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Safari.XASafariWindow.zoomable" title="Permalink to this definition"></a></dt>
-<dd><p>Whether the window can be zoomed</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.apps.Safari.XASafariWindow.zoomed">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">zoomed</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Safari.XASafariWindow.zoomed" title="Permalink to this definition"></a></dt>
-<dd><p>Whether the window is currently zoomed</p>
-</dd></dl>
-
-</dd></dl>
-
+<p>For all classes, methods, and inherited members on one page, see the <a class="reference internal" href="../api/apps/safari/PyXA.apps.Safari.html#module-PyXA.apps.Safari"><span class="std std-ref">Complete Safari API</span></a></p>
+</section>
 </section>
 
 
@@ -1386,7 +301,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="reminders.html" class="btn btn-neutral float-left" title="Reminders Module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="shortcuts.html" class="btn btn-neutral float-right" title="Shortcuts Module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="../api/apps/safari/XASafariApplication/PyXA.apps.Safari.XASafariApplication.html" class="btn btn-neutral float-right" title="XASafariApplication" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

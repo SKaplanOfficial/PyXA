@@ -51,6 +51,10 @@ class XATextEditApplication(XABaseScriptable.XASBApplication, XABase.XACanConstr
     def version(self) -> str:
         return self.xa_scel.version()
 
+    def open(self, path: str) -> 'XATextEditDocument':
+        super().open(path)
+        return self.front_window().document
+
     def print(self, file: Union[str, NSURL, 'XATextEditDocument'], show_prompt: bool = True, print_settings: dict = None):
         """Prints a TextEdit document.
 
@@ -171,6 +175,8 @@ class XATextEditApplication(XABaseScriptable.XASBApplication, XABase.XACanConstr
         if location is None:
             location = NSFileManager.alloc().homeDirectoryForCurrentUser().relativePath() + "/Documents/" + name
         else:
+            if not location.endswith("/"):
+                location = location + "/"
             location = location + name
         return self.push("document", {"name": name, "text": text, "path": location}, self.xa_scel.documents(), XATextEditDocument)
 
@@ -304,51 +310,149 @@ class XATextEditDocumentList(XABase.XAList):
         super().__init__(properties, XATextEditDocument, filter)
 
     def properties(self) -> List[dict]:
+        """Gets the properties of each document in the list.
+
+        :return: A list of document properties dictionaries
+        :rtype: List[dict]
+        
+        .. versionadded:: 0.0.3
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("properties"))
 
     def path(self) -> List[str]:
+        """Gets the path of each document in the list.
+
+        :return: A list of document paths
+        :rtype: List[str]
+        
+        .. versionadded:: 0.0.3
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("path"))
 
     def name(self) -> List[str]:
+        """Gets the name of each document in the list.
+
+        :return: A list of document names
+        :rtype: List[str]
+        
+        .. versionadded:: 0.0.3
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
     def text(self) -> List[XABase.XAText]:
+        """Gets the text of each document in the list.
+
+        :return: A list of document texts
+        :rtype: List[str]
+        
+        .. versionadded:: 0.0.3
+        """
         ls = self.xa_elem.arrayByApplyingSelector_("text")
         return [self._new_element(text, XABase.XAText) for text in ls]
 
-    def paragraphs(self) -> List[XABase.XAWord]:
+    def paragraphs(self) -> List[List[XABase.XAParagraph]]:
+        """Gets the paragraphs of each document in the list.
+
+        :return: A list of lists of paragraphs
+        :rtype: List[List[XABase.XAParagraph]]
+        
+        .. versionadded:: 0.0.3
+        """
         ls = self.xa_elem.arrayByApplyingSelector_("paragraphs")
         return [self._new_element(paragraph, XABase.XAParagraph) for paragraph in [plist for plist in ls]]
 
-    def words(self) -> List[XABase.XAWord]:
+    def words(self) -> List[List[XABase.XAWord]]:
+        """Gets the words of each document in the list.
+
+        :return: A list of lists of words
+        :rtype: List[List[XABase.XAWord]]
+        
+        .. versionadded:: 0.0.3
+        """
         ls = self.xa_elem.arrayByApplyingSelector_("words")
         return [self._new_element(word, XABase.XAWord) for word in [wordlist for wordlist in ls]]
 
-    def characters(self) -> List[XABase.XACharacter]:
+    def characters(self) -> List[List[XABase.XACharacter]]:
+        """Gets the characters of each document in the list.
+
+        :return: A list of lists of characters
+        :rtype: List[List[XABase.XACharacter]]
+        
+        .. versionadded:: 0.0.3
+        """
         ls = self.xa_elem.arrayByApplyingSelector_("characters")
         return [self._new_element(character, XABase.XACharacter) for character in [charlist for charlist in ls]]
 
-    def attribute_runs(self) -> List[XABase.XAAttributeRun]:
+    def attribute_runs(self) -> List[List[XABase.XAAttributeRun]]:
+        """Gets the attribute runs of each document in the list.
+
+        :return: A list of lists of attribute runs
+        :rtype: List[List[XABase.XAAttributeRun]]
+        
+        .. versionadded:: 0.0.3
+        """
         ls = self.xa_elem.arrayByApplyingSelector_("attributeRuns")
         return [self._new_element(attribute_run, XABase.XAAttributeRun) for attribute_run in [runlist for runlist in ls]]
 
-    def attachments(self) -> List[XABase.XAAttachment]:
+    def attachments(self) -> List[List[XABase.XAAttachment]]:
+        """Gets the attachments of each document in the list.
+
+        :return: A list of lists of attachments
+        :rtype: List[List[XABase.XAAttachment]]
+        
+        .. versionadded:: 0.0.3
+        """
         ls = self.xa_elem.arrayByApplyingSelector_("attachments")
         return [self._new_element(attachment, XABase.XAAttributeRun) for attachment in [attachmentlist for attachmentlist in ls]]
 
     def modified(self) -> List[str]:
+        """Gets the modified status of each document in the list.
+
+        :return: A list of modified status booleans
+        :rtype: List[bool]
+        
+        .. versionadded:: 0.0.3
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("modified"))
 
-    def by_properties(self, properties: dict) -> 'XATextEditDocument':
+    def by_properties(self, properties: dict) -> Union['XATextEditDocument', None]:
+        """Retrieves the document whose properties match the given properties dictionary, if one exists.
+
+        :return: The desired document, if it is found
+        :rtype: Union[XATextEditDocument, None]
+        
+        .. versionadded:: 0.0.3
+        """
         return self.by_property("properties", properties)
 
-    def by_path(self, path: str) -> 'XATextEditDocument':
+    def by_path(self, path: str) -> Union['XATextEditDocument', None]:
+        """Retrieves the document whose path matches the given path, if one exists.
+
+        :return: The desired document, if it is found
+        :rtype: Union[XATextEditDocument, None]
+        
+        .. versionadded:: 0.0.3
+        """
         return self.by_property("path", path)
 
-    def by_name(self, name: str) -> 'XATextEditDocument':
+    def by_name(self, name: str) -> Union['XATextEditDocument', None]:
+        """Retrieves the first document whose name matches the given name, if one exists.
+
+        :return: The desired document, if it is found
+        :rtype: Union[XATextEditDocument, None]
+        
+        .. versionadded:: 0.0.3
+        """
         return self.by_property("name", name)
 
-    def by_modified(self, modified: bool) -> 'XATextEditDocument':
+    def by_modified(self, modified: bool) -> Union['XATextEditDocument', None]:
+        """Retrieves the first document whose modified status matches the given boolean value, if one exists.
+
+        :return: The desired document, if it is found
+        :rtype: Union[XATextEditDocument, None]
+        
+        .. versionadded:: 0.0.3
+        """
         return self.by_property("modified", modified)
 
     def prepend(self, text: str) -> 'XATextEditDocumentList':
@@ -364,7 +468,7 @@ class XATextEditDocumentList(XABase.XAList):
         >>> import PyXA
         >>> app = PyXA.application("TextEdit")
         >>> documents = app.documents()
-        >>> documents.prepend("-- PyXA Notes --\n\n")
+        >>> documents.prepend("-- PyXA Notes --\\n\\n")
 
         .. seealso:: :func:`append`
 
@@ -388,7 +492,7 @@ class XATextEditDocumentList(XABase.XAList):
         >>> import PyXA
         >>> app = PyXA.application("TextEdit")
         >>> documents = app.documents()
-        >>> documents.append("\n\n-- End Of Notes --")
+        >>> documents.append("\\n\\n-- End Of Notes --")
 
         .. seealso:: :func:`prepend`
 
@@ -478,9 +582,10 @@ class XATextEditDocument(XABase.XACanConstructElement, XABase.XAAcceptsPushedEle
         """
         if file_path is not None:
             url = NSURL.alloc().initFileURLWithPath_(file_path)
-            self.xa_elem.saveAs_in_(None, url)
+            self.xa_elem.saveAs_in_("txt", url)
         else:
-            self.xa_elem.saveAs_in_(None, None)
+            url = NSURL.alloc().initFileURLWithPath_(self.path)
+            self.xa_elem.saveAs_in_("txt", url)
 
     def copy(self):
         """Copies the document file and its contents to the clipboard.

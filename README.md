@@ -1,4 +1,4 @@
-<p align="center"><img src="./sphinx/source/_static/assets/PyXALogoTransparent.png" alt="The dark logo for PyXA" height="250px"></p>
+<p align="center"><img src="https://raw.githubusercontent.com/SKaplanOfficial/PyXA/main/docs/_static/assets/PyXALogoTransparent.png" alt="The dark logo for PyXA" height="250px"></p>
 
 # Python for Automation
 Python for Automation, or PyXA for short, is a wrapper around Apple's Scripting Bridge framework that enables AppleScript- and JXA-like control over macOS applications from within Python. PyXA delivers intuitive application scripting by mapping existing AppleScript specifiers and commands, defined in sdef files, to per-application Python classes and associated methods. PyXA then expands on the capabilities of AppleScript by interfacing with low-level Objective-C frameworks.
@@ -91,7 +91,7 @@ notes.new_note(f"<h1>Agenda for {end_date}</h1>", note_text)
 ```
 When run, the above script creates a note in the Notes application similar to the following:
 
-![A note in the Notes app showing a summary of reminders and events for the day](./sphinx/source/_static/assets/Example3_Notes.png)
+![A note in the Notes app showing a summary of reminders and events for the day](https://raw.githubusercontent.com/SKaplanOfficial/PyXA/main/docs/_static/assets/Example3_Notes.png)
 
 # Installation
 To install the latest version of PyXA on macOS, use the following pip command:

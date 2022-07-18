@@ -6,6 +6,7 @@ from typing import Any, Callable, List, Union
 import threading
 from numpy import isin
 import yaml
+import importlib
 
 import AppKit
 from AppKit import (
@@ -271,17 +272,7 @@ def current_application() -> XAApplication:
 
     .. versionadded:: 0.0.1
     """
-    app = workspace.frontmostApplication()
-    properties = {
-        "parent": None,
-        "appspace": appspace,
-        "workspace": workspace,
-        "element": app,
-        "appref": app,
-    }
-    app = application_classes.get(app.localizedName().lower(), XAApplication)(properties)
-    apps.append(app)
-    return app
+    return application(workspace.frontmostApplication().localizedName().lower())
 
 
 def application(app_identifier: str) -> XAApplication:
@@ -309,6 +300,17 @@ def application(app_identifier: str) -> XAApplication:
             "element": app,
             "appref": app,
         }
+
+        app_obj = application_classes.get(app_identifier.lower(), XAApplication)
+        if app_identifier.lower() in application_classes and isinstance(app_obj, tuple):
+            module = importlib.import_module("PyXA.apps." + app_obj[0])
+            app_class = getattr(module, app_obj[1], None)
+            if app_class is not None:
+                application_classes[app_identifier.lower()] = app_class
+                app = app_class
+            else:
+                raise NotImplementedError()
+
         app_ref = application_classes.get(app_identifier.lower(), XAApplication)(properties)
         apps.append(app_ref)
         return app_ref
@@ -331,6 +333,17 @@ def application(app_identifier: str) -> XAApplication:
             "element": app,
             "appref": app,
         }
+
+        app_obj = application_classes.get(app_identifier.lower(), XAApplication)
+        if app_identifier.lower() in application_classes and isinstance(app_obj, tuple):
+            module = importlib.import_module("PyXA.apps." + app_obj[0])
+            app_class = getattr(module, app_obj[1], None)
+            if app_class is not None:
+                application_classes[app_identifier.lower()] = app_class
+                app = app_class
+            else:
+                raise NotImplementedError()
+
         app = application_classes.get(app_identifier.lower(), XAApplication)(properties)
         apps.append(app)
         app_ref = app

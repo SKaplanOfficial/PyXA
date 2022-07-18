@@ -322,6 +322,18 @@ class XAList(XAObject):
         obj = ls[0]
         return self._new_element(obj, self.xa_ocls)
 
+    def at(self, index: int) -> XAObject:
+        """Retrieves the element at the specified index.
+
+        :param index: The index of the desired element
+        :type index: int
+        :return: The PyXA-wrapped element object
+        :rtype: XAObject
+
+        .. versionadded:: 0.0.6
+        """
+        return self._new_element(self.xa_elem[index], self.xa_ocls)
+
     def first(self) -> XAObject:
         """Retrieves the first element of the list as a wrapped PyXA object.
 
@@ -1673,6 +1685,9 @@ class XAUIElement(XAHasElements):
         self.xa_scut[(specifier, in_class)] = target_objects
         return target_objects
 
+    def ui_elements(self, filter: dict = None) -> 'XAUIElementList':
+        return self._new_element(self.xa_elem.UIElements(), XAUIElementList, filter)
+
     def windows(self, filter: dict = None) -> 'XAWindowList':
         return self._new_element(self.xa_elem.windows(), XAWindowList, filter)
 
@@ -1691,11 +1706,17 @@ class XAUIElement(XAHasElements):
     def toolbars(self, filter: dict = None) -> 'XAUIToolbarList':
         return self._new_element(self.xa_elem.toolbars(), XAUIToolbarList, filter)
 
+    def tab_groups(self, filter: dict = None) -> 'XAUITabGroupList':
+        return self._new_element(self.xa_elem.tabGroups(), XAUITabGroupList, filter)
+
     def groups(self, filter: dict = None) -> 'XAUIGroupList':
         return self._new_element(self.xa_elem.groups(), XAUIGroupList, filter)
 
     def buttons(self, filter: dict = None) -> 'XAButtonList':
         return self._new_element(self.xa_elem.buttons(), XAButtonList, filter)
+
+    def radio_buttons(self, filter: dict = None) -> 'XAUIRadioButtonList':
+        return self._new_element(self.xa_elem.radioButtons(), XAUIRadioButtonList, filter)
 
     def actions(self, filter: dict = None) -> 'XAUIActionList':
         return self._new_element(self.xa_elem.actions(), XAUIActionList, filter)
@@ -1881,6 +1902,21 @@ class XAUIGroup(XAUIElement):
 
 
 
+class XAUITabGroupList(XAUIElementList):
+    """A wrapper around a list of UI element tab groups.
+
+    .. versionadded:: 0.0.5
+    """
+    def __init__(self, properties: dict, filter: Union[dict, None] = None):
+        super().__init__(properties, XAUIGroup, filter)
+
+class XAUITabGroup(XAUIElement):
+    def __init__(self, properties):
+        super().__init__(properties)
+
+
+
+
 class XAButtonList(XAUIElementList):
     """A wrapper around lists of buttons that employs fast enumeration techniques.
 
@@ -1908,6 +1944,21 @@ class XAButton(XAUIElement):
     def show_menu(self):
         self.actions({"name": "AXShowMenu"})[0].perform()
         return self
+
+
+
+
+class XAUIRadioButtonList(XAUIElementList):
+    """A wrapper around lists of radio buttons that employs fast enumeration techniques.
+
+    .. versionadded:: 0.0.4
+    """
+    def __init__(self, properties: dict, filter: Union[dict, None] = None):
+        super().__init__(properties, XAButton, filter)
+
+class XAUIRadioButton(XAUIElement):
+    def __init__(self, properties):
+        super().__init__(properties)
 
 
 

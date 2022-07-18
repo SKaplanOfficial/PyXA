@@ -28,6 +28,7 @@ application_classes = {
     ### First Party Non-scriptable Apps
     "calculator": ("Calculator", "XACalculatorApplication"),
     "dictionary": ("Dictionary", "XADictionaryApplication"),
+    "maps": ("Maps", "XAMapsApplication"),
 
     ### Third Party Scriptable Apps
     # Chromium

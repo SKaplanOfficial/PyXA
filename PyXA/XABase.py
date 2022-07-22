@@ -322,6 +322,7 @@ class XAList(XAObject):
         obj = ls[0]
         return self._new_element(obj, self.xa_ocls)
 
+
     def at(self, index: int) -> XAObject:
         """Retrieves the element at the specified index.
 

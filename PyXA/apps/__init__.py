@@ -24,6 +24,7 @@ application_classes = {
     "mail": ("Mail", "XAMailApplication"),
     "automator": ("Automator", "XAAutomatorApplication"),
     "console": ("Console", "XAConsoleApplication"),
+    "font book": ("FontBook", "XAFontBookApplication"),
 
     ### First Party Non-scriptable Apps
     "calculator": ("Calculator", "XACalculatorApplication"),

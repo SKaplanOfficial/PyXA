@@ -264,7 +264,7 @@ class XAKeynoteApplication(XABaseScriptable.XASBApplication, XABase.XAAcceptsPus
         self.xa_scel.print_withProperties_printDialog_(item.xa_elem, {"copies": 2}, True)
         return self
 
-    def documents(self, filter: Union[dict, None] = None) -> List['XAKeynoteDocument']:
+    def documents(self, filter: Union[dict, None] = None) -> 'XAKeynoteDocumentList':
         """Returns a list of documents, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned documents will have, or None
@@ -782,7 +782,7 @@ class XAKeynoteDocument(XABase.XAHasElements, XABaseScriptable.XASBPrintable, XA
 
         .. versionadded:: 0.0.2
         """
-        return self.xa_prnt.new_slide(self, properties)
+        return self.xa_prnt.xa_prnt.new_slide(self, properties)
 
     # Slide Layouts
     def slide_layouts(self, filter: Union[dict, None] = None) -> List['XAKeynoteSlideLayout']:
@@ -1543,7 +1543,7 @@ class XAKeynoteImage(XAKeynoteiWorkItem):
         return self.xa_elem.file()
 
     @property
-    def file_name(str):
+    def file_name(self) -> str:
         return self.xa_elem.fileName()
 
     @property
@@ -1599,7 +1599,7 @@ class XAKeynoteAudioClipList(XABase.XAList):
     .. versionadded:: 0.0.5
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAKeynoteTheme, filter)
+        super().__init__(properties, XAKeynoteAudioClip, filter)
 
     def file_name(self) -> List[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("fileName"))
@@ -1611,13 +1611,13 @@ class XAKeynoteAudioClipList(XABase.XAList):
         ls = self.xa_elem.arrayByApplyingSelector_("repetitionMethod")
         return [XAKeynoteApplication.RepetitionMethod(x) for x in ls]
 
-    def by_file_name(self, file_name: str) -> 'XAKeynoteTheme':
+    def by_file_name(self, file_name: str) -> 'XAKeynoteAudioClip':
         return self.by_property("fileName", file_name)
 
-    def by_clip_volume(self, clip_volume: int) -> 'XAKeynoteTheme':
+    def by_clip_volume(self, clip_volume: int) -> 'XAKeynoteAudioClip':
         return self.by_property("clipVolume", clip_volume)
 
-    def by_repetition_method(self, repetition_method: XAKeynoteApplication.RepetitionMethod) -> 'XAKeynoteTheme':
+    def by_repetition_method(self, repetition_method: XAKeynoteApplication.RepetitionMethod) -> 'XAKeynoteAudioClip':
         return self.by_property("repetitionMethod", repetition_method.value)
 
 class XAKeynoteAudioClip(XAKeynoteiWorkItem):
@@ -2256,7 +2256,7 @@ class XAKeynoteRangeList(XABase.XAList):
         return list(self.xa_elem.arrayByApplyingSelector_("textWrap"))
 
     def background_color(self) -> List[XABase.XAColor]:
-        self.xa_elem.arrayByApplyingSelector_("backgroundColor")
+        ls = self.xa_elem.arrayByApplyingSelector_("backgroundColor")
         return [self._new_element(x, XABase.XAColor) for x in ls]
 
     def vertical_alignment(self) -> List[XAKeynoteApplication.Alignment]:

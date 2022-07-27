@@ -25,11 +25,13 @@ application_classes = {
     "automator": ("Automator", "XAAutomatorApplication"),
     "console": ("Console", "XAConsoleApplication"),
     "font book": ("FontBook", "XAFontBookApplication"),
+    "quicktime player": ("QuickTimePlayer", "XAQuickTimeApplication"),
 
     ### First Party Non-scriptable Apps
     "calculator": ("Calculator", "XACalculatorApplication"),
     "dictionary": ("Dictionary", "XADictionaryApplication"),
     "maps": ("Maps", "XAMapsApplication"),
+    "stocks": ("Stocks", "XAStocksApplication"),
 
     ### Third Party Scriptable Apps
     # Chromium

@@ -1,5 +1,5 @@
-System Preferences Module
-=========================
+System Preferences Module Reference
+===================================
 
 .. automodule:: PyXA.apps.SystemPreferences
    :members:

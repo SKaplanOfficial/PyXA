@@ -1,5 +1,5 @@
-FontBook Module
-===============
+FontBook Module Reference
+=========================
 
 .. automodule:: PyXA.apps.FontBook
    :members:

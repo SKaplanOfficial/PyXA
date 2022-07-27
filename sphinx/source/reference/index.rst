@@ -29,16 +29,21 @@ First-Party Application Modules
    apps/contacts
    apps/dictionary
    apps/finder
+   apps/fontbook
    apps/keynote
    apps/mail
+   apps/maps
    apps/messages
    apps/music
    apps/notes
+   apps/pages
    apps/photos
    apps/preview
+   apps/quicktimeplayer
    apps/reminders
    apps/safari
    apps/shortcuts
+   apps/stocks
    apps/systempreferences
    apps/terminal
    apps/textedit

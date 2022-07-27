@@ -1,5 +1,5 @@
-Finder Module
-==============
+Finder Module Reference
+=======================
 
 .. automodule:: PyXA.apps.Finder
    :members:

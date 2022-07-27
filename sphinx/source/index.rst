@@ -14,6 +14,7 @@ Python for Automation is a wrapper around Apple's Scripting Bridge framework tha
 
    about/index
    tutorial/index
+   tutorial/apps/index
    reference/index
    bugs
 

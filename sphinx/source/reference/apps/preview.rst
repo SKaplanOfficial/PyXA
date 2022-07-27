@@ -1,5 +1,5 @@
-Preview Module
-==============
+Preview Module Reference
+========================
 
 .. automodule:: PyXA.apps.Preview
    :members:

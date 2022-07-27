@@ -1,5 +1,5 @@
-Notes Module
-============
+Notes Module Reference
+======================
 
 .. automodule:: PyXA.apps.Notes
    :members:

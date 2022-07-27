@@ -1,5 +1,5 @@
-Contacts Module
-===============
+Contacts Module Reference
+=========================
 
 .. automodule:: PyXA.apps.Contacts
    :members:

@@ -1,5 +1,5 @@
-Maps Module
-===========
+Maps Module Reference
+=====================
 
 .. automodule:: PyXA.apps.Maps
    :members:

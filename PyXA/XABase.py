@@ -17,18 +17,6 @@ import threading, signal
 
 from PyXA.XAErrors import InvalidPredicateError
 
-# class timeout:
-#     def __init__(self, seconds=1, error_message='Timeout'):
-#         self.seconds = seconds
-#         self.error_message = error_message
-#     def handle_timeout(self, signum, frame):
-#         raise TimeoutError(self.error_message)
-#     def __enter__(self):
-#         signal.signal(signal.SIGALRM, self.handle_timeout)
-#         signal.alarm(self.seconds)
-#     def __exit__(self, type, value, traceback):
-#         signal.alarm(0)
-
 def OSType(s: str):
     return int.from_bytes(s.encode("UTF-8"), "big")
 
@@ -316,12 +304,40 @@ class XAList(XAObject):
             self.xa_elem = XAPredicate().from_dict(filter).evaluate(self.xa_elem)
 
     def by_property(self, property: str, value: Any) -> XAObject:
+        """Retrieves the element whose property value matches the given value, if one exists.
+
+        :param property: The property to match
+        :type property: str
+        :param value: The value to match
+        :type value: Any
+        :return: The matching element, if one is found
+        :rtype: XAObject
+
+        .. versionadded:: 0.0.6
+        """
         predicate = XAPredicate()
         predicate.add_eq_condition(property, value)
         ls = predicate.evaluate(self.xa_elem)
         obj = ls[0]
         return self._new_element(obj, self.xa_ocls)
 
+    def containing(self, property: str, value: str) -> XAObject:
+        """Retrieves the element whose property value contains the given value, if one exists.
+
+        :param property: The property match
+        :type property: str
+        :param value: The value to search for
+        :type value: str
+        :return: The matching element, if one is found
+        :rtype: XAObject
+
+        .. versionadded:: 0.0.6
+        """
+        predicate = XAPredicate()
+        predicate.add_contains_condition(property, value)
+        ls = predicate.evaluate(self.xa_elem)
+        obj = ls[0]
+        return self._new_element(obj, self.xa_ocls)
 
     def at(self, index: int) -> XAObject:
         """Retrieves the element at the specified index.
@@ -1493,6 +1509,9 @@ class XAUIElementList(XAList):
             obj_type = XAUIElement
         super().__init__(properties, obj_type, filter)
 
+    def properties(self) -> List[dict]:
+        return list(self.xa_elem.arrayByApplyingSelector_("properties"))
+
     def accessibility_description(self) -> List[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("accessibilityDescription"))
 
@@ -1537,6 +1556,9 @@ class XAUIElementList(XAList):
 
     def selected(self) -> List[bool]:
         return list(self.xa_elem.arrayByApplyingSelector_("selected"))
+
+    def by_properties(self, properties: dict) -> 'XAUIElement':
+        return self.by_property("properties", properties)
 
     def by_accessibility_description(self, accessibility_description: str) -> 'XAUIElement':
         return self.by_property("accessibilityDescription", accessibility_description)
@@ -1583,9 +1605,9 @@ class XAUIElementList(XAList):
 class XAUIElement(XAHasElements):
     def __init__(self, properties):
         super().__init__(properties)
-        self.xa_scut = {}
 
-        self.accessibility_description: str
+        self.properties: dict #: All properties of the UI element
+        self.accessibility_description: str #: The accessibility description of the element
         self.enabled: bool #: Whether the UI element is currently enabled
         self.entire_contents: Any #: The entire contents of the element
         self.focused: bool #: Whether the window is the currently element
@@ -1602,6 +1624,10 @@ class XAUIElement(XAHasElements):
         self.selected: bool #: Whether the element is currently selected
 
     @property
+    def properties(self) -> dict:
+        return self.xa_elem.properties()
+
+    @property
     def accessibility_description(self) -> str:
         return self.xa_elem.accessibilityDescription()
 
@@ -1612,7 +1638,7 @@ class XAUIElement(XAHasElements):
     @property
     def entire_contents(self) -> List[XAObject]:
         ls = self.xa_elem.entireContents()
-        return [self._new_element(x, XAObject) for x in ls]
+        return [self._new_element(x, XAUIElement) for x in ls]
 
     @property
     def focused(self) -> bool:
@@ -1662,30 +1688,6 @@ class XAUIElement(XAHasElements):
     def selected(self) -> bool:
         return self.xa_elem.selected()
 
-    def all(self, specifier, in_class = "groups", force_update = False):
-        if (specifier, in_class) in self.xa_scut and not force_update:
-            return self.xa_scut[(specifier, in_class)]
-
-        valid_specifiers = {
-            "windows": XAWindow,
-            "buttons": XAButton,
-            "actions": XAUIAction,
-        }
-        target_class = valid_specifiers[specifier]
-
-        target_objects = []
-        sub_objects = self.__getattribute__(in_class)()
-        for item in sub_objects:
-            target_objects.extend(item.all(specifier, in_class))
-
-        if isinstance(self, target_class):
-            target_objects.append(self)
-        else:
-            target_objects.extend(self.__getattribute__(specifier)())
-
-        self.xa_scut[(specifier, in_class)] = target_objects
-        return target_objects
-
     def ui_elements(self, filter: dict = None) -> 'XAUIElementList':
         return self._new_element(self.xa_elem.UIElements(), XAUIElementList, filter)
 
@@ -1709,6 +1711,9 @@ class XAUIElement(XAHasElements):
 
     def tab_groups(self, filter: dict = None) -> 'XAUITabGroupList':
         return self._new_element(self.xa_elem.tabGroups(), XAUITabGroupList, filter)
+
+    def scroll_areas(self, filter: dict = None) -> 'XAUIScrollAreaList':
+        return self._new_element(self.xa_elem.scrollAreas(), XAUIScrollAreaList, filter)
 
     def groups(self, filter: dict = None) -> 'XAUIGroupList':
         return self._new_element(self.xa_elem.groups(), XAUIGroupList, filter)
@@ -1747,6 +1752,22 @@ class XAWindowList(XAUIElementList):
         for window in self:
             window.collapse()
 
+    def uncollapse(self):
+        """Uncollapses all windows in the list.
+
+        .. versionadded:: 0.0.6
+        """
+        for window in self:
+            window.uncollapse()
+
+    def close(self):
+        """Closes all windows in the list.add()
+        
+        .. versionadded:: 0.0.6
+        """
+        for window in self:
+            window.close()
+
 class XAWindow(XAUIElement):
     """A general window class for windows of both officially scriptable and non-scriptable applications.
 
@@ -1757,7 +1778,6 @@ class XAWindow(XAUIElement):
     def __init__(self, properties):
         super().__init__(properties)
 
-    # Actions
     def close(self) -> 'XAWindow':
         """Collapses (minimizes) the window.
 
@@ -1814,6 +1834,10 @@ class XAUIMenuBarList(XAUIElementList):
         super().__init__(properties, XAUIMenuBar, filter)
 
 class XAUIMenuBar(XAUIElement):
+    """A menubar UI element.
+    
+    .. versionadded:: 0.0.2
+    """
     def __init__(self, properties):
         super().__init__(properties)
 
@@ -1829,6 +1853,10 @@ class XAUIMenuBarItemList(XAUIElementList):
         super().__init__(properties, XAUIMenuBarItem, filter)
 
 class XAUIMenuBarItem(XAUIElement):
+    """A menubar item UI element.
+    
+    .. versionadded:: 0.0.2
+    """
     def __init__(self, properties):
         super().__init__(properties)
 
@@ -1844,6 +1872,10 @@ class XAUIMenuList(XAUIElementList):
         super().__init__(properties, XAUIMenu, filter)
 
 class XAUIMenu(XAUIElement):
+    """A menu UI element.
+    
+    .. versionadded:: 0.0.2
+    """
     def __init__(self, properties):
         super().__init__(properties)
 
@@ -1859,14 +1891,32 @@ class XAUIMenuItemList(XAUIElementList):
         super().__init__(properties, XAUIMenuItem, filter)
 
 class XAUIMenuItem(XAUIElement):
+    """A menu item UI element.
+    
+    .. versionadded:: 0.0.2
+    """
     def __init__(self, properties):
         super().__init__(properties)
 
-    def click(self):
+    def click(self) -> 'XAUIMenuItem':
+        """Clicks the menu item. Synonymous with :func:`press`.
+
+        :return: The menu item object.
+        :rtype: XAUIMenuItem
+
+        .. versionadded:: 0.0.2
+        """
         self.actions({"name": "AXPress"})[0].perform()
         return self
 
-    def press(self):
+    def press(self) -> 'XAUIMenuItem':
+        """Clicks the menu item. Synonymous with :func:`click`.
+
+        :return: The menu item object.
+        :rtype: XAUIMenuItem
+
+        .. versionadded:: 0.0.2
+        """
         self.actions({"name": "AXPress"})[0].perform()
         return self
 
@@ -1882,6 +1932,10 @@ class XAUIToolbarList(XAUIElementList):
         super().__init__(properties, XAUIToolbar, filter)
 
 class XAUIToolbar(XAUIElement):
+    """A toolbar UI element.
+    
+    .. versionadded:: 0.0.2
+    """
     def __init__(self, properties):
         super().__init__(properties)
 
@@ -1897,6 +1951,10 @@ class XAUIGroupList(XAUIElementList):
         super().__init__(properties, XAUIGroup, filter)
 
 class XAUIGroup(XAUIElement):
+    """A group of UI element.
+    
+    .. versionadded:: 0.0.2
+    """
     def __init__(self, properties):
         super().__init__(properties)
 
@@ -1912,6 +1970,29 @@ class XAUITabGroupList(XAUIElementList):
         super().__init__(properties, XAUIGroup, filter)
 
 class XAUITabGroup(XAUIElement):
+    """A tab group UI element.
+    
+    .. versionadded:: 0.0.2
+    """
+    def __init__(self, properties):
+        super().__init__(properties)
+
+
+
+
+class XAUIScrollAreaList(XAUIElementList):
+    """A wrapper around a list of scroll areas.
+
+    .. versionadded:: 0.0.5
+    """
+    def __init__(self, properties: dict, filter: Union[dict, None] = None):
+        super().__init__(properties, XAUIGroup, filter)
+
+class XAUIScrollArea(XAUIElement):
+    """A scroll area UI element.
+    
+    .. versionadded:: 0.0.2
+    """
     def __init__(self, properties):
         super().__init__(properties)
 
@@ -1927,22 +2008,54 @@ class XAButtonList(XAUIElementList):
         super().__init__(properties, XAButton, filter)
 
 class XAButton(XAUIElement):
+    """A button UI element.
+    
+    .. versionadded:: 0.0.2
+    """
     def __init__(self, properties):
         super().__init__(properties)
 
-    def click(self):
+    def click(self) -> 'XAButton':
+        """Clicks the button. Synonymous with :func:`press`.
+
+        :return: The button object
+        :rtype: XAButton
+
+        .. versionadded:: 0.0.2
+        """
         self.actions({"name": "AXPress"})[0].perform()
         return self
 
-    def press(self):
+    def press(self) -> 'XAButton':
+        """Clicks the button. Synonymous with :func:`click`.
+
+        :return: The button object
+        :rtype: XAButton
+
+        .. versionadded:: 0.0.2
+        """
         self.actions({"name": "AXPress"})[0].perform()
         return self
 
-    def option_click(self):
+    def option_click(self) -> 'XAButton':
+        """Option-Clicks the button.
+
+        :return: The button object
+        :rtype: XAButton
+
+        .. versionadded:: 0.0.2
+        """
         self.actions({"name": "AXZoomWindow"})[0].perform()
         return self
 
-    def show_menu(self):
+    def show_menu(self) -> 'XAButton':
+        """Right clicks the button, invoking a menu.
+
+        :return: The button object
+        :rtype: XAButton
+
+        .. versionadded:: 0.0.2
+        """
         self.actions({"name": "AXShowMenu"})[0].perform()
         return self
 
@@ -1958,6 +2071,10 @@ class XAUIRadioButtonList(XAUIElementList):
         super().__init__(properties, XAButton, filter)
 
 class XAUIRadioButton(XAUIElement):
+    """A radio button UI element.
+    
+    .. versionadded:: 0.0.2
+    """
     def __init__(self, properties):
         super().__init__(properties)
 
@@ -1973,12 +2090,19 @@ class XAUIActionList(XAUIElementList):
         super().__init__(properties, XAUIAction, filter)
 
 class XAUIAction(XAUIElement):
+    """An action associated with a UI element.
+    
+    .. versionadded:: 0.0.2
+    """
     def __init__(self, properties):
         super().__init__(properties)
 
     def perform(self):
+        """Executes the action.
+    
+        .. versionadded:: 0.0.2
+        """
         self.xa_elem.perform()
-        return self
 
 
 
@@ -1992,6 +2116,10 @@ class XAUITextfieldList(XAUIElementList):
         super().__init__(properties, XAUITextfield, filter)
 
 class XAUITextfield(XAUIElement):
+    """A textfield UI element.
+    
+    .. versionadded:: 0.0.2
+    """
     def __init__(self, properties):
         super().__init__(properties)
 
@@ -2007,6 +2135,10 @@ class XAUIStaticTextList(XAUIElementList):
         super().__init__(properties, XAUIStaticText, filter)
 
 class XAUIStaticText(XAUIElement):
+    """A static text UI element.
+    
+    .. versionadded:: 0.0.2
+    """
     def __init__(self, properties):
         super().__init__(properties)
 
@@ -2310,6 +2442,13 @@ class XAAttachment(XAObject):
 
 
 
+class XAColorList(XATextList):
+    """A wrapper around lists of colors that employs fast enumeration techniques.
+
+    .. versionadded:: 0.0.6
+    """
+    def __init__(self, properties: dict, filter: Union[dict, None] = None):
+        super().__init__(properties, XAColor, filter)
 
 class XAColor():
     def __init__(self, *args):

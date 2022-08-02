@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Calendar Module Overview &mdash; PyXA 0.0.5 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Console Module Overview" href="../console/index.html" />
+    <link rel="prev" title="Calculator Module Overview" href="../calculator/index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> PyXA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../about/index.html">Project Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Application Modules</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html#first-party-application-modules">First-Party Application Modules</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../automator/index.html">Automator Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../calculator/index.html">Calculator Module Overview</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Calendar Module Overview</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#tutorials">Tutorials</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#examples">Examples</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#resources">Resources</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#calendar-classes-and-methods">Calendar Classes and Methods</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../console/index.html">Console Module Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../contacts/index.html">Contacts Module Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../dictionary/index.html">Dictionary Module Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../finder/index.html">Finder Module Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fontbook/index.html">Font Book Module Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../keynote/index.html">Keynote Module Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../mail/index.html">Mail Module Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../maps/index.html">Maps Module Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../messages/index.html">Messages Module Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../music/index.html">Music Module Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../notes/index.html">Notes Module Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/index.html">Pages Module Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../photos/index.html">Photos Module Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../preview/index.html">Preview Module Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../quicktimeplayer/index.html">QuickTime Module Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reminders/index.html">Reminders Module Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../safari/index.html">Safari Module Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../shortcuts/index.html">Shortcuts Module Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../stocks/index.html">Stocks Module Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../systempreferences/index.html">System Preferences Module Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../terminal/index.html">Terminal Module Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../textedit/index.html">TextEdit Module Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tv/index.html">TV Module Overview</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#third-party-application-modules">Third-Party Application Modules</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reference/index.html">Code Documentation and Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../bugs.html">Bugs</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">PyXA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">Application Modules</a> &raquo;</li>
+      <li>Calendar Module Overview</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/tutorial/apps/calendar/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="calendar-module-overview">
+<h1>Calendar Module Overview<a class="headerlink" href="#calendar-module-overview" title="Permalink to this headline"></a></h1>
+<div class="contents local topic" id="table-of-contents">
+<p class="topic-title">Table of Contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#tutorials" id="id1">Tutorials</a></p></li>
+<li><p><a class="reference internal" href="#examples" id="id2">Examples</a></p>
+<ul>
+<li><p><a class="reference internal" href="#example-1-listing-calendars-and-events" id="id3">Example 1 - Listing Calendars and Events</a></p></li>
+<li><p><a class="reference internal" href="#example-2-creating-calendars-and-events" id="id4">Example 2 - Creating Calendars and Events</a></p></li>
+<li><p><a class="reference internal" href="#example-3-modifying-and-manipulating-events" id="id5">Example 3 - Modifying and Manipulating Events</a></p></li>
+<li><p><a class="reference internal" href="#example-5-displaying-events-in-calendar-app" id="id6">Example 5 - Displaying Events in Calendar.app</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#resources" id="id7">Resources</a></p></li>
+<li><p><a class="reference internal" href="#calendar-classes-and-methods" id="id8">Calendar Classes and Methods</a></p>
+<ul>
+<li><p><a class="reference internal" href="#classes" id="id9">Classes</a></p></li>
+<li><p><a class="reference internal" href="#xacalendar-methods" id="id10">XACalendar Methods</a></p></li>
+<li><p><a class="reference internal" href="#xacalendarapplication-methods" id="id11">XACalendarApplication Methods</a></p></li>
+<li><p><a class="reference internal" href="#xacalendarevent-methods" id="id12">XACalendarEvent Methods</a></p></li>
+<li><p><a class="reference internal" href="#xacalendarattachment-methods" id="id13">XACalendarAttachment Methods</a></p></li>
+</ul>
+</li>
+</ul>
+</div>
+<p>PyXA supports nearly all AppleScript/JXA commands for the Calendar application while adding some additional quality-of-life methods that AppleScript is missing. Alarms are not currently supported, but they will be by the time of PyXA’s full release. New methods, such as <a class="reference internal" href="../../../reference/apps/calendar.html#PyXA.apps.Calendar.XACalendarEvent.add_attachment" title="PyXA.apps.Calendar.XACalendarEvent.add_attachment"><code class="xref py py-func docutils literal notranslate"><span class="pre">PyXA.apps.Calendar.XACalendarEvent.add_attachment()</span></code></a>, attempt to follow the style of JXA and make use of Apple’s <a class="reference external" href="https://developer.apple.com/documentation/eventkit">EventKit Framework</a>.</p>
+<section id="tutorials">
+<h2><a class="toc-backref" href="#id1">Tutorials</a><a class="headerlink" href="#tutorials" title="Permalink to this headline"></a></h2>
+<p>There are two (planned) tutorials for working with the Calendar application:</p>
+<ul class="simple">
+<li><p>Create a Daily Event Summary Script</p></li>
+<li><p>How To: Add a Zoom link to all events with a given tag</p></li>
+</ul>
+</section>
+<section id="examples">
+<h2><a class="toc-backref" href="#id2">Examples</a><a class="headerlink" href="#examples" title="Permalink to this headline"></a></h2>
+<p>The examples below provide an overview of the capabilities of the Calendar module. They do not provide any output. For more in-depth examples that show output and provide more detailed explanations, refer to the previous section (<a class="reference internal" href="#tutorials"><span class="std std-ref">Tutorials</span></a>).</p>
+<section id="example-1-listing-calendars-and-events">
+<h3><a class="toc-backref" href="#id3">Example 1 - Listing Calendars and Events</a><a class="headerlink" href="#example-1-listing-calendars-and-events" title="Permalink to this headline"></a></h3>
+<p>One of the most common tasks when working with the Calendar application is that of listing events. PyXA offers several ways to obtain such lists, all of which may be useful in different contexts. In order to list events, you must first obtain a reference to one or more calendars, which can be done in a few ways as well. Lines <cite>5-10</cite> show the primary ways of obtain a calendar reference, while lines <cite>12-18</cite> show ways to obtain lists of events from the selected calendar.</p>
+<p>A general rule of thumb when using PyXA to list events is that the more specific you can make your query, the better. While listing all events is necessary in some situations, a more specific query will always perform better. Filters, such as <cite>{“title”: “Learn PyXA”}</cite>, can be used to decrease the number of queried events and, likewise, decrease the time of the listing operation. Filters can contain multiple parameters to further narrow the selection of events. The Calendar module provides some helper methods to assist in the creation and application of filters. For example, <code class="xref py py-func docutils literal notranslate"><span class="pre">PyXA.apps.Calendar.XACalendar.events_in_range()</span></code> can (and should) be used to find events occurring between two dates.</p>
+<p>In addition to listing events, you can obtain references to specific events using the methods shown in lines <cite>20-25</cite>. These methods always select the first event that matches their respective filter, if applicable, so there are no performance concerns there. However, there is no guarantee that the list of events will maintain a consistent order. A filter that directly identifies an event using its unique properties is therefore preferred over a general filter that matches with multiple events.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
+<span class="linenos"> 2</span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="linenos"> 3</span><span class="n">app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;Calendar&quot;</span><span class="p">)</span>
+<span class="linenos"> 4</span>
+<span class="linenos"> 5</span><span class="c1"># Getting calendars</span>
+<span class="linenos"> 6</span><span class="n">all_calendars</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">calendars</span><span class="p">()</span>
+<span class="linenos"> 7</span><span class="n">calendar</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">default_calendar</span><span class="p">()</span>
+<span class="linenos"> 8</span><span class="n">calendar0</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">calendar</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="linenos"> 9</span><span class="n">calendar1</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">calendar</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="linenos">10</span><span class="n">named_calendar</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">calendar</span><span class="p">({</span><span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;Calendar&quot;</span><span class="p">})</span>
+<span class="linenos">11</span>
+<span class="linenos">12</span><span class="c1"># Getting lists of events</span>
+<span class="linenos">13</span><span class="n">all_events</span> <span class="o">=</span> <span class="n">calendar</span><span class="o">.</span><span class="n">events</span><span class="p">()</span>
+<span class="linenos">14</span><span class="n">events_at_location</span> <span class="o">=</span> <span class="n">calendar</span><span class="o">.</span><span class="n">events</span><span class="p">({</span><span class="s2">&quot;location&quot;</span><span class="p">:</span> <span class="s2">&quot;1 Main Street</span><span class="se">\\</span><span class="s2">nPortland ME 04101</span><span class="se">\\</span><span class="s2">nUnited States&quot;</span><span class="p">})</span>
+<span class="linenos">15</span><span class="n">named_events</span> <span class="o">=</span> <span class="n">calendar</span><span class="o">.</span><span class="n">events</span><span class="p">({</span><span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;Learn PyXA&quot;</span><span class="p">})</span>
+<span class="linenos">16</span><span class="n">events_between_dates</span> <span class="o">=</span> <span class="n">calendar</span><span class="o">.</span><span class="n">events_in_range</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(),</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">+</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">days</span> <span class="o">=</span> <span class="mi">7</span><span class="p">))</span>
+<span class="linenos">17</span><span class="n">events_today</span> <span class="o">=</span> <span class="n">calendar</span><span class="o">.</span><span class="n">events_today</span><span class="p">()</span>
+<span class="linenos">18</span><span class="n">events_this_week</span> <span class="o">=</span> <span class="n">calendar</span><span class="o">.</span><span class="n">week_events</span><span class="p">()</span>
+<span class="linenos">19</span>
+<span class="linenos">20</span><span class="c1"># Getting specific events</span>
+<span class="linenos">21</span><span class="n">event0</span> <span class="o">=</span> <span class="n">calendar</span><span class="o">.</span><span class="n">event</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="linenos">22</span><span class="n">first_event</span> <span class="o">=</span> <span class="n">calendar</span><span class="o">.</span><span class="n">first_event</span><span class="p">()</span>
+<span class="linenos">23</span><span class="n">last_event</span> <span class="o">=</span> <span class="n">calendar</span><span class="o">.</span><span class="n">last_event</span><span class="p">()</span>
+<span class="linenos">24</span><span class="n">named_event</span> <span class="o">=</span> <span class="n">calendar</span><span class="o">.</span><span class="n">events</span><span class="p">({</span><span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;Learn PyXA&quot;</span><span class="p">})[</span><span class="mi">0</span><span class="p">]</span>
+<span class="linenos">25</span><span class="n">event_by_id</span> <span class="o">=</span> <span class="n">calendar</span><span class="o">.</span><span class="n">event</span><span class="p">({</span><span class="s2">&quot;uid&quot;</span><span class="p">:</span> <span class="s2">&quot;A54CF13A-36D2-5DE1-9980-BE19C4C102A4&quot;</span><span class="p">})</span>
+<span class="linenos">26</span>
+<span class="linenos">27</span><span class="c1"># Get today&#39;s event from each calendar</span>
+<span class="linenos">28</span><span class="n">events</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="linenos">29</span><span class="k">for</span> <span class="n">calendar</span> <span class="ow">in</span> <span class="n">all_calendars</span><span class="p">:</span>
+<span class="linenos">30</span>   <span class="n">events</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">calendar</span><span class="o">.</span><span class="n">events_today</span><span class="p">())</span>
+</pre></div>
+</div>
+</section>
+<section id="example-2-creating-calendars-and-events">
+<h3><a class="toc-backref" href="#id4">Example 2 - Creating Calendars and Events</a><a class="headerlink" href="#example-2-creating-calendars-and-events" title="Permalink to this headline"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
+<span class="linenos"> 2</span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="linenos"> 3</span><span class="n">app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;Calendar&quot;</span><span class="p">)</span>
+<span class="linenos"> 4</span>
+<span class="linenos"> 5</span><span class="c1"># Create a new calendar</span>
+<span class="linenos"> 6</span><span class="n">new_calendar</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">new_calendar</span><span class="p">(</span><span class="s2">&quot;PyXA Development&quot;</span><span class="p">)</span>
+<span class="linenos"> 7</span>
+<span class="linenos"> 8</span><span class="c1"># Create new events</span>
+<span class="linenos"> 9</span><span class="n">start_date</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+<span class="linenos">10</span><span class="n">end_date</span> <span class="o">=</span> <span class="n">start_date</span> <span class="o">+</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">hours</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+<span class="linenos">11</span><span class="n">app</span><span class="o">.</span><span class="n">new_event</span><span class="p">(</span><span class="s2">&quot;Test 1&quot;</span><span class="p">,</span> <span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="p">)</span> <span class="c1"># Created in default/currently selected calendar</span>
+<span class="linenos">12</span><span class="n">app</span><span class="o">.</span><span class="n">new_event</span><span class="p">(</span><span class="s2">&quot;Test 2&quot;</span><span class="p">,</span> <span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="p">,</span> <span class="n">new_calendar</span><span class="p">)</span> <span class="c1"># Created in the new calendar</span>
+<span class="linenos">13</span><span class="n">new_calendar</span><span class="o">.</span><span class="n">new_event</span><span class="p">(</span><span class="s2">&quot;Test 3&quot;</span><span class="p">,</span> <span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="p">)</span> <span class="c1"># Same as Test 2</span>
+</pre></div>
+</div>
+</section>
+<section id="example-3-modifying-and-manipulating-events">
+<h3><a class="toc-backref" href="#id5">Example 3 - Modifying and Manipulating Events</a><a class="headerlink" href="#example-3-modifying-and-manipulating-events" title="Permalink to this headline"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">date</span>
+<span class="linenos"> 2</span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="linenos"> 3</span><span class="n">app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;Calendar&quot;</span><span class="p">)</span>
+<span class="linenos"> 4</span>
+<span class="linenos"> 5</span><span class="n">calendar</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">default_calendar</span><span class="p">()</span>
+<span class="linenos"> 6</span><span class="n">calendar1</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">calendar</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="linenos"> 7</span><span class="n">event</span> <span class="o">=</span> <span class="n">calendar</span><span class="o">.</span><span class="n">events_today</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+<span class="linenos"> 8</span>
+<span class="linenos"> 9</span><span class="c1"># Modify event properties</span>
+<span class="linenos">10</span><span class="n">event</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s2">&quot;Title changed&quot;</span><span class="p">)</span>
+<span class="linenos">11</span>
+<span class="linenos">12</span><span class="n">new_start_date</span> <span class="o">=</span> <span class="n">date</span><span class="p">(</span><span class="mi">2022</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+<span class="linenos">13</span><span class="n">new_end_date</span> <span class="o">=</span> <span class="n">date</span><span class="p">(</span><span class="mi">2022</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span>
+<span class="linenos">14</span><span class="n">event</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;startDate&quot;</span><span class="p">,</span> <span class="n">new_start_date</span><span class="p">)</span>
+<span class="linenos">15</span><span class="n">event</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;endDate&quot;</span><span class="p">,</span> <span class="n">new_end_date</span><span class="p">)</span>
+<span class="linenos">16</span>
+<span class="linenos">17</span><span class="c1"># Execute event actions</span>
+<span class="linenos">18</span><span class="n">event</span><span class="o">.</span><span class="n">duplicate</span><span class="p">()</span>
+<span class="linenos">19</span><span class="n">event</span><span class="o">.</span><span class="n">copy_to</span><span class="p">(</span><span class="n">calendar1</span><span class="p">)</span>
+<span class="linenos">20</span><span class="n">event</span><span class="o">.</span><span class="n">move_to</span><span class="p">(</span><span class="n">calendar1</span><span class="p">)</span>
+<span class="linenos">21</span><span class="n">event</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="example-5-displaying-events-in-calendar-app">
+<h3><a class="toc-backref" href="#id6">Example 5 - Displaying Events in Calendar.app</a><a class="headerlink" href="#example-5-displaying-events-in-calendar-app" title="Permalink to this headline"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">date</span>
+<span class="linenos"> 2</span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="linenos"> 3</span><span class="n">app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;Calendar&quot;</span><span class="p">)</span>
+<span class="linenos"> 4</span>
+<span class="linenos"> 5</span><span class="n">calendar</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">default_calendar</span><span class="p">()</span>
+<span class="linenos"> 6</span><span class="n">calendar1</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">calendar</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="linenos"> 7</span><span class="n">event</span> <span class="o">=</span> <span class="n">calendar</span><span class="o">.</span><span class="n">events_today</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+<span class="linenos"> 8</span>
+<span class="linenos"> 9</span><span class="n">event</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="linenos">10</span><span class="n">app</span><span class="o">.</span><span class="n">switch_view_to</span><span class="p">(</span><span class="s2">&quot;day&quot;</span><span class="p">)</span>
+<span class="linenos">11</span><span class="n">app</span><span class="o">.</span><span class="n">switch_view_to</span><span class="p">(</span><span class="s2">&quot;week&quot;</span><span class="p">)</span>
+<span class="linenos">12</span><span class="n">app</span><span class="o">.</span><span class="n">switch_view_to</span><span class="p">(</span><span class="s2">&quot;month&quot;</span><span class="p">)</span>
+<span class="linenos">13</span><span class="n">app</span><span class="o">.</span><span class="n">view_calendar_at</span><span class="p">(</span><span class="n">date</span><span class="p">(</span><span class="mi">2022</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="linenos">14</span><span class="n">app</span><span class="o">.</span><span class="n">view_calendar_at</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">end_date</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="resources">
+<h2><a class="toc-backref" href="#id7">Resources</a><a class="headerlink" href="#resources" title="Permalink to this headline"></a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://support.apple.com/guide/calendar/welcome/mac">Calendar User Guide - Apple Support</a></p></li>
+</ul>
+</section>
+<section id="calendar-classes-and-methods">
+<h2><a class="toc-backref" href="#id8">Calendar Classes and Methods</a><a class="headerlink" href="#calendar-classes-and-methods" title="Permalink to this headline"></a></h2>
+<section id="classes">
+<h3><a class="toc-backref" href="#id9">Classes</a><a class="headerlink" href="#classes" title="Permalink to this headline"></a></h3>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../reference/apps/calendar.html#module-PyXA.apps.Calendar" title="PyXA.apps.Calendar"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PyXA.apps.Calendar</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../../../reference/apps/calendar.html#PyXA.apps.Calendar.XACalendarApplication" title="PyXA.apps.Calendar.XACalendarApplication"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XACalendarApplication</span></code></a></p></td>
+<td><p>A class for managing and interacting with scripting elements of the macOS Calendar application.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../reference/apps/calendar.html#PyXA.apps.Calendar.XACalendarAttachment" title="PyXA.apps.Calendar.XACalendarAttachment"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XACalendarAttachment</span></code></a></p></td>
+<td><p>A class for interacting with calendar event attachments.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../../../reference/apps/calendar.html#PyXA.apps.Calendar.XACalendarAttendee" title="PyXA.apps.Calendar.XACalendarAttendee"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XACalendarAttendee</span></code></a></p></td>
+<td><p>An event attendee in Calendar.app.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../reference/apps/calendar.html#PyXA.apps.Calendar.XACalendarEvent" title="PyXA.apps.Calendar.XACalendarEvent"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XACalendarEvent</span></code></a></p></td>
+<td><p>An event in Calendar.app.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../../../reference/apps/calendar.html#PyXA.apps.Calendar.XACalendarWindow" title="PyXA.apps.Calendar.XACalendarWindow"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XACalendarWindow</span></code></a></p></td>
+<td><p>A window of Calendar.app.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="xacalendar-methods">
+<h3><a class="toc-backref" href="#id10">XACalendar Methods</a><a class="headerlink" href="#xacalendar-methods" title="Permalink to this headline"></a></h3>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+</tbody>
+</table>
+</section>
+<section id="xacalendarapplication-methods">
+<h3><a class="toc-backref" href="#id11">XACalendarApplication Methods</a><a class="headerlink" href="#xacalendarapplication-methods" title="Permalink to this headline"></a></h3>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../reference/apps/calendar.html#PyXA.apps.Calendar.XACalendarApplication" title="PyXA.apps.Calendar.XACalendarApplication"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PyXA.apps.Calendar.XACalendarApplication</span></code></a></p></td>
+<td><p>A class for managing and interacting with scripting elements of the macOS Calendar application.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../../../reference/apps/calendar.html#PyXA.apps.Calendar.XACalendarApplication.calendars" title="PyXA.apps.Calendar.XACalendarApplication.calendars"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calendars</span></code></a></p></td>
+<td><p>Returns a list of calendars, as PyXA objects, matching the given filter.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../reference/apps/calendar.html#PyXA.apps.Calendar.XACalendarApplication.default_calendar" title="PyXA.apps.Calendar.XACalendarApplication.default_calendar"><code class="xref py py-obj docutils literal notranslate"><span class="pre">default_calendar</span></code></a></p></td>
+<td><p>The calendar that events are added to by default</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../../../reference/apps/calendar.html#PyXA.apps.Calendar.XACalendarApplication.new_calendar" title="PyXA.apps.Calendar.XACalendarApplication.new_calendar"><code class="xref py py-obj docutils literal notranslate"><span class="pre">new_calendar</span></code></a></p></td>
+<td><p>Creates a new calendar with the given name.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../reference/apps/calendar.html#PyXA.apps.Calendar.XACalendarApplication.new_event" title="PyXA.apps.Calendar.XACalendarApplication.new_event"><code class="xref py py-obj docutils literal notranslate"><span class="pre">new_event</span></code></a></p></td>
+<td><p>Creates a new event with the given name and start/end dates in the specified calendar.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../../../reference/apps/calendar.html#PyXA.apps.Calendar.XACalendarApplication.reload_calendars" title="PyXA.apps.Calendar.XACalendarApplication.reload_calendars"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reload_calendars</span></code></a></p></td>
+<td><p>Reloads the contents of all calendars.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../reference/apps/calendar.html#PyXA.apps.Calendar.XACalendarApplication.subscribe_to" title="PyXA.apps.Calendar.XACalendarApplication.subscribe_to"><code class="xref py py-obj docutils literal notranslate"><span class="pre">subscribe_to</span></code></a></p></td>
+<td><p>Subscribes to the calendar at the specified URL.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../../../reference/apps/calendar.html#PyXA.apps.Calendar.XACalendarApplication.switch_view_to" title="PyXA.apps.Calendar.XACalendarApplication.switch_view_to"><code class="xref py py-obj docutils literal notranslate"><span class="pre">switch_view_to</span></code></a></p></td>
+<td><p>Switches to the target calendar view.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../reference/apps/calendar.html#PyXA.apps.Calendar.XACalendarApplication.view_calendar_at" title="PyXA.apps.Calendar.XACalendarApplication.view_calendar_at"><code class="xref py py-obj docutils literal notranslate"><span class="pre">view_calendar_at</span></code></a></p></td>
+<td><p>Displays the calendar at the provided date.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="xacalendarevent-methods">
+<h3><a class="toc-backref" href="#id12">XACalendarEvent Methods</a><a class="headerlink" href="#xacalendarevent-methods" title="Permalink to this headline"></a></h3>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../reference/apps/calendar.html#PyXA.apps.Calendar.XACalendarEvent" title="PyXA.apps.Calendar.XACalendarEvent"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PyXA.apps.Calendar.XACalendarEvent</span></code></a></p></td>
+<td><p>An event in Calendar.app.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../../../reference/apps/calendar.html#PyXA.apps.Calendar.XACalendarEvent.add_attachment" title="PyXA.apps.Calendar.XACalendarEvent.add_attachment"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_attachment</span></code></a></p></td>
+<td><p>Adds the file at the specified path as an attachment to the event.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../reference/apps/calendar.html#PyXA.apps.Calendar.XACalendarEvent.attachments" title="PyXA.apps.Calendar.XACalendarEvent.attachments"><code class="xref py py-obj docutils literal notranslate"><span class="pre">attachments</span></code></a></p></td>
+<td><p>&quot;Returns a list of attachments, as PyXA objects, matching the given filter.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../../../reference/apps/calendar.html#PyXA.apps.Calendar.XACalendarEvent.attendees" title="PyXA.apps.Calendar.XACalendarEvent.attendees"><code class="xref py py-obj docutils literal notranslate"><span class="pre">attendees</span></code></a></p></td>
+<td><p>Returns a list of attendees, as PyXA objects, matching the given filter.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../reference/apps/calendar.html#PyXA.apps.Calendar.XACalendarEvent.delete" title="PyXA.apps.Calendar.XACalendarEvent.delete"><code class="xref py py-obj docutils literal notranslate"><span class="pre">delete</span></code></a></p></td>
+<td><p>Deletes the event.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../../../reference/apps/calendar.html#PyXA.apps.Calendar.XACalendarEvent.duplicate" title="PyXA.apps.Calendar.XACalendarEvent.duplicate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">duplicate</span></code></a></p></td>
+<td><p>Duplicates the event, placing the copy on the same calendar.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../reference/apps/calendar.html#PyXA.apps.Calendar.XACalendarEvent.move_to" title="PyXA.apps.Calendar.XACalendarEvent.move_to"><code class="xref py py-obj docutils literal notranslate"><span class="pre">move_to</span></code></a></p></td>
+<td><p>Moves this event to the specified calendar.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../../../reference/apps/calendar.html#PyXA.apps.Calendar.XACalendarEvent.show" title="PyXA.apps.Calendar.XACalendarEvent.show"><code class="xref py py-obj docutils literal notranslate"><span class="pre">show</span></code></a></p></td>
+<td><p>Shows the event in the front calendar window.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="xacalendarattachment-methods">
+<h3><a class="toc-backref" href="#id13">XACalendarAttachment Methods</a><a class="headerlink" href="#xacalendarattachment-methods" title="Permalink to this headline"></a></h3>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../reference/apps/calendar.html#PyXA.apps.Calendar.XACalendarAttachment" title="PyXA.apps.Calendar.XACalendarAttachment"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PyXA.apps.Calendar.XACalendarAttachment</span></code></a></p></td>
+<td><p>A class for interacting with calendar event attachments.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../../../reference/apps/calendar.html#PyXA.apps.Calendar.XACalendarAttachment.open" title="PyXA.apps.Calendar.XACalendarAttachment.open"><code class="xref py py-obj docutils literal notranslate"><span class="pre">open</span></code></a></p></td>
+<td><p>Opens the attachment in its default application.</p></td>
+</tr>
+</tbody>
+</table>
+<p>For all classes, methods, and inherited members on one page, see the <a class="reference internal" href="../../../reference/apps/calendar.html#module-PyXA.apps.Calendar"><span class="std std-ref">Calendar Module Reference</span></a></p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../calculator/index.html" class="btn btn-neutral float-left" title="Calculator Module Overview" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../console/index.html" class="btn btn-neutral float-right" title="Console Module Overview" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Stephen Kaplan.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

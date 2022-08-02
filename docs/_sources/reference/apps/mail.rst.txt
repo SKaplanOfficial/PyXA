@@ -1,5 +1,5 @@
-Mail Module
-===========
+Mail Module Reference
+=====================
 
 .. automodule:: PyXA.apps.Mail
    :members:

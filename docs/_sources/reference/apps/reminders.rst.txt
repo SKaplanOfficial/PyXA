@@ -1,5 +1,5 @@
-Reminders Module
-================
+Reminders Module Reference
+==========================
 
 .. automodule:: PyXA.apps.Reminders
    :members:

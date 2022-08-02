@@ -1,5 +1,5 @@
-Terminal Module
-===============
+Terminal Module Reference
+=========================
 
 .. automodule:: PyXA.apps.Terminal
    :members:

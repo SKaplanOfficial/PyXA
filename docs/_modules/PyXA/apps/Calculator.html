@@ -39,6 +39,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../about/index.html">Project Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/apps/index.html">Application Modules</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../reference/index.html">Code Documentation and Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../bugs.html">Bugs</a></li>
 </ul>
@@ -75,7 +76,7 @@
 
 <span class="kn">from</span> <span class="nn">PyXA</span> <span class="kn">import</span> <span class="n">XABase</span>
 
-<div class="viewcode-block" id="XACalculatorApplication"><a class="viewcode-back" href="../../../reference/api/apps/calculator/XACalculatorApplication/PyXA.apps.Calculator.XACalculatorApplication.html#PyXA.apps.Calculator.XACalculatorApplication">[docs]</a><span class="k">class</span> <span class="nc">XACalculatorApplication</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAApplication</span><span class="p">):</span>
+<div class="viewcode-block" id="XACalculatorApplication"><a class="viewcode-back" href="../../../reference/apps/calculator.html#PyXA.apps.Calculator.XACalculatorApplication">[docs]</a><span class="k">class</span> <span class="nc">XACalculatorApplication</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAApplication</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A class for managing and interacting with Calculator.app.</span>
 
 <span class="sd">    .. versionadded:: 0.0.2</span>
@@ -114,7 +115,7 @@
 
     <span class="c1">## Menu Bar</span>
     <span class="c1"># Calculator Menu</span>
-<div class="viewcode-block" id="XACalculatorApplication.open_about_panel"><a class="viewcode-back" href="../../../reference/api/apps/calculator/XACalculatorApplication/PyXA.apps.Calculator.XACalculatorApplication.open_about_panel.html#PyXA.apps.Calculator.XACalculatorApplication.open_about_panel">[docs]</a>    <span class="k">def</span> <span class="nf">open_about_panel</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="XACalculatorApplication.open_about_panel"><a class="viewcode-back" href="../../../reference/apps/calculator.html#PyXA.apps.Calculator.XACalculatorApplication.open_about_panel">[docs]</a>    <span class="k">def</span> <span class="nf">open_about_panel</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Opens the &quot;About Calculator&quot; panel. Mimics clicking File-&gt;About Calculator.</span>
 
 <span class="sd">        .. versionadded:: 0.0.2</span>
@@ -122,21 +123,21 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">menu_bars</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">menu_bar_items</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">menus</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">menu_items</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">press</span><span class="p">()</span></div>
 
     <span class="c1"># File Menu</span>
-<div class="viewcode-block" id="XACalculatorApplication.save_tape"><a class="viewcode-back" href="../../../reference/api/apps/calculator/XACalculatorApplication/PyXA.apps.Calculator.XACalculatorApplication.save_tape.html#PyXA.apps.Calculator.XACalculatorApplication.save_tape">[docs]</a>    <span class="k">def</span> <span class="nf">save_tape</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="XACalculatorApplication.save_tape"><a class="viewcode-back" href="../../../reference/apps/calculator.html#PyXA.apps.Calculator.XACalculatorApplication.save_tape">[docs]</a>    <span class="k">def</span> <span class="nf">save_tape</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Opens the &quot;save tape&quot; dialog. Mimics clicking File-&gt;Save Tape As...</span>
 
 <span class="sd">        .. versionadded:: 0.0.2</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">menu_bars</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">menu_bar_items</span><span class="p">()[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">menus</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">menu_items</span><span class="p">()[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">press</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="XACalculatorApplication.open_page_setup"><a class="viewcode-back" href="../../../reference/api/apps/calculator/XACalculatorApplication/PyXA.apps.Calculator.XACalculatorApplication.open_page_setup.html#PyXA.apps.Calculator.XACalculatorApplication.open_page_setup">[docs]</a>    <span class="k">def</span> <span class="nf">open_page_setup</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="XACalculatorApplication.open_page_setup"><a class="viewcode-back" href="../../../reference/apps/calculator.html#PyXA.apps.Calculator.XACalculatorApplication.open_page_setup">[docs]</a>    <span class="k">def</span> <span class="nf">open_page_setup</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Opens the page setup dialog. Mimics clicking File-&gt;Page Setup...</span>
 
 <span class="sd">        .. versionadded:: 0.0.2</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">menu_bars</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">menu_bar_items</span><span class="p">()[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">menus</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">menu_items</span><span class="p">()[</span><span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">press</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="XACalculatorApplication.print_tape"><a class="viewcode-back" href="../../../reference/api/apps/calculator/XACalculatorApplication/PyXA.apps.Calculator.XACalculatorApplication.print_tape.html#PyXA.apps.Calculator.XACalculatorApplication.print_tape">[docs]</a>    <span class="k">def</span> <span class="nf">print_tape</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="XACalculatorApplication.print_tape"><a class="viewcode-back" href="../../../reference/apps/calculator.html#PyXA.apps.Calculator.XACalculatorApplication.print_tape">[docs]</a>    <span class="k">def</span> <span class="nf">print_tape</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Opens the print tape dialog. Mimics clicking File-&gt;Print Tape...</span>
 
 <span class="sd">        .. versionadded:: 0.0.2</span>
@@ -144,7 +145,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">menu_bars</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">menu_bar_items</span><span class="p">()[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">menus</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">menu_items</span><span class="p">()[</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">press</span><span class="p">()</span></div>
 
     <span class="c1"># Edit Menu</span>
-<div class="viewcode-block" id="XACalculatorApplication.copy_value"><a class="viewcode-back" href="../../../reference/api/apps/calculator/XACalculatorApplication/PyXA.apps.Calculator.XACalculatorApplication.copy_value.html#PyXA.apps.Calculator.XACalculatorApplication.copy_value">[docs]</a>    <span class="k">def</span> <span class="nf">copy_value</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="XACalculatorApplication.copy_value"><a class="viewcode-back" href="../../../reference/apps/calculator.html#PyXA.apps.Calculator.XACalculatorApplication.copy_value">[docs]</a>    <span class="k">def</span> <span class="nf">copy_value</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Copies the current value of the calculator result. Mimics clicking Edit-&gt;Copy.</span>
 
 <span class="sd">        .. versionadded:: 0.0.2</span>
@@ -152,35 +153,35 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">menu_bars</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">menu_bar_items</span><span class="p">()[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">menus</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">menu_items</span><span class="p">()[</span><span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">press</span><span class="p">()</span></div>
 
     <span class="c1"># View Menu</span>
-<div class="viewcode-block" id="XACalculatorApplication.show_basic_calculator"><a class="viewcode-back" href="../../../reference/api/apps/calculator/XACalculatorApplication/PyXA.apps.Calculator.XACalculatorApplication.show_basic_calculator.html#PyXA.apps.Calculator.XACalculatorApplication.show_basic_calculator">[docs]</a>    <span class="k">def</span> <span class="nf">show_basic_calculator</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="XACalculatorApplication.show_basic_calculator"><a class="viewcode-back" href="../../../reference/apps/calculator.html#PyXA.apps.Calculator.XACalculatorApplication.show_basic_calculator">[docs]</a>    <span class="k">def</span> <span class="nf">show_basic_calculator</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Switches the view to the basic calculator. Mimics clicking View-&gt;Basic.</span>
 
 <span class="sd">        .. versionadded:: 0.0.2</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">menu_bars</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">menu_bar_items</span><span class="p">()[</span><span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">menus</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">menu_items</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">press</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="XACalculatorApplication.show_scientific_calculator"><a class="viewcode-back" href="../../../reference/api/apps/calculator/XACalculatorApplication/PyXA.apps.Calculator.XACalculatorApplication.show_scientific_calculator.html#PyXA.apps.Calculator.XACalculatorApplication.show_scientific_calculator">[docs]</a>    <span class="k">def</span> <span class="nf">show_scientific_calculator</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="XACalculatorApplication.show_scientific_calculator"><a class="viewcode-back" href="../../../reference/apps/calculator.html#PyXA.apps.Calculator.XACalculatorApplication.show_scientific_calculator">[docs]</a>    <span class="k">def</span> <span class="nf">show_scientific_calculator</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Switches the view to the scientific calculator. Mimics clicking View-&gt;Scientific.</span>
 
 <span class="sd">        .. versionadded:: 0.0.2</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">menu_bars</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">menu_bar_items</span><span class="p">()[</span><span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">menus</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">menu_items</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">press</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="XACalculatorApplication.show_programmer_calculator"><a class="viewcode-back" href="../../../reference/api/apps/calculator/XACalculatorApplication/PyXA.apps.Calculator.XACalculatorApplication.show_programmer_calculator.html#PyXA.apps.Calculator.XACalculatorApplication.show_programmer_calculator">[docs]</a>    <span class="k">def</span> <span class="nf">show_programmer_calculator</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="XACalculatorApplication.show_programmer_calculator"><a class="viewcode-back" href="../../../reference/apps/calculator.html#PyXA.apps.Calculator.XACalculatorApplication.show_programmer_calculator">[docs]</a>    <span class="k">def</span> <span class="nf">show_programmer_calculator</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Switches the view to the programmer calculator. Mimics clicking View-&gt;Programmer.</span>
 
 <span class="sd">        .. versionadded:: 0.0.2</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">menu_bars</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">menu_bar_items</span><span class="p">()[</span><span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">menus</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">menu_items</span><span class="p">()[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">press</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="XACalculatorApplication.toggle_thousands_separators"><a class="viewcode-back" href="../../../reference/api/apps/calculator/XACalculatorApplication/PyXA.apps.Calculator.XACalculatorApplication.toggle_thousands_separators.html#PyXA.apps.Calculator.XACalculatorApplication.toggle_thousands_separators">[docs]</a>    <span class="k">def</span> <span class="nf">toggle_thousands_separators</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="XACalculatorApplication.toggle_thousands_separators"><a class="viewcode-back" href="../../../reference/apps/calculator.html#PyXA.apps.Calculator.XACalculatorApplication.toggle_thousands_separators">[docs]</a>    <span class="k">def</span> <span class="nf">toggle_thousands_separators</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Toggles whether comma separators are shown at thousand intervals. Mimics clicking View-&gt;Show Thousands Separators.</span>
 
 <span class="sd">        .. versionadded:: 0.0.2</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">menu_bars</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">menu_bar_items</span><span class="p">()[</span><span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">menus</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">menu_items</span><span class="p">()[</span><span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">press</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="XACalculatorApplication.toggle_RPN_mode"><a class="viewcode-back" href="../../../reference/api/apps/calculator/XACalculatorApplication/PyXA.apps.Calculator.XACalculatorApplication.toggle_RPN_mode.html#PyXA.apps.Calculator.XACalculatorApplication.toggle_RPN_mode">[docs]</a>    <span class="k">def</span> <span class="nf">toggle_RPN_mode</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="XACalculatorApplication.toggle_RPN_mode"><a class="viewcode-back" href="../../../reference/apps/calculator.html#PyXA.apps.Calculator.XACalculatorApplication.toggle_RPN_mode">[docs]</a>    <span class="k">def</span> <span class="nf">toggle_RPN_mode</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Toggles Reverse Polish Notation. Mimics clicking View-&gt;RPN Mode.</span>
 
 <span class="sd">        .. versionadded:: 0.0.2</span>
@@ -188,7 +189,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">menu_bars</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">menu_bar_items</span><span class="p">()[</span><span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">menus</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">menu_items</span><span class="p">()[</span><span class="mi">6</span><span class="p">]</span><span class="o">.</span><span class="n">press</span><span class="p">()</span></div>
 
     <span class="c1"># Window Menu</span>
-<div class="viewcode-block" id="XACalculatorApplication.show_paper_tape"><a class="viewcode-back" href="../../../reference/api/apps/calculator/XACalculatorApplication/PyXA.apps.Calculator.XACalculatorApplication.show_paper_tape.html#PyXA.apps.Calculator.XACalculatorApplication.show_paper_tape">[docs]</a>    <span class="k">def</span> <span class="nf">show_paper_tape</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="XACalculatorApplication.show_paper_tape"><a class="viewcode-back" href="../../../reference/apps/calculator.html#PyXA.apps.Calculator.XACalculatorApplication.show_paper_tape">[docs]</a>    <span class="k">def</span> <span class="nf">show_paper_tape</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Opens the paper tape window. Mimics clicking Window-&gt;Show Paper Tape.</span>
 
 <span class="sd">        .. versionadded:: 0.0.2</span>
@@ -196,7 +197,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">menu_bars</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">menu_bar_items</span><span class="p">()[</span><span class="mi">7</span><span class="p">]</span><span class="o">.</span><span class="n">menus</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">menu_items</span><span class="p">()[</span><span class="mi">6</span><span class="p">]</span><span class="o">.</span><span class="n">press</span><span class="p">()</span></div>
 
     <span class="c1"># Help Menu</span>
-<div class="viewcode-block" id="XACalculatorApplication.show_help"><a class="viewcode-back" href="../../../reference/api/apps/calculator/XACalculatorApplication/PyXA.apps.Calculator.XACalculatorApplication.show_help.html#PyXA.apps.Calculator.XACalculatorApplication.show_help">[docs]</a>    <span class="k">def</span> <span class="nf">show_help</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="XACalculatorApplication.show_help"><a class="viewcode-back" href="../../../reference/apps/calculator.html#PyXA.apps.Calculator.XACalculatorApplication.show_help">[docs]</a>    <span class="k">def</span> <span class="nf">show_help</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Opens the Calculator help window. Mimics clicking Help-&gt;Calculator Help.add()</span>
 
 <span class="sd">        .. versionadded:: 0.0.2</span>
@@ -204,7 +205,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">menu_bars</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">menu_bar_items</span><span class="p">()[</span><span class="mi">8</span><span class="p">]</span><span class="o">.</span><span class="n">menus</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">menu_items</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">press</span><span class="p">()</span></div>
 
     <span class="c1"># Actions</span>
-<div class="viewcode-block" id="XACalculatorApplication.clear_value"><a class="viewcode-back" href="../../../reference/api/apps/calculator/XACalculatorApplication/PyXA.apps.Calculator.XACalculatorApplication.clear_value.html#PyXA.apps.Calculator.XACalculatorApplication.clear_value">[docs]</a>    <span class="k">def</span> <span class="nf">clear_value</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="XACalculatorApplication.clear_value"><a class="viewcode-back" href="../../../reference/apps/calculator.html#PyXA.apps.Calculator.XACalculatorApplication.clear_value">[docs]</a>    <span class="k">def</span> <span class="nf">clear_value</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Clears the current calculator output. Mimics clicking the &quot;C&quot; (clear) button.</span>
 
 <span class="sd">        .. versionadded:: 0.0.2</span>
@@ -213,7 +214,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">__load_buttons</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">xa_btns</span><span class="p">[</span><span class="s2">&quot;c&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">press</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="XACalculatorApplication.input"><a class="viewcode-back" href="../../../reference/api/apps/calculator/XACalculatorApplication/PyXA.apps.Calculator.XACalculatorApplication.input.html#PyXA.apps.Calculator.XACalculatorApplication.input">[docs]</a>    <span class="k">def</span> <span class="nf">input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sequence</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<div class="viewcode-block" id="XACalculatorApplication.input"><a class="viewcode-back" href="../../../reference/apps/calculator.html#PyXA.apps.Calculator.XACalculatorApplication.input">[docs]</a>    <span class="k">def</span> <span class="nf">input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sequence</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Inputs a sequence of numbers and operations into the calculator by mimicking button clicks.</span>
 
 <span class="sd">        This method does not obtain the result of the input. For that, use :func:`current_value`. </span>
@@ -244,7 +245,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">xa_btns</span><span class="p">[</span><span class="n">symbol</span><span class="p">]</span><span class="o">.</span><span class="n">press</span><span class="p">()</span></div>
 
     <span class="c1"># Misc Methods</span>
-<div class="viewcode-block" id="XACalculatorApplication.current_value"><a class="viewcode-back" href="../../../reference/api/apps/calculator/XACalculatorApplication/PyXA.apps.Calculator.XACalculatorApplication.current_value.html#PyXA.apps.Calculator.XACalculatorApplication.current_value">[docs]</a>    <span class="k">def</span> <span class="nf">current_value</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<div class="viewcode-block" id="XACalculatorApplication.current_value"><a class="viewcode-back" href="../../../reference/apps/calculator.html#PyXA.apps.Calculator.XACalculatorApplication.current_value">[docs]</a>    <span class="k">def</span> <span class="nf">current_value</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Retrieves the current value of the calculator output.</span>
 
 <span class="sd">        :return: The calculator&#39;s current displayed value</span>

@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Automator Module &mdash; PyXA 0.0.5 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Calculator Module Overview" href="../calculator/index.html" />
+    <link rel="prev" title="Application Modules" href="../index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> PyXA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../about/index.html">Project Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Application Modules</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html#first-party-application-modules">First-Party Application Modules</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Automator Module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#automator-tutorials">Automator Tutorials</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#automator-examples">Automator Examples</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#automator-resources">Automator Resources</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#automator-classes-and-methods">Automator Classes and Methods</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../calculator/index.html">Calculator Module Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../calendar/index.html">Calendar Module Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../console/index.html">Console Module Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../contacts/index.html">Contacts Module Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../dictionary/index.html">Dictionary Module Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../finder/index.html">Finder Module Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../fontbook/index.html">Font Book Module Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../keynote/index.html">Keynote Module Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../mail/index.html">Mail Module Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../maps/index.html">Maps Module Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../messages/index.html">Messages Module Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../music/index.html">Music Module Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../notes/index.html">Notes Module Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/index.html">Pages Module Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../photos/index.html">Photos Module Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../preview/index.html">Preview Module Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../quicktimeplayer/index.html">QuickTime Module Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reminders/index.html">Reminders Module Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../safari/index.html">Safari Module Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../shortcuts/index.html">Shortcuts Module Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../stocks/index.html">Stocks Module Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../systempreferences/index.html">System Preferences Module Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../terminal/index.html">Terminal Module Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../textedit/index.html">TextEdit Module Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tv/index.html">TV Module Overview</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#third-party-application-modules">Third-Party Application Modules</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reference/index.html">Code Documentation and Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../bugs.html">Bugs</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">PyXA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">Application Modules</a> &raquo;</li>
+      <li>Automator Module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/tutorial/apps/automator/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="automator-module">
+<h1>Automator Module<a class="headerlink" href="#automator-module" title="Permalink to this headline"></a></h1>
+<div class="contents local topic" id="table-of-contents">
+<p class="topic-title">Table of Contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#overview" id="id3">Overview</a></p></li>
+<li><p><a class="reference internal" href="#automator-tutorials" id="id4">Automator Tutorials</a></p></li>
+<li><p><a class="reference internal" href="#automator-examples" id="id5">Automator Examples</a></p>
+<ul>
+<li><p><a class="reference internal" href="#example-1-creating-workflows-from-scratch" id="id6">Example 1 - Creating workflows from scratch</a></p></li>
+<li><p><a class="reference internal" href="#example-2-running-existing-workflows" id="id7">Example 2 - Running existing workflows</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#automator-resources" id="id8">Automator Resources</a></p></li>
+<li><p><a class="reference internal" href="#automator-classes-and-methods" id="id9">Automator Classes and Methods</a></p>
+<ul>
+<li><p><a class="reference internal" href="#classes" id="id10">Classes</a></p></li>
+<li><p><a class="reference internal" href="#xaautomatorapplication-enums" id="id11">XAAutomatorApplication Enums</a></p></li>
+<li><p><a class="reference internal" href="#xaautomatorapplication-methods" id="id12">XAAutomatorApplication Methods</a></p></li>
+<li><p><a class="reference internal" href="#xaautomatordocumentlist-methods" id="id13">XAAutomatorDocumentList Methods</a></p></li>
+<li><p><a class="reference internal" href="#xaautomatoractionlist-methods" id="id14">XAAutomatorActionList Methods</a></p></li>
+<li><p><a class="reference internal" href="#xaautomatoraction-methods" id="id15">XAAutomatorAction Methods</a></p></li>
+<li><p><a class="reference internal" href="#xaautomatorrequiredresourcelist-methods" id="id16">XAAutomatorRequiredResourceList Methods</a></p></li>
+<li><p><a class="reference internal" href="#xaautomatorsettinglist-methods" id="id17">XAAutomatorSettingList Methods</a></p></li>
+<li><p><a class="reference internal" href="#xaautomatorvariablelist-methods" id="id18">XAAutomatorVariableList Methods</a></p></li>
+<li><p><a class="reference internal" href="#xaautomatorworkflowlist-methods" id="id19">XAAutomatorWorkflowList Methods</a></p></li>
+<li><p><a class="reference internal" href="#xaautomatorworkflow-methods" id="id20">XAAutomatorWorkflow Methods</a></p></li>
+</ul>
+</li>
+</ul>
+</div>
+<section id="overview">
+<h2><a class="toc-backref" href="#id3">Overview</a><a class="headerlink" href="#overview" title="Permalink to this headline"></a></h2>
+<p>PyXA supports all of Automator’s OSA features, including but not limited to creating and executing workflows, managing Automator actions and their settings, and interacting with execution return values. PyXA can create workflows and variables, assign and arrange actions, and modify the attributes thereof. PyXA can also observe the execution of  workflow files, allowing you to use existing automation workflows aongside PyXA and Python in general.</p>
+</section>
+<section id="automator-tutorials">
+<h2><a class="toc-backref" href="#id4">Automator Tutorials</a><a class="headerlink" href="#automator-tutorials" title="Permalink to this headline"></a></h2>
+<p>There is currently one tutorial for the Automator module:</p>
+<div class="toctree-wrapper compound">
+</div>
+</section>
+<section id="automator-examples">
+<h2><a class="toc-backref" href="#id5">Automator Examples</a><a class="headerlink" href="#automator-examples" title="Permalink to this headline"></a></h2>
+<p>The examples below provide an overview of the capabilities of the Automator module.</p>
+<section id="example-1-creating-workflows-from-scratch">
+<h3><a class="toc-backref" href="#id6">Example 1 - Creating workflows from scratch</a><a class="headerlink" href="#example-1-creating-workflows-from-scratch" title="Permalink to this headline"></a></h3>
+<p>The example below creates a workflow that displays a notification, waits five seconds, then starts the screen saver. The process for creating workflows begins with making a new workflow object, adding it to the list of workflows, and saving it to the disk. Without saving here, you may encounter errors as some methods and actions require access to the workflow file. With an empty workflow created, the next step is to add actions, which is most easily done by name. Next, you must retrieve a mutable form of the actions; you can think of the original ones as a template that you’ve now made a copy of. From there, you can change the value of settings however you desire.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="linenos"> 2</span><span class="n">app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;Automator&quot;</span><span class="p">)</span>
+<span class="linenos"> 3</span>
+<span class="linenos"> 4</span><span class="c1"># Create and save a new workflow</span>
+<span class="linenos"> 5</span><span class="n">new_workflow</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">make</span><span class="p">(</span><span class="s2">&quot;workflow&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;New Workflow&quot;</span><span class="p">})</span>
+<span class="linenos"> 6</span><span class="n">app</span><span class="o">.</span><span class="n">workflows</span><span class="p">()</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="n">new_workflow</span><span class="p">)</span>
+<span class="linenos"> 7</span><span class="n">new_workflow</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+<span class="linenos"> 8</span>
+<span class="linenos"> 9</span><span class="c1"># Add actions to the workflow</span>
+<span class="linenos">10</span><span class="n">action1</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">automator_actions</span><span class="p">()</span><span class="o">.</span><span class="n">by_name</span><span class="p">(</span><span class="s2">&quot;Display Notification&quot;</span><span class="p">)</span>
+<span class="linenos">11</span><span class="n">action2</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">automator_actions</span><span class="p">()</span><span class="o">.</span><span class="n">by_name</span><span class="p">(</span><span class="s2">&quot;Pause&quot;</span><span class="p">)</span>
+<span class="linenos">12</span><span class="n">action3</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">automator_actions</span><span class="p">()</span><span class="o">.</span><span class="n">by_name</span><span class="p">(</span><span class="s2">&quot;Start Screen Saver&quot;</span><span class="p">)</span>
+<span class="linenos">13</span><span class="n">app</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">action1</span><span class="p">,</span> <span class="n">new_workflow</span><span class="p">)</span>
+<span class="linenos">14</span><span class="n">app</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">action2</span><span class="p">,</span> <span class="n">new_workflow</span><span class="p">)</span>
+<span class="linenos">15</span><span class="n">app</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">action3</span><span class="p">,</span> <span class="n">new_workflow</span><span class="p">)</span>
+<span class="linenos">16</span>
+<span class="linenos">17</span><span class="c1"># Obtain actions in mutable form and change their settings</span>
+<span class="linenos">18</span><span class="n">actions</span> <span class="o">=</span> <span class="n">new_workflow</span><span class="o">.</span><span class="n">automator_actions</span><span class="p">()</span>
+<span class="linenos">19</span><span class="n">notification_text</span> <span class="o">=</span> <span class="n">actions</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">settings</span><span class="p">()</span><span class="o">.</span><span class="n">by_name</span><span class="p">(</span><span class="s2">&quot;title&quot;</span><span class="p">)</span>
+<span class="linenos">20</span><span class="n">notification_text</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;value&quot;</span><span class="p">,</span> <span class="s2">&quot;PyXA Notification&quot;</span><span class="p">)</span>
+<span class="linenos">21</span>
+<span class="linenos">22</span><span class="n">pause_duration</span> <span class="o">=</span> <span class="n">actions</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">settings</span><span class="p">()</span><span class="o">.</span><span class="n">by_name</span><span class="p">(</span><span class="s2">&quot;pauseDuration&quot;</span><span class="p">)</span>
+<span class="linenos">23</span><span class="n">pause_duration</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;value&quot;</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="linenos">24</span>
+<span class="linenos">25</span><span class="c1"># Run the workflow</span>
+<span class="linenos">26</span><span class="n">new_workflow</span><span class="o">.</span><span class="n">execute</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="example-2-running-existing-workflows">
+<h3><a class="toc-backref" href="#id7">Example 2 - Running existing workflows</a><a class="headerlink" href="#example-2-running-existing-workflows" title="Permalink to this headline"></a></h3>
+<p>In the short example below, we open an existing workflow file, run it, and display the execution’s results.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="linenos">2</span><span class="n">app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;Automator&quot;</span><span class="p">)</span>
+<span class="linenos">3</span>
+<span class="linenos">4</span><span class="n">app</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;/Users/exampleuser/Downloads/Example.workflow&quot;</span><span class="p">)</span>
+<span class="linenos">5</span><span class="n">workflow</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">workflows</span><span class="p">()</span><span class="o">.</span><span class="n">by_name</span><span class="p">(</span><span class="s2">&quot;Example.workflow&quot;</span><span class="p">)</span>
+<span class="linenos">6</span><span class="n">workflow</span><span class="o">.</span><span class="n">execute</span><span class="p">()</span>
+<span class="linenos">7</span>
+<span class="linenos">8</span><span class="nb">print</span><span class="p">(</span><span class="n">workflow</span><span class="o">.</span><span class="n">execution_result</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="automator-resources">
+<h2><a class="toc-backref" href="#id8">Automator Resources</a><a class="headerlink" href="#automator-resources" title="Permalink to this headline"></a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://support.apple.com/guide/automator/welcome/mac">Automator User Guide - Apple Support</a></p></li>
+</ul>
+</section>
+<section id="automator-classes-and-methods">
+<h2><a class="toc-backref" href="#id9">Automator Classes and Methods</a><a class="headerlink" href="#automator-classes-and-methods" title="Permalink to this headline"></a></h2>
+<section id="classes">
+<h3><a class="toc-backref" href="#id10">Classes</a><a class="headerlink" href="#classes" title="Permalink to this headline"></a></h3>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#module-PyXA.apps.Automator" title="PyXA.apps.Automator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PyXA.apps.Automator</span></code></a></p></td>
+<td><p><div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.4.</span></p>
+</div>
+</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorApplication" title="PyXA.apps.Automator.XAAutomatorApplication"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAAutomatorApplication</span></code></a></p></td>
+<td><p>A class for managing and interacting with Automator.app.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorDocumentList" title="PyXA.apps.Automator.XAAutomatorDocumentList"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAAutomatorDocumentList</span></code></a></p></td>
+<td><p>A wrapper around a list of Automator documents which utilizes fast enumeration techniques.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorDocument" title="PyXA.apps.Automator.XAAutomatorDocument"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAAutomatorDocument</span></code></a></p></td>
+<td><p>A class for managing and interacting with Automator windows.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList" title="PyXA.apps.Automator.XAAutomatorActionList"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAAutomatorActionList</span></code></a></p></td>
+<td><p>A wrapper around a list of Automator required resources which utilizes fast enumeration techniques.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorAction" title="PyXA.apps.Automator.XAAutomatorAction"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAAutomatorAction</span></code></a></p></td>
+<td><p>A class for managing and interacting with actions in Automator.app.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorRequiredResourceList" title="PyXA.apps.Automator.XAAutomatorRequiredResourceList"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAAutomatorRequiredResourceList</span></code></a></p></td>
+<td><p>A wrapper around a list of Automator required resources which utilizes fast enumeration techniques.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorRequiredResource" title="PyXA.apps.Automator.XAAutomatorRequiredResource"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAAutomatorRequiredResource</span></code></a></p></td>
+<td><p>A class for managing and interacting with required resources in Automator.app.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorSettingList" title="PyXA.apps.Automator.XAAutomatorSettingList"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAAutomatorSettingList</span></code></a></p></td>
+<td><p>A wrapper around a list of Automator settings which utilizes fast enumeration techniques.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorSetting" title="PyXA.apps.Automator.XAAutomatorSetting"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAAutomatorSetting</span></code></a></p></td>
+<td><p>A class for managing and interacting with Automator settings (i.e.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorVariableList" title="PyXA.apps.Automator.XAAutomatorVariableList"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAAutomatorVariableList</span></code></a></p></td>
+<td><p>A wrapper around a list of Automator variables which utilizes fast enumeration techniques.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorVariable" title="PyXA.apps.Automator.XAAutomatorVariable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAAutomatorVariable</span></code></a></p></td>
+<td><p>A class for managing and interacting with Automator variables.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorWorkflowList" title="PyXA.apps.Automator.XAAutomatorWorkflowList"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAAutomatorWorkflowList</span></code></a></p></td>
+<td><p>A wrapper around a list of Automator workflows which utilizes fast enumeration techniques.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorWorkflow" title="PyXA.apps.Automator.XAAutomatorWorkflow"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAAutomatorWorkflow</span></code></a></p></td>
+<td><p>A class for managing and interacting with Automator workflows.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorWindow" title="PyXA.apps.Automator.XAAutomatorWindow"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAAutomatorWindow</span></code></a></p></td>
+<td><p>A class for managing and interacting with Automator windows.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="xaautomatorapplication-enums">
+<h3><a class="toc-backref" href="#id11">XAAutomatorApplication Enums</a><a class="headerlink" href="#xaautomatorapplication-enums" title="Permalink to this headline"></a></h3>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorApplication" title="PyXA.apps.Automator.XAAutomatorApplication"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PyXA.apps.Automator.XAAutomatorApplication</span></code></a></p></td>
+<td><p>A class for managing and interacting with Automator.app.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorApplication.SaveOption" title="PyXA.apps.Automator.XAAutomatorApplication.SaveOption"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SaveOption</span></code></a></p></td>
+<td><p>Options for whether to save documents when closing them.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorApplication.WarningLevel" title="PyXA.apps.Automator.XAAutomatorApplication.WarningLevel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WarningLevel</span></code></a></p></td>
+<td><p>Options for warning level in regard to likelihood of data loss.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorApplication.PrintErrorHandling" title="PyXA.apps.Automator.XAAutomatorApplication.PrintErrorHandling"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PrintErrorHandling</span></code></a></p></td>
+<td><p>Options for how to handle errors while printing.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="xaautomatorapplication-methods">
+<h3><a class="toc-backref" href="#id12">XAAutomatorApplication Methods</a><a class="headerlink" href="#xaautomatorapplication-methods" title="Permalink to this headline"></a></h3>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorApplication" title="PyXA.apps.Automator.XAAutomatorApplication"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PyXA.apps.Automator.XAAutomatorApplication</span></code></a></p></td>
+<td><p>A class for managing and interacting with Automator.app.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorApplication.add" title="PyXA.apps.Automator.XAAutomatorApplication.add"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add</span></code></a></p></td>
+<td><p>Adds the specified action to a workflow at the specified index.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorApplication.documents" title="PyXA.apps.Automator.XAAutomatorApplication.documents"><code class="xref py py-obj docutils literal notranslate"><span class="pre">documents</span></code></a></p></td>
+<td><p>Returns a list of documents, as PyXA objects, matching the given filter.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorApplication.automator_actions" title="PyXA.apps.Automator.XAAutomatorApplication.automator_actions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">automator_actions</span></code></a></p></td>
+<td><p>Returns a list of Automator actions, as PyXA objects, matching the given filter.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorApplication.variables" title="PyXA.apps.Automator.XAAutomatorApplication.variables"><code class="xref py py-obj docutils literal notranslate"><span class="pre">variables</span></code></a></p></td>
+<td><p>Returns a list of Automator variables, as PyXA objects, matching the given filter.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorApplication.workflows" title="PyXA.apps.Automator.XAAutomatorApplication.workflows"><code class="xref py py-obj docutils literal notranslate"><span class="pre">workflows</span></code></a></p></td>
+<td><p>Returns a list of Automator workflows, as PyXA objects, matching the given filter.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorApplication.make" title="PyXA.apps.Automator.XAAutomatorApplication.make"><code class="xref py py-obj docutils literal notranslate"><span class="pre">make</span></code></a></p></td>
+<td><p>Creates a new element of the given specifier class without adding it to any list.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="xaautomatordocumentlist-methods">
+<h3><a class="toc-backref" href="#id13">XAAutomatorDocumentList Methods</a><a class="headerlink" href="#xaautomatordocumentlist-methods" title="Permalink to this headline"></a></h3>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorDocumentList.id" title="PyXA.apps.Automator.XAAutomatorDocumentList.id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">id</span></code></a></p></td>
+<td><p>Retrieves the ID of each document in the list.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorDocumentList.title" title="PyXA.apps.Automator.XAAutomatorDocumentList.title"><code class="xref py py-obj docutils literal notranslate"><span class="pre">title</span></code></a></p></td>
+<td><p>Retrieves the title of each document in the list.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorDocumentList.index" title="PyXA.apps.Automator.XAAutomatorDocumentList.index"><code class="xref py py-obj docutils literal notranslate"><span class="pre">index</span></code></a></p></td>
+<td><p>Retrieves the index of each document in the list.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorDocumentList.by_id" title="PyXA.apps.Automator.XAAutomatorDocumentList.by_id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_id</span></code></a></p></td>
+<td><p>Retrieves the document whose ID matches the given ID, if one exists.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorDocumentList.by_title" title="PyXA.apps.Automator.XAAutomatorDocumentList.by_title"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_title</span></code></a></p></td>
+<td><p>Retrieves the first document whose title matches the given title, if one exists.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorDocumentList.by_index" title="PyXA.apps.Automator.XAAutomatorDocumentList.by_index"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_index</span></code></a></p></td>
+<td><p>Retrieves the document whose index matches the given index, if one exists.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="xaautomatoractionlist-methods">
+<h3><a class="toc-backref" href="#id14">XAAutomatorActionList Methods</a><a class="headerlink" href="#xaautomatoractionlist-methods" title="Permalink to this headline"></a></h3>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList" title="PyXA.apps.Automator.XAAutomatorActionList"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PyXA.apps.Automator.XAAutomatorActionList</span></code></a></p></td>
+<td><p>A wrapper around a list of Automator required resources which utilizes fast enumeration techniques.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.bundle_id" title="PyXA.apps.Automator.XAAutomatorActionList.bundle_id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bundle_id</span></code></a></p></td>
+<td><p>Retrieves the bundle identifier of each action in the list.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.category" title="PyXA.apps.Automator.XAAutomatorActionList.category"><code class="xref py py-obj docutils literal notranslate"><span class="pre">category</span></code></a></p></td>
+<td><p>Retrieves the category/categories of each action in the list.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.comment" title="PyXA.apps.Automator.XAAutomatorActionList.comment"><code class="xref py py-obj docutils literal notranslate"><span class="pre">comment</span></code></a></p></td>
+<td><p>Retrieves the comments of each action in the list.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.enabled" title="PyXA.apps.Automator.XAAutomatorActionList.enabled"><code class="xref py py-obj docutils literal notranslate"><span class="pre">enabled</span></code></a></p></td>
+<td><p>Retrieves the enabled status of each action in the list.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.execution_error_message" title="PyXA.apps.Automator.XAAutomatorActionList.execution_error_message"><code class="xref py py-obj docutils literal notranslate"><span class="pre">execution_error_message</span></code></a></p></td>
+<td><p>Retrieves the execution error message of each action in the list.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.execution_error_number" title="PyXA.apps.Automator.XAAutomatorActionList.execution_error_number"><code class="xref py py-obj docutils literal notranslate"><span class="pre">execution_error_number</span></code></a></p></td>
+<td><p>Retrieves the execution error number of each action in the list.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.execution_result" title="PyXA.apps.Automator.XAAutomatorActionList.execution_result"><code class="xref py py-obj docutils literal notranslate"><span class="pre">execution_result</span></code></a></p></td>
+<td><p>Retrieves the result value of each action in the list.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.icon_name" title="PyXA.apps.Automator.XAAutomatorActionList.icon_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">icon_name</span></code></a></p></td>
+<td><p>Retrieves the icon name of each action in the list.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.ignores_input" title="PyXA.apps.Automator.XAAutomatorActionList.ignores_input"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ignores_input</span></code></a></p></td>
+<td><p>Retrieves the ignore input status of each action in the list.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.index" title="PyXA.apps.Automator.XAAutomatorActionList.index"><code class="xref py py-obj docutils literal notranslate"><span class="pre">index</span></code></a></p></td>
+<td><p>Retrieves the index of each action in the list.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.input_types" title="PyXA.apps.Automator.XAAutomatorActionList.input_types"><code class="xref py py-obj docutils literal notranslate"><span class="pre">input_types</span></code></a></p></td>
+<td><p>Retrieves the input types of each action in the list.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.keywords" title="PyXA.apps.Automator.XAAutomatorActionList.keywords"><code class="xref py py-obj docutils literal notranslate"><span class="pre">keywords</span></code></a></p></td>
+<td><p>Retrieves the keywords of each action in the list.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.name" title="PyXA.apps.Automator.XAAutomatorActionList.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a></p></td>
+<td><p>Retrieves the name of each action in the list.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.output_types" title="PyXA.apps.Automator.XAAutomatorActionList.output_types"><code class="xref py py-obj docutils literal notranslate"><span class="pre">output_types</span></code></a></p></td>
+<td><p>Retrieves the output types of each action in the list.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.parent_workflow" title="PyXA.apps.Automator.XAAutomatorActionList.parent_workflow"><code class="xref py py-obj docutils literal notranslate"><span class="pre">parent_workflow</span></code></a></p></td>
+<td><p>Retrieves the parent workflow of each action in the list.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.path" title="PyXA.apps.Automator.XAAutomatorActionList.path"><code class="xref py py-obj docutils literal notranslate"><span class="pre">path</span></code></a></p></td>
+<td><p>Retrieves the file path of each action in the list.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.show_action_when_run" title="PyXA.apps.Automator.XAAutomatorActionList.show_action_when_run"><code class="xref py py-obj docutils literal notranslate"><span class="pre">show_action_when_run</span></code></a></p></td>
+<td><p>Retrieves the status of the show action when run setting of each action in the list.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.target_application" title="PyXA.apps.Automator.XAAutomatorActionList.target_application"><code class="xref py py-obj docutils literal notranslate"><span class="pre">target_application</span></code></a></p></td>
+<td><p>Retrieves the target application name of each action in the list.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.version" title="PyXA.apps.Automator.XAAutomatorActionList.version"><code class="xref py py-obj docutils literal notranslate"><span class="pre">version</span></code></a></p></td>
+<td><p>Retrieves the version of each action in the list.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.warning_action" title="PyXA.apps.Automator.XAAutomatorActionList.warning_action"><code class="xref py py-obj docutils literal notranslate"><span class="pre">warning_action</span></code></a></p></td>
+<td><p>Retrieves the warning action of each action in the list.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.warning_level" title="PyXA.apps.Automator.XAAutomatorActionList.warning_level"><code class="xref py py-obj docutils literal notranslate"><span class="pre">warning_level</span></code></a></p></td>
+<td><p>Retrieves the warning level of each action in the list.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.warning_message" title="PyXA.apps.Automator.XAAutomatorActionList.warning_message"><code class="xref py py-obj docutils literal notranslate"><span class="pre">warning_message</span></code></a></p></td>
+<td><p>Retrieves the warning message of each action in the list.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.by_bundle_id" title="PyXA.apps.Automator.XAAutomatorActionList.by_bundle_id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_bundle_id</span></code></a></p></td>
+<td><p>Retrieves the first action whose bundle identifier matches the given identifier, if one exists.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.by_category" title="PyXA.apps.Automator.XAAutomatorActionList.by_category"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_category</span></code></a></p></td>
+<td><p>Retrieves the first action whose category matches the given category, if one exists.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.by_comment" title="PyXA.apps.Automator.XAAutomatorActionList.by_comment"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_comment</span></code></a></p></td>
+<td><p>Retrieves the first action whose comment matches the given comment, if one exists.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.by_enabled" title="PyXA.apps.Automator.XAAutomatorActionList.by_enabled"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_enabled</span></code></a></p></td>
+<td><p>Retrieves the first action whose enabled status matches the given boolean value, if one exists.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.by_execution_error_message" title="PyXA.apps.Automator.XAAutomatorActionList.by_execution_error_message"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_execution_error_message</span></code></a></p></td>
+<td><p>Retrieves the first action whose error message matches the given message, if one exists.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.by_execution_error_number" title="PyXA.apps.Automator.XAAutomatorActionList.by_execution_error_number"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_execution_error_number</span></code></a></p></td>
+<td><p>Retrieves the first action whose error number matches the given error number, if one exists.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.by_execution_result" title="PyXA.apps.Automator.XAAutomatorActionList.by_execution_result"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_execution_result</span></code></a></p></td>
+<td><p>Retrieves the first action whose execution result matches the given value, if one exists.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.by_icon_name" title="PyXA.apps.Automator.XAAutomatorActionList.by_icon_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_icon_name</span></code></a></p></td>
+<td><p>Retrieves the first action whose icon name matches the given name, if one exists.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.by_id" title="PyXA.apps.Automator.XAAutomatorActionList.by_id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_id</span></code></a></p></td>
+<td><p>Retrieves the action whose ID matches the given ID, if one exists.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.by_ignores_input" title="PyXA.apps.Automator.XAAutomatorActionList.by_ignores_input"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_ignores_input</span></code></a></p></td>
+<td><p>Retrieves the first action whose ignore input status matches the given boolean value, if one exists.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.by_input_types" title="PyXA.apps.Automator.XAAutomatorActionList.by_input_types"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_input_types</span></code></a></p></td>
+<td><p>Retrieves the first action whose input types match the given input types, if one exists.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.by_keywords" title="PyXA.apps.Automator.XAAutomatorActionList.by_keywords"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_keywords</span></code></a></p></td>
+<td><p>Retrieves the first action whose keywords match the given keywords, if one exists.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.by_name" title="PyXA.apps.Automator.XAAutomatorActionList.by_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_name</span></code></a></p></td>
+<td><p>Retrieves the first action whose name matches the given name, if one exists.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.by_output_types" title="PyXA.apps.Automator.XAAutomatorActionList.by_output_types"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_output_types</span></code></a></p></td>
+<td><p>Retrieves the first action whose output types match the given output types, if one exists.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.by_parent_workflow" title="PyXA.apps.Automator.XAAutomatorActionList.by_parent_workflow"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_parent_workflow</span></code></a></p></td>
+<td><p>Retrieves the first action whose parent workflow matches the given workflow, if one exists.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.by_path" title="PyXA.apps.Automator.XAAutomatorActionList.by_path"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_path</span></code></a></p></td>
+<td><p>Retrieves the first action whose path matches the given path, if one exists.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.by_show_action_when_run" title="PyXA.apps.Automator.XAAutomatorActionList.by_show_action_when_run"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_show_action_when_run</span></code></a></p></td>
+<td><p>Retrieves the first action whose show action when run status matches the given boolean value, if one exists.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.by_target_application" title="PyXA.apps.Automator.XAAutomatorActionList.by_target_application"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_target_application</span></code></a></p></td>
+<td><p>Retrieves the first action whose target application matches the given application name, if one exists.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.by_version" title="PyXA.apps.Automator.XAAutomatorActionList.by_version"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_version</span></code></a></p></td>
+<td><p>Retrieves the first action whose version matches the given version, if one exists.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.by_warning_action" title="PyXA.apps.Automator.XAAutomatorActionList.by_warning_action"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_warning_action</span></code></a></p></td>
+<td><p>Retrieves the first action whose warning action matches the given action, if one exists.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.by_warning_level" title="PyXA.apps.Automator.XAAutomatorActionList.by_warning_level"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_warning_level</span></code></a></p></td>
+<td><p>Retrieves the first action whose warning level matches the given warning level, if one exists.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.by_warning_message" title="PyXA.apps.Automator.XAAutomatorActionList.by_warning_message"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_warning_message</span></code></a></p></td>
+<td><p>Retrieves the first action whose warning message matches the given message, if one exists.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="xaautomatoraction-methods">
+<h3><a class="toc-backref" href="#id15">XAAutomatorAction Methods</a><a class="headerlink" href="#xaautomatoraction-methods" title="Permalink to this headline"></a></h3>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorAction" title="PyXA.apps.Automator.XAAutomatorAction"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PyXA.apps.Automator.XAAutomatorAction</span></code></a></p></td>
+<td><p>A class for managing and interacting with actions in Automator.app.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorAction.required_resources" title="PyXA.apps.Automator.XAAutomatorAction.required_resources"><code class="xref py py-obj docutils literal notranslate"><span class="pre">required_resources</span></code></a></p></td>
+<td><p>Returns a list of required resource, as PyXA objects, matching the given filter.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorAction.settings" title="PyXA.apps.Automator.XAAutomatorAction.settings"><code class="xref py py-obj docutils literal notranslate"><span class="pre">settings</span></code></a></p></td>
+<td><p>Returns a list of settings, as PyXA objects, matching the given filter.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="xaautomatorrequiredresourcelist-methods">
+<h3><a class="toc-backref" href="#id16">XAAutomatorRequiredResourceList Methods</a><a class="headerlink" href="#xaautomatorrequiredresourcelist-methods" title="Permalink to this headline"></a></h3>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorRequiredResourceList" title="PyXA.apps.Automator.XAAutomatorRequiredResourceList"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PyXA.apps.Automator.XAAutomatorRequiredResourceList</span></code></a></p></td>
+<td><p>A wrapper around a list of Automator required resources which utilizes fast enumeration techniques.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorRequiredResourceList.kind" title="PyXA.apps.Automator.XAAutomatorRequiredResourceList.kind"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kind</span></code></a></p></td>
+<td><p>Retrieves the resource type of each resource in the list.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorRequiredResourceList.name" title="PyXA.apps.Automator.XAAutomatorRequiredResourceList.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a></p></td>
+<td><p>Retrieves the name of each resource in the list.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorRequiredResourceList.resource" title="PyXA.apps.Automator.XAAutomatorRequiredResourceList.resource"><code class="xref py py-obj docutils literal notranslate"><span class="pre">resource</span></code></a></p></td>
+<td><p>Retrieves the specification of each resource in the list.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorRequiredResourceList.version" title="PyXA.apps.Automator.XAAutomatorRequiredResourceList.version"><code class="xref py py-obj docutils literal notranslate"><span class="pre">version</span></code></a></p></td>
+<td><p>Retrieves the version of each resource in the list.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorRequiredResourceList.by_kind" title="PyXA.apps.Automator.XAAutomatorRequiredResourceList.by_kind"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_kind</span></code></a></p></td>
+<td><p>Retrieves the first resource whose kind matches the given kind, if one exists.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorRequiredResourceList.by_name" title="PyXA.apps.Automator.XAAutomatorRequiredResourceList.by_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_name</span></code></a></p></td>
+<td><p>Retrieves the first resource whose name matches the given name, if one exists.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorRequiredResourceList.by_resource" title="PyXA.apps.Automator.XAAutomatorRequiredResourceList.by_resource"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_resource</span></code></a></p></td>
+<td><p>Retrieves the first resource whose specification matches the given specification, if one exists.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorRequiredResourceList.by_version" title="PyXA.apps.Automator.XAAutomatorRequiredResourceList.by_version"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_version</span></code></a></p></td>
+<td><p>Retrieves the first resource whose version matches the given version, if one exists.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="xaautomatorsettinglist-methods">
+<h3><a class="toc-backref" href="#id17">XAAutomatorSettingList Methods</a><a class="headerlink" href="#xaautomatorsettinglist-methods" title="Permalink to this headline"></a></h3>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorSettingList" title="PyXA.apps.Automator.XAAutomatorSettingList"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PyXA.apps.Automator.XAAutomatorSettingList</span></code></a></p></td>
+<td><p>A wrapper around a list of Automator settings which utilizes fast enumeration techniques.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorSettingList.default_value" title="PyXA.apps.Automator.XAAutomatorSettingList.default_value"><code class="xref py py-obj docutils literal notranslate"><span class="pre">default_value</span></code></a></p></td>
+<td><p>Retrieves the default value of each setting in the list.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorSettingList.name" title="PyXA.apps.Automator.XAAutomatorSettingList.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a></p></td>
+<td><p>Retrieves the name of each setting in the list.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorSettingList.value" title="PyXA.apps.Automator.XAAutomatorSettingList.value"><code class="xref py py-obj docutils literal notranslate"><span class="pre">value</span></code></a></p></td>
+<td><p>Retrieves the current value of each setting in the list.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorSettingList.by_default_value" title="PyXA.apps.Automator.XAAutomatorSettingList.by_default_value"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_default_value</span></code></a></p></td>
+<td><p>Retrieves the first setting whose default value matches the given value, if one exists.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorSettingList.by_name" title="PyXA.apps.Automator.XAAutomatorSettingList.by_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_name</span></code></a></p></td>
+<td><p>Retrieves the first setting whose name matches the given name, if one exists.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorSettingList.by_value" title="PyXA.apps.Automator.XAAutomatorSettingList.by_value"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_value</span></code></a></p></td>
+<td><p>Retrieves the first setting whose current value matches the given value, if one exists.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="xaautomatorvariablelist-methods">
+<h3><a class="toc-backref" href="#id18">XAAutomatorVariableList Methods</a><a class="headerlink" href="#xaautomatorvariablelist-methods" title="Permalink to this headline"></a></h3>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorVariableList" title="PyXA.apps.Automator.XAAutomatorVariableList"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PyXA.apps.Automator.XAAutomatorVariableList</span></code></a></p></td>
+<td><p>A wrapper around a list of Automator variables which utilizes fast enumeration techniques.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorVariableList.name" title="PyXA.apps.Automator.XAAutomatorVariableList.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a></p></td>
+<td><p>Retrieves the name of each variable in the list.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorVariableList.settable" title="PyXA.apps.Automator.XAAutomatorVariableList.settable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">settable</span></code></a></p></td>
+<td><p>Retrieves the value of the settable attribute of each variable in the list.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorVariableList.value" title="PyXA.apps.Automator.XAAutomatorVariableList.value"><code class="xref py py-obj docutils literal notranslate"><span class="pre">value</span></code></a></p></td>
+<td><p>Retrieves the current value of each variable in the list.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorVariableList.by_name" title="PyXA.apps.Automator.XAAutomatorVariableList.by_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_name</span></code></a></p></td>
+<td><p>Retrieves the first variable whose name matches the given name, if one exists.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorVariableList.by_settable" title="PyXA.apps.Automator.XAAutomatorVariableList.by_settable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_settable</span></code></a></p></td>
+<td><p>Retrieves the first variable whose settable status matches the given boolean, if one exists.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorVariableList.by_value" title="PyXA.apps.Automator.XAAutomatorVariableList.by_value"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_value</span></code></a></p></td>
+<td><p>Retrieves the first variable whose current value matches the given value, if one exists.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="xaautomatorworkflowlist-methods">
+<h3><a class="toc-backref" href="#id19">XAAutomatorWorkflowList Methods</a><a class="headerlink" href="#xaautomatorworkflowlist-methods" title="Permalink to this headline"></a></h3>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorWorkflowList" title="PyXA.apps.Automator.XAAutomatorWorkflowList"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PyXA.apps.Automator.XAAutomatorWorkflowList</span></code></a></p></td>
+<td><p>A wrapper around a list of Automator workflows which utilizes fast enumeration techniques.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorWorkflowList.current_action" title="PyXA.apps.Automator.XAAutomatorWorkflowList.current_action"><code class="xref py py-obj docutils literal notranslate"><span class="pre">current_action</span></code></a></p></td>
+<td><p>Retrieves the current action of each workflow in the list.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorWorkflowList.execution_error_message" title="PyXA.apps.Automator.XAAutomatorWorkflowList.execution_error_message"><code class="xref py py-obj docutils literal notranslate"><span class="pre">execution_error_message</span></code></a></p></td>
+<td><p>Retrieves the execution error message of each workflow in the list.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorWorkflowList.execution_error_number" title="PyXA.apps.Automator.XAAutomatorWorkflowList.execution_error_number"><code class="xref py py-obj docutils literal notranslate"><span class="pre">execution_error_number</span></code></a></p></td>
+<td><p>Retrieves the execution error numbers of each workflow in the list.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorWorkflowList.execution_id" title="PyXA.apps.Automator.XAAutomatorWorkflowList.execution_id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">execution_id</span></code></a></p></td>
+<td><p>Retrieves the execution ID of each workflow in the list.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorWorkflowList.execution_result" title="PyXA.apps.Automator.XAAutomatorWorkflowList.execution_result"><code class="xref py py-obj docutils literal notranslate"><span class="pre">execution_result</span></code></a></p></td>
+<td><p>Retrieves the execution result of each workflow in the list.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorWorkflowList.name" title="PyXA.apps.Automator.XAAutomatorWorkflowList.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a></p></td>
+<td><p>Retrieves the name of each workflow in the list.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorWorkflowList.by_current_action" title="PyXA.apps.Automator.XAAutomatorWorkflowList.by_current_action"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_current_action</span></code></a></p></td>
+<td><p>Retrieves the first workflow whose current action matches the given action, if one exists.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorWorkflowList.by_execution_error_message" title="PyXA.apps.Automator.XAAutomatorWorkflowList.by_execution_error_message"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_execution_error_message</span></code></a></p></td>
+<td><p>Retrieves the first workflow whose error message matches the given message, if one exists.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorWorkflowList.by_execution_error_number" title="PyXA.apps.Automator.XAAutomatorWorkflowList.by_execution_error_number"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_execution_error_number</span></code></a></p></td>
+<td><p>Retrieves the first workflow whose error number matches the given error number, if one exists.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorWorkflowList.by_execution_id" title="PyXA.apps.Automator.XAAutomatorWorkflowList.by_execution_id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_execution_id</span></code></a></p></td>
+<td><p>Retrieves the workflow whose execution ID matches the given ID, if one exists.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorWorkflowList.by_execution_result" title="PyXA.apps.Automator.XAAutomatorWorkflowList.by_execution_result"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_execution_result</span></code></a></p></td>
+<td><p>Retrieves the first workflow whose execution result matches the given value, if one exists.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorWorkflowList.by_name" title="PyXA.apps.Automator.XAAutomatorWorkflowList.by_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_name</span></code></a></p></td>
+<td><p>Retrieves the first workflow whose name matches the given name, if one exists.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="xaautomatorworkflow-methods">
+<h3><a class="toc-backref" href="#id20">XAAutomatorWorkflow Methods</a><a class="headerlink" href="#xaautomatorworkflow-methods" title="Permalink to this headline"></a></h3>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorWorkflow" title="PyXA.apps.Automator.XAAutomatorWorkflow"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PyXA.apps.Automator.XAAutomatorWorkflow</span></code></a></p></td>
+<td><p>A class for managing and interacting with Automator workflows.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorWorkflow.automator_actions" title="PyXA.apps.Automator.XAAutomatorWorkflow.automator_actions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">automator_actions</span></code></a></p></td>
+<td><p>Returns a list of actions, as PyXA objects, matching the given filter.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorWorkflow.execute" title="PyXA.apps.Automator.XAAutomatorWorkflow.execute"><code class="xref py py-obj docutils literal notranslate"><span class="pre">execute</span></code></a></p></td>
+<td><p>Executes the workflow.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorWorkflow.variables" title="PyXA.apps.Automator.XAAutomatorWorkflow.variables"><code class="xref py py-obj docutils literal notranslate"><span class="pre">variables</span></code></a></p></td>
+<td><p>Returns a list of variables, as PyXA objects, matching the given filter.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorWorkflow.delete" title="PyXA.apps.Automator.XAAutomatorWorkflow.delete"><code class="xref py py-obj docutils literal notranslate"><span class="pre">delete</span></code></a></p></td>
+<td><p>Closes the workflow.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorWorkflow.save" title="PyXA.apps.Automator.XAAutomatorWorkflow.save"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save</span></code></a></p></td>
+<td><p>Saves the workflow to the disk at the location specified by <a href="#id1"><span class="problematic" id="id2">:attribute:`XAAutomatorWorkflow.path`</span></a>, or in the downloads folder if no path has been specified.</p></td>
+</tr>
+</tbody>
+</table>
+<p>For all classes, methods, and inherited members on one page, see the <a class="reference internal" href="../../../reference/apps/automator.html#module-PyXA.apps.Automator"><span class="std std-ref">Automator Module Reference</span></a></p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../index.html" class="btn btn-neutral float-left" title="Application Modules" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../calculator/index.html" class="btn btn-neutral float-right" title="Calculator Module Overview" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Stephen Kaplan.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

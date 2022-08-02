@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Making a Combined Workflow for Creating Image Mosaic &mdash; PyXA 0.0.5 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> PyXA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../about/index.html">Project Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Application Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reference/index.html">Code Documentation and Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../bugs.html">Bugs</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">PyXA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Making a Combined Workflow for Creating Image Mosaic</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/tutorial/apps/automator/tutorial1.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="making-a-combined-workflow-for-creating-image-mosaic">
+<h1>Making a Combined Workflow for Creating Image Mosaic<a class="headerlink" href="#making-a-combined-workflow-for-creating-image-mosaic" title="Permalink to this headline"></a></h1>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline"></a></h2>
+<p>Automation scripts can ask users for many different kinds of input, and different automation technologies are particularly suited to handling some types of inputs over others. Moreover, prompting users for different kinds of input may be easier using one automation technology over another. For example, Python has specialized tools for working with command-line arguments, so you might use PyXA over other automation technologies when looking to create a command-line automation script. Comparatively, Shortcuts and Automator provide highly intuitive ways to get non-text input from users, so you might opt to use one of them instead when looking to handle image, video, and other media data. When working on automation scripts, you can combine all of these technologies and use them in tandem, enabling you to always utilize the best tool for the task. In this tutorial, we combine the abilities of PyXA and Automator, producing a combined workflow to create a mosaic of selected images using the <a class="reference external" href="https://pypi.org/project/Pillow/">Pillow</a> library for Python.</p>
+</section>
+<section id="part-1-getting-user-input">
+<h2>Part 1 - Getting User Input<a class="headerlink" href="#part-1-getting-user-input" title="Permalink to this headline"></a></h2>
+<p>To create our combined automation workflow, let’s first think about its component parts. We know that Automator has actions for user input, so you might be able to guess that there is a dedicated “Ask For Photos” action. It’s unlikely that Apple would expose the direct NSImage objects via that action, so we can assume that the action outputs either image file paths or image IDs. This is something that we’ll need to check in a moment. The Python Image Library (Pillow) primarily operates on images loaded from files, and Python is slower than Automator at retrieving UI element property values, so ideally we’ll have the PyXA side of the automation script working with file paths. Let’s create a workflow in Automator that prompts the user to select photos as input and outputs image file paths.</p>
+<p>This can be accomplished with a single action: “Ask For Photos”. This action already outputs file paths, so there is no need for an additional action to extract that data. You can confirm this by adding the action (dragging it from the left-side sidebar into the main work area, then dropping it), then pressing the “run” button in the top right corner. The workflow will prompt you to select images. After clicking “Choose”, click the “Results” button on the action and open the tab labelled “{}” for “Raw Data”. You should see an image file path – hooray! When this workflow is run from PyXA, the execution return value will be in the same format as the raw data displayed.</p>
+<p>Save the workflow as “Ask For Photos.workflow” in a location of your choosing. This tutorial assumes that the workflow was saved in the Automator folder of iCloud, but this does not need to be the case – just make sure to change the path in the PyXA code.</p>
+<p>With the workflow saved, we can move on to the PyXA script. Since we’re working with Automator, we need to initialize the Automator application object. Next, we instruct Automator to open a workflow from a specified file path. This provides a reference to the now-open workflow element, which we can execute. As test, let’s print the output of the execution. Our code is thus:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="linenos">2</span><span class="n">automator</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;Automator&quot;</span><span class="p">)</span>
+<span class="linenos">3</span><span class="n">workflow</span> <span class="o">=</span> <span class="n">automator</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;/Users/exampleuser/Library/Mobile Documents/com~apple~Automator/Documents/Ask For Photos.workflow&quot;</span><span class="p">)</span>
+<span class="linenos">4</span><span class="nb">print</span><span class="p">(</span><span class="n">workflow</span><span class="o">.</span><span class="n">execute</span><span class="p">())</span>
+</pre></div>
+</div>
+<p>If you run the PyXA script now, you should again be prompted to select photos, and you should see that the paths to each image you selected, if any, were printed by the PyXA script.</p>
+</section>
+<section id="part-2-creating-a-mosaic">
+<h2>Part 2 - Creating A Mosaic<a class="headerlink" href="#part-2-creating-a-mosaic" title="Permalink to this headline"></a></h2>
+<p>The goal of this tutorial is to highlight the ability to intertwine PyXA and Automator – believe it or not, we’re done with that! The rest of this part looks at how to using the Pillow library to create a mosaic of images; it has nothing to do with PyXA, apart from that we used PyXA to execute an Automator workflow. To run the rest of this tutorial, you’ll need to adjust your imports to the following:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">PyXA</span><span class="o">,</span> <span class="nn">math</span>
+<span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
+</pre></div>
+</div>
+<p>We start by setting a base width and height for each image within the mosaic. We choose 400x200 for simplicity, but you can choose any size. Each image in the mosaic will have those dimensions or smaller.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">base_width</span> <span class="o">=</span> <span class="mi">400</span>
+<span class="n">base_height</span> <span class="o">=</span> <span class="mi">200</span>
+</pre></div>
+</div>
+<p>Next, we calculate the root of the number of image paths we have. For simplicity, we are creating an NxN mosaic, where N is the integer root of the total number of images. This tutorial forgoes error checking and other niceties that you might wish to include in your remake of this automation.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">root</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">image_paths</span><span class="p">)))</span>
+</pre></div>
+</div>
+<p>With the root and base dimensions set, we can create the canvas for our mosaic. The canvas is initially an empty image with the size of the final image we intend to create.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">dim</span> <span class="o">=</span> <span class="p">(</span><span class="n">root</span> <span class="o">*</span> <span class="n">base_width</span><span class="p">,</span> <span class="n">root</span> <span class="o">*</span> <span class="n">base_width</span><span class="p">)</span>
+<span class="n">mosaic</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;RGB&quot;</span><span class="p">,</span> <span class="n">dim</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To populate the image, we place scaled down versions of the images we selected at calculated locations. This is done by looping over each row and column of the mosaic and pasting the scaled down image at the appropriate location. Since we are making a square mosaic, the number of rows and columns both goes from 0 to the root defined previously. The path of each image then sits at index <cite>row + col * root</cite>. We load the image at that path, then resize it while maintaining proportions. We then paste the resized image at the slot defined by the row, column, and base dimensions.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">root</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">root</span><span class="p">):</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="n">image_paths</span><span class="p">[</span><span class="n">row</span> <span class="o">+</span> <span class="n">col</span> <span class="o">*</span> <span class="n">root</span><span class="p">]</span>
+        <span class="n">img</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+
+        <span class="n">width</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">base_width</span><span class="p">,</span> <span class="n">base_width</span><span class="o">/</span><span class="n">img</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">img</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+        <span class="n">img</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">resize</span><span class="p">((</span><span class="n">base_width</span><span class="p">,</span> <span class="n">width</span><span class="p">),</span> <span class="n">Image</span><span class="o">.</span><span class="n">ANTIALIAS</span><span class="p">)</span>
+        <span class="n">mosaic</span><span class="o">.</span><span class="n">paste</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="p">(</span><span class="n">base_width</span> <span class="o">*</span> <span class="n">col</span><span class="p">,</span> <span class="n">base_width</span> <span class="o">*</span> <span class="n">row</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Finally, we use the <cite>show</cite> method to show the mosaic in Preview.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">mosaic</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="conclusion">
+<h2>Conclusion<a class="headerlink" href="#conclusion" title="Permalink to this headline"></a></h2>
+<p>The full code for this tutorial:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">import</span> <span class="nn">PyXA</span><span class="o">,</span> <span class="nn">math</span>
+<span class="linenos"> 2</span><span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
+<span class="linenos"> 3</span>
+<span class="linenos"> 4</span><span class="c1"># Execute Automator workflow and receive list of image paths</span>
+<span class="linenos"> 5</span><span class="n">automator</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;Automator&quot;</span><span class="p">)</span>
+<span class="linenos"> 6</span><span class="n">workflow</span> <span class="o">=</span> <span class="n">automator</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;/Users/steven/Library/Mobile Documents/com~apple~Automator/Documents/Ask For Photos.workflow&quot;</span><span class="p">)</span>
+<span class="linenos"> 7</span><span class="n">image_paths</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">execute</span><span class="p">()</span>
+<span class="linenos"> 8</span>
+<span class="linenos"> 9</span><span class="c1"># Set base dimensions of mosaic images</span>
+<span class="linenos">10</span><span class="n">base_width</span> <span class="o">=</span> <span class="mi">400</span>
+<span class="linenos">11</span><span class="n">base_height</span> <span class="o">=</span> <span class="mi">200</span>
+<span class="linenos">12</span>
+<span class="linenos">13</span><span class="c1"># Get number of rows and columns</span>
+<span class="linenos">14</span><span class="n">root</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">image_paths</span><span class="p">)))</span>
+<span class="linenos">15</span>
+<span class="linenos">16</span><span class="c1"># Create empty canvas</span>
+<span class="linenos">17</span><span class="n">dim</span> <span class="o">=</span> <span class="p">(</span><span class="n">root</span> <span class="o">*</span> <span class="n">base_width</span><span class="p">,</span> <span class="n">root</span> <span class="o">*</span> <span class="n">base_width</span><span class="p">)</span>
+<span class="linenos">18</span><span class="n">mosaic</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;RGB&quot;</span><span class="p">,</span> <span class="n">dim</span><span class="p">)</span>
+<span class="linenos">19</span>
+<span class="linenos">20</span><span class="c1"># Populate the canvas</span>
+<span class="linenos">21</span><span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">root</span><span class="p">):</span>
+<span class="linenos">22</span>    <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">root</span><span class="p">):</span>
+<span class="linenos">23</span>        <span class="c1"># Load image from path</span>
+<span class="linenos">24</span>        <span class="n">path</span> <span class="o">=</span> <span class="n">image_paths</span><span class="p">[</span><span class="n">row</span> <span class="o">+</span> <span class="n">col</span> <span class="o">*</span> <span class="n">root</span><span class="p">]</span>
+<span class="linenos">25</span>        <span class="n">img</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+<span class="linenos">26</span>
+<span class="linenos">27</span>        <span class="c1"># Resize proportionally</span>
+<span class="linenos">28</span>        <span class="n">width</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">base_width</span><span class="p">,</span> <span class="n">base_width</span><span class="o">/</span><span class="n">img</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">img</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+<span class="linenos">29</span>        <span class="n">img</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">resize</span><span class="p">((</span><span class="n">base_width</span><span class="p">,</span> <span class="n">width</span><span class="p">),</span> <span class="n">Image</span><span class="o">.</span><span class="n">ANTIALIAS</span><span class="p">)</span>
+<span class="linenos">30</span>        <span class="n">mosaic</span><span class="o">.</span><span class="n">paste</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="p">(</span><span class="n">base_width</span> <span class="o">*</span> <span class="n">col</span><span class="p">,</span> <span class="n">base_width</span> <span class="o">*</span> <span class="n">row</span><span class="p">))</span>
+<span class="linenos">31</span>
+<span class="linenos">32</span><span class="n">mosaic</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="see-also">
+<h2>See Also<a class="headerlink" href="#see-also" title="Permalink to this headline"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Stephen Kaplan.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

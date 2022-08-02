@@ -42,6 +42,7 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../about/index.html">Project Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/apps/index.html">Application Modules</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Code Documentation and Reference</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="index.html#top-level-pyxa-modules">Top-level PyXA Modules</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="index.html#pyxa-base-modules">PyXA Base Modules</a><ul class="current">
@@ -122,7 +123,7 @@
 <td><p>A wrapper around lists of attribute runs that employs fast enumeration techniques.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAButton" title="PyXA.XABase.XAButton"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAButton</span></code></a>(properties)</p></td>
-<td><p></p></td>
+<td><p>A button UI element.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAButtonList" title="PyXA.XABase.XAButtonList"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAButtonList</span></code></a>(properties[, filter])</p></td>
 <td><p>A wrapper around lists of buttons that employs fast enumeration techniques.</p></td>
@@ -148,139 +149,160 @@
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAColor</span></code></a>(*args)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAColorPicker" title="PyXA.XABase.XAColorPicker"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAColorPicker</span></code></a>([style])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAColorList" title="PyXA.XABase.XAColorList"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAColorList</span></code></a>(properties[, filter])</p></td>
+<td><p>A wrapper around lists of colors that employs fast enumeration techniques.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAColorPicker" title="PyXA.XABase.XAColorPicker"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAColorPicker</span></code></a>([style])</p></td>
 <td><p>A class for creating and interacting with a color picker window.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAColorPickerStyle" title="PyXA.XABase.XAColorPickerStyle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAColorPickerStyle</span></code></a>(value)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAColorPickerStyle" title="PyXA.XABase.XAColorPickerStyle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAColorPickerStyle</span></code></a>(value)</p></td>
 <td><p>Options for which tab a color picker should display when first opened.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XADeletable" title="PyXA.XABase.XADeletable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XADeletable</span></code></a>([properties])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XADeletable" title="PyXA.XABase.XADeletable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XADeletable</span></code></a>([properties])</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAHasElements" title="PyXA.XABase.XAHasElements"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAHasElements</span></code></a>([properties])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAHasElements" title="PyXA.XABase.XAHasElements"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAHasElements</span></code></a>([properties])</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAImage" title="PyXA.XABase.XAImage"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAImage</span></code></a>([file_url])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAImage" title="PyXA.XABase.XAImage"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAImage</span></code></a>([file_url])</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAImageList" title="PyXA.XABase.XAImageList"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAImageList</span></code></a>(properties[, filter])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAImageList" title="PyXA.XABase.XAImageList"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAImageList</span></code></a>(properties[, filter])</p></td>
 <td><p>A wrapper around lists of images that employs fast enumeration techniques.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAList" title="PyXA.XABase.XAList"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAList</span></code></a>(properties[, object_class, filter])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAList" title="PyXA.XABase.XAList"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAList</span></code></a>(properties[, object_class, filter])</p></td>
 <td><p>A wrapper around NSArray and NSMutableArray objects enabling fast enumeration and lazy evaluation of Objective-C objects.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XALocation" title="PyXA.XABase.XALocation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XALocation</span></code></a>([raw_value, title, latitude, ...])</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XALocation" title="PyXA.XABase.XALocation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XALocation</span></code></a>([raw_value, title, latitude, ...])</p></td>
+<td><p>A location with a latitude and longitude, along with other data.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAObject</span></code></a>([properties])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAObject</span></code></a>([properties])</p></td>
 <td><p>A general class for PyXA scripting objects.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAParagraph" title="PyXA.XABase.XAParagraph"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAParagraph</span></code></a>(properties)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAParagraph" title="PyXA.XABase.XAParagraph"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAParagraph</span></code></a>(properties)</p></td>
 <td><p>A class for managing and interacting with paragraphs in text documents.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAParagraphList" title="PyXA.XABase.XAParagraphList"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAParagraphList</span></code></a>(properties[, filter])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAParagraphList" title="PyXA.XABase.XAParagraphList"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAParagraphList</span></code></a>(properties[, filter])</p></td>
 <td><p>A wrapper around lists of paragraphs that employs fast enumeration techniques.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAPath" title="PyXA.XABase.XAPath"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAPath</span></code></a>(path)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAPath" title="PyXA.XABase.XAPath"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAPath</span></code></a>(path)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAPredicate" title="PyXA.XABase.XAPredicate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAPredicate</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAPredicate" title="PyXA.XABase.XAPredicate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAPredicate</span></code></a>()</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAProcess" title="PyXA.XABase.XAProcess"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAProcess</span></code></a>(properties)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAProcess" title="PyXA.XABase.XAProcess"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAProcess</span></code></a>(properties)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XASelectable" title="PyXA.XABase.XASelectable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XASelectable</span></code></a>([properties])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XASelectable" title="PyXA.XABase.XASelectable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XASelectable</span></code></a>([properties])</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAShowable" title="PyXA.XABase.XAShowable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAShowable</span></code></a>([properties])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAShowable" title="PyXA.XABase.XAShowable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAShowable</span></code></a>([properties])</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XASound" title="PyXA.XABase.XASound"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XASound</span></code></a>(sound_file)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XASound" title="PyXA.XABase.XASound"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XASound</span></code></a>(sound_file)</p></td>
 <td><p>A wrapper class for NSSound objects and associated methods.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAText" title="PyXA.XABase.XAText"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAText</span></code></a>(properties)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAText" title="PyXA.XABase.XAText"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAText</span></code></a>(properties)</p></td>
 <td><p>A class for managing and interacting with the text of documents.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XATextDocument" title="PyXA.XABase.XATextDocument"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XATextDocument</span></code></a>(properties)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XATextDocument" title="PyXA.XABase.XATextDocument"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XATextDocument</span></code></a>(properties)</p></td>
 <td><p>A class for managing and interacting with text documents.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XATextList" title="PyXA.XABase.XATextList"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XATextList</span></code></a>(properties[, obj_class, filter])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XATextList" title="PyXA.XABase.XATextList"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XATextList</span></code></a>(properties[, obj_class, filter])</p></td>
 <td><p>A wrapper around lists of text objects that employs fast enumeration techniques.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIAction" title="PyXA.XABase.XAUIAction"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAUIAction</span></code></a>(properties)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIAction" title="PyXA.XABase.XAUIAction"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAUIAction</span></code></a>(properties)</p></td>
+<td><p>An action associated with a UI element.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIActionList" title="PyXA.XABase.XAUIActionList"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAUIActionList</span></code></a>(properties[, filter])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIActionList" title="PyXA.XABase.XAUIActionList"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAUIActionList</span></code></a>(properties[, filter])</p></td>
 <td><p>A wrapper around a list of UI element actions.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIElement" title="PyXA.XABase.XAUIElement"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAUIElement</span></code></a>(properties)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIElement" title="PyXA.XABase.XAUIElement"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAUIElement</span></code></a>(properties)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIElementList" title="PyXA.XABase.XAUIElementList"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAUIElementList</span></code></a>(properties[, obj_type, filter])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIElementList" title="PyXA.XABase.XAUIElementList"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAUIElementList</span></code></a>(properties[, obj_type, filter])</p></td>
 <td><p>A wrapper around a list of UI elements.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIGroup" title="PyXA.XABase.XAUIGroup"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAUIGroup</span></code></a>(properties)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIGroup" title="PyXA.XABase.XAUIGroup"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAUIGroup</span></code></a>(properties)</p></td>
+<td><p>A group of UI element.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIGroupList" title="PyXA.XABase.XAUIGroupList"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAUIGroupList</span></code></a>(properties[, filter])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIGroupList" title="PyXA.XABase.XAUIGroupList"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAUIGroupList</span></code></a>(properties[, filter])</p></td>
 <td><p>A wrapper around a list of UI element groups.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIMenu" title="PyXA.XABase.XAUIMenu"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAUIMenu</span></code></a>(properties)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIMenu" title="PyXA.XABase.XAUIMenu"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAUIMenu</span></code></a>(properties)</p></td>
+<td><p>A menu UI element.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIMenuBar" title="PyXA.XABase.XAUIMenuBar"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAUIMenuBar</span></code></a>(properties)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIMenuBar" title="PyXA.XABase.XAUIMenuBar"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAUIMenuBar</span></code></a>(properties)</p></td>
+<td><p>A menubar UI element.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIMenuBarItem" title="PyXA.XABase.XAUIMenuBarItem"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAUIMenuBarItem</span></code></a>(properties)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIMenuBarItem" title="PyXA.XABase.XAUIMenuBarItem"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAUIMenuBarItem</span></code></a>(properties)</p></td>
+<td><p>A menubar item UI element.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIMenuBarItemList" title="PyXA.XABase.XAUIMenuBarItemList"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAUIMenuBarItemList</span></code></a>(properties[, filter])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIMenuBarItemList" title="PyXA.XABase.XAUIMenuBarItemList"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAUIMenuBarItemList</span></code></a>(properties[, filter])</p></td>
 <td><p>A wrapper around a list of menu bar items.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIMenuBarList" title="PyXA.XABase.XAUIMenuBarList"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAUIMenuBarList</span></code></a>(properties[, filter])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIMenuBarList" title="PyXA.XABase.XAUIMenuBarList"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAUIMenuBarList</span></code></a>(properties[, filter])</p></td>
 <td><p>A wrapper around a list of menu bars.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIMenuItem" title="PyXA.XABase.XAUIMenuItem"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAUIMenuItem</span></code></a>(properties)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIMenuItem" title="PyXA.XABase.XAUIMenuItem"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAUIMenuItem</span></code></a>(properties)</p></td>
+<td><p>A menu item UI element.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIMenuItemList" title="PyXA.XABase.XAUIMenuItemList"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAUIMenuItemList</span></code></a>(properties[, filter])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIMenuItemList" title="PyXA.XABase.XAUIMenuItemList"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAUIMenuItemList</span></code></a>(properties[, filter])</p></td>
 <td><p>A wrapper around a list of menu items.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIMenuList" title="PyXA.XABase.XAUIMenuList"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAUIMenuList</span></code></a>(properties[, filter])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIMenuList" title="PyXA.XABase.XAUIMenuList"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAUIMenuList</span></code></a>(properties[, filter])</p></td>
 <td><p>A wrapper around a list of menus.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIStaticText" title="PyXA.XABase.XAUIStaticText"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAUIStaticText</span></code></a>(properties)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIRadioButton" title="PyXA.XABase.XAUIRadioButton"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAUIRadioButton</span></code></a>(properties)</p></td>
+<td><p>A radio button UI element.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIStaticTextList" title="PyXA.XABase.XAUIStaticTextList"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAUIStaticTextList</span></code></a>(properties[, filter])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIRadioButtonList" title="PyXA.XABase.XAUIRadioButtonList"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAUIRadioButtonList</span></code></a>(properties[, filter])</p></td>
+<td><p>A wrapper around lists of radio buttons that employs fast enumeration techniques.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIScrollArea" title="PyXA.XABase.XAUIScrollArea"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAUIScrollArea</span></code></a>(properties)</p></td>
+<td><p>A scroll area UI element.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIScrollAreaList" title="PyXA.XABase.XAUIScrollAreaList"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAUIScrollAreaList</span></code></a>(properties[, filter])</p></td>
+<td><p>A wrapper around a list of scroll areas.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIStaticText" title="PyXA.XABase.XAUIStaticText"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAUIStaticText</span></code></a>(properties)</p></td>
+<td><p>A static text UI element.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIStaticTextList" title="PyXA.XABase.XAUIStaticTextList"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAUIStaticTextList</span></code></a>(properties[, filter])</p></td>
 <td><p>A wrapper around a list of static text elements.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAUITextfield" title="PyXA.XABase.XAUITextfield"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAUITextfield</span></code></a>(properties)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAUITabGroup" title="PyXA.XABase.XAUITabGroup"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAUITabGroup</span></code></a>(properties)</p></td>
+<td><p>A tab group UI element.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAUITextfieldList" title="PyXA.XABase.XAUITextfieldList"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAUITextfieldList</span></code></a>(properties[, filter])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAUITabGroupList" title="PyXA.XABase.XAUITabGroupList"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAUITabGroupList</span></code></a>(properties[, filter])</p></td>
+<td><p>A wrapper around a list of UI element tab groups.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAUITextfield" title="PyXA.XABase.XAUITextfield"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAUITextfield</span></code></a>(properties)</p></td>
+<td><p>A textfield UI element.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAUITextfieldList" title="PyXA.XABase.XAUITextfieldList"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAUITextfieldList</span></code></a>(properties[, filter])</p></td>
 <td><p>A wrapper around a list of textfields.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIToolbar" title="PyXA.XABase.XAUIToolbar"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAUIToolbar</span></code></a>(properties)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIToolbar" title="PyXA.XABase.XAUIToolbar"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAUIToolbar</span></code></a>(properties)</p></td>
+<td><p>A toolbar UI element.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIToolbarList" title="PyXA.XABase.XAUIToolbarList"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAUIToolbarList</span></code></a>(properties[, filter])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIToolbarList" title="PyXA.XABase.XAUIToolbarList"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAUIToolbarList</span></code></a>(properties[, filter])</p></td>
 <td><p>A wrapper around a list of toolbars.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAURL" title="PyXA.XABase.XAURL"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAURL</span></code></a>(url)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAURL" title="PyXA.XABase.XAURL"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAURL</span></code></a>(url)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAWindow" title="PyXA.XABase.XAWindow"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAWindow</span></code></a>(properties)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAWindow" title="PyXA.XABase.XAWindow"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAWindow</span></code></a>(properties)</p></td>
 <td><p>A general window class for windows of both officially scriptable and non-scriptable applications.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAWindowList" title="PyXA.XABase.XAWindowList"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAWindowList</span></code></a>(properties[, filter])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAWindowList" title="PyXA.XABase.XAWindowList"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAWindowList</span></code></a>(properties[, filter])</p></td>
 <td><p>A wrapper around a list of windows.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAWord" title="PyXA.XABase.XAWord"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAWord</span></code></a>(properties)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAWord" title="PyXA.XABase.XAWord"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAWord</span></code></a>(properties)</p></td>
 <td><p>A class for managing and interacting with words in text documents.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAWordList" title="PyXA.XABase.XAWordList"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAWordList</span></code></a>(properties[, filter])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAWordList" title="PyXA.XABase.XAWordList"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAWordList</span></code></a>(properties[, filter])</p></td>
 <td><p>A wrapper around lists of words that employs fast enumeration techniques.</p></td>
 </tr>
 </tbody>
@@ -883,6 +905,10 @@
 <dt class="sig sig-object py" id="PyXA.XABase.XAButton">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.XABase.</span></span><span class="sig-name descname"><span class="pre">XAButton</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAButton"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAButton" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#PyXA.XABase.XAUIElement" title="PyXA.XABase.XAUIElement"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAUIElement</span></code></a></p>
+<p>A button UI element.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
 <p><strong>Methods:</strong></p>
 <table class="autosummary longtable docutils align-default">
 <colgroup>
@@ -891,38 +917,86 @@
 </colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAButton.click" title="PyXA.XABase.XAButton.click"><code class="xref py py-obj docutils literal notranslate"><span class="pre">click</span></code></a>()</p></td>
-<td><p></p></td>
+<td><p>Clicks the button.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAButton.option_click" title="PyXA.XABase.XAButton.option_click"><code class="xref py py-obj docutils literal notranslate"><span class="pre">option_click</span></code></a>()</p></td>
-<td><p></p></td>
+<td><p>Option-Clicks the button.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAButton.press" title="PyXA.XABase.XAButton.press"><code class="xref py py-obj docutils literal notranslate"><span class="pre">press</span></code></a>()</p></td>
-<td><p></p></td>
+<td><p>Clicks the button.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAButton.show_menu" title="PyXA.XABase.XAButton.show_menu"><code class="xref py py-obj docutils literal notranslate"><span class="pre">show_menu</span></code></a>()</p></td>
-<td><p></p></td>
+<td><p>Right clicks the button, invoking a menu.</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.XABase.XAButton.click">
-<span class="sig-name descname"><span class="pre">click</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAButton.click"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAButton.click" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">click</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.XABase.XAButton" title="PyXA.XABase.XAButton"><span class="pre">PyXA.XABase.XAButton</span></a></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAButton.click"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAButton.click" title="Permalink to this definition"></a></dt>
+<dd><p>Clicks the button. Synonymous with <a class="reference internal" href="#PyXA.XABase.XAButton.press" title="PyXA.XABase.XAButton.press"><code class="xref py py-func docutils literal notranslate"><span class="pre">press()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The button object</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#PyXA.XABase.XAButton" title="PyXA.XABase.XAButton">XAButton</a></p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.XABase.XAButton.option_click">
-<span class="sig-name descname"><span class="pre">option_click</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAButton.option_click"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAButton.option_click" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">option_click</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.XABase.XAButton" title="PyXA.XABase.XAButton"><span class="pre">PyXA.XABase.XAButton</span></a></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAButton.option_click"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAButton.option_click" title="Permalink to this definition"></a></dt>
+<dd><p>Option-Clicks the button.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The button object</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#PyXA.XABase.XAButton" title="PyXA.XABase.XAButton">XAButton</a></p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.XABase.XAButton.press">
-<span class="sig-name descname"><span class="pre">press</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAButton.press"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAButton.press" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">press</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.XABase.XAButton" title="PyXA.XABase.XAButton"><span class="pre">PyXA.XABase.XAButton</span></a></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAButton.press"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAButton.press" title="Permalink to this definition"></a></dt>
+<dd><p>Clicks the button. Synonymous with <a class="reference internal" href="#PyXA.XABase.XAButton.click" title="PyXA.XABase.XAButton.click"><code class="xref py py-func docutils literal notranslate"><span class="pre">click()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The button object</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#PyXA.XABase.XAButton" title="PyXA.XABase.XAButton">XAButton</a></p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.XABase.XAButton.show_menu">
-<span class="sig-name descname"><span class="pre">show_menu</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAButton.show_menu"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAButton.show_menu" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">show_menu</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.XABase.XAButton" title="PyXA.XABase.XAButton"><span class="pre">PyXA.XABase.XAButton</span></a></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAButton.show_menu"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAButton.show_menu" title="Permalink to this definition"></a></dt>
+<dd><p>Right clicks the button, invoking a menu.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The button object</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#PyXA.XABase.XAButton" title="PyXA.XABase.XAButton">XAButton</a></p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+</dd></dl>
 
 </dd></dl>
 
@@ -1266,6 +1340,16 @@
 </dd></dl>
 
 <dl class="py class">
+<dt class="sig sig-object py" id="PyXA.XABase.XAColorList">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.XABase.</span></span><span class="sig-name descname"><span class="pre">XAColorList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAColorList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAColorList" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#PyXA.XABase.XATextList" title="PyXA.XABase.XATextList"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XATextList</span></code></a></p>
+<p>A wrapper around lists of colors that employs fast enumeration techniques.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.6.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py class">
 <dt class="sig sig-object py" id="PyXA.XABase.XAColorPicker">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.XABase.</span></span><span class="sig-name descname"><span class="pre">XAColorPicker</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">style</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#PyXA.XABase.XAColorPickerStyle" title="PyXA.XABase.XAColorPickerStyle"><span class="pre">PyXA.XABase.XAColorPickerStyle</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">XAColorPickerStyle.GRAYSCALE</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAColorPicker"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAColorPicker" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
@@ -1514,8 +1598,14 @@
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAList.by_property" title="PyXA.XABase.XAList.by_property"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_property</span></code></a>(property, value)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAList.at" title="PyXA.XABase.XAList.at"><code class="xref py py-obj docutils literal notranslate"><span class="pre">at</span></code></a>(index)</p></td>
+<td><p>Retrieves the element at the specified index.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAList.by_property" title="PyXA.XABase.XAList.by_property"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_property</span></code></a>(property, value)</p></td>
+<td><p>Retrieves the element whose property value matches the given value, if one exists.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAList.containing" title="PyXA.XABase.XAList.containing"><code class="xref py py-obj docutils literal notranslate"><span class="pre">containing</span></code></a>(property, value)</p></td>
+<td><p>Retrieves the element whose property value contains the given value, if one exists.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAList.first" title="PyXA.XABase.XAList.first"><code class="xref py py-obj docutils literal notranslate"><span class="pre">first</span></code></a>()</p></td>
 <td><p>Retrieves the first element of the list as a wrapped PyXA object.</p></td>
@@ -1538,9 +1628,70 @@
 </tbody>
 </table>
 <dl class="py method">
+<dt class="sig sig-object py" id="PyXA.XABase.XAList.at">
+<span class="sig-name descname"><span class="pre">at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><span class="pre">PyXA.XABase.XAObject</span></a></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAList.at"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAList.at" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieves the element at the specified index.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>index</strong> (<em>int</em>) – The index of the desired element</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The PyXA-wrapped element object</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject">XAObject</a></p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.6.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="PyXA.XABase.XAList.by_property">
 <span class="sig-name descname"><span class="pre">by_property</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">property</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><span class="pre">PyXA.XABase.XAObject</span></a></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAList.by_property"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAList.by_property" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Retrieves the element whose property value matches the given value, if one exists.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>property</strong> (<em>str</em>) – The property to match</p></li>
+<li><p><strong>value</strong> (<em>Any</em>) – The value to match</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The matching element, if one is found</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject">XAObject</a></p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.6.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.XABase.XAList.containing">
+<span class="sig-name descname"><span class="pre">containing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">property</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><span class="pre">PyXA.XABase.XAObject</span></a></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAList.containing"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAList.containing" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieves the element whose property value contains the given value, if one exists.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>property</strong> (<em>str</em>) – The property match</p></li>
+<li><p><strong>value</strong> (<em>str</em>) – The value to search for</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The matching element, if one is found</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject">XAObject</a></p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.6.</span></p>
+</div>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.XABase.XAList.first">
@@ -1626,6 +1777,10 @@
 <dt class="sig sig-object py" id="PyXA.XABase.XALocation">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.XABase.</span></span><span class="sig-name descname"><span class="pre">XALocation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">raw_value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">latitude</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">longitude</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">altitude</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">radius</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">address</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">route_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">handle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyXA/XABase.html#XALocation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XALocation" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A location with a latitude and longitude, along with other data.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
 <p><strong>Methods:</strong></p>
 <table class="autosummary longtable docutils align-default">
 <colgroup>
@@ -1639,6 +1794,9 @@
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XALocation.set_raw_value" title="PyXA.XABase.XALocation.set_raw_value"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_raw_value</span></code></a>(raw_value)</p></td>
 <td><p></p></td>
 </tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XALocation.show_in_maps" title="PyXA.XABase.XALocation.show_in_maps"><code class="xref py py-obj docutils literal notranslate"><span class="pre">show_in_maps</span></code></a>()</p></td>
+<td><p>Shows the location in Maps.app.</p></td>
+</tr>
 </tbody>
 </table>
 <dl class="py method">
@@ -1650,6 +1808,15 @@
 <dt class="sig sig-object py" id="PyXA.XABase.XALocation.set_raw_value">
 <span class="sig-name descname"><span class="pre">set_raw_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">raw_value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyXA/XABase.html#XALocation.set_raw_value"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XALocation.set_raw_value" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.XABase.XALocation.show_in_maps">
+<span class="sig-name descname"><span class="pre">show_in_maps</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyXA/XABase.html#XALocation.show_in_maps"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XALocation.show_in_maps" title="Permalink to this definition"></a></dt>
+<dd><p>Shows the location in Maps.app.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.6.</span></p>
+</div>
+</dd></dl>
 
 </dd></dl>
 
@@ -3052,6 +3219,10 @@
 <dt class="sig sig-object py" id="PyXA.XABase.XAUIAction">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.XABase.</span></span><span class="sig-name descname"><span class="pre">XAUIAction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAUIAction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAUIAction" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#PyXA.XABase.XAUIElement" title="PyXA.XABase.XAUIElement"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAUIElement</span></code></a></p>
+<p>An action associated with a UI element.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
 <p><strong>Methods:</strong></p>
 <table class="autosummary longtable docutils align-default">
 <colgroup>
@@ -3060,14 +3231,18 @@
 </colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIAction.perform" title="PyXA.XABase.XAUIAction.perform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">perform</span></code></a>()</p></td>
-<td><p></p></td>
+<td><p>Executes the action.</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.XABase.XAUIAction.perform">
 <span class="sig-name descname"><span class="pre">perform</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAUIAction.perform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAUIAction.perform" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Executes the action.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+</dd></dl>
 
 </dd></dl>
 
@@ -3093,7 +3268,7 @@
 </colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIElement.accessibility_description" title="PyXA.XABase.XAUIElement.accessibility_description"><code class="xref py py-obj docutils literal notranslate"><span class="pre">accessibility_description</span></code></a></p></td>
-<td><p></p></td>
+<td><p>The accessibility description of the element</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIElement.enabled" title="PyXA.XABase.XAUIElement.enabled"><code class="xref py py-obj docutils literal notranslate"><span class="pre">enabled</span></code></a></p></td>
 <td><p>Whether the UI element is currently enabled</p></td>
@@ -3116,25 +3291,28 @@
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIElement.position" title="PyXA.XABase.XAUIElement.position"><code class="xref py py-obj docutils literal notranslate"><span class="pre">position</span></code></a></p></td>
 <td><p>The position of the top left corner of the element</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIElement.role" title="PyXA.XABase.XAUIElement.role"><code class="xref py py-obj docutils literal notranslate"><span class="pre">role</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIElement.properties" title="PyXA.XABase.XAUIElement.properties"><code class="xref py py-obj docutils literal notranslate"><span class="pre">properties</span></code></a></p></td>
+<td><p>All properties of the UI element</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIElement.role" title="PyXA.XABase.XAUIElement.role"><code class="xref py py-obj docutils literal notranslate"><span class="pre">role</span></code></a></p></td>
 <td><p>The element's role</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIElement.role_description" title="PyXA.XABase.XAUIElement.role_description"><code class="xref py py-obj docutils literal notranslate"><span class="pre">role_description</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIElement.role_description" title="PyXA.XABase.XAUIElement.role_description"><code class="xref py py-obj docutils literal notranslate"><span class="pre">role_description</span></code></a></p></td>
 <td><p>The description of the element's role</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIElement.selected" title="PyXA.XABase.XAUIElement.selected"><code class="xref py py-obj docutils literal notranslate"><span class="pre">selected</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIElement.selected" title="PyXA.XABase.XAUIElement.selected"><code class="xref py py-obj docutils literal notranslate"><span class="pre">selected</span></code></a></p></td>
 <td><p>Whether the element is currently selected</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIElement.size" title="PyXA.XABase.XAUIElement.size"><code class="xref py py-obj docutils literal notranslate"><span class="pre">size</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIElement.size" title="PyXA.XABase.XAUIElement.size"><code class="xref py py-obj docutils literal notranslate"><span class="pre">size</span></code></a></p></td>
 <td><p>The width and height of the element, in pixels</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIElement.subrole" title="PyXA.XABase.XAUIElement.subrole"><code class="xref py py-obj docutils literal notranslate"><span class="pre">subrole</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIElement.subrole" title="PyXA.XABase.XAUIElement.subrole"><code class="xref py py-obj docutils literal notranslate"><span class="pre">subrole</span></code></a></p></td>
 <td><p>The subrole of the UI element</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIElement.title" title="PyXA.XABase.XAUIElement.title"><code class="xref py py-obj docutils literal notranslate"><span class="pre">title</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIElement.title" title="PyXA.XABase.XAUIElement.title"><code class="xref py py-obj docutils literal notranslate"><span class="pre">title</span></code></a></p></td>
 <td><p>The title of the element (often the same as its name)</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIElement.value" title="PyXA.XABase.XAUIElement.value"><code class="xref py py-obj docutils literal notranslate"><span class="pre">value</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIElement.value" title="PyXA.XABase.XAUIElement.value"><code class="xref py py-obj docutils literal notranslate"><span class="pre">value</span></code></a></p></td>
 <td><p>The current value of the element</p></td>
 </tr>
 </tbody>
@@ -3149,28 +3327,34 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIElement.actions" title="PyXA.XABase.XAUIElement.actions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">actions</span></code></a>([filter])</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIElement.all" title="PyXA.XABase.XAUIElement.all"><code class="xref py py-obj docutils literal notranslate"><span class="pre">all</span></code></a>(specifier[, in_class, force_update])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIElement.buttons" title="PyXA.XABase.XAUIElement.buttons"><code class="xref py py-obj docutils literal notranslate"><span class="pre">buttons</span></code></a>([filter])</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIElement.buttons" title="PyXA.XABase.XAUIElement.buttons"><code class="xref py py-obj docutils literal notranslate"><span class="pre">buttons</span></code></a>([filter])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIElement.groups" title="PyXA.XABase.XAUIElement.groups"><code class="xref py py-obj docutils literal notranslate"><span class="pre">groups</span></code></a>([filter])</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIElement.groups" title="PyXA.XABase.XAUIElement.groups"><code class="xref py py-obj docutils literal notranslate"><span class="pre">groups</span></code></a>([filter])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIElement.menu_bar_items" title="PyXA.XABase.XAUIElement.menu_bar_items"><code class="xref py py-obj docutils literal notranslate"><span class="pre">menu_bar_items</span></code></a>([filter])</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIElement.menu_bar_items" title="PyXA.XABase.XAUIElement.menu_bar_items"><code class="xref py py-obj docutils literal notranslate"><span class="pre">menu_bar_items</span></code></a>([filter])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIElement.menu_bars" title="PyXA.XABase.XAUIElement.menu_bars"><code class="xref py py-obj docutils literal notranslate"><span class="pre">menu_bars</span></code></a>([filter])</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIElement.menu_bars" title="PyXA.XABase.XAUIElement.menu_bars"><code class="xref py py-obj docutils literal notranslate"><span class="pre">menu_bars</span></code></a>([filter])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIElement.menu_items" title="PyXA.XABase.XAUIElement.menu_items"><code class="xref py py-obj docutils literal notranslate"><span class="pre">menu_items</span></code></a>([filter])</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIElement.menu_items" title="PyXA.XABase.XAUIElement.menu_items"><code class="xref py py-obj docutils literal notranslate"><span class="pre">menu_items</span></code></a>([filter])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIElement.menus" title="PyXA.XABase.XAUIElement.menus"><code class="xref py py-obj docutils literal notranslate"><span class="pre">menus</span></code></a>([filter])</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIElement.menus" title="PyXA.XABase.XAUIElement.menus"><code class="xref py py-obj docutils literal notranslate"><span class="pre">menus</span></code></a>([filter])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIElement.radio_buttons" title="PyXA.XABase.XAUIElement.radio_buttons"><code class="xref py py-obj docutils literal notranslate"><span class="pre">radio_buttons</span></code></a>([filter])</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIElement.static_texts" title="PyXA.XABase.XAUIElement.static_texts"><code class="xref py py-obj docutils literal notranslate"><span class="pre">static_texts</span></code></a>([filter])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIElement.scroll_areas" title="PyXA.XABase.XAUIElement.scroll_areas"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scroll_areas</span></code></a>([filter])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIElement.static_texts" title="PyXA.XABase.XAUIElement.static_texts"><code class="xref py py-obj docutils literal notranslate"><span class="pre">static_texts</span></code></a>([filter])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIElement.tab_groups" title="PyXA.XABase.XAUIElement.tab_groups"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tab_groups</span></code></a>([filter])</p></td>
 <td><p></p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIElement.text_fields" title="PyXA.XABase.XAUIElement.text_fields"><code class="xref py py-obj docutils literal notranslate"><span class="pre">text_fields</span></code></a>([filter])</p></td>
@@ -3179,7 +3363,10 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIElement.toolbars" title="PyXA.XABase.XAUIElement.toolbars"><code class="xref py py-obj docutils literal notranslate"><span class="pre">toolbars</span></code></a>([filter])</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIElement.windows" title="PyXA.XABase.XAUIElement.windows"><code class="xref py py-obj docutils literal notranslate"><span class="pre">windows</span></code></a>([filter])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIElement.ui_elements" title="PyXA.XABase.XAUIElement.ui_elements"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ui_elements</span></code></a>([filter])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIElement.windows" title="PyXA.XABase.XAUIElement.windows"><code class="xref py py-obj docutils literal notranslate"><span class="pre">windows</span></code></a>([filter])</p></td>
 <td><p></p></td>
 </tr>
 </tbody>
@@ -3187,16 +3374,12 @@
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.XABase.XAUIElement.accessibility_description">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">accessibility_description</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.XABase.XAUIElement.accessibility_description" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>The accessibility description of the element</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.XABase.XAUIElement.actions">
 <span class="sig-name descname"><span class="pre">actions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.XABase.XAUIActionList" title="PyXA.XABase.XAUIActionList"><span class="pre">PyXA.XABase.XAUIActionList</span></a></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAUIElement.actions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAUIElement.actions" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="PyXA.XABase.XAUIElement.all">
-<span class="sig-name descname"><span class="pre">all</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">specifier</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">in_class</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'groups'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force_update</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAUIElement.all"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAUIElement.all" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -3272,6 +3455,17 @@
 </dd></dl>
 
 <dl class="py property">
+<dt class="sig sig-object py" id="PyXA.XABase.XAUIElement.properties">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">properties</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span></em><a class="headerlink" href="#PyXA.XABase.XAUIElement.properties" title="Permalink to this definition"></a></dt>
+<dd><p>All properties of the UI element</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.XABase.XAUIElement.radio_buttons">
+<span class="sig-name descname"><span class="pre">radio_buttons</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.XABase.XAUIRadioButtonList" title="PyXA.XABase.XAUIRadioButtonList"><span class="pre">PyXA.XABase.XAUIRadioButtonList</span></a></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAUIElement.radio_buttons"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAUIElement.radio_buttons" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
 <dt class="sig sig-object py" id="PyXA.XABase.XAUIElement.role">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">role</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.XABase.XAUIElement.role" title="Permalink to this definition"></a></dt>
 <dd><p>The element’s role</p>
@@ -3282,6 +3476,11 @@
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">role_description</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.XABase.XAUIElement.role_description" title="Permalink to this definition"></a></dt>
 <dd><p>The description of the element’s role</p>
 </dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.XABase.XAUIElement.scroll_areas">
+<span class="sig-name descname"><span class="pre">scroll_areas</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.XABase.XAUIScrollAreaList" title="PyXA.XABase.XAUIScrollAreaList"><span class="pre">PyXA.XABase.XAUIScrollAreaList</span></a></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAUIElement.scroll_areas"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAUIElement.scroll_areas" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.XABase.XAUIElement.selected">
@@ -3307,6 +3506,11 @@
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="PyXA.XABase.XAUIElement.tab_groups">
+<span class="sig-name descname"><span class="pre">tab_groups</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.XABase.XAUITabGroupList" title="PyXA.XABase.XAUITabGroupList"><span class="pre">PyXA.XABase.XAUITabGroupList</span></a></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAUIElement.tab_groups"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAUIElement.tab_groups" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="PyXA.XABase.XAUIElement.text_fields">
 <span class="sig-name descname"><span class="pre">text_fields</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.XABase.XAUITextfieldList" title="PyXA.XABase.XAUITextfieldList"><span class="pre">PyXA.XABase.XAUITextfieldList</span></a></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAUIElement.text_fields"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAUIElement.text_fields" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
@@ -3320,6 +3524,11 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.XABase.XAUIElement.toolbars">
 <span class="sig-name descname"><span class="pre">toolbars</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.XABase.XAUIToolbarList" title="PyXA.XABase.XAUIToolbarList"><span class="pre">PyXA.XABase.XAUIToolbarList</span></a></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAUIElement.toolbars"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAUIElement.toolbars" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.XABase.XAUIElement.ui_elements">
+<span class="sig-name descname"><span class="pre">ui_elements</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.XABase.XAUIElementList" title="PyXA.XABase.XAUIElementList"><span class="pre">PyXA.XABase.XAUIElementList</span></a></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAUIElement.ui_elements"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAUIElement.ui_elements" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py property">
@@ -3375,46 +3584,52 @@
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIElementList.by_position" title="PyXA.XABase.XAUIElementList.by_position"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_position</span></code></a>(position)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIElementList.by_role" title="PyXA.XABase.XAUIElementList.by_role"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_role</span></code></a>(role)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIElementList.by_properties" title="PyXA.XABase.XAUIElementList.by_properties"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_properties</span></code></a>(properties)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIElementList.by_role_description" title="PyXA.XABase.XAUIElementList.by_role_description"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_role_description</span></code></a>(role_description)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIElementList.by_role" title="PyXA.XABase.XAUIElementList.by_role"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_role</span></code></a>(role)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIElementList.by_selected" title="PyXA.XABase.XAUIElementList.by_selected"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_selected</span></code></a>(selected)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIElementList.by_role_description" title="PyXA.XABase.XAUIElementList.by_role_description"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_role_description</span></code></a>(role_description)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIElementList.by_size" title="PyXA.XABase.XAUIElementList.by_size"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_size</span></code></a>(size)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIElementList.by_selected" title="PyXA.XABase.XAUIElementList.by_selected"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_selected</span></code></a>(selected)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIElementList.by_subrole" title="PyXA.XABase.XAUIElementList.by_subrole"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_subrole</span></code></a>(subrole)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIElementList.by_size" title="PyXA.XABase.XAUIElementList.by_size"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_size</span></code></a>(size)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIElementList.by_title" title="PyXA.XABase.XAUIElementList.by_title"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_title</span></code></a>(title)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIElementList.by_subrole" title="PyXA.XABase.XAUIElementList.by_subrole"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_subrole</span></code></a>(subrole)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIElementList.by_value" title="PyXA.XABase.XAUIElementList.by_value"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_value</span></code></a>(value)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIElementList.by_title" title="PyXA.XABase.XAUIElementList.by_title"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_title</span></code></a>(title)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIElementList.enabled" title="PyXA.XABase.XAUIElementList.enabled"><code class="xref py py-obj docutils literal notranslate"><span class="pre">enabled</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIElementList.by_value" title="PyXA.XABase.XAUIElementList.by_value"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_value</span></code></a>(value)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIElementList.entire_contents" title="PyXA.XABase.XAUIElementList.entire_contents"><code class="xref py py-obj docutils literal notranslate"><span class="pre">entire_contents</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIElementList.enabled" title="PyXA.XABase.XAUIElementList.enabled"><code class="xref py py-obj docutils literal notranslate"><span class="pre">enabled</span></code></a>()</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIElementList.focused" title="PyXA.XABase.XAUIElementList.focused"><code class="xref py py-obj docutils literal notranslate"><span class="pre">focused</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIElementList.entire_contents" title="PyXA.XABase.XAUIElementList.entire_contents"><code class="xref py py-obj docutils literal notranslate"><span class="pre">entire_contents</span></code></a>()</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIElementList.maximum_value" title="PyXA.XABase.XAUIElementList.maximum_value"><code class="xref py py-obj docutils literal notranslate"><span class="pre">maximum_value</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIElementList.focused" title="PyXA.XABase.XAUIElementList.focused"><code class="xref py py-obj docutils literal notranslate"><span class="pre">focused</span></code></a>()</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIElementList.minimum_value" title="PyXA.XABase.XAUIElementList.minimum_value"><code class="xref py py-obj docutils literal notranslate"><span class="pre">minimum_value</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIElementList.maximum_value" title="PyXA.XABase.XAUIElementList.maximum_value"><code class="xref py py-obj docutils literal notranslate"><span class="pre">maximum_value</span></code></a>()</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIElementList.name" title="PyXA.XABase.XAUIElementList.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIElementList.minimum_value" title="PyXA.XABase.XAUIElementList.minimum_value"><code class="xref py py-obj docutils literal notranslate"><span class="pre">minimum_value</span></code></a>()</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIElementList.position" title="PyXA.XABase.XAUIElementList.position"><code class="xref py py-obj docutils literal notranslate"><span class="pre">position</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIElementList.name" title="PyXA.XABase.XAUIElementList.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIElementList.position" title="PyXA.XABase.XAUIElementList.position"><code class="xref py py-obj docutils literal notranslate"><span class="pre">position</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIElementList.properties" title="PyXA.XABase.XAUIElementList.properties"><code class="xref py py-obj docutils literal notranslate"><span class="pre">properties</span></code></a>()</p></td>
 <td><p></p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIElementList.role" title="PyXA.XABase.XAUIElementList.role"><code class="xref py py-obj docutils literal notranslate"><span class="pre">role</span></code></a>()</p></td>
@@ -3478,6 +3693,11 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.XABase.XAUIElementList.by_position">
 <span class="sig-name descname"><span class="pre">by_position</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">position</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.XABase.XAUIElement" title="PyXA.XABase.XAUIElement"><span class="pre">PyXA.XABase.XAUIElement</span></a></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAUIElementList.by_position"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAUIElementList.by_position" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.XABase.XAUIElementList.by_properties">
+<span class="sig-name descname"><span class="pre">by_properties</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.XABase.XAUIElement" title="PyXA.XABase.XAUIElement"><span class="pre">PyXA.XABase.XAUIElement</span></a></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAUIElementList.by_properties"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAUIElementList.by_properties" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -3551,6 +3771,11 @@
 <dd></dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="PyXA.XABase.XAUIElementList.properties">
+<span class="sig-name descname"><span class="pre">properties</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAUIElementList.properties"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAUIElementList.properties" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="PyXA.XABase.XAUIElementList.role">
 <span class="sig-name descname"><span class="pre">role</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAUIElementList.role"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAUIElementList.role" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
@@ -3591,6 +3816,10 @@
 <dt class="sig sig-object py" id="PyXA.XABase.XAUIGroup">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.XABase.</span></span><span class="sig-name descname"><span class="pre">XAUIGroup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAUIGroup"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAUIGroup" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#PyXA.XABase.XAUIElement" title="PyXA.XABase.XAUIElement"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAUIElement</span></code></a></p>
+<p>A group of UI element.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
 </dd></dl>
 
 <dl class="py class">
@@ -3607,18 +3836,30 @@
 <dt class="sig sig-object py" id="PyXA.XABase.XAUIMenu">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.XABase.</span></span><span class="sig-name descname"><span class="pre">XAUIMenu</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAUIMenu"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAUIMenu" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#PyXA.XABase.XAUIElement" title="PyXA.XABase.XAUIElement"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAUIElement</span></code></a></p>
+<p>A menu UI element.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.XABase.XAUIMenuBar">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.XABase.</span></span><span class="sig-name descname"><span class="pre">XAUIMenuBar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAUIMenuBar"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAUIMenuBar" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#PyXA.XABase.XAUIElement" title="PyXA.XABase.XAUIElement"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAUIElement</span></code></a></p>
+<p>A menubar UI element.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.XABase.XAUIMenuBarItem">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.XABase.</span></span><span class="sig-name descname"><span class="pre">XAUIMenuBarItem</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAUIMenuBarItem"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAUIMenuBarItem" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#PyXA.XABase.XAUIElement" title="PyXA.XABase.XAUIElement"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAUIElement</span></code></a></p>
+<p>A menubar item UI element.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
 </dd></dl>
 
 <dl class="py class">
@@ -3645,6 +3886,10 @@
 <dt class="sig sig-object py" id="PyXA.XABase.XAUIMenuItem">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.XABase.</span></span><span class="sig-name descname"><span class="pre">XAUIMenuItem</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAUIMenuItem"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAUIMenuItem" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#PyXA.XABase.XAUIElement" title="PyXA.XABase.XAUIElement"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAUIElement</span></code></a></p>
+<p>A menu item UI element.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
 <p><strong>Methods:</strong></p>
 <table class="autosummary longtable docutils align-default">
 <colgroup>
@@ -3653,22 +3898,46 @@
 </colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIMenuItem.click" title="PyXA.XABase.XAUIMenuItem.click"><code class="xref py py-obj docutils literal notranslate"><span class="pre">click</span></code></a>()</p></td>
-<td><p></p></td>
+<td><p>Clicks the menu item.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAUIMenuItem.press" title="PyXA.XABase.XAUIMenuItem.press"><code class="xref py py-obj docutils literal notranslate"><span class="pre">press</span></code></a>()</p></td>
-<td><p></p></td>
+<td><p>Clicks the menu item.</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.XABase.XAUIMenuItem.click">
-<span class="sig-name descname"><span class="pre">click</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAUIMenuItem.click"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAUIMenuItem.click" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">click</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.XABase.XAUIMenuItem" title="PyXA.XABase.XAUIMenuItem"><span class="pre">PyXA.XABase.XAUIMenuItem</span></a></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAUIMenuItem.click"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAUIMenuItem.click" title="Permalink to this definition"></a></dt>
+<dd><p>Clicks the menu item. Synonymous with <a class="reference internal" href="#PyXA.XABase.XAUIMenuItem.press" title="PyXA.XABase.XAUIMenuItem.press"><code class="xref py py-func docutils literal notranslate"><span class="pre">press()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The menu item object.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#PyXA.XABase.XAUIMenuItem" title="PyXA.XABase.XAUIMenuItem">XAUIMenuItem</a></p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.XABase.XAUIMenuItem.press">
-<span class="sig-name descname"><span class="pre">press</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAUIMenuItem.press"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAUIMenuItem.press" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">press</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.XABase.XAUIMenuItem" title="PyXA.XABase.XAUIMenuItem"><span class="pre">PyXA.XABase.XAUIMenuItem</span></a></span></span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAUIMenuItem.press"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAUIMenuItem.press" title="Permalink to this definition"></a></dt>
+<dd><p>Clicks the menu item. Synonymous with <a class="reference internal" href="#PyXA.XABase.XAUIMenuItem.click" title="PyXA.XABase.XAUIMenuItem.click"><code class="xref py py-func docutils literal notranslate"><span class="pre">click()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The menu item object.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#PyXA.XABase.XAUIMenuItem" title="PyXA.XABase.XAUIMenuItem">XAUIMenuItem</a></p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+</dd></dl>
 
 </dd></dl>
 
@@ -3693,9 +3962,53 @@
 </dd></dl>
 
 <dl class="py class">
+<dt class="sig sig-object py" id="PyXA.XABase.XAUIRadioButton">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.XABase.</span></span><span class="sig-name descname"><span class="pre">XAUIRadioButton</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAUIRadioButton"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAUIRadioButton" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#PyXA.XABase.XAUIElement" title="PyXA.XABase.XAUIElement"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAUIElement</span></code></a></p>
+<p>A radio button UI element.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.XABase.XAUIRadioButtonList">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.XABase.</span></span><span class="sig-name descname"><span class="pre">XAUIRadioButtonList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAUIRadioButtonList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAUIRadioButtonList" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#PyXA.XABase.XAUIElementList" title="PyXA.XABase.XAUIElementList"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAUIElementList</span></code></a></p>
+<p>A wrapper around lists of radio buttons that employs fast enumeration techniques.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.4.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.XABase.XAUIScrollArea">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.XABase.</span></span><span class="sig-name descname"><span class="pre">XAUIScrollArea</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAUIScrollArea"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAUIScrollArea" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#PyXA.XABase.XAUIElement" title="PyXA.XABase.XAUIElement"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAUIElement</span></code></a></p>
+<p>A scroll area UI element.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.XABase.XAUIScrollAreaList">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.XABase.</span></span><span class="sig-name descname"><span class="pre">XAUIScrollAreaList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAUIScrollAreaList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAUIScrollAreaList" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#PyXA.XABase.XAUIElementList" title="PyXA.XABase.XAUIElementList"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAUIElementList</span></code></a></p>
+<p>A wrapper around a list of scroll areas.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.5.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py class">
 <dt class="sig sig-object py" id="PyXA.XABase.XAUIStaticText">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.XABase.</span></span><span class="sig-name descname"><span class="pre">XAUIStaticText</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAUIStaticText"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAUIStaticText" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#PyXA.XABase.XAUIElement" title="PyXA.XABase.XAUIElement"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAUIElement</span></code></a></p>
+<p>A static text UI element.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
 </dd></dl>
 
 <dl class="py class">
@@ -3709,9 +4022,33 @@
 </dd></dl>
 
 <dl class="py class">
+<dt class="sig sig-object py" id="PyXA.XABase.XAUITabGroup">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.XABase.</span></span><span class="sig-name descname"><span class="pre">XAUITabGroup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAUITabGroup"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAUITabGroup" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#PyXA.XABase.XAUIElement" title="PyXA.XABase.XAUIElement"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAUIElement</span></code></a></p>
+<p>A tab group UI element.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.XABase.XAUITabGroupList">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.XABase.</span></span><span class="sig-name descname"><span class="pre">XAUITabGroupList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAUITabGroupList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAUITabGroupList" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#PyXA.XABase.XAUIElementList" title="PyXA.XABase.XAUIElementList"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAUIElementList</span></code></a></p>
+<p>A wrapper around a list of UI element tab groups.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.5.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py class">
 <dt class="sig sig-object py" id="PyXA.XABase.XAUITextfield">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.XABase.</span></span><span class="sig-name descname"><span class="pre">XAUITextfield</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAUITextfield"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAUITextfield" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#PyXA.XABase.XAUIElement" title="PyXA.XABase.XAUIElement"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAUIElement</span></code></a></p>
+<p>A textfield UI element.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
 </dd></dl>
 
 <dl class="py class">
@@ -3728,6 +4065,10 @@
 <dt class="sig sig-object py" id="PyXA.XABase.XAUIToolbar">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.XABase.</span></span><span class="sig-name descname"><span class="pre">XAUIToolbar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAUIToolbar"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAUIToolbar" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#PyXA.XABase.XAUIElement" title="PyXA.XABase.XAUIElement"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAUIElement</span></code></a></p>
+<p>A toolbar UI element.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
 </dd></dl>
 
 <dl class="py class">
@@ -3861,17 +4202,41 @@
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAWindowList.collapse" title="PyXA.XABase.XAWindowList.collapse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">collapse</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAWindowList.close" title="PyXA.XABase.XAWindowList.close"><code class="xref py py-obj docutils literal notranslate"><span class="pre">close</span></code></a>()</p></td>
+<td><p>Closes all windows in the list.add()</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABase.XAWindowList.collapse" title="PyXA.XABase.XAWindowList.collapse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">collapse</span></code></a>()</p></td>
 <td><p>Collapses all windows in the list.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABase.XAWindowList.uncollapse" title="PyXA.XABase.XAWindowList.uncollapse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">uncollapse</span></code></a>()</p></td>
+<td><p>Uncollapses all windows in the list.</p></td>
 </tr>
 </tbody>
 </table>
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.XABase.XAWindowList.close">
+<span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAWindowList.close"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAWindowList.close" title="Permalink to this definition"></a></dt>
+<dd><p>Closes all windows in the list.add()</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.6.</span></p>
+</div>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.XABase.XAWindowList.collapse">
 <span class="sig-name descname"><span class="pre">collapse</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAWindowList.collapse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAWindowList.collapse" title="Permalink to this definition"></a></dt>
 <dd><p>Collapses all windows in the list.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.5.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.XABase.XAWindowList.uncollapse">
+<span class="sig-name descname"><span class="pre">uncollapse</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyXA/XABase.html#XAWindowList.uncollapse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABase.XAWindowList.uncollapse" title="Permalink to this definition"></a></dt>
+<dd><p>Uncollapses all windows in the list.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.6.</span></p>
 </div>
 </dd></dl>
 

@@ -1,5 +1,5 @@
-Keynote Module
-==============
+Keynote Module Reference
+========================
 
 .. automodule:: PyXA.apps.Keynote
    :members:

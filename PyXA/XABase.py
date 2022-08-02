@@ -418,6 +418,7 @@ class XAList(XAObject):
 
     def __reversed__(self):
         self.xa_elem = self.xa_elem.reverseObjectEnumerator().allObjects()
+        return self
 
     def __iter__(self):
         return (self._new_element(object, self.xa_ocls) for object in self.xa_elem.objectEnumerator())

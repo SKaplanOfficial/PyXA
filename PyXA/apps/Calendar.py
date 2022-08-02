@@ -111,6 +111,15 @@ class XACalendarApplication(XABaseScriptable.XASBApplication):
         :return: The application object
         :rtype: XACalendarApplication
 
+        :Example:
+
+        >>> import PyXA
+        >>> app = PyXA.application("Calendar")
+        >>> app.switch_view_to(app.ViewType.WEEK)
+        >>> app.switch_view_to(app.ViewType.DAY)
+        >>> app.switch_view_to(app.ViewType.MONTH)
+        >>> app.switch_view_to(app.ViewType.YEAR)
+
         .. versionadded:: 0.0.1
         """
         if view == XACalendarApplication.ViewType.YEAR:
@@ -126,6 +135,14 @@ class XACalendarApplication(XABaseScriptable.XASBApplication):
         :type date: datetime
         :return: A reference to the Calendar application object.
         :rtype: XACalendarApplication
+
+        :Example:
+
+        >>> import PyXA
+        >>> from datetime import date
+        >>> app = PyXA.application("Calendar")
+        >>> date1 = date(2022, 7, 20)
+        >>> app.view_calendar_at(date1)
 
         .. versionadded:: 0.0.1
         """
@@ -171,9 +188,92 @@ class XACalendarApplication(XABaseScriptable.XASBApplication):
         :return: The list of calendars
         :rtype: XACalendarCalendarList
 
+        :Example 1: Get all calendars
+
+        >>> import PyXA
+        >>> app = PyXA.application("Calendar")
+        >>> print(app.calendars())
+        <<class 'PyXA.apps.Calendar.XACalendarCalendarList'>['Calendar', 'Calendar2', 'Calendar3', ...]>
+
+        :Example 2: Get calendars using a filter
+
+        >>> import PyXA
+        >>> app = PyXA.application("Calendar")
+        >>> print(app.calendars({"name": "Calendar"})[0])
+        <<class 'PyXA.apps.Calendar.XACalendarCalendar'>Calendar>
+
+        :Example 3: Get calendars using list methods
+
+        >>> import PyXA
+        >>> app = PyXA.application("Calendar")
+        >>> print(app.calendars().by_name("Calendar"))
+        <<class 'PyXA.apps.Calendar.XACalendarCalendar'>Calendar>
+
         .. versionadded:: 0.0.6
         """
         return self._new_element(self.xa_scel.calendars(), XACalendarCalendarList, filter)
+
+    def new_calendar(self, name: str = "New Calendar") -> 'XACalendarCalendar':
+        """Creates a new calendar with the given name.
+
+        :param name: The name of the calendar, defaults to "New Calendar"
+        :type name: str, optional
+        :return: The newly created calendar object
+        :rtype: XACalendarCalendar
+
+        :Example:
+
+        >>> import PyXA
+        >>> app = PyXA.application("Calendar")
+        >>> app.new_calendar("PyXA Development")
+
+        .. versionadded:: 0.0.1
+        """
+        new_calendar = self.make("calendar", {"name": name})
+        self.calendars().push(new_calendar)
+        
+        desc = new_calendar.xa_elem.description()
+        id = desc[desc.index("id") + 4: desc.index("of app") - 3]
+        return reversed(self.calendars()).by_name(name)
+
+    def new_event(self, summary: str, start_date: datetime, end_date: datetime, calendar: Union['XACalendarCalendar', None] = None) -> 'XACalendarEvent':
+        """Creates a new event with the given name and start/end dates in the specified calendar. If no calendar is specified, the default calendar is used.
+
+        :param name: The name of the event
+        :type name: str
+        :param start_date: The start date and time of the event.
+        :type start_date: datetime
+        :param end_date: The end date and time of the event.
+        :type end_date: datetime
+        :return: A reference to the newly created event.
+        :rtype: XACalendarEvent
+
+        :Example: Create event on the default calendar
+
+        >>> from datetime import datetime, timedelta
+        >>> import PyXA
+        >>> app = PyXA.application("Calendar")
+        >>> start_date = datetime.now()
+        >>> end_date = start_date + timedelta(hours = 1)
+        >>> app.new_event("Learn about PyXA", start_date, end_date)
+
+        :Example: Create event on a specific calendar
+
+        >>> from datetime import datetime, timedelta
+        >>> import PyXA
+        >>> app = PyXA.application("Calendar")
+        >>> start_date = datetime.now()
+        >>> end_date = start_date + timedelta(hours = 1)
+        >>> calendar = app.calendars()[-1]
+        >>> app.new_event("Learn about PyXA", start_date, end_date, calendar)
+
+        .. versionadded:: 0.0.1
+        """
+        if calendar is None:
+            calendar = self.default_calendar
+        new_event = self.make("event", {"summary": summary, "startDate": start_date, "endDate": end_date})
+        calendar.events().push(new_event)
+        return calendar.events().by_uid(new_event.uid)
 
     def make(self, specifier: str, properties: dict = None):
         """Creates a new element of the given specifier class without adding it to any list.
@@ -186,6 +286,22 @@ class XACalendarApplication(XABaseScriptable.XASBApplication):
         :type properties: dict
         :return: A PyXA wrapped form of the object
         :rtype: XABase.XAObject
+
+        :Example 1: Make a new calendar
+
+        >>> import PyXA
+        >>> app = PyXA.application("Calendar")
+        >>> new_calendar = app.make("calendar", {"name": "PyXA Development"})
+        >>> app.calendars().push(new_calendar)
+
+        :Example 2: Make a new event
+
+        >>> import PyXA
+        >>> app = PyXA.application("Calendar")
+        >>> start_date = datetime.now()
+        >>> end_date = start_date + timedelta(hours = 1)
+        >>> new_event = app.make("event", {"summary": "Work on PyXA", "startDate": start_date, "endDate": end_date})
+        >>> app.default_calendar.events().push(new_event)
 
         .. versionadded:: 0.0.6
         """
@@ -200,6 +316,14 @@ class XACalendarApplication(XABaseScriptable.XASBApplication):
             return self._new_element(obj, XACalendarCalendar)
         elif specifier == "event":
             return self._new_element(obj, XACalendarEvent)
+        elif specifier == "displayAlarm":
+            return self._new_element(obj, XACalendarDisplayAlarm)
+        elif specifier == "mailAlarm":
+            return self._new_element(obj, XACalendarMailAlarm)
+        elif specifier == "soundAlarm":
+            return self._new_element(obj, XACalendarSoundAlarm)
+        elif specifier == "openFileAlarm":
+            return self._new_element(obj, XACalendarOpenFileAlarm)
 
 
 
@@ -545,7 +669,9 @@ class XACalendarCalendarList(XABase.XAList):
         
         .. versionadded:: 0.0.6
         """
-        return self.by_property("description", description)
+        for calendar in self:
+            if calendar.description == description:
+                return calendar
 
     def __repr__(self):
         return "<" + str(type(self)) + str(self.name()) + ">"
@@ -557,12 +683,20 @@ class XACalendarCalendar(XABaseScriptable.XASBObject):
     """
     def __init__(self, properties: dict):
         super().__init__(properties)
+        self.xa_estr = self._exec_suppresed(EventKit.EKEventStore.alloc().init)
+
         self.properties: dict #: All properties of the calendar
         self.name: str #: The name of the calendar
         self.color: XABase.XAColor #: The color of the calendar
         self.calendar_identifier: str #: The unique identifier for the calendar
         self.writable: bool #: Whether the calendar is writable
         self.description: str #: The description of the calendar
+
+        if hasattr(self.xa_elem, "name"):
+            calendars = self.xa_estr.allCalendars()
+            predicate = XABase.XAPredicate()
+            predicate.add_eq_condition("title", self.name)
+            self.calendar_obj = predicate.evaluate(calendars)
 
     @property
     def properties(self) -> dict:
@@ -587,6 +721,92 @@ class XACalendarCalendar(XABaseScriptable.XASBObject):
     @property
     def description(self) -> str:
         return self.xa_elem.description()
+
+    def delete(self) -> 'XACalendarEvent':
+        """Deletes the calendar.
+
+        .. versionadded:: 0.0.2
+        """
+        self.xa_estr.requestAccessToEntityType_completion_(EventKit.EKEntityTypeEvent, None)
+        self.xa_calendar.markAsDeleted()
+        self.xa_estr.deleteCalendar_forEntityType_error_(self.xa_calendar, EventKit.EKEntityTypeEvent, None)
+
+    def events_in_range(self, start_date: datetime, end_date: datetime) -> 'XACalendarEventList':
+        """Gets a list of events occurring between the specified start and end datetimes.
+
+        :param start_date: The earliest date an event in the list should begin.
+        :type start_date: datetime
+        :param end_date: The latest date an event in the list should end.
+        :type end_date: datetime
+        :return: The list of events.
+        :rtype: XACalendarEventList
+
+        :Example:
+
+        >>> from datetime import date
+        >>> import PyXA
+        >>> app = PyXA.application("Calendar")
+        >>> calendar = app.default_calendar
+        >>> start_date = date(2022, 6, 4)
+        >>> end_date = date(2022, 6, 6)
+        >>> print(calendar.events_in_range(start_date, end_date))
+        [<PyXA.apps.Calendar.XACalendarEvent object at 0x105b83d90>, <PyXA.apps.Calendar.XACalendarEvent object at 0x105b90bb0>, <PyXA.apps.Calendar.XACalendarEvent object at 0x105b90dc0>]
+
+        .. note::
+
+           Querying events from a wide date range can take significant time. If you are looking for a specific subset of events within a large date range, it *might* be faster to use :func:`events` with a well-constructed filter and then iterate through the resulting array of objects, parsing out events outside of the desired date range.
+
+        .. versionadded:: 0.0.2
+        """
+        predicate = XABase.XAPredicate()
+        predicate.add_geq_condition("startDate", start_date)
+        predicate.add_leq_condition("endDate", end_date)
+        events_in_range = predicate.evaluate(self.xa_elem.events())
+        return self._new_element(events_in_range, XACalendarEventList)
+
+    def events_today(self) -> 'XACalendarEventList':
+        """Gets a list of all events in the next 24 hours.
+
+        :return: The list of events.
+        :rtype: XACalendarEventList
+
+        .. seealso:: :func:`week_events`
+
+        .. versionadded:: 0.0.2
+        """
+        start_date = datetime.now()
+        end_date = start_date + timedelta(days = 1)
+        return self.events_in_range(start_date, end_date)
+
+    def week_events(self) -> 'XACalendarEventList':
+        """Gets a list of events occurring in the next 7 days.
+
+        :return: The list of events.
+        :rtype: XACalendarEventList
+
+        .. seealso:: :func:`events_today`
+
+        .. versionadded:: 0.0.2
+        """
+        start_date = datetime.now()
+        end_date = start_date + timedelta(days = 7)
+        return self.events_in_range(start_date, end_date)
+
+    def new_event(self, name: str, start_date: datetime, end_date: datetime) -> 'XACalendarEvent':
+        """Creates a new event and pushes it onto this calendar's events array.
+
+        :param name: The name of the event.
+        :type name: str
+        :param start_date: The start date and time of the event.
+        :type start_date: datetime
+        :param end_date: The end date and time of the event.
+        :type end_date: datetime
+        :return: A reference to the newly created event.
+        :rtype: XACalendarEvent
+
+        .. versionadded:: 0.0.1
+        """
+        return self.xa_prnt.xa_prnt.new_event(name, start_date, end_date, self)
 
     def events(self, filter: Union[dict, None] = None) -> 'XACalendarEventList':
         """Returns a list of events, as PyXA objects, matching the given filter.
@@ -1059,6 +1279,7 @@ class XACalendarEventList(XABase.XAList):
 
         :return: The desired event, if it is found
         :rtype: Union[XACalendarEvent, None]
+
         
         .. versionadded:: 0.0.6
         """
@@ -1275,6 +1496,31 @@ class XACalendarEvent(XABaseScriptable.XASBObject):
         self.duplicate_to(calendar)
         self.delete()
 
+    def add_attachment(self, path: str) -> 'XACalendarEvent':
+        """Adds the file at the specified path as an attachment to the event.
+
+        :param path: The path of the file to attach to the event.
+        :type path: str
+        :return: A reference to this event object.
+        :rtype: XACalendarEvent
+
+        :Example:
+
+        >>> import PyXA
+        >>> app = PyXA.application("Calendar")
+        >>> calendar = app.default_calendar
+        >>> calendar2 = app.calendars()[1]
+        >>> event = calendar.events_today()[0]
+        >>> event.add_attachment("/Users/exampleuser/Image.png")
+
+        .. versionadded:: 0.0.2
+        """
+        file_url = XABase.XAPath(path).xa_elem
+        attachment = EventKit.EKAttachment.alloc().initWithFilepath_(file_url)
+        self.xa_elem.addAttachment_(attachment)
+        self.xa_estr.saveEvent_span_error_(self.xa_event_obj, EventKit.EKSpanThisEvent, None)
+        return self
+
     def attendees(self, filter: Union[dict, None] = None) -> 'XACalendarAttendeeList':
         """Returns a list of attendees, as PyXA objects, matching the given filter.
 
@@ -1287,5 +1533,185 @@ class XACalendarEvent(XABaseScriptable.XASBObject):
         """
         return self._new_element(self.xa_elem.attendees(), XACalendarAttendeeList, filter)
 
+    def attachments(self, filter: dict = None) -> 'XACalendarAttachmentList':
+        """"Returns a list of attachments, as PyXA objects, matching the given filter.
+
+        :return: The list of attachments.
+        :rtype: XACalendarAttachmentList
+
+        .. versionadded:: 0.0.2
+        """
+        return self._new_element(self.xa_event_obj.attachments(), XACalendarAttachmentList, filter)
+
     def __repr__(self):
         return "<" + str(type(self)) + str(self.summary) + ">"
+
+
+
+
+class XACalendarAttachmentList(XABase.XAList):
+    """A wrapper around lists of event attachments that employs fast enumeration techniques.
+
+    All properties of attachments can be called as methods on the wrapped list, returning a list containing each attachment's value for the property.
+
+    .. versionadded:: 0.0.6
+    """
+    def __init__(self, properties: dict, filter: Union[dict, None] = None):
+        super().__init__(properties, XACalendarAttachment, filter)
+
+    def type(self) -> List[str]:
+        """Gets the type of each attachment in the list.
+
+        :return: A list of attachment types
+        :rtype: List[str]
+        
+        .. versionadded:: 0.0.6
+        """
+        return list(self.xa_elem.arrayByApplyingSelector_("type"))
+
+    def file_name(self) -> List[str]:
+        """Gets the file name of each attachment in the list.
+
+        :return: A list of attachment file names
+        :rtype: List[str]
+        
+        .. versionadded:: 0.0.6
+        """
+        return list(self.xa_elem.arrayByApplyingSelector_("filename"))
+
+    def file(self) -> List[XABase.XAPath]:
+        """Gets the file path of each attachment in the list.
+
+        :return: A list of attachment file paths
+        :rtype: List[XABase.XAPath]
+        
+        .. versionadded:: 0.0.6
+        """
+        ls = self.xa_elem.arrayByApplyingSelector_("file")
+        return [XABase.XAPath(x) for x in ls]
+
+    def url(self) -> List[XABase.XAURL]:
+        """Gets the URL of each attachment in the list.
+
+        :return: A list of attachment file URLs
+        :rtype: List[XABase.XAURL]
+        
+        .. versionadded:: 0.0.6
+        """
+        ls = self.xa_elem.arrayByApplyingSelector_("URL")
+        return [XABase.XAURL(x) for x in ls]
+
+    def uuid(self) -> List[str]:
+        """Gets the UUID of each attachment in the list.
+
+        :return: A list of attachment UUIDs
+        :rtype: List[str]
+        
+        .. versionadded:: 0.0.6
+        """
+        return list(self.xa_elem.arrayByApplyingSelector_("uuid"))
+
+    def by_type(self, type: str) -> Union['XACalendarAttachment', None]:
+        """Retrieves the first attachment whose type matches the given type, if one exists.
+
+        :return: The desired attachment, if it is found
+        :rtype: Union[XACalendarAttachment, None]
+        
+        .. versionadded:: 0.0.6
+        """
+        return self.by_property("type", type)
+
+    def by_file_name(self, file_name: str) -> Union['XACalendarAttachment', None]:
+        """Retrieves the first attachment whose file name matches the given file name, if one exists.
+
+        :return: The desired attachment, if it is found
+        :rtype: Union[XACalendarAttachment, None]
+        
+        .. versionadded:: 0.0.6
+        """
+        return self.by_property("filename", file_name)
+
+    def by_file(self, file: XABase.XAPath) -> Union['XACalendarAttachment', None]:
+        """Retrieves the first attachment whose file path matches the given path, if one exists.
+
+        :return: The desired attachment, if it is found
+        :rtype: Union[XACalendarAttachment, None]
+        
+        .. versionadded:: 0.0.6
+        """
+        return self.by_property("file", file.xa_elem)
+
+    def by_url(self, url: XABase.XAURL) -> Union['XACalendarAttachment', None]:
+        """Retrieves the first attachment whose URL matches the given URL, if one exists.
+
+        :return: The desired attachment, if it is found
+        :rtype: Union[XACalendarAttachment, None]
+        
+        .. versionadded:: 0.0.6
+        """
+        return self.by_property("URL", url.xa_elem)
+
+    def by_url(self, uuid: str) -> Union['XACalendarAttachment', None]:
+        """Retrieves the attachment whose UUID matches the given UUID, if one exists.
+
+        :return: The desired attachment, if it is found
+        :rtype: Union[XACalendarAttachment, None]
+        
+        .. versionadded:: 0.0.6
+        """
+        return self.by_property("uuid", uuid)
+
+    def __repr__(self):
+        return "<" + str(type(self)) + str(self.file_name()) + ">"
+
+class XACalendarAttachment(XABase.XAObject):
+    """A class for interacting with calendar event attachments.
+
+    .. versionadded:: 0.0.2
+    """
+    def __init__(self, properties: dict):
+        super().__init__(properties)
+        self.type: str #: The content type of the attachment, e.g. `image/png`
+        self.file_name: str#: The filename of the original document
+        self.file: XABase.XAPath #: The location of the attachment on the local disk
+        self.url: XABase.XAURL #: The iCloud URL of the attachment
+        self.uuid: str #: A unique identifier for the attachment
+
+    @property
+    def type(self) -> str:
+        return self.xa_elem.contentType()
+
+    @property
+    def file_name(self) -> str:
+        return self.xa_elem.filenameSuggestedByServer()
+
+    @property
+    def file(self) -> XABase.XAPath:
+        return XABase.XAPath(self.xa_elem.urlOnDisk())
+
+    @property
+    def url(self) -> XABase.XAURL:
+        return XABase.XAURL(self.xa_elem.urlOnServer())
+
+    @property
+    def uuid(self) -> str:
+        return self.xa_elem.uuid()
+
+    def open(self) -> 'XACalendarAttachment':
+        """Opens the attachment in its default application.
+
+        :return: A reference to the attachment object.
+        :rtype: XACalendarAttachment
+        
+        :Example:
+
+        >>> import PyXA
+        >>> app = PyXA.application("Calendar")
+        >>> calendar = app.default_calendar
+        >>> event = calendar.events_today()[0]
+        >>> event.attachments()[0].open()
+
+        .. versionadded:: 0.0.2
+        """
+        self.xa_wksp.openURL_(self.file)
+        return self

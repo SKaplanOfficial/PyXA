@@ -10,7 +10,7 @@ from PyXA import XABase
 from PyXA import XABaseScriptable
 
 class XAMapsApplication(XABase.XAApplication):
-    """A class for managing and interacting with Voice Memos.app.
+    """A class for managing and interacting with Maps.app.
 
     .. seealso:: :class:`XAMapsSidebarLocation`, :class:`XAMapsDirection`
 
@@ -25,6 +25,9 @@ class XAMapsApplication(XABase.XAApplication):
     def sidebar_showing(self) -> bool:
         sidebar = self.front_window().xa_elem.groups()[0].groups()[0].groups()[0].groups()[0].groups()[0].groups()[1].groups()[0].groups()[0].groups()[1]
         return sidebar.get() is not None
+
+    # TODO: This
+    # def set_view(self, view: Literal[""])
 
     def toggle_sidebar(self):
         """Toggles the sidebar.
@@ -72,6 +75,13 @@ class XAMapsApplication(XABase.XAApplication):
         predicate = NSPredicate.predicateWithFormat_("name == %@", "AXPress")
         press_action = locations = self.front_window().xa_elem.groups()[0].groups()[0].groups()[0].groups()[0].groups()[0].groups()[5].buttons()[1].actions().filteredArrayUsingPredicate_(predicate)[0]
         press_action.perform()
+
+    def orient_north(self) -> 'XAMapsApplication':
+        """Orients the map with North facing upward.
+
+        .. versionadded:: 0.0.6
+        """
+        self.front_window().xa_elem.groups()[0].groups()[0].groups()[0].groups()[0].groups()[0].groups()[5].buttons()[0].actions()[0].perform()
 
     def show_address(self, address: str):
         """Centers the map at the specified address.
@@ -139,7 +149,34 @@ class XAMapsApplication(XABase.XAApplication):
                 url += "&dirflg=r"
         XABase.XAURL(url).open()
 
-    def locations(self):
+    def new_tab(self):
+        """Opens a new tab.
+
+        .. versionadded:: 0.0.6
+        """
+        predicate = NSPredicate.predicateWithFormat_("name == %@", "AXPress")
+        press_action = self.front_window().xa_elem.tabGroups()[0].buttons()[0].actions().filteredArrayUsingPredicate_(predicate)[0]
+        press_action.perform()
+
+    def tabs(self) -> 'XAMapsTabList':
+        """Gets a list of tabs.
+
+        :return: The list of tabs
+        :rtype: XAMapsTabList
+
+        .. versionadded:: 0.0.6
+        """
+        tabs = self.front_window().xa_elem.tabGroups()[0].radioButtons()
+        return self._new_element(tabs, XAMapsTabList)
+
+    def sidebar_locations(self) -> 'XAMapsSidebarLocationList':
+        """Gets a list of sidebar locations.
+
+        :return: The list of locations
+        :rtype: XAMapsSidebarLocationList
+
+        .. versionadded:: 0.0.6
+        """
         if not self.sidebar_showing:
             self.toggle_sidebar()
 
@@ -153,8 +190,54 @@ class XAMapsApplication(XABase.XAApplication):
 
 
 
-class XAMapsSidebarLocationList(XABase.XAList):
+class XAMapsTabList(XABase.XAList):
     """A wrapper around a list of locations.
+
+    .. versionadded:: 0.0.3
+    """
+    def __init__(self, properties: dict, filter: Union[dict, None] = None):
+        super().__init__(properties, XAMapsTab, filter)
+
+    # def name(self) -> List[str]:
+    #     ls = self.xa_elem.arrayByApplyingSelector_("objectDescription")
+    #     return [x.split(",")[0] for x in ls]
+
+    # def __repr__(self):
+    #     return "<" + str(type(self)) + str(self.name()) + ">"
+
+class XAMapsTab(XABase.XAObject):
+    """A class for interacting with sidebar locations in Maps.app.
+
+    .. versionadded:: 0.0.6
+    """
+    def __init__(self, properties):
+        super().__init__(properties)
+
+        self.properties: dict #: All properties of the tab
+        self.title: str #: The name of the tab
+        self.selected: bool #: Whether the tab is the currently selected tab
+
+        print(self.xa_elem.properties())
+
+    @property
+    def properties(self) -> dict:
+        return self.xa_elem.properties()
+
+    @property
+    def title(self) -> str:
+        return self.xa_elem.title()
+
+    @property
+    def selected(self) -> bool:
+        return self.xa_elem.value == 1
+
+    def close(self):
+        self.xa_elem.buttons()[0].actions()[0].perform()
+
+
+
+class XAMapsSidebarLocationList(XABase.XAList):
+    """A wrapper around a list of sidebar locations.
 
     .. versionadded:: 0.0.3
     """
@@ -221,5 +304,3 @@ class XAMapsDirections(XABase.XAObject):
         self.duration: float #: The duration of the currently selected route from the source address to the destination address
         self.has_tolls: bool #: Whether the currently selected route has tolls
         self.has_weather_warnings: bool #: Whether there are weather warnings along the currently selected route
-
-    

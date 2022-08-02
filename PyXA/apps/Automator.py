@@ -13,7 +13,7 @@ from AppKit import NSPredicate, NSMutableArray, NSFileManager
 from PyXA import XABase
 from PyXA import XABaseScriptable
 
-class XAAutomatorApplication(XABaseScriptable.XASBApplication, XABase.XACanOpenPath):
+class XAAutomatorApplication(XABaseScriptable.XASBApplication):
     """A class for managing and interacting with Automator.app.
 
     .. seealso:: :class:`XAAutomatorWindow`, :class:`XAAutomatorDocument`
@@ -59,6 +59,21 @@ class XAAutomatorApplication(XABaseScriptable.XASBApplication, XABase.XACanOpenP
     @property
     def version(self) -> str:
         return self.xa_scel.version()
+
+    def open(self, path: Union[str, NSURL]) -> 'XAAutomatorWorkflow':
+        """Opens the file at the given filepath.
+
+        :param target: The path to a file or the URL to a website to open.
+        :type target: Union[str, AppKit.NSURL]
+        :return: A reference to the PyXA object that called this method.
+        :rtype: XAObject
+
+        .. versionadded:: 0.0.1
+        """
+        if not isinstance(path, NSURL):
+            path = XABase.XAPath(path)
+        self.xa_wksp.openURLs_withAppBundleIdentifier_options_additionalEventParamDescriptor_launchIdentifiers_([path.xa_elem], self.xa_elem.bundleIdentifier(), 0, None, None)
+        return self.workflows()[0]
 
     def add(self, action: 'XAAutomatorAction', workflow: 'XAAutomatorWorkflow', index: int = -1) -> 'XAAutomatorApplication':
         """Adds the specified action to a workflow at the specified index.
@@ -1470,12 +1485,15 @@ class XAAutomatorWorkflow(XAAutomatorDocument):
     def name(self) -> str:
         return self.xa_elem.name()
 
-    def execute(self):
+    def execute(self) -> Any:
         """Executes the workflow.
+
+        :return: The return value of the workflow after execution
+        :rtype: Any
 
         .. versionadded:: 0.0.5
         """
-        self.xa_elem.execute()
+        return self.xa_elem.execute()
 
     def automator_actions(self, filter: Union[dict, None] = None) -> 'XAAutomatorActionList':
         """Returns a list of actions, as PyXA objects, matching the given filter.

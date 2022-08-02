@@ -4,7 +4,8 @@ Control the macOS Pages application using JXA-like syntax.
 """
 from enum import Enum
 from typing import Any, List, Tuple, Union
-from AppKit import NSURL, NSSet, NSPoint, NSValue
+from AppKit import NSURL, NSSet, NSPoint, NSValue, NSMutableArray
+from ScriptingBridge import SBElementArray
 
 from PyXA import XABase
 from PyXA.XABase import OSType
@@ -118,6 +119,7 @@ class XAPagesApplication(XABaseScriptable.XASBApplication, XABase.XAAcceptsPushe
         self.name: str #: The name of the Pages application
         self.frontmost: bool #: Whether Pages is the active application
         self.version: str #: The Pages version number
+        self.current_document: XAPagesDocument #: The current document of the front window
 
     @property
     def properties(self) -> dict:
@@ -134,6 +136,10 @@ class XAPagesApplication(XABaseScriptable.XASBApplication, XABase.XAAcceptsPushe
     @property
     def version(self) -> str:
         return self.xa_scel.version()
+    
+    @property
+    def current_document(self) -> 'XAPagesDocument':
+        return self.front_window().document
 
     def print(self, item: Union['XAPagesDocument', XABaseScriptable.XASBWindow], print_properties: dict = None, show_dialog: bool = True) -> 'XAPagesApplication':
         """Prints a document or window.
@@ -208,7 +214,6 @@ class XAPagesApplication(XABaseScriptable.XASBApplication, XABase.XAAcceptsPushe
             properties = {}
         return self.push("page", properties, document.xa_elem.pages())
 
-    # Documents
     def documents(self, filter: Union[dict, None] = None) -> 'XAPagesDocumentList':
         """Returns a list of documents, as PyXA objects, matching the given filter.
 
@@ -254,6 +259,20 @@ class XAPagesApplication(XABaseScriptable.XASBApplication, XABase.XAAcceptsPushe
         :type properties: dict
         :return: A PyXA wrapped form of the object
         :rtype: XABase.XAObject
+
+        :Example 1: Making a new document
+
+        >>> import PyXA
+        >>> pages = PyXA.application("Pages")
+        >>> new_doc = pages.make("document", {"bodyText": "This is a whole new document!"})
+        >>> pages.documents().push(new_doc)
+
+        :Example 3: Making new elements on a page
+
+        >>> import PyXA
+        >>> pages = PyXA.application("Pages")
+        >>> new_line = pages.make("line", {"startPoint": (100, 100), "endPoint": (200, 200)})
+        >>> pages.documents()[0].pages()[0].lines().push(new_line)
 
         .. versionadded:: 0.0.5
         """
@@ -316,51 +335,51 @@ class XAPagesWindow(XABaseScriptable.XASBWindow, XABaseScriptable.XASBPrintable,
 
     @property
     def name(self) -> str:
-        return self.xa_scel.name()
+        return self.xa_elem.name()
 
     @property
     def id(self) -> int:
-        return self.xa_scel.id()
+        return self.xa_elem.id()
 
     @property
     def index(self) -> int:
-        return self.xa_scel.index()
+        return self.xa_elem.index()
 
     @property
     def bounds(self) -> Tuple[Tuple[int, int], Tuple[int, int]]:
-        return self.xa_scel.bounds()
+        return self.xa_elem.bounds()
 
     @property
     def closeable(self) -> bool:
-        return self.xa_scel.closeable()
+        return self.xa_elem.closeable()
 
     @property
     def miniaturizable(self) -> bool:
-        return self.xa_scel.miniaturizable()
+        return self.xa_elem.miniaturizable()
 
     @property
     def miniaturized(self) -> bool:
-        return self.xa_scel.miniaturized()
+        return self.xa_elem.miniaturized()
 
     @property
     def resizable(self) -> bool:
-        return self.xa_scel.resizable()
+        return self.xa_elem.resizable()
 
     @property
     def visible(self) -> bool:
-        return self.xa_scel.visible()
+        return self.xa_elem.visible()
 
     @property
     def zoomable(self) -> bool:
-        return self.xa_scel.zoomable()
+        return self.xa_elem.zoomable()
 
     @property
     def zoomed(self) -> bool:
-        return self.xa_scel.zoomed()
+        return self.xa_elem.zoomed()
 
     @property
     def document(self) -> 'XAPagesDocument':
-        return self._new_element(self.xa_scel.document(), XAPagesDocument)
+        return self._new_element(self.xa_elem.document(), XAPagesDocument)
 
 
 
@@ -454,7 +473,7 @@ class XAPagesDocumentList(XABase.XAList):
         return "<" + str(type(self)) + str(self.name()) + ">"
 
 class XAPagesDocument(XABase.XAHasElements, XABaseScriptable.XASBPrintable, XABaseScriptable.XASBCloseable, XABase.XAAcceptsPushedElements, XABase.XACanConstructElement):
-    """A class for managing and interacting with TextEdit documents.
+    """A class for managing and interacting with Pages documents.
 
     .. seealso:: :class:`XAPagesApplication`
 
@@ -984,7 +1003,11 @@ class XAPagesPage(XAPagesContainer):
 
     #     .. versionadded:: 0.0.6
     #     """
-    #     # self.xa_elem.get().duplicateTo_withProperties_(self.xa_prnt.xa_elem, None)
+    #     new_page = self.xa_prnt.xa_prnt.xa_prnt.xa_prnt.make("page", {})
+    #     self.xa_prnt.xa_prnt.pages().push(new_page)
+    #     for item in self.xa_elem.lines():
+    #         print("ya")
+    #         item.duplicateTo_withProperties_(new_page.xa_elem.lines()[0].positionAfter(), None)
     #     return self
 
     # def move_to(self, document):
@@ -1005,24 +1028,17 @@ class XAPagesPage(XAPagesContainer):
         :return: The newly created image object.
         :rtype: XAPagesImage
 
-        .. versionadded:: 0.0.2
+        .. versionadded:: 0.0.6
         """
         url = file_path
         if isinstance(url, str):
             url = NSURL.alloc().initFileURLWithPath_(file_path)
-        image = self.xa_prnt.xa_prnt.construct("image", {
+        image = self.xa_prnt.xa_prnt.xa_prnt.xa_prnt.make("image", {
             "file": url,
         })
-        self.xa_elem.images().addObject_(image)
-        properties = {
-            "parent": self,
-            "appspace": self.xa_apsp,
-            "workspace": self.xa_wksp,
-            "element": image,
-            "appref": self.xa_aref,
-            "system_events": self.xa_sevt,
-        }
-        return XAPagesImage(properties)
+        self.xa_elem.images().addObject_(image.xa_elem)
+        image.xa_prnt = self
+        return image
 
     # def add_chart(self, row_names: List[str], column_names: List[str], data: List[List[Any]], type: int = XAPagesApplication.ChartType.LINE_2D.value, group_by: int = XAPagesApplication.ChartGrouping.ROW.value) -> 'XAPagesChart':
     #     """_summary_
@@ -1063,7 +1079,7 @@ class XAPagesPage(XAPagesContainer):
 class XAPagesiWorkItemList(XABase.XAList):
     """A wrapper around a list of documents.
 
-    .. versionadded:: 0.0.5
+    .. versionadded:: 0.0.6
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XAPagesiWorkItem, filter)
@@ -1104,15 +1120,20 @@ class XAPagesiWorkItem(XABase.XAObject):
 
     .. seealso:: :class:`XAPagesApplication`
 
-    .. versionadded:: 0.0.2
+    .. versionadded:: 0.0.6
     """
     def __init__(self, properties):
         super().__init__(properties)
+        self.properties: dict
         self.height: int #: The height of the iWork item
         self.locked: bool #: Whether the object is locked
         self.width: int #: The width of the iWork item
         self.parent: XAPagesContainer #: The iWork container that contains the iWork item
         self.position: Tuple[int, int] #: The horizontal and vertical coordinates of the top left point of the iWork item
+
+    @property
+    def properties(self) -> dict:
+        return self.xa_elem.properties()
 
     @property
     def height(self) -> int:
@@ -1137,7 +1158,7 @@ class XAPagesiWorkItem(XABase.XAObject):
     def delete(self):
         """Deletes the item.
 
-        .. versionadded:: 0.0.2
+        .. versionadded:: 0.0.6
         """
         self.xa_elem.delete()
 
@@ -1149,7 +1170,7 @@ class XAPagesiWorkItem(XABase.XAObject):
 
         .. versionadded:: 0.0.2
         """
-        self.xa_elem.duplicateTo_withProperties_(self.xa_prnt.xa_elem.iWorkItems(), None)
+        self.xa_elem.duplicateTo_withProperties_(self.parent.xa_elem.iWorkItems(), None)
         return self
 
     def resize(self, width: int, height: int) -> 'XAPagesiWorkItem':
@@ -1162,7 +1183,7 @@ class XAPagesiWorkItem(XABase.XAObject):
         :return: The iWork item
         :rtype: XAPagesiWorkItem
 
-        .. versionadded:: 0.0.2
+        .. versionadded:: 0.0.6
         """
         self.set_properties({
             "width": width,
@@ -1176,7 +1197,7 @@ class XAPagesiWorkItem(XABase.XAObject):
         :return: The iWork item
         :rtype: XAPagesiWorkItem
 
-        .. versionadded:: 0.0.2
+        .. versionadded:: 0.0.6
         """
         self.set_property("locked", True)
         return self
@@ -1187,7 +1208,7 @@ class XAPagesiWorkItem(XABase.XAObject):
         :return: The iWork item
         :rtype: XAPagesiWorkItem
 
-        .. versionadded:: 0.0.2
+        .. versionadded:: 0.0.6
         """
         self.set_property("locked", False)
         return self
@@ -1274,6 +1295,26 @@ class XAPagesGroup(XAPagesContainer):
     def parent(self) -> XAPagesContainer:
         return self._new_element(self.xa_elem.parent(), XAPagesContainer)
 
+    def rotate(self, degrees: int) -> 'XAPagesGroup':
+        """Rotates the group by the specified number of degrees.
+
+        :param degrees: The amount to rotate the group, in degrees, from -359 to 359
+        :type degrees: int
+        :return: The group object.
+        :rtype: XAPagesGroup
+
+        :Example:
+
+        >>> import PyXA
+        >>> pages = PyXA.application("Pages")
+        >>> group = pages.current_document.groups()[0]
+        >>> group.rotate(45)
+
+        .. versionadded:: 0.0.6
+        """
+        self.set_property("rotation", self.rotation + degrees)
+        return self
+
 
 
 
@@ -1354,7 +1395,7 @@ class XAPagesImage(XAPagesiWorkItem):
 
     @property
     def file_name(self) -> str:
-        return self.xa_elem.fileName()
+        return self.xa_elem.fileName().get()
 
     @property
     def opacity(self) -> int:
@@ -1380,7 +1421,18 @@ class XAPagesImage(XAPagesiWorkItem):
         :return: The image.
         :rtype: XAPagesImage
 
-        .. versionadded:: 0.0.2
+        :Example:
+
+        >>> import PyXA
+        >>> pages = PyXA.application("Pages")
+        >>> page = pages.documents()[0].pages()[0]
+        >>> img = page.add_image("/Users/steven/Documents/idk/idk.001.png")
+        >>> img.rotate(30)
+        >>> img.rotate(60)  # Rotated 60+30
+        >>> img.rotate(90)  # Rotated 90+90
+        >>> img.rotate(180) # Rotated 180+180
+
+        .. versionadded:: 0.0.6
         """
         self.set_property("rotation", self.rotation + degrees)
         return self
@@ -1393,9 +1445,20 @@ class XAPagesImage(XAPagesiWorkItem):
         :return: A reference to the new PyXA image object.
         :rtype: XAPagesImage
 
-        .. versionadded:: 0.0.2
+        :Example:
+
+        >>> import PyXA
+        >>> pages = PyXA.application("Pages")
+        >>> page = pages.documents()[0].pages()[0]
+        >>> img = page.add_image("/Users/exampleuser/Documents/Images/Test1.png")
+        >>> sleep(1)
+        >>> img.replace_with("/Users/exampleuser/Documents/Images/Test2.png")
+
+        .. versionadded:: 0.0.6
         """
         self.delete()
+        if isinstance(self.xa_prnt.xa_prnt, XAPagesPage):
+            return self.xa_prnt.xa_prnt.add_image(img_path)
         return self.xa_prnt.add_image(img_path)
 
 
@@ -1670,6 +1733,26 @@ class XAPagesLine(XAPagesiWorkItem):
     def start_point(self) -> Tuple[int, int]:
         return self.xa_elem.startPoint()
 
+    def rotate(self, degrees: int) -> 'XAPagesLine':
+        """Rotates the line by the specified number of degrees.
+
+        :param degrees: The amount to rotate the line, in degrees, from -359 to 359
+        :type degrees: int
+        :return: The group object.
+        :rtype: XAPagesLine
+
+        :Example:
+
+        >>> import PyXA
+        >>> pages = PyXA.application("Pages")
+        >>> line = pages.current_document.lines()[0]
+        >>> line.rotate(45)
+
+        .. versionadded:: 0.0.6
+        """
+        self.set_property("rotation", self.rotation + degrees)
+        return self
+
 
 
 
@@ -1769,6 +1852,26 @@ class XAPagesMovie(XAPagesiWorkItem):
     def rotation(self) -> int:
         return self.xa_elem.rotation()
 
+    def rotate(self, degrees: int) -> 'XAPagesMovie':
+        """Rotates the movie by the specified number of degrees.
+
+        :param degrees: The amount to rotate the movie, in degrees, from -359 to 359
+        :type degrees: int
+        :return: The movie object.
+        :rtype: XAPagesMovie
+
+        :Example:
+
+        >>> import PyXA
+        >>> pages = PyXA.application("Pages")
+        >>> movie = pages.current_document.movies()[0]
+        >>> movie.rotate(45)
+
+        .. versionadded:: 0.0.6
+        """
+        self.set_property("rotation", self.rotation + degrees)
+        return self
+
 
 
 
@@ -1838,7 +1941,6 @@ class XAPagesTextItem(XAPagesiWorkItem):
     def background_fill_type(self) -> XAPagesApplication.FillOption:
         return XAPagesApplication.FillOption(self.xa_elem.backgroundFillType())
 
-
     @property
     def text(self) -> XABase.XAText:
         return self._new_element(self.xa_elem.text())
@@ -1858,6 +1960,26 @@ class XAPagesTextItem(XAPagesiWorkItem):
     @property
     def rotation(self) -> int:
         return self.xa_elem.rotation()
+
+    def rotate(self, degrees: int) -> 'XAPagesTextItem':
+        """Rotates the text item by the specified number of degrees.
+
+        :param degrees: The amount to rotate the text item, in degrees, from -359 to 359
+        :type degrees: int
+        :return: The text item object.
+        :rtype: XAPagesTextItem
+
+        :Example:
+
+        >>> import PyXA
+        >>> pages = PyXA.application("Pages")
+        >>> text = pages.current_document.text_items()[0]
+        >>> text.rotate(45)
+
+        .. versionadded:: 0.0.6
+        """
+        self.set_property("rotation", self.rotation + degrees)
+        return self
 
 
 
@@ -1953,7 +2075,7 @@ class XAPagesTableList(XABase.XAList):
     def by_selection_range(self, selection_range: 'XAPagesRange') -> 'XAPagesTable':
         return self.by_property("selectionRange", selection_range.xa_elem)
 
-class XAPagesTable(XAPagesiWorkItem, XABase.XAHasElements):
+class XAPagesTable(XAPagesiWorkItem):
     """A class for managing and interacting with tables in Pages.
 
     .. versionadded:: 0.0.2

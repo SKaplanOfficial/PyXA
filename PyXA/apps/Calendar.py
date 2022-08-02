@@ -1002,6 +1002,9 @@ class XACalendarAttendeeList(XABase.XAList):
         """
         return self.by_property("participationStatus", participation_status.value)
 
+    def __repr__(self):
+        return "<" + str(type(self)) + str(self.display_name()) + ">"
+
 class XACalendarAttendee(XABaseScriptable.XASBObject):
     """An event attendee in Calendar.app.
 

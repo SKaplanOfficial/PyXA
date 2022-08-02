@@ -2544,8 +2544,12 @@ class XAImage():
 
 
 
-
+# TODO: Init NSLocation object
 class XALocation():
+    """A location with a latitude and longitude, along with other data.
+
+    .. versionadded:: 0.0.2
+    """
     def __init__(self, raw_value: Any = None, title: str = None, latitude: float = 0, longitude: float = 0, altitude: float = None, radius: int = 0, address: str = None, url: str = None, route_type: str = None, handle: str = None):
         self.raw_value = raw_value
         self.title = title
@@ -2569,6 +2573,13 @@ class XALocation():
         self.raw_value.setGeoURLString_(self.url)
         self.raw_value.setRouteType_(self.route_type)
         self.raw_value.setMapKitHandle_(self.handle)
+
+    def show_in_maps(self):
+        """Shows the location in Maps.app.
+
+        .. versionadded:: 0.0.6
+        """
+        XAURL(f"maps://?q={self.title},ll={self.latitude},{self.longitude}").open()
 
     
 

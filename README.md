@@ -12,7 +12,7 @@ PyXA is not intended to replace AppleScript; rather, it is meant to provide gene
 
 # Feature Overview
 - Support for most AppleScript commands in built-in macOS applications (in progress)
-- Support for direct operations on non-scriptable applications (e.g. `PyXA.application("Maps").front_window().collapse()`)
+- Support for direct operations on non-scriptable applications (e.g. `PyXA.application("Maps").front_window.collapse()`)
 - Command Chaining similar to JXA (e.g. `PyXA.application("Reminders").lists()[0].reminders().title()`)
 - Properties of scriptable elements accessible via object attributes (e.g. `note.name`, `tab.URL`, or `track.artist`)
 - Fast enumeration of scriptable objects
@@ -28,7 +28,7 @@ from time import sleep
 safari = PyXA.application("Safari")
 safari.open("https://www.apple.com")
 sleep(1)
-safari.current_document().print()
+safari.current_document.print()
 ```
 
 ## Example 2: Print Music track info whenever the track changes.
@@ -40,11 +40,11 @@ music.play()
 
 track_name = ""
 while True:
-    if music.current_track().name != track_name:
-        track_name = music.current_track().name
-        print(music.current_track().name)
-        print(music.current_track().album)
-        print(music.current_track().artist, "\n")
+    if music.current_track.name != track_name:
+        track_name = music.current_track.name
+        print(music.current_track.name)
+        print(music.current_track.album)
+        print(music.current_track.artist, "\n")
 ```
 When run, this script produces an output similar to the following:
 ```

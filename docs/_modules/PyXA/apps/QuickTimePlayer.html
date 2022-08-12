@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PyXA.apps.QuickTimePlayer &mdash; PyXA 0.0.6 documentation</title>
+  <title>PyXA.apps.QuickTimePlayer &mdash; PyXA 0.0.7 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -39,7 +39,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../about/index.html">Project Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/index.html">Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/apps/index.html">Application Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/index.html#application-modules">Application Modules</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../reference/index.html">Code Documentation and Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../bugs.html">Bugs</a></li>
 </ul>
@@ -118,7 +118,7 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">current_document</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAQuickTimeDocument&#39;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">front_window</span><span class="p">()</span><span class="o">.</span><span class="n">document</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">front_window</span><span class="o">.</span><span class="n">document</span>
 
 <div class="viewcode-block" id="XAQuickTimeApplication.open"><a class="viewcode-back" href="../../../reference/apps/quicktimeplayer.html#PyXA.apps.QuickTimePlayer.XAQuickTimeApplication.open">[docs]</a>    <span class="k">def</span> <span class="nf">open</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">NSURL</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAQuickTimeDocument&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Opens the file at the given filepath.</span>
@@ -134,7 +134,7 @@
             <span class="k">if</span> <span class="s2">&quot;://&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">path</span><span class="p">:</span>
                 <span class="n">path</span> <span class="o">=</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAPath</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">xa_wksp</span><span class="o">.</span><span class="n">openURLs_withAppBundleIdentifier_options_additionalEventParamDescriptor_launchIdentifiers_</span><span class="p">([</span><span class="n">path</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">bundleIdentifier</span><span class="p">(),</span> <span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">front_window</span><span class="p">()</span><span class="o">.</span><span class="n">document</span><span class="p">,</span> <span class="n">XAQuickTimeDocument</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">front_window</span><span class="o">.</span><span class="n">document</span><span class="p">,</span> <span class="n">XAQuickTimeDocument</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="XAQuickTimeApplication.open_url"><a class="viewcode-back" href="../../../reference/apps/quicktimeplayer.html#PyXA.apps.QuickTimePlayer.XAQuickTimeApplication.open_url">[docs]</a>    <span class="k">def</span> <span class="nf">open_url</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">NSURL</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAQuickTimeDocument&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Opens the file at the given (remote) URL.</span>

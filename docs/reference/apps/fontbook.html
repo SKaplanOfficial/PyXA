@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>FontBook Module Reference &mdash; PyXA 0.0.6 documentation</title>
+  <title>FontBook Module Reference &mdash; PyXA 0.0.7 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
@@ -42,7 +42,7 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../about/index.html">Project Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorial/index.html">Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../tutorial/apps/index.html">Application Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial/index.html#application-modules">Application Modules</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../index.html">Code Documentation and Reference</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../index.html#top-level-pyxa-modules">Top-level PyXA Modules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../index.html#pyxa-base-modules">PyXA Base Modules</a></li>
@@ -614,22 +614,86 @@
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookFontCollectionList.by_name" title="PyXA.apps.FontBook.XAFontBookFontCollectionList.by_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_name</span></code></a>(name)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookFontCollectionList.by_display_name" title="PyXA.apps.FontBook.XAFontBookFontCollectionList.by_display_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_display_name</span></code></a>(display_name)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookFontCollectionList.path" title="PyXA.apps.FontBook.XAFontBookFontCollectionList.path"><code class="xref py py-obj docutils literal notranslate"><span class="pre">path</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookFontCollectionList.by_displayed_name" title="PyXA.apps.FontBook.XAFontBookFontCollectionList.by_displayed_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_displayed_name</span></code></a>(displayed_name)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookFontCollectionList.by_enabled" title="PyXA.apps.FontBook.XAFontBookFontCollectionList.by_enabled"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_enabled</span></code></a>(enabled)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookFontCollectionList.by_name" title="PyXA.apps.FontBook.XAFontBookFontCollectionList.by_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_name</span></code></a>(name)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookFontCollectionList.by_properties" title="PyXA.apps.FontBook.XAFontBookFontCollectionList.by_properties"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_properties</span></code></a>(properties)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookFontCollectionList.display_name" title="PyXA.apps.FontBook.XAFontBookFontCollectionList.display_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">display_name</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookFontCollectionList.displayed_name" title="PyXA.apps.FontBook.XAFontBookFontCollectionList.displayed_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">displayed_name</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookFontCollectionList.enabled" title="PyXA.apps.FontBook.XAFontBookFontCollectionList.enabled"><code class="xref py py-obj docutils literal notranslate"><span class="pre">enabled</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookFontCollectionList.name" title="PyXA.apps.FontBook.XAFontBookFontCollectionList.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookFontCollectionList.properties" title="PyXA.apps.FontBook.XAFontBookFontCollectionList.properties"><code class="xref py py-obj docutils literal notranslate"><span class="pre">properties</span></code></a>()</p></td>
 <td><p></p></td>
 </tr>
 </tbody>
 </table>
 <dl class="py method">
-<dt class="sig sig-object py" id="PyXA.apps.FontBook.XAFontBookFontCollectionList.by_name">
-<span class="sig-name descname"><span class="pre">by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookDocument" title="PyXA.apps.FontBook.XAFontBookDocument"><span class="pre">PyXA.apps.FontBook.XAFontBookDocument</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/FontBook.html#XAFontBookFontCollectionList.by_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.FontBook.XAFontBookFontCollectionList.by_name" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="PyXA.apps.FontBook.XAFontBookFontCollectionList.by_display_name">
+<span class="sig-name descname"><span class="pre">by_display_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">display_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookFontCollection" title="PyXA.apps.FontBook.XAFontBookFontCollection"><span class="pre">PyXA.apps.FontBook.XAFontBookFontCollection</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/FontBook.html#XAFontBookFontCollectionList.by_display_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.FontBook.XAFontBookFontCollectionList.by_display_name" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="PyXA.apps.FontBook.XAFontBookFontCollectionList.path">
-<span class="sig-name descname"><span class="pre">path</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/FontBook.html#XAFontBookFontCollectionList.path"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.FontBook.XAFontBookFontCollectionList.path" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="PyXA.apps.FontBook.XAFontBookFontCollectionList.by_displayed_name">
+<span class="sig-name descname"><span class="pre">by_displayed_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">displayed_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookFontCollection" title="PyXA.apps.FontBook.XAFontBookFontCollection"><span class="pre">PyXA.apps.FontBook.XAFontBookFontCollection</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/FontBook.html#XAFontBookFontCollectionList.by_displayed_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.FontBook.XAFontBookFontCollectionList.by_displayed_name" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.FontBook.XAFontBookFontCollectionList.by_enabled">
+<span class="sig-name descname"><span class="pre">by_enabled</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">enabled</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookFontCollection" title="PyXA.apps.FontBook.XAFontBookFontCollection"><span class="pre">PyXA.apps.FontBook.XAFontBookFontCollection</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/FontBook.html#XAFontBookFontCollectionList.by_enabled"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.FontBook.XAFontBookFontCollectionList.by_enabled" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.FontBook.XAFontBookFontCollectionList.by_name">
+<span class="sig-name descname"><span class="pre">by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookFontCollection" title="PyXA.apps.FontBook.XAFontBookFontCollection"><span class="pre">PyXA.apps.FontBook.XAFontBookFontCollection</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/FontBook.html#XAFontBookFontCollectionList.by_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.FontBook.XAFontBookFontCollectionList.by_name" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.FontBook.XAFontBookFontCollectionList.by_properties">
+<span class="sig-name descname"><span class="pre">by_properties</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookFontCollection" title="PyXA.apps.FontBook.XAFontBookFontCollection"><span class="pre">PyXA.apps.FontBook.XAFontBookFontCollection</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/FontBook.html#XAFontBookFontCollectionList.by_properties"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.FontBook.XAFontBookFontCollectionList.by_properties" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.FontBook.XAFontBookFontCollectionList.display_name">
+<span class="sig-name descname"><span class="pre">display_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/FontBook.html#XAFontBookFontCollectionList.display_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.FontBook.XAFontBookFontCollectionList.display_name" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.FontBook.XAFontBookFontCollectionList.displayed_name">
+<span class="sig-name descname"><span class="pre">displayed_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/FontBook.html#XAFontBookFontCollectionList.displayed_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.FontBook.XAFontBookFontCollectionList.displayed_name" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.FontBook.XAFontBookFontCollectionList.enabled">
+<span class="sig-name descname"><span class="pre">enabled</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/FontBook.html#XAFontBookFontCollectionList.enabled"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.FontBook.XAFontBookFontCollectionList.enabled" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.FontBook.XAFontBookFontCollectionList.name">
+<span class="sig-name descname"><span class="pre">name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/FontBook.html#XAFontBookFontCollectionList.name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.FontBook.XAFontBookFontCollectionList.name" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.FontBook.XAFontBookFontCollectionList.properties">
+<span class="sig-name descname"><span class="pre">properties</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/FontBook.html#XAFontBookFontCollectionList.properties"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.FontBook.XAFontBookFontCollectionList.properties" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -772,22 +836,102 @@
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookFontContainerList.by_name" title="PyXA.apps.FontBook.XAFontBookFontContainerList.by_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_name</span></code></a>(name)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookFontContainerList.by_domain" title="PyXA.apps.FontBook.XAFontBookFontContainerList.by_domain"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_domain</span></code></a>(domain)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookFontContainerList.path" title="PyXA.apps.FontBook.XAFontBookFontContainerList.path"><code class="xref py py-obj docutils literal notranslate"><span class="pre">path</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookFontContainerList.by_files" title="PyXA.apps.FontBook.XAFontBookFontContainerList.by_files"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_files</span></code></a>(files)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookFontContainerList.by_id" title="PyXA.apps.FontBook.XAFontBookFontContainerList.by_id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_id</span></code></a>(id)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookFontContainerList.by_name" title="PyXA.apps.FontBook.XAFontBookFontContainerList.by_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_name</span></code></a>(name)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookFontContainerList.by_path" title="PyXA.apps.FontBook.XAFontBookFontContainerList.by_path"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_path</span></code></a>(path)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookFontContainerList.by_properties" title="PyXA.apps.FontBook.XAFontBookFontContainerList.by_properties"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_properties</span></code></a>(properties)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookFontContainerList.domain" title="PyXA.apps.FontBook.XAFontBookFontContainerList.domain"><code class="xref py py-obj docutils literal notranslate"><span class="pre">domain</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookFontContainerList.files" title="PyXA.apps.FontBook.XAFontBookFontContainerList.files"><code class="xref py py-obj docutils literal notranslate"><span class="pre">files</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookFontContainerList.id" title="PyXA.apps.FontBook.XAFontBookFontContainerList.id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">id</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookFontContainerList.name" title="PyXA.apps.FontBook.XAFontBookFontContainerList.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookFontContainerList.path" title="PyXA.apps.FontBook.XAFontBookFontContainerList.path"><code class="xref py py-obj docutils literal notranslate"><span class="pre">path</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookFontContainerList.properties" title="PyXA.apps.FontBook.XAFontBookFontContainerList.properties"><code class="xref py py-obj docutils literal notranslate"><span class="pre">properties</span></code></a>()</p></td>
 <td><p></p></td>
 </tr>
 </tbody>
 </table>
 <dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.FontBook.XAFontBookFontContainerList.by_domain">
+<span class="sig-name descname"><span class="pre">by_domain</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">domain</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookFontDomain" title="PyXA.apps.FontBook.XAFontBookFontDomain"><span class="pre">PyXA.apps.FontBook.XAFontBookFontDomain</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookFontContainer" title="PyXA.apps.FontBook.XAFontBookFontContainer"><span class="pre">PyXA.apps.FontBook.XAFontBookFontContainer</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/FontBook.html#XAFontBookFontContainerList.by_domain"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.FontBook.XAFontBookFontContainerList.by_domain" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.FontBook.XAFontBookFontContainerList.by_files">
+<span class="sig-name descname"><span class="pre">by_files</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">files</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAPath" title="PyXA.XABase.XAPath"><span class="pre">PyXA.XABase.XAPath</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookFontContainer" title="PyXA.apps.FontBook.XAFontBookFontContainer"><span class="pre">PyXA.apps.FontBook.XAFontBookFontContainer</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/FontBook.html#XAFontBookFontContainerList.by_files"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.FontBook.XAFontBookFontContainerList.by_files" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.FontBook.XAFontBookFontContainerList.by_id">
+<span class="sig-name descname"><span class="pre">by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookFontContainer" title="PyXA.apps.FontBook.XAFontBookFontContainer"><span class="pre">PyXA.apps.FontBook.XAFontBookFontContainer</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/FontBook.html#XAFontBookFontContainerList.by_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.FontBook.XAFontBookFontContainerList.by_id" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.FontBook.XAFontBookFontContainerList.by_name">
-<span class="sig-name descname"><span class="pre">by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookDocument" title="PyXA.apps.FontBook.XAFontBookDocument"><span class="pre">PyXA.apps.FontBook.XAFontBookDocument</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/FontBook.html#XAFontBookFontContainerList.by_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.FontBook.XAFontBookFontContainerList.by_name" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookFontContainer" title="PyXA.apps.FontBook.XAFontBookFontContainer"><span class="pre">PyXA.apps.FontBook.XAFontBookFontContainer</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/FontBook.html#XAFontBookFontContainerList.by_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.FontBook.XAFontBookFontContainerList.by_name" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.FontBook.XAFontBookFontContainerList.by_path">
+<span class="sig-name descname"><span class="pre">by_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookFontContainer" title="PyXA.apps.FontBook.XAFontBookFontContainer"><span class="pre">PyXA.apps.FontBook.XAFontBookFontContainer</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/FontBook.html#XAFontBookFontContainerList.by_path"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.FontBook.XAFontBookFontContainerList.by_path" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.FontBook.XAFontBookFontContainerList.by_properties">
+<span class="sig-name descname"><span class="pre">by_properties</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookFontContainer" title="PyXA.apps.FontBook.XAFontBookFontContainer"><span class="pre">PyXA.apps.FontBook.XAFontBookFontContainer</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/FontBook.html#XAFontBookFontContainerList.by_properties"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.FontBook.XAFontBookFontContainerList.by_properties" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.FontBook.XAFontBookFontContainerList.domain">
+<span class="sig-name descname"><span class="pre">domain</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookFontDomainList" title="PyXA.apps.FontBook.XAFontBookFontDomainList"><span class="pre">PyXA.apps.FontBook.XAFontBookFontDomainList</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/FontBook.html#XAFontBookFontContainerList.domain"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.FontBook.XAFontBookFontContainerList.domain" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.FontBook.XAFontBookFontContainerList.files">
+<span class="sig-name descname"><span class="pre">files</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAPath" title="PyXA.XABase.XAPath"><span class="pre">PyXA.XABase.XAPath</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/FontBook.html#XAFontBookFontContainerList.files"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.FontBook.XAFontBookFontContainerList.files" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.FontBook.XAFontBookFontContainerList.id">
+<span class="sig-name descname"><span class="pre">id</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/FontBook.html#XAFontBookFontContainerList.id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.FontBook.XAFontBookFontContainerList.id" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.FontBook.XAFontBookFontContainerList.name">
+<span class="sig-name descname"><span class="pre">name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/FontBook.html#XAFontBookFontContainerList.name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.FontBook.XAFontBookFontContainerList.name" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.FontBook.XAFontBookFontContainerList.path">
 <span class="sig-name descname"><span class="pre">path</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/FontBook.html#XAFontBookFontContainerList.path"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.FontBook.XAFontBookFontContainerList.path" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.FontBook.XAFontBookFontContainerList.properties">
+<span class="sig-name descname"><span class="pre">properties</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/FontBook.html#XAFontBookFontContainerList.properties"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.FontBook.XAFontBookFontContainerList.properties" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -952,7 +1096,25 @@
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookFontFamilyList.by_name" title="PyXA.apps.FontBook.XAFontBookFontFamilyList.by_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_name</span></code></a>(name)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookFontFamilyList.by_display_name" title="PyXA.apps.FontBook.XAFontBookFontFamilyList.by_display_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_display_name</span></code></a>(display_name)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookFontFamilyList.by_displayed_name" title="PyXA.apps.FontBook.XAFontBookFontFamilyList.by_displayed_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_displayed_name</span></code></a>(displayed_name)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookFontFamilyList.by_duplicates" title="PyXA.apps.FontBook.XAFontBookFontFamilyList.by_duplicates"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_duplicates</span></code></a>(duplicated)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookFontFamilyList.by_enabled" title="PyXA.apps.FontBook.XAFontBookFontFamilyList.by_enabled"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_enabled</span></code></a>(enabled)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookFontFamilyList.by_files" title="PyXA.apps.FontBook.XAFontBookFontFamilyList.by_files"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_files</span></code></a>(files)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookFontFamilyList.by_name" title="PyXA.apps.FontBook.XAFontBookFontFamilyList.by_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_name</span></code></a>(name)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookFontFamilyList.by_properties" title="PyXA.apps.FontBook.XAFontBookFontFamilyList.by_properties"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_properties</span></code></a>(properties)</p></td>
 <td><p></p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookFontFamilyList.display_name" title="PyXA.apps.FontBook.XAFontBookFontFamilyList.display_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">display_name</span></code></a>()</p></td>
@@ -979,8 +1141,38 @@
 </tbody>
 </table>
 <dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.FontBook.XAFontBookFontFamilyList.by_display_name">
+<span class="sig-name descname"><span class="pre">by_display_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">display_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookFontFamily" title="PyXA.apps.FontBook.XAFontBookFontFamily"><span class="pre">PyXA.apps.FontBook.XAFontBookFontFamily</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/FontBook.html#XAFontBookFontFamilyList.by_display_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.FontBook.XAFontBookFontFamilyList.by_display_name" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.FontBook.XAFontBookFontFamilyList.by_displayed_name">
+<span class="sig-name descname"><span class="pre">by_displayed_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">displayed_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookFontFamily" title="PyXA.apps.FontBook.XAFontBookFontFamily"><span class="pre">PyXA.apps.FontBook.XAFontBookFontFamily</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/FontBook.html#XAFontBookFontFamilyList.by_displayed_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.FontBook.XAFontBookFontFamilyList.by_displayed_name" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.FontBook.XAFontBookFontFamilyList.by_duplicates">
+<span class="sig-name descname"><span class="pre">by_duplicates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">duplicated</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookFontFamily" title="PyXA.apps.FontBook.XAFontBookFontFamily"><span class="pre">PyXA.apps.FontBook.XAFontBookFontFamily</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/FontBook.html#XAFontBookFontFamilyList.by_duplicates"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.FontBook.XAFontBookFontFamilyList.by_duplicates" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.FontBook.XAFontBookFontFamilyList.by_enabled">
+<span class="sig-name descname"><span class="pre">by_enabled</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">enabled</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookFontFamily" title="PyXA.apps.FontBook.XAFontBookFontFamily"><span class="pre">PyXA.apps.FontBook.XAFontBookFontFamily</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/FontBook.html#XAFontBookFontFamilyList.by_enabled"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.FontBook.XAFontBookFontFamilyList.by_enabled" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.FontBook.XAFontBookFontFamilyList.by_files">
+<span class="sig-name descname"><span class="pre">by_files</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">files</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAPath" title="PyXA.XABase.XAPath"><span class="pre">PyXA.XABase.XAPath</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookFontFamily" title="PyXA.apps.FontBook.XAFontBookFontFamily"><span class="pre">PyXA.apps.FontBook.XAFontBookFontFamily</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/FontBook.html#XAFontBookFontFamilyList.by_files"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.FontBook.XAFontBookFontFamilyList.by_files" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.FontBook.XAFontBookFontFamilyList.by_name">
-<span class="sig-name descname"><span class="pre">by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookDocument" title="PyXA.apps.FontBook.XAFontBookDocument"><span class="pre">PyXA.apps.FontBook.XAFontBookDocument</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/FontBook.html#XAFontBookFontFamilyList.by_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.FontBook.XAFontBookFontFamilyList.by_name" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookFontFamily" title="PyXA.apps.FontBook.XAFontBookFontFamily"><span class="pre">PyXA.apps.FontBook.XAFontBookFontFamily</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/FontBook.html#XAFontBookFontFamilyList.by_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.FontBook.XAFontBookFontFamilyList.by_name" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.FontBook.XAFontBookFontFamilyList.by_properties">
+<span class="sig-name descname"><span class="pre">by_properties</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookFontFamily" title="PyXA.apps.FontBook.XAFontBookFontFamily"><span class="pre">PyXA.apps.FontBook.XAFontBookFontFamily</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/FontBook.html#XAFontBookFontFamilyList.by_properties"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.FontBook.XAFontBookFontFamilyList.by_properties" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -1258,7 +1450,79 @@
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookTypefaceList.by_name" title="PyXA.apps.FontBook.XAFontBookTypefaceList.by_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_name</span></code></a>(name)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookTypefaceList.by_copyright" title="PyXA.apps.FontBook.XAFontBookTypefaceList.by_copyright"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_copyright</span></code></a>(copyright)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookTypefaceList.by_display_name" title="PyXA.apps.FontBook.XAFontBookTypefaceList.by_display_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_display_name</span></code></a>(display_name)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookTypefaceList.by_displayed_name" title="PyXA.apps.FontBook.XAFontBookTypefaceList.by_displayed_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_displayed_name</span></code></a>(displayed_name)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookTypefaceList.by_duplicated" title="PyXA.apps.FontBook.XAFontBookTypefaceList.by_duplicated"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_duplicated</span></code></a>(duplicated)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookTypefaceList.by_enabled" title="PyXA.apps.FontBook.XAFontBookTypefaceList.by_enabled"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_enabled</span></code></a>(enabled)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookTypefaceList.by_family_name" title="PyXA.apps.FontBook.XAFontBookTypefaceList.by_family_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_family_name</span></code></a>(family_name)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookTypefaceList.by_files" title="PyXA.apps.FontBook.XAFontBookTypefaceList.by_files"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_files</span></code></a>(files)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookTypefaceList.by_font_container" title="PyXA.apps.FontBook.XAFontBookTypefaceList.by_font_container"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_font_container</span></code></a>(font_container)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookTypefaceList.by_font_family" title="PyXA.apps.FontBook.XAFontBookTypefaceList.by_font_family"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_font_family</span></code></a>(font_family)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookTypefaceList.by_font_type" title="PyXA.apps.FontBook.XAFontBookTypefaceList.by_font_type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_font_type</span></code></a>(font_type)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookTypefaceList.by_id" title="PyXA.apps.FontBook.XAFontBookTypefaceList.by_id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_id</span></code></a>(id)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookTypefaceList.by_name" title="PyXA.apps.FontBook.XAFontBookTypefaceList.by_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_name</span></code></a>(name)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookTypefaceList.by_post_script_name" title="PyXA.apps.FontBook.XAFontBookTypefaceList.by_post_script_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_post_script_name</span></code></a>(post_script_name)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookTypefaceList.by_properties" title="PyXA.apps.FontBook.XAFontBookTypefaceList.by_properties"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_properties</span></code></a>(properties)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookTypefaceList.by_style_name" title="PyXA.apps.FontBook.XAFontBookTypefaceList.by_style_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_style_name</span></code></a>(style_name)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookTypefaceList.copyright" title="PyXA.apps.FontBook.XAFontBookTypefaceList.copyright"><code class="xref py py-obj docutils literal notranslate"><span class="pre">copyright</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookTypefaceList.display_name" title="PyXA.apps.FontBook.XAFontBookTypefaceList.display_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">display_name</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookTypefaceList.displayed_name" title="PyXA.apps.FontBook.XAFontBookTypefaceList.displayed_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">displayed_name</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookTypefaceList.duplicated" title="PyXA.apps.FontBook.XAFontBookTypefaceList.duplicated"><code class="xref py py-obj docutils literal notranslate"><span class="pre">duplicated</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookTypefaceList.enabled" title="PyXA.apps.FontBook.XAFontBookTypefaceList.enabled"><code class="xref py py-obj docutils literal notranslate"><span class="pre">enabled</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookTypefaceList.family_name" title="PyXA.apps.FontBook.XAFontBookTypefaceList.family_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">family_name</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookTypefaceList.files" title="PyXA.apps.FontBook.XAFontBookTypefaceList.files"><code class="xref py py-obj docutils literal notranslate"><span class="pre">files</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookTypefaceList.font_container" title="PyXA.apps.FontBook.XAFontBookTypefaceList.font_container"><code class="xref py py-obj docutils literal notranslate"><span class="pre">font_container</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookTypefaceList.font_family" title="PyXA.apps.FontBook.XAFontBookTypefaceList.font_family"><code class="xref py py-obj docutils literal notranslate"><span class="pre">font_family</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookTypefaceList.font_type" title="PyXA.apps.FontBook.XAFontBookTypefaceList.font_type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">font_type</span></code></a>()</p></td>
 <td><p></p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookTypefaceList.id" title="PyXA.apps.FontBook.XAFontBookTypefaceList.id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">id</span></code></a>()</p></td>
@@ -1267,29 +1531,165 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookTypefaceList.name" title="PyXA.apps.FontBook.XAFontBookTypefaceList.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a>()</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookTypefaceList.properties" title="PyXA.apps.FontBook.XAFontBookTypefaceList.properties"><code class="xref py py-obj docutils literal notranslate"><span class="pre">properties</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookTypefaceList.post_script_name" title="PyXA.apps.FontBook.XAFontBookTypefaceList.post_script_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">post_script_name</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookTypefaceList.properties" title="PyXA.apps.FontBook.XAFontBookTypefaceList.properties"><code class="xref py py-obj docutils literal notranslate"><span class="pre">properties</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookTypefaceList.style_name" title="PyXA.apps.FontBook.XAFontBookTypefaceList.style_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">style_name</span></code></a>()</p></td>
 <td><p></p></td>
 </tr>
 </tbody>
 </table>
 <dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.FontBook.XAFontBookTypefaceList.by_copyright">
+<span class="sig-name descname"><span class="pre">by_copyright</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">copyright</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookTypeface" title="PyXA.apps.FontBook.XAFontBookTypeface"><span class="pre">PyXA.apps.FontBook.XAFontBookTypeface</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/FontBook.html#XAFontBookTypefaceList.by_copyright"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.FontBook.XAFontBookTypefaceList.by_copyright" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.FontBook.XAFontBookTypefaceList.by_display_name">
+<span class="sig-name descname"><span class="pre">by_display_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">display_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookTypeface" title="PyXA.apps.FontBook.XAFontBookTypeface"><span class="pre">PyXA.apps.FontBook.XAFontBookTypeface</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/FontBook.html#XAFontBookTypefaceList.by_display_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.FontBook.XAFontBookTypefaceList.by_display_name" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.FontBook.XAFontBookTypefaceList.by_displayed_name">
+<span class="sig-name descname"><span class="pre">by_displayed_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">displayed_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookTypeface" title="PyXA.apps.FontBook.XAFontBookTypeface"><span class="pre">PyXA.apps.FontBook.XAFontBookTypeface</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/FontBook.html#XAFontBookTypefaceList.by_displayed_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.FontBook.XAFontBookTypefaceList.by_displayed_name" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.FontBook.XAFontBookTypefaceList.by_duplicated">
+<span class="sig-name descname"><span class="pre">by_duplicated</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">duplicated</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookTypeface" title="PyXA.apps.FontBook.XAFontBookTypeface"><span class="pre">PyXA.apps.FontBook.XAFontBookTypeface</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/FontBook.html#XAFontBookTypefaceList.by_duplicated"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.FontBook.XAFontBookTypefaceList.by_duplicated" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.FontBook.XAFontBookTypefaceList.by_enabled">
+<span class="sig-name descname"><span class="pre">by_enabled</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">enabled</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookTypeface" title="PyXA.apps.FontBook.XAFontBookTypeface"><span class="pre">PyXA.apps.FontBook.XAFontBookTypeface</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/FontBook.html#XAFontBookTypefaceList.by_enabled"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.FontBook.XAFontBookTypefaceList.by_enabled" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.FontBook.XAFontBookTypefaceList.by_family_name">
+<span class="sig-name descname"><span class="pre">by_family_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">family_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookTypeface" title="PyXA.apps.FontBook.XAFontBookTypeface"><span class="pre">PyXA.apps.FontBook.XAFontBookTypeface</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/FontBook.html#XAFontBookTypefaceList.by_family_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.FontBook.XAFontBookTypefaceList.by_family_name" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.FontBook.XAFontBookTypefaceList.by_files">
+<span class="sig-name descname"><span class="pre">by_files</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">files</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAPath" title="PyXA.XABase.XAPath"><span class="pre">PyXA.XABase.XAPath</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookTypeface" title="PyXA.apps.FontBook.XAFontBookTypeface"><span class="pre">PyXA.apps.FontBook.XAFontBookTypeface</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/FontBook.html#XAFontBookTypefaceList.by_files"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.FontBook.XAFontBookTypefaceList.by_files" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.FontBook.XAFontBookTypefaceList.by_font_container">
+<span class="sig-name descname"><span class="pre">by_font_container</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">font_container</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookFontContainer" title="PyXA.apps.FontBook.XAFontBookFontContainer"><span class="pre">PyXA.apps.FontBook.XAFontBookFontContainer</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookTypeface" title="PyXA.apps.FontBook.XAFontBookTypeface"><span class="pre">PyXA.apps.FontBook.XAFontBookTypeface</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/FontBook.html#XAFontBookTypefaceList.by_font_container"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.FontBook.XAFontBookTypefaceList.by_font_container" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.FontBook.XAFontBookTypefaceList.by_font_family">
+<span class="sig-name descname"><span class="pre">by_font_family</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">font_family</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookFontFamily" title="PyXA.apps.FontBook.XAFontBookFontFamily"><span class="pre">PyXA.apps.FontBook.XAFontBookFontFamily</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookTypeface" title="PyXA.apps.FontBook.XAFontBookTypeface"><span class="pre">PyXA.apps.FontBook.XAFontBookTypeface</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/FontBook.html#XAFontBookTypefaceList.by_font_family"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.FontBook.XAFontBookTypefaceList.by_font_family" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.FontBook.XAFontBookTypefaceList.by_font_type">
+<span class="sig-name descname"><span class="pre">by_font_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">font_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookTypeface" title="PyXA.apps.FontBook.XAFontBookTypeface"><span class="pre">PyXA.apps.FontBook.XAFontBookTypeface</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/FontBook.html#XAFontBookTypefaceList.by_font_type"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.FontBook.XAFontBookTypefaceList.by_font_type" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.FontBook.XAFontBookTypefaceList.by_id">
+<span class="sig-name descname"><span class="pre">by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookTypeface" title="PyXA.apps.FontBook.XAFontBookTypeface"><span class="pre">PyXA.apps.FontBook.XAFontBookTypeface</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/FontBook.html#XAFontBookTypefaceList.by_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.FontBook.XAFontBookTypefaceList.by_id" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.FontBook.XAFontBookTypefaceList.by_name">
-<span class="sig-name descname"><span class="pre">by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookDocument" title="PyXA.apps.FontBook.XAFontBookDocument"><span class="pre">PyXA.apps.FontBook.XAFontBookDocument</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/FontBook.html#XAFontBookTypefaceList.by_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.FontBook.XAFontBookTypefaceList.by_name" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookTypeface" title="PyXA.apps.FontBook.XAFontBookTypeface"><span class="pre">PyXA.apps.FontBook.XAFontBookTypeface</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/FontBook.html#XAFontBookTypefaceList.by_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.FontBook.XAFontBookTypefaceList.by_name" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.FontBook.XAFontBookTypefaceList.by_post_script_name">
+<span class="sig-name descname"><span class="pre">by_post_script_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">post_script_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookTypeface" title="PyXA.apps.FontBook.XAFontBookTypeface"><span class="pre">PyXA.apps.FontBook.XAFontBookTypeface</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/FontBook.html#XAFontBookTypefaceList.by_post_script_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.FontBook.XAFontBookTypefaceList.by_post_script_name" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.FontBook.XAFontBookTypefaceList.by_properties">
+<span class="sig-name descname"><span class="pre">by_properties</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookTypeface" title="PyXA.apps.FontBook.XAFontBookTypeface"><span class="pre">PyXA.apps.FontBook.XAFontBookTypeface</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/FontBook.html#XAFontBookTypefaceList.by_properties"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.FontBook.XAFontBookTypefaceList.by_properties" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.FontBook.XAFontBookTypefaceList.by_style_name">
+<span class="sig-name descname"><span class="pre">by_style_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">style_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookTypeface" title="PyXA.apps.FontBook.XAFontBookTypeface"><span class="pre">PyXA.apps.FontBook.XAFontBookTypeface</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/FontBook.html#XAFontBookTypefaceList.by_style_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.FontBook.XAFontBookTypefaceList.by_style_name" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.FontBook.XAFontBookTypefaceList.copyright">
+<span class="sig-name descname"><span class="pre">copyright</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/FontBook.html#XAFontBookTypefaceList.copyright"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.FontBook.XAFontBookTypefaceList.copyright" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.FontBook.XAFontBookTypefaceList.display_name">
+<span class="sig-name descname"><span class="pre">display_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/FontBook.html#XAFontBookTypefaceList.display_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.FontBook.XAFontBookTypefaceList.display_name" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.FontBook.XAFontBookTypefaceList.displayed_name">
+<span class="sig-name descname"><span class="pre">displayed_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/FontBook.html#XAFontBookTypefaceList.displayed_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.FontBook.XAFontBookTypefaceList.displayed_name" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.FontBook.XAFontBookTypefaceList.duplicated">
+<span class="sig-name descname"><span class="pre">duplicated</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/FontBook.html#XAFontBookTypefaceList.duplicated"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.FontBook.XAFontBookTypefaceList.duplicated" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.FontBook.XAFontBookTypefaceList.enabled">
+<span class="sig-name descname"><span class="pre">enabled</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/FontBook.html#XAFontBookTypefaceList.enabled"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.FontBook.XAFontBookTypefaceList.enabled" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.FontBook.XAFontBookTypefaceList.family_name">
+<span class="sig-name descname"><span class="pre">family_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/FontBook.html#XAFontBookTypefaceList.family_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.FontBook.XAFontBookTypefaceList.family_name" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.FontBook.XAFontBookTypefaceList.files">
+<span class="sig-name descname"><span class="pre">files</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAPath" title="PyXA.XABase.XAPath"><span class="pre">PyXA.XABase.XAPath</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/FontBook.html#XAFontBookTypefaceList.files"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.FontBook.XAFontBookTypefaceList.files" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.FontBook.XAFontBookTypefaceList.font_container">
+<span class="sig-name descname"><span class="pre">font_container</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookFontContainerList" title="PyXA.apps.FontBook.XAFontBookFontContainerList"><span class="pre">PyXA.apps.FontBook.XAFontBookFontContainerList</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/FontBook.html#XAFontBookTypefaceList.font_container"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.FontBook.XAFontBookTypefaceList.font_container" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.FontBook.XAFontBookTypefaceList.font_family">
+<span class="sig-name descname"><span class="pre">font_family</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookFontFamilyList" title="PyXA.apps.FontBook.XAFontBookFontFamilyList"><span class="pre">PyXA.apps.FontBook.XAFontBookFontFamilyList</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/FontBook.html#XAFontBookTypefaceList.font_family"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.FontBook.XAFontBookTypefaceList.font_family" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.FontBook.XAFontBookTypefaceList.font_type">
+<span class="sig-name descname"><span class="pre">font_type</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/FontBook.html#XAFontBookTypefaceList.font_type"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.FontBook.XAFontBookTypefaceList.font_type" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.FontBook.XAFontBookTypefaceList.id">
-<span class="sig-name descname"><span class="pre">id</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/FontBook.html#XAFontBookTypefaceList.id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.FontBook.XAFontBookTypefaceList.id" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">id</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/FontBook.html#XAFontBookTypefaceList.id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.FontBook.XAFontBookTypefaceList.id" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.FontBook.XAFontBookTypefaceList.name">
-<span class="sig-name descname"><span class="pre">name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/FontBook.html#XAFontBookTypefaceList.name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.FontBook.XAFontBookTypefaceList.name" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/FontBook.html#XAFontBookTypefaceList.name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.FontBook.XAFontBookTypefaceList.name" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.FontBook.XAFontBookTypefaceList.post_script_name">
+<span class="sig-name descname"><span class="pre">post_script_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/FontBook.html#XAFontBookTypefaceList.post_script_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.FontBook.XAFontBookTypefaceList.post_script_name" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.FontBook.XAFontBookTypefaceList.properties">
 <span class="sig-name descname"><span class="pre">properties</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/FontBook.html#XAFontBookTypefaceList.properties"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.FontBook.XAFontBookTypefaceList.properties" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.FontBook.XAFontBookTypefaceList.style_name">
+<span class="sig-name descname"><span class="pre">style_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/FontBook.html#XAFontBookTypefaceList.style_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.FontBook.XAFontBookTypefaceList.style_name" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>

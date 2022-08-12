@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PyXA.apps.Pages &mdash; PyXA 0.0.6 documentation</title>
+  <title>PyXA.apps.Pages &mdash; PyXA 0.0.7 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -39,7 +39,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../about/index.html">Project Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/index.html">Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/apps/index.html">Application Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/index.html#application-modules">Application Modules</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../reference/index.html">Code Documentation and Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../bugs.html">Bugs</a></li>
 </ul>
@@ -99,26 +99,26 @@
 <div class="viewcode-block" id="XAPagesApplication.ExportFormat"><a class="viewcode-back" href="../../../reference/apps/pages.html#PyXA.apps.Pages.XAPagesApplication.ExportFormat">[docs]</a>    <span class="k">class</span> <span class="nc">ExportFormat</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Options for what format to export a Pages project as.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">Pages</span>                   <span class="o">=</span> <span class="n">OSType</span><span class="p">(</span><span class="s1">&#39;Pgff&#39;</span><span class="p">)</span> <span class="c1"># The Pages native file format </span>
-        <span class="n">EPUB</span>                    <span class="o">=</span> <span class="n">OSType</span><span class="p">(</span><span class="s1">&#39;Pepu&#39;</span><span class="p">)</span> <span class="c1"># EPUB format</span>
-        <span class="n">PLAINTEXT</span>               <span class="o">=</span> <span class="n">OSType</span><span class="p">(</span><span class="s1">&#39;Ptxf&#39;</span><span class="p">)</span> <span class="c1"># Plaintext format</span>
-        <span class="n">PDF</span>                     <span class="o">=</span> <span class="n">OSType</span><span class="p">(</span><span class="s1">&#39;Ppdf&#39;</span><span class="p">)</span> <span class="c1"># PDF format</span>
-        <span class="n">MICROSOFT_WORD</span>          <span class="o">=</span> <span class="n">OSType</span><span class="p">(</span><span class="s1">&#39;Pwrd&#39;</span><span class="p">)</span> <span class="c1"># MS Word format</span>
-        <span class="n">RTF</span>                     <span class="o">=</span> <span class="n">OSType</span><span class="p">(</span><span class="s1">&#39;Prtf&#39;</span><span class="p">)</span> <span class="c1"># RTF format</span>
-        <span class="n">PAGES_09</span>                <span class="o">=</span> <span class="n">OSType</span><span class="p">(</span><span class="s1">&#39;PPag&#39;</span><span class="p">)</span> <span class="c1"># Pages 09 format</span></div>
+        <span class="n">Pages</span>                   <span class="o">=</span> <span class="n">OSType</span><span class="p">(</span><span class="s1">&#39;Pgff&#39;</span><span class="p">)</span> <span class="c1">#: The Pages native file format </span>
+        <span class="n">EPUB</span>                    <span class="o">=</span> <span class="n">OSType</span><span class="p">(</span><span class="s1">&#39;Pepu&#39;</span><span class="p">)</span> <span class="c1">#: EPUB format</span>
+        <span class="n">PLAINTEXT</span>               <span class="o">=</span> <span class="n">OSType</span><span class="p">(</span><span class="s1">&#39;Ptxf&#39;</span><span class="p">)</span> <span class="c1">#: Plaintext format</span>
+        <span class="n">PDF</span>                     <span class="o">=</span> <span class="n">OSType</span><span class="p">(</span><span class="s1">&#39;Ppdf&#39;</span><span class="p">)</span> <span class="c1">#: PDF format</span>
+        <span class="n">MICROSOFT_WORD</span>          <span class="o">=</span> <span class="n">OSType</span><span class="p">(</span><span class="s1">&#39;Pwrd&#39;</span><span class="p">)</span> <span class="c1">#: MS Word format</span>
+        <span class="n">RTF</span>                     <span class="o">=</span> <span class="n">OSType</span><span class="p">(</span><span class="s1">&#39;Prtf&#39;</span><span class="p">)</span> <span class="c1">#: RTF format</span>
+        <span class="n">PAGES_09</span>                <span class="o">=</span> <span class="n">OSType</span><span class="p">(</span><span class="s1">&#39;PPag&#39;</span><span class="p">)</span> <span class="c1">#: Pages 09 format</span></div>
 
 <div class="viewcode-block" id="XAPagesApplication.PrintSetting"><a class="viewcode-back" href="../../../reference/apps/pages.html#PyXA.apps.Pages.XAPagesApplication.PrintSetting">[docs]</a>    <span class="k">class</span> <span class="nc">PrintSetting</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Options to use when printing slides.</span>
+        <span class="sd">&quot;&quot;&quot;Options to use when printing documents.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">STANDARD_ERROR_HANDLING</span> <span class="o">=</span> <span class="n">OSType</span><span class="p">(</span><span class="s1">&#39;lwst&#39;</span><span class="p">)</span> <span class="c1"># Standard PostScript error handling </span>
-        <span class="n">DETAILED_ERROR_HANDLING</span> <span class="o">=</span> <span class="n">OSType</span><span class="p">(</span><span class="s1">&#39;lwdt&#39;</span><span class="p">)</span> <span class="c1"># print a detailed report of PostScript errors </span></div>
+        <span class="n">STANDARD_ERROR_HANDLING</span> <span class="o">=</span> <span class="n">OSType</span><span class="p">(</span><span class="s1">&#39;lwst&#39;</span><span class="p">)</span> <span class="c1">#: Standard PostScript error handling </span>
+        <span class="n">DETAILED_ERROR_HANDLING</span> <span class="o">=</span> <span class="n">OSType</span><span class="p">(</span><span class="s1">&#39;lwdt&#39;</span><span class="p">)</span> <span class="c1">#: print a detailed report of PostScript errors </span></div>
 
 <div class="viewcode-block" id="XAPagesApplication.ImageQuality"><a class="viewcode-back" href="../../../reference/apps/pages.html#PyXA.apps.Pages.XAPagesApplication.ImageQuality">[docs]</a>    <span class="k">class</span> <span class="nc">ImageQuality</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Options for the quality of exported images.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">GOOD</span>      <span class="o">=</span> <span class="n">OSType</span><span class="p">(</span><span class="s1">&#39;PgP0&#39;</span><span class="p">)</span> <span class="c1"># Good quality </span>
-        <span class="n">BETTER</span>    <span class="o">=</span> <span class="n">OSType</span><span class="p">(</span><span class="s1">&#39;PgP1&#39;</span><span class="p">)</span> <span class="c1"># Better quality </span>
-        <span class="n">BEST</span>      <span class="o">=</span> <span class="n">OSType</span><span class="p">(</span><span class="s1">&#39;PgP2&#39;</span><span class="p">)</span> <span class="c1"># Best quality </span></div>
+        <span class="n">GOOD</span>      <span class="o">=</span> <span class="n">OSType</span><span class="p">(</span><span class="s1">&#39;PgP0&#39;</span><span class="p">)</span> <span class="c1">#: Good quality </span>
+        <span class="n">BETTER</span>    <span class="o">=</span> <span class="n">OSType</span><span class="p">(</span><span class="s1">&#39;PgP1&#39;</span><span class="p">)</span> <span class="c1">#: Better quality </span>
+        <span class="n">BEST</span>      <span class="o">=</span> <span class="n">OSType</span><span class="p">(</span><span class="s1">&#39;PgP2&#39;</span><span class="p">)</span> <span class="c1">#: Best quality </span></div>
 
 <div class="viewcode-block" id="XAPagesApplication.Alignment"><a class="viewcode-back" href="../../../reference/apps/pages.html#PyXA.apps.Pages.XAPagesApplication.Alignment">[docs]</a>    <span class="k">class</span> <span class="nc">Alignment</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Options for the horizontal and vertical alignment of content within table containers.</span>
@@ -210,7 +210,7 @@
     
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">current_document</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAPagesDocument&#39;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">front_window</span><span class="p">()</span><span class="o">.</span><span class="n">document</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">front_window</span><span class="o">.</span><span class="n">document</span>
 
 <div class="viewcode-block" id="XAPagesApplication.print"><a class="viewcode-back" href="../../../reference/apps/pages.html#PyXA.apps.Pages.XAPagesApplication.print">[docs]</a>    <span class="k">def</span> <span class="nf">print</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XAPagesDocument&#39;</span><span class="p">,</span> <span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBWindow</span><span class="p">],</span> <span class="n">print_properties</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">show_dialog</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAPagesApplication&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Prints a document or window.</span>

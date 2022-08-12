@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PyXA.apps.TV &mdash; PyXA 0.0.6 documentation</title>
+  <title>PyXA.apps.TV &mdash; PyXA 0.0.7 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -39,7 +39,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../about/index.html">Project Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/index.html">Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/apps/index.html">Application Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/index.html#application-modules">Application Modules</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../reference/index.html">Code Documentation and Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../bugs.html">Bugs</a></li>
 </ul>
@@ -1124,7 +1124,7 @@
 
 <span class="sd">        .. versionadded:: 0.0.7</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">tracks</span><span class="p">(),</span> <span class="n">XATVTrackList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">tracks</span><span class="p">(),</span> <span class="n">XATVTrackList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="XATVPlaylist.artworks"><a class="viewcode-back" href="../../../reference/apps/tv.html#PyXA.apps.TV.XATVPlaylist.artworks">[docs]</a>    <span class="k">def</span> <span class="nf">artworks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XATVArtworkList&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Returns a list of artworks, as PyXA objects, matching the given filter.</span>
@@ -1136,7 +1136,7 @@
 
 <span class="sd">        .. versionadded:: 0.0.7</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">artworks</span><span class="p">(),</span> <span class="n">XATVArtworkList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">artworks</span><span class="p">(),</span> <span class="n">XATVArtworkList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div></div>
 
 
 
@@ -1169,7 +1169,7 @@
 
 <span class="sd">        .. versionadded:: 0.0.7</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">fileTracks</span><span class="p">(),</span> <span class="n">XATVFileTrackList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">fileTracks</span><span class="p">(),</span> <span class="n">XATVFileTrackList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="XATVLibraryPlaylist.url_tracks"><a class="viewcode-back" href="../../../reference/apps/tv.html#PyXA.apps.TV.XATVLibraryPlaylist.url_tracks">[docs]</a>    <span class="k">def</span> <span class="nf">url_tracks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XATVURLTrackList&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Returns a list of URL tracks, as PyXA objects, matching the given filter.</span>
@@ -1181,7 +1181,7 @@
 
 <span class="sd">        .. versionadded:: 0.0.7</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">URLTracks</span><span class="p">(),</span> <span class="n">XATVURLTrackList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">URLTracks</span><span class="p">(),</span> <span class="n">XATVURLTrackList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="XATVLibraryPlaylist.shared_tracks"><a class="viewcode-back" href="../../../reference/apps/tv.html#PyXA.apps.TV.XATVLibraryPlaylist.shared_tracks">[docs]</a>    <span class="k">def</span> <span class="nf">shared_tracks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XATVSharedTrackList&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Returns a list of shared tracks, as PyXA objects, matching the given filter.</span>
@@ -1193,7 +1193,7 @@
 
 <span class="sd">        .. versionadded:: 0.0.7</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">sharedTracks</span><span class="p">(),</span> <span class="n">XATVSharedTrackList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">sharedTracks</span><span class="p">(),</span> <span class="n">XATVSharedTrackList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div></div>
 
 
 
@@ -1303,7 +1303,7 @@
 
 <span class="sd">        .. versionadded:: 0.0.7</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">libraryPlaylists</span><span class="p">(),</span> <span class="n">XATVLibraryPlaylistList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">libraryPlaylists</span><span class="p">(),</span> <span class="n">XATVLibraryPlaylistList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="XATVSource.playlists"><a class="viewcode-back" href="../../../reference/apps/tv.html#PyXA.apps.TV.XATVSource.playlists">[docs]</a>    <span class="k">def</span> <span class="nf">playlists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XATVPlaylistList&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Returns a list of playlists, as PyXA objects, matching the given filter.</span>
@@ -1315,7 +1315,7 @@
 
 <span class="sd">        .. versionadded:: 0.0.7</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">playlists</span><span class="p">(),</span> <span class="n">XATVPlaylistList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">playlists</span><span class="p">(),</span> <span class="n">XATVPlaylistList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="XATVSource.user_playlists"><a class="viewcode-back" href="../../../reference/apps/tv.html#PyXA.apps.TV.XATVSource.user_playlists">[docs]</a>    <span class="k">def</span> <span class="nf">user_playlists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XATVUserPlaylistList&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Returns a list of user playlists, as PyXA objects, matching the given filter.</span>
@@ -1327,7 +1327,7 @@
 
 <span class="sd">        .. versionadded:: 0.0.7</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">userPlaylists</span><span class="p">(),</span> <span class="n">XATVUserPlaylistList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">userPlaylists</span><span class="p">(),</span> <span class="n">XATVUserPlaylistList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div></div>
 
 
 
@@ -2680,7 +2680,7 @@
 
 <span class="sd">        .. versionadded:: 0.0.7</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">artworks</span><span class="p">(),</span> <span class="n">XATVArtworkList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">artworks</span><span class="p">(),</span> <span class="n">XATVArtworkList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div></div>
 
 
 
@@ -2877,7 +2877,7 @@
 
 <span class="sd">        .. versionadded:: 0.0.7</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">fileTracks</span><span class="p">(),</span> <span class="n">XATVFileTrackList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">fileTracks</span><span class="p">(),</span> <span class="n">XATVFileTrackList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="XATVUserPlaylist.url_tracks"><a class="viewcode-back" href="../../../reference/apps/tv.html#PyXA.apps.TV.XATVUserPlaylist.url_tracks">[docs]</a>    <span class="k">def</span> <span class="nf">url_tracks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XATVURLTrackList&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Returns a list of URL tracks, as PyXA objects, matching the given filter.</span>
@@ -2889,7 +2889,7 @@
 
 <span class="sd">        .. versionadded:: 0.0.7</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">URLTracks</span><span class="p">(),</span> <span class="n">XATVURLTrackList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">URLTracks</span><span class="p">(),</span> <span class="n">XATVURLTrackList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="XATVUserPlaylist.shared_tracks"><a class="viewcode-back" href="../../../reference/apps/tv.html#PyXA.apps.TV.XATVUserPlaylist.shared_tracks">[docs]</a>    <span class="k">def</span> <span class="nf">shared_tracks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XATVSharedTrackList&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Returns a list of shared tracks, as PyXA objects, matching the given filter.</span>
@@ -2901,7 +2901,7 @@
 
 <span class="sd">        .. versionadded:: 0.0.7</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">sharedTracks</span><span class="p">(),</span> <span class="n">XATVSharedTrackList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">sharedTracks</span><span class="p">(),</span> <span class="n">XATVSharedTrackList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div></div>
 
 
 

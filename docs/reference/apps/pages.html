@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Pages Module Reference &mdash; PyXA 0.0.6 documentation</title>
+  <title>Pages Module Reference &mdash; PyXA 0.0.7 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
@@ -42,7 +42,7 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../about/index.html">Project Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorial/index.html">Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../tutorial/apps/index.html">Application Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial/index.html#application-modules">Application Modules</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../index.html">Code Documentation and Reference</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../index.html#top-level-pyxa-modules">Top-level PyXA Modules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../index.html#pyxa-base-modules">PyXA Base Modules</a></li>
@@ -285,7 +285,7 @@
 <td><p>Options for key states and interactions.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Pages.XAPagesApplication.PrintSetting" title="PyXA.apps.Pages.XAPagesApplication.PrintSetting"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PrintSetting</span></code></a>(value)</p></td>
-<td><p>Options to use when printing slides.</p></td>
+<td><p>Options to use when printing documents.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Pages.XAPagesApplication.RepetitionMethod" title="PyXA.apps.Pages.XAPagesApplication.RepetitionMethod"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RepetitionMethod</span></code></a>(value)</p></td>
 <td><p>Options for whether and how a clip will repeat.</p></td>
@@ -610,62 +610,69 @@
 </colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Pages.XAPagesApplication.ExportFormat.EPUB" title="PyXA.apps.Pages.XAPagesApplication.ExportFormat.EPUB"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EPUB</span></code></a></p></td>
-<td><p></p></td>
+<td><p>EPUB format</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Pages.XAPagesApplication.ExportFormat.MICROSOFT_WORD" title="PyXA.apps.Pages.XAPagesApplication.ExportFormat.MICROSOFT_WORD"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MICROSOFT_WORD</span></code></a></p></td>
-<td><p></p></td>
+<td><p>MS Word format</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Pages.XAPagesApplication.ExportFormat.PAGES_09" title="PyXA.apps.Pages.XAPagesApplication.ExportFormat.PAGES_09"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PAGES_09</span></code></a></p></td>
-<td><p></p></td>
+<td><p>Pages 09 format</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Pages.XAPagesApplication.ExportFormat.PDF" title="PyXA.apps.Pages.XAPagesApplication.ExportFormat.PDF"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PDF</span></code></a></p></td>
-<td><p></p></td>
+<td><p>PDF format</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Pages.XAPagesApplication.ExportFormat.PLAINTEXT" title="PyXA.apps.Pages.XAPagesApplication.ExportFormat.PLAINTEXT"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PLAINTEXT</span></code></a></p></td>
-<td><p></p></td>
+<td><p>Plaintext format</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Pages.XAPagesApplication.ExportFormat.Pages" title="PyXA.apps.Pages.XAPagesApplication.ExportFormat.Pages"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Pages</span></code></a></p></td>
-<td><p></p></td>
+<td><p>The Pages native file format</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Pages.XAPagesApplication.ExportFormat.RTF" title="PyXA.apps.Pages.XAPagesApplication.ExportFormat.RTF"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RTF</span></code></a></p></td>
-<td><p></p></td>
+<td><p>RTF format</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="PyXA.apps.Pages.XAPagesApplication.ExportFormat.EPUB">
 <span class="sig-name descname"><span class="pre">EPUB</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1348825205</span></em><a class="headerlink" href="#PyXA.apps.Pages.XAPagesApplication.ExportFormat.EPUB" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>EPUB format</p>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="PyXA.apps.Pages.XAPagesApplication.ExportFormat.MICROSOFT_WORD">
 <span class="sig-name descname"><span class="pre">MICROSOFT_WORD</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1350005348</span></em><a class="headerlink" href="#PyXA.apps.Pages.XAPagesApplication.ExportFormat.MICROSOFT_WORD" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>MS Word format</p>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="PyXA.apps.Pages.XAPagesApplication.ExportFormat.PAGES_09">
 <span class="sig-name descname"><span class="pre">PAGES_09</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1347445095</span></em><a class="headerlink" href="#PyXA.apps.Pages.XAPagesApplication.ExportFormat.PAGES_09" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Pages 09 format</p>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="PyXA.apps.Pages.XAPagesApplication.ExportFormat.PDF">
 <span class="sig-name descname"><span class="pre">PDF</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1349543014</span></em><a class="headerlink" href="#PyXA.apps.Pages.XAPagesApplication.ExportFormat.PDF" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>PDF format</p>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="PyXA.apps.Pages.XAPagesApplication.ExportFormat.PLAINTEXT">
 <span class="sig-name descname"><span class="pre">PLAINTEXT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1349810278</span></em><a class="headerlink" href="#PyXA.apps.Pages.XAPagesApplication.ExportFormat.PLAINTEXT" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Plaintext format</p>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="PyXA.apps.Pages.XAPagesApplication.ExportFormat.Pages">
 <span class="sig-name descname"><span class="pre">Pages</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1348953702</span></em><a class="headerlink" href="#PyXA.apps.Pages.XAPagesApplication.ExportFormat.Pages" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>The Pages native file format</p>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="PyXA.apps.Pages.XAPagesApplication.ExportFormat.RTF">
 <span class="sig-name descname"><span class="pre">RTF</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1349678182</span></em><a class="headerlink" href="#PyXA.apps.Pages.XAPagesApplication.ExportFormat.RTF" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>RTF format</p>
+</dd></dl>
 
 </dd></dl>
 
@@ -746,30 +753,33 @@
 </colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Pages.XAPagesApplication.ImageQuality.BEST" title="PyXA.apps.Pages.XAPagesApplication.ImageQuality.BEST"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BEST</span></code></a></p></td>
-<td><p></p></td>
+<td><p>Best quality</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Pages.XAPagesApplication.ImageQuality.BETTER" title="PyXA.apps.Pages.XAPagesApplication.ImageQuality.BETTER"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BETTER</span></code></a></p></td>
-<td><p></p></td>
+<td><p>Better quality</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Pages.XAPagesApplication.ImageQuality.GOOD" title="PyXA.apps.Pages.XAPagesApplication.ImageQuality.GOOD"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GOOD</span></code></a></p></td>
-<td><p></p></td>
+<td><p>Good quality</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="PyXA.apps.Pages.XAPagesApplication.ImageQuality.BEST">
 <span class="sig-name descname"><span class="pre">BEST</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1348948018</span></em><a class="headerlink" href="#PyXA.apps.Pages.XAPagesApplication.ImageQuality.BEST" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Best quality</p>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="PyXA.apps.Pages.XAPagesApplication.ImageQuality.BETTER">
 <span class="sig-name descname"><span class="pre">BETTER</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1348948017</span></em><a class="headerlink" href="#PyXA.apps.Pages.XAPagesApplication.ImageQuality.BETTER" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Better quality</p>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="PyXA.apps.Pages.XAPagesApplication.ImageQuality.GOOD">
 <span class="sig-name descname"><span class="pre">GOOD</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1348948016</span></em><a class="headerlink" href="#PyXA.apps.Pages.XAPagesApplication.ImageQuality.GOOD" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Good quality</p>
+</dd></dl>
 
 </dd></dl>
 
@@ -825,7 +835,7 @@
 <dt class="sig sig-object py" id="PyXA.apps.Pages.XAPagesApplication.PrintSetting">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">PrintSetting</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Pages.html#XAPagesApplication.PrintSetting"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Pages.XAPagesApplication.PrintSetting" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
-<p>Options to use when printing slides.</p>
+<p>Options to use when printing documents.</p>
 <p><strong>Attributes:</strong></p>
 <table class="autosummary longtable docutils align-default">
 <colgroup>
@@ -834,22 +844,24 @@
 </colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Pages.XAPagesApplication.PrintSetting.DETAILED_ERROR_HANDLING" title="PyXA.apps.Pages.XAPagesApplication.PrintSetting.DETAILED_ERROR_HANDLING"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DETAILED_ERROR_HANDLING</span></code></a></p></td>
-<td><p></p></td>
+<td><p>print a detailed report of PostScript errors</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Pages.XAPagesApplication.PrintSetting.STANDARD_ERROR_HANDLING" title="PyXA.apps.Pages.XAPagesApplication.PrintSetting.STANDARD_ERROR_HANDLING"><code class="xref py py-obj docutils literal notranslate"><span class="pre">STANDARD_ERROR_HANDLING</span></code></a></p></td>
-<td><p></p></td>
+<td><p>Standard PostScript error handling</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="PyXA.apps.Pages.XAPagesApplication.PrintSetting.DETAILED_ERROR_HANDLING">
 <span class="sig-name descname"><span class="pre">DETAILED_ERROR_HANDLING</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1819763828</span></em><a class="headerlink" href="#PyXA.apps.Pages.XAPagesApplication.PrintSetting.DETAILED_ERROR_HANDLING" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>print a detailed report of PostScript errors</p>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="PyXA.apps.Pages.XAPagesApplication.PrintSetting.STANDARD_ERROR_HANDLING">
 <span class="sig-name descname"><span class="pre">STANDARD_ERROR_HANDLING</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1819767668</span></em><a class="headerlink" href="#PyXA.apps.Pages.XAPagesApplication.PrintSetting.STANDARD_ERROR_HANDLING" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Standard PostScript error handling</p>
+</dd></dl>
 
 </dd></dl>
 

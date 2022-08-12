@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tutorial &mdash; PyXA 0.0.6 documentation</title>
+  <title>Tutorial &mdash; PyXA 0.0.7 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
@@ -19,7 +19,7 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Application Modules" href="apps/index.html" />
+    <link rel="next" title="Automator Module" href="apps/automator/index.html" />
     <link rel="prev" title="Project Overview" href="../about/index.html" /> 
 </head>
 
@@ -42,11 +42,46 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../about/index.html">Project Overview</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#basic-usage">Basic Usage</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#advanced-usage">Advanced Usage</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="apps/index.html">Application Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#application-modules">Application Modules</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#first-party-application-modules">First-Party Application Modules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="apps/automator/index.html">Automator Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="apps/calculator/index.html">Calculator Module Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="apps/calendar/index.html">Calendar Module Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="apps/console/index.html">Console Module Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="apps/contacts/index.html">Contacts Module Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="apps/dictionary/index.html">Dictionary Module Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="apps/finder/index.html">Finder Module Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="apps/fontbook/index.html">Font Book Module Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="apps/keynote/index.html">Keynote Module Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="apps/mail/index.html">Mail Module Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="apps/maps/index.html">Maps Module Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="apps/messages/index.html">Messages Module Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="apps/music/index.html">Music Module Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="apps/notes/index.html">Notes Module Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="apps/pages/index.html">Pages Module Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="apps/photos/index.html">Photos Module Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="apps/preview/index.html">Preview Module Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="apps/quicktimeplayer/index.html">QuickTime Module Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="apps/reminders/index.html">Reminders Module Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="apps/safari/index.html">Safari Module Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="apps/shortcuts/index.html">Shortcuts Module Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="apps/stocks/index.html">Stocks Module Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="apps/systempreferences/index.html">System Preferences Module Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="apps/terminal/index.html">Terminal Module Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="apps/textedit/index.html">TextEdit Module Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="apps/tv/index.html">TV Module Overview</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#third-party-application-modules">Third-Party Application Modules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="apps/chromium/index.html">Chromium Module Overview</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../reference/index.html">Code Documentation and Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../bugs.html">Bugs</a></li>
 </ul>
@@ -77,11 +112,137 @@
              
   <section id="tutorial">
 <h1>Tutorial<a class="headerlink" href="#tutorial" title="Permalink to this headline"></a></h1>
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline"></a></h2>
+<p>Before you get started with PyXA, you’ll need to install it. The easiest way to do so is through Pip using the following command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python -m pip install mac-pyxa
+</pre></div>
+</div>
+<p>Alternatively, you can install PyXA on a per-project basis by cloning the GitHub repository in the project’s main directory.</p>
+</section>
 <section id="basic-usage">
 <h2>Basic Usage<a class="headerlink" href="#basic-usage" title="Permalink to this headline"></a></h2>
+<p>Let’s walk through some examples to introduce you to the ins and outs of PyXA. Create a new folder in a location of your choice and name it <cite>PyXA Examples</cite>. Then, in that folder, create a new file called <cite>basics.py</cite>, then open the file in your favorite code editor. If you have the Visual Studio Code <cite>code</cite> command installed and enabled, the following command accomplishes all of the above in one fell swoop:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir <span class="s2">&quot;PyXA Examples&quot;</span> <span class="o">&amp;&amp;</span> <span class="nb">cd</span> <span class="s2">&quot;PyXA Examples&quot;</span> <span class="o">&amp;&amp;</span> touch basics.py <span class="o">&amp;&amp;</span> code basics.py
+</pre></div>
+</div>
+<p>Now, let’s design our first PyXA automation workflow. Suppose we want to write a script that gets the URL of the current Safari tab and prints it (to the Terminal/console). To do this, we first import the PyXA library, then we obtain a reference to the Safari application, a reference to Safari’s frontmost window, and finally a reference to the currently displayed tab. From there, we retrieve and print the URL of the tab. The script is thus:</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;Safari&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">front_window</span><span class="o">.</span><span class="n">current_tab</span><span class="o">.</span><span class="n">url</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Save this script to <cite>basics.py</cite>. To test the workflow, open <cite>https://www.google.com</cite> in a new Safari tab, then run <cite>basics.py</cite> in your Terminal. You should see the following:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>% python basics.py
+https://www.google.com
+</pre></div>
+</div>
+<p>Try visiting different sites in Safari and re-running the script. As you navigate to different sites, you’ll see that the printed URL changes accordingly.</p>
+<p>This particular workflow is fairly straightforward, but it is nonetheless useful to compare its syntax to that of AppleScript and JXA. In AppleScript, the same workflow would look like this:</p>
+<div class="highlight-AppleScript notranslate"><div class="highlight"><pre><span></span><span class="k">tell</span> <span class="nb">application</span> <span class="s2">&quot;Safari&quot;</span>
+   <span class="no">return</span> <span class="nv">URL</span> <span class="k">of</span> <span class="nb">the</span> <span class="nv">current</span> <span class="no">tab</span> <span class="k">of</span> <span class="na">window</span> <span class="mi">1</span>
+<span class="k">end</span> <span class="k">tell</span>
+</pre></div>
+</div>
+<p>And the equivalent JXA syntax would be:</p>
+<div class="highlight-JavaScript notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="kd">function</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">   </span><span class="k">return</span><span class="w"> </span><span class="nx">Application</span><span class="p">(</span><span class="s1">&#39;Safari&#39;</span><span class="p">).</span><span class="nx">windows</span><span class="p">()[</span><span class="mf">0</span><span class="p">].</span><span class="nx">currentTab</span><span class="p">.</span><span class="nx">url</span><span class="p">()</span><span class="w"></span>
+<span class="p">})();</span><span class="w"></span>
+</pre></div>
+</div>
+<p>As you can see, the syntax of PyXA closely follows the syntax of JXA while remaining true to the standard conventions of Python. Most notably, multi-word names for variables and methods use the Pythonic snake_case format instead of camelCase. For example, as seen above, PyXA uses <cite>current_tab</cite> while JXA uses <cite>currentTab</cite>. Another difference is that PyXA prefers object properties while JXA blurs the line between properties and methods. In PyXA, the properties listed in an application’s scripting dictionary are referenced using the dot notation for object properties, and actions on objects are executed via method calls. PyXA also includes properties and methods beyond those described in scripting dictionaries on an application-specific basis.</p>
+<p>Like AppleScript and JXA, PyXA’s syntax is often flexible, allowing multiple ways to accomplish the same goal. All of the following code samples are valid ways to create the same workflow as above.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;Safari&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">windows</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">current_tab</span><span class="o">.</span><span class="n">url</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;Safari&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">current_document</span><span class="o">.</span><span class="n">url</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;Safari&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">documents</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">url</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The approach you use will depend one your goals for any given workflow as well as the kind(s) of inputs the workflow should be able to handle.</p>
+<p>Let’s make our workflow more useful by having it save the URL to a new note. To do this, we’ll need a reference to the Notes app. We then need to tell the Notes app to create a new note with the URL as the note’s content. We can temporarily store the URL in a variable to make our code more readable. The PyXA script for this is as follows:</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="n">current_url</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;Safari&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">front_window</span><span class="o">.</span><span class="n">current_tab</span><span class="o">.</span><span class="n">url</span>
+<span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;Notes&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">new_note</span><span class="p">(</span><span class="n">current_url</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If you run this workflow and go to the Notes app, you’ll see that a new note has been created containing the current tab’s URL in bold typeface. This is already a more useful automation, but we can improve it by making Notes automatically activate and show the newly created note. To do this, we can simply call the new note object’s <cite>show()</cite> method:</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="n">current_url</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;Safari&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">front_window</span><span class="o">.</span><span class="n">current_tab</span><span class="o">.</span><span class="n">url</span>
+<span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;Notes&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">new_note</span><span class="p">(</span><span class="n">current_url</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>When you run this, the Notes app will open to newly created note containing the current Safari tab’s URL. Cool! Let’s make another change. Right now, the URL is used as the title for the note, but it would be nice if the title reflected the title of the webpage. Since we need to retrieve multiple properties from the current tab, we should store a reference to it in a variable to keep our script running efficiently. We’ll retrieve the <cite>URL</cite> property of the current tab as we did before, and now we’ll also retrieve the <cite>name</cite> property. We can then specify the title and content of the new note by passing two arguments to the <cite>new_note()</cite> method. Another improvement we’ll make is turning the URL into an actually clickable link by surrounding it with HTML anchor tags. Our script thus becomes:</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="n">current_tab</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;Safari&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">front_window</span><span class="o">.</span><span class="n">current_tab</span>
+<span class="n">current_url</span> <span class="o">=</span> <span class="s2">&quot;&lt;a href=&quot;</span> <span class="o">+</span> <span class="n">current_tab</span><span class="o">.</span><span class="n">url</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span> <span class="o">+</span> <span class="n">current_tab</span><span class="o">.</span><span class="n">url</span> <span class="o">+</span> <span class="s2">&quot;&lt;/a&gt;&quot;</span>
+<span class="n">current_name</span> <span class="o">=</span> <span class="n">current_tab</span><span class="o">.</span><span class="n">name</span>
+<span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;Notes&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">new_note</span><span class="p">(</span><span class="n">current_name</span><span class="p">,</span> <span class="n">current_url</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>With that, our script is complete! You can run the script from your Terminal at any time, but you might want to save the workflow as an executable for greater convenience. The easiest way to do this is to add a <cite>shebang</cite> to the top of the script that instructs the Terminal to run the code using the Python interpreter:</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env python</span>
+
+<span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="n">current_tab</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;Safari&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">front_window</span><span class="o">.</span><span class="n">current_tab</span>
+<span class="n">current_url</span> <span class="o">=</span> <span class="s2">&quot;&lt;a href=&quot;</span> <span class="o">+</span> <span class="n">current_tab</span><span class="o">.</span><span class="n">url</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span> <span class="o">+</span> <span class="n">current_tab</span><span class="o">.</span><span class="n">url</span> <span class="o">+</span> <span class="s2">&quot;&lt;/a&gt;&quot;</span>
+<span class="n">current_name</span> <span class="o">=</span> <span class="n">current_tab</span><span class="o">.</span><span class="n">name</span>
+<span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;Notes&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">new_note</span><span class="p">(</span><span class="n">current_name</span><span class="p">,</span> <span class="n">current_url</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>You then need to remove the .py extension from the script and grant the file execution privileges. Both these actions can be accomplished using the following Terminal command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mv basics.py basics <span class="o">&amp;&amp;</span> chmod +x basics
+</pre></div>
+</div>
+<p>When you double click on the script from within Finder, or when you run <cite>./basics</cite> in the Terminal, the workflow should execute as it did before. If you want, you can <a class="reference external" href="https://support.apple.com/en-gb/guide/mac-help/mchlp2313/mac">change the icon of the file</a> to give your automation a distinct look. You can then move the file to your desktop, the dock, or anywhere you want.</p>
 </section>
-<section id="advanced-usage">
-<h2>Advanced Usage<a class="headerlink" href="#advanced-usage" title="Permalink to this headline"></a></h2>
+</section>
+<section id="application-modules">
+<h1>Application Modules<a class="headerlink" href="#application-modules" title="Permalink to this headline"></a></h1>
+<section id="first-party-application-modules">
+<h2>First-Party Application Modules<a class="headerlink" href="#first-party-application-modules" title="Permalink to this headline"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="apps/automator/index.html">Automator Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apps/calculator/index.html">Calculator Module Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apps/calendar/index.html">Calendar Module Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apps/console/index.html">Console Module Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apps/contacts/index.html">Contacts Module Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apps/dictionary/index.html">Dictionary Module Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apps/finder/index.html">Finder Module Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apps/fontbook/index.html">Font Book Module Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apps/keynote/index.html">Keynote Module Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apps/mail/index.html">Mail Module Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apps/maps/index.html">Maps Module Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apps/messages/index.html">Messages Module Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apps/music/index.html">Music Module Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apps/notes/index.html">Notes Module Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apps/pages/index.html">Pages Module Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apps/photos/index.html">Photos Module Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apps/preview/index.html">Preview Module Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apps/quicktimeplayer/index.html">QuickTime Module Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apps/reminders/index.html">Reminders Module Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apps/safari/index.html">Safari Module Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apps/shortcuts/index.html">Shortcuts Module Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apps/stocks/index.html">Stocks Module Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apps/systempreferences/index.html">System Preferences Module Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apps/terminal/index.html">Terminal Module Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apps/textedit/index.html">TextEdit Module Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apps/tv/index.html">TV Module Overview</a></li>
+</ul>
+</div>
+</section>
+<section id="third-party-application-modules">
+<h2>Third-Party Application Modules<a class="headerlink" href="#third-party-application-modules" title="Permalink to this headline"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="apps/chromium/index.html">Chromium Module Overview</a></li>
+</ul>
+</div>
 </section>
 </section>
 
@@ -90,7 +251,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="../about/index.html" class="btn btn-neutral float-left" title="Project Overview" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="apps/index.html" class="btn btn-neutral float-right" title="Application Modules" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="apps/automator/index.html" class="btn btn-neutral float-right" title="Automator Module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

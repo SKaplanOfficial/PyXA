@@ -7,7 +7,8 @@ import CoreServices
 import ApplicationServices
 import struct
 
-from AppKit import NSURL, NSApp
+import objc
+from AppKit import NSURL, NSApp, NSData
 import AppKit
 import Quartz
 
@@ -1024,12 +1025,16 @@ kAEDirectCall                 = 1
 kAESameProcess                = 2
 kAELocalProcess               = 3
 kAERemoteProcess              = 4
+typeUnicodeText = 0x75747874
+keyAEKeyForm = 0x666F726D
+keyAEDesiredClass = 0x77616E74
 
 errAETargetAddressNotPermitted	 = 	-1742
 errAEEventNotPermitted = -1743
 
 formPropertyID = OSType('prop')
 formName       = OSType('name')
+keyAEIndex = 0x6B696478
 
 def event_from_int(i: int) -> ApplicationServices.NSAppleEventDescriptor:
     """Creates an Apple Event descriptor of event type typeSInt32 that stores the provided integer.
@@ -1082,9 +1087,9 @@ def xaevent_print_immediately_from_app_by_bundle_id(path: str, bundle_id: str):
 
 def test():
     # Target
-    app_desc = ApplicationServices.NSAppleEventDescriptor.alloc().initWithDescriptorType_data_(typeApplicationBundleID, "com.apple.TextEdit".encode("UTF-8"))
+    app_desc = ApplicationServices.NSAppleEventDescriptor.alloc().initWithDescriptorType_data_(typeApplicationBundleID, "com.apple.Safari".encode("UTF-8"))
 
-    openEvent = ApplicationServices.NSAppleEventDescriptor.appleEventWithEventClass_eventID_targetDescriptor_returnID_transactionID_(kAECoreSuite, kAECreateElement, app_desc, kAutoGenerateReturnID, kAnyTransactionID)
+    openEvent = ApplicationServices.NSAppleEventDescriptor.appleEventWithEventClass_eventID_targetDescriptor_returnID_transactionID_(typeAppleEvent, kAEZoomIn, app_desc, kAutoGenerateReturnID, kAnyTransactionID)
 
     # keyData = ApplicationServices.NSAppleEventDescriptor.descriptorWithTypeCode_(cSelection)
 
@@ -1100,15 +1105,15 @@ def test():
     # obj = ApplicationServices.NSScriptObjectSpecifier.objectSpecifierWithDescriptor_(doc)
     # test = ApplicationServices.NSScriptObjectSpecifier.alloc().initWithContainerSpecifier_key_(obj, formName)
 
-    doc = ApplicationServices.NSAppleEventDescriptor.descriptorWithTypeCode_(cDocument)
+    # doc = ApplicationServices.NSAppleEventDescriptor.descriptorWithTypeCode_(cDocument)
+    # # # record = ApplicationServices.NSAppleEventDescriptor.alloc().initRecordDescriptor()
+    # # # doc = ApplicationServices.NSAppleEventDescriptor.descriptorWithTypeCode_(cDocument)
+    # # # record.insertDescriptor_atIndex_(doc, 1)
+    # # # print(record)
     # # record = ApplicationServices.NSAppleEventDescriptor.alloc().initRecordDescriptor()
-    # # doc = ApplicationServices.NSAppleEventDescriptor.descriptorWithTypeCode_(cDocument)
-    # # record.insertDescriptor_atIndex_(doc, 1)
-    # # print(record)
-    # record = ApplicationServices.NSAppleEventDescriptor.alloc().initRecordDescriptor()
-    # record.setParamDescriptor_forKeyword_(doc, typeObjectSpecifier)
+    # # record.setParamDescriptor_forKeyword_(doc, typeObjectSpecifier)
 
-    openEvent.setParamDescriptor_forKeyword_(doc, keyAEObjectClass)
+    # openEvent.setParamDescriptor_forKeyword_(doc, keyAEObjectClass)
 
     print(openEvent)
     test = openEvent.sendEventWithOptions_timeout_error_(kAEWaitReply|kAECanInteract, kAEDefaultTimeout, None)
@@ -1168,6 +1173,57 @@ def get_selection(bundle_id: str):
     test = openEvent.sendEventWithOptions_timeout_error_(kAEWaitReply|kAECanInteract, kAEDefaultTimeout, None)
     print(test)
 
+def get_window_title(bundle_id: str):
+    app_desc = ApplicationServices.NSAppleEventDescriptor.alloc().initWithDescriptorType_data_(typeApplicationBundleID, bundle_id.encode("UTF-8"))
+
+    openEvent = ApplicationServices.NSAppleEventDescriptor.appleEventWithEventClass_eventID_targetDescriptor_returnID_transactionID_(kAECoreSuite, kAEGetData, app_desc, kAutoGenerateReturnID, kAnyTransactionID)
+
+    # doc = ApplicationServices.NSAppleEventDescriptor.descriptorWithTypeCode_(cDocument)
+    # openEvent.setParamDescriptor_forKeyword_(doc, keyAEObjectClass)
+
+    record = ApplicationServices.NSAppleEventDescriptor.alloc().initRecordDescriptor()
+    indx = ApplicationServices.NSAppleEventDescriptor.descriptorWithTypeCode_(OSType('indx'))
+    #indx = ApplicationServices.NSAppleEventDescriptor.descriptorWithTypeCode_(OSType('cwin'))
+    cwin = ApplicationServices.NSAppleEventDescriptor.descriptorWithEnumCode_(pSelection)
+    seld = ApplicationServices.NSAppleEventDescriptor.descriptorWithInt32_(1)
+    # seld = ApplicationServices.NSAppleEventDescriptor.descriptorWithTypeCode_(cDocument)
+    #seld = ApplicationServices.NSAppleEventDescriptor.descriptorWithString_("name")
+
+    want = ApplicationServices.NSAppleEventDescriptor.descriptorWithTypeCode_(cWindow)
+    record.setParamDescriptor_forKeyword_(want, keyAEDesiredClass)
+
+    form = ApplicationServices.NSAppleEventDescriptor.descriptorWithTypeCode_(OSType('indx'))
+    record.setParamDescriptor_forKeyword_(form, keyAEKeyForm)
+
+    from_ = ApplicationServices.NSAppleEventDescriptor.nullDescriptor()
+    record.setParamDescriptor_forKeyword_(from_, OSType('from'))
+
+    seld = ApplicationServices.NSAppleEventDescriptor.descriptorWithInt32_(1)
+    record.setParamDescriptor_forKeyword_(seld, OSType('seld'))
+
+    # obj = ApplicationServices.NSAppleEventDescriptor.descriptorWithTypeCode_(typeObjectSpecifier)
+
+    obj = record.coerceToDescriptorType_(typeObjectSpecifier)
+
+    # print(obj)
+
+    #print(OSType('brow'))
+    #test = ApplicationServices.NSAppleEventDescriptor.alloc().initWithDescriptorType_data_(typeObjectSpecifier, )
+
+    openEvent.setParamDescriptor_forKeyword_(obj, keyDirectObject)
+
+    sig = ApplicationServices.NSAppleEventDescriptor.descriptorWithInt32_(65536)
+    openEvent.setAttributeDescriptor_forKeyword_(sig, OSType('csig'))
+    
+    print(openEvent.description())
+    test = openEvent.sendEventWithOptions_timeout_error_(kAEWaitReply|kAECanInteract, kAEDefaultTimeout, None)
+    print(test)
+
+    answer = test[0].descriptorAtIndex_(1)
+
+    # obj = answer.coerceToDescriptorType_(typeAERecord)
+   
+
 def get_window(bundle_id: str):
     app_desc = ApplicationServices.NSAppleEventDescriptor.alloc().initWithDescriptorType_data_(typeApplicationBundleID, bundle_id.encode("UTF-8"))
 
@@ -1179,22 +1235,29 @@ def get_window(bundle_id: str):
     record = ApplicationServices.NSAppleEventDescriptor.alloc().initRecordDescriptor()
     indx = ApplicationServices.NSAppleEventDescriptor.descriptorWithTypeCode_(OSType('indx'))
     #indx = ApplicationServices.NSAppleEventDescriptor.descriptorWithTypeCode_(OSType('cwin'))
-    cwin = ApplicationServices.NSAppleEventDescriptor.descriptorWithTypeCode_(cWindow)
+    cwin = ApplicationServices.NSAppleEventDescriptor.descriptorWithEnumCode_(pSelection)
     seld = ApplicationServices.NSAppleEventDescriptor.descriptorWithInt32_(1)
     # seld = ApplicationServices.NSAppleEventDescriptor.descriptorWithTypeCode_(cDocument)
     #seld = ApplicationServices.NSAppleEventDescriptor.descriptorWithString_("name")
     nul = ApplicationServices.NSAppleEventDescriptor.nullDescriptor()
     record.setParamDescriptor_forKeyword_(nul, OSType('from'))
-    record.setParamDescriptor_forKeyword_(cwin, OSType('want'))
-    record.setParamDescriptor_forKeyword_(indx, OSType('form'))
+
+    want = ApplicationServices.NSAppleEventDescriptor.descriptorWithTypeCode_(OSType('prop'))
+    record.setParamDescriptor_forKeyword_(want, keyAEDesiredClass)
+
+    form = ApplicationServices.NSAppleEventDescriptor.descriptorWithEnumCode_(OSType('prop'))
+    record.setParamDescriptor_forKeyword_(form, keyAEKeyForm)
+
+    seld = ApplicationServices.NSAppleEventDescriptor.descriptorWithTypeCode_(pSelection)
     record.setParamDescriptor_forKeyword_(seld, OSType('seld'))
 
     # obj = ApplicationServices.NSAppleEventDescriptor.descriptorWithTypeCode_(typeObjectSpecifier)
 
     obj = record.coerceToDescriptorType_(typeObjectSpecifier)
 
-    print(obj)
+    # print(obj)
 
+    #print(OSType('brow'))
     #test = ApplicationServices.NSAppleEventDescriptor.alloc().initWithDescriptorType_data_(typeObjectSpecifier, )
 
     openEvent.setParamDescriptor_forKeyword_(obj, keyDirectObject)
@@ -1205,6 +1268,31 @@ def get_window(bundle_id: str):
     print(openEvent.description())
     test = openEvent.sendEventWithOptions_timeout_error_(kAEWaitReply|kAECanInteract, kAEDefaultTimeout, None)
     print(test)
+    
+    record = test[0].descriptorAtIndex_(1).coerceToDescriptorType_(typeAERecord)
+
+    print(traverse(record))
+
+def traverse(descriptor):
+    ret = ""
+    for x in range(1, descriptor.numberOfItems() + 1):
+        desc = descriptor.descriptorAtIndex_(x)
+        # print(desc.descriptorType() == typeEnumeration)
+        if desc.descriptorType() == typeUnicodeText and desc.stringValue() is not None:
+            ret += "/"+desc.stringValue()
+        ret += traverse(desc)
+    return ret
+
+    # data = NSData.alloc().initWithBytes_length_(test[0].data(), len(test[0].data()))
+
+    # # z = None
+    # # blah = data.getBytes_length_(z, data.length())
+    # AEDescRef = objc.createOpaquePointerType(
+    #     "AEDescRef", b"^{AEDesc=I^^{OpaqueAEDataStorageType}}"
+    # )
+    # # print(blah.decode())
+    # # objc.objc_object(c_void_p = test[0].descriptorAtIndex_(1).aeDesc().__c_void_p__())
+    # print(test[0].descriptorAtIndex_(1).descriptorAtIndex_(1).typeCodeValue())
 
 def xaevent_minimize_app(bundle_id: str, param: Any = None):
     app_desc = ApplicationServices.NSAppleEventDescriptor.alloc().initWithDescriptorType_data_(typeApplicationBundleID, bundle_id.encode("UTF-8"))

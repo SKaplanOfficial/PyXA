@@ -239,7 +239,6 @@ class XAFontBookFontFamilyList(XABase.XAList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XAFontBookFontFamily, filter)
 
-    # TODO
     def properties(self) -> List[dict]:
         return list(self.xa_elem.arrayByApplyingSelector_("properties"))
 
@@ -262,8 +261,26 @@ class XAFontBookFontFamilyList(XABase.XAList):
         ls = self.xa_elem.arrayByApplyingSelector_("files")
         return [XABase.XAURL(x) for x in [y for y in ls]]
 
-    def by_name(self, name: str) -> 'XAFontBookDocument':
+    def by_properties(self, properties: dict) -> 'XAFontBookFontFamily':
+        return self.by_property("properties", properties)
+
+    def by_name(self, name: str) -> 'XAFontBookFontFamily':
         return self.by_property("name", name)
+
+    def by_display_name(self, display_name: str) -> 'XAFontBookFontFamily':
+        return self.by_property("displayName", display_name)
+
+    def by_displayed_name(self, displayed_name: str) -> 'XAFontBookFontFamily':
+        return self.by_property("displayedName", displayed_name)
+
+    def by_enabled(self, enabled: bool) -> 'XAFontBookFontFamily':
+        return self.by_property("enabled", enabled)
+
+    def by_duplicates(self, duplicated: bool) -> 'XAFontBookFontFamily':
+        return self.by_property("duplicated", duplicated)
+
+    def by_files(self, files: List[XABase.XAPath]) -> 'XAFontBookFontFamily':
+        return files == self.files()
 
     def __repr__(self):
         return "<" + str(type(self)) + str(self.name()) + ">"
@@ -341,18 +358,100 @@ class XAFontBookTypefaceList(XABase.XAList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XAFontBookTypeface, filter)
 
-    # TODO
     def properties(self) -> List[dict]:
         return list(self.xa_elem.arrayByApplyingSelector_("properties"))
 
-    def name(self) -> List[dict]:
+    def name(self) -> List[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
-    def id(self) -> List[dict]:
+    def display_name(self) -> List[str]:
+        return list(self.xa_elem.arrayByApplyingSelector_("displayName"))
+
+    def displayed_name(self) -> List[str]:
+        return list(self.xa_elem.arrayByApplyingSelector_("displayedName"))
+
+    def font_family(self) -> XAFontBookFontFamilyList:
+        ls = self.xa_elem.arrayByApplyingSelector_("fontFamily")
+        return self._new_element(ls, XAFontBookFontFamilyList)
+
+    def family_name(self) -> List[str]:
+        return list(self.xa_elem.arrayByApplyingSelector_("familyName"))
+
+    def style_name(self) -> List[str]:
+        return list(self.xa_elem.arrayByApplyingSelector_("styleName"))
+
+    def post_script_name(self) -> List[str]:
+        return list(self.xa_elem.arrayByApplyingSelector_("postScriptName"))
+
+    def id(self) -> List[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("id"))
 
-    def by_name(self, name: str) -> 'XAFontBookDocument':
+    def enabled(self) -> List[bool]:
+        return list(self.xa_elem.arrayByApplyingSelector_("enabled"))
+
+    def duplicated(self) -> List[bool]:
+        return list(self.xa_elem.arrayByApplyingSelector_("duplicated"))
+
+    def font_type(self) -> List[str]:
+        return list(self.xa_elem.arrayByApplyingSelector_("fontType"))
+
+    def copyright(self) -> List[str]:
+        return list(self.xa_elem.arrayByApplyingSelector_("copyright"))
+
+    def font_container(self) -> 'XAFontBookFontContainerList':
+        ls = self.xa_elem.arrayByApplyingSelector_("fontContainer")
+        return self._new_element(ls, XAFontBookFontContainerList)
+
+    def files(self) -> List[XABase.XAPath]:
+        ls = self.xa_elem.arrayByApplyingSelector_("files")
+        return [XABase.XAPath(x) for x in ls]
+
+    def by_properties(self, properties: dict) -> 'XAFontBookTypeface':
+        return self.by_property("properties", properties)
+
+    def by_name(self, name: str) -> 'XAFontBookTypeface':
         return self.by_property("name", name)
+
+    def by_display_name(self, display_name: str) -> 'XAFontBookTypeface':
+        return self.by_property("displayName", display_name)
+
+    def by_displayed_name(self, displayed_name: str) -> 'XAFontBookTypeface':
+        return self.by_property("displayedName", displayed_name)
+
+    def by_font_family(self, font_family: XAFontBookFontFamily) -> 'XAFontBookTypeface':
+        return self.by_property("fontFamily", font_family.xa_elem)
+
+    def by_family_name(self, family_name: str) -> 'XAFontBookTypeface':
+        return self.by_property("familyName", family_name)
+
+    def by_style_name(self, style_name: str) -> 'XAFontBookTypeface':
+        return self.by_property("styleName", style_name)
+
+    def by_post_script_name(self, post_script_name: str) -> 'XAFontBookTypeface':
+        return self.by_property("postScriptName", post_script_name)
+
+    def by_id(self, id: str) -> 'XAFontBookTypeface':
+        return self.by_property("id", id)
+
+    def by_enabled(self, enabled: bool) -> 'XAFontBookTypeface':
+        return self.by_property("enabled", enabled)
+
+    def by_duplicated(self, duplicated: bool) -> 'XAFontBookTypeface':
+        return self.by_property("duplicated", duplicated)
+
+    def by_font_type(self, font_type: str) -> 'XAFontBookTypeface':
+        return self.by_property("fontType", font_type)
+
+    def by_copyright(self, copyright: str) -> 'XAFontBookTypeface':
+        return self.by_property("copyright", copyright)
+
+    def by_font_container(self, font_container: 'XAFontBookFontContainer') -> 'XAFontBookTypeface':
+        return self.by_property("fontContainer", font_container.xa_elem)
+
+    def by_files(self, files: List[XABase.XAPath]) -> 'XAFontBookTypeface':
+        for typeface in self:
+            if typeface.files == files:
+                return typeface
 
 class XAFontBookTypeface(XABaseScriptable.XASBObject):
     """A class for managing and interacting with typefaces in Font Book.app.
@@ -376,7 +475,7 @@ class XAFontBookTypeface(XABaseScriptable.XASBObject):
         self.duplicated: bool #: Whether the typeface is duplicated
         self.font_type: str #: The type of the typeface
         self.copyright: str #: The copyright string for the typeface
-        self.font_container: blah #: The container of the typeface
+        self.font_container: XAFontBookFontContainer #: The container of the typeface
         self.files: List[XABase.XAPath] #: The font files for the typeface
 
     @property
@@ -453,12 +552,43 @@ class XAFontBookFontContainerList(XABase.XAList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XAFontBookFontContainer, filter)
 
-    # TODO
+    def properties(self) -> List[dict]:
+        return list(self.xa_elem.arrayByApplyingSelector_("properties"))
+
+    def name(self) -> List[str]:
+        return list(self.xa_elem.arrayByApplyingSelector_("name"))
+
     def path(self) -> List[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("path"))
 
-    def by_name(self, name: str) -> 'XAFontBookDocument':
+    def files(self) -> List[XABase.XAPath]:
+        ls = self.xa_elem.arrayByApplyingSelector_("files")
+        return [XABase.XAPath(x) for x in ls]
+
+    def domain(self) -> 'XAFontBookFontDomainList':
+        ls = self.xa_elem.arrayByApplyingSelector_("domain")
+        return self._new_element(ls, XAFontBookFontDomainList)
+
+    def id(self) -> List[str]:
+        return list(self.xa_elem.arrayByApplyingSelector_("id"))
+
+    def by_properties(self, properties: dict) -> 'XAFontBookFontContainer':
+        return self.by_property("properties", properties)
+
+    def by_name(self, name: str) -> 'XAFontBookFontContainer':
         return self.by_property("name", name)
+
+    def by_path(self, path: str) -> 'XAFontBookFontContainer':
+        return self.by_property("path", path)
+
+    def by_files(self, files: List[XABase.XAPath]) -> 'XAFontBookFontContainer':
+        return files == self.files()
+
+    def by_domain(self, domain: 'XAFontBookFontDomain') -> 'XAFontBookFontContainer':
+        return self.by_property("domain", domain.xa_elem)
+
+    def by_id(self, id: str) -> 'XAFontBookFontContainer':
+        return self.by_property("id", id)
 
 class XAFontBookFontContainer(XABaseScriptable.XASBObject):
     """A class for managing and interacting with font containers in Font Book.app.
@@ -537,12 +667,35 @@ class XAFontBookFontCollectionList(XABase.XAList):
             obj_class = XAFontBookFontCollection
         super().__init__(properties, obj_class, filter)
 
-    # TODO
-    def path(self) -> List[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("path"))
+    def properties(self) -> List[dict]:
+        return list(self.xa_elem.arrayByApplyingSelector_("properties"))
 
-    def by_name(self, name: str) -> 'XAFontBookDocument':
+    def name(self) -> List[str]:
+        return list(self.xa_elem.arrayByApplyingSelector_("name"))
+
+    def display_name(self) -> List[str]:
+        return list(self.xa_elem.arrayByApplyingSelector_("displayName"))
+
+    def displayed_name(self) -> List[str]:
+        return list(self.xa_elem.arrayByApplyingSelector_("displayedName"))
+
+    def enabled(self) -> List[bool]:
+        return list(self.xa_elem.arrayByApplyingSelector_("enabled"))
+
+    def by_properties(self, properties: dict) -> 'XAFontBookFontCollection':
+        return self.by_property("properties", properties)
+
+    def by_name(self, name: str) -> 'XAFontBookFontCollection':
         return self.by_property("name", name)
+
+    def by_display_name(self, display_name: str) -> 'XAFontBookFontCollection':
+        return self.by_property("displayName", display_name)
+
+    def by_displayed_name(self, displayed_name: str) -> 'XAFontBookFontCollection':
+        return self.by_property("displayedName", displayed_name)
+
+    def by_enabled(self, enabled: bool) -> 'XAFontBookFontCollection':
+        return self.by_property("enabled", enabled)
 
 class XAFontBookFontCollection(XABaseScriptable.XASBObject):
     """A class for managing and interacting with font collections in Font Book.app.

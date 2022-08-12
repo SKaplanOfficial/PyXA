@@ -8,7 +8,7 @@ from typing import Any, List, Tuple, Union
 from AppKit import NSURL
 
 
-from PyXA import XABase
+from PyXA import XABase, XAEvents
 from PyXA import XABaseScriptable
 
 
@@ -127,6 +127,13 @@ class XAContactsApplication(XABaseScriptable.XASBApplication):
         :return: The list of groups
         :rtype: XAContactsGroupList
 
+        :Example:
+
+        >>> import PyXA
+        >>> app = PyXA.application("Contacts")
+        >>> print(app.groups())
+        <<class 'PyXA.apps.Contacts.XAContactsGroupList'>['Example Group 1', 'Example Group 2', ...]>
+
         .. versionadded:: 0.0.7
         """
         return self._new_element(self.xa_scel.groups(), XAContactsGroupList, filter)
@@ -138,6 +145,13 @@ class XAContactsApplication(XABaseScriptable.XASBApplication):
         :type filter: Union[dict, None]
         :return: The list of people
         :rtype: XAContactsPersonList
+
+        :Example:
+
+        >>> import PyXA
+        >>> app = PyXA.application("Contacts")
+        >>> print(app.people())
+        <<class 'PyXA.apps.Contacts.XAContactsPersonList'>['Example Contact 1', 'Example Contact 2', ...]>
 
         .. versionadded:: 0.0.7
         """
@@ -1056,8 +1070,8 @@ class XAContactsInstantMessageList(XAContactsContactInfoList):
         
         .. versionadded:: 0.0.7
         """
-        # TODO
-        return self.by_property("serviceType", service_type)
+        event = XAEvents.event_from_int(service_type.value)
+        return self.by_property("serviceType", event)
 
     def by_user_name(self, user_name: str) -> Union['XAContactsInstantMessage', None]:
         """Retrieves the first IM address whose user name matches the given user name, if one exists.
@@ -1085,7 +1099,7 @@ class XAContactsInstantMessage(XAContactsContactInfo):
 
     @property
     def service_name(self) -> str:
-        return self.xa_elem.serviceName()
+        return self.xa_elem.serviceName().get()
 
     @property
     def service_type(self) -> XAContactsApplication.ServiceType:
@@ -1093,7 +1107,7 @@ class XAContactsInstantMessage(XAContactsContactInfo):
 
     @property
     def user_name(self) -> str:
-        return self.xa_elem.userName()
+        return self.xa_elem.userName().get()
 
     def __repr__(self):
         return "<" + str(type(self)) + str(self.service_name) + ">"
@@ -1546,19 +1560,19 @@ class XAContactsPerson(XAContactsEntry):
 
     @property
     def nickname(self) -> str:
-        return self.xa_elem.nickname()
+        return self.xa_elem.nickname().get()
 
     @property
     def organization(self) -> str:
-        return self.xa_elem.organization()
+        return self.xa_elem.organization().get()
 
     @property
     def maiden_name(self) -> str:
-        return self.xa_elem.maidenName()
+        return self.xa_elem.maidenName().get()
 
     @property
     def suffix(self) -> str:
-        return self.xa_elem.suffix()
+        return self.xa_elem.suffix().get()
 
     @property
     def vcard(self) -> str:
@@ -1566,31 +1580,31 @@ class XAContactsPerson(XAContactsEntry):
 
     @property
     def home_page(self) -> str:
-        return self.xa_elem.homePage()
+        return self.xa_elem.homePage().get()
 
     @property
     def birth_date(self) -> datetime:
-        return self.xa_elem.birthDate()
+        return self.xa_elem.birthDate().get()
 
     @property
     def phonetic_last_name(self) -> str:
-        return self.xa_elem.phoneticLastName()
+        return self.xa_elem.phoneticLastName().get()
 
     @property
     def title(self) -> str:
-        return self.xa_elem.title()
+        return self.xa_elem.title().get()
 
     @property
     def phonetic_middle_name(self) -> str:
-        return self.xa_elem.phoneticMiddleNamne()
+        return self.xa_elem.phoneticMiddleNamne().get()
 
     @property
     def department(self) -> str:
-        return self.xa_elem.department()
+        return self.xa_elem.department().get()
 
     @property
     def image(self) -> XABase.XAImage:
-        return XABase.XAImage(self.xa_elem.image())
+        return XABase.XAImage(self.xa_elem.image().get())
 
     @property
     def name(self) -> str:
@@ -1598,31 +1612,31 @@ class XAContactsPerson(XAContactsEntry):
 
     @property
     def note(self) -> str:
-        return self.xa_elem.note()
+        return self.xa_elem.note().get()
 
     @property
     def company(self) -> str:
-        return self.xa_elem.company()
+        return self.xa_elem.company().get()
 
     @property
     def middle_name(self) -> str:
-        return self.xa_elem.middleName()
+        return self.xa_elem.middleName().get()
 
     @property
     def phonetic_first_name(self) -> str:
-        return self.xa_elem.phoneticFirstName()
+        return self.xa_elem.phoneticFirstName().get()
 
     @property
     def job_title(self) -> str:
-        return self.xa_elem.jobTitle()
+        return self.xa_elem.jobTitle().get()
 
     @property
     def last_name(self) -> str:
-        return self.xa_elem.lastName()
+        return self.xa_elem.lastName().get()
 
     @property
     def first_name(self) -> str:
-        return self.xa_elem.firstName()
+        return self.xa_elem.firstName().get()
 
     def show(self) -> 'XAContactsPerson':
         """Shows the contact card for this contact in Contacts.app.
@@ -1925,15 +1939,15 @@ class XAContactsSocialProfile(XABaseScriptable.XASBWindow):
 
     @property
     def service_name(self) -> str:
-        return self.xa_elem.serviceName()
+        return self.xa_elem.serviceName().get()
 
     @property
     def user_name(self) -> str:
-        return self.xa_elem.userName()
+        return self.xa_elem.userName().get()
 
     @property
     def user_identifier(self) -> str:
-        return self.xa_elem.userIdentifier()
+        return self.xa_elem.userIdentifier().get()
 
     @property
     def url(self) -> str:

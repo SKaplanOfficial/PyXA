@@ -505,7 +505,7 @@ class XAMailMessageViewerList(XABase.XAList):
     .. versionadded:: 0.0.4
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAMailDocument, filter)
+        super().__init__(properties, XAMailMessageViewer, filter)
 
     def drafts_mailbox(self) -> 'XAMailboxList':
         ls = self.xa_elem.arrayByApplyingSelector_("draftsMailbox")

@@ -159,6 +159,7 @@ First-Party Application Modules
    apps/messages/index
    apps/music/index
    apps/notes/index
+   apps/numbers/index
    apps/pages/index
    apps/photos/index
    apps/preview/index
@@ -179,5 +180,7 @@ Third-Party Application Modules
    :maxdepth: 1
 
    apps/chromium/index
+   apps/drafts/index
+   apps/hammerspoon/index
 
 .. _change the icon of the file: https://support.apple.com/en-gb/guide/mac-help/mchlp2313/mac

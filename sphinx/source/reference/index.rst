@@ -36,6 +36,7 @@ First-Party Application Modules
    apps/messages
    apps/music
    apps/notes
+   apps/numbers
    apps/pages
    apps/photos
    apps/preview
@@ -55,3 +56,5 @@ Third-Party Application Modules
    :maxdepth: 2
 
    apps/chromium
+   apps/drafts
+   apps/hammerspoon

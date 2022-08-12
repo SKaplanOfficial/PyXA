@@ -26,6 +26,7 @@ application_classes = {
     "console": ("Console", "XAConsoleApplication"),
     "font book": ("FontBook", "XAFontBookApplication"),
     "quicktime player": ("QuickTimePlayer", "XAQuickTimeApplication"),
+    "numbers": ("Numbers", "XANumbersApplication"),
 
     ### First Party Non-scriptable Apps
     "calculator": ("Calculator", "XACalculatorApplication"),
@@ -43,4 +44,8 @@ application_classes = {
     "vivaldi": ("Chromium", "XAChromiumApplication"),
     "blisk": ("Chromium", "XAChromiumApplication"),
     "iridium": ("Chromium", "XAChromiumApplication"),
+
+    "alfred": ("Alfred", "XAAlfredApplication"),
+    "drafts": ("Drafts", "XADraftsApplication"),
+    "hammerspoon": ("Hammerspoon", "XAHammerspoonApplication"),
 }

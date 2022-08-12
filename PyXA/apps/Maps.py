@@ -23,7 +23,7 @@ class XAMapsApplication(XABase.XAApplication):
 
     @property
     def sidebar_showing(self) -> bool:
-        sidebar = self.front_window().xa_elem.groups()[0].groups()[0].groups()[0].groups()[0].groups()[0].groups()[1].groups()[0].groups()[0].groups()[1]
+        sidebar = self.front_window.xa_elem.groups()[0].groups()[0].groups()[0].groups()[0].groups()[0].groups()[1].groups()[0].groups()[0].groups()[1]
         return sidebar.get() is not None
 
     # TODO: This
@@ -34,7 +34,7 @@ class XAMapsApplication(XABase.XAApplication):
 
         .. versionadded:: 0.0.6
         """
-        self.front_window().toolbars()[0].buttons()[0].actions().by_name("AXPress").perform()
+        self.front_window.toolbars()[0].buttons()[0].actions().by_name("AXPress").perform()
 
     def search(self, query: str, latitude: Union[float, None] = None, longitude: Union[float, None] = None, exact: bool = True):
         """Searches Maps for the given query, centered at the (optional) specified location.
@@ -64,7 +64,7 @@ class XAMapsApplication(XABase.XAApplication):
         .. versionadded:: 0.0.6
         """
         predicate = NSPredicate.predicateWithFormat_("name == %@", "AXPress")
-        press_action = locations = self.front_window().xa_elem.groups()[0].groups()[0].groups()[0].groups()[0].groups()[0].groups()[5].buttons()[2].actions().filteredArrayUsingPredicate_(predicate)[0]
+        press_action = locations = self.front_window.xa_elem.groups()[0].groups()[0].groups()[0].groups()[0].groups()[0].groups()[5].buttons()[2].actions().filteredArrayUsingPredicate_(predicate)[0]
         press_action.perform()
 
     def zoom_out(self) -> 'XAMapsApplication':
@@ -73,7 +73,7 @@ class XAMapsApplication(XABase.XAApplication):
         .. versionadded:: 0.0.6
         """
         predicate = NSPredicate.predicateWithFormat_("name == %@", "AXPress")
-        press_action = locations = self.front_window().xa_elem.groups()[0].groups()[0].groups()[0].groups()[0].groups()[0].groups()[5].buttons()[1].actions().filteredArrayUsingPredicate_(predicate)[0]
+        press_action = locations = self.front_window.xa_elem.groups()[0].groups()[0].groups()[0].groups()[0].groups()[0].groups()[5].buttons()[1].actions().filteredArrayUsingPredicate_(predicate)[0]
         press_action.perform()
 
     def orient_north(self) -> 'XAMapsApplication':
@@ -81,7 +81,7 @@ class XAMapsApplication(XABase.XAApplication):
 
         .. versionadded:: 0.0.6
         """
-        self.front_window().xa_elem.groups()[0].groups()[0].groups()[0].groups()[0].groups()[0].groups()[5].buttons()[0].actions()[0].perform()
+        self.front_window.xa_elem.groups()[0].groups()[0].groups()[0].groups()[0].groups()[0].groups()[5].buttons()[0].actions()[0].perform()
 
     def show_address(self, address: str):
         """Centers the map at the specified address.
@@ -155,7 +155,7 @@ class XAMapsApplication(XABase.XAApplication):
         .. versionadded:: 0.0.6
         """
         predicate = NSPredicate.predicateWithFormat_("name == %@", "AXPress")
-        press_action = self.front_window().xa_elem.tabGroups()[0].buttons()[0].actions().filteredArrayUsingPredicate_(predicate)[0]
+        press_action = self.front_window.xa_elem.tabGroups()[0].buttons()[0].actions().filteredArrayUsingPredicate_(predicate)[0]
         press_action.perform()
 
     def tabs(self) -> 'XAMapsTabList':
@@ -166,7 +166,7 @@ class XAMapsApplication(XABase.XAApplication):
 
         .. versionadded:: 0.0.6
         """
-        tabs = self.front_window().xa_elem.tabGroups()[0].radioButtons()
+        tabs = self.front_window.xa_elem.tabGroups()[0].radioButtons()
         return self._new_element(tabs, XAMapsTabList)
 
     def sidebar_locations(self) -> 'XAMapsSidebarLocationList':
@@ -180,7 +180,7 @@ class XAMapsApplication(XABase.XAApplication):
         if not self.sidebar_showing:
             self.toggle_sidebar()
 
-        locations = self.front_window().xa_elem.groups()[0].groups()[0].groups()[0].groups()[0].groups()[0].groups()[1].groups()[0].groups()[0].groups()[1].groups()[0].groups()[0].groups()[0].groups()[0].groups()[1].groups()[0].groups()[0].UIElements()
+        locations = self.front_window.xa_elem.groups()[0].groups()[0].groups()[0].groups()[0].groups()[0].groups()[1].groups()[0].groups()[0].groups()[1].groups()[0].groups()[0].groups()[0].groups()[0].groups()[1].groups()[0].groups()[0].UIElements()
 
         predicate = NSPredicate.predicateWithFormat_("role == %@", "AXGenericElement")
         locations = locations.filteredArrayUsingPredicate_(predicate)

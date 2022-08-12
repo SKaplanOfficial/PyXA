@@ -53,7 +53,7 @@ class XATextEditApplication(XABaseScriptable.XASBApplication, XABase.XACanConstr
 
     def open(self, path: str) -> 'XATextEditDocument':
         super().open(path)
-        return self.front_window().document
+        return self.front_window.document
 
     def print(self, file: Union[str, NSURL, 'XATextEditDocument'], show_prompt: bool = True, print_settings: dict = None):
         """Prints a TextEdit document.

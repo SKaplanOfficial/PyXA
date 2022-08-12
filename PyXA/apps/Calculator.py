@@ -19,7 +19,7 @@ class XACalculatorApplication(XABase.XAApplication):
 
         .. versionadded:: 0.0.2
         """
-        buttons = self.front_window().groups()[-1].buttons()
+        buttons = self.front_window.groups()[-1].buttons()
         self.xa_btns = {
             "0": buttons[4],
             "1": buttons[5],
@@ -182,4 +182,4 @@ class XACalculatorApplication(XABase.XAApplication):
 
         .. versionadded:: 0.0.2
         """
-        return float(self.front_window().groups()[0].static_texts()[0].value.get())
+        return float(self.front_window.groups()[0].static_texts()[0].value.get())

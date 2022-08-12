@@ -133,7 +133,7 @@ class XAChromiumApplication(XABaseScriptable.XASBApplication):
             new_tab = self.make("tab")
         else:
             new_tab = self.make("tab", {"URL": url})
-        self.front_window().tabs().push(new_tab)
+        self.front_window.tabs().push(new_tab)
         return new_tab
 
     def make(self, specifier: str, properties: dict = None):
@@ -535,7 +535,7 @@ class XAChromiumTab(XABaseScriptable.XASBObject):
 
         >>> import PyXA
         >>> app = PyXA.application("Chromium")
-        >>> tab = app.front_window().active_tab
+        >>> tab = app.front_window.active_tab
         >>> window2 = app.window(1)
         >>> tab.move_to(window2)
 
@@ -565,7 +565,7 @@ class XAChromiumTab(XABaseScriptable.XASBObject):
 
         >>> import PyXA
         >>> app = PyXA.application("Chromium")
-        >>> tab = app.front_window().active_tab
+        >>> tab = app.front_window.active_tab
         >>> window2 = app.window(1)
         >>> tab.duplicate_to(window2)
 

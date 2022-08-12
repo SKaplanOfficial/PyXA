@@ -74,7 +74,7 @@ class XATerminalApplication(XABaseScriptable.XASBApplication, XABase.XACanConstr
         .. versionadded:: 0.0.1
         """
         if window_tab is None:
-            window_tab = self.front_window()
+            window_tab = self.front_window
         self.xa_scel.doScript_in_(script, window_tab.xa_elem)
         return self
 
@@ -86,7 +86,7 @@ class XATerminalApplication(XABaseScriptable.XASBApplication, XABase.XACanConstr
 
         .. versionadded:: 0.0.1
         """
-        return self.front_window().selected_tab()
+        return self.front_window.selected_tab()
 
     def settings_sets(self, filter: dict = None) -> Union['XATerminalSettingsSetList', None]:
         """Returns a list of settings sets, as PyXA-wrapped objects, matching the given filter.

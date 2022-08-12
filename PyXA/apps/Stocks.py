@@ -24,7 +24,7 @@ class XAStocksApplication(XABase.XAApplication):
 
     @property
     def sidebar_showing(self) -> bool:
-        sidebar = self.front_window().xa_elem.groups()[0].groups()[0].groups()[0].groups()[0].groups()[0].groups()[1].groups()[0].groups()[0].groups()[1]
+        sidebar = self.front_window.xa_elem.groups()[0].groups()[0].groups()[0].groups()[0].groups()[0].groups()[1].groups()[0].groups()[0].groups()[1]
         return sidebar.get() is not None
 
     def show_symbol(self, ticker: str) -> 'XAStocksApplication':
@@ -47,7 +47,7 @@ class XAStocksApplication(XABase.XAApplication):
 
         .. versionadded:: 0.0.6
         """
-        self.front_window().toolbars()[0].buttons()[0].actions()[0].perform()
+        self.front_window.toolbars()[0].buttons()[0].actions()[0].perform()
         return self
 
     def show_business_news(self) -> 'XAStocksApplication':
@@ -58,7 +58,7 @@ class XAStocksApplication(XABase.XAApplication):
 
         .. versionadded:: 0.0.6
         """
-        self.front_window().groups().at(0).groups().at(0).groups().at(0).groups().at(0).groups().at(0).groups().at(0).groups().at(0).groups().at(1).groups().at(0).groups().at(0).groups().at(0).groups().at(0).groups().at(0).groups().at(0).groups().at(0).groups().at(1).groups().at(0).groups().at(0).groups().at(1).groups().at(0).ui_elements().at(2).buttons().at(0).actions()[0].perform()
+        self.front_window.groups().at(0).groups().at(0).groups().at(0).groups().at(0).groups().at(0).groups().at(0).groups().at(0).groups().at(1).groups().at(0).groups().at(0).groups().at(0).groups().at(0).groups().at(0).groups().at(0).groups().at(0).groups().at(1).groups().at(0).groups().at(0).groups().at(1).groups().at(0).ui_elements().at(2).buttons().at(0).actions()[0].perform()
 
     def new_tab(self):
         """Opens a new tab.
@@ -66,7 +66,7 @@ class XAStocksApplication(XABase.XAApplication):
         .. versionadded:: 0.0.6
         """
         predicate = NSPredicate.predicateWithFormat_("name == %@", "AXPress")
-        press_action = self.front_window().xa_elem.tabGroups()[0].buttons()[0].actions().filteredArrayUsingPredicate_(predicate)[0]
+        press_action = self.front_window.xa_elem.tabGroups()[0].buttons()[0].actions().filteredArrayUsingPredicate_(predicate)[0]
         press_action.perform()
 
     def saved_stocks(self) -> 'XAStocksSavedStockList':
@@ -77,7 +77,7 @@ class XAStocksApplication(XABase.XAApplication):
 
         .. versionadded:: 0.0.6
         """
-        stock_element_list = self.front_window().xa_elem.groups()[0].groups()[0].groups()[0].groups()[0].groups()[0].groups()[0].groups()[0].groups()[1].groups()[0].groups()[0].groups()[0].groups()[0].groups()[0].groups()[0].groups()[0].groups()[1].groups()[0].groups()[0].groups()[1].groups()[0].groups()
+        stock_element_list = self.front_window.xa_elem.groups()[0].groups()[0].groups()[0].groups()[0].groups()[0].groups()[0].groups()[0].groups()[1].groups()[0].groups()[0].groups()[0].groups()[0].groups()[0].groups()[0].groups()[0].groups()[1].groups()[0].groups()[0].groups()[1].groups()[0].groups()
 
         stocks = []
         def add_stock(element, index, stop):

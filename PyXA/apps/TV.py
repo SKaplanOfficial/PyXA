@@ -1053,7 +1053,7 @@ class XATVPlaylist(XATVItem):
 
         .. versionadded:: 0.0.7
         """
-        return self._new_element(self.xa_scel.tracks(), XATVTrackList, filter)
+        return self._new_element(self.xa_elem.tracks(), XATVTrackList, filter)
 
     def artworks(self, filter: Union[dict, None] = None) -> 'XATVArtworkList':
         """Returns a list of artworks, as PyXA objects, matching the given filter.
@@ -1065,7 +1065,7 @@ class XATVPlaylist(XATVItem):
 
         .. versionadded:: 0.0.7
         """
-        return self._new_element(self.xa_scel.artworks(), XATVArtworkList, filter)
+        return self._new_element(self.xa_elem.artworks(), XATVArtworkList, filter)
 
 
 
@@ -1098,7 +1098,7 @@ class XATVLibraryPlaylist(XATVPlaylist):
 
         .. versionadded:: 0.0.7
         """
-        return self._new_element(self.xa_scel.fileTracks(), XATVFileTrackList, filter)
+        return self._new_element(self.xa_elem.fileTracks(), XATVFileTrackList, filter)
 
     def url_tracks(self, filter: Union[dict, None] = None) -> 'XATVURLTrackList':
         """Returns a list of URL tracks, as PyXA objects, matching the given filter.
@@ -1110,7 +1110,7 @@ class XATVLibraryPlaylist(XATVPlaylist):
 
         .. versionadded:: 0.0.7
         """
-        return self._new_element(self.xa_scel.URLTracks(), XATVURLTrackList, filter)
+        return self._new_element(self.xa_elem.URLTracks(), XATVURLTrackList, filter)
 
     def shared_tracks(self, filter: Union[dict, None] = None) -> 'XATVSharedTrackList':
         """Returns a list of shared tracks, as PyXA objects, matching the given filter.
@@ -1122,7 +1122,7 @@ class XATVLibraryPlaylist(XATVPlaylist):
 
         .. versionadded:: 0.0.7
         """
-        return self._new_element(self.xa_scel.sharedTracks(), XATVSharedTrackList, filter)
+        return self._new_element(self.xa_elem.sharedTracks(), XATVSharedTrackList, filter)
 
 
 
@@ -1232,7 +1232,7 @@ class XATVSource(XATVItem):
 
         .. versionadded:: 0.0.7
         """
-        return self._new_element(self.xa_scel.libraryPlaylists(), XATVLibraryPlaylistList, filter)
+        return self._new_element(self.xa_elem.libraryPlaylists(), XATVLibraryPlaylistList, filter)
 
     def playlists(self, filter: Union[dict, None] = None) -> 'XATVPlaylistList':
         """Returns a list of playlists, as PyXA objects, matching the given filter.
@@ -1244,7 +1244,7 @@ class XATVSource(XATVItem):
 
         .. versionadded:: 0.0.7
         """
-        return self._new_element(self.xa_scel.playlists(), XATVPlaylistList, filter)
+        return self._new_element(self.xa_elem.playlists(), XATVPlaylistList, filter)
 
     def user_playlists(self, filter: Union[dict, None] = None) -> 'XATVUserPlaylistList':
         """Returns a list of user playlists, as PyXA objects, matching the given filter.
@@ -1256,7 +1256,7 @@ class XATVSource(XATVItem):
 
         .. versionadded:: 0.0.7
         """
-        return self._new_element(self.xa_scel.userPlaylists(), XATVUserPlaylistList, filter)
+        return self._new_element(self.xa_elem.userPlaylists(), XATVUserPlaylistList, filter)
 
 
 
@@ -2609,7 +2609,7 @@ class XATVTrack(XATVItem):
 
         .. versionadded:: 0.0.7
         """
-        return self._new_element(self.xa_scel.artworks(), XATVArtworkList, filter)
+        return self._new_element(self.xa_elem.artworks(), XATVArtworkList, filter)
 
 
 
@@ -2806,7 +2806,7 @@ class XATVUserPlaylist(XATVPlaylist):
 
         .. versionadded:: 0.0.7
         """
-        return self._new_element(self.xa_scel.fileTracks(), XATVFileTrackList, filter)
+        return self._new_element(self.xa_elem.fileTracks(), XATVFileTrackList, filter)
 
     def url_tracks(self, filter: Union[dict, None] = None) -> 'XATVURLTrackList':
         """Returns a list of URL tracks, as PyXA objects, matching the given filter.
@@ -2818,7 +2818,7 @@ class XATVUserPlaylist(XATVPlaylist):
 
         .. versionadded:: 0.0.7
         """
-        return self._new_element(self.xa_scel.URLTracks(), XATVURLTrackList, filter)
+        return self._new_element(self.xa_elem.URLTracks(), XATVURLTrackList, filter)
 
     def shared_tracks(self, filter: Union[dict, None] = None) -> 'XATVSharedTrackList':
         """Returns a list of shared tracks, as PyXA objects, matching the given filter.
@@ -2830,7 +2830,7 @@ class XATVUserPlaylist(XATVPlaylist):
 
         .. versionadded:: 0.0.7
         """
-        return self._new_element(self.xa_scel.sharedTracks(), XATVSharedTrackList, filter)
+        return self._new_element(self.xa_elem.sharedTracks(), XATVSharedTrackList, filter)
 
 
 

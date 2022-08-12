@@ -107,7 +107,7 @@ class XASafariApplication(XABaseScriptable.XASBApplication, XABaseScriptable.XAS
 
         >>> import PyXA
         >>> app = PyXA.application("Safari")
-        >>> window = app.front_window()
+        >>> window = app.front_window
         >>> doc = app.current_document
         >>> tab = window.current_tab
         >>> app.add_to_reading_list(doc)
@@ -155,7 +155,7 @@ class XASafariApplication(XABaseScriptable.XASBApplication, XABaseScriptable.XAS
 
         >>> import PyXA
         >>> app = PyXA.application("Safari")
-        >>> tab = app.front_window().current_tab
+        >>> tab = app.front_window.current_tab
         >>> app.search_in_tab(tab, "What is PyXA?")
 
         .. seealso:: :func:`search`
@@ -179,7 +179,7 @@ class XASafariApplication(XABaseScriptable.XASBApplication, XABaseScriptable.XAS
 
         >>> import PyXA
         >>> app = PyXA.application("Safari")
-        >>> tab = app.front_window().current_tab
+        >>> tab = app.front_window.current_tab
         >>> script = "(function example() { return 1 + 1 })()"
         >>> print(app.do_javascript(script, tab))
         2.0
@@ -187,7 +187,7 @@ class XASafariApplication(XABaseScriptable.XASBApplication, XABaseScriptable.XAS
         .. versionadded:: 0.0.1
         """
         if tab is None:
-            tab = self.front_window().current_tab
+            tab = self.front_window.current_tab
         return self.xa_scel.doJavaScript_in_(script, tab.xa_elem)
 
     def email(self, item: Union['XASafariDocument', 'XASafariTab']):
@@ -231,7 +231,7 @@ class XASafariApplication(XABaseScriptable.XASBApplication, XABaseScriptable.XAS
         >>> import PyXA
         >>> app = PyXA.application("Safari")
         >>> new_tab = app.make("tab", {"URL": "http://google.com"})
-        >>> app.front_window().tabs().push(new_tab)
+        >>> app.front_window.tabs().push(new_tab)
 
         :Example 2: Open a page in a new window by making a new document
 
@@ -943,7 +943,7 @@ class XASafariTab(XASafariGeneric):
 
         >>> import PyXA
         >>> app = PyXA.application("Safari")
-        >>> tab = app.front_window().current_tab
+        >>> tab = app.front_window.current_tab
         >>> window2 = app.window(1)
         >>> tab.move_to(window2)
 
@@ -967,7 +967,7 @@ class XASafariTab(XASafariGeneric):
 
         >>> import PyXA
         >>> app = PyXA.application("Safari")
-        >>> tab = app.front_window().current_tab
+        >>> tab = app.front_window.current_tab
         >>> window2 = app.window(1)
         >>> tab.duplicate_to(window2)
 

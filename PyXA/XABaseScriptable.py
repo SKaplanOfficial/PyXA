@@ -167,11 +167,14 @@ class XASBApplication(XASBObject, XABase.XAApplication, XAHasScriptableElements)
         self.xa_scel = ScriptingBridge.SBApplication.alloc().initWithBundleIdentifier_(self.xa_elem.bundleIdentifier())
         self.xa_wcls = XASBWindow
 
-    def windows(self, filter: dict = None) -> 'XASBWindowList':
-        return self._new_element(self.xa_scel.windows(), XASBWindowList)
+        self.front_window: XASBWindow #: The front window of the application
 
+    @property
     def front_window(self) -> 'XASBWindow':
         return self._new_element(self.xa_scel.windows()[0], self.xa_wcls)
+
+    def windows(self, filter: dict = None) -> 'XASBWindowList':
+        return self._new_element(self.xa_scel.windows(), XASBWindowList)
 
 
 

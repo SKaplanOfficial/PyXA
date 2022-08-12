@@ -28,26 +28,26 @@ class XAPagesApplication(XABaseScriptable.XASBApplication, XABase.XAAcceptsPushe
     class ExportFormat(Enum):
         """Options for what format to export a Pages project as.
         """
-        Pages                   = OSType('Pgff') # The Pages native file format 
-        EPUB                    = OSType('Pepu') # EPUB format
-        PLAINTEXT               = OSType('Ptxf') # Plaintext format
-        PDF                     = OSType('Ppdf') # PDF format
-        MICROSOFT_WORD          = OSType('Pwrd') # MS Word format
-        RTF                     = OSType('Prtf') # RTF format
-        PAGES_09                = OSType('PPag') # Pages 09 format
+        Pages                   = OSType('Pgff') #: The Pages native file format 
+        EPUB                    = OSType('Pepu') #: EPUB format
+        PLAINTEXT               = OSType('Ptxf') #: Plaintext format
+        PDF                     = OSType('Ppdf') #: PDF format
+        MICROSOFT_WORD          = OSType('Pwrd') #: MS Word format
+        RTF                     = OSType('Prtf') #: RTF format
+        PAGES_09                = OSType('PPag') #: Pages 09 format
 
     class PrintSetting(Enum):
-        """Options to use when printing slides.
+        """Options to use when printing documents.
         """
-        STANDARD_ERROR_HANDLING = OSType('lwst') # Standard PostScript error handling 
-        DETAILED_ERROR_HANDLING = OSType('lwdt') # print a detailed report of PostScript errors 
+        STANDARD_ERROR_HANDLING = OSType('lwst') #: Standard PostScript error handling 
+        DETAILED_ERROR_HANDLING = OSType('lwdt') #: print a detailed report of PostScript errors 
 
     class ImageQuality(Enum):
         """Options for the quality of exported images.
         """
-        GOOD      = OSType('PgP0') # Good quality 
-        BETTER    = OSType('PgP1') # Better quality 
-        BEST      = OSType('PgP2') # Best quality 
+        GOOD      = OSType('PgP0') #: Good quality 
+        BETTER    = OSType('PgP1') #: Better quality 
+        BEST      = OSType('PgP2') #: Best quality 
 
     class Alignment(Enum):
         """Options for the horizontal and vertical alignment of content within table containers.
@@ -139,7 +139,7 @@ class XAPagesApplication(XABaseScriptable.XASBApplication, XABase.XAAcceptsPushe
     
     @property
     def current_document(self) -> 'XAPagesDocument':
-        return self.front_window().document
+        return self.front_window.document
 
     def print(self, item: Union['XAPagesDocument', XABaseScriptable.XASBWindow], print_properties: dict = None, show_dialog: bool = True) -> 'XAPagesApplication':
         """Prints a document or window.

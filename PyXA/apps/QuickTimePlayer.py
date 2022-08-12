@@ -47,7 +47,7 @@ class XAQuickTimeApplication(XABaseScriptable.XASBApplication):
 
     @property
     def current_document(self) -> 'XAQuickTimeDocument':
-        return self.front_window().document
+        return self.front_window.document
 
     def open(self, path: Union[str, NSURL]) -> 'XAQuickTimeDocument':
         """Opens the file at the given filepath.
@@ -63,7 +63,7 @@ class XAQuickTimeApplication(XABaseScriptable.XASBApplication):
             if "://" not in path:
                 path = XABase.XAPath(path)
         self.xa_wksp.openURLs_withAppBundleIdentifier_options_additionalEventParamDescriptor_launchIdentifiers_([path.xa_elem], self.xa_elem.bundleIdentifier(), 0, None, None)
-        return self._new_element(self.front_window().document, XAQuickTimeDocument)
+        return self._new_element(self.front_window.document, XAQuickTimeDocument)
 
     def open_url(self, url: Union[str, NSURL]) -> 'XAQuickTimeDocument':
         """Opens the file at the given (remote) URL.

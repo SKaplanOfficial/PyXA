@@ -633,11 +633,14 @@ class XAProcess(XAHasElements):
         self.id = self.xa_elem.id()
         self.unix_id = self.xa_elem.unixId()
 
-    def windows(self, filter: dict = None) -> 'XAWindowList':
-        return self._new_element(self.xa_elem.windows(), XAWindowList, filter)
+        self.front_window: XAWindow #: The front window of the application process
 
+    @property
     def front_window(self) -> 'XAWindow':
         return self._new_element(self.xa_elem.windows()[0], XAWindow)
+
+    def windows(self, filter: dict = None) -> 'XAWindowList':
+        return self._new_element(self.xa_elem.windows(), XAWindowList, filter)
 
     def menu_bars(self, filter: dict = None) -> 'XAUIMenuBarList':
         return self._new_element(self.xa_elem.menuBars(), XAUIMenuBarList, filter)
@@ -851,7 +854,7 @@ class XAApplication(XAObject):
         return self.xa_prcs.windows(filter)
 
     def front_window(self) -> 'XAWindow':
-        return self.xa_prcs.front_window()
+        return self.xa_prcs.front_window
 
     def menu_bars(self, filter: dict = None) -> 'XAUIMenuBarList':
         return self._new_element(self.xa_prcs.xa_elem.menuBars(), XAUIMenuBarList, filter)
@@ -1061,6 +1064,7 @@ class XAPath(object):
         if isinstance(path, str):
             path = AppKit.NSURL.alloc().initFileURLWithPath_(path)
         self.xa_elem = path
+        self.path = path.path()
         self.xa_wksp = AppKit.NSWorkspace.sharedWorkspace()
 
     def open(self):

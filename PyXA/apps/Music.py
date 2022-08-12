@@ -599,7 +599,7 @@ class XAMusicItemList(XABase.XAList):
 
     .. versionadded:: 0.0.7
     """
-    def __init__(self, properties: dict, obj_class = None, filter: Union[dict, None] = None):
+    def __init__(self, properties: dict, filter: Union[dict, None] = None, obj_class = None):
         if obj_class is None:
             obj_class = XAMusicItem
         super().__init__(properties, obj_class, filter)
@@ -803,7 +803,7 @@ class XAMusicAirPlayDeviceList(XAMusicItemList):
     .. versionadded:: 0.0.7
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAMusicAirPlayDevice, filter)
+        super().__init__(properties, filter, XAMusicAirPlayDevice)
 
     def active(self) -> List[bool]:
         """Gets the active status of each device in the list.
@@ -1051,7 +1051,7 @@ class XAMusicArtworkList(XAMusicItemList):
     .. versionadded:: 0.0.7
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAMusicArtwork, filter)
+        super().__init__(properties, filter, XAMusicArtwork)
 
     def data(self) -> List[XABase.XAImage]:
         """Gets the data image of each artwork in the list.
@@ -1223,7 +1223,7 @@ class XAMusicEncoderList(XAMusicItemList):
     .. versionadded:: 0.0.7
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAMusicEncoder, filter)
+        super().__init__(properties, filter, XAMusicEncoder)
 
     def format(self) -> List[str]:
         """Gets the format of each encoder in the list.
@@ -1269,7 +1269,7 @@ class XAMusicEQPresetList(XAMusicItemList):
     .. versionadded:: 0.0.7
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAMusicEQPreset, filter)
+        super().__init__(properties, filter, XAMusicEQPreset)
 
     def band1(self) -> List[float]:
         """Gets the band1 of each preset in the list.
@@ -1614,10 +1614,10 @@ class XAMusicPlaylistList(XAMusicItemList):
 
     .. versionadded:: 0.0.7
     """
-    def __init__(self, properties: dict, obj_class = None, filter: Union[dict, None] = None):
+    def __init__(self, properties: dict, filter: Union[dict, None] = None, obj_class = None):
         if obj_class is None:
             obj_class = XAMusicPlaylist
-        super().__init__(properties, obj_class, filter)
+        super().__init__(properties, filter, obj_class)
 
     def object_description(self) -> List[str]:
         """Gets the description of each playlist in the list.
@@ -1956,7 +1956,7 @@ class XAMusicAudioCDPlaylistList(XAMusicPlaylistList):
     .. versionadded:: 0.0.7
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAMusicAudioCDPlaylist, filter)
+        super().__init__(properties, filter, XAMusicAudioCDPlaylist)
 
     def artist(self) -> List[str]:
         """Gets the artist of each playlist in the list.
@@ -2166,7 +2166,7 @@ class XAMusicLibraryPlaylistList(XAMusicPlaylistList):
     .. versionadded:: 0.0.7
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAMusicLibraryPlaylist, filter)
+        super().__init__(properties, filter, XAMusicLibraryPlaylist)
 
 class XAMusicLibraryPlaylist(XAMusicPlaylist):
     """The library playlist in Music.app.
@@ -2223,7 +2223,7 @@ class XAMusicRadioTunerPlaylistList(XAMusicPlaylistList):
     .. versionadded:: 0.0.7
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAMusicRadioTunerPlaylist, filter)
+        super().__init__(properties, filter, XAMusicRadioTunerPlaylist)
 
 class XAMusicRadioTunerPlaylist(XAMusicPlaylist):
     """A radio playlist in Music.app.
@@ -2256,7 +2256,7 @@ class XAMusicSourceList(XAMusicItemList):
     .. versionadded:: 0.0.7
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAMusicSource, filter)
+        super().__init__(properties, filter, XAMusicSource)
 
     def capacity(self) -> List[int]:
         """Gets the capacity of each source in the list.
@@ -2426,7 +2426,7 @@ class XAMusicSubscriptionPlaylistList(XAMusicPlaylistList):
     .. versionadded:: 0.0.7
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAMusicSubscriptionPlaylist, filter)
+        super().__init__(properties, filter, XAMusicSubscriptionPlaylist)
 
 class XAMusicSubscriptionPlaylist(XAMusicPlaylist):
     """A subscription playlist from Apple Music in Music.app.
@@ -2470,10 +2470,10 @@ class XAMusicTrackList(XAMusicItemList):
 
     .. versionadded:: 0.0.7
     """
-    def __init__(self, properties: dict, obj_class = None, filter: Union[dict, None] = None):
+    def __init__(self, properties: dict, filter: Union[dict, None] = None, obj_class = None):
         if obj_class is None:
             obj_class = XAMusicTrack
-        super().__init__(properties, obj_class, filter)
+        super().__init__(properties, filter, obj_class)
 
     def album(self) -> List[str]:
         """Gets the album name of each track in the list.
@@ -4300,7 +4300,7 @@ class XAMusicAudioCDTrackList(XAMusicTrackList):
     .. versionadded:: 0.0.7
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAMusicAudioCDTrack, filter)
+        super().__init__(properties, filter, XAMusicAudioCDTrack)
 
     def location(self) -> List[XABase.XAURL]:
         """Gets the location of each track in the list.
@@ -4347,7 +4347,7 @@ class XAMusicFileTrackList(XAMusicTrackList):
     .. versionadded:: 0.0.7
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAMusicFileTrack, filter)
+        super().__init__(properties, filter, XAMusicFileTrack)
 
     def location(self) -> List[XABase.XAURL]:
         """Gets the location of each track in the list.
@@ -4394,7 +4394,7 @@ class XAMusicSharedTrackList(XAMusicTrackList):
     .. versionadded:: 0.0.7
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAMusicSharedTrack, filter)
+        super().__init__(properties, filter, XAMusicSharedTrack)
 
 class XAMusicSharedTrack(XAMusicTrack):
     """A shared track in Music.app.
@@ -4415,7 +4415,7 @@ class XAMusicURLTrackList(XAMusicTrackList):
     .. versionadded:: 0.0.7
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAMusicURLTrack, filter)
+        super().__init__(properties, filter, XAMusicURLTrack)
 
     def address(self) -> List[str]:
         """Gets the address of each track in the list.
@@ -4461,7 +4461,7 @@ class XAMusicUserPlaylistList(XAMusicPlaylistList):
     .. versionadded:: 0.0.7
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAMusicUserPlaylist, filter)
+        super().__init__(properties, filter, XAMusicUserPlaylist)
 
     def shared(self) -> List[bool]:
         """Gets the shared status of each user playlist in the list.
@@ -4593,7 +4593,7 @@ class XAMusicFolderPlaylistList(XAMusicUserPlaylistList):
     .. versionadded:: 0.0.7
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAMusicFolderPlaylist, filter)
+        super().__init__(properties, filter, XAMusicFolderPlaylist)
 
 class XAMusicFolderPlaylist(XAMusicUserPlaylist):
     """A folder playlist in Music.app.
@@ -4614,7 +4614,7 @@ class XAMusicVisualList(XAMusicItemList):
     .. versionadded:: 0.0.7
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAMusicVisual, filter)
+        super().__init__(properties, filter, XAMusicVisual)
 
 class XAMusicVisual(XAMusicPlaylist):
     """A music visual in Music.app.
@@ -4634,10 +4634,10 @@ class XAMusicWindowList(XAMusicItemList):
 
     .. versionadded:: 0.0.7
     """
-    def __init__(self, properties: dict, obj_class = None, filter: Union[dict, None] = None):
+    def __init__(self, properties: dict, filter: Union[dict, None] = None, obj_class = None):
         if obj_class is None:
             obj_class = XAMusicWindow
-        super().__init__(properties, obj_class, filter)
+        super().__init__(properties, filter, obj_class)
 
     def bounds(self) -> List[Tuple[Tuple[int, int], Tuple[int, int]]]:
         """Gets the bounds of each window in the list.
@@ -4927,7 +4927,7 @@ class XAMusicBrowserWindowList(XAMusicWindowList):
     .. versionadded:: 0.0.7
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAMusicBrowserWindow, filter)
+        super().__init__(properties, filter, XAMusicBrowserWindow)
 
     def selection(self) -> XAMusicTrackList:
         """Gets the selection of each window in the list.
@@ -4992,7 +4992,7 @@ class XAMusicEQWindowList(XAMusicWindowList):
     .. versionadded:: 0.0.7
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAMusicEQWindow, filter)
+        super().__init__(properties, filter, XAMusicEQWindow)
 
 class XAMusicEQWindow(XAMusicWindow):
     """An equalizer window in Music.app.
@@ -5013,7 +5013,7 @@ class XAMusicMiniplayerWindowList(XAMusicWindowList):
     .. versionadded:: 0.0.7
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAMusicMiniplayerWindow, filter)
+        super().__init__(properties, filter, XAMusicMiniplayerWindow)
 
 class XAMusicMiniplayerWindow(XAMusicWindow):
     """A miniplayer window in Music.app.
@@ -5034,7 +5034,7 @@ class XAMusicPlaylistWindowList(XAMusicWindowList):
     .. versionadded:: 0.0.7
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAMusicPlaylistWindow, filter)
+        super().__init__(properties, filter, XAMusicPlaylistWindow)
 
     def selection(self) -> XAMusicTrackList:
         """Gets the selection of each window in the list.
@@ -5099,7 +5099,7 @@ class XAMusicVideoWindowList(XAMusicWindowList):
     .. versionadded:: 0.0.7
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAMusicVideoWindow, filter)
+        super().__init__(properties, filter, XAMusicVideoWindow)
 
 class XAMusicVideoWindow(XAMusicWindow):
     """A video window in Music.app.

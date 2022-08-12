@@ -771,8 +771,10 @@ class XANumbersContainerList(XABase.XAList):
 
     .. versionadded:: 0.0.8
     """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XANumbersContainer, filter)
+    def __init__(self, properties: dict, filter: Union[dict, None] = None, obj_class = None):
+        if obj_class is None:
+            obj_class = XANumbersContainer
+        super().__init__(properties, obj_class, filter)
 
 class XANumbersContainer(XABase.XAHasElements):
     """A class for managing and interacting with containers in Numbers.
@@ -907,7 +909,7 @@ class XANumbersContainer(XABase.XAHasElements):
 
 
 
-class XANumbersSheetList(XABase.XAList):
+class XANumbersSheetList(XANumbersContainerList):
     """A wrapper around lists of Numbers sheets that employs fast enumeration techniques.
 
     All properties of Numbers sheets can be called as methods on the wrapped list, returning a list containing each sheet's value for the property.
@@ -915,7 +917,7 @@ class XANumbersSheetList(XABase.XAList):
     .. versionadded:: 0.0.8
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XANumbersSheet, filter)
+        super().__init__(properties, filter, XANumbersSheet)
 
     def properties(self) -> List[dict]:
         return list(self.xa_elem.arrayByApplyingSelector_("properties"))
@@ -1035,8 +1037,10 @@ class XANumbersiWorkItemList(XABase.XAList):
 
     .. versionadded:: 0.0.8
     """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XANumbersiWorkItem, filter)
+    def __init__(self, properties: dict, filter: Union[dict, None] = None, obj_class = None):
+        if obj_class is None:
+            obj_class = XANumbersiWorkItem
+        super().__init__(properties, obj_class, filter)
 
     def height(self) -> List[int]:
         return list(self.xa_elem.arrayByApplyingSelector_("height"))
@@ -1175,7 +1179,7 @@ class XANumbersiWorkItem(XABase.XAObject):
 
 
 
-class XANumbersGroupList(XABase.XAList):
+class XANumbersGroupList(XANumbersContainerList):
     """A wrapper around lists of themes that employs fast enumeration techniques.
 
     All properties of themes can be called as methods on the wrapped list, returning a list containing each theme's value for the property.
@@ -1183,7 +1187,7 @@ class XANumbersGroupList(XABase.XAList):
     .. versionadded:: 0.0.8
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XANumbersGroup, filter)
+        super().__init__(properties, filter, XANumbersGroup)
 
     def height(self) -> List[int]:
         return list(self.xa_elem.arrayByApplyingSelector_("height"))
@@ -1272,7 +1276,7 @@ class XANumbersGroup(XANumbersContainer):
 
 
 
-class XANumbersImageList(XABase.XAList):
+class XANumbersImageList(XANumbersiWorkItemList):
     """A wrapper around lists of images that employs fast enumeration techniques.
 
     All properties of images can be called as methods on the wrapped list, returning a list containing each image's value for the property.
@@ -1280,7 +1284,7 @@ class XANumbersImageList(XABase.XAList):
     .. versionadded:: 0.0.8
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XANumbersImage, filter)
+        super().__init__(properties, filter, XANumbersImage)
 
     def object_description(self) -> List[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("objectDescription"))
@@ -1418,7 +1422,7 @@ class XANumbersImage(XANumbersiWorkItem):
 
 
 
-class XANumbersAudioClipList(XABase.XAList):
+class XANumbersAudioClipList(XANumbersiWorkItemList):
     """A wrapper around lists of audio clips that employs fast enumeration techniques.
 
     All properties of audio clips can be called as methods on the wrapped list, returning a list containing each audio clips's value for the property.
@@ -1426,7 +1430,7 @@ class XANumbersAudioClipList(XABase.XAList):
     .. versionadded:: 0.0.8
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XANumbersAudioClip, filter)
+        super().__init__(properties, filter, XANumbersAudioClip)
 
     def file_name(self) -> List[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("fileName"))
@@ -1473,7 +1477,7 @@ class XANumbersAudioClip(XANumbersiWorkItem):
 
 
 
-class XANumbersShapeList(XABase.XAList):
+class XANumbersShapeList(XANumbersiWorkItemList):
     """A wrapper around lists of shapes that employs fast enumeration techniques.
 
     All properties of shapes can be called as methods on the wrapped list, returning a list containing each shape's value for the property.
@@ -1481,7 +1485,7 @@ class XANumbersShapeList(XABase.XAList):
     .. versionadded:: 0.0.8
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XANumbersShape, filter)
+        super().__init__(properties, filter, XANumbersShape)
 
     def properties(self) -> List[dict]:
         return list(self.xa_elem.arrayByApplyingSelector_("properties"))
@@ -1593,7 +1597,7 @@ class XANumbersShape(XANumbersiWorkItem):
 
 
 
-class XANumbersChartList(XABase.XAList):
+class XANumbersChartList(XANumbersiWorkItemList):
     """A wrapper around lists of themes that employs fast enumeration techniques.
 
     All properties of themes can be called as methods on the wrapped list, returning a list containing each theme's value for the property.
@@ -1601,7 +1605,7 @@ class XANumbersChartList(XABase.XAList):
     .. versionadded:: 0.0.8
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XANumbersChart, filter)
+        super().__init__(properties, filter, XANumbersChart)
 
 class XANumbersChart(XANumbersiWorkItem):
     """A class for managing and interacting with charts in Numbers.
@@ -1614,7 +1618,7 @@ class XANumbersChart(XANumbersiWorkItem):
 
 
 
-class XANumbersLineList(XABase.XAList):
+class XANumbersLineList(XANumbersiWorkItemList):
     """A wrapper around lists of shapes that employs fast enumeration techniques.
 
     All properties of shapes can be called as methods on the wrapped list, returning a list containing each shape's value for the property.
@@ -1622,7 +1626,7 @@ class XANumbersLineList(XABase.XAList):
     .. versionadded:: 0.0.8
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XANumbersLine, filter)
+        super().__init__(properties, filter, XANumbersLine)
 
     def end_point(self) -> List[Tuple[int, int]]:
         return list(self.xa_elem.arrayByApplyingSelector_("end_point"))
@@ -1710,7 +1714,7 @@ class XANumbersLine(XANumbersiWorkItem):
 
 
 
-class XANumbersMovieList(XABase.XAList):
+class XANumbersMovieList(XANumbersiWorkItemList):
     """A wrapper around lists of movies that employs fast enumeration techniques.
 
     All properties of movies can be called as methods on the wrapped list, returning a list containing each movie's value for the property.
@@ -1718,7 +1722,7 @@ class XANumbersMovieList(XABase.XAList):
     .. versionadded:: 0.0.8
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XANumbersMovie, filter)
+        super().__init__(properties, filter, XANumbersMovie)
 
     def file_name(self) -> List[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("fileName"))
@@ -1829,7 +1833,7 @@ class XANumbersMovie(XANumbersiWorkItem):
 
 
 
-class XANumbersTextItemList(XABase.XAList):
+class XANumbersTextItemList(XANumbersiWorkItemList):
     """A wrapper around lists of text items that employs fast enumeration techniques.
 
     All properties of text items can be called as methods on the wrapped list, returning a list containing each text item's value for the property.
@@ -1837,7 +1841,7 @@ class XANumbersTextItemList(XABase.XAList):
     .. versionadded:: 0.0.8
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XANumbersTextItem, filter)
+        super().__init__(properties, filter, XANumbersTextItem)
 
     def background_fill_type(self) -> List[XANumbersApplication.FillOption]:
         ls = self.xa_elem.arrayByApplyingSelector_("fileName")
@@ -1938,7 +1942,7 @@ class XANumbersTextItem(XANumbersiWorkItem):
 
 
 
-class XANumbersTableList(XABase.XAList):
+class XANumbersTableList(XANumbersiWorkItemList):
     """A wrapper around lists of shapes that employs fast enumeration techniques.
 
     All properties of shapes can be called as methods on the wrapped list, returning a list containing each shape's value for the property.
@@ -1946,7 +1950,7 @@ class XANumbersTableList(XABase.XAList):
     .. versionadded:: 0.0.8
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XANumbersTable, filter)
+        super().__init__(properties, filter, XANumbersTable)
 
     def name(self) -> List[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
@@ -2126,8 +2130,10 @@ class XANumbersRangeList(XABase.XAList):
 
     .. versionadded:: 0.0.8
     """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XANumbersRange, filter)
+    def __init__(self, properties: dict, filter: Union[dict, None] = None, obj_class = None):
+        if obj_class is None:
+            obj_class = XANumbersRange
+        super().__init__(properties, obj_class, filter)
 
     def properties(self) -> List[dict]:
         return list(self.xa_elem.arrayByApplyingSelector_("properties"))
@@ -2358,7 +2364,7 @@ class XANumbersRange(XABase.XAHasElements):
 
 
 
-class XANumbersRowList(XABase.XAList):
+class XANumbersRowList(XANumbersRangeList):
     """A wrapper around lists of rows that employs fast enumeration techniques.
 
     All properties of rows can be called as methods on the wrapped list, returning a list containing each row's value for the property.
@@ -2366,7 +2372,7 @@ class XANumbersRowList(XABase.XAList):
     .. versionadded:: 0.0.8
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XANumbersRow, filter)
+        super().__init__(properties, filter, XANumbersRow)
 
     def address(self) -> List[float]:
         return list(self.xa_elem.arrayByApplyingSelector_("address"))
@@ -2401,7 +2407,7 @@ class XANumbersRow(XANumbersRange):
 
 
 
-class XANumbersColumnList(XABase.XAList):
+class XANumbersColumnList(XANumbersRangeList):
     """A wrapper around lists of columns that employs fast enumeration techniques.
 
     All properties of columns can be called as methods on the wrapped list, returning a list containing each column's value for the property.
@@ -2409,7 +2415,7 @@ class XANumbersColumnList(XABase.XAList):
     .. versionadded:: 0.0.8
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XANumbersColumn, filter)
+        super().__init__(properties, filter, XANumbersColumn)
 
     def address(self) -> List[float]:
         return list(self.xa_elem.arrayByApplyingSelector_("address"))
@@ -2444,7 +2450,7 @@ class XANumbersColumn(XANumbersRange):
 
 
 
-class XANumbersCellList(XABase.XAList):
+class XANumbersCellList(XANumbersRangeList):
     """A wrapper around lists of cells that employs fast enumeration techniques.
 
     All properties of cells can be called as methods on the wrapped list, returning a list containing each cell's value for the property.
@@ -2452,7 +2458,7 @@ class XANumbersCellList(XABase.XAList):
     .. versionadded:: 0.0.8
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XANumbersCell, filter)
+        super().__init__(properties, filter, XANumbersCell)
 
     def formatted_value(self) -> List[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("formattedValue"))

@@ -5,6 +5,7 @@ General classes and methods applicable to any PyXA object.
 
 from datetime import datetime
 from enum import Enum
+from pprint import pprint
 import time, os, sys
 from typing import Any, Callable, Tuple, Union, List, Dict
 import threading
@@ -1509,7 +1510,7 @@ class XAUIElementList(XAList):
 
     .. versionadded:: 0.0.5
     """
-    def __init__(self, properties: dict, obj_type = None, filter: Union[dict, None] = None):
+    def __init__(self, properties: dict, filter: Union[dict, None] = None, obj_type = None):
         if obj_type is None:
             obj_type = XAUIElement
         super().__init__(properties, obj_type, filter)
@@ -1747,7 +1748,7 @@ class XAWindowList(XAUIElementList):
     .. versionadded:: 0.0.5
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAWindow, filter)
+        super().__init__(properties, filter, XAWindow)
 
     def collapse(self):
         """Collapses all windows in the list.
@@ -1836,7 +1837,7 @@ class XAUIMenuBarList(XAUIElementList):
     .. versionadded:: 0.0.5
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAUIMenuBar, filter)
+        super().__init__(properties, filter, XAUIMenuBar)
 
 class XAUIMenuBar(XAUIElement):
     """A menubar UI element.
@@ -1855,7 +1856,7 @@ class XAUIMenuBarItemList(XAUIElementList):
     .. versionadded:: 0.0.5
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAUIMenuBarItem, filter)
+        super().__init__(properties, filter, XAUIMenuBarItem)
 
 class XAUIMenuBarItem(XAUIElement):
     """A menubar item UI element.
@@ -1874,7 +1875,7 @@ class XAUIMenuList(XAUIElementList):
     .. versionadded:: 0.0.5
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAUIMenu, filter)
+        super().__init__(properties, filter, XAUIMenu)
 
 class XAUIMenu(XAUIElement):
     """A menu UI element.
@@ -1893,7 +1894,7 @@ class XAUIMenuItemList(XAUIElementList):
     .. versionadded:: 0.0.5
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAUIMenuItem, filter)
+        super().__init__(properties, filter, XAUIMenuItem)
 
 class XAUIMenuItem(XAUIElement):
     """A menu item UI element.
@@ -1934,7 +1935,7 @@ class XAUIToolbarList(XAUIElementList):
     .. versionadded:: 0.0.5
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAUIToolbar, filter)
+        super().__init__(properties, filter, XAUIToolbar)
 
 class XAUIToolbar(XAUIElement):
     """A toolbar UI element.
@@ -1953,7 +1954,7 @@ class XAUIGroupList(XAUIElementList):
     .. versionadded:: 0.0.5
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAUIGroup, filter)
+        super().__init__(properties, filter, XAUIGroup)
 
 class XAUIGroup(XAUIElement):
     """A group of UI element.
@@ -1972,7 +1973,7 @@ class XAUITabGroupList(XAUIElementList):
     .. versionadded:: 0.0.5
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAUIGroup, filter)
+        super().__init__(properties, filter, XAUITabGroup)
 
 class XAUITabGroup(XAUIElement):
     """A tab group UI element.
@@ -1991,7 +1992,7 @@ class XAUIScrollAreaList(XAUIElementList):
     .. versionadded:: 0.0.5
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAUIGroup, filter)
+        super().__init__(properties, filter, XAUIScrollArea)
 
 class XAUIScrollArea(XAUIElement):
     """A scroll area UI element.
@@ -2010,7 +2011,7 @@ class XAButtonList(XAUIElementList):
     .. versionadded:: 0.0.4
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAButton, filter)
+        super().__init__(properties, filter, XAButton)
 
 class XAButton(XAUIElement):
     """A button UI element.
@@ -2073,7 +2074,7 @@ class XAUIRadioButtonList(XAUIElementList):
     .. versionadded:: 0.0.4
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAButton, filter)
+        super().__init__(properties, filter, XAUIRadioButton)
 
 class XAUIRadioButton(XAUIElement):
     """A radio button UI element.
@@ -2092,7 +2093,7 @@ class XAUIActionList(XAUIElementList):
     .. versionadded:: 0.0.5
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAUIAction, filter)
+        super().__init__(properties, filter, XAUIAction)
 
 class XAUIAction(XAUIElement):
     """An action associated with a UI element.
@@ -2118,7 +2119,7 @@ class XAUITextfieldList(XAUIElementList):
     .. versionadded:: 0.0.5
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAUITextfield, filter)
+        super().__init__(properties, filter, XAUITextfield)
 
 class XAUITextfield(XAUIElement):
     """A textfield UI element.
@@ -2137,7 +2138,7 @@ class XAUIStaticTextList(XAUIElementList):
     .. versionadded:: 0.0.5
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAUIStaticText, filter)
+        super().__init__(properties, filter, XAUIStaticText)
 
 class XAUIStaticText(XAUIElement):
     """A static text UI element.
@@ -2247,7 +2248,7 @@ class XATextList(XAList):
 
     .. versionadded:: 0.0.4
     """
-    def __init__(self, properties: dict, obj_class = None, filter: Union[dict, None] = None):
+    def __init__(self, properties: dict, filter: Union[dict, None] = None), obj_class = None:
         if obj_class is None:
             obj_class = XAText
         super().__init__(properties, obj_class, filter)
@@ -2337,7 +2338,7 @@ class XAParagraphList(XATextList):
     .. versionadded:: 0.0.5
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAParagraph, filter)
+        super().__init__(properties, filter, XAParagraph)
 
 class XAParagraph(XAText):
     """A class for managing and interacting with paragraphs in text documents.
@@ -2378,7 +2379,7 @@ class XAWordList(XATextList):
     .. versionadded:: 0.0.5
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAWord, filter)
+        super().__init__(properties, filter, XAWord)
 
 class XAWord(XAText):
     """A class for managing and interacting with words in text documents.
@@ -2397,7 +2398,7 @@ class XACharacterList(XATextList):
     .. versionadded:: 0.0.5
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XACharacter, filter)
+        super().__init__(properties, filter, XACharacter)
 
 class XACharacter(XAText):
     """A class for managing and interacting with characters in text documents.
@@ -2416,7 +2417,7 @@ class XAAttributeRunList(XATextList):
     .. versionadded:: 0.0.5
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAAttributeRun, filter)
+        super().__init__(properties, filter, XAAttributeRun)
 
 class XAAttributeRun(XAText):
     """A class for managing and interacting with attribute runs in text documents.
@@ -2435,7 +2436,7 @@ class XAAttachmentList(XATextList):
     .. versionadded:: 0.0.5
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAAttachment, filter)
+        super().__init__(properties, filter, XAAttachment)
 
 class XAAttachment(XAObject):
     """A class for managing and interacting with attachments in text documents.

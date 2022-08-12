@@ -411,7 +411,7 @@ class XATVItemList(XABase.XAList):
 
     .. versionadded:: 0.0.7
     """
-    def __init__(self, properties: dict, obj_class = None, filter: Union[dict, None] = None):
+    def __init__(self, properties: dict, filter: Union[dict, None] = None, obj_class = None):
         if obj_class is None:
             obj_class = XATVItem
         super().__init__(properties, obj_class, filter)
@@ -615,7 +615,7 @@ class XATVArtworkList(XATVItemList):
     .. versionadded:: 0.0.7
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XATVArtwork, filter)
+        super().__init__(properties, filter, XATVArtwork)
 
     def data(self) -> List[XABase.XAImage]:
         """Gets the data image of each artwork in the list.
@@ -786,10 +786,10 @@ class XATVPlaylistList(XATVItemList):
 
     .. versionadded:: 0.0.7
     """
-    def __init__(self, properties: dict, obj_class = None, filter: Union[dict, None] = None):
+    def __init__(self, properties: dict, filter: Union[dict, None] = None, obj_class = None):
         if obj_class is None:
             obj_class = XATVPlaylist
-        super().__init__(properties, obj_class, filter)
+        super().__init__(properties, filter, obj_class)
 
     def object_description(self) -> List[str]:
         """Gets the description of each playlist in the list.
@@ -1078,7 +1078,7 @@ class XATVLibraryPlaylistList(XATVPlaylistList):
     .. versionadded:: 0.0.7
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XATVLibraryPlaylist, filter)
+        super().__init__(properties, filter, XATVLibraryPlaylist)
 
 class XATVLibraryPlaylist(XATVPlaylist):
     """The library playlist in TV.app.
@@ -1135,7 +1135,7 @@ class XATVSourceList(XATVItemList):
     .. versionadded:: 0.0.7
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XATVSource, filter)
+        super().__init__(properties, filter, XATVSource)
 
     def capacity(self) -> List[int]:
         """Gets the capacity of each source in the list.
@@ -1268,10 +1268,10 @@ class XATVTrackList(XATVItemList):
 
     .. versionadded:: 0.0.7
     """
-    def __init__(self, properties: dict, obj_class = None, filter: Union[dict, None] = None):
+    def __init__(self, properties: dict, filter: Union[dict, None] = None, obj_class = None):
         if obj_class is None:
             obj_class = XATVTrack
-        super().__init__(properties, obj_class, filter)
+        super().__init__(properties, filter, obj_class)
 
     def album(self) -> List[str]:
         """Gets the album name of each track in the list.
@@ -2622,7 +2622,7 @@ class XATVFileTrackList(XATVTrackList):
     .. versionadded:: 0.0.7
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XATVFileTrack, filter)
+        super().__init__(properties, filter, XATVFileTrack)
 
     def location(self) -> List[XABase.XAURL]:
         """Gets the location of each track in the list.
@@ -2669,7 +2669,7 @@ class XATVSharedTrackList(XATVTrackList):
     .. versionadded:: 0.0.7
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XATVSharedTrack, filter)
+        super().__init__(properties, filter, XATVSharedTrack)
 
 class XATVSharedTrack(XATVTrack):
     """A shared track in TV.app.
@@ -2690,7 +2690,7 @@ class XATVURLTrackList(XATVTrackList):
     .. versionadded:: 0.0.7
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XATVURLTrack, filter)
+        super().__init__(properties, filter, XATVURLTrack)
 
     def address(self) -> List[str]:
         """Gets the address of each track in the list.
@@ -2736,7 +2736,7 @@ class XATVUserPlaylistList(XATVPlaylistList):
     .. versionadded:: 0.0.7
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XATVUserPlaylist, filter)
+        super().__init__(properties, filter, XATVUserPlaylist)
 
     def shared(self) -> List[bool]:
         """Gets the shared status of each user playlist in the list.
@@ -2843,7 +2843,7 @@ class XATVFolderPlaylistList(XATVUserPlaylistList):
     .. versionadded:: 0.0.7
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XATVFolderPlaylist, filter)
+        super().__init__(properties, filter, XATVFolderPlaylist)
 
 class XATVFolderPlaylist(XATVUserPlaylist):
     """A folder playlist in TV.app.
@@ -2863,10 +2863,10 @@ class XATVWindowList(XATVItemList):
 
     .. versionadded:: 0.0.7
     """
-    def __init__(self, properties: dict, obj_class = None, filter: Union[dict, None] = None):
+    def __init__(self, properties: dict, filter: Union[dict, None] = None, obj_class = None):
         if obj_class is None:
             obj_class = XATVWindow
-        super().__init__(properties, obj_class, filter)
+        super().__init__(properties, filter, obj_class)
 
     def bounds(self) -> List[Tuple[Tuple[int, int], Tuple[int, int]]]:
         """Gets the bounds of each window in the list.
@@ -3152,7 +3152,7 @@ class XATVBrowserWindowList(XATVWindowList):
     .. versionadded:: 0.0.7
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XATVBrowserWindow, filter)
+        super().__init__(properties, filter, XATVBrowserWindow)
 
     def selection(self) -> XATVTrackList:
         """Gets the selection of each window in the list.
@@ -3217,7 +3217,7 @@ class XATVPlaylistWindowList(XATVWindowList):
     .. versionadded:: 0.0.7
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XATVPlaylistWindow, filter)
+        super().__init__(properties, filter, XATVPlaylistWindow)
 
     def selection(self) -> XATVTrackList:
         """Gets the selection of each window in the list.
@@ -3282,7 +3282,7 @@ class XATVVideoWindowList(XATVWindowList):
     .. versionadded:: 0.0.7
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XATVVideoWindow, filter)
+        super().__init__(properties, filter, XATVVideoWindow)
 
 class XATVVideoWindow(XATVWindow):
     """A video window in TV.app.

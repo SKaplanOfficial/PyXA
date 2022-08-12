@@ -662,7 +662,7 @@ class XAFontBookFontCollectionList(XABase.XAList):
 
     .. versionadded:: 0.0.6
     """
-    def __init__(self, properties: dict, obj_class = None, filter: Union[dict, None] = None):
+    def __init__(self, properties: dict, filter: Union[dict, None] = None, obj_class = None):
         if obj_class is None:
             obj_class = XAFontBookFontCollection
         super().__init__(properties, obj_class, filter)
@@ -757,7 +757,7 @@ class XAFontBookFontLibraryList(XAFontBookFontCollectionList):
     .. versionadded:: 0.0.6
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAFontBookFontLibrary, filter)
+        super().__init__(properties, filter, XAFontBookFontLibrary)
 
 class XAFontBookFontLibrary(XAFontBookFontCollection):
     """A class for managing and interacting with font libraries in Font Book.app.
@@ -790,7 +790,7 @@ class XAFontBookFontDomainList(XAFontBookFontLibraryList):
     .. versionadded:: 0.0.6
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAFontBookFontDomain, filter)
+        super().__init__(properties, filter, XAFontBookFontDomain)
 
 class XAFontBookFontDomain(XAFontBookFontLibrary):
     """A class for managing and interacting with font domains in Font Book.app.

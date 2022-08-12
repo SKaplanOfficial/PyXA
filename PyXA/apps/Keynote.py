@@ -865,8 +865,10 @@ class XAKeynoteContainerList(XABase.XAList):
 
     .. versionadded:: 0.0.3
     """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAKeynoteContainer, filter)
+    def __init__(self, properties: dict, filter: Union[dict, None] = None, obj_class = None):
+        if obj_class is None:
+            obj_class = XAKeynoteContainer
+        super().__init__(properties, obj_class, filter)
 
 class XAKeynoteContainer(XABase.XAHasElements):
     """A class for managing and interacting with containers in Keynote.
@@ -1001,7 +1003,7 @@ class XAKeynoteContainer(XABase.XAHasElements):
 
 
 
-class XAKeynoteSlideList(XABase.XAList):
+class XAKeynoteSlideList(XAKeynoteContainerList):
     """A wrapper around lists of themes that employs fast enumeration techniques.
 
     All properties of themes can be called as methods on the wrapped list, returning a list containing each theme's value for the property.
@@ -1009,7 +1011,7 @@ class XAKeynoteSlideList(XABase.XAList):
     .. versionadded:: 0.0.5
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAKeynoteSlide, filter)
+        super().__init__(properties, filter, XAKeynoteSlide)
 
     def properties(self) -> List[dict]:
         return list(self.xa_elem.arrayByApplyingSelector_("properties"))
@@ -1255,8 +1257,10 @@ class XAKeynoteiWorkItemList(XABase.XAList):
 
     .. versionadded:: 0.0.5
     """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAKeynoteiWorkItem, filter)
+    def __init__(self, properties: dict, filter: Union[dict, None] = None, obj_class = None):
+        if obj_class is None:
+            obj_class = XAKeynoteiWorkItem
+        super().__init__(properties, obj_class, filter)
 
     def height(self) -> List[int]:
         return list(self.xa_elem.arrayByApplyingSelector_("height"))
@@ -1390,7 +1394,7 @@ class XAKeynoteiWorkItem(XABase.XAObject):
 
 
 
-class XAKeynoteGroupList(XABase.XAList):
+class XAKeynoteGroupList(XAKeynoteContainerList):
     """A wrapper around lists of themes that employs fast enumeration techniques.
 
     All properties of themes can be called as methods on the wrapped list, returning a list containing each theme's value for the property.
@@ -1398,7 +1402,7 @@ class XAKeynoteGroupList(XABase.XAList):
     .. versionadded:: 0.0.5
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAKeynoteGroup, filter)
+        super().__init__(properties, filter, XAKeynoteGroup)
 
     def height(self) -> List[int]:
         return list(self.xa_elem.arrayByApplyingSelector_("height"))
@@ -1467,7 +1471,7 @@ class XAKeynoteGroup(XAKeynoteContainer):
 
 
 
-class XAKeynoteImageList(XABase.XAList):
+class XAKeynoteImageList(XAKeynoteiWorkItemList):
     """A wrapper around lists of images that employs fast enumeration techniques.
 
     All properties of images can be called as methods on the wrapped list, returning a list containing each image's value for the property.
@@ -1475,7 +1479,7 @@ class XAKeynoteImageList(XABase.XAList):
     .. versionadded:: 0.0.5
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAKeynoteImage, filter)
+        super().__init__(properties, filter, XAKeynoteImage)
 
     def object_description(self) -> List[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("objectDescription"))
@@ -1591,7 +1595,7 @@ class XAKeynoteImage(XAKeynoteiWorkItem):
 
 
 
-class XAKeynoteAudioClipList(XABase.XAList):
+class XAKeynoteAudioClipList(XAKeynoteiWorkItemList):
     """A wrapper around lists of audio clips that employs fast enumeration techniques.
 
     All properties of audio clips can be called as methods on the wrapped list, returning a list containing each audio clips's value for the property.
@@ -1599,7 +1603,7 @@ class XAKeynoteAudioClipList(XABase.XAList):
     .. versionadded:: 0.0.5
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAKeynoteAudioClip, filter)
+        super().__init__(properties, filter, XAKeynoteAudioClip)
 
     def file_name(self) -> List[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("fileName"))
@@ -1646,7 +1650,7 @@ class XAKeynoteAudioClip(XAKeynoteiWorkItem):
 
 
 
-class XAKeynoteShapeList(XABase.XAList):
+class XAKeynoteShapeList(XAKeynoteiWorkItemList):
     """A wrapper around lists of shapes that employs fast enumeration techniques.
 
     All properties of shapes can be called as methods on the wrapped list, returning a list containing each shape's value for the property.
@@ -1654,7 +1658,7 @@ class XAKeynoteShapeList(XABase.XAList):
     .. versionadded:: 0.0.5
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAKeynoteShape, filter)
+        super().__init__(properties, filter, XAKeynoteShape)
 
     def properties(self) -> List[dict]:
         return list(self.xa_elem.arrayByApplyingSelector_("properties"))
@@ -1766,7 +1770,7 @@ class XAKeynoteShape(XAKeynoteiWorkItem):
 
 
 
-class XAKeynoteChartList(XABase.XAList):
+class XAKeynoteChartList(XAKeynoteiWorkItemList):
     """A wrapper around lists of themes that employs fast enumeration techniques.
 
     All properties of themes can be called as methods on the wrapped list, returning a list containing each theme's value for the property.
@@ -1774,7 +1778,7 @@ class XAKeynoteChartList(XABase.XAList):
     .. versionadded:: 0.0.5
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAKeynoteChart, filter)
+        super().__init__(properties, filter, XAKeynoteChart)
 
 class XAKeynoteChart(XAKeynoteiWorkItem):
     """A class for managing and interacting with charts in Keynote.
@@ -1787,7 +1791,7 @@ class XAKeynoteChart(XAKeynoteiWorkItem):
 
 
 
-class XAKeynoteLineList(XABase.XAList):
+class XAKeynoteLineList(XAKeynoteiWorkItemList):
     """A wrapper around lists of shapes that employs fast enumeration techniques.
 
     All properties of shapes can be called as methods on the wrapped list, returning a list containing each shape's value for the property.
@@ -1795,7 +1799,7 @@ class XAKeynoteLineList(XABase.XAList):
     .. versionadded:: 0.0.5
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAKeynoteLine, filter)
+        super().__init__(properties, filter, XAKeynoteLine)
 
     def end_point(self) -> List[Tuple[int, int]]:
         return list(self.xa_elem.arrayByApplyingSelector_("end_point"))
@@ -1863,7 +1867,7 @@ class XAKeynoteLine(XAKeynoteiWorkItem):
 
 
 
-class XAKeynoteMovieList(XABase.XAList):
+class XAKeynoteMovieList(XAKeynoteiWorkItemList):
     """A wrapper around lists of movies that employs fast enumeration techniques.
 
     All properties of movies can be called as methods on the wrapped list, returning a list containing each movie's value for the property.
@@ -1871,7 +1875,7 @@ class XAKeynoteMovieList(XABase.XAList):
     .. versionadded:: 0.0.5
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAKeynoteMovie, filter)
+        super().__init__(properties, filter, XAKeynoteMovie)
 
     def file_name(self) -> List[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("fileName"))
@@ -1962,7 +1966,7 @@ class XAKeynoteMovie(XAKeynoteiWorkItem):
 
 
 
-class XAKeynoteTextItemList(XABase.XAList):
+class XAKeynoteTextItemList(XAKeynoteiWorkItemList):
     """A wrapper around lists of text items that employs fast enumeration techniques.
 
     All properties of text items can be called as methods on the wrapped list, returning a list containing each text item's value for the property.
@@ -1970,7 +1974,7 @@ class XAKeynoteTextItemList(XABase.XAList):
     .. versionadded:: 0.0.5
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAKeynoteTextItem, filter)
+        super().__init__(properties, filter, XAKeynoteTextItem)
 
     def background_fill_type(self) -> List[XAKeynoteApplication.FillOption]:
         ls = self.xa_elem.arrayByApplyingSelector_("fileName")
@@ -2052,7 +2056,7 @@ class XAKeynoteTextItem(XAKeynoteiWorkItem):
 
 
 
-class XAKeynoteTableList(XABase.XAList):
+class XAKeynoteTableList(XAKeynoteiWorkItemList):
     """A wrapper around lists of shapes that employs fast enumeration techniques.
 
     All properties of shapes can be called as methods on the wrapped list, returning a list containing each shape's value for the property.
@@ -2060,7 +2064,7 @@ class XAKeynoteTableList(XABase.XAList):
     .. versionadded:: 0.0.5
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAKeynoteTable, filter)
+        super().__init__(properties, filter, XAKeynoteTable)
 
     def name(self) -> List[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
@@ -2225,8 +2229,10 @@ class XAKeynoteRangeList(XABase.XAList):
 
     .. versionadded:: 0.0.5
     """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAKeynoteRange, filter)
+    def __init__(self, properties: dict, filter: Union[dict, None] = None, obj_class = None):
+        if obj_class is None:
+            obj_class = XAKeynoteRange
+        super().__init__(properties, obj_class, filter)
 
     def properties(self) -> List[dict]:
         return list(self.xa_elem.arrayByApplyingSelector_("properties"))
@@ -2457,7 +2463,7 @@ class XAKeynoteRange(XABase.XAHasElements):
 
 
 
-class XAKeynoteRowList(XABase.XAList):
+class XAKeynoteRowList(XAKeynoteRangeList):
     """A wrapper around lists of rows that employs fast enumeration techniques.
 
     All properties of rows can be called as methods on the wrapped list, returning a list containing each row's value for the property.
@@ -2465,7 +2471,7 @@ class XAKeynoteRowList(XABase.XAList):
     .. versionadded:: 0.0.5
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAKeynoteRow, filter)
+        super().__init__(properties, filter, XAKeynoteRow)
 
     def address(self) -> List[float]:
         return list(self.xa_elem.arrayByApplyingSelector_("address"))
@@ -2500,7 +2506,7 @@ class XAKeynoteRow(XAKeynoteRange):
 
 
 
-class XAKeynoteColumnList(XABase.XAList):
+class XAKeynoteColumnList(XAKeynoteRangeList):
     """A wrapper around lists of columns that employs fast enumeration techniques.
 
     All properties of columns can be called as methods on the wrapped list, returning a list containing each column's value for the property.
@@ -2508,7 +2514,7 @@ class XAKeynoteColumnList(XABase.XAList):
     .. versionadded:: 0.0.5
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAKeynoteColumn, filter)
+        super().__init__(properties, filter, XAKeynoteColumn)
 
     def address(self) -> List[float]:
         return list(self.xa_elem.arrayByApplyingSelector_("address"))
@@ -2543,7 +2549,7 @@ class XAKeynoteColumn(XAKeynoteRange):
 
 
 
-class XAKeynoteCellList(XABase.XAList):
+class XAKeynoteCellList(XAKeynoteRangeList):
     """A wrapper around lists of cells that employs fast enumeration techniques.
 
     All properties of cells can be called as methods on the wrapped list, returning a list containing each cell's value for the property.
@@ -2551,7 +2557,7 @@ class XAKeynoteCellList(XABase.XAList):
     .. versionadded:: 0.0.5
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAKeynoteCell, filter)
+        super().__init__(properties, filter, XAKeynoteCell)
 
     def formatted_value(self) -> List[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("formattedValue"))

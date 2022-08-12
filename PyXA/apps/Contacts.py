@@ -624,7 +624,7 @@ class XAContactsContactInfoList(XABase.XAList):
 
     .. versionadded:: 0.0.7
     """
-    def __init__(self, properties: dict, obj_class = None, filter: Union[dict, None] = None):
+    def __init__(self, properties: dict, filter: Union[dict, None] = None, obj_class = None):
         if obj_class is None:
             obj_class = XAContactsContactInfo
         super().__init__(properties, obj_class, filter)
@@ -726,7 +726,7 @@ class XAContactsCustomDateList(XAContactsContactInfoList):
     .. versionadded:: 0.0.7
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAContactsCustomDate, filter)
+        super().__init__(properties, filter, XAContactsCustomDate)
 
 class XAContactsCustomDate(XAContactsContactInfo):
     """A custom date associated with a contact in Contacts.app.
@@ -747,7 +747,7 @@ class XAContactsEmailList(XAContactsContactInfoList):
     .. versionadded:: 0.0.7
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAContactsEmail, filter)
+        super().__init__(properties, filter, XAContactsEmail)
 
 class XAContactsEmail(XAContactsContactInfo):
     """A document in Contacts.app.
@@ -767,7 +767,7 @@ class XAContactsEntryList(XABase.XAList):
 
     .. versionadded:: 0.0.7
     """
-    def __init__(self, properties: dict, obj_class = None, filter: Union[dict, None] = None):
+    def __init__(self, properties: dict, filter: Union[dict, None] = None, obj_class = None):
         if obj_class is None:
             obj_class = XAContactsEntry
         super().__init__(properties, obj_class, filter)
@@ -943,7 +943,7 @@ class XAContactsGroupList(XAContactsEntryList):
     .. versionadded:: 0.0.7
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAContactsGroup, filter)
+        super().__init__(properties, filter, XAContactsGroup)
 
     def name(self) -> List[str]:
         """Gets the name of each contact group in the list.
@@ -1019,7 +1019,7 @@ class XAContactsInstantMessageList(XAContactsContactInfoList):
     .. versionadded:: 0.0.7
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAContactsInstantMessage, filter)
+        super().__init__(properties, filter, XAContactsInstantMessage)
 
     def service_name(self) -> List[str]:
         """Gets the service name of each IM address in the list.
@@ -1123,7 +1123,7 @@ class XAContactsPersonList(XAContactsEntryList):
     .. versionadded:: 0.0.7
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAContactsPerson, filter)
+        super().__init__(properties, filter, XAContactsPerson)
 
     def nickname(self) -> List[str]:
         """Gets the nickname of each person in the list.
@@ -1773,7 +1773,7 @@ class XAContactsPhoneList(XAContactsContactInfoList):
     .. versionadded:: 0.0.7
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAContactsPhone, filter)
+        super().__init__(properties, filter, XAContactsPhone)
 
 class XAContactsPhone(XAContactsContactInfo):
     """A phone number associated with a contact in Contacts.app.
@@ -1794,7 +1794,7 @@ class XAContactsRelatedNameList(XAContactsContactInfoList):
     .. versionadded:: 0.0.7
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAContactsRelatedName, filter)
+        super().__init__(properties, filter, XAContactsRelatedName)
 
 class XAContactsRelatedName(XAContactsContactInfo):
     """A related name of a contact in Contacts.app.
@@ -1967,7 +1967,7 @@ class XAContactsURLList(XAContactsContactInfoList):
     .. versionadded:: 0.0.7
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAContactsURL, filter)
+        super().__init__(properties, filter, XAContactsURL)
 
 class XAContactsURL(XAContactsContactInfo):
     """A URL associated with a contact in Contacts.app.

@@ -740,7 +740,7 @@ class XAPhotosContainerList(XABase.XAList):
 
     .. versionadded:: 0.0.6
     """
-    def __init__(self, properties: dict, obj_class = None, filter: Union[dict, None] = None):
+    def __init__(self, properties: dict, filter: Union[dict, None] = None, obj_class = None):
         if obj_class is None:
             obj_class = XAPhotosContainer
         super().__init__(properties, obj_class, filter)
@@ -881,7 +881,7 @@ class XAPhotosAlbumList(XAPhotosContainerList):
     .. versionadded:: 0.0.6
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAPhotosAlbum, filter)
+        super().__init__(properties, filter, XAPhotosAlbum)
 
     def push(self, container: 'XAPhotosContainer'):
         name = "New Album"
@@ -922,7 +922,7 @@ class XAPhotosFolderList(XAPhotosContainerList):
     .. versionadded:: 0.0.6
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAPhotosFolder, filter)
+        super().__init__(properties, filter, XAPhotosFolder)
 
     def push(self, container: 'XAPhotosContainer'):
         name = "New Folder"

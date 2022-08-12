@@ -705,6 +705,8 @@ class XAFinderApplication(XABaseScriptable.XASBApplication):
         return self._new_element(self.xa_scel.clippingWindows(), XAFinderClippingWindowList, filter)
 
 
+
+
 class XAFinderItemList(XABase.XAList):
     """A wrapper around lists of Finder items that employs fast enumeration techniques.
 
@@ -712,7 +714,7 @@ class XAFinderItemList(XABase.XAList):
 
     .. versionadded:: 0.0.3
     """
-    def __init__(self, properties: dict, object_class = None, filter: Union[dict, None] = None):
+    def __init__(self, properties: dict, filter: Union[dict, None] = None, object_class = None):
         if object_class is None:
             object_class = XAFinderItem
         super().__init__(properties, object_class, filter)
@@ -1132,6 +1134,8 @@ class XAFinderItem(XABase.XASelectable, XABase.XADeletable):
         return "<" + str(type(self)) + self.name + ">"
 
 
+
+
 class XAFinderContainerList(XAFinderItemList):
     """A wrapper around lists of containers that employs fast enumeration techniques.
 
@@ -1139,10 +1143,10 @@ class XAFinderContainerList(XAFinderItemList):
 
     .. versionadded:: 0.0.3
     """
-    def __init__(self, properties: dict, object_class = None, filter: Union[dict, None] = None):
+    def __init__(self, properties: dict, filter: Union[dict, None] = None, object_class = None):
         if object_class is None:
             object_class = XAFinderContainer
-        super().__init__(properties, object_class, filter)
+        super().__init__(properties, filter, object_class)
 
     def entire_contents(self) -> List[XAFinderItemList]:
         ls = self.xa_elem.arrayByApplyingSelector_("entireContents")
@@ -1280,6 +1284,8 @@ class XAFinderContainer(XAFinderItem, XABase.XAHasElements):
         return self._new_element(self.xa_elem.packages(), XAFinderPackageList, filter)
 
 
+
+
 class XAFinderDiskList(XAFinderContainerList):
     """A wrapper around lists of disks that employs fast enumeration techniques.
 
@@ -1288,7 +1294,7 @@ class XAFinderDiskList(XAFinderContainerList):
     .. versionadded:: 0.0.3
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAFinderDisk, filter)
+        super().__init__(properties, filter, XAFinderDisk)
 
     def id(self) -> List[int]:
         return list(self.xa_elem.arrayByApplyingSelector_("id"))
@@ -1398,13 +1404,15 @@ class XAFinderDisk(XAFinderContainer):
         return self.xa_elem.ignorePrivileges()
 
 
+
+
 class XAFinderFolderList(XAFinderContainerList):
     """A wrapper around lists of folders that employs fast enumeration techniques.
 
     .. versionadded:: 0.0.3
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAFinderFolder, filter)
+        super().__init__(properties, filter, XAFinderFolder)
 
 class XAFinderFolder(XAFinderContainer):
     """A class for managing and interacting with folders in Finder.
@@ -1413,6 +1421,8 @@ class XAFinderFolder(XAFinderContainer):
     """
     def __init__(self, properties):
         super().__init__(properties)
+
+
 
 
 class XAFinderTrash(XAFinderContainer):
@@ -1429,6 +1439,8 @@ class XAFinderTrash(XAFinderContainer):
         return self.xa_elem.warnsBeforeEmptying() 
 
 
+
+
 class XAFinderComputer(XAFinderItem):
     """A class for managing and interacting with the Desktop.
 
@@ -1438,6 +1450,8 @@ class XAFinderComputer(XAFinderItem):
         super().__init__(properties)
 
 
+
+
 class XAFinderFileList(XAFinderItemList):
     """A wrapper around lists of files that employs fast enumeration techniques.
 
@@ -1445,8 +1459,10 @@ class XAFinderFileList(XAFinderItemList):
 
     .. versionadded:: 0.0.3
     """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAFinderFile, filter)
+    def __init__(self, properties: dict, filter: Union[dict, None] = None, obj_class = None):
+        if obj_class is None:
+            obj_class = XAFinderFile
+        super().__init__(properties, filter, obj_class)
 
     def file_type(self) -> List[int]:
         return list(self.xa_elem.arrayByApplyingSelector_("fileType"))
@@ -1512,6 +1528,8 @@ class XAFinderFile(XAFinderItem, XABaseScriptable.XASBPrintable):
         return self.xa_elem.version()
 
 
+
+
 class XAFinderAliasFileList(XAFinderFileList):
     """A wrapper around lists of alias files that employs fast enumeration techniques.
 
@@ -1520,7 +1538,7 @@ class XAFinderAliasFileList(XAFinderFileList):
     .. versionadded:: 0.0.3
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAFinderAliasFile, filter)
+        super().__init__(properties, filter, XAFinderAliasFile)
 
     def original_item(self) -> List[XAFinderItem]:
         return list(self.xa_elem.arrayByApplyingSelector_("originalItem"))
@@ -1543,6 +1561,8 @@ class XAFinderAliasFile(XAFinderFile):
         return self._new_element(item_obj, XAFinderItem)
 
 
+
+
 class XAFinderApplicationFileList(XAFinderFileList):
     """A wrapper around lists of application files that employs fast enumeration techniques.
 
@@ -1551,7 +1571,7 @@ class XAFinderApplicationFileList(XAFinderFileList):
     .. versionadded:: 0.0.3
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAFinderApplicationFile, filter)
+        super().__init__(properties, filter, XAFinderApplicationFile)
 
     def id(self) -> List[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("id"))
@@ -1584,6 +1604,8 @@ class XAFinderApplicationFile(XAFinderFile):
         return self.xa_elem.hasScriptingTerminology()
 
 
+
+
 class XAFinderDocumentFileList(XAFinderFileList):
     """A wrapper around lists of document files that employs fast enumeration techniques.
 
@@ -1592,7 +1614,7 @@ class XAFinderDocumentFileList(XAFinderFileList):
     .. versionadded:: 0.0.3
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAFinderDocumentFile, filter)
+        super().__init__(properties, filter, XAFinderDocumentFile)
 
 class XAFinderDocumentFile(XAFinderFile):
     """A class for managing and interacting with document files in Finder.app.
@@ -1603,6 +1625,8 @@ class XAFinderDocumentFile(XAFinderFile):
         super().__init__(properties)
 
 
+
+
 class XAFinderInternetLocationFileList(XAFinderFileList):
     """A wrapper around lists of internet location files that employs fast enumeration techniques.
 
@@ -1611,7 +1635,7 @@ class XAFinderInternetLocationFileList(XAFinderFileList):
     .. versionadded:: 0.0.3
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAFinderInternetLocationFile, filter)
+        super().__init__(properties, filter, XAFinderInternetLocationFile)
 
     def location(self) -> List[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("location"))
@@ -1633,6 +1657,8 @@ class XAFinderInternetLocationFile(XAFinderFile):
         return self.xa_elem.location()
 
 
+
+
 class XAFinderClippingList(XAFinderFileList):
     """A wrapper around lists of clippings that employs fast enumeration techniques.
 
@@ -1641,7 +1667,7 @@ class XAFinderClippingList(XAFinderFileList):
     .. versionadded:: 0.0.3
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAFinderClipping, filter)
+        super().__init__(properties, filter, XAFinderClipping)
 
 class XAFinderClipping(XAFinderFile):
     """A class for managing and interacting with clippings in Finder.app.
@@ -1652,6 +1678,8 @@ class XAFinderClipping(XAFinderFile):
         super().__init__(properties)
 
 
+
+
 class XAFinderPackageList(XAFinderItemList):
     """A wrapper around lists of packages that employs fast enumeration techniques.
 
@@ -1660,7 +1688,7 @@ class XAFinderPackageList(XAFinderItemList):
     .. versionadded:: 0.0.3
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAFinderPackage, filter)
+        super().__init__(properties, filter, XAFinderPackage)
 
 class XAFinderPackage(XAFinderItem):
     """A class for managing and interacting with packages in Finder.app.
@@ -1671,6 +1699,8 @@ class XAFinderPackage(XAFinderItem):
         super().__init__(properties)
 
 
+
+
 class XAFinderWindowList(XAList):
     """A wrapper around lists of Finder windows that employs fast enumeration techniques.
 
@@ -1678,8 +1708,10 @@ class XAFinderWindowList(XAList):
 
     .. versionadded:: 0.0.3
     """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAFinderPackage, filter)
+    def __init__(self, properties: dict, filter: Union[dict, None] = None, obj_class = None):
+        if obj_class is None:
+            obj_class = XAFinderPackage
+        super().__init__(properties, obj_class, filter)
 
     def id(self) -> List[int]:
         return list(self.xa_elem.arrayByApplyingSelector_("id"))
@@ -1889,7 +1921,9 @@ class XAFinderWindow(XABaseScriptable.XASBWindow, XABaseScriptable.XASBPrintable
         super().set_property(property_name, value)
 
 
-class XAFinderFinderWindowList(XAFinderItemList):
+
+
+class XAFinderFinderWindowList(XAFinderWindowList):
     """A wrapper around lists of Finder internal windows (such as preference and information windows) that employs fast enumeration techniques.
 
     All properties of the windows can be called as methods on the wrapped list, returning a list containing each windows's value for the property.
@@ -1897,7 +1931,7 @@ class XAFinderFinderWindowList(XAFinderItemList):
     .. versionadded:: 0.0.3
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAFinderFinderWindow, filter)
+        super().__init__(properties, filter, XAFinderFinderWindow)
 
     def current_view(self) -> List[XAFinderApplication.ViewSetting]:
         return list(self.xa_elem.arrayByApplyingSelector_("currentView"))
@@ -2012,6 +2046,8 @@ class XAFinderFinderWindow(XAFinderWindow):
         return self._new_element(options_obj, XAFinderColumnViewOptions)
 
 
+
+
 class XAFinderDesktop(XAFinderContainer):
     """A class for managing and interacting with the Desktop.
 
@@ -2029,6 +2065,8 @@ class XAFinderDesktopWindow(XAFinderWindow):
         super().__init__(properties)
 
 
+
+
 class XAFinderClippingWindowList(XAFinderItemList):
     """A wrapper around lists of clipping windows that employs fast enumeration techniques.
 
@@ -2037,7 +2075,7 @@ class XAFinderClippingWindowList(XAFinderItemList):
     .. versionadded:: 0.0.3
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAFinderClippingWindow, filter)
+        super().__init__(properties, filter, XAFinderClippingWindow)
 
 class XAFinderClippingWindow(XAFinderItem, XABaseScriptable.XASBPrintable):
     """A class for managing and interacting with clipping windows in Finder.
@@ -2046,6 +2084,8 @@ class XAFinderClippingWindow(XAFinderItem, XABaseScriptable.XASBPrintable):
     """
     def __init__(self, properties):
         super().__init__(properties)
+
+
 
 
 class XAFinderPreferences(XAFinderItem, XABaseScriptable.XASBPrintable):
@@ -2150,6 +2190,8 @@ class XAFinderPreferencesWindow(XAFinderWindow):
         return self.xa_elem.currentPanel()
 
 
+
+
 class XAFinderInformationWindowList(XAFinderWindowList):
     """A wrapper around lists of info windows that employs fast enumeration techniques.
 
@@ -2158,7 +2200,7 @@ class XAFinderInformationWindowList(XAFinderWindowList):
     .. versionadded:: 0.0.3
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAFinderClippingWindow, filter)
+        super().__init__(properties, filter, XAFinderInformationWindow)
 
     def item(self) -> XAFinderItemList:
         ls = self.xa_elem.arrayByApplyingSelector_("item")
@@ -2191,6 +2233,8 @@ class XAFinderInformationWindow(XAFinderWindow):
     @property
     def current_panel(self) -> XAFinderApplication.Panel:
         return self.xa_elem.currentPanel()
+
+
 
 
 class XAFinderIconViewOptions(XABaseScriptable.XASBObject):
@@ -2244,6 +2288,8 @@ class XAFinderIconViewOptions(XABaseScriptable.XASBObject):
         return self._new_element(bg_obj, XABase.XAColor)
 
 
+
+
 class XAFinderColumnViewOptions(XABaseScriptable.XASBObject):
     """A class representing the column view options of a Finder window.
 
@@ -2276,6 +2322,8 @@ class XAFinderColumnViewOptions(XABaseScriptable.XASBObject):
     @property
     def discloses_preview_pane(self) -> bool:
         return self.xa_elem.disclosesPreviewPane()
+
+
 
 
 class XAFinderListViewOptions(XABaseScriptable.XASBObject):
@@ -2323,6 +2371,8 @@ class XAFinderListViewOptions(XABaseScriptable.XASBObject):
         .. versionadded:: 0.0.3
         """
         return self._new_element(self.xa_elem.columns(), XAFinderColumn, filter)
+
+
 
 
 class XAFinderColumnList(XABase.XAList):

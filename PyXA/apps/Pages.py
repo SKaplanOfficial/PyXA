@@ -817,8 +817,10 @@ class XAPagesContainerList(XABase.XAList):
 
     .. versionadded:: 0.0.3
     """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAPagesContainer, filter)
+    def __init__(self, properties: dict, filter: Union[dict, None] = None, obj_class = None):
+        if obj_class is None:
+            obj_class = XAPagesContainer
+        super().__init__(properties, obj_class, filter)
 
 class XAPagesContainer(XABase.XAHasElements):
     """A class for managing and interacting with containers in Pages.
@@ -953,7 +955,7 @@ class XAPagesContainer(XABase.XAHasElements):
 
 
 
-class XAPagesPageList(XABase.XAList):
+class XAPagesPageList(XAPagesContainerList):
     """A wrapper around lists of pages that employs fast enumeration techniques.
 
     All properties of pages can be called as methods on the wrapped list, returning a list containing each page's value for the property.
@@ -961,7 +963,7 @@ class XAPagesPageList(XABase.XAList):
     .. versionadded:: 0.0.6
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAPagesPage, filter)
+        super().__init__(properties, filter, XAPagesPage)
 
     def properties(self) -> List[dict]:
         return list(self.xa_elem.arrayByApplyingSelector_("properties"))
@@ -1081,8 +1083,10 @@ class XAPagesiWorkItemList(XABase.XAList):
 
     .. versionadded:: 0.0.6
     """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAPagesiWorkItem, filter)
+    def __init__(self, properties: dict, filter: Union[dict, None] = None, obj_class = None):
+        if obj_class is None:
+            obj_class = XAPagesiWorkItem
+        super().__init__(properties, obj_class, filter)
 
     def height(self) -> List[int]:
         return list(self.xa_elem.arrayByApplyingSelector_("height"))
@@ -1221,7 +1225,7 @@ class XAPagesiWorkItem(XABase.XAObject):
 
 
 
-class XAPagesGroupList(XABase.XAList):
+class XAPagesGroupList(XAPagesContainerList):
     """A wrapper around lists of themes that employs fast enumeration techniques.
 
     All properties of themes can be called as methods on the wrapped list, returning a list containing each theme's value for the property.
@@ -1229,7 +1233,7 @@ class XAPagesGroupList(XABase.XAList):
     .. versionadded:: 0.0.5
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAPagesGroup, filter)
+        super().__init__(properties, filter, XAPagesGroup)
 
     def height(self) -> List[int]:
         return list(self.xa_elem.arrayByApplyingSelector_("height"))
@@ -1318,7 +1322,7 @@ class XAPagesGroup(XAPagesContainer):
 
 
 
-class XAPagesImageList(XABase.XAList):
+class XAPagesImageList(XAPagesiWorkItemList):
     """A wrapper around lists of images that employs fast enumeration techniques.
 
     All properties of images can be called as methods on the wrapped list, returning a list containing each image's value for the property.
@@ -1326,7 +1330,7 @@ class XAPagesImageList(XABase.XAList):
     .. versionadded:: 0.0.5
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAPagesImage, filter)
+        super().__init__(properties, filter, XAPagesImage)
 
     def object_description(self) -> List[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("objectDescription"))
@@ -1464,7 +1468,7 @@ class XAPagesImage(XAPagesiWorkItem):
 
 
 
-class XAPagesAudioClipList(XABase.XAList):
+class XAPagesAudioClipList(XAPagesiWorkItemList):
     """A wrapper around lists of audio clips that employs fast enumeration techniques.
 
     All properties of audio clips can be called as methods on the wrapped list, returning a list containing each audio clips's value for the property.
@@ -1472,7 +1476,7 @@ class XAPagesAudioClipList(XABase.XAList):
     .. versionadded:: 0.0.5
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAPagesAudioClip, filter)
+        super().__init__(properties, filter, XAPagesAudioClip)
 
     def file_name(self) -> List[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("fileName"))
@@ -1519,7 +1523,7 @@ class XAPagesAudioClip(XAPagesiWorkItem):
 
 
 
-class XAPagesShapeList(XABase.XAList):
+class XAPagesShapeList(XAPagesiWorkItemList):
     """A wrapper around lists of shapes that employs fast enumeration techniques.
 
     All properties of shapes can be called as methods on the wrapped list, returning a list containing each shape's value for the property.
@@ -1527,7 +1531,7 @@ class XAPagesShapeList(XABase.XAList):
     .. versionadded:: 0.0.5
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAPagesShape, filter)
+        super().__init__(properties, filter, XAPagesShape)
 
     def properties(self) -> List[dict]:
         return list(self.xa_elem.arrayByApplyingSelector_("properties"))
@@ -1639,7 +1643,7 @@ class XAPagesShape(XAPagesiWorkItem):
 
 
 
-class XAPagesChartList(XABase.XAList):
+class XAPagesChartList(XAPagesiWorkItemList):
     """A wrapper around lists of themes that employs fast enumeration techniques.
 
     All properties of themes can be called as methods on the wrapped list, returning a list containing each theme's value for the property.
@@ -1647,7 +1651,7 @@ class XAPagesChartList(XABase.XAList):
     .. versionadded:: 0.0.5
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAPagesChart, filter)
+        super().__init__(properties, filter, XAPagesChart)
 
 class XAPagesChart(XAPagesiWorkItem):
     """A class for managing and interacting with charts in Pages.
@@ -1660,7 +1664,7 @@ class XAPagesChart(XAPagesiWorkItem):
 
 
 
-class XAPagesLineList(XABase.XAList):
+class XAPagesLineList(XAPagesiWorkItemList):
     """A wrapper around lists of shapes that employs fast enumeration techniques.
 
     All properties of shapes can be called as methods on the wrapped list, returning a list containing each shape's value for the property.
@@ -1668,7 +1672,7 @@ class XAPagesLineList(XABase.XAList):
     .. versionadded:: 0.0.5
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAPagesLine, filter)
+        super().__init__(properties, filter, XAPagesLine)
 
     def end_point(self) -> List[Tuple[int, int]]:
         return list(self.xa_elem.arrayByApplyingSelector_("end_point"))
@@ -1756,7 +1760,7 @@ class XAPagesLine(XAPagesiWorkItem):
 
 
 
-class XAPagesMovieList(XABase.XAList):
+class XAPagesMovieList(XAPagesiWorkItemList):
     """A wrapper around lists of movies that employs fast enumeration techniques.
 
     All properties of movies can be called as methods on the wrapped list, returning a list containing each movie's value for the property.
@@ -1764,7 +1768,7 @@ class XAPagesMovieList(XABase.XAList):
     .. versionadded:: 0.0.5
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAPagesMovie, filter)
+        super().__init__(properties, filter, XAPagesMovie)
 
     def file_name(self) -> List[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("fileName"))
@@ -1875,7 +1879,7 @@ class XAPagesMovie(XAPagesiWorkItem):
 
 
 
-class XAPagesTextItemList(XABase.XAList):
+class XAPagesTextItemList(XAPagesiWorkItemList):
     """A wrapper around lists of text items that employs fast enumeration techniques.
 
     All properties of text items can be called as methods on the wrapped list, returning a list containing each text item's value for the property.
@@ -1883,7 +1887,7 @@ class XAPagesTextItemList(XABase.XAList):
     .. versionadded:: 0.0.5
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAPagesTextItem, filter)
+        super().__init__(properties, filter, XAPagesTextItem)
 
     def background_fill_type(self) -> List[XAPagesApplication.FillOption]:
         ls = self.xa_elem.arrayByApplyingSelector_("fileName")
@@ -1992,7 +1996,7 @@ class XAPagesPlaceholderTextList(XABase.XATextList):
     .. versionadded:: 0.0.6
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAPagesTextItem, filter)
+        super().__init__(properties, filter, XAPagesTextItem)
 
     def background_fill_type(self) -> List[XAPagesApplication.FillOption]:
         ls = self.xa_elem.arrayByApplyingSelector_("fileName")
@@ -2015,7 +2019,7 @@ class XAPagesPlaceholderText(XABase.XAText):
 
 
 
-class XAPagesTableList(XABase.XAList):
+class XAPagesTableList(XAPagesiWorkItemList):
     """A wrapper around lists of shapes that employs fast enumeration techniques.
 
     All properties of shapes can be called as methods on the wrapped list, returning a list containing each shape's value for the property.
@@ -2023,7 +2027,7 @@ class XAPagesTableList(XABase.XAList):
     .. versionadded:: 0.0.5
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAPagesTable, filter)
+        super().__init__(properties, filter, XAPagesTable)
 
     def name(self) -> List[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
@@ -2188,8 +2192,10 @@ class XAPagesRangeList(XABase.XAList):
 
     .. versionadded:: 0.0.5
     """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAPagesRange, filter)
+    def __init__(self, properties: dict, filter: Union[dict, None] = None, obj_class = None):
+        if obj_class is None:
+            obj_class = XAPagesRange
+        super().__init__(properties, obj_class, filter)
 
     def properties(self) -> List[dict]:
         return list(self.xa_elem.arrayByApplyingSelector_("properties"))
@@ -2420,7 +2426,7 @@ class XAPagesRange(XABase.XAHasElements):
 
 
 
-class XAPagesRowList(XABase.XAList):
+class XAPagesRowList(XAPagesRangeList):
     """A wrapper around lists of rows that employs fast enumeration techniques.
 
     All properties of rows can be called as methods on the wrapped list, returning a list containing each row's value for the property.
@@ -2428,7 +2434,7 @@ class XAPagesRowList(XABase.XAList):
     .. versionadded:: 0.0.5
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAPagesRow, filter)
+        super().__init__(properties, filter, XAPagesRow)
 
     def address(self) -> List[float]:
         return list(self.xa_elem.arrayByApplyingSelector_("address"))
@@ -2463,7 +2469,7 @@ class XAPagesRow(XAPagesRange):
 
 
 
-class XAPagesColumnList(XABase.XAList):
+class XAPagesColumnList(XAPagesRangeList):
     """A wrapper around lists of columns that employs fast enumeration techniques.
 
     All properties of columns can be called as methods on the wrapped list, returning a list containing each column's value for the property.
@@ -2471,7 +2477,7 @@ class XAPagesColumnList(XABase.XAList):
     .. versionadded:: 0.0.5
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAPagesColumn, filter)
+        super().__init__(properties, filter, XAPagesColumn)
 
     def address(self) -> List[float]:
         return list(self.xa_elem.arrayByApplyingSelector_("address"))
@@ -2506,7 +2512,7 @@ class XAPagesColumn(XAPagesRange):
 
 
 
-class XAPagesCellList(XABase.XAList):
+class XAPagesCellList(XAPagesRangeList):
     """A wrapper around lists of cells that employs fast enumeration techniques.
 
     All properties of cells can be called as methods on the wrapped list, returning a list containing each cell's value for the property.
@@ -2514,7 +2520,7 @@ class XAPagesCellList(XABase.XAList):
     .. versionadded:: 0.0.5
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAPagesCell, filter)
+        super().__init__(properties, filter, XAPagesCell)
 
     def formatted_value(self) -> List[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("formattedValue"))

@@ -263,6 +263,8 @@ class XAAutomatorWindow(XABaseScriptable.XASBWindow):
         return self._new_element(self.xa_scel.document(), XAAutomatorDocument)
 
 
+
+
 class XAAutomatorDocumentList(XABase.XAList):
     """A wrapper around a list of Automator documents which utilizes fast enumeration techniques.
 
@@ -363,6 +365,8 @@ class XAAutomatorDocument(XABaseScriptable.XASBObject):
 
     def __repr__(self):
         return "<" + str(type(self)) + self.name + ">"
+
+
 
 
 class XAAutomatorActionList(XABase.XAList):
@@ -820,7 +824,6 @@ class XAAutomatorActionList(XABase.XAList):
     def __repr__(self):
         return "<" + str(type(self)) + str(self.name()) + ">"
 
-
 class XAAutomatorAction(XABaseScriptable.XASBObject):
     """A class for managing and interacting with actions in Automator.app.
 
@@ -974,6 +977,8 @@ class XAAutomatorAction(XABaseScriptable.XASBObject):
         return "<" + str(type(self)) + self.name + ">"
 
 
+
+
 class XAAutomatorRequiredResourceList(XABase.XAList):
     """A wrapper around a list of Automator required resources which utilizes fast enumeration techniques.
 
@@ -1101,6 +1106,8 @@ class XAAutomatorRequiredResource(XABaseScriptable.XASBObject):
         return "<" + str(type(self)) + self.name + ">"
 
 
+
+
 class XAAutomatorSettingList(XABase.XAList):
     """A wrapper around a list of Automator settings which utilizes fast enumeration techniques.
 
@@ -1207,6 +1214,8 @@ class XAAutomatorSetting(XABaseScriptable.XASBObject):
         return "<" + str(type(self)) + self.name + ">"
 
 
+
+
 class XAAutomatorVariableList(XABase.XAList):
     """A wrapper around a list of Automator variables which utilizes fast enumeration techniques.
 
@@ -1309,6 +1318,8 @@ class XAAutomatorVariable(XABaseScriptable.XASBObject):
         
     def __repr__(self):
         return "<" + str(type(self)) + self.name + ">"
+
+
 
 
 class XAAutomatorWorkflowList(XABase.XAList):

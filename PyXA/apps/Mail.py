@@ -762,7 +762,7 @@ class XAMailAccountList(XABase.XAList):
 
     .. versionadded:: 0.0.4
     """
-    def __init__(self, properties: dict, object_class = None, filter: Union[dict, None] = None):
+    def __init__(self, properties: dict, filter: Union[dict, None] = None, object_class = None):
         if object_class is None:
             object_class = XAMailAccount
         super().__init__(properties, object_class, filter)
@@ -993,7 +993,7 @@ class XAMailIMAPAccountList(XAMailAccountList):
     .. versionadded:: 0.0.4
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAMailPOPAccount, filter)
+        super().__init__(properties, filter, XAMailPOPAccount)
 
     def compact_mailboxes_when_closing(self) -> List[bool]:
         return list(self.xa_elem.arrayByApplyingSelector_("compactMailboxesWhenClosing"))
@@ -1079,7 +1079,7 @@ class XAMailICloudAccountList(XAMailAccountList):
     .. versionadded:: 0.0.4
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAMailICloudAccount, filter)
+        super().__init__(properties, filter, XAMailICloudAccount)
 
 class XAMailICloudAccount(XAMailAccount):
     """A class for managing and interacting with iCloud accounts in Mail.app.
@@ -1098,7 +1098,7 @@ class XAMailPOPAccountList(XAMailAccountList):
     .. versionadded:: 0.0.4
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAMailPOPAccount, filter)
+        super().__init__(properties, filter, XAMailPOPAccount)
 
     def big_message_warning_size(self) -> List[int]:
         return list(self.xa_elem.arrayByApplyingSelector_("bigMessageWarningSize"))
@@ -1850,7 +1850,7 @@ class XAMailRecipientList(XABase.XAList):
 
     .. versionadded:: 0.0.4
     """
-    def __init__(self, properties: dict, object_class = None, filter: Union[dict, None] = None):
+    def __init__(self, properties: dict, filter: Union[dict, None] = None, object_class = None):
         if object_class is None:
             object_class = XAMailRecipient
         super().__init__(properties, object_class, filter)
@@ -1894,7 +1894,7 @@ class XAMailBccRecipientList(XAMailRecipientList):
     .. versionadded:: 0.0.4
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAMailBccRecipient, filter)
+        super().__init__(properties, filter, XAMailBccRecipient)
 
 class XAMailBccRecipient(XAMailRecipient):
     """A class for managing and interacting with BCC recipients in Mail.app.
@@ -1913,7 +1913,7 @@ class XAMailCcRecipientList(XAMailRecipientList):
     .. versionadded:: 0.0.4
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAMailCcRecipient, filter)
+        super().__init__(properties, filter, XAMailCcRecipient)
 
 class XAMailCcRecipient(XAMailRecipient):
     """A class for managing and interacting with CC recipients in Mail.app.
@@ -1932,7 +1932,7 @@ class XAMailToRecipientList(XAMailRecipientList):
     .. versionadded:: 0.0.4
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAMailToRecipient, filter)
+        super().__init__(properties, filter, XAMailToRecipient)
 
 class XAMailToRecipient(XAMailRecipient):
     """A class for managing and interacting with the primary (to) recipients in Mail.app.

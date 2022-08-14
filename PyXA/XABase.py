@@ -7,10 +7,16 @@ from datetime import datetime
 from enum import Enum
 from pprint import pprint
 import time, os, sys
-from typing import Any, Callable, Tuple, Union, List, Dict
+from typing import Any, Callable, Literal, Tuple, Union, List, Dict
 import threading
+from bs4 import BeautifulSoup, element
+import requests
+import tempfile
+
+from PyObjCTools import AppHelper
 
 import AppKit
+from Quartz import CGImageSourceRef, CGImageSourceCreateWithData, CFDataRef
 from CoreLocation import CLLocation
 from ScriptingBridge import SBApplication, SBElementArray
 
@@ -1024,13 +1030,80 @@ class XASound(XAObject):
 class XAURL(object):
     def __init__(self, url: Union[str, AppKit.NSURL]):
         super().__init__()
+        self.parameters: str #: The query parameters of the URL
+        self.scheme: str #: The URI scheme of the URL
+        self.html: element.tag #: The html of the URL
+        self.title: str #: The title of the URL
+        self.soup: BeautifulSoup = None #: The bs4 object for the URL, starts as None until a bs4-related action is made
+
         if isinstance(url, str):
             url = url.replace(" ", "%20")
             url = AppKit.NSURL.alloc().initWithString_(url)
         self.xa_elem = url
 
+    @property
+    def base_url(self) -> str:
+        return self.xa_elem.host()
+
+    @property
+    def parameters(self) -> str:
+        return self.xa_elem.query()
+
+    @property
+    def scheme(self) -> str:
+        return self.xa_elem.scheme()
+
+    @property
+    def html(self) -> element.Tag:
+        if self.soup is None:
+            self.__get_soup()
+        return self.soup.html
+
+    @property
+    def title(self) -> str:
+        if self.soup is None:
+            self.__get_soup()
+        return self.soup.title.text
+
+    def __get_soup(self):
+        req = requests.get(str(self.xa_elem))
+        self.soup = BeautifulSoup(req.text, "html.parser")
+
     def open(self):
         AppKit.NSWorkspace.sharedWorkspace().openURL_(self.xa_elem)
+
+    def extract_images(self) -> List['XAImage']:
+        data = AppKit.NSData.alloc().initWithContentsOfURL_(AppKit.NSURL.URLWithString_(str(self.xa_elem)))
+        image = AppKit.NSImage.alloc().initWithData_(data)
+
+        if image is not None:
+            image_object = XAImage(image, name = self.xa_elem.pathComponents()[-1])
+            return [image_object]
+        else:
+            if self.soup is None:
+                self.__get_soup()
+
+            images = self.soup.findAll("img")
+            image_objects = []
+            for image in images:
+                image_src = image["src"]
+                if image_src.startswith("/"):
+                    image_src = str(self) + str(image["src"])
+
+                data = AppKit.NSData.alloc().initWithContentsOfURL_(AppKit.NSURL.URLWithString_(image_src))
+                image = AppKit.NSImage.alloc().initWithData_(data)
+                if image is not None:
+                    image_object = XAImage(image, name = XAURL(image_src).xa_elem.pathComponents()[-1])
+                    image_objects.append(image_object)
+
+            return image_objects
+            
+
+    def __str__(self):
+        return str(self.xa_elem)
+
+    def __repr__(self):
+        return "<" + str(type(self)) + str(self.xa_elem) + ">"
 
 def xa_url(url: str) -> AppKit.NSURL:
     """Converts a string-type URL into an NSURL object.
@@ -1073,6 +1146,9 @@ class XAPath(object):
 
     def select(self):
         self.xa_wksp.selectFile_inFileViewerRootedAtPath_(self.xa_elem)
+
+    def __repr__(self):
+        return "<" + str(type(self)) + str(self.xa_elem) + ">"
 
 def xa_path(filepath: str):
     """Converts a string-type filepath into an NSURL object.
@@ -2248,7 +2324,7 @@ class XATextList(XAList):
 
     .. versionadded:: 0.0.4
     """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None), obj_class = None:
+    def __init__(self, properties: dict, filter: Union[dict, None] = None, obj_class = None):
         if obj_class is None:
             obj_class = XAText
         super().__init__(properties, obj_class, filter)
@@ -2521,6 +2597,9 @@ class XAColor():
     def __repr__(self):
         return f"<{str(type(self))}r={str(self.red())}, g={self.green()}, b={self.blue()}, a={self.alpha()}>"
 
+
+
+
 class XAImageList(XAList):
     """A wrapper around lists of images that employs fast enumeration techniques.
 
@@ -2530,23 +2609,46 @@ class XAImageList(XAList):
         super().__init__(properties, XAImage, filter)
 
 class XAImage():
-    def __init__(self, file_url: Union[str, AppKit.NSURL, None] = None):
-        if file_url is None:
-            self.xa_elem = AppKit.NSImage.alloc().init()
-        else:
-            if isinstance(file_url, AppKit.NSImage):
-                self.xa_elem = AppKit.NSImage.alloc().initWithData_(file_url.TIFFRepresentation())
-            else:
-                if isinstance(file_url, str):
-                    if file_url.startswith("/"):
-                        file_url = XAPath(file_url)
-                    else:
-                        file_url = XAURL(file_url)
-                self.xa_elem = AppKit.NSImage.alloc().initWithContentsOfURL_(file_url.xa_elem)
+    """A wrapper around NSImage with specialized automation methods.
 
+    .. versionadded:: 0.0.2
+    """
+    def __init__(self, file: Union[str, AppKit.NSURL, AppKit.NSImage, None] = None, data: Union[AppKit.NSData, None] = None, name: Union[str, None] = None):
+        self.size: Tuple[int, int] #: The dimensions of the image
+        self.name: str #: The name of the image
+
+        if data is not None:
+            self.xa_elem = AppKit.NSImage.alloc().initWithData_(data)
+        else:
+            if file is None:
+                self.xa_elem = AppKit.NSImage.alloc().init()
+            else:
+                if isinstance(file, AppKit.NSImage):
+                    self.xa_elem = AppKit.NSImage.alloc().initWithData_(file.TIFFRepresentation())
+                else:
+                    if isinstance(file, str):
+                        if file.startswith("/"):
+                            file = XAPath(file)
+                        else:
+                            file = XAURL(file)
+                    self.xa_elem = AppKit.NSImage.alloc().initWithContentsOfURL_(file.xa_elem)
+            self.name = name or "image"
+
+    @property
     def size(self):
         return self.xa_elem.size()
 
+    def show_in_preview(self):
+        """Opens the image in preview.
+
+        .. versionadded:: 0.0.8
+        """
+        tmp_file = tempfile.NamedTemporaryFile(suffix = self.name)
+        with open(tmp_file.name, 'wb') as f:
+            f.write(self.xa_elem.TIFFRepresentation())
+
+        AppKit.NSWorkspace.sharedWorkspace().openFile_withApplication_(tmp_file.name, "Preview")
+        time.sleep(0.1)
 
 
 # TODO: Init NSLocation object
@@ -2625,9 +2727,6 @@ class XAAlert(object):
             alert.addButtonWithTitle_(button)
         return alert.runModal()
 
-    def package_for_script(self) -> 'XAAlert':
-        return self
-
 
 
 
@@ -2653,7 +2752,7 @@ class XAColorPicker(object):
         self.style = style
 
     def display(self) -> XAColor:
-        """Displays the color picket.
+        """Displays the color picker.
 
         :return: The color that the user selected
         :rtype: XAColor
@@ -2676,3 +2775,229 @@ class XAColorPicker(object):
 
         AppKit.NSApp.runModalForWindow_(panel)
         return XAColor(panel.color())
+
+
+
+
+class XADialog(object):
+    """A custom dialog window.
+
+    .. versionadded:: 0.0.8
+    """
+    def __init__(self, text: str = "", title: str = "", buttons: Union[None, List[Union[str, int]]] = None, hidden_answer: bool = False, default_button: Union[str, int, None] = None, cancel_button: Union[str, int, None] = None, icon: Union[Literal["stop", "note", "caution"], None] = None, default_answer: Union[str, int, None] = None):
+        super().__init__()
+        self.text: str = text
+        self.title: str = title
+        self.buttons: Union[None, List[Union[str, int]]] = buttons or []
+        self.hidden_answer: bool = hidden_answer
+        self.icon: Union[str, None] = icon
+        self.default_button: Union[str, int, None] = default_button
+        self.cancel_button: Union[str, int, None] = cancel_button
+        self.default_answer: Union[str, int, None] = default_answer
+
+    def display(self) -> Union[str, int, None, List[str]]:
+        """Displays the dialog, waits for the user to select an option or cancel, then returns the selected button or None if cancelled.
+
+        :return: The selected button or None if no value was selected
+        :rtype: Union[str, int, None, List[str]]
+
+        .. versionadded:: 0.0.8
+        """
+        buttons = [x.replace("'", "") for x in self.buttons]
+        buttons = str(buttons).replace("'", '"')
+
+        default_button = str(self.default_button).replace("'", "")
+        default_button_str = "default button \"" + default_button + "\"" if self.default_button is not None else ""
+
+        cancel_button = str(self.cancel_button).replace("'", "")
+        cancel_button_str = "cancel button \"" + cancel_button + "\"" if self.cancel_button is not None else ""
+
+        icon_str = "with icon " + self.icon + "" if self.icon is not None else ""
+
+        default_answer = str(self.default_answer).replace("'", '"')
+        default_answer_str = "default answer \"" + default_answer + "\"" if self.default_answer is not None else ""
+
+        script = AppKit.NSAppleScript.alloc().initWithSource_(f"""
+        tell application "Terminal"
+            display dialog \"{self.text}\" with title \"{self.title}\" buttons {buttons} {default_button_str} {cancel_button_str} {icon_str} {default_answer_str} hidden answer {self.hidden_answer}
+        end tell
+        """)
+        result = script.executeAndReturnError_(None)[0]
+        if result is not None:
+            if result.numberOfItems() > 1:
+                return [result.descriptorAtIndex_(1).stringValue(), result.descriptorAtIndex_(2).stringValue()]
+            else:
+                return result.descriptorAtIndex_(1).stringValue()
+                
+
+
+
+class XAMenu(object):
+    """A custom list item selection menu.
+
+    .. versionadded:: 0.0.8
+    """
+    def __init__(self, menu_items: List[Any], title: str = "Select Item", prompt: str = "Select an item", default_items: Union[List[str], None] = None, ok_button_name: str = "Okay", cancel_button_name: str = "Cancel", multiple_selections_allowed: bool = False, empty_selection_allowed: bool = False):
+        super().__init__()
+        self.menu_items: List[Union[str, int]] = menu_items #: The items the user can choose from
+        self.title: str = title #: The title of the dialog window
+        self.prompt: str = prompt #: The prompt to display in the dialog box
+        self.default_items: List[str] = default_items or [] #: The items to initially select
+        self.ok_button_name: str = ok_button_name #: The name of the OK button
+        self.cancel_button_name: str = cancel_button_name #: The name of the Cancel button
+        self.multiple_selections_allowed: bool = multiple_selections_allowed #: Whether multiple items can be selected
+        self.empty_selection_allowed: bool = empty_selection_allowed #: Whether the user can click OK without selecting anything
+
+    def display(self) -> Union[str, int, bool, List[str], List[int]]:
+        """Displays the menu, waits for the user to select an option or cancel, then returns the selected value or False if cancelled.
+
+        :return: The selected value or False if no value was selected
+        :rtype: Union[str, int, bool, List[str], List[int]]
+
+        .. versionadded:: 0.0.8
+        """
+        menu_items = [x.replace("'", "") for x in self.menu_items]
+        menu_items = str(menu_items).replace("'", '"')
+        default_items = str(self.default_items).replace("'", '"')
+        script = AppKit.NSAppleScript.alloc().initWithSource_(f"""
+        tell application "Terminal"
+            choose from list {menu_items} with title \"{self.title}\" with prompt \"{self.prompt}\" default items {default_items} OK button name \"{self.ok_button_name}\" cancel button name \"{self.cancel_button_name}\" multiple selections allowed {self.multiple_selections_allowed} empty selection allowed {self.empty_selection_allowed}
+        end tell
+        """)
+        result = script.executeAndReturnError_(None)[0]
+        if result is not None:
+            if self.multiple_selections_allowed:
+                values = []
+                for x in range(1, result.numberOfItems() + 1):
+                    desc = result.descriptorAtIndex_(x)
+                    values.append(desc.stringValue())
+                return values
+            else:
+                if result.stringValue() == "false":
+                    return False
+                return result.stringValue()
+
+
+
+
+class XAFilePicker(object):
+    """A file selection window.
+
+    .. versionadded:: 0.0.8
+    """
+    def __init__(self, prompt: str = "Choose File", types: List[str] = None, default_location: Union[str, None] = None, show_invisibles: bool = False, multiple_selections_allowed: bool = False, show_package_contents: bool = False):
+        super().__init__()
+        self.prompt: str = prompt #: The prompt to display in the dialog box
+        self.types: List[str] = types #: The file types/type identifiers to allow for selection
+        self.default_location: Union[str, None] = default_location #: The default file location
+        self.show_invisibles: bool = show_invisibles #: Whether invisible files and folders are shown
+        self.multiple_selections_allowed: bool = multiple_selections_allowed #: Whether the user can select multiple files
+        self.show_package_contents: bool = show_package_contents #: Whether to show the contents of packages
+
+    def display(self) -> Union[XAPath, None]:
+        """Displays the file chooser, waits for the user to select a file or cancel, then returns the selected file URL or None if cancelled.
+
+        :return: The selected file URL or None if no file was selected
+        :rtype: Union[XAPath, None]
+
+        .. versionadded:: 0.0.8
+        """
+        types = [x.replace("'", "") for x in self.types]
+        types = str(types).replace("'", '"')
+        types_str = "of type " + types if self.types is not None else ""
+
+        default_location_str = "default location \"" + self.default_location + "\"" if self.default_location is not None else ""
+
+        script = AppKit.NSAppleScript.alloc().initWithSource_(f"""
+        tell application "Terminal"
+            choose file with prompt \"{self.prompt}\" {types_str}{default_location_str} invisibles {self.show_invisibles} multiple selections allowed {self.multiple_selections_allowed} showing package contents {self.show_package_contents}
+        end tell
+        """)
+        result = script.executeAndReturnError_(None)[0]
+
+        if result is not None:
+            if self.multiple_selections_allowed:
+                values = []
+                for x in range(1, result.numberOfItems() + 1):
+                    desc = result.descriptorAtIndex_(x)
+                    values.append(XAPath(desc.fileURLValue()))
+                return values
+            else:
+                return XAPath(result.fileURLValue())
+
+
+
+
+class XAFolderPicker(object):
+    """A folder selection window.
+
+    .. versionadded:: 0.0.8
+    """
+    def __init__(self, prompt: str = "Choose Folder", default_location: Union[str, None] = None, show_invisibles: bool = False, multiple_selections_allowed: bool = False, show_package_contents: bool = False):
+        super().__init__()
+        self.prompt: str = prompt #: The prompt to display in the dialog box
+        self.default_location: Union[str, None] = default_location #: The default folder location
+        self.show_invisibles: bool = show_invisibles #: Whether invisible files and folders are shown
+        self.multiple_selections_allowed: bool = multiple_selections_allowed #: Whether the user can select multiple folders
+        self.show_package_contents: bool = show_package_contents #: Whether to show the contents of packages
+
+    def display(self) -> Union[XAPath, None]:
+        """Displays the folder chooser, waits for the user to select a folder or cancel, then returns the selected folder URL or None if cancelled.
+
+        :return: The selected folder URL or None if no folder was selected
+        :rtype: Union[XAPath, None]
+
+        .. versionadded:: 0.0.8
+        """
+
+        default_location_str = "default location \"" + self.default_location + "\"" if self.default_location is not None else ""
+
+        script = AppKit.NSAppleScript.alloc().initWithSource_(f"""
+        tell application "Terminal"
+            choose folder with prompt \"{self.prompt}\" {default_location_str} invisibles {self.show_invisibles} multiple selections allowed {self.multiple_selections_allowed} showing package contents {self.show_package_contents}
+        end tell
+        """)
+        result = script.executeAndReturnError_(None)[0]
+        if result is not None:
+            if self.multiple_selections_allowed:
+                values = []
+                for x in range(1, result.numberOfItems() + 1):
+                    desc = result.descriptorAtIndex_(x)
+                    values.append(XAPath(desc.fileURLValue()))
+                return values
+            else:
+                return XAPath(result.fileURLValue())
+
+
+
+
+class XAFileNameDialog(object):
+    """A file name input window.
+
+    .. versionadded:: 0.0.8
+    """
+    def __init__(self, prompt: str = "Specify file name and location", default_name: str = "New File", default_location: Union[str, None] = None):
+        super().__init__()
+        self.prompt: str = prompt #: The prompt to display in the dialog box
+        self.default_name: str = default_name #: The default name for the new file
+        self.default_location: Union[str, None] = default_location #: The default file location
+
+    def display(self) -> Union[XAPath, None]:
+        """Displays the file name input window, waits for the user to input a name and location or cancel, then returns the specified file URL or None if cancelled.
+
+        :return: The specified file URL or None if no file name was inputted
+        :rtype: Union[XAPath, None]
+
+        .. versionadded:: 0.0.8
+        """
+
+        default_location_str = "default location \"" + self.default_location + "\"" if self.default_location is not None else ""
+
+        script = AppKit.NSAppleScript.alloc().initWithSource_(f"""
+        tell application "Terminal"
+            choose file name with prompt \"{self.prompt}\" default name \"{self.default_name}\" {default_location_str}
+        end tell
+        """)
+        result = script.executeAndReturnError_(None)[0]
+        if result is not None:
+            return XAPath(result.fileURLValue())

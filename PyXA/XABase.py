@@ -6,16 +6,19 @@ General classes and methods applicable to any PyXA object.
 from datetime import datetime
 from enum import Enum
 from pprint import pprint
+import tempfile
 import time, os, sys
 from typing import Any, Callable, Literal, Tuple, Union, List, Dict
 import threading
 from bs4 import BeautifulSoup, element
 import requests
-import tempfile
 
 from PyObjCTools import AppHelper
 
 import AppKit
+import Quartz
+import WebKit
+import CoreServices
 from Quartz import CGImageSourceRef, CGImageSourceCreateWithData, CFDataRef
 from CoreLocation import CLLocation
 from ScriptingBridge import SBApplication, SBElementArray
@@ -29,69 +32,6 @@ def OSType(s: str):
 
 def unOSType(i: int):
     return i.to_bytes((i.bit_length() + 7) // 8, 'big').decode()
-
-
-
-
-class AppleScript():
-    """A class for constructing and executing AppleScript scripts.
-
-    .. versionadded:: 0.0.5
-    """
-    def __init__(self, script: Union[str, List[str], None] = None):
-        if isinstance(script, str):
-            if script.startswith("/"):
-                with open(script, 'r') as f:
-                    script = f.readlines()
-            else:
-                self.script = [script]
-        elif isinstance(script, list):
-            self.script = script
-        elif script == None:
-            self.script = []
-
-    def add(self, script: Union[str, List[str], 'AppleScript']):
-        """Adds the supplied string, list of strings, or script as a new line entry in the script.
-
-        :param script: The script to append to the current script string.
-        :type script: Union[str, List[str], AppleScript]
-
-        .. versionadded:: 0.0.5
-        """
-        if isinstance(script, str):
-            self.script.append(script)
-        elif isinstance(script, list):
-            self.script.extend(script)
-        elif isinstance(script, AppleScript):
-            self.script.extend(script.script)
-
-    def run(self) -> Any:
-        """Compiles and runs the script, returning the result.
-
-        :return: The return value of the script.
-        :rtype: Any
-        
-        .. versionadded:: 0.0.5
-        """
-        value = None
-        script = ""
-        for line in self.script:
-            script += line + "\n"
-        script = AppKit.NSAppleScript.alloc().initWithSource_(script)
-        result = script.executeAndReturnError_(None)[0]
-
-        print(result)
-        
-        if result is not None:
-            # if result.descriptorType() == OSType('obj '):
-            #     form = result.descriptorForKeyword_(OSType("form"))
-            #     want = result.descriptorForKeyword_(OSType("want"))
-            #     seld = result.descriptorForKeyword_(OSType("seld"))
-                
-            #     if want.data().decode() == "niwc":
-            #         # Window
-            #         print("hi")
-            return result.stringValue()
 
 
 
@@ -114,13 +54,16 @@ class XAObject():
 
         .. versionadded:: 0.0.1
         """
-        self.xa_prnt = properties.get("parent", None)
-        self.xa_apsp = properties.get("appspace", None)
-        self.xa_wksp = properties.get("workspace", None)
-        self.xa_elem = properties.get("element", None)
-        self.xa_scel = properties.get("scriptable_element", None)
-        self.xa_aref = properties.get("appref", None)
-        self.xa_sevt = properties.get("system_events", SBApplication.alloc().initWithBundleIdentifier_("com.apple.systemevents"))
+        if properties is not None:
+            self.xa_prnt = properties.get("parent", None)
+            self.xa_apsp = properties.get("appspace", None)
+            self.xa_wksp = properties.get("workspace", None)
+            self.xa_elem = properties.get("element", None)
+            self.xa_scel = properties.get("scriptable_element", None)
+            self.xa_aref = properties.get("appref", None)
+            self.xa_sevt = properties.get("system_events", SBApplication.alloc().initWithBundleIdentifier_("com.apple.systemevents"))
+
+        self.properties: dict = {} #: The scriptable properties dictionary for the object
 
     def _exec_suppresed(self, f: Callable[..., Any], *args: Any) -> Any:
         """Silences unwanted and otherwise unavoidable warning messages.
@@ -189,6 +132,9 @@ class XAObject():
         :return: True if this object's properties attribute is set, False otherwise.
         :rtype: bool
 
+        .. deprecated:: 0.0.8
+           All elements now have a properties dictionary, even if it is empty.
+
         .. versionadded:: 0.0.1
         """
         return self.element_properties != None
@@ -204,7 +150,6 @@ class XAObject():
         .. versionadded:: 0.0.1
         """
         self.xa_elem = element
-        self.element_properties = element.properties()
         return self
 
     def set_properties(self, properties: dict) -> 'XAObject':
@@ -244,26 +189,79 @@ class XAObject():
         self.xa_elem.setValue_forKey_(value, property_name)
         return self
 
-    def set_clipboard(self, content: Any) -> None:
-        """Sets the clipboard to the specified content.
+    def get_clipboard_representation(self) -> Any:
+        """Gets a clipboard-codable representation of the object.
 
-        :param content: The item or object to set the clipboard to. Can be a list of items.
-        :type content: Any
+        This method should be overriden where reasonable in child classes of XAObject.
 
-        .. seealso:: :func:`get_clipboard`, :func:`get_clipboard_strings`
-
-        .. deprecated:: 0.0.5
-           Use :func:`XAClipboard.set_contents` instead
-
-        .. versionadded:: 0.0.1
+        :return: The clipboard-codable form of the content
+        :rtype: Any
         """
-        pb = AppKit.NSPasteboard.generalPasteboard()
-        pb.clearContents()
-        if isinstance(content, list):
-            pb.writeObjects_(content)
-        else:
-            pb.writeObjects_(AppKit.NSArray.arrayWithObject_(content))
+        return str(type(self))
     
+
+
+
+class AppleScript(XAObject):
+    """A class for constructing and executing AppleScript scripts.
+
+    .. versionadded:: 0.0.5
+    """
+    def __init__(self, script: Union[str, List[str], None] = None):
+        if isinstance(script, str):
+            if script.startswith("/"):
+                with open(script, 'r') as f:
+                    script = f.readlines()
+            else:
+                self.script = [script]
+        elif isinstance(script, list):
+            self.script = script
+        elif script == None:
+            self.script = []
+
+    def add(self, script: Union[str, List[str], 'AppleScript']):
+        """Adds the supplied string, list of strings, or script as a new line entry in the script.
+
+        :param script: The script to append to the current script string.
+        :type script: Union[str, List[str], AppleScript]
+
+        .. versionadded:: 0.0.5
+        """
+        if isinstance(script, str):
+            self.script.append(script)
+        elif isinstance(script, list):
+            self.script.extend(script)
+        elif isinstance(script, AppleScript):
+            self.script.extend(script.script)
+
+    def run(self) -> Any:
+        """Compiles and runs the script, returning the result.
+
+        :return: The return value of the script.
+        :rtype: Any
+        
+        .. versionadded:: 0.0.5
+        """
+        value = None
+        script = ""
+        for line in self.script:
+            script += line + "\n"
+        script = AppKit.NSAppleScript.alloc().initWithSource_(script)
+        result = script.executeAndReturnError_(None)[0]
+
+        print(result)
+        
+        if result is not None:
+            # if result.descriptorType() == OSType('obj '):
+            #     form = result.descriptorForKeyword_(OSType("form"))
+            #     want = result.descriptorForKeyword_(OSType("want"))
+            #     seld = result.descriptorForKeyword_(OSType("seld"))
+                
+            #     if want.data().decode() == "niwc":
+            #         # Window
+            #         print("hi")
+            return result.stringValue()
+
 
 
 
@@ -277,12 +275,36 @@ class XAClipboard(XAObject):
         self.content #: The content of the clipboard
 
     @property
-    def content(self) -> Any:
-        items = []
+    def content(self) -> Dict[str, List[Any]]:
+        info_by_type = {}
         for item in self.xa_elem.pasteboardItems():
             for item_type in item.types():
-                items.append(item.dataForType_(item_type))
-        return items
+                info_by_type[item_type] = {
+                    "data": item.dataForType_(item_type),
+                    "properties": item.propertyListForType_(item_type),
+                    "strings": item.stringForType_(item_type),
+                }
+        return info_by_type
+
+    @content.setter
+    def content(self, value: List[Any]):
+        if not isinstance(value, list):
+            value = [value]
+        self.xa_elem.clearContents()
+        for index, item in enumerate(value):
+            if item == None:
+                value[index] = ""
+            elif isinstance(item, XAObject):
+                content = item.get_clipboard_representation()
+                print(content)
+                if isinstance(content, list):
+                    value.pop(index)
+                    value += content
+                else:
+                    value[index] = content
+            elif isinstance(item, int) or isinstance(item, float):
+                value[index] = str(item)
+        self.xa_elem.writeObjects_(value)
 
     def clear(self):
         """Clears the system clipboard.
@@ -291,7 +313,72 @@ class XAClipboard(XAObject):
         """
         self.xa_elem.clearContents()
 
+    def get_strings(self) -> List[str]:
+        """Retrieves string type data from the clipboard, if any such data exists.
+
+        :return: The list of strings currently copied to the clipboard
+        :rtype: List[str]
+
+        .. versionadded:: 0.0.8
+        """
+        items = []
+        for item in self.xa_elem.pasteboardItems():
+            string = item.stringForType_(AppKit.NSPasteboardTypeString)
+            if string is not None:
+                items.append(string)
+        return items
+
+    def get_urls(self) -> List['XAURL']:
+        """Retrieves URL type data from the clipboard, as instances of :class:`XAURL` and :class:`XAPath`, if any such data exists.
+
+        :return: The list of file URLs and web URLs currently copied to the clipboard
+        :rtype: List[XAURL]
+
+        .. versionadded:: 0.0.8
+        """
+        items = []
+        for item in self.xa_elem.pasteboardItems():
+            url = None
+            string = item.stringForType_(AppKit.NSPasteboardTypeURL)
+            if string is None:
+                string = item.stringForType_(AppKit.NSPasteboardTypeFileURL)
+                if string is not None:
+                    url = XAPath(XAURL(string).xa_elem)
+            else:
+                url = XAURL(string)
+                
+            if url is not None:
+                items.append(url)
+        return items
+
+    def get_images(self) -> List['XAImage']:
+        """Retrieves image type data from the clipboard, as instances of :class:`XAImage`, if any such data exists.
+
+        :return: The list of images currently copied to the clipboard
+        :rtype: List[XAImage]
+
+        .. versionadded:: 0.0.8
+        """
+        image_types = [AppKit.NSPasteboardTypePNG, AppKit.NSPasteboardTypeTIFF, 'public.jpeg', 'com.apple.icns']
+        items = []
+        for item in self.xa_elem.pasteboardItems():
+            for image_type in image_types:
+                if image_type in item.types():
+                    img = XAImage(data = item.dataForType_(image_type))
+                    items.append(img)
+        return items
+
     def set_contents(self, content: List[Any]):
+        """Sets the content of the clipboard
+
+        :param content: A list of the content to add fill the clipboard with.
+        :type content: List[Any]
+
+        .. deprecated:: 0.0.8
+           Set the :ivar:`content` attribute directly instead.
+        
+        .. versionadded:: 0.0.5
+        """
         self.xa_elem.clearContents()
         self.xa_elem.writeObjects_(content)
 
@@ -666,7 +753,7 @@ class XAApplication(XAObject):
         super().__init__(properties)
         self.xa_wcls = XAWindow
 
-        predicate = AppKit.NSPredicate.predicateWithFormat_("name == %@", self.xa_elem.localizedName())
+        predicate = AppKit.NSPredicate.predicateWithFormat_("displayedName == %@", self.xa_elem.localizedName())
         process = self.xa_sevt.processes().filteredArrayUsingPredicate_(predicate)[0]
 
         properties = {
@@ -860,11 +947,36 @@ class XAApplication(XAObject):
     def windows(self, filter: dict = None) -> List['XAWindow']:
         return self.xa_prcs.windows(filter)
 
+    @property
     def front_window(self) -> 'XAWindow':
         return self.xa_prcs.front_window
 
     def menu_bars(self, filter: dict = None) -> 'XAUIMenuBarList':
         return self._new_element(self.xa_prcs.xa_elem.menuBars(), XAUIMenuBarList, filter)
+
+    def get_clipboard_representation(self) -> List[Union[str, AppKit.NSURL, AppKit.NSImage]]:
+        """Gets a clipboard-codable representation of the application.
+
+        When the clipboard content is set to an application, three items are placed on the clipboard:
+        1. The application's name
+        2. The URL to the application bundle
+        3. The application icon
+
+        After copying an application to the clipboard, pasting will have the following effects:
+        - In Finder: Paste a copy of the application bundle in the current directory
+        - In Terminal: Paste the name of the application followed by the path to the application
+        - In iWork: Paste the application name
+        - In Safari: Paste the application name
+        - In Notes: Attach a copy of the application bundle to the active note
+        The pasted content may different for other applications.
+
+        :return: The clipboard-codable representation
+        :rtype: List[Union[str, AppKit.NSURL, AppKit.NSImage]]
+
+        .. versionadded:: 0.0.8
+        """
+        print(type(self.xa_elem.icon()))
+        return [self.xa_elem.localizedName(), self.xa_elem.bundleURL(), self.xa_elem.icon()]
 
 
 
@@ -880,6 +992,7 @@ class XASound(XAObject):
                 sound_file = XAPath(sound_file)
             else:
                 sound_file = XAPath("/System/Library/Sounds/" + sound_file + ".aiff")
+        self.file = sound_file
         self.xa_elem = AppKit.NSSound.alloc()
         self.xa_elem.initWithContentsOfURL_byReference_(sound_file.xa_elem, True)
 
@@ -1024,14 +1137,19 @@ class XASound(XAObject):
         self.xa_elem.setLoops_(0)
         return self
 
+    def get_clipboard_representation(self) -> List[Union[AppKit.NSSound, AppKit.NSURL, str]]:
+        return [self.xa_elem, self.file.xa_elem, self.file.xa_elem.path()]
 
 
 
-class XAURL(object):
+
+class XAURL(XAObject):
     def __init__(self, url: Union[str, AppKit.NSURL]):
         super().__init__()
         self.parameters: str #: The query parameters of the URL
         self.scheme: str #: The URI scheme of the URL
+        self.fragment: str #: The fragment identifier following a # symbol in the URL
+        self.port: int #: The port that the URL points to
         self.html: element.tag #: The html of the URL
         self.title: str #: The title of the URL
         self.soup: BeautifulSoup = None #: The bs4 object for the URL, starts as None until a bs4-related action is made
@@ -1054,6 +1172,10 @@ class XAURL(object):
         return self.xa_elem.scheme()
 
     @property
+    def fragment(self) -> str:
+        return self.xa_elem.fragment()
+
+    @property
     def html(self) -> element.Tag:
         if self.soup is None:
             self.__get_soup()
@@ -1071,6 +1193,11 @@ class XAURL(object):
 
     def open(self):
         AppKit.NSWorkspace.sharedWorkspace().openURL_(self.xa_elem)
+
+    def extract_text(self) -> List[str]:
+        if self.soup is None:
+            self.__get_soup()
+        return self.soup.get_text().splitlines()
 
     def extract_images(self) -> List['XAImage']:
         data = AppKit.NSData.alloc().initWithContentsOfURL_(AppKit.NSURL.URLWithString_(str(self.xa_elem)))
@@ -1097,7 +1224,9 @@ class XAURL(object):
                     image_objects.append(image_object)
 
             return image_objects
-            
+
+    def get_clipboard_representation(self) -> List[Union[AppKit.NSURL, str]]:
+        return [self.xa_elem, str(self.xa_elem)]
 
     def __str__(self):
         return str(self.xa_elem)
@@ -1132,7 +1261,7 @@ def xa_url(url: str) -> AppKit.NSURL:
 
 
 
-class XAPath(object):
+class XAPath(XAObject):
     def __init__(self, path: Union[str, AppKit.NSURL]):
         super().__init__()
         if isinstance(path, str):
@@ -1146,6 +1275,9 @@ class XAPath(object):
 
     def select(self):
         self.xa_wksp.selectFile_inFileViewerRootedAtPath_(self.xa_elem)
+
+    def get_clipboard_representation(self) -> List[Union[AppKit.NSURL, str]]:
+        return [self.xa_elem, self.xa_elem.path()]
 
     def __repr__(self):
         return "<" + str(type(self)) + str(self.xa_elem) + ">"
@@ -1168,7 +1300,7 @@ def xa_path(filepath: str):
 
 
 
-class XAPredicate():
+class XAPredicate(XAObject):
     def __init__(self):
         self.keys: List[str] = []
         self.operators: List[str] = []
@@ -1788,6 +1920,9 @@ class XAUIElement(XAHasElements):
     def menu_items(self, filter: dict = None) -> 'XAUIMenuItemList':
         return self._new_element(self.xa_elem.menuItems(), XAUIMenuItemList, filter)
 
+    def splitters(self, filter: dict = None) -> 'XAUISplitterList':
+        return self._new_element(self.xa_elem.splitters(), XAUISplitterList, filter)
+
     def toolbars(self, filter: dict = None) -> 'XAUIToolbarList':
         return self._new_element(self.xa_elem.toolbars(), XAUIToolbarList, filter)
 
@@ -2001,6 +2136,25 @@ class XAUIMenuItem(XAUIElement):
         """
         self.actions({"name": "AXPress"})[0].perform()
         return self
+
+
+
+
+class XAUISplitterList(XAUIElementList):
+    """A wrapper around a list of splitters.
+
+    .. versionadded:: 0.0.8
+    """
+    def __init__(self, properties: dict, filter: Union[dict, None] = None):
+        super().__init__(properties, filter, XAUISplitter)
+
+class XAUISplitter(XAUIElement):
+    """A splitter UI element.
+    
+    .. versionadded:: 0.0.8
+    """
+    def __init__(self, properties):
+        super().__init__(properties)
 
 
 
@@ -2532,7 +2686,7 @@ class XAColorList(XATextList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XAColor, filter)
 
-class XAColor():
+class XAColor(XAObject):
     def __init__(self, *args):
         if len(args) == 1:
             self.copy_color(args[0])
@@ -2608,7 +2762,7 @@ class XAImageList(XAList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XAImage, filter)
 
-class XAImage():
+class XAImage(XAObject):
     """A wrapper around NSImage with specialized automation methods.
 
     .. versionadded:: 0.0.2
@@ -2632,7 +2786,7 @@ class XAImage():
                         else:
                             file = XAURL(file)
                     self.xa_elem = AppKit.NSImage.alloc().initWithContentsOfURL_(file.xa_elem)
-            self.name = name or "image"
+        self.name = name or "image"
 
     @property
     def size(self):
@@ -2650,9 +2804,14 @@ class XAImage():
         AppKit.NSWorkspace.sharedWorkspace().openFile_withApplication_(tmp_file.name, "Preview")
         time.sleep(0.1)
 
+    def get_clipboard_representation(self) -> AppKit.NSImage:
+        return self.xa_elem
+
+
+
 
 # TODO: Init NSLocation object
-class XALocation():
+class XALocation(XAObject):
     """A location with a latitude and longitude, along with other data.
 
     .. versionadded:: 0.0.2
@@ -2698,7 +2857,7 @@ class XAAlertStyle(Enum):
     WARNING         = AppKit.NSAlertStyleWarning
     CRITICAL        = AppKit.NSAlertStyleCritical
 
-class XAAlert(object):
+class XAAlert(XAObject):
     """A class for creating and interacting with an alert dialog window.
 
     .. versionadded:: 0.0.5
@@ -2742,7 +2901,7 @@ class XAColorPickerStyle(Enum):
     CRAYONS         = AppKit.NSColorPanelModeCrayon
     IMAGE_PALETTE   = AppKit.NSColorPanelModeCustomPalette
 
-class XAColorPicker(object):
+class XAColorPicker(XAObject):
     """A class for creating and interacting with a color picker window.
 
     .. versionadded:: 0.0.5
@@ -2779,7 +2938,7 @@ class XAColorPicker(object):
 
 
 
-class XADialog(object):
+class XADialog(XAObject):
     """A custom dialog window.
 
     .. versionadded:: 0.0.8
@@ -2832,7 +2991,7 @@ class XADialog(object):
 
 
 
-class XAMenu(object):
+class XAMenu(XAObject):
     """A custom list item selection menu.
 
     .. versionadded:: 0.0.8
@@ -2880,7 +3039,7 @@ class XAMenu(object):
 
 
 
-class XAFilePicker(object):
+class XAFilePicker(XAObject):
     """A file selection window.
 
     .. versionadded:: 0.0.8
@@ -2928,7 +3087,7 @@ class XAFilePicker(object):
 
 
 
-class XAFolderPicker(object):
+class XAFolderPicker(XAObject):
     """A folder selection window.
 
     .. versionadded:: 0.0.8

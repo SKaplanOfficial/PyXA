@@ -17,4 +17,6 @@ from .XABase import (
     XAURL,
     XAPath,
     AppleScript,
+    XAClipboard,
+    XAImage,
 )

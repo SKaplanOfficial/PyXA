@@ -4290,6 +4290,18 @@ class XAMusicTrack(XAMusicItem):
         """
         return self._new_element(self.xa_scel.artworks(), XAMusicArtworkList, filter)
 
+    def get_clipboard_representation(self) -> str:
+        """Gets a clipboard-codable representation of the track.
+
+        When the clipboard content is set to a track, the track name is placed on the clipboard.
+
+        :return: The clipboard-codable representation
+        :rtype: str
+
+        .. versionadded:: 0.0.8
+        """
+        return self.name
+
 
 
 class XAMusicAudioCDTrackList(XAMusicTrackList):

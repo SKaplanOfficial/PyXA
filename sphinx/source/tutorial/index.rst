@@ -121,66 +121,18 @@ You then need to remove the .py extension from the script and grant the file exe
 When you double click on the script from within Finder, or when you run `./basics` in the Terminal, the workflow should execute as it did before. If you want, you can `change the icon of the file`_ to give your automation a distinct look. You can then move the file to your desktop, the dock, or anywhere you want.
 
 
-.. Controlling Application Windows
-.. ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. Creating Documents
-.. ^^^^^^^^^^^^^^^^^^
-
-
-
-
-
-
-.. Advanced Usage
-.. --------------
-
-Application Modules
-===================
-
-First-Party Application Modules
--------------------------------
+Additional Tutorial Topics
+--------------------------
 
 .. toctree::
    :maxdepth: 1
 
    apps/index
-   apps/automator/index
-   apps/calculator/index
-   apps/calendar/index
-   apps/console/index
-   apps/contacts/index
-   apps/dictionary/index
-   apps/finder/index
-   apps/fontbook/index
-   apps/keynote/index
-   apps/mail/index
-   apps/maps/index
-   apps/messages/index
-   apps/music/index
-   apps/notes/index
-   apps/numbers/index
-   apps/pages/index
-   apps/photos/index
-   apps/preview/index
-   apps/quicktimeplayer/index
-   apps/reminders/index
-   apps/safari/index
-   apps/shortcuts/index
-   apps/stocks/index
-   apps/systempreferences/index
-   apps/terminal/index
-   apps/textedit/index
-   apps/tv/index
+   lists
+   clipboard
+   user_input
+   ui_scripting
+   tips_tricks
 
-Third-Party Application Modules
--------------------------------
-
-.. toctree::
-   :maxdepth: 1
-
-   apps/chromium/index
-   apps/drafts/index
-   apps/hammerspoon/index
 
 .. _change the icon of the file: https://support.apple.com/en-gb/guide/mac-help/mchlp2313/mac

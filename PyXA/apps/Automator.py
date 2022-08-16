@@ -338,7 +338,7 @@ class XAAutomatorDocumentList(XABase.XAList):
     def __repr__(self):
         return "<" + str(type(self)) + str(self.name()) + ">"
 
-class XAAutomatorDocument(XABaseScriptable.XASBObject):
+class XAAutomatorDocument(XABase.XAObject):
     """A class for managing and interacting with Automator windows.
 
     .. seealso:: :class:`XAAutomatorApplication`
@@ -824,7 +824,7 @@ class XAAutomatorActionList(XABase.XAList):
     def __repr__(self):
         return "<" + str(type(self)) + str(self.name()) + ">"
 
-class XAAutomatorAction(XABaseScriptable.XASBObject):
+class XAAutomatorAction(XABase.XAObject):
     """A class for managing and interacting with actions in Automator.app.
 
     .. seealso:: :class:`XAAutomatorApplication`
@@ -1072,7 +1072,7 @@ class XAAutomatorRequiredResourceList(XABase.XAList):
     def __repr__(self):
         return "<" + str(type(self)) + str(self.name()) + ">"
 
-class XAAutomatorRequiredResource(XABaseScriptable.XASBObject):
+class XAAutomatorRequiredResource(XABase.XAObject):
     """A class for managing and interacting with required resources in Automator.app.
 
     .. seealso:: :class:`XAAutomatorApplication`
@@ -1185,7 +1185,7 @@ class XAAutomatorSettingList(XABase.XAList):
     def __repr__(self):
         return "<" + str(type(self)) + str(self.name()) + ">"
 
-class XAAutomatorSetting(XABaseScriptable.XASBObject):
+class XAAutomatorSetting(XABase.XAObject):
     """A class for managing and interacting with Automator settings (i.e. named values).
 
     .. seealso:: :class:`XAAutomatorApplication`
@@ -1291,7 +1291,7 @@ class XAAutomatorVariableList(XABase.XAList):
     def __repr__(self):
         return "<" + str(type(self)) + str(self.name()) + ">"
 
-class XAAutomatorVariable(XABaseScriptable.XASBObject):
+class XAAutomatorVariable(XABase.XAObject):
     """A class for managing and interacting with Automator variables.
 
     .. seealso:: :class:`XAAutomatorApplication`

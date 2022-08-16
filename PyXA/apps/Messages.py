@@ -370,7 +370,7 @@ class XAMessagesDocumentList(XABase.XAList):
         """
         return self.by_property("file", file)
 
-class XAMessagesDocument(XABaseScriptable.XASBObject):
+class XAMessagesDocument(XABase.XAObject):
     """A class for managing and interacting with documents in Messages.app.
     
     .. versionadded:: 0.0.4

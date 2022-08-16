@@ -103,7 +103,7 @@ class XATerminalApplication(XABaseScriptable.XASBApplication, XABase.XACanConstr
 
 
 
-class XATerminalWindow(XABaseScriptable.XASBWindow, XABaseScriptable.XASBPrintable, XABase.XAHasElements):
+class XATerminalWindow(XABaseScriptable.XASBWindow, XABaseScriptable.XASBPrintable, XABase.XAObject):
     """A class for managing and interacting with windows in Terminal.app.
 
     .. versionadded:: 0.0.1
@@ -438,7 +438,7 @@ class XATerminalTabList(XABase.XAList):
         """
         return self.by_property("currentSettings", current_settings.xa_elem)
 
-class XATerminalTab(XABaseScriptable.XASBObject):
+class XATerminalTab(XABase.XAObject):
     """A class for managing and interacting with tabs in Terminal.app.
 
     .. versionadded:: 0.0.1
@@ -889,7 +889,7 @@ class XATerminalSettingsSetList(XABase.XAList):
         """
         return self.by_property("customTitle", custom_title)
 
-class XATerminalSettingsSet(XABaseScriptable.XASBObject):
+class XATerminalSettingsSet(XABase.XAObject):
     """A class for managing and interacting with settings sets in Terminal.app.
 
     .. versionadded:: 0.0.1

@@ -725,10 +725,22 @@ class XAMusicItemList(XABase.XAList):
         """
         return self.by_property("properties", properties)
 
+    def get_clipboard_representation(self) -> List[str]:
+        """Gets a clipboard-codable representation of each music item in the list.
+
+        When a list of music items is copied to the clipboard, the name of each item is added to the clipboard.
+
+        :return: A list of track names
+        :rtype: List[str]
+
+        .. versionadded:: 0.0.8
+        """
+        return self.name()
+
     def __repr__(self):
         return "<" + str(type(self)) + str(self.name()) + ">"
 
-class XAMusicItem(XABaseScriptable.XASBObject):
+class XAMusicItem(XABase.XAObject):
     """A generic class with methods common to the various playable media classes in TV.app.
 
     .. seealso:: :class:`XAMusicSource`, :class:`XAMusicPlaylist`, :class:`XAMusicTrack`
@@ -792,6 +804,17 @@ class XAMusicItem(XABaseScriptable.XASBObject):
         self.xa_elem.reveal()
         return self
 
+    def get_clipboard_representation(self) -> str:
+        """Gets a clipboard-codable representation of the music item.
+
+        When a music item is copied to the clipboard, the name of the music item is added to the clipboard.
+
+        :return: The name of the music item
+        :rtype: str
+
+        .. versionadded:: 0.0.8
+        """
+        return self.name
 
 
 
@@ -4289,18 +4312,6 @@ class XAMusicTrack(XAMusicItem):
         .. versionadded:: 0.0.7
         """
         return self._new_element(self.xa_scel.artworks(), XAMusicArtworkList, filter)
-
-    def get_clipboard_representation(self) -> str:
-        """Gets a clipboard-codable representation of the track.
-
-        When the clipboard content is set to a track, the track name is placed on the clipboard.
-
-        :return: The clipboard-codable representation
-        :rtype: str
-
-        .. versionadded:: 0.0.8
-        """
-        return self.name
 
 
 

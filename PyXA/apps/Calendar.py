@@ -498,7 +498,7 @@ class XACalendarDocumentList(XABase.XAList):
     def __repr__(self):
         return "<" + str(type(self)) + str(self.name()) + ">"
 
-class XACalendarDocument(XABaseScriptable.XASBObject):
+class XACalendarDocument(XABase.XAObject):
     """A document in Calendar.app.
 
     .. versionadded:: 0.0.6
@@ -676,7 +676,7 @@ class XACalendarCalendarList(XABase.XAList):
     def __repr__(self):
         return "<" + str(type(self)) + str(self.name()) + ">"
 
-class XACalendarCalendar(XABaseScriptable.XASBObject):
+class XACalendarCalendar(XABase.XAObject):
     """A calendar in Calendar.app.
 
     .. versionadded:: 0.0.1
@@ -826,7 +826,7 @@ class XACalendarCalendar(XABaseScriptable.XASBObject):
 
 
 
-class XACalendarAlarm(XABaseScriptable.XASBObject):
+class XACalendarAlarm(XABase.XAObject):
     """An event alarm in Calendar.app.
 
     .. versionadded:: 0.0.6
@@ -1005,7 +1005,7 @@ class XACalendarAttendeeList(XABase.XAList):
     def __repr__(self):
         return "<" + str(type(self)) + str(self.display_name()) + ">"
 
-class XACalendarAttendee(XABaseScriptable.XASBObject):
+class XACalendarAttendee(XABase.XAObject):
     """An event attendee in Calendar.app.
 
     .. versionadded:: 0.0.1
@@ -1331,7 +1331,7 @@ class XACalendarEventList(XABase.XAList):
     def __repr__(self):
         return "<" + str(type(self)) + str(self.summary()) + ">"
 
-class XACalendarEvent(XABaseScriptable.XASBObject):
+class XACalendarEvent(XABase.XAObject):
     """An event in Calendar.app.
 
     .. versionadded:: 0.0.1

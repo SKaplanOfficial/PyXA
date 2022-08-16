@@ -342,7 +342,7 @@ class XAContactsDocumentList(XABase.XAList):
     def __repr__(self):
         return "<" + str(type(self)) + str(self.name()) + ">"
 
-class XAContactsDocument(XABaseScriptable.XASBObject):
+class XAContactsDocument(XABase.XAObject):
     """A document in Contacts.app.
 
     .. versionadded:: 0.0.7
@@ -561,7 +561,7 @@ class XAContactsAddressList(XABase.XAList):
     def __repr__(self):
         return "<" + str(type(self)) + str(self.label()) + ">"
 
-class XAContactsAddress(XABaseScriptable.XASBObject):
+class XAContactsAddress(XABase.XAObject):
     """An address associated with a contact in Contacts.app.
 
     .. versionadded:: 0.0.7
@@ -692,7 +692,7 @@ class XAContactsContactInfoList(XABase.XAList):
     def __repr__(self):
         return "<" + str(type(self)) + str(self.label()) + "::" + str(self.value()) + ">"
 
-class XAContactsContactInfo(XABaseScriptable.XASBObject):
+class XAContactsContactInfo(XABase.XAObject):
     """Contact information associated with a contact in Contacts.app.
 
     .. versionadded:: 0.0.7
@@ -855,7 +855,7 @@ class XAContactsEntryList(XABase.XAList):
     def __repr__(self):
         return "<" + str(type(self)) + str(self.id()) + ">"
 
-class XAContactsEntry(XABaseScriptable.XASBObject):
+class XAContactsEntry(XABase.XAObject):
     """An entry in Contacts.app.
 
     .. versionadded:: 0.0.7

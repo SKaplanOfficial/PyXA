@@ -615,7 +615,7 @@ class XAMailMessageViewerList(XABase.XAList):
     def by_window(self, window: XAMailWindow) -> 'XAMailMessageViewer':
         return self.by_property("window", window.xa_scel)
 
-class XAMailMessageViewer(XABaseScriptable.XASBObject):
+class XAMailMessageViewer(XABase.XAObject):
     """A class for managing and interacting with the message viewer window in Mail.app.
 
     .. versionadded:: 0.0.4
@@ -729,7 +729,7 @@ class XAMailSignatureList(XABase.XAList):
     def by_content(self, content: XABase.XAText) -> 'XAMailSignature':
         return self.by_property("content", content.xa_elem)
 
-class XAMailSignature(XABaseScriptable.XASBObject):
+class XAMailSignature(XABase.XAObject):
     """A class for managing and interacting with email signatures in Mail.app.
 
     .. versionadded:: 0.0.4
@@ -878,7 +878,7 @@ class XAMailAccountList(XABase.XAList):
     def by_uses_ssl(self, uses_ssl: bool) -> 'XAMailAccount':
         return self.by_property("usesSsl", uses_ssl)
 
-class XAMailAccount(XABaseScriptable.XASBObject):
+class XAMailAccount(XABase.XAObject):
     """A class for managing and interacting with accounts in Mail.app.
 
     .. versionadded:: 0.0.4
@@ -1291,7 +1291,7 @@ class XAMailDocumentList(XABase.XAList):
     def by_file(self, file: str) -> 'XAMailDocument':
         return self.by_property("file", file)
 
-class XAMailDocument(XABaseScriptable.XASBObject):
+class XAMailDocument(XABase.XAObject):
     """A class for managing and interacting with Mail documents.
 
     .. versionadded:: 0.0.4
@@ -1358,7 +1358,7 @@ class XAMailboxList(XABase.XAList):
     def by_container(self, container: 'XAMailContainer') -> 'XAMailbox':
         return self.by_property("container", container.xa_elem)
 
-class XAMailbox(XABaseScriptable.XASBObject):
+class XAMailbox(XABase.XAObject):
     """A class for managing and interacting with mailboxes in Mail.app.
 
     .. versionadded:: 0.0.4
@@ -1553,7 +1553,7 @@ class XAMailMessageList(XABase.XAList):
     def by_was_replied_to(self, was_replied_to: bool) -> 'XAMailMessage':
         return self.by_property("wasRepliedTo", was_replied_to)
 
-class XAMailMessage(XABaseScriptable.XASBObject):
+class XAMailMessage(XABase.XAObject):
     """A class for managing and interacting with messages in Mail.app.
 
     .. versionadded:: 0.0.4
@@ -1787,7 +1787,7 @@ class XAMailOutgoingMessageList(XABase.XAList):
     def by_id(self, id: int) -> 'XAMailOutgoingMessage':
         return self.by_property("id", id)
 
-class XAMailOutgoingMessage(XABaseScriptable.XASBObject):
+class XAMailOutgoingMessage(XABase.XAObject):
     """A class for managing and interacting with outgoing messages in Mail.app.
 
     .. versionadded:: 0.0.4
@@ -1867,7 +1867,7 @@ class XAMailRecipientList(XABase.XAList):
     def by_name(self, name: str) -> 'XAMailRecipient':
         return self.by_property("name", name)
 
-class XAMailRecipient(XABaseScriptable.XASBObject):
+class XAMailRecipient(XABase.XAObject):
     """A class for managing and interacting with recipients in Mail.app.
 
     .. versionadded:: 0.0.4
@@ -1965,7 +1965,7 @@ class XAMailHeaderList(XABase.XAList):
     def by_name(self, name: str) -> 'XAMailHeader':
         return self.by_property("name", name)
 
-class XAMailHeader(XABaseScriptable.XASBObject):
+class XAMailHeader(XABase.XAObject):
     """A class for managing and interacting with message headers in Mail.app.
 
     .. versionadded:: 0.0.4
@@ -2024,7 +2024,7 @@ class XAMailAttachmentList(XABase.XAList):
     def by_id(self, id: str) -> 'XAMailAttachment':
         return self.by_property("id", id)
 
-class XAMailAttachment(XABaseScriptable.XASBObject):
+class XAMailAttachment(XABase.XAObject):
     """A class for managing and interacting with message attachments in Mail.app.
 
     .. versionadded:: 0.0.4
@@ -2198,7 +2198,7 @@ class XAMailRuleList(XABase.XAList):
     def by_stop_evaluating_rules(self, stop_evaluating_rules: bool) -> 'XAMailRule':
         return self.by_property("stopEvaluatingRules", stop_evaluating_rules)
 
-class XAMailRule(XABaseScriptable.XASBObject):
+class XAMailRule(XABase.XAObject):
     """A class for managing and interacting with rules in Mail.app.
 
     .. versionadded:: 0.0.4
@@ -2356,7 +2356,7 @@ class XAMailRuleConditionList(XABase.XAList):
     def by_rule_type(self, rule_type: XAMailApplication.RuleType) -> 'XAMailRuleCondition':
         return self.by_property("ruleType", event_from_str(unOSType(rule_type.value)))
 
-class XAMailRuleCondition(XABaseScriptable.XASBObject):
+class XAMailRuleCondition(XABase.XAObject):
     """A class for managing and interacting with rule conditions in Mail.app.
 
     .. versionadded:: 0.0.4

@@ -311,7 +311,7 @@ class XANumbersApplication(XABaseScriptable.XASBApplication, XABase.XAAcceptsPus
 
 
 
-class XANumbersWindow(XABaseScriptable.XASBWindow, XABaseScriptable.XASBPrintable, XABase.XAHasElements):
+class XANumbersWindow(XABaseScriptable.XASBWindow, XABaseScriptable.XASBPrintable, XABase.XAObject):
     """A window of Numbers.app.
 
     .. versionadded:: 0.0.8
@@ -453,7 +453,7 @@ class XANumbersDocumentList(XABase.XAList):
     def __repr__(self):
         return "<" + str(type(self)) + str(self.name()) + ">"
 
-class XANumbersDocument(XABase.XAHasElements, XABaseScriptable.XASBPrintable, XABaseScriptable.XASBCloseable, XABase.XAAcceptsPushedElements, XABase.XACanConstructElement):
+class XANumbersDocument(XABaseScriptable.XASBPrintable, XABaseScriptable.XASBCloseable, XABase.XAAcceptsPushedElements, XABase.XACanConstructElement):
     """A class for managing and interacting with Numbers documents.
 
     .. seealso:: :class:`XANumbersApplication`
@@ -708,7 +708,7 @@ class XANumbersTemplateList(XABase.XAList):
     def __repr__(self):
         return f"<{str(type(self))}{self.name}>"
 
-class XANumbersTemplate(XABaseScriptable.XASBObject):
+class XANumbersTemplate(XABase.XAObject):
     """A class for managing and interacting with Numbers templates.
 
     .. seealso:: :class:`XANumbersApplication`
@@ -748,7 +748,7 @@ class XANumbersSectionList(XABase.XAList):
     def by_body_text(self, body_text: str) -> 'XANumbersSection':
         return self.by_property("bodyText", body_text)
 
-class XANumbersSection(XABase.XAHasElements):
+class XANumbersSection(XABase.XAObject):
     """A class for managing and interacting with sections in Numbers.
 
     .. seealso:: :class:`XANumbersApplication`, :class:`XANumbersiWorkItem`
@@ -776,7 +776,7 @@ class XANumbersContainerList(XABase.XAList):
             obj_class = XANumbersContainer
         super().__init__(properties, obj_class, filter)
 
-class XANumbersContainer(XABase.XAHasElements):
+class XANumbersContainer(XABase.XAObject):
     """A class for managing and interacting with containers in Numbers.
 
     .. seealso:: :class:`XANumbersApplication`, :class:`XANumbersiWorkItem`
@@ -2200,7 +2200,7 @@ class XANumbersRangeList(XABase.XAList):
     def by_vertical_alignment(self, vertical_alignment: XANumbersApplication.Alignment) -> 'XANumbersRange':
         return self.by_property("verticalAlignment", vertical_alignment.value)
 
-class XANumbersRange(XABase.XAHasElements):
+class XANumbersRange(XABase.XAObject):
     """A class for managing and interacting with ranges of table cells in Numbers.
 
     .. versionadded:: 0.0.8

@@ -540,7 +540,7 @@ class XATVItemList(XABase.XAList):
     def __repr__(self):
         return "<" + str(type(self)) + str(self.name()) + ">"
 
-class XATVItem(XABaseScriptable.XASBObject):
+class XATVItem(XABase.XAObject):
     """A generic class with methods common to the various playable media classes in TV.app.
 
     .. seealso:: :class:`XATVSource`, :class:`XATVPlaylist`, :class:`XATVTrack`

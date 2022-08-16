@@ -1191,7 +1191,7 @@ class XAFinderContainerList(XAFinderItemList):
     def by_container_window(self, container_window: 'XAFinderFinderWindow') -> 'XAFinderContainer':
         return self.by_property("containerWindow", container_window.xa_elem)
 
-class XAFinderContainer(XAFinderItem, XABase.XAHasElements):
+class XAFinderContainer(XAFinderItem):
     """A class for managing and interacting with containers in Finder.
 
     .. seealso:: :class:`XAFinderDisk`, :class:`XAFinderFolder`
@@ -1200,7 +1200,7 @@ class XAFinderContainer(XAFinderItem, XABase.XAHasElements):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.entire_contents: XABaseScriptable.XASBObject #: The entire contents of the container, including the contents of its children
+        self.entire_contents: XABase.XAObject #: The entire contents of the container, including the contents of its children
         self.container_window: XAFinderFinderWindow #: The container window for this folder
 
     @property
@@ -1211,7 +1211,7 @@ class XAFinderContainer(XAFinderItem, XABase.XAHasElements):
     @property
     def container_window(self):
         window_obj = self.xa_elem.containerWindow()
-        return self._new_element(window_obj, XABaseScriptable.XASBObject)
+        return self._new_element(window_obj, XABase.XAObject)
 
     def items(self, filter: dict = None) -> 'XAFinderItemList':
         """Returns a list of items matching the filter.
@@ -2237,7 +2237,7 @@ class XAFinderInformationWindow(XAFinderWindow):
 
 
 
-class XAFinderIconViewOptions(XABaseScriptable.XASBObject):
+class XAFinderIconViewOptions(XABase.XAObject):
     """A class representing the icon view options of a Finder window.
 
     .. versionadded:: 0.0.3
@@ -2290,7 +2290,7 @@ class XAFinderIconViewOptions(XABaseScriptable.XASBObject):
 
 
 
-class XAFinderColumnViewOptions(XABaseScriptable.XASBObject):
+class XAFinderColumnViewOptions(XABase.XAObject):
     """A class representing the column view options of a Finder window.
 
     .. versionadded:: 0.0.3
@@ -2326,7 +2326,7 @@ class XAFinderColumnViewOptions(XABaseScriptable.XASBObject):
 
 
 
-class XAFinderListViewOptions(XABaseScriptable.XASBObject):
+class XAFinderListViewOptions(XABase.XAObject):
     """A class representing the list view options in a Finder window.
 
     .. versionadded:: 0.0.3
@@ -2427,7 +2427,7 @@ class XAFinderColumnList(XABase.XAList):
     def by_visible(self, visible: bool) -> 'XAFinderColumn':
         return self.by_property("visible", visible)
 
-class XAFinderColumn(XABaseScriptable.XASBObject):
+class XAFinderColumn(XABase.XAObject):
     """A class for managing and interacting with columns in Finder windows.
 
     .. versionadded:: 0.0.3

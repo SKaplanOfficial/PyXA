@@ -63,7 +63,7 @@ class XAObject():
             self.xa_aref = properties.get("appref", None)
             self.xa_sevt = properties.get("system_events", SBApplication.alloc().initWithBundleIdentifier_("com.apple.systemevents"))
 
-        self.properties: dict = {} #: The scriptable properties dictionary for the object
+        self.properties: dict #: The scriptable properties dictionary for the object
 
     def _exec_suppresed(self, f: Callable[..., Any], *args: Any) -> Any:
         """Silences unwanted and otherwise unavoidable warning messages.
@@ -295,13 +295,15 @@ class XAClipboard(XAObject):
             if item == None:
                 value[index] = ""
             elif isinstance(item, XAObject):
-                content = item.get_clipboard_representation()
-                print(content)
-                if isinstance(content, list):
-                    value.pop(index)
-                    value += content
+                if item.xa_elem.get() is None:
+                    value[index] = ""
                 else:
-                    value[index] = content
+                    content = item.get_clipboard_representation()
+                    if isinstance(content, list):
+                        value.pop(index)
+                        value += content
+                    else:
+                        value[index] = content
             elif isinstance(item, int) or isinstance(item, float):
                 value[index] = str(item)
         self.xa_elem.writeObjects_(value)
@@ -499,6 +501,21 @@ class XAList(XAObject):
         self.xa_elem.removeLastObject()
         return self._new_element(removed, self.xa_ocls)
 
+    def get_clipboard_representation(self) -> List[Any]:
+        """Gets a clipboard-codable representation of each item in the list.
+
+        By default, when a list is copied to the clipboard, the clipboard-codable representation of each item in the list to the clipboard. To do so, each element in the list must be evaluated -- a costly operation -- upon calling this method. Child classes should redefine this method to provide efficient (fast-enumerated) access to the specific data to place on the clipboard.
+
+        :return: The clipboard-codable representation
+        :rtype: List[Any]
+
+        .. versionadded:: 0.0.8
+        """
+        items = []
+        for element in self:
+            items.append(element.get_clipboard_representation())
+        return items
+
     def __getitem__(self, key: Union[int, slice]):
         if isinstance(key, slice):
             arr = AppKit.NSMutableArray.alloc().initWithArray_([self.xa_elem[index] for index in range(key.start, key.stop, key.step or 1)])
@@ -622,64 +639,8 @@ class XACanConstructElement(XAObject):
         if self.xa_scel is not None:
             return self.xa_scel.classForScriptingClass_(specifier).alloc().initWithProperties_(properties)
         return self.xa_elem.classForScriptingClass_(specifier).alloc().initWithProperties_(properties)
-        
-## Relation Mixins
-class XAHasElements(XAObject):
-    def elements(self, specifier, filter, obj_type):
-        ls = self.xa_elem.__getattribute__(specifier)()
-        if filter is not None:
-            ls = XAPredicate.evaluate_with_dict(ls, filter)
 
-        elements = []
-        for element in ls:
-            properties = {
-                "parent": self,
-                "appspace": self.xa_apsp,
-                "workspace": self.xa_wksp,
-                "element": element,
-                "appref": self.xa_aref,
-                "system_events": self.xa_sevt,
-            }
-            elements.append(obj_type(properties))
-        return elements
 
-    def element_with_properties(self, specifier, filter, obj_type):
-        if isinstance(filter, int):
-            element = self.xa_elem.__getattribute__(specifier)()[filter]
-            properties = {
-                "parent": self,
-                "appspace": self.xa_apsp,
-                "workspace": self.xa_wksp,
-                "element": element,
-                "appref": self.xa_aref,
-                "system_events": self.xa_sevt,
-            }
-            return obj_type(properties)
-        return self.elements(specifier, filter, obj_type)[0]
-
-    def first_element(self, specifier, obj_type):
-        element = self.xa_elem.__getattribute__(specifier)()[0]
-        properties = {
-            "parent": self,
-            "appspace": self.xa_apsp,
-            "workspace": self.xa_wksp,
-            "element": element,
-            "appref": self.xa_aref,
-            "system_events": self.xa_sevt,
-        }
-        return obj_type(properties)
-
-    def last_element(self, specifier, obj_type):
-        element = self.xa_elem.__getattribute__(specifier)()[-1]
-        properties = {
-            "parent": self,
-            "appspace": self.xa_apsp,
-            "workspace": self.xa_wksp,
-            "element": element,
-            "appref": self.xa_aref,
-            "system_events": self.xa_sevt,
-        }
-        return obj_type(properties)
 
 
 class XAShowable(XAObject):
@@ -720,7 +681,7 @@ class XADeletable(XAObject):
 
 
 ### Elements
-class XAProcess(XAHasElements):
+class XAProcess(XAObject):
     def __init__(self, properties):
         super().__init__(properties)
         self.xa_wcls = properties["window_class"]
@@ -1138,6 +1099,15 @@ class XASound(XAObject):
         return self
 
     def get_clipboard_representation(self) -> List[Union[AppKit.NSSound, AppKit.NSURL, str]]:
+        """Gets a clipboard-codable representation of the sound.
+
+        When the clipboard content is set to a sound, the raw sound data, the associated file URL, and the path string of the file are added to the clipboard.
+
+        :return: The clipboard-codable form of the sound
+        :rtype: Any
+
+        .. versionadded:: 0.0.8
+        """
         return [self.xa_elem, self.file.xa_elem, self.file.xa_elem.path()]
 
 
@@ -1226,6 +1196,15 @@ class XAURL(XAObject):
             return image_objects
 
     def get_clipboard_representation(self) -> List[Union[AppKit.NSURL, str]]:
+        """Gets a clipboard-codable representation of the URL.
+
+        When the clipboard content is set to a URL, the raw URL data and the string representation of the URL are added to the clipboard.
+
+        :return: The clipboard-codable form of the URL
+        :rtype: Any
+
+        .. versionadded:: 0.0.8
+        """
         return [self.xa_elem, str(self.xa_elem)]
 
     def __str__(self):
@@ -1233,30 +1212,6 @@ class XAURL(XAObject):
 
     def __repr__(self):
         return "<" + str(type(self)) + str(self.xa_elem) + ">"
-
-def xa_url(url: str) -> AppKit.NSURL:
-    """Converts a string-type URL into an NSURL object.
-
-    :param url: The filepath or URL to convert.
-    :type url: str
-    :return: The NSURL form of the supplied filepath/URL.
-    :rtype: AppKit.NSURL
-
-    :Example:
-
-    >>> from XABase import xa_url
-    >>> url = xa_url("https://www.google.com")
-    >>> print(type(url))
-    # TODO: This
-
-    .. seealso:: :func:`xa_path`
-
-    .. deprecated:: 0.0.5
-       Use :class:`XAURL` instead.
-
-    .. versionadded:: 0.0.1
-    """
-    return AppKit.NSURL.alloc().initWithString_(url)
 
 
 
@@ -1277,25 +1232,19 @@ class XAPath(XAObject):
         self.xa_wksp.selectFile_inFileViewerRootedAtPath_(self.xa_elem)
 
     def get_clipboard_representation(self) -> List[Union[AppKit.NSURL, str]]:
+        """Gets a clipboard-codable representation of the path.
+
+        When the clipboard content is set to a path, the raw file URL data and the string representation of the path are added to the clipboard.
+
+        :return: The clipboard-codable form of the path
+        :rtype: Any
+
+        .. versionadded:: 0.0.8
+        """
         return [self.xa_elem, self.xa_elem.path()]
 
     def __repr__(self):
         return "<" + str(type(self)) + str(self.xa_elem) + ">"
-
-def xa_path(filepath: str):
-    """Converts a string-type filepath into an NSURL object.
-
-    :param url: The filepath or URL to convert.
-    :type url: str
-    :return: The NSURL form of the supplied filepath/URL.
-    :rtype: AppKit.NSURL
-
-    .. deprecated:: 0.0.5
-       Use :class:`XAPath` instead.
-
-    .. versionadded:: 0.0.1
-    """
-    return AppKit.NSURL.alloc().initWithString_(filepath)
 
 
 
@@ -1708,6 +1657,22 @@ class XAPredicate(XAObject):
         self.operators.insert(index, "MATCHES")
         self.values.insert(index, value)
 
+    def get_clipboard_representation(self) -> str:
+        """Gets a clipboard-codable representation of the predicate.
+
+        When a predicate is copied to the clipboard, the string representation of the predicate is added to the clipboard.
+
+        :return: The string representation of the predicate
+        :rtype: str
+
+        .. versionadded:: 0.0.8
+        """
+        placeholders = ["%@"] * len(self.values)
+        expressions = [" ".join(expr) for expr in zip(self.keys, self.operators, placeholders)]
+        format = "( " + " ) && ( ".join(expressions) + " )"
+        predicate = AppKit.NSPredicate.predicateWithFormat_(format, *self.values)
+        return predicate.predicateFormat()
+
 
 
 
@@ -1816,7 +1781,7 @@ class XAUIElementList(XAList):
     def by_selected(self, selected: bool) -> 'XAUIElement':
         return self.by_property("selected", selected)
 
-class XAUIElement(XAHasElements):
+class XAUIElement(XAObject):
     def __init__(self, properties):
         super().__init__(properties)
 

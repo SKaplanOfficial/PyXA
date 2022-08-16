@@ -268,7 +268,7 @@ class XADraftsDraftList(XABase.XAList):
         """
         return self.by_property("permalink", permalink)
 
-class XADraftsDraft(XABaseScriptable.XASBObject):
+class XADraftsDraft(XABase.XAObject):
     """A draft in Drafts.app.
 
     .. versionadded:: 0.0.8

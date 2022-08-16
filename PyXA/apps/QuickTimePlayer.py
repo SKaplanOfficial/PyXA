@@ -641,7 +641,7 @@ class XAQuickTimeDocumentList(XABase.XAList):
         """
         return self.by_property("currentScreenCompression", current_screen_compression.xa_elem)
 
-class XAQuickTimeDocument(XABaseScriptable.XASBObject):
+class XAQuickTimeDocument(XABase.XAObject):
     """A class for managing and interacting with documents in QuickTime.app.
 
     .. seealso:: :class:`XAQuickTimeApplication`
@@ -815,7 +815,7 @@ class XAQuickTimeAudioRecordingDeviceList(XABase.XAList):
         """
         return list(self.xa_elem.arrayByApplyingSelector_("ID"))
 
-class XAQuickTimeAudioRecordingDevice(XABaseScriptable.XASBObject):
+class XAQuickTimeAudioRecordingDevice(XABase.XAObject):
     """A class for managing and interacting with microphones in QuickTime.app.
 
     .. seealso:: :class:`XAQuickTimeApplication`
@@ -883,7 +883,7 @@ class XAQuickTimeVideoRecordingDeviceList(XABase.XAList):
         """
         return list(self.xa_elem.arrayByApplyingSelector_("ID"))
 
-class XAQuickTimeVideoRecordingDevice(XABaseScriptable.XASBObject):
+class XAQuickTimeVideoRecordingDevice(XABase.XAObject):
     """A class for managing and interacting with cameras in QuickTime.app.
 
     .. seealso:: :class:`XAQuickTimeApplication`
@@ -951,7 +951,7 @@ class XAQuickTimeAudioCompressionPresetList(XABase.XAList):
         """
         return list(self.xa_elem.arrayByApplyingSelector_("ID"))
 
-class XAQuickTimeAudioCompressionPreset(XABaseScriptable.XASBObject):
+class XAQuickTimeAudioCompressionPreset(XABase.XAObject):
     """A class for managing and interacting with audio compression presets in QuickTime.app.
 
     .. seealso:: :class:`XAQuickTimeApplication`
@@ -1019,7 +1019,7 @@ class XAQuickTimeMovieCompressionPresetList(XABase.XAList):
         """
         return list(self.xa_elem.arrayByApplyingSelector_("ID"))
 
-class XAQuickTimeMovieCompressionPreset(XABaseScriptable.XASBObject):
+class XAQuickTimeMovieCompressionPreset(XABase.XAObject):
     """A class for managing and interacting with movie compression presets in QuickTime.app.
 
     .. seealso:: :class:`XAQuickTimeApplication`
@@ -1087,7 +1087,7 @@ class XAQuickTimeScreenCompressionPresetList(XABase.XAList):
         """
         return list(self.xa_elem.arrayByApplyingSelector_("ID"))
 
-class XAQuickTimeScreenCompressionPreset(XABaseScriptable.XASBObject):
+class XAQuickTimeScreenCompressionPreset(XABase.XAObject):
     """A class for managing and interacting with screen compression presets in QuickTime.app.
 
     .. seealso:: :class:`XAQuickTimeApplication`

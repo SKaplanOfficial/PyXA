@@ -313,7 +313,7 @@ class XAPagesApplication(XABaseScriptable.XASBApplication, XABase.XAAcceptsPushe
 
 
 
-class XAPagesWindow(XABaseScriptable.XASBWindow, XABaseScriptable.XASBPrintable, XABase.XAHasElements):
+class XAPagesWindow(XABaseScriptable.XASBWindow, XABaseScriptable.XASBPrintable, XABase.XAObject):
     """A class for managing and interacting with windows in Pages.app.
 
     .. versionadded:: 0.0.1
@@ -472,7 +472,7 @@ class XAPagesDocumentList(XABase.XAList):
     def __repr__(self):
         return "<" + str(type(self)) + str(self.name()) + ">"
 
-class XAPagesDocument(XABase.XAHasElements, XABaseScriptable.XASBPrintable, XABaseScriptable.XASBCloseable, XABase.XAAcceptsPushedElements, XABase.XACanConstructElement):
+class XAPagesDocument(XABaseScriptable.XASBPrintable, XABaseScriptable.XASBCloseable, XABase.XAAcceptsPushedElements, XABase.XACanConstructElement):
     """A class for managing and interacting with Pages documents.
 
     .. seealso:: :class:`XAPagesApplication`
@@ -754,7 +754,7 @@ class XAPagesTemplateList(XABase.XAList):
     def __repr__(self):
         return f"<{str(type(self))}{self.name}>"
 
-class XAPagesTemplate(XABaseScriptable.XASBObject):
+class XAPagesTemplate(XABase.XAObject):
     """A class for managing and interacting with Pages templates.
 
     .. seealso:: :class:`XAPagesApplication`
@@ -794,7 +794,7 @@ class XAPagesSectionList(XABase.XAList):
     def by_body_text(self, body_text: str) -> 'XAPagesSection':
         return self.by_property("bodyText", body_text)
 
-class XAPagesSection(XABase.XAHasElements):
+class XAPagesSection(XABase.XAObject):
     """A class for managing and interacting with sections in Pages.
 
     .. seealso:: :class:`XAPagesApplication`, :class:`XAPagesiWorkItem`
@@ -822,7 +822,7 @@ class XAPagesContainerList(XABase.XAList):
             obj_class = XAPagesContainer
         super().__init__(properties, obj_class, filter)
 
-class XAPagesContainer(XABase.XAHasElements):
+class XAPagesContainer(XABase.XAObject):
     """A class for managing and interacting with containers in Pages.
 
     .. seealso:: :class:`XAPagesApplication`, :class:`XAPagesiWorkItem`
@@ -2262,7 +2262,7 @@ class XAPagesRangeList(XABase.XAList):
     def by_vertical_alignment(self, vertical_alignment: XAPagesApplication.Alignment) -> 'XAPagesRange':
         return self.by_property("verticalAlignment", vertical_alignment.value)
 
-class XAPagesRange(XABase.XAHasElements):
+class XAPagesRange(XABase.XAObject):
     """A class for managing and interacting with ranges of table cells in Pages.
 
     .. versionadded:: 0.0.2

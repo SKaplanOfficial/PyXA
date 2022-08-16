@@ -334,6 +334,18 @@ class XANoteList(XABase.XAList):
             note.showSeparately_(True)
         return self
 
+    def get_clipboard_representation(self) -> List[str]:
+        """Gets a clipboard-codable representation of each note in the list.
+
+        When the clipboard content is set to a list of notes, the plaintext of each note is added to the clipboard.
+
+        :return: A list of note plaintext representations
+        :rtype: List[str]
+
+        .. versionadded:: 0.0.8
+        """
+        return self.plaintext()
+
     def __repr__(self):
         return "<" + str(type(self)) + str(list(zip(self.name(), self.id()))) + ">"
 
@@ -363,6 +375,18 @@ class XANotesDocumentList(XABase.XAList):
 
     def by_file(self, file: str) -> 'XANotesDocument':
         return self.by_property("file", file)
+
+    def get_clipboard_representation(self) -> List[str]:
+        """Gets a clipboard-codable representation of each document in the list.
+
+        When the clipboard content is set to a list of documents, the name of each document is added to the clipboard.
+
+        :return: A list of document names
+        :rtype: List[str]
+
+        .. versionadded:: 0.0.8
+        """
+        return self.name()
 
 
 class XANotesAccountList(XABase.XAList):
@@ -405,6 +429,18 @@ class XANotesAccountList(XABase.XAList):
 
     def by_default_folder(self, default_folder: 'XANotesFolder') -> 'XANotesAccount':
         return self.by_property("defaultFolder", default_folder.value)
+
+    def get_clipboard_representation(self) -> List[str]:
+        """Gets a clipboard-codable representation of each account in the list.
+
+        When the clipboard content is set to a list of accounts, the name of each account is added to the clipboard.
+
+        :return: A list of account names
+        :rtype: List[str]
+
+        .. versionadded:: 0.0.8
+        """
+        return self.name()
 
     def __repr__(self):
         return "<" + str(type(self)) + str(list(zip(self.name(), self.id()))) + ">"
@@ -450,6 +486,18 @@ class XANotesFolderList(XABase.XAList):
 
     def by_container(self, container: 'XANotesAccount') -> 'XANotesFolder':
         return self.by_property("container", container.value)
+
+    def get_clipboard_representation(self) -> List[str]:
+        """Gets a clipboard-codable representation of each folder in the list.
+
+        When the clipboard content is set to a list of folders, the name of each folder is added to the clipboard.
+
+        :return: A list of folder names
+        :rtype: List[str]
+
+        .. versionadded:: 0.0.8
+        """
+        return self.name()
 
     def __repr__(self):
         return "<" + str(type(self)) + str(list(zip(self.name(), self.id()))) + ">"
@@ -611,7 +659,7 @@ class XANotesWindow(XABaseScriptable.XASBWindow, XABase.XACanConstructElement, X
         return self._new_element(self.xa_scel.document(), XANotesDocument)
 
 
-class XANotesFolder(XABase.XACanConstructElement, XABase.XAAcceptsPushedElements, XABase.XAHasElements):
+class XANotesFolder(XABase.XACanConstructElement, XABase.XAAcceptsPushedElements):
     """A class for interacting with Notes folders and their contents.
 
     .. seealso:: class:`XANote`
@@ -676,11 +724,23 @@ class XANotesFolder(XABase.XACanConstructElement, XABase.XAAcceptsPushedElements
         """
         self.xa_elem.delete()
 
+    def get_clipboard_representation(self) -> str:
+        """Gets a clipboard-codable representation of the folder.
+
+        When the clipboard content is set to a notes folder, the name of the folder is added to the clipboard.
+
+        :return: The name of the notes folder
+        :rtype: str
+
+        .. versionadded:: 0.0.8
+        """
+        return self.name
+
     def __repr__(self):
         return "<" + str(type(self)) + self.name + ", " + self.id + ">"
 
 
-class XANotesDocument(XABase.XACanConstructElement, XABase.XAAcceptsPushedElements, XABase.XAHasElements):
+class XANotesDocument(XABase.XACanConstructElement, XABase.XAAcceptsPushedElements):
     """A class for interacting with documents in Notes.app.
 
     .. versionadded:: 0.0.3
@@ -703,11 +763,23 @@ class XANotesDocument(XABase.XACanConstructElement, XABase.XAAcceptsPushedElemen
     def file(self) -> str:
         return self.xa_elem.file()
 
+    def get_clipboard_representation(self) -> str:
+        """Gets a clipboard-codable representation of the document.
+
+        When the clipboard content is set to a document, the document's name is added to the clipboard.
+
+        :return: The name of the document
+        :rtype: str
+
+        .. versionadded:: 0.0.8
+        """
+        return self.name
+
     def __repr__(self):
         return "<" + str(type(self)) + self.name + ">"
 
 
-class XANote(XABase.XACanConstructElement, XABase.XAAcceptsPushedElements, XABase.XAHasElements):
+class XANote(XABase.XACanConstructElement, XABase.XAAcceptsPushedElements):
     """A class for interacting with notes in the Notes application.
 
     .. seealso:: :class:`XANotesFolder`
@@ -839,6 +911,18 @@ class XANote(XABase.XACanConstructElement, XABase.XAAcceptsPushedElements, XABas
         self.xa_elem.moveTo_(folder.xa_elem)
         return self
 
+    def get_clipboard_representation(self) -> str:
+        """Gets a clipboard-codable representation of the note.
+
+        When the clipboard content is set to a note, the plaintext representation of the note is added to the clipboard.
+
+        :return: The plaintext representation of the note
+        :rtype: str
+
+        .. versionadded:: 0.0.8
+        """
+        return self.plaintext
+
     def __repr__(self):
         return "<" + str(type(self)) + self.name + ", " + self.id + ">"
 
@@ -938,11 +1022,25 @@ class XANoteAttachment(XABase.XACanConstructElement, XABase.XAAcceptsPushedEleme
         """
         self.xa_elem.delete()
 
+    def get_clipboard_representation(self) -> Union[str, List[Union[NSURL, str]]]:
+        """Gets a clipboard-codable representation of the attachment.
+
+        When the clipboard content is set to an attachment, the URL of the attachment (if one exists) and the attachment's name are added to the clipboard.
+
+        :return: The URL and name of the attachment, or just the name of the attachment
+        :rtype: List[Union[NSURL, str]]
+
+        .. versionadded:: 0.0.8
+        """
+        if self.url is None:
+            return self.name
+        return [self.url, self.name]
+
     def __repr__(self):
         return "<" + str(type(self)) + self.name + ", " + self.id + ">"
 
 
-class XANotesAccount(XABase.XACanConstructElement, XABase.XAAcceptsPushedElements, XABase.XAHasElements):
+class XANotesAccount(XABase.XACanConstructElement, XABase.XAAcceptsPushedElements):
     """A class for interacting with accounts in the Notes application.
 
     .. versionchanged:: 0.0.3
@@ -1031,6 +1129,18 @@ class XANotesAccount(XABase.XACanConstructElement, XABase.XAAcceptsPushedElement
         .. versionadded:: 0.0.1
         """
         return self._new_element(self.xa_elem.folders(), XANotesFolderList, filter)
+
+    def get_clipboard_representation(self) -> str:
+        """Gets a clipboard-codable representation of the account.
+
+        When the clipboard content is set to an account, the account's name are added to the clipboard.
+
+        :return: The name of the account
+        :rtype: str
+
+        .. versionadded:: 0.0.8
+        """
+        return self.name
 
     def __repr__(self):
         return "<" + str(type(self)) + self.name + ", " + self.id + ">"

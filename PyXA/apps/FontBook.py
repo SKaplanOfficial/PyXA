@@ -146,7 +146,7 @@ class XAFontBookApplication(XABaseScriptable.XASBApplication):
 #     def by_name(self, name: str) -> 'XAFontBookDocument':
 #         return self.by_property("name", name)
 
-class XAFontBookWindow(XABaseScriptable.XASBObject):
+class XAFontBookWindow(XABase.XAObject):
     """A class for managing and interacting with documents in Font Book.app.
 
     .. seealso:: :class:`XAFontBookApplication`
@@ -201,7 +201,7 @@ class XAFontBookDocumentList(XABase.XAList):
     def by_name(self, name: str) -> 'XAFontBookDocument':
         return self.by_property("name", name)
 
-class XAFontBookDocument(XABaseScriptable.XASBObject):
+class XAFontBookDocument(XABase.XAObject):
     """A class for managing and interacting with documents in Font Book.app.
 
     .. seealso:: :class:`XAFontBookApplication`
@@ -285,7 +285,7 @@ class XAFontBookFontFamilyList(XABase.XAList):
     def __repr__(self):
         return "<" + str(type(self)) + str(self.name()) + ">"
 
-class XAFontBookFontFamily(XABaseScriptable.XASBObject):
+class XAFontBookFontFamily(XABase.XAObject):
     """A class for managing and interacting with font families in Font Book.app.
 
     .. seealso:: :class:`XAFontBookApplication`
@@ -453,7 +453,7 @@ class XAFontBookTypefaceList(XABase.XAList):
             if typeface.files == files:
                 return typeface
 
-class XAFontBookTypeface(XABaseScriptable.XASBObject):
+class XAFontBookTypeface(XABase.XAObject):
     """A class for managing and interacting with typefaces in Font Book.app.
 
     .. seealso:: :class:`XAFontBookApplication`
@@ -590,7 +590,7 @@ class XAFontBookFontContainerList(XABase.XAList):
     def by_id(self, id: str) -> 'XAFontBookFontContainer':
         return self.by_property("id", id)
 
-class XAFontBookFontContainer(XABaseScriptable.XASBObject):
+class XAFontBookFontContainer(XABase.XAObject):
     """A class for managing and interacting with font containers in Font Book.app.
 
     .. seealso:: :class:`XAFontBookApplication`
@@ -697,7 +697,7 @@ class XAFontBookFontCollectionList(XABase.XAList):
     def by_enabled(self, enabled: bool) -> 'XAFontBookFontCollection':
         return self.by_property("enabled", enabled)
 
-class XAFontBookFontCollection(XABaseScriptable.XASBObject):
+class XAFontBookFontCollection(XABase.XAObject):
     """A class for managing and interacting with font collections in Font Book.app.
 
     .. seealso:: :class:`XAFontBookApplication`

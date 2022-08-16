@@ -373,7 +373,7 @@ class XAChromiumTabList(XABase.XAList):
         """
         return self.by_property("loading", loading)
 
-class XAChromiumTab(XABaseScriptable.XASBObject):
+class XAChromiumTab(XABase.XAObject):
     """A class for managing and interacting with Chromium tabs.
 
     .. seealso:: :class:`XAChromiumWindow`, :class:`XAChromiumTabList`, :class:`XAChromiumWindow`
@@ -657,7 +657,7 @@ class XAChromiumBookmarkFolderList(XABase.XAList):
         """
         return self.by_property("index", index)
 
-class XAChromiumBookmarkFolder(XABaseScriptable.XASBObject):
+class XAChromiumBookmarkFolder(XABase.XAObject):
     """A class for managing and interacting with bookmark folders in Chromium.app.
 
     .. seealso:: :class:`XAChromiumApplication`, :class:`XAChromiumBookmarkFolderList`
@@ -806,7 +806,7 @@ class XAChromiumBookmarkItemList(XABase.XAList):
         """
         return self.by_property("index", index)
 
-class XAChromiumBookmarkItem(XABaseScriptable.XASBObject):
+class XAChromiumBookmarkItem(XABase.XAObject):
     """A class for managing and interacting with bookmarks in Chromium.app.
 
     .. seealso:: :class:`XAChromiumApplication`, :class:`XAChromiumBookmarkItemList`

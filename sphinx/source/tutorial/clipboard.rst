@@ -65,3 +65,9 @@ To write content to the clipboard, set the :ivar:`content` property of the :clas
     >>> cb.content = sound
 
 For strings and other literal values, the plaintext form of the value will be added to the clipboard. For PyXA class objects, one or more items representing the object in multiple forms will be added to the clipboard. For example, setting the clipboard content to an :class:`XAURL` object will add the URL as a URL type and as a plaintext string, while setting the content to an :class:`XASound` object will add the raw sound data, a file URL, and the file path string. More information on how each PyXA object type is represented can be found in the corresponding code reference material.
+
+You can also copy :class:`XAList` objects to the clipboard in the same way. When you do this, data for each element in the list is added to the clipboard. The type of data added to the clipboard varies based on the list type, but it generally matches the data type added for a single element of the corresponding class. For example, for Music tracks, a single track copied to the clipboard adds the track name to the clipboard, while a list of tracks copies the names of each track to the clipboard (as separate items).
+
+    >>> import PyXA
+    >>> tracks = PyXA.application("Music").tracks()
+    >>> PyXA.XAClipboard().content = tracks

@@ -19,4 +19,5 @@ from .XABase import (
     AppleScript,
     XAClipboard,
     XAImage,
+    XAPredicate,
 )

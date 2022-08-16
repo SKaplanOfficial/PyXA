@@ -126,7 +126,7 @@ class XAPreferencePaneList(XABase.XAList):
     def __repr__(self):
         return "<" + str(type(self)) + str(self.name()) + ">"
 
-class XAPreferencePane(XABase.XAHasElements):
+class XAPreferencePane(XABase.XAObject):
     """A class for managing and interacting with preference panes in System Preferences.
 
     .. seealso:: :class:`XAPreferenceAnchor`
@@ -241,7 +241,7 @@ class XAPreferenceAnchorList(XABase.XAList):
     def __repr__(self):
         return "<" + str(type(self)) + str(self.name()) + ">"
 
-class XAPreferenceAnchor(XABaseScriptable.XASBObject):
+class XAPreferenceAnchor(XABase.XAObject):
     """A class for managing and interacting with anchors in System Preferences.
 
     .. versionadded:: 0.0.2

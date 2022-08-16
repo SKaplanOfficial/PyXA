@@ -10,7 +10,7 @@ import threading
 from PyXA import XABase
 from PyXA import XABaseScriptable
 
-class XASafariApplication(XABaseScriptable.XASBApplication, XABaseScriptable.XASBPrintable, XABaseScriptable.XAHasScriptableElements):
+class XASafariApplication(XABaseScriptable.XASBApplication, XABaseScriptable.XASBPrintable, XABase.XAObject):
     """A class for interacting with Safari.app.
 
     .. seealso:: :class:`XASafariDocument`, :class:`XASafariTab`, :class:`XABaseScriptable.XASBApplication`, :class:`XABaseScriptable.XASBSaveable`, :class:`XABaseScriptable.XASBPrintable`
@@ -252,7 +252,7 @@ class XASafariApplication(XABaseScriptable.XASBApplication, XABaseScriptable.XAS
 
 
 
-class XASafariWindow(XABaseScriptable.XASBWindow, XABaseScriptable.XASBCloseable, XABaseScriptable.XASBPrintable, XABase.XAHasElements):
+class XASafariWindow(XABaseScriptable.XASBWindow, XABaseScriptable.XASBCloseable, XABaseScriptable.XASBPrintable, XABase.XAObject):
     """A class for interacting with Safari windows.
 
     .. versionadded:: 0.0.1
@@ -339,7 +339,7 @@ class XASafariWindow(XABaseScriptable.XASBWindow, XABaseScriptable.XASBCloseable
 
 
 
-class XASafariGeneric(XABaseScriptable.XASBCloseable, XABase.XAHasElements):
+class XASafariGeneric(XABaseScriptable.XASBCloseable, XABase.XAObject):
     """A generic class containing methods relevant to Safari tabs and documents.
 
     .. seealso:: :class:`XASafariDocument`, :class:`XASafariTab`, :class:`XABaseScriptable.XASBCloseable`

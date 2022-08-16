@@ -35,70 +35,6 @@ class XASBObject(XABase.XAObject):
         else:
             self.xa_elem.setValue_forKey_(value, property_name)
 
-class XAHasScriptableElements(XABase.XAObject):
-    def scriptable_elements(self, specifier, filter, obj_type):
-        self.elements = []
-        ls = self.xa_scel.__getattribute__(specifier)()
-        if filter is not None:
-            ls = XABase.XAPredicate().from_dict(filter).evaluate(ls)
-
-        def append_with_timeout(obj: ScriptingBridge.SBObject, index: int, stop: bool):
-            with timeout(seconds = 2):
-                properties = {
-                    "parent": self,
-                    "appspace": self.xa_apsp,
-                    "workspace": self.xa_wksp,
-                    "element": obj,
-                    "scriptable_element": obj,
-                    "appref": self.xa_aref,
-                    "system_events": self.xa_sevt,
-                }
-                self.elements.append(obj_type(properties))
-
-        ls.enumerateObjectsUsingBlock_(append_with_timeout)
-        return self.elements
-
-    def scriptable_element_with_properties(self, specifier, filter, obj_type):
-        if isinstance(filter, int):
-            element = self.xa_scel.__getattribute__(specifier)()[filter]
-            properties = {
-                "parent": self,
-                "appspace": self.xa_apsp,
-                "workspace": self.xa_wksp,
-                "element": element,
-                "scriptable_element": element,
-                "appref": self.xa_aref,
-                "system_events": self.xa_sevt,
-            }
-            return obj_type(properties)
-        return self.scriptable_elements(specifier, filter, obj_type)[0]
-
-    def first_scriptable_element(self, specifier, obj_type):
-        element = self.xa_scel.__getattribute__(specifier)()[0]
-        properties = {
-            "parent": self,
-            "appspace": self.xa_apsp,
-            "workspace": self.xa_wksp,
-            "element": element,
-            "scriptable_element": element,
-            "appref": self.xa_aref,
-            "system_events": self.xa_sevt,
-        }
-        return obj_type(properties)
-
-    def last_scriptable_element(self, specifier, obj_type):
-        element = self.xa_scel.__getattribute__(specifier)()[-1]
-        properties = {
-            "parent": self,
-            "appspace": self.xa_apsp,
-            "workspace": self.xa_wksp,
-            "element": element,
-            "scriptable_element": element,
-            "appref": self.xa_aref,
-            "system_events": self.xa_sevt,
-        }
-        return obj_type(properties)
-
 ### Mixins
 ## Property Mixins
 class XASBCloseable(XABase.XAObject):
@@ -157,7 +93,7 @@ class XASBPrintable(XABase.XAObject):
 
 
 
-class XASBApplication(XASBObject, XABase.XAApplication, XAHasScriptableElements):
+class XASBApplication(XASBObject, XABase.XAApplication):
     """An application class for scriptable applications.
 
     .. seealso:: :class:`XABase.XAApplication`, :class:`XABase.XAWindow`
@@ -188,8 +124,10 @@ class XASBWindowList(XABase.XAList):
         super().__init__(properties, None, filter)
         self.xa_ocls = self.xa_prnt.xa_wcls
 
-    # def name(self) -> List[str]:
-    #     return list(self.xa_elem.arrayByApplyingSelector_("name"))
+    def name(self) -> List[str]:
+        return list(self.xa_elem.arrayByApplyingSelector_("name"))
+
+    # TODO
 
     def collapse(self):
         """Collapses all windows in the list.
@@ -198,6 +136,18 @@ class XASBWindowList(XABase.XAList):
         """
         for window in self:
             window.collapse()
+
+    def get_clipboard_representation(self) -> str:
+        """Gets a clipboard-codable representation of each window in the list.
+
+        When the clipboard content is set to a list of windows, the name of each window is added to the clipboard.
+
+        :return: A list of window names
+        :rtype: str
+
+        .. versionadded:: 0.0.8
+        """
+        return self.name()
 
 class XASBWindow(XASBObject):
     def __init__(self, properties):
@@ -291,3 +241,15 @@ class XASBWindow(XASBObject):
     # TODO:
     # def fullscreen(self):
     #     print(dir(self.element))
+
+    def get_clipboard_representation(self) -> str:
+        """Gets a clipboard-codable representation of the window.
+
+        When the clipboard content is set to a window, the name of the window is added to the clipboard.
+
+        :return: The name of the window
+        :rtype: str
+
+        .. versionadded:: 0.0.8
+        """
+        return self.name

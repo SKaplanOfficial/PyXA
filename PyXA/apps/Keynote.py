@@ -372,7 +372,7 @@ class XAKeynoteApplication(XABaseScriptable.XASBApplication, XABase.XAAcceptsPus
 
 
 
-class XAKeynoteWindow(XABaseScriptable.XASBWindow, XABaseScriptable.XASBPrintable, XABase.XAHasElements):
+class XAKeynoteWindow(XABaseScriptable.XASBWindow, XABaseScriptable.XASBPrintable, XABase.XAObject):
     """A class for managing and interacting with windows in Keynote.app.
 
     .. versionadded:: 0.0.1
@@ -552,7 +552,7 @@ class XAKeynoteDocumentList(XABase.XAList):
     def by_password_protected(self, password_protected: bool) -> 'XAKeynoteDocument':
         return self.by_property("passwordProtected", password_protected)
 
-class XAKeynoteDocument(XABase.XAHasElements, XABaseScriptable.XASBPrintable, XABaseScriptable.XASBCloseable, XABase.XAAcceptsPushedElements, XABase.XACanConstructElement):
+class XAKeynoteDocument(XABaseScriptable.XASBPrintable, XABaseScriptable.XASBCloseable, XABase.XAAcceptsPushedElements, XABase.XACanConstructElement):
     """A class for managing and interacting with TextEdit documents.
 
     .. seealso:: :class:`XAKeynoteApplication`
@@ -834,7 +834,7 @@ class XAKeynoteThemeList(XABase.XAList):
     def by_name(self, name: str) -> 'XAKeynoteTheme':
         return self.by_property("name", name)
 
-class XAKeynoteTheme(XABaseScriptable.XASBObject):
+class XAKeynoteTheme(XABase.XAObject):
     """A class for managing and interacting with Keynote themes.
 
     .. seealso:: :class:`XAKeynoteApplication`
@@ -870,7 +870,7 @@ class XAKeynoteContainerList(XABase.XAList):
             obj_class = XAKeynoteContainer
         super().__init__(properties, obj_class, filter)
 
-class XAKeynoteContainer(XABase.XAHasElements):
+class XAKeynoteContainer(XABase.XAObject):
     """A class for managing and interacting with containers in Keynote.
 
     .. seealso:: :class:`XAKeynoteApplication`, :class:`XAKeynoteiWorkItem`
@@ -2116,7 +2116,7 @@ class XAKeynoteTableList(XAKeynoteiWorkItemList):
     def by_selection_range(self, selection_range: 'XAKeynoteRange') -> 'XAKeynoteTable':
         return self.by_property("selectionRange", selection_range.xa_elem)
 
-class XAKeynoteTable(XAKeynoteiWorkItem, XABase.XAHasElements):
+class XAKeynoteTable(XAKeynoteiWorkItem):
     """A class for managing and interacting with tables in Keynote.
 
     .. versionadded:: 0.0.2
@@ -2299,7 +2299,7 @@ class XAKeynoteRangeList(XABase.XAList):
     def by_vertical_alignment(self, vertical_alignment: XAKeynoteApplication.Alignment) -> 'XAKeynoteRange':
         return self.by_property("verticalAlignment", vertical_alignment.value)
 
-class XAKeynoteRange(XABase.XAHasElements):
+class XAKeynoteRange(XABase.XAObject):
     """A class for managing and interacting with ranges of table cells in Keynote.
 
     .. versionadded:: 0.0.2

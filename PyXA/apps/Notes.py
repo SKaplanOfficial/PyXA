@@ -14,8 +14,9 @@ from ScriptingBridge import SBElementArray
 from PyXA import XABase
 from PyXA.XABase import OSType
 from PyXA import XABaseScriptable
+from ..XAProtocols import XACanOpenPath, XACanPrintPath, XAClipboardCodable, XADeletable, XAShowable
 
-class XANotesApplication(XABaseScriptable.XASBApplication, XABase.XACanOpenPath):
+class XANotesApplication(XABaseScriptable.XASBApplication, XACanOpenPath, XACanPrintPath):
     """A class for interacting with Notes.app.
 
     .. seealso:: :class:`XANotesWindow`, :class:`XANote`, :class:`XANotesFolder`, :class:`XANotesAccount`
@@ -71,6 +72,10 @@ class XANotesApplication(XABaseScriptable.XASBApplication, XABase.XACanOpenPath)
     @property
     def selection(self) -> 'XANoteList':
         return self._new_element(self.xa_scel.selection(), XANoteList)
+
+    def open(self, path: str) -> 'XANote':
+        super().open(path)
+        return self.notes()[0]
 
     def documents(self, filter: Union[dict, None] = None) -> 'XANotesDocumentList':
         """Returns a list of documents, as PyXA objects, matching the given filter.
@@ -252,7 +257,7 @@ class XANotesApplication(XABaseScriptable.XASBApplication, XABase.XACanOpenPath)
             return self._new_element(obj, XANoteAttachment)
 
 
-class XANoteList(XABase.XAList):
+class XANoteList(XABase.XAList, XAClipboardCodable):
     """A wrapper around a list of notes.
 
     .. versionadded:: 0.0.3
@@ -350,7 +355,7 @@ class XANoteList(XABase.XAList):
         return "<" + str(type(self)) + str(list(zip(self.name(), self.id()))) + ">"
 
 
-class XANotesDocumentList(XABase.XAList):
+class XANotesDocumentList(XABase.XAList, XAClipboardCodable):
     """A wrapper around a list of documents.
 
     .. versionadded:: 0.0.3
@@ -389,7 +394,7 @@ class XANotesDocumentList(XABase.XAList):
         return self.name()
 
 
-class XANotesAccountList(XABase.XAList):
+class XANotesAccountList(XABase.XAList, XAClipboardCodable):
     """A wrapper around a list of accounts.
 
     .. versionadded:: 0.0.3
@@ -446,7 +451,7 @@ class XANotesAccountList(XABase.XAList):
         return "<" + str(type(self)) + str(list(zip(self.name(), self.id()))) + ">"
 
 
-class XANotesFolderList(XABase.XAList):
+class XANotesFolderList(XABase.XAList, XAClipboardCodable):
     """A wrapper around a list of Notes folders.
 
     .. versionadded:: 0.0.3
@@ -503,7 +508,7 @@ class XANotesFolderList(XABase.XAList):
         return "<" + str(type(self)) + str(list(zip(self.name(), self.id()))) + ">"
 
 
-class XANotesAttachmentList(XABase.XAList):
+class XANotesAttachmentList(XABase.XAList, XAClipboardCodable):
     """A wrapper around a list of attachments.
 
     .. versionadded:: 0.0.3
@@ -590,7 +595,7 @@ class XANotesAttachmentList(XABase.XAList):
         return "<" + str(type(self)) + str(list(zip(self.name(), self.id()))) + ">"
 
 
-class XANotesWindow(XABaseScriptable.XASBWindow, XABase.XACanConstructElement, XABase.XAAcceptsPushedElements):
+class XANotesWindow(XABaseScriptable.XASBWindow):
     """A class for interacting with windows of Notes.app.
 
     .. versionadded:: 0.0.1
@@ -659,7 +664,7 @@ class XANotesWindow(XABaseScriptable.XASBWindow, XABase.XACanConstructElement, X
         return self._new_element(self.xa_scel.document(), XANotesDocument)
 
 
-class XANotesFolder(XABase.XACanConstructElement, XABase.XAAcceptsPushedElements):
+class XANotesFolder(XABase.XAObject, XAClipboardCodable):
     """A class for interacting with Notes folders and their contents.
 
     .. seealso:: class:`XANote`
@@ -740,7 +745,7 @@ class XANotesFolder(XABase.XACanConstructElement, XABase.XAAcceptsPushedElements
         return "<" + str(type(self)) + self.name + ", " + self.id + ">"
 
 
-class XANotesDocument(XABase.XACanConstructElement, XABase.XAAcceptsPushedElements):
+class XANotesDocument(XABase.XAObject, XAClipboardCodable):
     """A class for interacting with documents in Notes.app.
 
     .. versionadded:: 0.0.3
@@ -779,7 +784,7 @@ class XANotesDocument(XABase.XACanConstructElement, XABase.XAAcceptsPushedElemen
         return "<" + str(type(self)) + self.name + ">"
 
 
-class XANote(XABase.XACanConstructElement, XABase.XAAcceptsPushedElements):
+class XANote(XABase.XAObject, XAClipboardCodable, XAShowable, XADeletable):
     """A class for interacting with notes in the Notes application.
 
     .. seealso:: :class:`XANotesFolder`
@@ -891,13 +896,6 @@ class XANote(XABase.XACanConstructElement, XABase.XAAcceptsPushedElements):
         """
         return self._new_element(self.xa_elem.attachments(), XANotesAttachmentList, filter)
 
-    def delete(self):
-        """Permanently deletes the note.
-
-        .. versionadded:: 0.0.4
-        """
-        self.xa_elem.delete()
-
     def move_to(self, folder: 'XANotesFolder') -> 'XANote':
         """Moves the note to the specified folder.
 
@@ -927,7 +925,7 @@ class XANote(XABase.XACanConstructElement, XABase.XAAcceptsPushedElements):
         return "<" + str(type(self)) + self.name + ", " + self.id + ">"
 
 
-class XANoteAttachment(XABase.XACanConstructElement, XABase.XAAcceptsPushedElements):
+class XANoteAttachment(XABase.XAObject, XAClipboardCodable):
     """A class for interacting with attachments in the Notes application.
 
     .. versionchanged:: 0.0.3
@@ -1040,7 +1038,7 @@ class XANoteAttachment(XABase.XACanConstructElement, XABase.XAAcceptsPushedEleme
         return "<" + str(type(self)) + self.name + ", " + self.id + ">"
 
 
-class XANotesAccount(XABase.XACanConstructElement, XABase.XAAcceptsPushedElements):
+class XANotesAccount(XABase.XAObject, XAClipboardCodable):
     """A class for interacting with accounts in the Notes application.
 
     .. versionchanged:: 0.0.3

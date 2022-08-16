@@ -26,6 +26,7 @@ from ScriptingBridge import SBApplication, SBElementArray
 import threading, signal
 
 from PyXA.XAErrors import InvalidPredicateError
+from .XAProtocols import XAClipboardCodable
 
 def OSType(s: str):
     return int.from_bytes(s.encode("UTF-8"), "big")
@@ -39,7 +40,7 @@ def unOSType(i: int):
 class XAObject():
     """A general class for PyXA scripting objects.
 
-    .. seealso:: :class:`XASBObject`
+    .. seealso:: :class:`XABaseScriptable.XASBObject`
 
     .. versionadded:: 0.0.1
     """
@@ -188,16 +189,6 @@ class XAObject():
         property_name = parts[0] + "".join(titled_parts)
         self.xa_elem.setValue_forKey_(value, property_name)
         return self
-
-    def get_clipboard_representation(self) -> Any:
-        """Gets a clipboard-codable representation of the object.
-
-        This method should be overriden where reasonable in child classes of XAObject.
-
-        :return: The clipboard-codable form of the content
-        :rtype: Any
-        """
-        return str(type(self))
     
 
 
@@ -295,6 +286,9 @@ class XAClipboard(XAObject):
             if item == None:
                 value[index] = ""
             elif isinstance(item, XAObject):
+                if not isinstance(item, XAClipboardCodable):
+                    print(item, "is not a clipboard-codable object.")
+                    continue
                 if item.xa_elem.get() is None:
                     value[index] = ""
                 else:
@@ -501,21 +495,6 @@ class XAList(XAObject):
         self.xa_elem.removeLastObject()
         return self._new_element(removed, self.xa_ocls)
 
-    def get_clipboard_representation(self) -> List[Any]:
-        """Gets a clipboard-codable representation of each item in the list.
-
-        By default, when a list is copied to the clipboard, the clipboard-codable representation of each item in the list to the clipboard. To do so, each element in the list must be evaluated -- a costly operation -- upon calling this method. Child classes should redefine this method to provide efficient (fast-enumerated) access to the specific data to place on the clipboard.
-
-        :return: The clipboard-codable representation
-        :rtype: List[Any]
-
-        .. versionadded:: 0.0.8
-        """
-        items = []
-        for element in self:
-            items.append(element.get_clipboard_representation())
-        return items
-
     def __getitem__(self, key: Union[int, slice]):
         if isinstance(key, slice):
             arr = AppKit.NSMutableArray.alloc().initWithArray_([self.xa_elem[index] for index in range(key.start, key.stop, key.step or 1)])
@@ -538,149 +517,8 @@ class XAList(XAObject):
         return "<" + str(type(self)) + str(self.xa_elem) + ">"
 
 
-### Mixins
-## Action Mixins
-class XACanPrintPath(XAObject):
-    """A class for scriptable objects that can print the file at a given path.
-    """
-    def print(self, target: Union[str, AppKit.NSURL]) -> XAObject:
-        """pens the file/website at the given filepath/URL.
-
-        :param target: The path to a file or the URL to a website to print.
-        :type target: Union[str, AppKit.NSURL]
-        :return: A reference to the PyXA object that called this method.
-        :rtype: XAObject
-
-        .. note::
-        
-            The implementation of a printing method various across applications, and some do not have the same method signature. If this presents a problem for a specific application, a custom print method should be defined for that application class.
-
-        .. versionadded:: 0.0.1
-        """
-        if not isinstance(target, AppKit.NSURL):
-            target = XAPath(target)
-        self.xa_elem.print(target)
-        return self
-
-class XACanOpenPath(XAObject):
-    """A class for scriptable objects that can open an item at a given path (either in its default application or in an application whose PyXA object extends this class).
-    
-    .. seealso:: :class:`XABaseScriptable.XASBPrintable`
-
-    .. versionadded:: 0.0.1
-    """
-    def open(self, path: Union[str, AppKit.NSURL]) -> XAObject:
-        """Opens the file/website at the given filepath/URL.
-
-        :param target: The path to a file or the URL to a website to open.
-        :type target: Union[str, AppKit.NSURL]
-        :return: A reference to the PyXA object that called this method.
-        :rtype: XAObject
-
-        .. versionadded:: 0.0.1
-        """
-        if not isinstance(path, AppKit.NSURL):
-            path = XAPath(path)
-        self.xa_wksp.openURLs_withAppBundleIdentifier_options_additionalEventParamDescriptor_launchIdentifiers_([path.xa_elem], self.xa_elem.bundleIdentifier(), 0, None, None)
-        return self
-
-class XAAcceptsPushedElements(XAObject):
-    """A class for scriptable objects that either have lists or are themselves lists that other scriptable objects can be pushed onto.
-
-    .. versionadded:: 0.0.1
-    """
-    def push(self, element_specifier: Union[str, AppKit.NSObject], properties: dict, location: SBElementArray, object_class = XAObject) -> XAObject:
-        """Appends the supplied element or an element created from the supplied specifier and properties to the scriptable object list at the specified location.
-
-        :param element_specifier: Either the scripting class to create a new object of or an existing instance of a scripting class.
-        :type element_specifier: Union[str, NSObject]
-        :param properties: _description_
-        :type properties: dict
-        :param location: _description_
-        :type location: SBElementArray'
-        :param object_class: The PyXA class to wrap the newly created object in, defaults to XAObject
-        :type object_class: type
-        :return: A reference to the new created PyXA object.
-        :rtype: XAObject
-
-        .. versionadded:: 0.0.1
-        """
-        if isinstance(element_specifier, str):
-            element_specifier = self.construct(element_specifier, properties)
-        location.addObject_(element_specifier)
-        properties = {
-            "parent": self,
-            "appspace": self.xa_apsp,
-            "workspace": self.xa_wksp,
-            "element": element_specifier,
-            "appref": self.xa_aref,
-            "system_events": self.xa_sevt,
-        }
-        return object_class(properties)
 
 
-class XACanConstructElement(XAObject):
-    """A class for scriptable objects that are able to create new scriptable objects.
-
-    .. versionadded:: 0.0.1
-    """
-    def construct(self, specifier: str, properties: dict) -> AppKit.NSObject:
-        """Initializes a new NSObject of the given specifier class with the supplied dictionary of properties.
-
-        :param specifier: The scripting class to create a new object of.
-        :type specifier: str
-        :param properties: A dictionary of property names and values appropriate for the specified scripting class.
-        :type properties: dict
-        :return: A reference to the newly created NSObject.
-        :rtype: NSObject
-
-        .. versionadded:: 0.0.1
-        """
-        if self.xa_scel is not None:
-            return self.xa_scel.classForScriptingClass_(specifier).alloc().initWithProperties_(properties)
-        return self.xa_elem.classForScriptingClass_(specifier).alloc().initWithProperties_(properties)
-
-
-
-
-class XAShowable(XAObject):
-    def show(self) -> XAObject:
-        """Shows a document, window, or item.
-
-        :return: A reference to the PyXA object that called this method.
-        :rtype: XAObject
-
-        .. versionadded:: 0.0.1
-        """
-        self.xa_elem.show()
-
-class XASelectable(XAObject):
-    def select(self) -> XAObject:
-        """Selects a document or item. This may open a new window, depending on which kind of object and application it acts on.
-
-        :return: A reference to the PyXA object that called this method.
-        :rtype: XAObject
-
-        .. versionadded:: 0.0.1
-        """
-        self.xa_elem.select()
-
-class XADeletable(XAObject):
-    def delete(self) -> XAObject:
-        """Deletes a document or item.
-
-        :return: A reference to the PyXA object that called this method.
-        :rtype: XAObject
-
-        .. versionadded:: 0.0.1
-        """
-        deletion_thread = threading.Thread(target=self.xa_elem.delete, name="Delete", daemon=True)
-        deletion_thread.start()
-
-
-
-
-### Elements
 class XAProcess(XAObject):
     def __init__(self, properties):
         super().__init__(properties)
@@ -703,7 +541,7 @@ class XAProcess(XAObject):
 
 
 
-class XAApplication(XAObject):
+class XAApplication(XAObject, XAClipboardCodable):
     """A general application class for both officially scriptable and non-scriptable applications.
 
     .. seealso:: :class:`XASBApplication`, :class:`XAWindow`
@@ -942,7 +780,7 @@ class XAApplication(XAObject):
 
 
 
-class XASound(XAObject):
+class XASound(XAObject, XAClipboardCodable):
     """A wrapper class for NSSound objects and associated methods.
 
     .. versionadded:: 0.0.1
@@ -1113,7 +951,7 @@ class XASound(XAObject):
 
 
 
-class XAURL(XAObject):
+class XAURL(XAObject, XAClipboardCodable):
     def __init__(self, url: Union[str, AppKit.NSURL]):
         super().__init__()
         self.parameters: str #: The query parameters of the URL
@@ -1216,7 +1054,7 @@ class XAURL(XAObject):
 
 
 
-class XAPath(XAObject):
+class XAPath(XAObject, XAClipboardCodable):
     def __init__(self, path: Union[str, AppKit.NSURL]):
         super().__init__()
         if isinstance(path, str):
@@ -1249,7 +1087,7 @@ class XAPath(XAObject):
 
 
 
-class XAPredicate(XAObject):
+class XAPredicate(XAObject, XAClipboardCodable):
     def __init__(self):
         self.keys: List[str] = []
         self.operators: List[str] = []
@@ -2727,7 +2565,7 @@ class XAImageList(XAList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XAImage, filter)
 
-class XAImage(XAObject):
+class XAImage(XAObject, XAClipboardCodable):
     """A wrapper around NSImage with specialized automation methods.
 
     .. versionadded:: 0.0.2

@@ -7,8 +7,11 @@ from enum import Enum
 from typing import Any, List, Tuple, Union
 import threading
 
+from AppKit import NSURL
+
 from PyXA import XABase
 from PyXA import XABaseScriptable
+from ..XAProtocols import XAClipboardCodable
 
 class XASafariApplication(XABaseScriptable.XASBApplication, XABaseScriptable.XASBPrintable, XABase.XAObject):
     """A class for interacting with Safari.app.
@@ -400,7 +403,7 @@ class XASafariGeneric(XABaseScriptable.XASBCloseable, XABase.XAObject):
 
 
 
-class XASafariDocumentList(XABase.XAList):
+class XASafariDocumentList(XABase.XAList, XAClipboardCodable):
     """A wrapper around lists of Safari documents that employs fast enumeration techniques.
 
     All properties of documents can be called as methods on the wrapped list, returning a list containing each document's value for the property.
@@ -450,15 +453,16 @@ class XASafariDocumentList(XABase.XAList):
         """
         return list(self.xa_elem.arrayByApplyingSelector_("source"))
 
-    def url(self) -> List[str]:
+    def url(self) -> List[XABase.XAURL]:
         """Gets the file URL of each document in the list.
 
         :return: A list of document URLs
-        :rtype: List[str]
+        :rtype: List[XABase.XAURL]
         
-        .. versionadded:: 0.0.
+        .. versionadded:: 0.0.4
         """
-        return list(self.xa_elem.arrayByApplyingSelector_("URL"))
+        ls = self.xa_elem.arrayByApplyingSelector_("URL")
+        return [XABase.XAURL(x) for x in ls]
 
     def text(self) -> List[str]:
         """Gets the visible text of each document in the list.
@@ -510,7 +514,7 @@ class XASafariDocumentList(XABase.XAList):
         """
         return self.by_property("source", source)
 
-    def by_url(self, url: str) -> 'XASafariDocument':
+    def by_url(self, url: XABase.XAURL) -> 'XASafariDocument':
         """Retrieves the tab whose URL matches the given URL, if one exists.
 
         :return: The desired tab, if it is found
@@ -518,7 +522,7 @@ class XASafariDocumentList(XABase.XAList):
         
         .. versionadded:: 0.0.4
         """
-        return self.by_property("URL", url)
+        return self.by_property("URL", str(url.xa_elem))
     
     def by_text(self, text: str) -> 'XASafariDocument':
         """Retrieves the tab whose visible text matches the given text, if one exists.
@@ -599,7 +603,23 @@ class XASafariDocumentList(XABase.XAList):
         for _index in range(length):
             self[0].close()
 
-class XASafariDocument(XASafariGeneric, XABaseScriptable.XASBPrintable):
+    def get_clipboard_representation(self) -> List[List[Union[NSURL, str]]]:
+        """Gets a clipboard-codable representation of each document in the list.
+
+        When the clipboard content is set to a list of Safari documents, each document's URL is added to the clipboard.
+
+        :return: A list of document URLs
+        :rtype: List[List[Union[NSURL, str]]]
+
+        .. versionadded:: 0.0.8
+        """
+        urls = self.url()
+        return [x.xa_elem for x in urls]
+
+    def __repr__(self):
+        return "<" + str(type(self)) + str(self.name()) + ">"
+
+class XASafariDocument(XASafariGeneric, XAClipboardCodable, XABaseScriptable.XASBPrintable):
     """A class for interacting with Safari documents.
 
     .. seealso:: :class:`XASafariGeneric`, :class:`XABaseScriptable.XASBPrintable`, :class:`XABaseScriptable.XASBSaveable`
@@ -612,7 +632,7 @@ class XASafariDocument(XASafariGeneric, XABaseScriptable.XASBPrintable):
         self.modified: bool #: Whether the document has been modified since its last save
         self.file: str #: The location of the document on the disk, if there is one
         self.source: str #: The HTML source of the web page currently loaded in the document
-        self.url: str #: The current URL of the document
+        self.url: XABase.XAURL #: The current URL of the document
         self.text: str #: The text of the web page currently loaded in the document
 
     @property
@@ -632,8 +652,8 @@ class XASafariDocument(XASafariGeneric, XABaseScriptable.XASBPrintable):
         return self.xa_elem.source()
 
     @property
-    def url(self) -> str:
-        return self.xa_elem.URL()
+    def url(self) -> XABase.XAURL:
+        return XABase.XAURL(self.xa_elem.URL())
 
     @property
     def text(self) -> str:
@@ -655,8 +675,24 @@ class XASafariDocument(XASafariGeneric, XABaseScriptable.XASBPrintable):
         print_thread = threading.Thread(target=self.xa_elem.printWithProperties_printDialog_, args=(properties, show_dialog), name="Print Document")
         print_thread.start()
 
+    def get_clipboard_representation(self) -> List[Union[NSURL, str]]:
+        """Gets a clipboard-codable representation of the document.
 
-class XASafariTabList(XABase.XAList):
+        When the clipboard content is set to a Safari document, the document's URL and source code are added to the clipboard.
+
+        :return: The document's URL and source code
+        :rtype: List[Union[NSURL, str]]
+
+        .. versionadded:: 0.0.8
+        """
+        return [self.url.xa_elem, self.source]
+
+    def __repr__(self):
+        return "<" + str(type(self)) + str(self.name) + ">"
+
+
+
+class XASafariTabList(XABase.XAList, XAClipboardCodable):
     """A wrapper around lists of tabs that employs fast enumeration techniques.
 
     All properties of tabs can be called as methods on the wrapped list, returning a list containing each tab's value for the property.
@@ -676,15 +712,16 @@ class XASafariTabList(XABase.XAList):
         """
         return list(self.xa_elem.arrayByApplyingSelector_("source"))
 
-    def url(self) -> List[str]:
+    def url(self) -> List[XABase.XAURL]:
         """Gets the current URL of each tab in the list.
 
         :return: A list of web URLs
-        :rtype: List[str]
+        :rtype: List[XABase.XAURL]
         
         .. versionadded:: 0.0.4
         """
-        return list(self.xa_elem.arrayByApplyingSelector_("URL"))
+        ls = self.xa_elem.arrayByApplyingSelector_("URL")
+        return [XABase.XAURL(x) for x in ls]
 
     def index(self) -> List[int]:
         """Gets the index of each tab in the list.
@@ -736,7 +773,7 @@ class XASafariTabList(XABase.XAList):
         """
         return self.by_property("source", source)
 
-    def by_url(self, url: str) -> Union['XASafariTab', None]:
+    def by_url(self, url: XABase.XAURL) -> Union['XASafariTab', None]:
         """Retrieves the tab whose URL matches the given URL, if one exists.
 
         :return: The desired tab, if it is found
@@ -744,7 +781,7 @@ class XASafariTabList(XABase.XAList):
         
         .. versionadded:: 0.0.4
         """
-        return self.by_property("URL", url)
+        return self.by_property("URL", str(url.xa_elem))
 
     def by_index(self, index: int) -> Union['XASafariTab', None]:
         """Retrieves the tab whose index matches the given index, if one exists.
@@ -888,10 +925,23 @@ class XASafariTabList(XABase.XAList):
         for _index in range(length):
             self[0].close()
 
+    def get_clipboard_representation(self) -> List[NSURL]:
+        """Gets a clipboard-codable representation of each tab in the list.
+
+        When the clipboard content is set to a list of Safari tabs, each tabs's URL is added to the clipboard. Pasting the copied list into an app such as Numbers will place each URL in a separate cell of a column.
+
+        :return: A list of tab URLs
+        :rtype: List[NSURL]
+
+        .. versionadded:: 0.0.8
+        """
+        urls = self.url()
+        return [x.xa_elem for x in urls]
+
     def __repr__(self):
         return "<" + str(type(self)) + str(self.name()) + ">"
 
-class XASafariTab(XASafariGeneric):
+class XASafariTab(XASafariGeneric, XAClipboardCodable):
     """A class for interacting with Safari tabs.
 
     .. seealso:: :class:`XASafariGeneric`
@@ -901,7 +951,7 @@ class XASafariTab(XASafariGeneric):
     def __init__(self, properties):
         super().__init__(properties)
         self.source: str #: The HTML source of the web page currently loaded in the tab
-        self.url: str #: The current URL of the tab
+        self.url: XABase.XAURL #: The current URL of the tab
         self.index: int #: The index of the tab, ordered left to right
         self.text: str #: The text of the web page currently loaded in the tab
         self.visible: bool #: Whether the tab is currently visible
@@ -912,8 +962,8 @@ class XASafariTab(XASafariGeneric):
         return self.xa_elem.source()
 
     @property
-    def url(self) -> str:
-        return self.xa_elem.URL()
+    def url(self) -> XABase.XAURL:
+        return XABase.XAURL(self.xa_elem.URL())
 
     @property
     def index(self) -> int:
@@ -977,3 +1027,18 @@ class XASafariTab(XASafariGeneric):
         """
         self.xa_elem.moveTo_(window.xa_elem)
         return self
+
+    def get_clipboard_representation(self) -> NSURL:
+        """Gets a clipboard-codable representation of the tab.
+
+        When the clipboard content is set to a Safari tab, the tab's URL is added to the clipboard.
+
+        :return: The tabs's URL
+        :rtype: NSURL
+
+        .. versionadded:: 0.0.8
+        """
+        return [self.url.xa_elem]
+
+    def __repr__(self):
+        return "<" + str(type(self)) + str(self.name) + ">"

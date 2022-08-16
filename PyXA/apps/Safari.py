@@ -1038,7 +1038,7 @@ class XASafariTab(XASafariGeneric, XAClipboardCodable):
 
         .. versionadded:: 0.0.8
         """
-        return [self.url.xa_elem]
+        return self.url.xa_elem
 
     def __repr__(self):
         return "<" + str(type(self)) + str(self.name) + ">"

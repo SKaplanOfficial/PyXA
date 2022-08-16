@@ -10,21 +10,15 @@ from AppKit import NSFileManager, NSURL
 from PyXA import XABase
 from PyXA.XABase import OSType
 from PyXA import XABaseScriptable
+from ..XAProtocols import XACanOpenPath, XAClipboardCodable, XACloseable, XAPrintable
 
-class XATextEditApplication(XABaseScriptable.XASBApplication, XABase.XACanConstructElement, XABase.XAAcceptsPushedElements, XABase.XACanOpenPath):
+class XATextEditApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
     """A class for managing and interacting with TextEdit.app.
 
     .. seealso:: :class:`XATextEditWindow`, :class:`XATextEditDocument`
 
     .. versionadded:: 0.0.1
     """
-    class SaveOption(Enum):
-        """Options for whether to save documents when closing them.
-        """
-        YES = OSType('yes ') #: Save the file
-        NO  = OSType('no  ') #: Do not save the file
-        ASK = OSType('ask ') #: Ask user whether to save the file (bring up dialog)
-
     class PrintErrorHandling(Enum):
         """Options for how to handle errors while printing.
         """
@@ -299,7 +293,7 @@ class XATextEditWindow(XABaseScriptable.XASBPrintable):
         return self.xa_elem.zoomed()
 
 
-class XATextEditDocumentList(XABase.XAList):
+class XATextEditDocumentList(XABase.XAList, XAClipboardCodable):
     """A wrapper around lists of documents that employs fast enumeration techniques.
 
     All properties of documents can be called as methods on the wrapped list, returning a list containing each document's value for the property.
@@ -319,15 +313,16 @@ class XATextEditDocumentList(XABase.XAList):
         """
         return list(self.xa_elem.arrayByApplyingSelector_("properties"))
 
-    def path(self) -> List[str]:
+    def path(self) -> List[XABase.XAPath]:
         """Gets the path of each document in the list.
 
         :return: A list of document paths
-        :rtype: List[str]
+        :rtype: List[XABase.XAPath]
         
         .. versionadded:: 0.0.3
         """
-        return list(self.xa_elem.arrayByApplyingSelector_("path"))
+        ls = self.xa_elem.arrayByApplyingSelector_("path")
+        return [XABase.XAPath(x) for x in ls]
 
     def name(self) -> List[str]:
         """Gets the name of each document in the list.
@@ -425,7 +420,7 @@ class XATextEditDocumentList(XABase.XAList):
         """
         return self.by_property("properties", properties)
 
-    def by_path(self, path: str) -> Union['XATextEditDocument', None]:
+    def by_path(self, path: XABase.XAPath) -> Union['XATextEditDocument', None]:
         """Retrieves the document whose path matches the given path, if one exists.
 
         :return: The desired document, if it is found
@@ -433,7 +428,7 @@ class XATextEditDocumentList(XABase.XAList):
         
         .. versionadded:: 0.0.3
         """
-        return self.by_property("path", path)
+        return self.by_property("path", path.xa_elem)
 
     def by_name(self, name: str) -> Union['XATextEditDocument', None]:
         """Retrieves the first document whose name matches the given name, if one exists.
@@ -522,7 +517,27 @@ class XATextEditDocumentList(XABase.XAList):
             doc.setValue_forKey_(doc.text().get()[::-1], "text")
         return self
 
-class XATextEditDocument(XABase.XACanConstructElement, XABase.XAAcceptsPushedElements, XABase.XATextDocument, XABaseScriptable.XASBPrintable):
+    def get_clipboard_representation(self) -> List[Union[str, NSURL]]:
+        """Gets a clipboard-codable representation of each document in the list.
+
+        When the clipboard content is set to a list of documents, each documents's file URL and name are added to the clipboard.
+
+        :return: A list of each document's file URL and name
+        :rtype: List[Union[str, NSURL]]
+
+        .. versionadded:: 0.0.8
+        """
+        items = []
+        texts = self.text()
+        paths = self.path()
+        for index, text in enumerate(texts):
+            items.append(str(text), paths[index])
+        return items
+
+    def __repr__(self):
+        return "<" + str(type(self)) + str(self.name()) + ">"
+
+class XATextEditDocument(XABase.XATextDocument, XAPrintable, XAClipboardCodable, XACloseable):
     """A class for managing and interacting with TextEdit documents.
 
     .. seealso:: :class:`XATextEditApplication`
@@ -536,7 +551,7 @@ class XATextEditDocument(XABase.XACanConstructElement, XABase.XAAcceptsPushedEle
     def __init__(self, properties):
         super().__init__(properties)
         self.properties: dict #: All properties of the document
-        self.path: str #: The path at which the document is stored
+        self.path: XABase.XAPath #: The path at which the document is stored
         self.name: str #: The name of the document, including the file extension
         self.modified: bool #: Whether the document has been modified since the last save
 
@@ -546,7 +561,7 @@ class XATextEditDocument(XABase.XACanConstructElement, XABase.XAAcceptsPushedEle
 
     @property
     def path(self) -> str:
-        return self.xa_elem.path()
+        return XABase.XAPath(self.xa_elem.path())
 
     @property
     def name(self) -> str:
@@ -556,12 +571,22 @@ class XATextEditDocument(XABase.XACanConstructElement, XABase.XAAcceptsPushedEle
     def modified(self) -> bool:
         return self.xa_elem.modified()
 
-    def close(self, save: XATextEditApplication.SaveOption = XATextEditApplication.SaveOption.YES.value):
-        """Closes the document.
+    def print(self, properties: Union[dict, None] = None, show_dialog: bool = True) -> 'XATextEditDocument':
+        """Prints the document.
 
-        .. versionadded:: 0.0.2
+        :param show_dialog: Whether to show the print dialog, defaults to True
+        :type show_dialog: bool, optional
+        :param properties: Properties to set for printing, defaults to None
+        :type properties: Union[dict, None], optional
+        :return: The document object
+        :rtype: XATextEditDocument
+
+        .. versionadded:: 0.0.8
         """
-        self.xa_elem.closeSaving_savingIn_(save, None)
+        if properties is None:
+            properties = {}
+        self.xa_elem.print_printDialog_withProperties_(self.xa_elem, show_dialog, properties)
+        return self
 
     def save(self, file_path: str = None):
         """Saves the document.
@@ -590,10 +615,25 @@ class XATextEditDocument(XABase.XACanConstructElement, XABase.XAAcceptsPushedEle
     def copy(self):
         """Copies the document file and its contents to the clipboard.
 
+        .. deprecated:: 0.0.8
+           Use :class:`XABase.XAClipboard` methods instead.
+
         .. versionadded:: 0.0.2
         """
         url =  NSURL.alloc().initFileURLWithPath_(self.path)
         self.set_clipboard([self.text, url])
+
+    def get_clipboard_representation(self) -> List[Union[str, NSURL]]:
+        """Gets a clipboard-codable representation of the document.
+
+        When the clipboard content is set to a document, the documents's file URL and name are added to the clipboard.
+
+        :return: The document's file URL and name
+        :rtype: List[Union[str, NSURL]]
+
+        .. versionadded:: 0.0.8
+        """
+        return [str(self.text), self.path.xa_elem]
 
     def __repr__(self):
         return "<" + str(type(self)) + self.name + ">"

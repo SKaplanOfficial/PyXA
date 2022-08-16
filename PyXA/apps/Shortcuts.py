@@ -3,9 +3,11 @@
 Control the macOS Shortcuts application using JXA-like syntax.
 """
 from typing import Any, List, Union
+from AppKit import NSImage
 
 from PyXA import XABase
 from PyXA import XABaseScriptable
+from ..XAProtocols import XAClipboardCodable
 
 class XAShortcutsApplication(XABaseScriptable.XASBApplication):
     """A class for managing and interacting with Shortcuts.app.
@@ -77,7 +79,7 @@ class XAShortcutsApplication(XABaseScriptable.XASBApplication):
         return self._new_element(self.xa_scel.shortcuts(), XAShortcutList, filter)
 
 
-class XAShortcutFolderList(XABase.XAList):
+class XAShortcutFolderList(XABase.XAList, XAClipboardCodable):
     """A wrapper around lists of shortcuts folders that employs fast enumeration techniques.
 
     All properties of folders can be called as methods on the wrapped list, returning a list containing each folders's value for the property.
@@ -138,10 +140,22 @@ class XAShortcutFolderList(XABase.XAList):
         ls = self.xa_elem.arrayByApplyingSelector_("shortcuts")
         return [self._new_element(x, XAShortcutList, filter) for x in ls.get()]
 
+    def get_clipboard_representation(self) -> List[str]:
+        """Gets a clipboard-codable representation of each folder in the list.
+
+        When the clipboard content is set to a list of shortcut folders, each folders's name is added to the clipboard.
+
+        :return: The list of folder names
+        :rtype: List[str]
+
+        .. versionadded:: 0.0.8
+        """
+        return self.name()
+
     def __repr__(self):
         return "<" + str(type(self)) + str(self.name()) + ">"
 
-class XAShortcutFolder(XABase.XAObject):
+class XAShortcutFolder(XABase.XAObject, XAClipboardCodable):
     """A class for managing and interacting with folders of shortcuts.
 
     .. seealso:: :class:`XAShortcutsApplication`
@@ -189,14 +203,28 @@ class XAShortcutFolder(XABase.XAObject):
         """
         return self._new_element(self.xa_elem.shortcuts(), XAShortcutList, filter)
 
+    def get_clipboard_representation(self) -> str:
+        """Gets a clipboard-codable representation of the folder.
+
+        When the clipboard content is set to a shortcut folder, the folders's name is added to the clipboard.
+
+        :return: The name of the folder
+        :rtype: str
+
+        .. versionadded:: 0.0.8
+        """
+        return self.name
+
     def __repr__(self):
         return "<" + str(type(self)) + self.name + ", id=" + self.id + ">"
 
     def __eq__(self, other: 'XAShortcutFolder'):
+        if other is None:
+            return False
         return self.id == other.id
 
 
-class XAShortcutList(XABase.XAList):
+class XAShortcutList(XABase.XAList, XAClipboardCodable):
     """A wrapper around lists of shortcuts that employs fast enumeration techniques.
 
     All properties of shortcuts can be called as methods on the wrapped list, returning a list containing each shortcut's value for the property.
@@ -267,7 +295,7 @@ class XAShortcutList(XABase.XAList):
         .. versionadded:: 0.0.4
         """
         ls = self.xa_elem.arrayByApplyingSelector_("icon")
-        return self._new_element(ls, XABase.XAImageList)
+        return [XABase.XAImage(x) for x in ls]
 
     def accepts_input(self) -> List[bool]:
         """Gets the accept input status of each shortcut in the list.
@@ -369,10 +397,30 @@ class XAShortcutList(XABase.XAList):
         """
         return self.by_property("actionCount", action_count)
 
+    def get_clipboard_representation(self) -> List[Union[List[str], List[str], List[NSImage]]]:
+        """Gets a clipboard-codable representation of each shortcut in the list.
+
+        When the clipboard content is set to a list of shortcuts, each shortcut's name, subtitle, and icon are added to the clipboard.
+
+        :return: A list of each shortcut's name, subtitle, and icon
+        :rtype: List[Union[List[str], List[str], List[NSImage]]]
+
+        .. versionadded:: 0.0.8
+        """
+        items = []
+        names = self.name()
+        subtitles = self.subtitle()
+        icons = self.icon()
+        for index, name in enumerate(names):
+            items.append(name)
+            items.append(subtitles[index])
+            items.append(icons[index].xa_elem)
+        return items
+
     def __repr__(self):
         return "<" + str(type(self)) + str(self.name()) + ">"
 
-class XAShortcut(XABaseScriptable.XASBPrintable):
+class XAShortcut(XABaseScriptable.XASBPrintable, XAClipboardCodable):
     """A class for managing and interacting with shortcuts.
 
     .. seealso:: :class:`XAShortcutsApplication`
@@ -460,8 +508,22 @@ class XAShortcut(XABaseScriptable.XASBPrintable):
             input = input.xa_elem
         return self.xa_elem.runWithInput_(input)
 
+    def get_clipboard_representation(self) -> List[Union[str, str, NSImage]]:
+        """Gets a clipboard-codable representation of the shortcut.
+
+        When the clipboard content is set to a shortcut, the shortcut's name, subtitle, and icon are added to the clipboard.
+
+        :return: The shortcut's name, subtitle, and icon
+        :rtype: List[Union[str, str, NSImage]]
+
+        .. versionadded:: 0.0.8
+        """
+        return [self.name, self.subtitle, self.icon.xa_elem]
+
     def __repr__(self):
         return "<" + str(type(self)) + self.name + ", id=" + str(self.id) + ">"
 
     def __eq__(self, other: 'XAShortcut'):
+        if other is None:
+            return False
         return self.id == other.id

@@ -1,3 +1,4 @@
+from enum import Enum
 from typing import List, Tuple, Union
 import threading
 import ScriptingBridge
@@ -98,6 +99,13 @@ class XASBApplication(XASBObject, XABase.XAApplication):
 
     .. seealso:: :class:`XABase.XAApplication`, :class:`XABase.XAWindow`
     """
+    class SaveOption(Enum):
+        """Options for whether to save documents when closing them.
+        """
+        YES = XABase.OSType('yes ') #: Save the file
+        NO  = XABase.OSType('no  ') #: Do not save the file
+        ASK = XABase.OSType('ask ') #: Ask user whether to save the file (bring up dialog)
+
     def __init__(self, properties):
         super().__init__(properties)
         self.xa_scel = ScriptingBridge.SBApplication.alloc().initWithBundleIdentifier_(self.xa_elem.bundleIdentifier())

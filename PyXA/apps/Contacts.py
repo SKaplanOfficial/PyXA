@@ -10,9 +10,10 @@ from AppKit import NSURL
 
 from PyXA import XABase, XAEvents
 from PyXA import XABaseScriptable
+from ..XAProtocols import XACanOpenPath
 
 
-class XAContactsApplication(XABaseScriptable.XASBApplication):
+class XAContactsApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
     """A class for managing and interacting with Contacts.app.
 
     .. seealso:: :class:`XAContactsGroup`, :class:`XAContactsPerson`

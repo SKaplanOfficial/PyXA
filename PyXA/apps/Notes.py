@@ -393,6 +393,9 @@ class XANotesDocumentList(XABase.XAList, XAClipboardCodable):
         """
         return self.name()
 
+    def __repr__(self):
+        return "<" + str(type(self)) + str(self.name()) + ">"
+
 
 class XANotesAccountList(XABase.XAList, XAClipboardCodable):
     """A wrapper around a list of accounts.

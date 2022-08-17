@@ -7,9 +7,9 @@ from AppKit import NSImage
 
 from PyXA import XABase
 from PyXA import XABaseScriptable
-from ..XAProtocols import XAClipboardCodable
+from ..XAProtocols import XACanOpenPath, XAClipboardCodable
 
-class XAShortcutsApplication(XABaseScriptable.XASBApplication):
+class XAShortcutsApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
     """A class for managing and interacting with Shortcuts.app.
 
     .. seealso:: :class:`XATextEditWindow`, :class:`XATextEditDocument`

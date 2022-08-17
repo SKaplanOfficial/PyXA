@@ -8,8 +8,9 @@ from typing import List, Tuple, Union
 
 from PyXA import XABase
 from PyXA import XABaseScriptable
+from ..XAProtocols import XACanOpenPath, XAClipboardCodable
 
-class XATerminalApplication(XABaseScriptable.XASBApplication, XABase.XACanConstructElement, XABase.XAAcceptsPushedElements, XABase.XACanOpenPath):
+class XATerminalApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
     """A class for managing and interacting with Messages.app
 
     .. seealso:: :class:`XATerminalWindow`, :class:`XATerminalTab`, :class:`XATerminalSettingsSet`
@@ -207,7 +208,7 @@ class XATerminalWindow(XABaseScriptable.XASBWindow, XABaseScriptable.XASBPrintab
 
 
 
-class XATerminalTabList(XABase.XAList):
+class XATerminalTabList(XABase.XAList, XAClipboardCodable):
     """A wrapper around lists of Terminal tabs that employs fast enumeration techniques.
 
     All properties of tabs can be called as methods on the wrapped list, returning a list containing each tab's value for the property.
@@ -438,7 +439,28 @@ class XATerminalTabList(XABase.XAList):
         """
         return self.by_property("currentSettings", current_settings.xa_elem)
 
-class XATerminalTab(XABase.XAObject):
+    def get_clipboard_representation(self) -> List[str, str]:
+        """Gets a clipboard-codable representation of each tab in the list.
+
+        When the clipboard content is set to a list of Terminal tabs, each tab's custom title and history are added to the clipboard.
+
+        :return: The list of each tab's custom title and history
+        :rtype: List[str, str]
+
+        .. versionadded:: 0.0.8
+        """
+        items = []
+        titles = self.custom_title()
+        histories = self.history()
+        for index, title in enumerate(titles):
+            items.append(title)
+            items.append(histories[index])
+        return items
+
+    def __repr__(self):
+        return "<" + str(type(self)) + str(self.custom_title()) + ">"
+
+class XATerminalTab(XABase.XAObject, XAClipboardCodable):
     """A class for managing and interacting with tabs in Terminal.app.
 
     .. versionadded:: 0.0.1
@@ -512,10 +534,25 @@ class XATerminalTab(XABase.XAObject):
         settings_set_obj = self.xa_elem.currentSettings()
         return self._new_element(settings_set_obj, XATerminalSettingsSet)
 
+    def get_clipboard_representation(self) -> List[str, str]:
+        """Gets a clipboard-codable representation of the tab.
+
+        When the clipboard content is set to a Terminal tab, the tab's custom title and its history are added to the clipboard.
+
+        :return: The tab's custom title and history
+        :rtype: List[str, str]
+
+        .. versionadded:: 0.0.8
+        """
+        return [self.custom_title, self.history]
+
+    def __repr__(self):
+        return "<" + str(type(self)) + self.custom_title + ">"
 
 
 
-class XATerminalSettingsSetList(XABase.XAList):
+
+class XATerminalSettingsSetList(XABase.XAList, XAClipboardCodable):
     """A wrapper around lists of Terminal settings sets that employs fast enumeration techniques.
 
     All properties of settings sets can be called as methods on the wrapped list, returning a list containing each settings set's value for the property.
@@ -889,7 +926,22 @@ class XATerminalSettingsSetList(XABase.XAList):
         """
         return self.by_property("customTitle", custom_title)
 
-class XATerminalSettingsSet(XABase.XAObject):
+    def get_clipboard_representation(self) -> List[str]:
+        """Gets a clipboard-codable representation of each settings set in the list.
+
+        When the clipboard content is set to a list of settings sets, each setting set's name is added to the clipboard.
+
+        :return: The list of setting set names
+        :rtype: List[str]
+
+        .. versionadded:: 0.0.8
+        """
+        return self.name()
+
+    def __repr__(self):
+        return "<" + str(type(self)) + str(self.name()) + ">"
+
+class XATerminalSettingsSet(XABase.XAObject, XAClipboardCodable):
     """A class for managing and interacting with settings sets in Terminal.app.
 
     .. versionadded:: 0.0.1
@@ -986,3 +1038,18 @@ class XATerminalSettingsSet(XABase.XAObject):
     @property
     def custom_title(self) -> str:
         return self.xa_elem.customTitle()
+
+    def get_clipboard_representation(self) -> str:
+        """Gets a clipboard-codable representation of the settings set.
+
+        When the clipboard content is set to a settings set, the setting set's name is added to the clipboard.
+
+        :return: The setting set's name
+        :rtype: str
+
+        .. versionadded:: 0.0.8
+        """
+        return self.name
+
+    def __repr__(self):
+        return "<" + str(type(self)) + self.name + ">"

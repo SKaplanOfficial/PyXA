@@ -12,8 +12,9 @@ import ApplicationServices
 
 from PyXA.XABase import OSType
 from PyXA import XABaseScriptable
+from ..XAProtocols import XACanOpenPath
 
-class XAKeynoteApplication(XABaseScriptable.XASBApplication, XABase.XAAcceptsPushedElements, XABase.XACanConstructElement, XABase.XACanOpenPath):
+class XAKeynoteApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
     """A class for managing and interacting with Keynote.app.
 
     .. seealso:: :class:`XAKeynoteWindow`, :class:`XAKeynoteDocument`
@@ -552,7 +553,7 @@ class XAKeynoteDocumentList(XABase.XAList):
     def by_password_protected(self, password_protected: bool) -> 'XAKeynoteDocument':
         return self.by_property("passwordProtected", password_protected)
 
-class XAKeynoteDocument(XABaseScriptable.XASBPrintable, XABaseScriptable.XASBCloseable, XABase.XAAcceptsPushedElements, XABase.XACanConstructElement):
+class XAKeynoteDocument(XABaseScriptable.XASBPrintable, XABaseScriptable.XASBCloseable):
     """A class for managing and interacting with TextEdit documents.
 
     .. seealso:: :class:`XAKeynoteApplication`

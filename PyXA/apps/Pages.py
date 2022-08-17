@@ -10,8 +10,9 @@ from ScriptingBridge import SBElementArray
 from PyXA import XABase
 from PyXA.XABase import OSType
 from PyXA import XABaseScriptable
+from ..XAProtocols import XACanOpenPath
 
-class XAPagesApplication(XABaseScriptable.XASBApplication, XABase.XAAcceptsPushedElements, XABase.XACanConstructElement):
+class XAPagesApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
     """A class for managing and interacting with Pages.app.
 
     .. seealso:: :class:`XAPagesWindow`, :class:`XAPagesDocument`
@@ -472,7 +473,7 @@ class XAPagesDocumentList(XABase.XAList):
     def __repr__(self):
         return "<" + str(type(self)) + str(self.name()) + ">"
 
-class XAPagesDocument(XABaseScriptable.XASBPrintable, XABaseScriptable.XASBCloseable, XABase.XAAcceptsPushedElements, XABase.XACanConstructElement):
+class XAPagesDocument(XABaseScriptable.XASBPrintable, XABaseScriptable.XASBCloseable):
     """A class for managing and interacting with Pages documents.
 
     .. seealso:: :class:`XAPagesApplication`

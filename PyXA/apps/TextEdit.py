@@ -10,20 +10,15 @@ from AppKit import NSFileManager, NSURL
 from PyXA import XABase
 from PyXA.XABase import OSType
 from PyXA import XABaseScriptable
-from ..XAProtocols import XACanOpenPath, XAClipboardCodable, XACloseable, XAPrintable
+from ..XAProtocols import XACanOpenPath, XACanPrintPath, XAClipboardCodable, XACloseable, XAPrintable
 
-class XATextEditApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
+class XATextEditApplication(XABaseScriptable.XASBApplication, XACanOpenPath, XACanPrintPath):
     """A class for managing and interacting with TextEdit.app.
 
     .. seealso:: :class:`XATextEditWindow`, :class:`XATextEditDocument`
 
     .. versionadded:: 0.0.1
     """
-    class PrintErrorHandling(Enum):
-        """Options for how to handle errors while printing.
-        """
-        STANDARD = 'lwst' #: Standard PostScript error handling
-        DETAILED = 'lwdt' #: Print a detailed report of PostScript errors
 
     def __init__(self, properties):
         super().__init__(properties)
@@ -49,24 +44,24 @@ class XATextEditApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         super().open(path)
         return self.front_window.document
 
-    def print(self, file: Union[str, NSURL, 'XATextEditDocument'], show_prompt: bool = True, print_settings: dict = None):
+    def print(self, file: Union[str, NSURL, 'XATextEditDocument'], print_properties: dict = None, show_prompt: bool = True):
         """Prints a TextEdit document.
 
         :param file: The document or path to a document to print
-        :type file: Union[str, NSURL, &#39;XATextEditDocument&#39;]
+        :type file: Union[str, NSURL, XATextEditDocument]
+        :param print_properties: Settings to print with or to preset in the print dialog, defaults to None
+        :type print_properties: dict, optional
         :param show_prompt: Whether to show the print dialog, defaults to True
         :type show_prompt: bool, optional
-        :param print_settings: Settings to print with or to preset in the print dialog, defaults to None
-        :type print_settings: dict, optional
 
-        :Example 1: Printing a document with print settings
+        :Example 1: Printing a document with print properties
 
         >>> import PyXA
         >>> from datetime import datetime, timedelta
         >>> app = PyXA.application("TextEdit")
         >>> doc = app.documents()[0]
         >>> print_time = datetime.now() + timedelta(minutes=1)
-        >>> settings = {
+        >>> properties = {
         >>>     "copies": 3,
         >>>     "collating": False,
         >>>     "startingPage": 1,
@@ -78,7 +73,7 @@ class XATextEditApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         >>>     "faxNumber": "",
         >>>     "targetPrinter": ""
         >>> }
-        >>> app.print(doc, print_settings=settings)
+        >>> app.print(doc, print_properties=properties)
 
         .. versionadded:: 0.0.3
         """
@@ -86,7 +81,7 @@ class XATextEditApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
             file = NSURL.alloc().initFileURLWithPath_(file)
         elif isinstance(file, XATextEditDocument):
             file = NSURL.alloc().initFileURLWithPath_(file.path)
-        self.xa_scel.print_printDialog_withProperties_(file, show_prompt, print_settings)
+        self.xa_scel.print_printDialog_withProperties_(file, show_prompt, print_properties)
 
     def documents(self, filter: dict = None) -> 'XATextEditDocumentList':
         """Returns a list of documents matching the filter.
@@ -531,7 +526,7 @@ class XATextEditDocumentList(XABase.XAList, XAClipboardCodable):
         texts = self.text()
         paths = self.path()
         for index, text in enumerate(texts):
-            items.append(str(text), paths[index])
+            items.append(str(text), paths[index].xa_elem)
         return items
 
     def __repr__(self):
@@ -571,21 +566,21 @@ class XATextEditDocument(XABase.XATextDocument, XAPrintable, XAClipboardCodable,
     def modified(self) -> bool:
         return self.xa_elem.modified()
 
-    def print(self, properties: Union[dict, None] = None, show_dialog: bool = True) -> 'XATextEditDocument':
+    def print(self, print_properties: Union[dict, None] = None, show_dialog: bool = True) -> 'XATextEditDocument':
         """Prints the document.
 
+        :param print_properties: Properties to set for printing, defaults to None
+        :type print_properties: Union[dict, None], optional
         :param show_dialog: Whether to show the print dialog, defaults to True
         :type show_dialog: bool, optional
-        :param properties: Properties to set for printing, defaults to None
-        :type properties: Union[dict, None], optional
         :return: The document object
         :rtype: XATextEditDocument
 
         .. versionadded:: 0.0.8
         """
-        if properties is None:
-            properties = {}
-        self.xa_elem.print_printDialog_withProperties_(self.xa_elem, show_dialog, properties)
+        if print_properties is None:
+            print_properties = {}
+        self.xa_elem.print_printDialog_withProperties_(self.xa_elem, show_dialog, print_properties)
         return self
 
     def save(self, file_path: str = None):
@@ -626,9 +621,9 @@ class XATextEditDocument(XABase.XATextDocument, XAPrintable, XAClipboardCodable,
     def get_clipboard_representation(self) -> List[Union[str, NSURL]]:
         """Gets a clipboard-codable representation of the document.
 
-        When the clipboard content is set to a document, the documents's file URL and name are added to the clipboard.
+        When the clipboard content is set to a document, the documents's file URL and body text are added to the clipboard.
 
-        :return: The document's file URL and name
+        :return: The document's file URL and body text
         :rtype: List[Union[str, NSURL]]
 
         .. versionadded:: 0.0.8

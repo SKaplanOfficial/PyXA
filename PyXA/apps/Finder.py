@@ -14,8 +14,9 @@ from ScriptingBridge import SBObject
 from PyXA import XABase
 from PyXA.XABase import OSType, XAImage, XAList
 from PyXA import XABaseScriptable
+from ..XAProtocols import XACanOpenPath
 
-class XAFinderApplication(XABaseScriptable.XASBApplication):
+class XAFinderApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
     """A class for managing and interacting with Finder.app.
 
     .. versionchanged:: 0.0.3

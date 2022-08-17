@@ -7,8 +7,9 @@ from AppKit import NSMutableArray
 
 from PyXA import XABase
 from PyXA import XABaseScriptable
+from ..XAProtocols import XACanOpenPath
 
-class XACalendarApplication(XABaseScriptable.XASBApplication):
+class XACalendarApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
     """A class for managing and interacting with scripting elements of the macOS Calendar application.
 
     .. seealso:: Classes :class:`XACalendarCalendar`, :class:`XACalendarEvent`

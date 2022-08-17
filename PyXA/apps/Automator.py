@@ -12,8 +12,9 @@ from AppKit import NSPredicate, NSMutableArray, NSFileManager
 
 from PyXA import XABase
 from PyXA import XABaseScriptable
+from ..XAProtocols import XACanOpenPath
 
-class XAAutomatorApplication(XABaseScriptable.XASBApplication):
+class XAAutomatorApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
     """A class for managing and interacting with Automator.app.
 
     .. seealso:: :class:`XAAutomatorWindow`, :class:`XAAutomatorDocument`

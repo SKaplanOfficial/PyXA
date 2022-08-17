@@ -10,8 +10,9 @@ from AppKit import NSURL
 
 from PyXA import XABase
 from PyXA import XABaseScriptable
+from ..XAProtocols import XACanOpenPath
 
-class XATVApplication(XABaseScriptable.XASBApplication, XABase.XACanOpenPath):
+class XATVApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
     """A class for managing and interacting with TV.app.
 
     .. seealso:: :class:`XATVWindow`, class:`XATVSource`, :class:`XATVPlaylist`, :class:`XATVTrack`

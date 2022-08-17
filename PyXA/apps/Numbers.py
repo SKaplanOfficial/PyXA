@@ -11,7 +11,7 @@ from PyXA import XABase
 from PyXA.XABase import OSType
 from PyXA import XABaseScriptable
 
-class XANumbersApplication(XABaseScriptable.XASBApplication, XABase.XAAcceptsPushedElements, XABase.XACanConstructElement):
+class XANumbersApplication(XABaseScriptable.XASBApplication):
     """A class for managing and interacting with Numbers.app.
 
     .. seealso:: :class:`XANumbersWindow`, :class:`XANumbersDocument`
@@ -453,7 +453,7 @@ class XANumbersDocumentList(XABase.XAList):
     def __repr__(self):
         return "<" + str(type(self)) + str(self.name()) + ">"
 
-class XANumbersDocument(XABaseScriptable.XASBPrintable, XABaseScriptable.XASBCloseable, XABase.XAAcceptsPushedElements, XABase.XACanConstructElement):
+class XANumbersDocument(XABaseScriptable.XASBPrintable, XABaseScriptable.XASBCloseable):
     """A class for managing and interacting with Numbers documents.
 
     .. seealso:: :class:`XANumbersApplication`

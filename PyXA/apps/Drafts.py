@@ -8,8 +8,9 @@ from typing import List, Union
 
 from PyXA import XABase
 from PyXA import XABaseScriptable
+from ..XAProtocols import XACanOpenPath
 
-class XADraftsApplication(XABaseScriptable.XASBApplication):
+class XADraftsApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
     """A class for managing and interacting with Drafts.app.
 
     .. versionadded:: 0.0.8

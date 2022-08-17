@@ -10,8 +10,9 @@ from AppKit import NSFileManager, NSURL
 from PyXA import XABase
 from PyXA.XABase import OSType
 from PyXA import XABaseScriptable
+from ..XAProtocols import XACanOpenPath
 
-class XAConsoleApplication(XABaseScriptable.XASBApplication, XABase.XACanConstructElement, XABase.XAAcceptsPushedElements, XABase.XACanOpenPath):
+class XAConsoleApplication(XABaseScriptable.XASBApplication):
     """A class for managing and interacting with Console.app.
 
     .. versionadded:: 0.0.5

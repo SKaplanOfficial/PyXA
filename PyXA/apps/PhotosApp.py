@@ -15,9 +15,10 @@ from AppKit import NSImage, NSURL, NSFileManager
 
 from PyXA import XABase
 from PyXA import XABaseScriptable
+from ..XAProtocols import XACanOpenPath, XAClipboardCodable
         
 
-class XAPhotosApplication(XABaseScriptable.XASBApplication):
+class XAPhotosApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
     """A class for managing and interacting with Photos.app.
 
     .. versionadded:: 0.0.2
@@ -313,7 +314,7 @@ class XAPhotosApplication(XABaseScriptable.XASBApplication):
 
 
 
-class XAPhotosMediaItemList(XABase.XAList):
+class XAPhotosMediaItemList(XABase.XAList, XAClipboardCodable):
     """A wrapper around lists of media items that employs fast enumeration techniques.
 
     All properties of media items can be called as methods on the wrapped list, returning a list containing each media item's value for the property.
@@ -588,10 +589,22 @@ class XAPhotosMediaItemList(XABase.XAList):
         loc = (location.latitude, location.longitude)
         return self.by_property("location", loc)
 
+    def get_clipboard_representation(self) -> List[NSURL]:
+        """Gets a clipboard-codable representation of each media item in the list.
+
+        When the clipboard content is set to a list of media items, each item's file URL is added to the clipboard.
+
+        :return: A list of media item file URLs
+        :rtype: List[NSURL]
+
+        .. versionadded:: 0.0.8
+        """
+        return [x._get_url() for x in self]
+
     def __repr__(self):
         return "<" + str(type(self)) + str(self.id()) + ">"
 
-class XAPhotosMediaItem(XABase.XAObject):
+class XAPhotosMediaItem(XABase.XAObject, XAClipboardCodable):
     """A photo or video in Photos.app.
 
     .. versionadded:: 0.0.2
@@ -670,6 +683,13 @@ class XAPhotosMediaItem(XABase.XAObject):
             altitude = self.altitude,
         )
 
+    def _get_url(self) -> NSURL:
+        home = NSFileManager.defaultManager().homeDirectoryForCurrentUser()
+        url = home.URLByAppendingPathComponent_("Pictures/Photos Library.photoslibrary/originals/")
+        url = url.URLByAppendingPathComponent_(self.id[0])
+        url = url.URLByAppendingPathComponent_(self.id[:-7] + self.filename[self.filename.index("."):].lower())
+        return url
+
     def spotlight(self) -> 'XAPhotosMediaItem':
         """Shows the media item in the front window of Photos.app.
 
@@ -696,10 +716,7 @@ class XAPhotosMediaItem(XABase.XAObject):
 
         .. versionadded:: 0.0.2
         """
-        home = NSFileManager.defaultManager().homeDirectoryForCurrentUser()
-        url = home.URLByAppendingPathComponent_("Pictures/Photos Library.photoslibrary/originals/")
-        url = url.URLByAppendingPathComponent_(self.id[0])
-        url = url.URLByAppendingPathComponent_(self.id[:-7] + self.filename[self.filename.index("."):].lower())
+        url = self._get_url()
         self.xa_wksp.openURL_(url)
 
     def reveal_in_finder(self):
@@ -707,10 +724,7 @@ class XAPhotosMediaItem(XABase.XAObject):
 
         .. versionadded:: 0.0.2
         """
-        home = NSFileManager.defaultManager().homeDirectoryForCurrentUser()
-        url = home.URLByAppendingPathComponent_("Pictures/Photos Library.photoslibrary/originals/")
-        url = url.URLByAppendingPathComponent_(self.id[0])
-        url = url.URLByAppendingPathComponent_(self.id[:-7] + self.filename[self.filename.index("."):].lower())
+        url = self._get_url()
         self.xa_wksp.activateFileViewerSelectingURLs_([url])
 
     def copy_to_clipboard(self):
@@ -725,6 +739,18 @@ class XAPhotosMediaItem(XABase.XAObject):
         img = NSImage.alloc().initWithContentsOfFile_(url.path())
         self.set_clipboard([url])
 
+    def get_clipboard_representation(self) -> NSURL:
+        """Gets a clipboard-codable representation of the media item.
+
+        When the clipboard content is set to a media item, the item's file URL is added to the clipboard.
+
+        :return: The media item's file URL
+        :rtype: NSURL
+
+        .. versionadded:: 0.0.8
+        """
+        return self._get_url()
+
     def __repr__(self):
         if self.name is None:
             return "<" + str(type(self)) + "id=" + self.id + ">"
@@ -733,7 +759,7 @@ class XAPhotosMediaItem(XABase.XAObject):
 
 
 
-class XAPhotosContainerList(XABase.XAList):
+class XAPhotosContainerList(XABase.XAList, XAClipboardCodable):
     """A wrapper around lists of containers that employs fast enumeration techniques.
 
     All properties of containers can be called as methods on the wrapped list, returning a list containing each container's value for the property.
@@ -826,10 +852,22 @@ class XAPhotosContainerList(XABase.XAList):
         """
         return self.by_property("parent", parent.xa_elem)
 
+    def get_clipboard_representation(self) -> str:
+        """Gets a clipboard-codable representation of each container in the list.
+
+        When the clipboard content is set to a list of containers, each containers's name is added to the clipboard.
+
+        :return: The container's name
+        :rtype: str
+
+        .. versionadded:: 0.0.8
+        """
+        return self.name()
+
     def __repr__(self):
         return "<" + str(type(self)) + str(self.name()) + ">"
 
-class XAPhotosContainer(XABase.XAObject):
+class XAPhotosContainer(XABase.XAObject, XAClipboardCodable):
     """A class for...
     """
     def __init__(self, properties):
@@ -866,6 +904,18 @@ class XAPhotosContainer(XABase.XAObject):
         """
         self.xa_elem.spotlight()
         return self
+
+    def get_clipboard_representation(self) -> str:
+        """Gets a clipboard-codable representation of the container.
+
+        When the clipboard content is set to a container, the containers's name is added to the clipboard.
+
+        :return: The container's name
+        :rtype: str
+
+        .. versionadded:: 0.0.8
+        """
+        return self.name
 
     def __repr__(self):
         return "<" + str(type(self)) + self.name + ", id=" + self.id + ">"

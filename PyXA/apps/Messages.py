@@ -14,7 +14,7 @@ from PyXA import XAEvents
 from PyXA import XABaseScriptable
 
 
-class XAMessagesApplication(XABaseScriptable.XASBApplication, XABase.XACanConstructElement, XABase.XAAcceptsPushedElements):
+class XAMessagesApplication(XABaseScriptable.XASBApplication):
     """A class for managing and interacting with Messages.app
 
     .. seealso:: :class:`XAMessagesChat`, :class:`XAMessagesFileTransfer`, :class:`XAMessagesParticipant`, :class:`XAMessagesAccount`
@@ -507,7 +507,7 @@ class XAMessagesChatList(XABase.XAList):
     def __repr__(self):
         return "<" + str(type(self)) + str(self.id()) + ">"
 
-class XAMessagesChat(XABase.XACanConstructElement, XABase.XAAcceptsPushedElements):
+class XAMessagesChat(XABase.XAObject):
     """A class for managing and interacting with chats in Messages.app
     
     .. versionadded:: 0.0.1
@@ -779,7 +779,7 @@ class XAMessagesFileTransferList(XABase.XAList):
     def __repr__(self):
         return "<" + str(type(self)) + str(self.id()) + ">"
 
-class XAMessagesFileTransfer(XABase.XACanConstructElement, XABase.XAAcceptsPushedElements):
+class XAMessagesFileTransfer(XABase.XAObject):
     """A class for managing and interacting with file transfers in Messages.app
     
     .. versionadded:: 0.0.1
@@ -997,7 +997,7 @@ class XAMessagesParticipantList(XABase.XAList):
     def __repr__(self):
         return "<" + str(type(self)) + str(self.name()) + ">"
 
-class XAMessagesParticipant(XABase.XACanConstructElement, XABase.XAAcceptsPushedElements):
+class XAMessagesParticipant(XABase.XAObject):
     """A class for managing and interacting with chat participants in Messages.app
     
     .. versionadded:: 0.0.1
@@ -1161,7 +1161,7 @@ class XAMessagesAccountList(XABase.XAList):
     def __repr__(self):
         return "<" + str(type(self)) + str(self.service_type()) + ">"
 
-class XAMessagesAccount(XABase.XACanConstructElement, XABase.XAAcceptsPushedElements):
+class XAMessagesAccount(XABase.XAObject):
     """A class for managing and interacting with accounts in Messages.app
     
     .. versionadded:: 0.0.1

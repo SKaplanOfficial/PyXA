@@ -11,9 +11,9 @@ from AppKit import NSURL
 
 from PyXA import XABase
 from PyXA import XABaseScriptable
-from ..XAProtocols import XAClipboardCodable
+from ..XAProtocols import XACanOpenPath, XAClipboardCodable
 
-class XASafariApplication(XABaseScriptable.XASBApplication, XABaseScriptable.XASBPrintable, XABase.XAObject):
+class XASafariApplication(XABaseScriptable.XASBApplication, XABaseScriptable.XASBPrintable, XABase.XAObject, XACanOpenPath):
     """A class for interacting with Safari.app.
 
     .. seealso:: :class:`XASafariDocument`, :class:`XASafariTab`, :class:`XABaseScriptable.XASBApplication`, :class:`XABaseScriptable.XASBSaveable`, :class:`XABaseScriptable.XASBPrintable`

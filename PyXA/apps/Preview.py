@@ -9,27 +9,15 @@ from AppKit import NSURL
 
 from PyXA import XABase
 from PyXA import XABaseScriptable
+from ..XAProtocols import XACanOpenPath, XAClipboardCodable, XACloseable, XAPrintable
 
-class XAPreviewApplication(XABaseScriptable.XASBApplication, XABase.XACanConstructElement, XABase.XAAcceptsPushedElements, XABase.XACanOpenPath):
+class XAPreviewApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
     """A class for managing and interacting with Preview.app.
 
     .. seealso:: :class:`XAPreviewWindow`, :class:`XAPreviewDocument`
 
     .. versionadded:: 0.0.1
     """
-    class SaveOption(Enum):
-        """Options for the saving procedure when closing documents.
-        """
-        ASK = XABase.OSType('ask ') #: Prompt the user whether to save the file
-        NO  = XABase.OSType('no  ') #: Do not save the file
-        YES = XABase.OSType('yes ') #: Save the file
-
-    class PrintErrorHandling(Enum):
-        """Options for how to handle errors while printing.
-        """
-        STANDARD = 'lwst' #: Standard PostScript error handling
-        DETAILED = 'lwdt' #: Print a detailed report of PostScript errors
-
     def __init__(self, properties):
         super().__init__(properties)
         self.xa_wcls = XAPreviewWindow
@@ -176,7 +164,7 @@ class XAPreviewWindow(XABaseScriptable.XASBPrintable):
         return self.xa_elem.zoomable()
 
 
-class XAPreviewDocumentList(XABase.XAList):
+class XAPreviewDocumentList(XABase.XAList, XAClipboardCodable):
     """A wrapper around lists of documents that employs fast enumeration techniques.
 
     All properties of documents can be called as methods on the wrapped list, returning a list containing each documents's value for the property.
@@ -192,8 +180,9 @@ class XAPreviewDocumentList(XABase.XAList):
     def name(self) -> List[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
-    def path(self) -> List[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("path"))
+    def path(self) -> List[XABase.XAPath]:
+        ls = self.xa_elem.arrayByApplyingSelector_("path")
+        return [XABase.XAPath(x) for x in ls]
 
     def modified(self) -> List[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("modified"))
@@ -204,16 +193,29 @@ class XAPreviewDocumentList(XABase.XAList):
     def by_name(self, name: str) -> 'XAPreviewDocument':
         return self.by_property("name", name)
 
-    def by_path(self, path: str) -> 'XAPreviewDocument':
-        return self.by_property("path", path)
+    def by_path(self, path: XABase.XAPath) -> 'XAPreviewDocument':
+        return self.by_property("path", str(path.xa_elem))
 
     def by_modified(self, modified: bool) -> 'XAPreviewDocument':
         return self.by_property("modified", modified)
 
+    def get_clipboard_representation(self) -> List[NSURL]:
+        """Gets a clipboard-codable representation of each document in the list.
+
+        When the clipboard content is set to a document, each documents's file URL is added to the clipboard.
+
+        :return: The document's file URL
+        :rtype: List[NSURL]
+
+        .. versionadded:: 0.0.8
+        """
+        paths = self.path()
+        return [x.xa_elem for x in paths]
+
     def __repr__(self):
         return "<" + str(type(self)) + str(self.name()) + ">"
     
-class XAPreviewDocument(XABase.XACanConstructElement, XABase.XAAcceptsPushedElements, XABase.XATextDocument, XABaseScriptable.XASBPrintable):
+class XAPreviewDocument(XABase.XATextDocument, XAPrintable, XACloseable, XAClipboardCodable):
     """A class for managing and interacting with documents in Preview.
 
     .. seealso:: :class:`XAPreviewApplication`
@@ -236,28 +238,29 @@ class XAPreviewDocument(XABase.XACanConstructElement, XABase.XAAcceptsPushedElem
         return self.xa_elem.name()
 
     @property
-    def path(self) -> str:
-        return self.xa_elem.path()
+    def path(self) -> XABase.XAPath:
+        return XABase.XAPath(self.xa_elem.path())
 
     @property
     def modified(self) -> bool:
         return self.xa_elem.modified()
 
-    def close(self, save: XAPreviewApplication.SaveOption = XAPreviewApplication.SaveOption.YES, file_path: str = None):
-        """Closes the document, optionally saving it.
+    def print(self, print_properties: Union[dict, None] = None, show_dialog: bool = True) -> 'XAPreviewDocument':
+        """Prints the document.
 
-        :Example 1: Save and close a document
+        :param print_properties: Properties to set for printing, defaults to None
+        :type print_properties: Union[dict, None], optional
+        :param show_dialog: Whether to show the print dialog, defaults to True
+        :type show_dialog: bool, optional
+        :return: The document object
+        :rtype: XAPreviewDocument
 
-        >>> import PyXA
-        >>> app = PyXA.application("Preview")
-        >>> doc = app.documents()[0]
-        >>> doc.close()
-        
         .. versionadded:: 0.0.4
         """
-        if file_path is None:
-            file_path = self.path
-        self.xa_elem.closeSaving_savingIn_(save.value, file_path)
+        if print_properties is None:
+            print_properties = {}
+        self.xa_elem.print_printDialog_withProperties_(self.xa_elem, show_dialog, print_properties)
+        return self
 
     def save(self, file_path: str = None):
         """Saves the document.
@@ -276,6 +279,17 @@ class XAPreviewDocument(XABase.XACanConstructElement, XABase.XAAcceptsPushedElem
         """
         self.xa_elem.saveAs_in_(None, file_path)
 
+    def get_clipboard_representation(self) -> NSURL:
+        """Gets a clipboard-codable representation of the document.
+
+        When the clipboard content is set to a document, the documents's file URL is added to the clipboard.
+
+        :return: The document's file URL
+        :rtype: NSURL
+
+        .. versionadded:: 0.0.8
+        """
+        return self.path.xa_elem
 
     def __repr__(self):
         return self.name

@@ -7,6 +7,7 @@ from typing import List, Tuple, Union
 
 from PyXA import XABase
 from PyXA import XABaseScriptable
+from ..XAProtocols import XAClipboardCodable
 
 class XAFontBookApplication(XABaseScriptable.XASBApplication):
     """A class for managing and interacting with Font Book.app.
@@ -229,7 +230,7 @@ class XAFontBookDocument(XABase.XAObject):
 
 
 
-class XAFontBookFontFamilyList(XABase.XAList):
+class XAFontBookFontFamilyList(XABase.XAList, XAClipboardCodable):
     """A wrapper around lists of Font Book font families that employs fast enumeration techniques.
 
     All properties of font families can be called as methods on the wrapped list, returning a list containing each font family's value for the property.
@@ -282,10 +283,22 @@ class XAFontBookFontFamilyList(XABase.XAList):
     def by_files(self, files: List[XABase.XAPath]) -> 'XAFontBookFontFamily':
         return files == self.files()
 
+    def get_clipboard_representation(self) -> List[str]:
+        """Gets a clipboard-codable representation of each font family in the list.
+
+        When the clipboard content is set to a list of font families, the name of each font family is added to the clipboard.
+
+        :return: The list of font family names
+        :rtype: List[str]
+
+        .. versionadded:: 0.0.8
+        """
+        return self.name()
+
     def __repr__(self):
         return "<" + str(type(self)) + str(self.name()) + ">"
 
-class XAFontBookFontFamily(XABase.XAObject):
+class XAFontBookFontFamily(XABase.XAObject, XAClipboardCodable):
     """A class for managing and interacting with font families in Font Book.app.
 
     .. seealso:: :class:`XAFontBookApplication`
@@ -345,10 +358,25 @@ class XAFontBookFontFamily(XABase.XAObject):
         """
         return self._new_element(self.xa_elem.typefaces(), XAFontBookTypefaceList, filter)
 
+    def get_clipboard_representation(self) -> str:
+        """Gets a clipboard-codable representation of the font family.
+
+        When the clipboard content is set to a font family, the name of the font family is added to the clipboard.
+
+        :return: The name of the font family
+        :rtype: str
+
+        .. versionadded:: 0.0.8
+        """
+        return self.name
+
+    def __repr__(self):
+        return "<" + str(type(self)) + str(self.name) + ">"
 
 
 
-class XAFontBookTypefaceList(XABase.XAList):
+
+class XAFontBookTypefaceList(XABase.XAList, XAClipboardCodable):
     """A wrapper around lists of Font Book documents that employs fast enumeration techniques.
 
     All properties of documents can be called as methods on the wrapped list, returning a list containing each document's value for the property.
@@ -453,7 +481,22 @@ class XAFontBookTypefaceList(XABase.XAList):
             if typeface.files == files:
                 return typeface
 
-class XAFontBookTypeface(XABase.XAObject):
+    def get_clipboard_representation(self) -> List[str]:
+        """Gets a clipboard-codable representation of each typeface in the list.
+
+        When the clipboard content is set to a list of typefaces, the name of each typeface is added to the clipboard.
+
+        :return: The list of typeface names
+        :rtype: List[str]
+
+        .. versionadded:: 0.0.8
+        """
+        return self.name()
+
+    def __repr__(self):
+        return "<" + str(type(self)) + str(self.name()) + ">"
+
+class XAFontBookTypeface(XABase.XAObject, XAClipboardCodable):
     """A class for managing and interacting with typefaces in Font Book.app.
 
     .. seealso:: :class:`XAFontBookApplication`
@@ -539,10 +582,25 @@ class XAFontBookTypeface(XABase.XAObject):
         ls = self.xa_elem.files()
         return [XABase.XAPath(x) for x in ls]
 
+    def get_clipboard_representation(self) -> str:
+        """Gets a clipboard-codable representation of the typeface.
+
+        When the clipboard content is set to a typeface, the name of the typeface is added to the clipboard.
+
+        :return: The name of the typeface
+        :rtype: str
+
+        .. versionadded:: 0.0.8
+        """
+        return self.name
+
+    def __repr__(self):
+        return "<" + str(type(self)) + str(self.name) + ">"
 
 
 
-class XAFontBookFontContainerList(XABase.XAList):
+
+class XAFontBookFontContainerList(XABase.XAList, XAClipboardCodable):
     """A wrapper around lists of Font Book font containers that employs fast enumeration techniques.
 
     All properties of font containers can be called as methods on the wrapped list, returning a list containing each container's value for the property.
@@ -590,7 +648,22 @@ class XAFontBookFontContainerList(XABase.XAList):
     def by_id(self, id: str) -> 'XAFontBookFontContainer':
         return self.by_property("id", id)
 
-class XAFontBookFontContainer(XABase.XAObject):
+    def get_clipboard_representation(self) -> List[str]:
+        """Gets a clipboard-codable representation of each container in the list.
+
+        When the clipboard content is set to a list of containers, the name of each container is added to the clipboard.
+
+        :return: The list of container names
+        :rtype: List[str]
+
+        .. versionadded:: 0.0.8
+        """
+        return self.name()
+
+    def __repr__(self):
+        return "<" + str(type(self)) + str(self.name()) + ">"
+
+class XAFontBookFontContainer(XABase.XAObject, XAClipboardCodable):
     """A class for managing and interacting with font containers in Font Book.app.
 
     .. seealso:: :class:`XAFontBookApplication`
@@ -652,10 +725,25 @@ class XAFontBookFontContainer(XABase.XAObject):
         """
         return self._new_element(self.xa_elem.fontDomains(), XAFontBookFontDomainList, filter)
 
+    def get_clipboard_representation(self) -> str:
+        """Gets a clipboard-codable representation of the container.
+
+        When the clipboard content is set to a container, the name of the container is added to the clipboard.
+
+        :return: The name of the container
+        :rtype: str
+
+        .. versionadded:: 0.0.8
+        """
+        return self.name
+
+    def __repr__(self):
+        return "<" + str(type(self)) + str(self.name) + ">"
 
 
 
-class XAFontBookFontCollectionList(XABase.XAList):
+
+class XAFontBookFontCollectionList(XABase.XAList, XAClipboardCodable):
     """A wrapper around lists of Font Book font containers that employs fast enumeration techniques.
 
     All properties of font containers can be called as methods on the wrapped list, returning a list containing each container's value for the property.
@@ -697,7 +785,22 @@ class XAFontBookFontCollectionList(XABase.XAList):
     def by_enabled(self, enabled: bool) -> 'XAFontBookFontCollection':
         return self.by_property("enabled", enabled)
 
-class XAFontBookFontCollection(XABase.XAObject):
+    def get_clipboard_representation(self) -> List[str]:
+        """Gets a clipboard-codable representation of each collection in the list.
+
+        When the clipboard content is set to a list of collections, the name of each collection is added to the clipboard.
+
+        :return: The list of collection names
+        :rtype: List[str]
+
+        .. versionadded:: 0.0.8
+        """
+        return self.name()
+
+    def __repr__(self):
+        return "<" + str(type(self)) + str(self.name()) + ">"
+
+class XAFontBookFontCollection(XABase.XAObject, XAClipboardCodable):
     """A class for managing and interacting with font collections in Font Book.app.
 
     .. seealso:: :class:`XAFontBookApplication`
@@ -745,6 +848,21 @@ class XAFontBookFontCollection(XABase.XAObject):
         .. versionadded:: 0.0.6
         """
         return self._new_element(self.xa_elem.typefaces(), XAFontBookTypefaceList, filter)
+
+    def get_clipboard_representation(self) -> str:
+        """Gets a clipboard-codable representation of the collection.
+
+        When the clipboard content is set to a collection, the name of the collection is added to the clipboard.
+
+        :return: The name of the collection
+        :rtype: str
+
+        .. versionadded:: 0.0.8
+        """
+        return self.name
+
+    def __repr__(self):
+        return "<" + str(type(self)) + str(self.name) + ">"
 
 
 

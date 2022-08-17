@@ -10,8 +10,9 @@ from AppKit import NSURL
 
 from PyXA import XABase
 from PyXA import XABaseScriptable
+from ..XAProtocols import XACanOpenPath
 
-class XAMusicApplication(XABaseScriptable.XASBApplication, XABase.XACanOpenPath):
+class XAMusicApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
     """A class for managing and interacting with TV.app.
 
     .. seealso:: :class:`XAMusicWindow`, class:`XAMusicSource`, :class:`XAMusicPlaylist`, :class:`XAMusicTrack`

@@ -13,7 +13,7 @@ from PyXA import XABase
 from PyXA import XABaseScriptable
     
 
-class XARemindersApplication(XABaseScriptable.XASBApplication, XABase.XACanConstructElement, XABase.XAAcceptsPushedElements):
+class XARemindersApplication(XABaseScriptable.XASBApplication):
     """A class for managing and interacting with scripting elements of the Reminders application.
 
     .. seealso:: :class:`XARemindersAccount`, :class:`XARemindersList`, :class:`XARemindersReminder`

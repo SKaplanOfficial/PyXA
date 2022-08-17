@@ -101,20 +101,20 @@ class XACanOpenPath(XAProtocol):
 
     .. versionadded:: 0.0.1
     """
-    def open(self, path: str) -> Any:
+    def open(self, target: str) -> Any:
         """Opens the file/website at the given filepath/URL.
 
         Child classes of XACanOpenPath should redefine this method as necessary.
 
         :param target: The path to a file or the URL to a website to open.
-        :type target: Union[str, AppKit.NSURL]
+        :type target: str
         :return: A reference to the opened document or element, or None if no document/element was created or it cannot be found
         :rtype: Any
 
         .. versionadded:: 0.0.1
         """
-        path = AppKit.NSURL.alloc().initFileURLWithPath_(path)
-        self.xa_wksp.openURLs_withAppBundleIdentifier_options_additionalEventParamDescriptor_launchIdentifiers_([path], self.xa_elem.bundleIdentifier(), 0, None, None)
+        target = AppKit.NSURL.alloc().initFileURLWithPath_(target)
+        self.xa_wksp.openURLs_withAppBundleIdentifier_options_additionalEventParamDescriptor_launchIdentifiers_([target], self.xa_elem.bundleIdentifier(), 0, None, None)
 
 
 class XACanPrintPath(XAProtocol):
@@ -138,10 +138,10 @@ class XACanPrintPath(XAProtocol):
         .. versionadded:: 0.0.1
         """
         if target.startswith("/"):
-            target = AppKit.NSURL.alloc().initFileURLWithPath(target)
+            target = AppKit.NSURL.alloc().initFileURLWithPath_(target)
         else:
             target = AppKit.NSURL.alloc().initWithString_(target)
-        self.xa_elem.print(target)
+        self.xa_elem.print_(target)
         return self
 
 
@@ -150,23 +150,23 @@ class XAPrintable(XAProtocol):
 
     .. versionadded:: 0.0.8
     """
-    def print(self, properties: Union[dict, None] = None, show_dialog: bool = True, ) -> 'XAPrintable':
+    def print(self, print_properties: Union[dict, None] = None, show_dialog: bool = True) -> 'XAPrintable':
         """Prints the object.
 
         Child classes of XAPrintable should override this method as necessary.
 
         :param show_dialog: Whether to show the print dialog, defaults to True
         :type show_dialog: bool, optional
-        :param properties: Properties to set for printing, defaults to None
-        :type properties: Union[dict, None], optional
+        :param print_properties: Properties to set for printing, defaults to None
+        :type print_properties: Union[dict, None], optional
         :return: A reference to the PyXA object that called this method.
         :rtype: XACanPrintPath
 
         .. versionadded:: 0.0.8
         """
-        if properties is None:
-            properties = {}
-        self.xa_elem.printWithProperties_printDialog_(self.xa_elem, show_dialog, properties)
+        if print_properties is None:
+            print_properties = {}
+        self.xa_elem.printWithProperties_printDialog_(self.xa_elem, show_dialog, print_properties)
         return self
 
 

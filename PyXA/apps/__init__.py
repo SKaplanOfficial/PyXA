@@ -48,4 +48,6 @@ application_classes = {
     "alfred": ("Alfred", "XAAlfredApplication"),
     "drafts": ("Drafts", "XADraftsApplication"),
     "hammerspoon": ("Hammerspoon", "XAHammerspoonApplication"),
+
+    "vlc": ("VLC", "XAVLCApplication"),
 }

@@ -106,6 +106,12 @@ class XASBApplication(XASBObject, XABase.XAApplication):
         NO  = XABase.OSType('no  ') #: Do not save the file
         ASK = XABase.OSType('ask ') #: Ask user whether to save the file (bring up dialog)
 
+    class PrintErrorHandling(Enum):
+        """Options for how to handle errors while printing.
+        """
+        STANDARD = 'lwst' #: Standard PostScript error handling
+        DETAILED = 'lwdt' #: Print a detailed report of PostScript errors
+
     def __init__(self, properties):
         super().__init__(properties)
         self.xa_scel = ScriptingBridge.SBApplication.alloc().initWithBundleIdentifier_(self.xa_elem.bundleIdentifier())

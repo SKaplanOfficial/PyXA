@@ -11,8 +11,9 @@ from AppKit import NSPredicate, NSMutableArray, NSValue, NSMakeRect
 
 from PyXA import XABase
 from PyXA import XABaseScriptable
+from ..XAProtocols import XACanOpenPath
 
-class XAQuickTimeApplication(XABaseScriptable.XASBApplication):
+class XAQuickTimeApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
     """A class for managing and interacting with QuickTime.app.
 
     .. seealso:: :class:`XAQuickTimeWindow`, :class:`XAQuickTimeDocument`, :class:`XAQuickTimeAudioRecordingDevice`, :class:`XAQuickTimeVideoRecordingDevice`, :class:`XAQuickTimeAudioCompressionPreset`, :class:`XAQuickTimeMovieCompressionPreset`, :class:`XAQuickTimeScreenCompressionPreset`

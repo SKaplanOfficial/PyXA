@@ -8,8 +8,9 @@ from AppKit import NSURL
 
 from PyXA import XABase
 from PyXA import XABaseScriptable
+from ..XAProtocols import XACanOpenPath, XAClipboardCodable
 
-class XAChromiumApplication(XABaseScriptable.XASBApplication):
+class XAChromiumApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
     """A class for managing and interacting with Chromium.app.
 
     .. seealso:: :class:`XAChromiumWindow`, :class:`XAChromiumBookmarkFolder`, :class:`XAChromiumBookmarkItem`, :class:`XAChromiumTab`
@@ -283,7 +284,7 @@ class XAChromiumWindow(XABaseScriptable.XASBWindow):
 
 
 
-class XAChromiumTabList(XABase.XAList):
+class XAChromiumTabList(XABase.XAList, XAClipboardCodable):
     """A wrapper around a list of tabs.
 
     .. seealso:: :class:`XAChromiumTab`
@@ -313,15 +314,16 @@ class XAChromiumTabList(XABase.XAList):
         """
         return list(self.xa_elem.arrayByApplyingSelector_("title"))
 
-    def url(self) -> List[str]:
+    def url(self) -> List[XABase.XAURL]:
         """Gets the URL of each tab in the list.
 
         :return: A list of tab URLS
-        :rtype: List[str]
+        :rtype: List[XABase.XAURL]
         
         .. versionadded:: 0.0.4
         """
-        return list(self.xa_elem.arrayByApplyingSelector_("URL"))
+        ls = self.xa_elem.arrayByApplyingSelector_("URL")
+        return [XABase.XAURL(x) for x in ls]
 
     def loading(self) -> List[bool]:
         """Gets the loading state of each tab in the list.
@@ -353,7 +355,7 @@ class XAChromiumTabList(XABase.XAList):
         """
         return self.by_property("title", title)
 
-    def by_url(self, url: str) -> Union['XAChromiumTab', None]:
+    def by_url(self, url: XABase.XAURL) -> Union['XAChromiumTab', None]:
         """Retrieves the first tab whose URL matches the given URL, if one exists.
 
         :return: The desired tab, if it is found
@@ -361,7 +363,7 @@ class XAChromiumTabList(XABase.XAList):
         
         .. versionadded:: 0.0.4
         """
-        return self.by_property("url", url)
+        return self.by_property("url", str(url.xa_elem))
 
     def by_loading(self, loading: bool) -> Union['XAChromiumTab', None]:
         """Retrieves the first tab whose loading state matches the given boolean value, if one exists.
@@ -373,7 +375,28 @@ class XAChromiumTabList(XABase.XAList):
         """
         return self.by_property("loading", loading)
 
-class XAChromiumTab(XABase.XAObject):
+    def get_clipboard_representation(self) -> List[Union[str, NSURL]]:
+        """Gets a clipboard-codable representation of each tab in the list.
+
+        When the clipboard content is set to a list of Chromium tabs, each tab's URL is added to the clipboard.
+
+        :return: A list of tab URLs
+        :rtype: List[Union[str, NSURL]]
+
+        .. versionadded:: 0.0.8
+        """
+        items = []
+        titles = self.title()
+        urls = self.url()
+        for index, title in enumerate(titles):
+            items.append(title)
+            items.append(urls[index].xa_elem)
+        return items
+
+    def __repr__(self):
+        return "<" + str(type(self)) + str(self.title()) + ">"
+
+class XAChromiumTab(XABase.XAObject, XAClipboardCodable):
     """A class for managing and interacting with Chromium tabs.
 
     .. seealso:: :class:`XAChromiumWindow`, :class:`XAChromiumTabList`, :class:`XAChromiumWindow`
@@ -384,7 +407,7 @@ class XAChromiumTab(XABase.XAObject):
         super().__init__(properties)
         self.id: int
         self.title: str
-        self.url: str
+        self.url: XABase.XAURL
         self.loading: bool
 
     @property
@@ -396,8 +419,8 @@ class XAChromiumTab(XABase.XAObject):
         return self.xa_elem.title()
 
     @property
-    def url(self) -> str:
-        return self.xa_elem.URL()
+    def url(self) -> XABase.XAURL:
+        return XABase.XAURL(self.xa_elem.URL())
 
     @property
     def loading(self) -> bool:
@@ -584,10 +607,25 @@ class XAChromiumTab(XABase.XAObject):
         window.tabs().push(new_tab)
         return self
 
+    def get_clipboard_representation(self) -> List[Union[str, NSURL]]:
+        """Gets a clipboard-codable representation of the tab.
+
+        When the clipboard content is set to a Chromium tab, the tab's title and URL are added to the clipboard.
+
+        :return: The tab's title and URL
+        :rtype: List[Union[str, NSURL]]
+
+        .. versionadded:: 0.0.8
+        """
+        return [self.title, self.url.xa_elem]
+
+    def __repr__(self):
+        return "<" + str(type(self)) + str(self.title) + ">"
 
 
 
-class XAChromiumBookmarkFolderList(XABase.XAList):
+
+class XAChromiumBookmarkFolderList(XABase.XAList, XAClipboardCodable):
     """A wrapper around a list of bookmark folders.
 
     .. seealso:: :class:`XAChromiumBookmarkFolder`
@@ -657,7 +695,22 @@ class XAChromiumBookmarkFolderList(XABase.XAList):
         """
         return self.by_property("index", index)
 
-class XAChromiumBookmarkFolder(XABase.XAObject):
+    def get_clipboard_representation(self) -> List[str]:
+        """Gets a clipboard-codable representation of each bookmark folder in the list.
+
+        When the clipboard content is set to a list of bookmark folders, each folder's title is added to the clipboard.
+
+        :return: The list of each bookmark folder's title
+        :rtype: List[str]
+
+        .. versionadded:: 0.0.8
+        """
+        return self.title()
+
+    def __repr__(self):
+        return "<" + str(type(self)) + str(self.title()) + ">"
+
+class XAChromiumBookmarkFolder(XABase.XAObject, XAClipboardCodable):
     """A class for managing and interacting with bookmark folders in Chromium.app.
 
     .. seealso:: :class:`XAChromiumApplication`, :class:`XAChromiumBookmarkFolderList`
@@ -713,10 +766,25 @@ class XAChromiumBookmarkFolder(XABase.XAObject):
         """
         self.xa_elem.delete()
 
+    def get_clipboard_representation(self) -> str:
+        """Gets a clipboard-codable representation of the bookmark folder.
+
+        When the clipboard content is set to a bookmark folder, the folders's title is added to the clipboard.
+
+        :return: The bookmark folders's title
+        :rtype: str
+
+        .. versionadded:: 0.0.8
+        """
+        return self.title
+
+    def __repr__(self):
+        return "<" + str(type(self)) + str(self.title) + ">"
 
 
 
-class XAChromiumBookmarkItemList(XABase.XAList):
+
+class XAChromiumBookmarkItemList(XABase.XAList, XAClipboardCodable):
     """A wrapper around a list of bookmark items.
 
     .. seealso:: :class:`XAChromiumBookmarkItem`
@@ -746,15 +814,16 @@ class XAChromiumBookmarkItemList(XABase.XAList):
         """
         return list(self.xa_elem.arrayByApplyingSelector_("title"))
 
-    def url(self) -> List[str]:
+    def url(self) -> List[XABase.XAURL]:
         """Gets the url of each item in the list.
 
         :return: A list of bookmark item URLs
-        :rtype: List[str]
+        :rtype: List[XABase.XAURL]
         
         .. versionadded:: 0.0.4
         """
-        return list(self.xa_elem.arrayByApplyingSelector_("URL"))
+        ls = self.xa_elem.arrayByApplyingSelector_("URL")
+        return [XABase.XAURL(x) for x in ls]
 
     def index(self) -> List[int]:
         """Gets the index of each item in the list.
@@ -786,7 +855,7 @@ class XAChromiumBookmarkItemList(XABase.XAList):
         """
         return self.by_property("title", title)
 
-    def by_url(self, url: str) -> Union['XAChromiumBookmarkItem', None]:
+    def by_url(self, url: XABase.XAURL) -> Union['XAChromiumBookmarkItem', None]:
         """Retrieves the first bookmark item whose URL matches the given URL, if one exists.
 
         :return: The desired bookmark item, if it is found
@@ -794,7 +863,7 @@ class XAChromiumBookmarkItemList(XABase.XAList):
         
         .. versionadded:: 0.0.4
         """
-        return self.by_property("URL", url)
+        return self.by_property("URL", str(url.xa_elem))
 
     def by_index(self, index: int) -> Union['XAChromiumBookmarkItem', None]:
         """Retrieves the bookmark item whose index matches the given index, if one exists.
@@ -806,7 +875,28 @@ class XAChromiumBookmarkItemList(XABase.XAList):
         """
         return self.by_property("index", index)
 
-class XAChromiumBookmarkItem(XABase.XAObject):
+    def get_clipboard_representation(self) -> List[Union[str, NSURL]]:
+        """Gets a clipboard-codable representation of each bookmark item in the list.
+
+        When the clipboard content is set to a list of bookmark items, each item's title and URL are added to the clipboard.
+
+        :return: The list of each bookmark items's title and URL
+        :rtype: List[Union[str, NSURL]]
+
+        .. versionadded:: 0.0.8
+        """
+        items = []
+        titles = self.title()
+        urls = self.url()
+        for index, title in enumerate(titles):
+            items.append(title)
+            items.append(urls[index].xa_elem)
+        return items
+
+    def __repr__(self):
+        return "<" + str(type(self)) + str(self.title()) + ">"
+
+class XAChromiumBookmarkItem(XABase.XAObject, XAClipboardCodable):
     """A class for managing and interacting with bookmarks in Chromium.app.
 
     .. seealso:: :class:`XAChromiumApplication`, :class:`XAChromiumBookmarkItemList`
@@ -817,7 +907,7 @@ class XAChromiumBookmarkItem(XABase.XAObject):
         super().__init__(properties)
         self.id: int #: The unique identifier for the bookmark item
         self.title: str #: The title of the bookmark item
-        self.url: str #: The URL of the bookmark
+        self.url: XABase.XAURL #: The URL of the bookmark
         self.index: int #: The index of the item with respect to its parent folder
 
     @property
@@ -829,8 +919,8 @@ class XAChromiumBookmarkItem(XABase.XAObject):
         return self.xa_elem.title()
 
     @property
-    def url(self) -> str:
-        return self.xa_elem.URL()
+    def url(self) -> XABase.XAURL:
+        return XABase.XAURL(self.xa_elem.URL())
 
     @property
     def index(self) -> int:
@@ -842,3 +932,18 @@ class XAChromiumBookmarkItem(XABase.XAObject):
         .. versionadded:: 0.0.4
         """
         self.xa_elem.delete()
+
+    def get_clipboard_representation(self) -> List[Union[str, NSURL]]:
+        """Gets a clipboard-codable representation of the bookmark item.
+
+        When the clipboard content is set to a bookmark item, the item's title and URL are added to the clipboard.
+
+        :return: The bookmark items's title and URL
+        :rtype: List[Union[str, NSURL]]
+
+        .. versionadded:: 0.0.8
+        """
+        return [self.title, self.url.xa_elem]
+
+    def __repr__(self):
+        return "<" + str(type(self)) + str(self.title) + ">"

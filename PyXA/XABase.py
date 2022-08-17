@@ -22,6 +22,7 @@ import CoreServices
 from Quartz import CGImageSourceRef, CGImageSourceCreateWithData, CFDataRef
 from CoreLocation import CLLocation
 from ScriptingBridge import SBApplication, SBElementArray
+import ScriptingBridge
 
 import threading, signal
 
@@ -289,7 +290,7 @@ class XAClipboard(XAObject):
                 if not isinstance(item, XAClipboardCodable):
                     print(item, "is not a clipboard-codable object.")
                     continue
-                if item.xa_elem.get() is None:
+                if isinstance(item.xa_elem, ScriptingBridge.SBElementArray) and item.xa_elem.get() is None:
                     value[index] = ""
                 else:
                     content = item.get_clipboard_representation()

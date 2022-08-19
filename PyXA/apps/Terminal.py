@@ -439,13 +439,13 @@ class XATerminalTabList(XABase.XAList, XAClipboardCodable):
         """
         return self.by_property("currentSettings", current_settings.xa_elem)
 
-    def get_clipboard_representation(self) -> List[str, str]:
+    def get_clipboard_representation(self) -> List[str]:
         """Gets a clipboard-codable representation of each tab in the list.
 
         When the clipboard content is set to a list of Terminal tabs, each tab's custom title and history are added to the clipboard.
 
         :return: The list of each tab's custom title and history
-        :rtype: List[str, str]
+        :rtype: List[str]
 
         .. versionadded:: 0.0.8
         """
@@ -534,13 +534,13 @@ class XATerminalTab(XABase.XAObject, XAClipboardCodable):
         settings_set_obj = self.xa_elem.currentSettings()
         return self._new_element(settings_set_obj, XATerminalSettingsSet)
 
-    def get_clipboard_representation(self) -> List[str, str]:
+    def get_clipboard_representation(self) -> List[str]:
         """Gets a clipboard-codable representation of the tab.
 
         When the clipboard content is set to a Terminal tab, the tab's custom title and its history are added to the clipboard.
 
         :return: The tab's custom title and history
-        :rtype: List[str, str]
+        :rtype: List[str]
 
         .. versionadded:: 0.0.8
         """

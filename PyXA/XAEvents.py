@@ -1,7 +1,5 @@
 from time import sleep
 from typing import Any, List
-from aem import Application
-from click import command
 import objc
 import CoreServices
 import ApplicationServices

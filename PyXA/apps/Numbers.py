@@ -948,7 +948,7 @@ class XANumbersSheet(XANumbersContainer):
     def properties(self) -> dict:
         return self.xa_elem.properties()
 
-    @properties
+    @property
     def name(self) -> str:
         return self.xa_elem.name()
 

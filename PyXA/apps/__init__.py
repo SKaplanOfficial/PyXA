@@ -10,8 +10,6 @@ application_classes = {
     "calendar": ("Calendar", "XACalendarApplication"),
     "textedit": ("TextEdit", "XATextEditApplication"),
     "pages": ("Pages", "XAPagesApplication"),
-    "system events": ("SystemEvents", "XASystemEventsApplication"),
-    "systemevents": ("SystemEvents", "XASystemEventsApplication"),
     "terminal": ("Terminal", "XATerminalApplication"),
     "preview": ("Preview", "XAPreviewApplication"),
     "tv": ("TV", "XATVApplication"),

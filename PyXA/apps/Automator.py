@@ -6,7 +6,7 @@ Control Automator using JXA-like syntax.
 from enum import Enum
 from turtle import st
 from typing import Any, List, Tuple, Union
-from AppKit import NSFileManager, NSURL, NSSet
+from AppKit import NSFileManager, NSURL, NSSet, NSValue, NSMakeRect
 
 from AppKit import NSPredicate, NSMutableArray, NSFileManager
 
@@ -21,25 +21,12 @@ class XAAutomatorApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
 
     .. versionadded:: 0.0.4
     """
-    class SaveOption(Enum):
-        """Options for whether to save documents when closing them.
-        """
-        YES = XABase.OSType('yes ') #: Save the file
-        NO  = XABase.OSType('no  ') #: Do not save the file
-        ASK = XABase.OSType('ask ') #: Ask user whether to save the file (bring up dialog)
-
     class WarningLevel(Enum):
         """Options for warning level in regard to likelihood of data loss.
         """
         IRREVERSIBLE    = XABase.OSType("irrv")
         NONE            = XABase.OSType('none')
         REVERSIBLE      = XABase.OSType('rvbl')
-
-    class PrintErrorHandling(Enum):
-        """Options for how to handle errors while printing.
-        """
-        STANDARD = 'lwst' #: Standard PostScript error handling
-        DETAILED = 'lwdt' #: Print a detailed report of PostScript errors
 
     def __init__(self, properties):
         super().__init__(properties)
@@ -205,63 +192,92 @@ class XAAutomatorWindow(XABaseScriptable.XASBWindow):
 
     @property
     def name(self) -> str:
-        return self.xa_scel.name()
+        return self.xa_elem.name()
+
+    @name.setter
+    def name(self, name: str):
+        self.set_property("name", name)
 
     @property
     def id(self) -> int:
-        return self.xa_scel.id()
+        return self.xa_elem.id()
 
     @property
     def index(self) -> int:
-        return self.xa_scel.index()
+        return self.xa_elem.index()
+
+    @index.setter
+    def index(self, index: int):
+        self.set_property("index", index)
 
     @property
     def bounds(self) -> Tuple[Tuple[int, int], Tuple[int, int]]:
-        return self.xa_scel.bounds()
+        return self.xa_elem.bounds()
+
+    @bounds.setter
+    def bounds(self, bounds: Tuple[Tuple[int, int], Tuple[int, int]]):
+        x = bounds[0][0]
+        y = bounds[0][1]
+        w = bounds[1][0]
+        h = bounds[1][1]
+        value = NSValue.valueWithRect_(NSMakeRect(x, y, w, h))
+        self.set_property("bounds", value)
 
     @property
     def floating(self) -> bool:
-        return self.xa_scel.floating()
+        return self.xa_elem.floating()
 
     @property
     def modal(self) -> bool:
-        return self.xa_scel.modal()
+        return self.xa_elem.modal()
 
     @property
     def closeable(self) -> bool:
-        return self.xa_scel.closeable()
+        return self.xa_elem.closeable()
 
     @property
     def miniaturizable(self) -> bool:
-        return self.xa_scel.miniaturizable()
+        return self.xa_elem.miniaturizable()
 
     @property
     def miniaturized(self) -> bool:
-        return self.xa_scel.miniaturized()
+        return self.xa_elem.miniaturized()
+
+    @miniaturized.setter
+    def miniaturized(self, miniaturized: bool):
+        self.set_property("miniaturized", miniaturized)
 
     @property
     def resizable(self) -> bool:
-        return self.xa_scel.resizable()
+        return self.xa_elem.resizable()
 
     @property
     def visible(self) -> bool:
-        return self.xa_scel.visible()
+        return self.xa_elem.visible()
+
+    @visible.setter
+    def visible(self, visible: bool):
+        self.set_property("visible", visible)
 
     @property
     def zoomable(self) -> bool:
-        return self.xa_scel.zoomable()
+        return self.xa_elem.zoomable()
 
     @property
     def zoomed(self) -> bool:
-        return self.xa_scel.zoomed()
+        return self.xa_elem.zoomed()
+
+    @zoomed.setter
+    def zoomed(self, zoomed: bool):
+        self.set_property("zoomed", zoomed)
 
     @property
     def titled(self) -> bool:
-        return self.xa_scel.titled()
+        return self.xa_elem.titled()
 
     @property
     def document(self) -> 'XAAutomatorDocument':
-        return self._new_element(self.xa_scel.document(), XAAutomatorDocument)
+        return self._new_element(self.xa_elem.document(), XAAutomatorDocument)
 
 
 
@@ -360,9 +376,17 @@ class XAAutomatorDocument(XABase.XAObject):
     def name(self) -> str:
         return self.xa_elem.name()
 
+    @name.setter
+    def name(self, name: str):
+        self.set_property("name", name)
+
     @property
     def path(self) -> str:
         return self.xa_elem.path()
+
+    @path.setter
+    def path(self, path: str):
+        self.set_property("path", path)
 
     def __repr__(self):
         return "<" + str(type(self)) + self.name + ">"
@@ -870,9 +894,17 @@ class XAAutomatorAction(XABase.XAObject):
     def comment(self) -> str:
         return self.xa_elem.comment()
 
+    @comment.setter
+    def comment(self, comment: str):
+        self.set_property("comment", comment)
+
     @property
     def enabled(self) -> bool:
         return self.xa_elem.enabled()
+
+    @enabled.setter
+    def enabled(self, enabled: bool):
+        self.set_property("enabled", enabled)
 
     @property
     def execution_error_message(self) -> str:
@@ -898,9 +930,17 @@ class XAAutomatorAction(XABase.XAObject):
     def ignores_input(self) -> bool:
         return self.xa_elem.ignoresInput()
 
+    @ignores_input.setter
+    def ignores_input(self, ignores_input: bool):
+        self.set_property("ignoresInput", ignores_input)
+
     @property
     def index(self) -> int:
         return self.xa_elem.index()
+
+    @index.setter
+    def index(self, index: int):
+        self.set_property("index", index)
 
     @property
     def input_types(self) -> List[str]:
@@ -929,6 +969,10 @@ class XAAutomatorAction(XABase.XAObject):
     @property
     def show_action_when_run(self) -> bool:
         return self.xa_elem.showActionWehnRun()
+
+    @show_action_when_run.setter
+    def show_action_when_run(self, show_action_when_run: bool):
+        self.set_property("showActionWhenRun", show_action_when_run)
 
     @property
     def target_application(self) -> List[str]:
@@ -1211,6 +1255,10 @@ class XAAutomatorSetting(XABase.XAObject):
     def value(self) -> Any:
         return self.xa_elem.value()
 
+    @value.setter
+    def value(self, value: Any):
+        self.set_property("value", value)
+
     def __repr__(self):
         return "<" + str(type(self)) + self.name + ">"
 
@@ -1309,6 +1357,10 @@ class XAAutomatorVariable(XABase.XAObject):
     def name(self) -> str:
         return self.xa_elem.name()
 
+    @name.setter
+    def name(self, name: str):
+        self.set_property("name", name)
+
     @property
     def settable(self) -> bool:
         return self.xa_elem.settable()
@@ -1316,6 +1368,10 @@ class XAAutomatorVariable(XABase.XAObject):
     @property
     def value(self) -> Any:
         return self.xa_elem.value()
+
+    @value.setter
+    def value(self, value: Any):
+        self.set_property("value", value)
         
     def __repr__(self):
         return "<" + str(type(self)) + self.name + ">"
@@ -1496,6 +1552,10 @@ class XAAutomatorWorkflow(XAAutomatorDocument):
     @property
     def name(self) -> str:
         return self.xa_elem.name()
+
+    @name.setter
+    def name(self, name: str):
+        self.set_property("name", name)
 
     def execute(self) -> Any:
         """Executes the workflow.

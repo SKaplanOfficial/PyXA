@@ -7,6 +7,8 @@ from PyXA import XABase
 
 import signal
 
+from .XAProtocols import XACloseable
+
 class timeout:
     def __init__(self, seconds=1, error_message='Timeout'):
         self.seconds = seconds
@@ -35,23 +37,6 @@ class XASBObject(XABase.XAObject):
             self.xa_scel.setValue_forKey_(value, property_name)
         else:
             self.xa_elem.setValue_forKey_(value, property_name)
-
-### Mixins
-## Property Mixins
-class XASBCloseable(XABase.XAObject):
-    def close(self) -> XABase.XAObject:
-        """Closes a document, window, or item.
-
-        :return: A reference to the PyXA objects that called this method.
-        :rtype: XABase.XAObject
-        """
-        saving_options = {
-            'yes': 0x79657320,
-            'no':  0x6E6F2020,
-            'ask': 0x61736B20,
-        }
-        self.xa_elem.closeSaving_savingIn_(saving_options["no"], "~")
-        return self
 
 
 
@@ -163,7 +148,7 @@ class XASBWindowList(XABase.XAList):
         """
         return self.name()
 
-class XASBWindow(XASBObject):
+class XASBWindow(XASBObject, XACloseable):
     def __init__(self, properties):
         super().__init__(properties)
         self.name: str #: The title of the window

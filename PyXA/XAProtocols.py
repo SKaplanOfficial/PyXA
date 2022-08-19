@@ -77,6 +77,46 @@ class XADeletable(XAProtocol):
         self.xa_elem.delete()
 
 
+class XAPrintable(XAProtocol):
+    """A protocol for classes that can be printed.
+
+    .. versionadded:: 0.0.8
+    """
+    def print(self, print_properties: Union[dict, None] = None, show_dialog: bool = True) -> 'XAPrintable':
+        """Prints the object.
+
+        Child classes of XAPrintable should override this method as necessary.
+
+        :param show_dialog: Whether to show the print dialog, defaults to True
+        :type show_dialog: bool, optional
+        :param print_properties: Properties to set for printing, defaults to None
+        :type print_properties: Union[dict, None], optional
+        :return: A reference to the PyXA object that called this method.
+        :rtype: XACanPrintPath
+
+        .. versionadded:: 0.0.8
+        """
+        if print_properties is None:
+            print_properties = {}
+        self.xa_elem.printWithProperties_printDialog_(self.xa_elem, show_dialog, print_properties)
+        return self
+
+
+class XACloseable(XAProtocol):
+    def close(self, save: 'XACloseable.SaveOption' = None, location: Union[str, None] = None):
+        """Closes the object.
+
+        Child classes of XACloseable should override this method as necessary.
+
+        .. versionadded:: 0.0.8
+        """
+        if save is None:
+            save = 1852776480
+        else:
+            save = save.value
+        self.xa_elem.closeSaving_savingIn_(save, AppKit.NSURL.alloc().initFileURLWithPath_(location))
+
+
 class XAClipboardCodable(XAProtocol):
     """A protocol for classes that can be copied to the clipboard.
 
@@ -143,43 +183,3 @@ class XACanPrintPath(XAProtocol):
             target = AppKit.NSURL.alloc().initWithString_(target)
         self.xa_elem.print_(target)
         return self
-
-
-class XAPrintable(XAProtocol):
-    """A protocol for classes that can be printed.
-
-    .. versionadded:: 0.0.8
-    """
-    def print(self, print_properties: Union[dict, None] = None, show_dialog: bool = True) -> 'XAPrintable':
-        """Prints the object.
-
-        Child classes of XAPrintable should override this method as necessary.
-
-        :param show_dialog: Whether to show the print dialog, defaults to True
-        :type show_dialog: bool, optional
-        :param print_properties: Properties to set for printing, defaults to None
-        :type print_properties: Union[dict, None], optional
-        :return: A reference to the PyXA object that called this method.
-        :rtype: XACanPrintPath
-
-        .. versionadded:: 0.0.8
-        """
-        if print_properties is None:
-            print_properties = {}
-        self.xa_elem.printWithProperties_printDialog_(self.xa_elem, show_dialog, print_properties)
-        return self
-
-
-class XACloseable(XAProtocol):
-    def close(self, save: 'XACloseable.SaveOption' = None, location: Union[str, None] = None):
-        """Closes the object.
-
-        Child classes of XACloseable should override this method as necessary.
-
-        .. versionadded:: 0.0.8
-        """
-        if save is None:
-            save = 1852776480
-        else:
-            save = save.value
-        self.xa_elem.closeSaving_savingIn_(save, AppKit.NSURL.alloc().initFileURLWithPath_(location))

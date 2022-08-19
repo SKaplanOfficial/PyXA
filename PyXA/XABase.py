@@ -372,7 +372,7 @@ class XAClipboard(XAObject):
         :type content: List[Any]
 
         .. deprecated:: 0.0.8
-           Set the :ivar:`content` attribute directly instead.
+           Set the :ivar:`content` property directly instead.
         
         .. versionadded:: 0.0.5
         """
@@ -387,7 +387,21 @@ class XAList(XAObject):
 
     .. versionadded:: 0.0.3
     """
-    def __init__(self, properties, object_class = None, filter: Union[dict, None] = None):
+    def __init__(self, properties: dict, object_class: type = None, filter: Union[dict, None] = None):
+        """Creates an efficient wrapper object around a list of scriptable elements.
+
+        :param properties: PyXA properties passed to this object for utility purposes
+        :type properties: dict
+        :param object_class: _description_, defaults to None
+        :type object_class: type, optional
+        :param filter: A dictionary of properties and values to filter items by, defaults to None
+        :type filter: Union[dict, None], optional
+
+        .. versionchanged:: 0.0.8
+           The filter property is deprecated and will be removed in a future version. Use the :func:`filter` method instead.
+
+        .. versionadded:: 0.0.3
+        """
         super().__init__(properties)
         self.xa_ocls = object_class
 
@@ -429,6 +443,55 @@ class XAList(XAObject):
         ls = predicate.evaluate(self.xa_elem)
         obj = ls[0]
         return self._new_element(obj, self.xa_ocls)
+
+    def filter(self, filter: str, comparison_operation: Union[str, None] = None, value1: Union[Any, None] = None, value2: Union[Any, None] = None) -> 'XAList':
+        """Filters the list by the given parameters.
+
+        The filter may be either a format string, used to create an NSPredicate, or up to 4 arguments specifying the filtered property name, the comparison operation, and up to two values to compare against.
+
+        :param filter: A format string or a property name
+        :type filter: str
+        :param comparison_operation: The symbol or name of a comparison operation, such as > or <, defaults to None
+        :type comparison_operation: Union[str, None], optional
+        :param value1: The first value to compare each list item's property value against, defaults to None
+        :type value1: Union[Any, None], optional
+        :param value2: The second value to compare each list item's property value against, defaults to None
+        :type value2: Union[Any, None], optional
+        :return: The filter XAList object
+        :rtype: XAList
+
+        .. versionadded:: 0.0.8
+        """
+        if comparison_operation is not None and value1 is not None:
+            predicate = XAPredicate()
+            if comparison_operation in ["=", "==", "eq", "EQ", "equals", "EQUALS"]:
+                predicate.add_eq_condition(filter, value1)
+            elif comparison_operation in ["!=", "!==", "neq", "NEQ", "not equal to", "NOT EQUAL TO"]:
+                predicate.add_neq_condition(filter, value1)
+            elif comparison_operation in [">", "gt", "GT", "greater than", "GREATER THAN"]:
+                predicate.add_gt_condition(filter, value1)
+            elif comparison_operation in ["<", "lt", "LT", "less than", "LESS THAN"]:
+                predicate.add_lt_condition(filter, value1)
+            elif comparison_operation in [">=", "geq", "GEQ", "greater than or equal to", "GREATER THAN OR EQUAL TO"]:
+                predicate.add_geq_condition(filter, value1)
+            elif comparison_operation in ["<=", "leq", "LEQ", "less than or equal to", "LESS THAN OR EQUAL TO"]:
+                predicate.add_leq_condition(filter, value1)
+            elif comparison_operation in ["begins with", "beginswith", "BEGINS WITH", "BEGINSWITH"]:
+                predicate.add_begins_with_condition(filter, value1)
+            elif comparison_operation in ["contains", "CONTAINS"]:
+                predicate.add_contains_condition(filter, value1)
+            elif comparison_operation in ["ends with", "endswith", "ENDS WITH", "ENDSWITH"]:
+                predicate.add_ends_with_condition(filter, value1)
+            elif comparison_operation in ["between", "BETWEEN"]:
+                predicate.add_between_condition(filter, value1, value2)
+            elif comparison_operation in ["matches", "MATCHES"]:
+                predicate.add_match_condition(filter, value1)
+
+            filtered_list = predicate.evaluate(self.xa_elem)
+            return self._new_element(filtered_list, self.__class__)
+        else:
+            filtered_list = XAPredicate.evaluate_with_format(self.xa_elem, filter)
+            return self._new_element(filtered_list, self.__class__)
 
     def at(self, index: int) -> XAObject:
         """Retrieves the element at the specified index.
@@ -1065,6 +1128,7 @@ class XAPath(XAObject, XAClipboardCodable):
         self.xa_wksp = AppKit.NSWorkspace.sharedWorkspace()
 
     def open(self):
+        print(self.xa_elem)
         self.xa_wksp.openURL_(self.xa_elem)
 
     def select(self):
@@ -1398,7 +1462,7 @@ class XAPredicate(XAObject, XAClipboardCodable):
         self.values.insert(index, value)
 
     # ENDSWITH
-    def add_end_with_condition(self, property: str, value: Any):
+    def add_ends_with_condition(self, property: str, value: Any):
         """Appends a `ENDSWITH` condition to the end of the predicate format.
 
         The added condition will have the form `property ENDSWITH value`.

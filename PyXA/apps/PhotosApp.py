@@ -372,7 +372,7 @@ class XAPhotosMediaItemList(XABase.XAList, XAClipboardCodable):
         
         .. versionadded:: 0.0.6
         """
-        return list(self.xa_elem.arrayByApplyingSelector_("properties"))
+        return list(self.xa_elem.arrayByApplyingSelector_("favorite"))
 
     def date(self) -> List[datetime]:
         """Gets the date of each media item in the list.

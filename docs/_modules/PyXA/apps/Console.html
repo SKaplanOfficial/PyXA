@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PyXA.apps.Console &mdash; PyXA 0.0.7 documentation</title>
+  <title>PyXA.apps.Console &mdash; PyXA 0.0.8 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -39,7 +39,6 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../about/index.html">Project Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/index.html">Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/index.html#application-modules">Application Modules</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../reference/index.html">Code Documentation and Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../bugs.html">Bugs</a></li>
 </ul>
@@ -81,8 +80,9 @@
 <span class="kn">from</span> <span class="nn">PyXA</span> <span class="kn">import</span> <span class="n">XABase</span>
 <span class="kn">from</span> <span class="nn">PyXA.XABase</span> <span class="kn">import</span> <span class="n">OSType</span>
 <span class="kn">from</span> <span class="nn">PyXA</span> <span class="kn">import</span> <span class="n">XABaseScriptable</span>
+<span class="kn">from</span> <span class="nn">..XAProtocols</span> <span class="kn">import</span> <span class="n">XACanOpenPath</span>
 
-<div class="viewcode-block" id="XAConsoleApplication"><a class="viewcode-back" href="../../../reference/apps/console.html#PyXA.apps.Console.XAConsoleApplication">[docs]</a><span class="k">class</span> <span class="nc">XAConsoleApplication</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBApplication</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XACanConstructElement</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAAcceptsPushedElements</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XACanOpenPath</span><span class="p">):</span>
+<div class="viewcode-block" id="XAConsoleApplication"><a class="viewcode-back" href="../../../reference/apps/console.html#PyXA.apps.Console.XAConsoleApplication">[docs]</a><span class="k">class</span> <span class="nc">XAConsoleApplication</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBApplication</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A class for managing and interacting with Console.app.</span>
 
 <span class="sd">    .. versionadded:: 0.0.5</span>

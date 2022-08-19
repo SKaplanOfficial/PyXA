@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PyXA.apps.Mail &mdash; PyXA 0.0.7 documentation</title>
+  <title>PyXA.apps.Mail &mdash; PyXA 0.0.8 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -39,7 +39,6 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../about/index.html">Project Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/index.html">Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/index.html#application-modules">Application Modules</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../reference/index.html">Code Documentation and Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../bugs.html">Bugs</a></li>
 </ul>
@@ -686,7 +685,7 @@
 <div class="viewcode-block" id="XAMailMessageViewerList.by_window"><a class="viewcode-back" href="../../../reference/apps/mail.html#PyXA.apps.Mail.XAMailMessageViewerList.by_window">[docs]</a>    <span class="k">def</span> <span class="nf">by_window</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">window</span><span class="p">:</span> <span class="n">XAMailWindow</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAMailMessageViewer&#39;</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;window&quot;</span><span class="p">,</span> <span class="n">window</span><span class="o">.</span><span class="n">xa_scel</span><span class="p">)</span></div></div>
 
-<div class="viewcode-block" id="XAMailMessageViewer"><a class="viewcode-back" href="../../../reference/apps/mail.html#PyXA.apps.Mail.XAMailMessageViewer">[docs]</a><span class="k">class</span> <span class="nc">XAMailMessageViewer</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBObject</span><span class="p">):</span>
+<div class="viewcode-block" id="XAMailMessageViewer"><a class="viewcode-back" href="../../../reference/apps/mail.html#PyXA.apps.Mail.XAMailMessageViewer">[docs]</a><span class="k">class</span> <span class="nc">XAMailMessageViewer</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A class for managing and interacting with the message viewer window in Mail.app.</span>
 
 <span class="sd">    .. versionadded:: 0.0.4</span>
@@ -800,7 +799,7 @@
 <div class="viewcode-block" id="XAMailSignatureList.by_content"><a class="viewcode-back" href="../../../reference/apps/mail.html#PyXA.apps.Mail.XAMailSignatureList.by_content">[docs]</a>    <span class="k">def</span> <span class="nf">by_content</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="p">:</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAText</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAMailSignature&#39;</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;content&quot;</span><span class="p">,</span> <span class="n">content</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span></div></div>
 
-<div class="viewcode-block" id="XAMailSignature"><a class="viewcode-back" href="../../../reference/apps/mail.html#PyXA.apps.Mail.XAMailSignature">[docs]</a><span class="k">class</span> <span class="nc">XAMailSignature</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBObject</span><span class="p">):</span>
+<div class="viewcode-block" id="XAMailSignature"><a class="viewcode-back" href="../../../reference/apps/mail.html#PyXA.apps.Mail.XAMailSignature">[docs]</a><span class="k">class</span> <span class="nc">XAMailSignature</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A class for managing and interacting with email signatures in Mail.app.</span>
 
 <span class="sd">    .. versionadded:: 0.0.4</span>
@@ -833,7 +832,7 @@
 
 <span class="sd">    .. versionadded:: 0.0.4</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">object_class</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">object_class</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">object_class</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">object_class</span> <span class="o">=</span> <span class="n">XAMailAccount</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">object_class</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
@@ -949,7 +948,7 @@
 <div class="viewcode-block" id="XAMailAccountList.by_uses_ssl"><a class="viewcode-back" href="../../../reference/apps/mail.html#PyXA.apps.Mail.XAMailAccountList.by_uses_ssl">[docs]</a>    <span class="k">def</span> <span class="nf">by_uses_ssl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">uses_ssl</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAMailAccount&#39;</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;usesSsl&quot;</span><span class="p">,</span> <span class="n">uses_ssl</span><span class="p">)</span></div></div>
 
-<div class="viewcode-block" id="XAMailAccount"><a class="viewcode-back" href="../../../reference/apps/mail.html#PyXA.apps.Mail.XAMailAccount">[docs]</a><span class="k">class</span> <span class="nc">XAMailAccount</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBObject</span><span class="p">):</span>
+<div class="viewcode-block" id="XAMailAccount"><a class="viewcode-back" href="../../../reference/apps/mail.html#PyXA.apps.Mail.XAMailAccount">[docs]</a><span class="k">class</span> <span class="nc">XAMailAccount</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A class for managing and interacting with accounts in Mail.app.</span>
 
 <span class="sd">    .. versionadded:: 0.0.4</span>
@@ -1064,7 +1063,7 @@
 <span class="sd">    .. versionadded:: 0.0.4</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">XAMailPOPAccount</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XAMailPOPAccount</span><span class="p">)</span>
 
 <div class="viewcode-block" id="XAMailIMAPAccountList.compact_mailboxes_when_closing"><a class="viewcode-back" href="../../../reference/apps/mail.html#PyXA.apps.Mail.XAMailIMAPAccountList.compact_mailboxes_when_closing">[docs]</a>    <span class="k">def</span> <span class="nf">compact_mailboxes_when_closing</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;compactMailboxesWhenClosing&quot;</span><span class="p">))</span></div>
@@ -1150,7 +1149,7 @@
 <span class="sd">    .. versionadded:: 0.0.4</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">XAMailICloudAccount</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XAMailICloudAccount</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="XAMailICloudAccount"><a class="viewcode-back" href="../../../reference/apps/mail.html#PyXA.apps.Mail.XAMailICloudAccount">[docs]</a><span class="k">class</span> <span class="nc">XAMailICloudAccount</span><span class="p">(</span><span class="n">XAMailAccount</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A class for managing and interacting with iCloud accounts in Mail.app.</span>
@@ -1169,7 +1168,7 @@
 <span class="sd">    .. versionadded:: 0.0.4</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">XAMailPOPAccount</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XAMailPOPAccount</span><span class="p">)</span>
 
 <div class="viewcode-block" id="XAMailPOPAccountList.big_message_warning_size"><a class="viewcode-back" href="../../../reference/apps/mail.html#PyXA.apps.Mail.XAMailPOPAccountList.big_message_warning_size">[docs]</a>    <span class="k">def</span> <span class="nf">big_message_warning_size</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;bigMessageWarningSize&quot;</span><span class="p">))</span></div>
@@ -1362,7 +1361,7 @@
 <div class="viewcode-block" id="XAMailDocumentList.by_file"><a class="viewcode-back" href="../../../reference/apps/mail.html#PyXA.apps.Mail.XAMailDocumentList.by_file">[docs]</a>    <span class="k">def</span> <span class="nf">by_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAMailDocument&#39;</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;file&quot;</span><span class="p">,</span> <span class="n">file</span><span class="p">)</span></div></div>
 
-<div class="viewcode-block" id="XAMailDocument"><a class="viewcode-back" href="../../../reference/apps/mail.html#PyXA.apps.Mail.XAMailDocument">[docs]</a><span class="k">class</span> <span class="nc">XAMailDocument</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBObject</span><span class="p">):</span>
+<div class="viewcode-block" id="XAMailDocument"><a class="viewcode-back" href="../../../reference/apps/mail.html#PyXA.apps.Mail.XAMailDocument">[docs]</a><span class="k">class</span> <span class="nc">XAMailDocument</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A class for managing and interacting with Mail documents.</span>
 
 <span class="sd">    .. versionadded:: 0.0.4</span>
@@ -1429,7 +1428,7 @@
 <div class="viewcode-block" id="XAMailboxList.by_container"><a class="viewcode-back" href="../../../reference/apps/mail.html#PyXA.apps.Mail.XAMailboxList.by_container">[docs]</a>    <span class="k">def</span> <span class="nf">by_container</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">container</span><span class="p">:</span> <span class="s1">&#39;XAMailContainer&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAMailbox&#39;</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;container&quot;</span><span class="p">,</span> <span class="n">container</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span></div></div>
 
-<div class="viewcode-block" id="XAMailbox"><a class="viewcode-back" href="../../../reference/apps/mail.html#PyXA.apps.Mail.XAMailbox">[docs]</a><span class="k">class</span> <span class="nc">XAMailbox</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBObject</span><span class="p">):</span>
+<div class="viewcode-block" id="XAMailbox"><a class="viewcode-back" href="../../../reference/apps/mail.html#PyXA.apps.Mail.XAMailbox">[docs]</a><span class="k">class</span> <span class="nc">XAMailbox</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A class for managing and interacting with mailboxes in Mail.app.</span>
 
 <span class="sd">    .. versionadded:: 0.0.4</span>
@@ -1624,7 +1623,7 @@
 <div class="viewcode-block" id="XAMailMessageList.by_was_replied_to"><a class="viewcode-back" href="../../../reference/apps/mail.html#PyXA.apps.Mail.XAMailMessageList.by_was_replied_to">[docs]</a>    <span class="k">def</span> <span class="nf">by_was_replied_to</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">was_replied_to</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAMailMessage&#39;</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;wasRepliedTo&quot;</span><span class="p">,</span> <span class="n">was_replied_to</span><span class="p">)</span></div></div>
 
-<div class="viewcode-block" id="XAMailMessage"><a class="viewcode-back" href="../../../reference/apps/mail.html#PyXA.apps.Mail.XAMailMessage">[docs]</a><span class="k">class</span> <span class="nc">XAMailMessage</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBObject</span><span class="p">):</span>
+<div class="viewcode-block" id="XAMailMessage"><a class="viewcode-back" href="../../../reference/apps/mail.html#PyXA.apps.Mail.XAMailMessage">[docs]</a><span class="k">class</span> <span class="nc">XAMailMessage</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A class for managing and interacting with messages in Mail.app.</span>
 
 <span class="sd">    .. versionadded:: 0.0.4</span>
@@ -1858,7 +1857,7 @@
 <div class="viewcode-block" id="XAMailOutgoingMessageList.by_id"><a class="viewcode-back" href="../../../reference/apps/mail.html#PyXA.apps.Mail.XAMailOutgoingMessageList.by_id">[docs]</a>    <span class="k">def</span> <span class="nf">by_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAMailOutgoingMessage&#39;</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="nb">id</span><span class="p">)</span></div></div>
 
-<div class="viewcode-block" id="XAMailOutgoingMessage"><a class="viewcode-back" href="../../../reference/apps/mail.html#PyXA.apps.Mail.XAMailOutgoingMessage">[docs]</a><span class="k">class</span> <span class="nc">XAMailOutgoingMessage</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBObject</span><span class="p">):</span>
+<div class="viewcode-block" id="XAMailOutgoingMessage"><a class="viewcode-back" href="../../../reference/apps/mail.html#PyXA.apps.Mail.XAMailOutgoingMessage">[docs]</a><span class="k">class</span> <span class="nc">XAMailOutgoingMessage</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A class for managing and interacting with outgoing messages in Mail.app.</span>
 
 <span class="sd">    .. versionadded:: 0.0.4</span>
@@ -1921,7 +1920,7 @@
 
 <span class="sd">    .. versionadded:: 0.0.4</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">object_class</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">object_class</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">object_class</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">object_class</span> <span class="o">=</span> <span class="n">XAMailRecipient</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">object_class</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
@@ -1938,7 +1937,7 @@
 <div class="viewcode-block" id="XAMailRecipientList.by_name"><a class="viewcode-back" href="../../../reference/apps/mail.html#PyXA.apps.Mail.XAMailRecipientList.by_name">[docs]</a>    <span class="k">def</span> <span class="nf">by_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAMailRecipient&#39;</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span></div></div>
 
-<div class="viewcode-block" id="XAMailRecipient"><a class="viewcode-back" href="../../../reference/apps/mail.html#PyXA.apps.Mail.XAMailRecipient">[docs]</a><span class="k">class</span> <span class="nc">XAMailRecipient</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBObject</span><span class="p">):</span>
+<div class="viewcode-block" id="XAMailRecipient"><a class="viewcode-back" href="../../../reference/apps/mail.html#PyXA.apps.Mail.XAMailRecipient">[docs]</a><span class="k">class</span> <span class="nc">XAMailRecipient</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A class for managing and interacting with recipients in Mail.app.</span>
 
 <span class="sd">    .. versionadded:: 0.0.4</span>
@@ -1965,7 +1964,7 @@
 <span class="sd">    .. versionadded:: 0.0.4</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">XAMailBccRecipient</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XAMailBccRecipient</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="XAMailBccRecipient"><a class="viewcode-back" href="../../../reference/apps/mail.html#PyXA.apps.Mail.XAMailBccRecipient">[docs]</a><span class="k">class</span> <span class="nc">XAMailBccRecipient</span><span class="p">(</span><span class="n">XAMailRecipient</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A class for managing and interacting with BCC recipients in Mail.app.</span>
@@ -1984,7 +1983,7 @@
 <span class="sd">    .. versionadded:: 0.0.4</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">XAMailCcRecipient</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XAMailCcRecipient</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="XAMailCcRecipient"><a class="viewcode-back" href="../../../reference/apps/mail.html#PyXA.apps.Mail.XAMailCcRecipient">[docs]</a><span class="k">class</span> <span class="nc">XAMailCcRecipient</span><span class="p">(</span><span class="n">XAMailRecipient</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A class for managing and interacting with CC recipients in Mail.app.</span>
@@ -2003,7 +2002,7 @@
 <span class="sd">    .. versionadded:: 0.0.4</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">XAMailToRecipient</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XAMailToRecipient</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="XAMailToRecipient"><a class="viewcode-back" href="../../../reference/apps/mail.html#PyXA.apps.Mail.XAMailToRecipient">[docs]</a><span class="k">class</span> <span class="nc">XAMailToRecipient</span><span class="p">(</span><span class="n">XAMailRecipient</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A class for managing and interacting with the primary (to) recipients in Mail.app.</span>
@@ -2036,7 +2035,7 @@
 <div class="viewcode-block" id="XAMailHeaderList.by_name"><a class="viewcode-back" href="../../../reference/apps/mail.html#PyXA.apps.Mail.XAMailHeaderList.by_name">[docs]</a>    <span class="k">def</span> <span class="nf">by_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAMailHeader&#39;</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span></div></div>
 
-<div class="viewcode-block" id="XAMailHeader"><a class="viewcode-back" href="../../../reference/apps/mail.html#PyXA.apps.Mail.XAMailHeader">[docs]</a><span class="k">class</span> <span class="nc">XAMailHeader</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBObject</span><span class="p">):</span>
+<div class="viewcode-block" id="XAMailHeader"><a class="viewcode-back" href="../../../reference/apps/mail.html#PyXA.apps.Mail.XAMailHeader">[docs]</a><span class="k">class</span> <span class="nc">XAMailHeader</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A class for managing and interacting with message headers in Mail.app.</span>
 
 <span class="sd">    .. versionadded:: 0.0.4</span>
@@ -2095,7 +2094,7 @@
 <div class="viewcode-block" id="XAMailAttachmentList.by_id"><a class="viewcode-back" href="../../../reference/apps/mail.html#PyXA.apps.Mail.XAMailAttachmentList.by_id">[docs]</a>    <span class="k">def</span> <span class="nf">by_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAMailAttachment&#39;</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="nb">id</span><span class="p">)</span></div></div>
 
-<div class="viewcode-block" id="XAMailAttachment"><a class="viewcode-back" href="../../../reference/apps/mail.html#PyXA.apps.Mail.XAMailAttachment">[docs]</a><span class="k">class</span> <span class="nc">XAMailAttachment</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBObject</span><span class="p">):</span>
+<div class="viewcode-block" id="XAMailAttachment"><a class="viewcode-back" href="../../../reference/apps/mail.html#PyXA.apps.Mail.XAMailAttachment">[docs]</a><span class="k">class</span> <span class="nc">XAMailAttachment</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A class for managing and interacting with message attachments in Mail.app.</span>
 
 <span class="sd">    .. versionadded:: 0.0.4</span>
@@ -2269,7 +2268,7 @@
 <div class="viewcode-block" id="XAMailRuleList.by_stop_evaluating_rules"><a class="viewcode-back" href="../../../reference/apps/mail.html#PyXA.apps.Mail.XAMailRuleList.by_stop_evaluating_rules">[docs]</a>    <span class="k">def</span> <span class="nf">by_stop_evaluating_rules</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stop_evaluating_rules</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAMailRule&#39;</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;stopEvaluatingRules&quot;</span><span class="p">,</span> <span class="n">stop_evaluating_rules</span><span class="p">)</span></div></div>
 
-<div class="viewcode-block" id="XAMailRule"><a class="viewcode-back" href="../../../reference/apps/mail.html#PyXA.apps.Mail.XAMailRule">[docs]</a><span class="k">class</span> <span class="nc">XAMailRule</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBObject</span><span class="p">):</span>
+<div class="viewcode-block" id="XAMailRule"><a class="viewcode-back" href="../../../reference/apps/mail.html#PyXA.apps.Mail.XAMailRule">[docs]</a><span class="k">class</span> <span class="nc">XAMailRule</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A class for managing and interacting with rules in Mail.app.</span>
 
 <span class="sd">    .. versionadded:: 0.0.4</span>
@@ -2427,7 +2426,7 @@
 <div class="viewcode-block" id="XAMailRuleConditionList.by_rule_type"><a class="viewcode-back" href="../../../reference/apps/mail.html#PyXA.apps.Mail.XAMailRuleConditionList.by_rule_type">[docs]</a>    <span class="k">def</span> <span class="nf">by_rule_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rule_type</span><span class="p">:</span> <span class="n">XAMailApplication</span><span class="o">.</span><span class="n">RuleType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAMailRuleCondition&#39;</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;ruleType&quot;</span><span class="p">,</span> <span class="n">event_from_str</span><span class="p">(</span><span class="n">unOSType</span><span class="p">(</span><span class="n">rule_type</span><span class="o">.</span><span class="n">value</span><span class="p">)))</span></div></div>
 
-<div class="viewcode-block" id="XAMailRuleCondition"><a class="viewcode-back" href="../../../reference/apps/mail.html#PyXA.apps.Mail.XAMailRuleCondition">[docs]</a><span class="k">class</span> <span class="nc">XAMailRuleCondition</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBObject</span><span class="p">):</span>
+<div class="viewcode-block" id="XAMailRuleCondition"><a class="viewcode-back" href="../../../reference/apps/mail.html#PyXA.apps.Mail.XAMailRuleCondition">[docs]</a><span class="k">class</span> <span class="nc">XAMailRuleCondition</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A class for managing and interacting with rule conditions in Mail.app.</span>
 
 <span class="sd">    .. versionadded:: 0.0.4</span>

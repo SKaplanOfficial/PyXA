@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PyXA.apps.Keynote &mdash; PyXA 0.0.7 documentation</title>
+  <title>PyXA.apps.Keynote &mdash; PyXA 0.0.8 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -39,7 +39,6 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../about/index.html">Project Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/index.html">Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/index.html#application-modules">Application Modules</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../reference/index.html">Code Documentation and Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../bugs.html">Bugs</a></li>
 </ul>
@@ -83,8 +82,9 @@
 
 <span class="kn">from</span> <span class="nn">PyXA.XABase</span> <span class="kn">import</span> <span class="n">OSType</span>
 <span class="kn">from</span> <span class="nn">PyXA</span> <span class="kn">import</span> <span class="n">XABaseScriptable</span>
+<span class="kn">from</span> <span class="nn">..XAProtocols</span> <span class="kn">import</span> <span class="n">XACanOpenPath</span><span class="p">,</span> <span class="n">XACloseable</span>
 
-<div class="viewcode-block" id="XAKeynoteApplication"><a class="viewcode-back" href="../../../reference/apps/keynote.html#PyXA.apps.Keynote.XAKeynoteApplication">[docs]</a><span class="k">class</span> <span class="nc">XAKeynoteApplication</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBApplication</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAAcceptsPushedElements</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XACanConstructElement</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XACanOpenPath</span><span class="p">):</span>
+<div class="viewcode-block" id="XAKeynoteApplication"><a class="viewcode-back" href="../../../reference/apps/keynote.html#PyXA.apps.Keynote.XAKeynoteApplication">[docs]</a><span class="k">class</span> <span class="nc">XAKeynoteApplication</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBApplication</span><span class="p">,</span> <span class="n">XACanOpenPath</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A class for managing and interacting with Keynote.app.</span>
 
 <span class="sd">    .. seealso:: :class:`XAKeynoteWindow`, :class:`XAKeynoteDocument`</span>
@@ -443,7 +443,7 @@
 
 
 
-<div class="viewcode-block" id="XAKeynoteWindow"><a class="viewcode-back" href="../../../reference/apps/keynote.html#PyXA.apps.Keynote.XAKeynoteWindow">[docs]</a><span class="k">class</span> <span class="nc">XAKeynoteWindow</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBWindow</span><span class="p">,</span> <span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBPrintable</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAHasElements</span><span class="p">):</span>
+<div class="viewcode-block" id="XAKeynoteWindow"><a class="viewcode-back" href="../../../reference/apps/keynote.html#PyXA.apps.Keynote.XAKeynoteWindow">[docs]</a><span class="k">class</span> <span class="nc">XAKeynoteWindow</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBWindow</span><span class="p">,</span> <span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBPrintable</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A class for managing and interacting with windows in Keynote.app.</span>
 
 <span class="sd">    .. versionadded:: 0.0.1</span>
@@ -623,7 +623,7 @@
 <div class="viewcode-block" id="XAKeynoteDocumentList.by_password_protected"><a class="viewcode-back" href="../../../reference/apps/keynote.html#PyXA.apps.Keynote.XAKeynoteDocumentList.by_password_protected">[docs]</a>    <span class="k">def</span> <span class="nf">by_password_protected</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">password_protected</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAKeynoteDocument&#39;</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;passwordProtected&quot;</span><span class="p">,</span> <span class="n">password_protected</span><span class="p">)</span></div></div>
 
-<div class="viewcode-block" id="XAKeynoteDocument"><a class="viewcode-back" href="../../../reference/apps/keynote.html#PyXA.apps.Keynote.XAKeynoteDocument">[docs]</a><span class="k">class</span> <span class="nc">XAKeynoteDocument</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAHasElements</span><span class="p">,</span> <span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBPrintable</span><span class="p">,</span> <span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBCloseable</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAAcceptsPushedElements</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XACanConstructElement</span><span class="p">):</span>
+<div class="viewcode-block" id="XAKeynoteDocument"><a class="viewcode-back" href="../../../reference/apps/keynote.html#PyXA.apps.Keynote.XAKeynoteDocument">[docs]</a><span class="k">class</span> <span class="nc">XAKeynoteDocument</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBPrintable</span><span class="p">,</span> <span class="n">XACloseable</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A class for managing and interacting with TextEdit documents.</span>
 
 <span class="sd">    .. seealso:: :class:`XAKeynoteApplication`</span>
@@ -905,7 +905,7 @@
 <div class="viewcode-block" id="XAKeynoteThemeList.by_name"><a class="viewcode-back" href="../../../reference/apps/keynote.html#PyXA.apps.Keynote.XAKeynoteThemeList.by_name">[docs]</a>    <span class="k">def</span> <span class="nf">by_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAKeynoteTheme&#39;</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span></div></div>
 
-<div class="viewcode-block" id="XAKeynoteTheme"><a class="viewcode-back" href="../../../reference/apps/keynote.html#PyXA.apps.Keynote.XAKeynoteTheme">[docs]</a><span class="k">class</span> <span class="nc">XAKeynoteTheme</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBObject</span><span class="p">):</span>
+<div class="viewcode-block" id="XAKeynoteTheme"><a class="viewcode-back" href="../../../reference/apps/keynote.html#PyXA.apps.Keynote.XAKeynoteTheme">[docs]</a><span class="k">class</span> <span class="nc">XAKeynoteTheme</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A class for managing and interacting with Keynote themes.</span>
 
 <span class="sd">    .. seealso:: :class:`XAKeynoteApplication`</span>
@@ -936,10 +936,12 @@
 
 <span class="sd">    .. versionadded:: 0.0.3</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">XAKeynoteContainer</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">obj_class</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">obj_class</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">obj_class</span> <span class="o">=</span> <span class="n">XAKeynoteContainer</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">obj_class</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="XAKeynoteContainer"><a class="viewcode-back" href="../../../reference/apps/keynote.html#PyXA.apps.Keynote.XAKeynoteContainer">[docs]</a><span class="k">class</span> <span class="nc">XAKeynoteContainer</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAHasElements</span><span class="p">):</span>
+<div class="viewcode-block" id="XAKeynoteContainer"><a class="viewcode-back" href="../../../reference/apps/keynote.html#PyXA.apps.Keynote.XAKeynoteContainer">[docs]</a><span class="k">class</span> <span class="nc">XAKeynoteContainer</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A class for managing and interacting with containers in Keynote.</span>
 
 <span class="sd">    .. seealso:: :class:`XAKeynoteApplication`, :class:`XAKeynoteiWorkItem`</span>
@@ -1072,7 +1074,7 @@
 
 
 
-<div class="viewcode-block" id="XAKeynoteSlideList"><a class="viewcode-back" href="../../../reference/apps/keynote.html#PyXA.apps.Keynote.XAKeynoteSlideList">[docs]</a><span class="k">class</span> <span class="nc">XAKeynoteSlideList</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAList</span><span class="p">):</span>
+<div class="viewcode-block" id="XAKeynoteSlideList"><a class="viewcode-back" href="../../../reference/apps/keynote.html#PyXA.apps.Keynote.XAKeynoteSlideList">[docs]</a><span class="k">class</span> <span class="nc">XAKeynoteSlideList</span><span class="p">(</span><span class="n">XAKeynoteContainerList</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A wrapper around lists of themes that employs fast enumeration techniques.</span>
 
 <span class="sd">    All properties of themes can be called as methods on the wrapped list, returning a list containing each theme&#39;s value for the property.</span>
@@ -1080,7 +1082,7 @@
 <span class="sd">    .. versionadded:: 0.0.5</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">XAKeynoteSlide</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XAKeynoteSlide</span><span class="p">)</span>
 
 <div class="viewcode-block" id="XAKeynoteSlideList.properties"><a class="viewcode-back" href="../../../reference/apps/keynote.html#PyXA.apps.Keynote.XAKeynoteSlideList.properties">[docs]</a>    <span class="k">def</span> <span class="nf">properties</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;properties&quot;</span><span class="p">))</span></div>
@@ -1326,8 +1328,10 @@
 
 <span class="sd">    .. versionadded:: 0.0.5</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">XAKeynoteiWorkItem</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">obj_class</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">obj_class</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">obj_class</span> <span class="o">=</span> <span class="n">XAKeynoteiWorkItem</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">obj_class</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
 
 <div class="viewcode-block" id="XAKeynoteiWorkItemList.height"><a class="viewcode-back" href="../../../reference/apps/keynote.html#PyXA.apps.Keynote.XAKeynoteiWorkItemList.height">[docs]</a>    <span class="k">def</span> <span class="nf">height</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;height&quot;</span><span class="p">))</span></div>
@@ -1461,7 +1465,7 @@
 
 
 
-<div class="viewcode-block" id="XAKeynoteGroupList"><a class="viewcode-back" href="../../../reference/apps/keynote.html#PyXA.apps.Keynote.XAKeynoteGroupList">[docs]</a><span class="k">class</span> <span class="nc">XAKeynoteGroupList</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAList</span><span class="p">):</span>
+<div class="viewcode-block" id="XAKeynoteGroupList"><a class="viewcode-back" href="../../../reference/apps/keynote.html#PyXA.apps.Keynote.XAKeynoteGroupList">[docs]</a><span class="k">class</span> <span class="nc">XAKeynoteGroupList</span><span class="p">(</span><span class="n">XAKeynoteContainerList</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A wrapper around lists of themes that employs fast enumeration techniques.</span>
 
 <span class="sd">    All properties of themes can be called as methods on the wrapped list, returning a list containing each theme&#39;s value for the property.</span>
@@ -1469,7 +1473,7 @@
 <span class="sd">    .. versionadded:: 0.0.5</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">XAKeynoteGroup</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XAKeynoteGroup</span><span class="p">)</span>
 
 <div class="viewcode-block" id="XAKeynoteGroupList.height"><a class="viewcode-back" href="../../../reference/apps/keynote.html#PyXA.apps.Keynote.XAKeynoteGroupList.height">[docs]</a>    <span class="k">def</span> <span class="nf">height</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;height&quot;</span><span class="p">))</span></div>
@@ -1538,7 +1542,7 @@
 
 
 
-<div class="viewcode-block" id="XAKeynoteImageList"><a class="viewcode-back" href="../../../reference/apps/keynote.html#PyXA.apps.Keynote.XAKeynoteImageList">[docs]</a><span class="k">class</span> <span class="nc">XAKeynoteImageList</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAList</span><span class="p">):</span>
+<div class="viewcode-block" id="XAKeynoteImageList"><a class="viewcode-back" href="../../../reference/apps/keynote.html#PyXA.apps.Keynote.XAKeynoteImageList">[docs]</a><span class="k">class</span> <span class="nc">XAKeynoteImageList</span><span class="p">(</span><span class="n">XAKeynoteiWorkItemList</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A wrapper around lists of images that employs fast enumeration techniques.</span>
 
 <span class="sd">    All properties of images can be called as methods on the wrapped list, returning a list containing each image&#39;s value for the property.</span>
@@ -1546,7 +1550,7 @@
 <span class="sd">    .. versionadded:: 0.0.5</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">XAKeynoteImage</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XAKeynoteImage</span><span class="p">)</span>
 
 <div class="viewcode-block" id="XAKeynoteImageList.object_description"><a class="viewcode-back" href="../../../reference/apps/keynote.html#PyXA.apps.Keynote.XAKeynoteImageList.object_description">[docs]</a>    <span class="k">def</span> <span class="nf">object_description</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;objectDescription&quot;</span><span class="p">))</span></div>
@@ -1662,7 +1666,7 @@
 
 
 
-<div class="viewcode-block" id="XAKeynoteAudioClipList"><a class="viewcode-back" href="../../../reference/apps/keynote.html#PyXA.apps.Keynote.XAKeynoteAudioClipList">[docs]</a><span class="k">class</span> <span class="nc">XAKeynoteAudioClipList</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAList</span><span class="p">):</span>
+<div class="viewcode-block" id="XAKeynoteAudioClipList"><a class="viewcode-back" href="../../../reference/apps/keynote.html#PyXA.apps.Keynote.XAKeynoteAudioClipList">[docs]</a><span class="k">class</span> <span class="nc">XAKeynoteAudioClipList</span><span class="p">(</span><span class="n">XAKeynoteiWorkItemList</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A wrapper around lists of audio clips that employs fast enumeration techniques.</span>
 
 <span class="sd">    All properties of audio clips can be called as methods on the wrapped list, returning a list containing each audio clips&#39;s value for the property.</span>
@@ -1670,7 +1674,7 @@
 <span class="sd">    .. versionadded:: 0.0.5</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">XAKeynoteAudioClip</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XAKeynoteAudioClip</span><span class="p">)</span>
 
 <div class="viewcode-block" id="XAKeynoteAudioClipList.file_name"><a class="viewcode-back" href="../../../reference/apps/keynote.html#PyXA.apps.Keynote.XAKeynoteAudioClipList.file_name">[docs]</a>    <span class="k">def</span> <span class="nf">file_name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;fileName&quot;</span><span class="p">))</span></div>
@@ -1717,7 +1721,7 @@
 
 
 
-<div class="viewcode-block" id="XAKeynoteShapeList"><a class="viewcode-back" href="../../../reference/apps/keynote.html#PyXA.apps.Keynote.XAKeynoteShapeList">[docs]</a><span class="k">class</span> <span class="nc">XAKeynoteShapeList</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAList</span><span class="p">):</span>
+<div class="viewcode-block" id="XAKeynoteShapeList"><a class="viewcode-back" href="../../../reference/apps/keynote.html#PyXA.apps.Keynote.XAKeynoteShapeList">[docs]</a><span class="k">class</span> <span class="nc">XAKeynoteShapeList</span><span class="p">(</span><span class="n">XAKeynoteiWorkItemList</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A wrapper around lists of shapes that employs fast enumeration techniques.</span>
 
 <span class="sd">    All properties of shapes can be called as methods on the wrapped list, returning a list containing each shape&#39;s value for the property.</span>
@@ -1725,7 +1729,7 @@
 <span class="sd">    .. versionadded:: 0.0.5</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">XAKeynoteShape</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XAKeynoteShape</span><span class="p">)</span>
 
 <div class="viewcode-block" id="XAKeynoteShapeList.properties"><a class="viewcode-back" href="../../../reference/apps/keynote.html#PyXA.apps.Keynote.XAKeynoteShapeList.properties">[docs]</a>    <span class="k">def</span> <span class="nf">properties</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;properties&quot;</span><span class="p">))</span></div>
@@ -1837,7 +1841,7 @@
 
 
 
-<div class="viewcode-block" id="XAKeynoteChartList"><a class="viewcode-back" href="../../../reference/apps/keynote.html#PyXA.apps.Keynote.XAKeynoteChartList">[docs]</a><span class="k">class</span> <span class="nc">XAKeynoteChartList</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAList</span><span class="p">):</span>
+<div class="viewcode-block" id="XAKeynoteChartList"><a class="viewcode-back" href="../../../reference/apps/keynote.html#PyXA.apps.Keynote.XAKeynoteChartList">[docs]</a><span class="k">class</span> <span class="nc">XAKeynoteChartList</span><span class="p">(</span><span class="n">XAKeynoteiWorkItemList</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A wrapper around lists of themes that employs fast enumeration techniques.</span>
 
 <span class="sd">    All properties of themes can be called as methods on the wrapped list, returning a list containing each theme&#39;s value for the property.</span>
@@ -1845,7 +1849,7 @@
 <span class="sd">    .. versionadded:: 0.0.5</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">XAKeynoteChart</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XAKeynoteChart</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="XAKeynoteChart"><a class="viewcode-back" href="../../../reference/apps/keynote.html#PyXA.apps.Keynote.XAKeynoteChart">[docs]</a><span class="k">class</span> <span class="nc">XAKeynoteChart</span><span class="p">(</span><span class="n">XAKeynoteiWorkItem</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A class for managing and interacting with charts in Keynote.</span>
@@ -1858,7 +1862,7 @@
 
 
 
-<div class="viewcode-block" id="XAKeynoteLineList"><a class="viewcode-back" href="../../../reference/apps/keynote.html#PyXA.apps.Keynote.XAKeynoteLineList">[docs]</a><span class="k">class</span> <span class="nc">XAKeynoteLineList</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAList</span><span class="p">):</span>
+<div class="viewcode-block" id="XAKeynoteLineList"><a class="viewcode-back" href="../../../reference/apps/keynote.html#PyXA.apps.Keynote.XAKeynoteLineList">[docs]</a><span class="k">class</span> <span class="nc">XAKeynoteLineList</span><span class="p">(</span><span class="n">XAKeynoteiWorkItemList</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A wrapper around lists of shapes that employs fast enumeration techniques.</span>
 
 <span class="sd">    All properties of shapes can be called as methods on the wrapped list, returning a list containing each shape&#39;s value for the property.</span>
@@ -1866,7 +1870,7 @@
 <span class="sd">    .. versionadded:: 0.0.5</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">XAKeynoteLine</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XAKeynoteLine</span><span class="p">)</span>
 
 <div class="viewcode-block" id="XAKeynoteLineList.end_point"><a class="viewcode-back" href="../../../reference/apps/keynote.html#PyXA.apps.Keynote.XAKeynoteLineList.end_point">[docs]</a>    <span class="k">def</span> <span class="nf">end_point</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]:</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;end_point&quot;</span><span class="p">))</span></div>
@@ -1934,7 +1938,7 @@
 
 
 
-<div class="viewcode-block" id="XAKeynoteMovieList"><a class="viewcode-back" href="../../../reference/apps/keynote.html#PyXA.apps.Keynote.XAKeynoteMovieList">[docs]</a><span class="k">class</span> <span class="nc">XAKeynoteMovieList</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAList</span><span class="p">):</span>
+<div class="viewcode-block" id="XAKeynoteMovieList"><a class="viewcode-back" href="../../../reference/apps/keynote.html#PyXA.apps.Keynote.XAKeynoteMovieList">[docs]</a><span class="k">class</span> <span class="nc">XAKeynoteMovieList</span><span class="p">(</span><span class="n">XAKeynoteiWorkItemList</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A wrapper around lists of movies that employs fast enumeration techniques.</span>
 
 <span class="sd">    All properties of movies can be called as methods on the wrapped list, returning a list containing each movie&#39;s value for the property.</span>
@@ -1942,7 +1946,7 @@
 <span class="sd">    .. versionadded:: 0.0.5</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">XAKeynoteMovie</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XAKeynoteMovie</span><span class="p">)</span>
 
 <div class="viewcode-block" id="XAKeynoteMovieList.file_name"><a class="viewcode-back" href="../../../reference/apps/keynote.html#PyXA.apps.Keynote.XAKeynoteMovieList.file_name">[docs]</a>    <span class="k">def</span> <span class="nf">file_name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;fileName&quot;</span><span class="p">))</span></div>
@@ -2033,7 +2037,7 @@
 
 
 
-<div class="viewcode-block" id="XAKeynoteTextItemList"><a class="viewcode-back" href="../../../reference/apps/keynote.html#PyXA.apps.Keynote.XAKeynoteTextItemList">[docs]</a><span class="k">class</span> <span class="nc">XAKeynoteTextItemList</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAList</span><span class="p">):</span>
+<div class="viewcode-block" id="XAKeynoteTextItemList"><a class="viewcode-back" href="../../../reference/apps/keynote.html#PyXA.apps.Keynote.XAKeynoteTextItemList">[docs]</a><span class="k">class</span> <span class="nc">XAKeynoteTextItemList</span><span class="p">(</span><span class="n">XAKeynoteiWorkItemList</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A wrapper around lists of text items that employs fast enumeration techniques.</span>
 
 <span class="sd">    All properties of text items can be called as methods on the wrapped list, returning a list containing each text item&#39;s value for the property.</span>
@@ -2041,7 +2045,7 @@
 <span class="sd">    .. versionadded:: 0.0.5</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">XAKeynoteTextItem</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XAKeynoteTextItem</span><span class="p">)</span>
 
 <div class="viewcode-block" id="XAKeynoteTextItemList.background_fill_type"><a class="viewcode-back" href="../../../reference/apps/keynote.html#PyXA.apps.Keynote.XAKeynoteTextItemList.background_fill_type">[docs]</a>    <span class="k">def</span> <span class="nf">background_fill_type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">XAKeynoteApplication</span><span class="o">.</span><span class="n">FillOption</span><span class="p">]:</span>
         <span class="n">ls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;fileName&quot;</span><span class="p">)</span>
@@ -2123,7 +2127,7 @@
 
 
 
-<div class="viewcode-block" id="XAKeynoteTableList"><a class="viewcode-back" href="../../../reference/apps/keynote.html#PyXA.apps.Keynote.XAKeynoteTableList">[docs]</a><span class="k">class</span> <span class="nc">XAKeynoteTableList</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAList</span><span class="p">):</span>
+<div class="viewcode-block" id="XAKeynoteTableList"><a class="viewcode-back" href="../../../reference/apps/keynote.html#PyXA.apps.Keynote.XAKeynoteTableList">[docs]</a><span class="k">class</span> <span class="nc">XAKeynoteTableList</span><span class="p">(</span><span class="n">XAKeynoteiWorkItemList</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A wrapper around lists of shapes that employs fast enumeration techniques.</span>
 
 <span class="sd">    All properties of shapes can be called as methods on the wrapped list, returning a list containing each shape&#39;s value for the property.</span>
@@ -2131,7 +2135,7 @@
 <span class="sd">    .. versionadded:: 0.0.5</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">XAKeynoteTable</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XAKeynoteTable</span><span class="p">)</span>
 
 <div class="viewcode-block" id="XAKeynoteTableList.name"><a class="viewcode-back" href="../../../reference/apps/keynote.html#PyXA.apps.Keynote.XAKeynoteTableList.name">[docs]</a>    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">))</span></div>
@@ -2183,7 +2187,7 @@
 <div class="viewcode-block" id="XAKeynoteTableList.by_selection_range"><a class="viewcode-back" href="../../../reference/apps/keynote.html#PyXA.apps.Keynote.XAKeynoteTableList.by_selection_range">[docs]</a>    <span class="k">def</span> <span class="nf">by_selection_range</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">selection_range</span><span class="p">:</span> <span class="s1">&#39;XAKeynoteRange&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAKeynoteTable&#39;</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;selectionRange&quot;</span><span class="p">,</span> <span class="n">selection_range</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span></div></div>
 
-<div class="viewcode-block" id="XAKeynoteTable"><a class="viewcode-back" href="../../../reference/apps/keynote.html#PyXA.apps.Keynote.XAKeynoteTable">[docs]</a><span class="k">class</span> <span class="nc">XAKeynoteTable</span><span class="p">(</span><span class="n">XAKeynoteiWorkItem</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAHasElements</span><span class="p">):</span>
+<div class="viewcode-block" id="XAKeynoteTable"><a class="viewcode-back" href="../../../reference/apps/keynote.html#PyXA.apps.Keynote.XAKeynoteTable">[docs]</a><span class="k">class</span> <span class="nc">XAKeynoteTable</span><span class="p">(</span><span class="n">XAKeynoteiWorkItem</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A class for managing and interacting with tables in Keynote.</span>
 
 <span class="sd">    .. versionadded:: 0.0.2</span>
@@ -2296,8 +2300,10 @@
 
 <span class="sd">    .. versionadded:: 0.0.5</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">XAKeynoteRange</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">obj_class</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">obj_class</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">obj_class</span> <span class="o">=</span> <span class="n">XAKeynoteRange</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">obj_class</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
 
 <div class="viewcode-block" id="XAKeynoteRangeList.properties"><a class="viewcode-back" href="../../../reference/apps/keynote.html#PyXA.apps.Keynote.XAKeynoteRangeList.properties">[docs]</a>    <span class="k">def</span> <span class="nf">properties</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;properties&quot;</span><span class="p">))</span></div>
@@ -2364,7 +2370,7 @@
 <div class="viewcode-block" id="XAKeynoteRangeList.by_vertical_alignment"><a class="viewcode-back" href="../../../reference/apps/keynote.html#PyXA.apps.Keynote.XAKeynoteRangeList.by_vertical_alignment">[docs]</a>    <span class="k">def</span> <span class="nf">by_vertical_alignment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vertical_alignment</span><span class="p">:</span> <span class="n">XAKeynoteApplication</span><span class="o">.</span><span class="n">Alignment</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAKeynoteRange&#39;</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;verticalAlignment&quot;</span><span class="p">,</span> <span class="n">vertical_alignment</span><span class="o">.</span><span class="n">value</span><span class="p">)</span></div></div>
 
-<div class="viewcode-block" id="XAKeynoteRange"><a class="viewcode-back" href="../../../reference/apps/keynote.html#PyXA.apps.Keynote.XAKeynoteRange">[docs]</a><span class="k">class</span> <span class="nc">XAKeynoteRange</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAHasElements</span><span class="p">):</span>
+<div class="viewcode-block" id="XAKeynoteRange"><a class="viewcode-back" href="../../../reference/apps/keynote.html#PyXA.apps.Keynote.XAKeynoteRange">[docs]</a><span class="k">class</span> <span class="nc">XAKeynoteRange</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A class for managing and interacting with ranges of table cells in Keynote.</span>
 
 <span class="sd">    .. versionadded:: 0.0.2</span>
@@ -2528,7 +2534,7 @@
 
 
 
-<div class="viewcode-block" id="XAKeynoteRowList"><a class="viewcode-back" href="../../../reference/apps/keynote.html#PyXA.apps.Keynote.XAKeynoteRowList">[docs]</a><span class="k">class</span> <span class="nc">XAKeynoteRowList</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAList</span><span class="p">):</span>
+<div class="viewcode-block" id="XAKeynoteRowList"><a class="viewcode-back" href="../../../reference/apps/keynote.html#PyXA.apps.Keynote.XAKeynoteRowList">[docs]</a><span class="k">class</span> <span class="nc">XAKeynoteRowList</span><span class="p">(</span><span class="n">XAKeynoteRangeList</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A wrapper around lists of rows that employs fast enumeration techniques.</span>
 
 <span class="sd">    All properties of rows can be called as methods on the wrapped list, returning a list containing each row&#39;s value for the property.</span>
@@ -2536,7 +2542,7 @@
 <span class="sd">    .. versionadded:: 0.0.5</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">XAKeynoteRow</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XAKeynoteRow</span><span class="p">)</span>
 
 <div class="viewcode-block" id="XAKeynoteRowList.address"><a class="viewcode-back" href="../../../reference/apps/keynote.html#PyXA.apps.Keynote.XAKeynoteRowList.address">[docs]</a>    <span class="k">def</span> <span class="nf">address</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;address&quot;</span><span class="p">))</span></div>
@@ -2571,7 +2577,7 @@
 
 
 
-<div class="viewcode-block" id="XAKeynoteColumnList"><a class="viewcode-back" href="../../../reference/apps/keynote.html#PyXA.apps.Keynote.XAKeynoteColumnList">[docs]</a><span class="k">class</span> <span class="nc">XAKeynoteColumnList</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAList</span><span class="p">):</span>
+<div class="viewcode-block" id="XAKeynoteColumnList"><a class="viewcode-back" href="../../../reference/apps/keynote.html#PyXA.apps.Keynote.XAKeynoteColumnList">[docs]</a><span class="k">class</span> <span class="nc">XAKeynoteColumnList</span><span class="p">(</span><span class="n">XAKeynoteRangeList</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A wrapper around lists of columns that employs fast enumeration techniques.</span>
 
 <span class="sd">    All properties of columns can be called as methods on the wrapped list, returning a list containing each column&#39;s value for the property.</span>
@@ -2579,7 +2585,7 @@
 <span class="sd">    .. versionadded:: 0.0.5</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">XAKeynoteColumn</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XAKeynoteColumn</span><span class="p">)</span>
 
 <div class="viewcode-block" id="XAKeynoteColumnList.address"><a class="viewcode-back" href="../../../reference/apps/keynote.html#PyXA.apps.Keynote.XAKeynoteColumnList.address">[docs]</a>    <span class="k">def</span> <span class="nf">address</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;address&quot;</span><span class="p">))</span></div>
@@ -2614,7 +2620,7 @@
 
 
 
-<div class="viewcode-block" id="XAKeynoteCellList"><a class="viewcode-back" href="../../../reference/apps/keynote.html#PyXA.apps.Keynote.XAKeynoteCellList">[docs]</a><span class="k">class</span> <span class="nc">XAKeynoteCellList</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAList</span><span class="p">):</span>
+<div class="viewcode-block" id="XAKeynoteCellList"><a class="viewcode-back" href="../../../reference/apps/keynote.html#PyXA.apps.Keynote.XAKeynoteCellList">[docs]</a><span class="k">class</span> <span class="nc">XAKeynoteCellList</span><span class="p">(</span><span class="n">XAKeynoteRangeList</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A wrapper around lists of cells that employs fast enumeration techniques.</span>
 
 <span class="sd">    All properties of cells can be called as methods on the wrapped list, returning a list containing each cell&#39;s value for the property.</span>
@@ -2622,7 +2628,7 @@
 <span class="sd">    .. versionadded:: 0.0.5</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">XAKeynoteCell</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XAKeynoteCell</span><span class="p">)</span>
 
 <div class="viewcode-block" id="XAKeynoteCellList.formatted_value"><a class="viewcode-back" href="../../../reference/apps/keynote.html#PyXA.apps.Keynote.XAKeynoteCellList.formatted_value">[docs]</a>    <span class="k">def</span> <span class="nf">formatted_value</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;formattedValue&quot;</span><span class="p">))</span></div>

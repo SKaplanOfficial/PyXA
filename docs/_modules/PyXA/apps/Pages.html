@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PyXA.apps.Pages &mdash; PyXA 0.0.7 documentation</title>
+  <title>PyXA.apps.Pages &mdash; PyXA 0.0.8 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -39,7 +39,6 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../about/index.html">Project Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/index.html">Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/index.html#application-modules">Application Modules</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../reference/index.html">Code Documentation and Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../bugs.html">Bugs</a></li>
 </ul>
@@ -81,8 +80,9 @@
 <span class="kn">from</span> <span class="nn">PyXA</span> <span class="kn">import</span> <span class="n">XABase</span>
 <span class="kn">from</span> <span class="nn">PyXA.XABase</span> <span class="kn">import</span> <span class="n">OSType</span>
 <span class="kn">from</span> <span class="nn">PyXA</span> <span class="kn">import</span> <span class="n">XABaseScriptable</span>
+<span class="kn">from</span> <span class="nn">..XAProtocols</span> <span class="kn">import</span> <span class="n">XACanOpenPath</span><span class="p">,</span> <span class="n">XACloseable</span>
 
-<div class="viewcode-block" id="XAPagesApplication"><a class="viewcode-back" href="../../../reference/apps/pages.html#PyXA.apps.Pages.XAPagesApplication">[docs]</a><span class="k">class</span> <span class="nc">XAPagesApplication</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBApplication</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAAcceptsPushedElements</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XACanConstructElement</span><span class="p">):</span>
+<div class="viewcode-block" id="XAPagesApplication"><a class="viewcode-back" href="../../../reference/apps/pages.html#PyXA.apps.Pages.XAPagesApplication">[docs]</a><span class="k">class</span> <span class="nc">XAPagesApplication</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBApplication</span><span class="p">,</span> <span class="n">XACanOpenPath</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A class for managing and interacting with Pages.app.</span>
 
 <span class="sd">    .. seealso:: :class:`XAPagesWindow`, :class:`XAPagesDocument`</span>
@@ -384,7 +384,7 @@
 
 
 
-<div class="viewcode-block" id="XAPagesWindow"><a class="viewcode-back" href="../../../reference/apps/pages.html#PyXA.apps.Pages.XAPagesWindow">[docs]</a><span class="k">class</span> <span class="nc">XAPagesWindow</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBWindow</span><span class="p">,</span> <span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBPrintable</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAHasElements</span><span class="p">):</span>
+<div class="viewcode-block" id="XAPagesWindow"><a class="viewcode-back" href="../../../reference/apps/pages.html#PyXA.apps.Pages.XAPagesWindow">[docs]</a><span class="k">class</span> <span class="nc">XAPagesWindow</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBWindow</span><span class="p">,</span> <span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBPrintable</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A class for managing and interacting with windows in Pages.app.</span>
 
 <span class="sd">    .. versionadded:: 0.0.1</span>
@@ -543,7 +543,7 @@
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s2">&quot;&lt;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">())</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span></div>
 
-<div class="viewcode-block" id="XAPagesDocument"><a class="viewcode-back" href="../../../reference/apps/pages.html#PyXA.apps.Pages.XAPagesDocument">[docs]</a><span class="k">class</span> <span class="nc">XAPagesDocument</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAHasElements</span><span class="p">,</span> <span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBPrintable</span><span class="p">,</span> <span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBCloseable</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAAcceptsPushedElements</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XACanConstructElement</span><span class="p">):</span>
+<div class="viewcode-block" id="XAPagesDocument"><a class="viewcode-back" href="../../../reference/apps/pages.html#PyXA.apps.Pages.XAPagesDocument">[docs]</a><span class="k">class</span> <span class="nc">XAPagesDocument</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBPrintable</span><span class="p">,</span> <span class="n">XACloseable</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A class for managing and interacting with Pages documents.</span>
 
 <span class="sd">    .. seealso:: :class:`XAPagesApplication`</span>
@@ -825,7 +825,7 @@
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&lt;</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span><span class="si">}{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&gt;&quot;</span></div>
 
-<div class="viewcode-block" id="XAPagesTemplate"><a class="viewcode-back" href="../../../reference/apps/pages.html#PyXA.apps.Pages.XAPagesTemplate">[docs]</a><span class="k">class</span> <span class="nc">XAPagesTemplate</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBObject</span><span class="p">):</span>
+<div class="viewcode-block" id="XAPagesTemplate"><a class="viewcode-back" href="../../../reference/apps/pages.html#PyXA.apps.Pages.XAPagesTemplate">[docs]</a><span class="k">class</span> <span class="nc">XAPagesTemplate</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A class for managing and interacting with Pages templates.</span>
 
 <span class="sd">    .. seealso:: :class:`XAPagesApplication`</span>
@@ -865,7 +865,7 @@
 <div class="viewcode-block" id="XAPagesSectionList.by_body_text"><a class="viewcode-back" href="../../../reference/apps/pages.html#PyXA.apps.Pages.XAPagesSectionList.by_body_text">[docs]</a>    <span class="k">def</span> <span class="nf">by_body_text</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">body_text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAPagesSection&#39;</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;bodyText&quot;</span><span class="p">,</span> <span class="n">body_text</span><span class="p">)</span></div></div>
 
-<div class="viewcode-block" id="XAPagesSection"><a class="viewcode-back" href="../../../reference/apps/pages.html#PyXA.apps.Pages.XAPagesSection">[docs]</a><span class="k">class</span> <span class="nc">XAPagesSection</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAHasElements</span><span class="p">):</span>
+<div class="viewcode-block" id="XAPagesSection"><a class="viewcode-back" href="../../../reference/apps/pages.html#PyXA.apps.Pages.XAPagesSection">[docs]</a><span class="k">class</span> <span class="nc">XAPagesSection</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A class for managing and interacting with sections in Pages.</span>
 
 <span class="sd">    .. seealso:: :class:`XAPagesApplication`, :class:`XAPagesiWorkItem`</span>
@@ -888,10 +888,12 @@
 
 <span class="sd">    .. versionadded:: 0.0.3</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">XAPagesContainer</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">obj_class</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">obj_class</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">obj_class</span> <span class="o">=</span> <span class="n">XAPagesContainer</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">obj_class</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="XAPagesContainer"><a class="viewcode-back" href="../../../reference/apps/pages.html#PyXA.apps.Pages.XAPagesContainer">[docs]</a><span class="k">class</span> <span class="nc">XAPagesContainer</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAHasElements</span><span class="p">):</span>
+<div class="viewcode-block" id="XAPagesContainer"><a class="viewcode-back" href="../../../reference/apps/pages.html#PyXA.apps.Pages.XAPagesContainer">[docs]</a><span class="k">class</span> <span class="nc">XAPagesContainer</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A class for managing and interacting with containers in Pages.</span>
 
 <span class="sd">    .. seealso:: :class:`XAPagesApplication`, :class:`XAPagesiWorkItem`</span>
@@ -1024,7 +1026,7 @@
 
 
 
-<div class="viewcode-block" id="XAPagesPageList"><a class="viewcode-back" href="../../../reference/apps/pages.html#PyXA.apps.Pages.XAPagesPageList">[docs]</a><span class="k">class</span> <span class="nc">XAPagesPageList</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAList</span><span class="p">):</span>
+<div class="viewcode-block" id="XAPagesPageList"><a class="viewcode-back" href="../../../reference/apps/pages.html#PyXA.apps.Pages.XAPagesPageList">[docs]</a><span class="k">class</span> <span class="nc">XAPagesPageList</span><span class="p">(</span><span class="n">XAPagesContainerList</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A wrapper around lists of pages that employs fast enumeration techniques.</span>
 
 <span class="sd">    All properties of pages can be called as methods on the wrapped list, returning a list containing each page&#39;s value for the property.</span>
@@ -1032,7 +1034,7 @@
 <span class="sd">    .. versionadded:: 0.0.6</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">XAPagesPage</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XAPagesPage</span><span class="p">)</span>
 
 <div class="viewcode-block" id="XAPagesPageList.properties"><a class="viewcode-back" href="../../../reference/apps/pages.html#PyXA.apps.Pages.XAPagesPageList.properties">[docs]</a>    <span class="k">def</span> <span class="nf">properties</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;properties&quot;</span><span class="p">))</span></div>
@@ -1152,8 +1154,10 @@
 
 <span class="sd">    .. versionadded:: 0.0.6</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">XAPagesiWorkItem</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">obj_class</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">obj_class</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">obj_class</span> <span class="o">=</span> <span class="n">XAPagesiWorkItem</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">obj_class</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
 
 <div class="viewcode-block" id="XAPagesiWorkItemList.height"><a class="viewcode-back" href="../../../reference/apps/pages.html#PyXA.apps.Pages.XAPagesiWorkItemList.height">[docs]</a>    <span class="k">def</span> <span class="nf">height</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;height&quot;</span><span class="p">))</span></div>
@@ -1292,7 +1296,7 @@
 
 
 
-<div class="viewcode-block" id="XAPagesGroupList"><a class="viewcode-back" href="../../../reference/apps/pages.html#PyXA.apps.Pages.XAPagesGroupList">[docs]</a><span class="k">class</span> <span class="nc">XAPagesGroupList</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAList</span><span class="p">):</span>
+<div class="viewcode-block" id="XAPagesGroupList"><a class="viewcode-back" href="../../../reference/apps/pages.html#PyXA.apps.Pages.XAPagesGroupList">[docs]</a><span class="k">class</span> <span class="nc">XAPagesGroupList</span><span class="p">(</span><span class="n">XAPagesContainerList</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A wrapper around lists of themes that employs fast enumeration techniques.</span>
 
 <span class="sd">    All properties of themes can be called as methods on the wrapped list, returning a list containing each theme&#39;s value for the property.</span>
@@ -1300,7 +1304,7 @@
 <span class="sd">    .. versionadded:: 0.0.5</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">XAPagesGroup</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XAPagesGroup</span><span class="p">)</span>
 
 <div class="viewcode-block" id="XAPagesGroupList.height"><a class="viewcode-back" href="../../../reference/apps/pages.html#PyXA.apps.Pages.XAPagesGroupList.height">[docs]</a>    <span class="k">def</span> <span class="nf">height</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;height&quot;</span><span class="p">))</span></div>
@@ -1389,7 +1393,7 @@
 
 
 
-<div class="viewcode-block" id="XAPagesImageList"><a class="viewcode-back" href="../../../reference/apps/pages.html#PyXA.apps.Pages.XAPagesImageList">[docs]</a><span class="k">class</span> <span class="nc">XAPagesImageList</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAList</span><span class="p">):</span>
+<div class="viewcode-block" id="XAPagesImageList"><a class="viewcode-back" href="../../../reference/apps/pages.html#PyXA.apps.Pages.XAPagesImageList">[docs]</a><span class="k">class</span> <span class="nc">XAPagesImageList</span><span class="p">(</span><span class="n">XAPagesiWorkItemList</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A wrapper around lists of images that employs fast enumeration techniques.</span>
 
 <span class="sd">    All properties of images can be called as methods on the wrapped list, returning a list containing each image&#39;s value for the property.</span>
@@ -1397,7 +1401,7 @@
 <span class="sd">    .. versionadded:: 0.0.5</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">XAPagesImage</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XAPagesImage</span><span class="p">)</span>
 
 <div class="viewcode-block" id="XAPagesImageList.object_description"><a class="viewcode-back" href="../../../reference/apps/pages.html#PyXA.apps.Pages.XAPagesImageList.object_description">[docs]</a>    <span class="k">def</span> <span class="nf">object_description</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;objectDescription&quot;</span><span class="p">))</span></div>
@@ -1535,7 +1539,7 @@
 
 
 
-<div class="viewcode-block" id="XAPagesAudioClipList"><a class="viewcode-back" href="../../../reference/apps/pages.html#PyXA.apps.Pages.XAPagesAudioClipList">[docs]</a><span class="k">class</span> <span class="nc">XAPagesAudioClipList</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAList</span><span class="p">):</span>
+<div class="viewcode-block" id="XAPagesAudioClipList"><a class="viewcode-back" href="../../../reference/apps/pages.html#PyXA.apps.Pages.XAPagesAudioClipList">[docs]</a><span class="k">class</span> <span class="nc">XAPagesAudioClipList</span><span class="p">(</span><span class="n">XAPagesiWorkItemList</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A wrapper around lists of audio clips that employs fast enumeration techniques.</span>
 
 <span class="sd">    All properties of audio clips can be called as methods on the wrapped list, returning a list containing each audio clips&#39;s value for the property.</span>
@@ -1543,7 +1547,7 @@
 <span class="sd">    .. versionadded:: 0.0.5</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">XAPagesAudioClip</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XAPagesAudioClip</span><span class="p">)</span>
 
 <div class="viewcode-block" id="XAPagesAudioClipList.file_name"><a class="viewcode-back" href="../../../reference/apps/pages.html#PyXA.apps.Pages.XAPagesAudioClipList.file_name">[docs]</a>    <span class="k">def</span> <span class="nf">file_name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;fileName&quot;</span><span class="p">))</span></div>
@@ -1590,7 +1594,7 @@
 
 
 
-<div class="viewcode-block" id="XAPagesShapeList"><a class="viewcode-back" href="../../../reference/apps/pages.html#PyXA.apps.Pages.XAPagesShapeList">[docs]</a><span class="k">class</span> <span class="nc">XAPagesShapeList</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAList</span><span class="p">):</span>
+<div class="viewcode-block" id="XAPagesShapeList"><a class="viewcode-back" href="../../../reference/apps/pages.html#PyXA.apps.Pages.XAPagesShapeList">[docs]</a><span class="k">class</span> <span class="nc">XAPagesShapeList</span><span class="p">(</span><span class="n">XAPagesiWorkItemList</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A wrapper around lists of shapes that employs fast enumeration techniques.</span>
 
 <span class="sd">    All properties of shapes can be called as methods on the wrapped list, returning a list containing each shape&#39;s value for the property.</span>
@@ -1598,7 +1602,7 @@
 <span class="sd">    .. versionadded:: 0.0.5</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">XAPagesShape</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XAPagesShape</span><span class="p">)</span>
 
 <div class="viewcode-block" id="XAPagesShapeList.properties"><a class="viewcode-back" href="../../../reference/apps/pages.html#PyXA.apps.Pages.XAPagesShapeList.properties">[docs]</a>    <span class="k">def</span> <span class="nf">properties</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;properties&quot;</span><span class="p">))</span></div>
@@ -1710,7 +1714,7 @@
 
 
 
-<div class="viewcode-block" id="XAPagesChartList"><a class="viewcode-back" href="../../../reference/apps/pages.html#PyXA.apps.Pages.XAPagesChartList">[docs]</a><span class="k">class</span> <span class="nc">XAPagesChartList</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAList</span><span class="p">):</span>
+<div class="viewcode-block" id="XAPagesChartList"><a class="viewcode-back" href="../../../reference/apps/pages.html#PyXA.apps.Pages.XAPagesChartList">[docs]</a><span class="k">class</span> <span class="nc">XAPagesChartList</span><span class="p">(</span><span class="n">XAPagesiWorkItemList</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A wrapper around lists of themes that employs fast enumeration techniques.</span>
 
 <span class="sd">    All properties of themes can be called as methods on the wrapped list, returning a list containing each theme&#39;s value for the property.</span>
@@ -1718,7 +1722,7 @@
 <span class="sd">    .. versionadded:: 0.0.5</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">XAPagesChart</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XAPagesChart</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="XAPagesChart"><a class="viewcode-back" href="../../../reference/apps/pages.html#PyXA.apps.Pages.XAPagesChart">[docs]</a><span class="k">class</span> <span class="nc">XAPagesChart</span><span class="p">(</span><span class="n">XAPagesiWorkItem</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A class for managing and interacting with charts in Pages.</span>
@@ -1731,7 +1735,7 @@
 
 
 
-<div class="viewcode-block" id="XAPagesLineList"><a class="viewcode-back" href="../../../reference/apps/pages.html#PyXA.apps.Pages.XAPagesLineList">[docs]</a><span class="k">class</span> <span class="nc">XAPagesLineList</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAList</span><span class="p">):</span>
+<div class="viewcode-block" id="XAPagesLineList"><a class="viewcode-back" href="../../../reference/apps/pages.html#PyXA.apps.Pages.XAPagesLineList">[docs]</a><span class="k">class</span> <span class="nc">XAPagesLineList</span><span class="p">(</span><span class="n">XAPagesiWorkItemList</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A wrapper around lists of shapes that employs fast enumeration techniques.</span>
 
 <span class="sd">    All properties of shapes can be called as methods on the wrapped list, returning a list containing each shape&#39;s value for the property.</span>
@@ -1739,7 +1743,7 @@
 <span class="sd">    .. versionadded:: 0.0.5</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">XAPagesLine</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XAPagesLine</span><span class="p">)</span>
 
 <div class="viewcode-block" id="XAPagesLineList.end_point"><a class="viewcode-back" href="../../../reference/apps/pages.html#PyXA.apps.Pages.XAPagesLineList.end_point">[docs]</a>    <span class="k">def</span> <span class="nf">end_point</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]:</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;end_point&quot;</span><span class="p">))</span></div>
@@ -1827,7 +1831,7 @@
 
 
 
-<div class="viewcode-block" id="XAPagesMovieList"><a class="viewcode-back" href="../../../reference/apps/pages.html#PyXA.apps.Pages.XAPagesMovieList">[docs]</a><span class="k">class</span> <span class="nc">XAPagesMovieList</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAList</span><span class="p">):</span>
+<div class="viewcode-block" id="XAPagesMovieList"><a class="viewcode-back" href="../../../reference/apps/pages.html#PyXA.apps.Pages.XAPagesMovieList">[docs]</a><span class="k">class</span> <span class="nc">XAPagesMovieList</span><span class="p">(</span><span class="n">XAPagesiWorkItemList</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A wrapper around lists of movies that employs fast enumeration techniques.</span>
 
 <span class="sd">    All properties of movies can be called as methods on the wrapped list, returning a list containing each movie&#39;s value for the property.</span>
@@ -1835,7 +1839,7 @@
 <span class="sd">    .. versionadded:: 0.0.5</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">XAPagesMovie</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XAPagesMovie</span><span class="p">)</span>
 
 <div class="viewcode-block" id="XAPagesMovieList.file_name"><a class="viewcode-back" href="../../../reference/apps/pages.html#PyXA.apps.Pages.XAPagesMovieList.file_name">[docs]</a>    <span class="k">def</span> <span class="nf">file_name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;fileName&quot;</span><span class="p">))</span></div>
@@ -1946,7 +1950,7 @@
 
 
 
-<div class="viewcode-block" id="XAPagesTextItemList"><a class="viewcode-back" href="../../../reference/apps/pages.html#PyXA.apps.Pages.XAPagesTextItemList">[docs]</a><span class="k">class</span> <span class="nc">XAPagesTextItemList</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAList</span><span class="p">):</span>
+<div class="viewcode-block" id="XAPagesTextItemList"><a class="viewcode-back" href="../../../reference/apps/pages.html#PyXA.apps.Pages.XAPagesTextItemList">[docs]</a><span class="k">class</span> <span class="nc">XAPagesTextItemList</span><span class="p">(</span><span class="n">XAPagesiWorkItemList</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A wrapper around lists of text items that employs fast enumeration techniques.</span>
 
 <span class="sd">    All properties of text items can be called as methods on the wrapped list, returning a list containing each text item&#39;s value for the property.</span>
@@ -1954,7 +1958,7 @@
 <span class="sd">    .. versionadded:: 0.0.5</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">XAPagesTextItem</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XAPagesTextItem</span><span class="p">)</span>
 
 <div class="viewcode-block" id="XAPagesTextItemList.background_fill_type"><a class="viewcode-back" href="../../../reference/apps/pages.html#PyXA.apps.Pages.XAPagesTextItemList.background_fill_type">[docs]</a>    <span class="k">def</span> <span class="nf">background_fill_type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">XAPagesApplication</span><span class="o">.</span><span class="n">FillOption</span><span class="p">]:</span>
         <span class="n">ls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;fileName&quot;</span><span class="p">)</span>
@@ -2063,7 +2067,7 @@
 <span class="sd">    .. versionadded:: 0.0.6</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">XAPagesTextItem</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XAPagesTextItem</span><span class="p">)</span>
 
 <div class="viewcode-block" id="XAPagesPlaceholderTextList.background_fill_type"><a class="viewcode-back" href="../../../reference/apps/pages.html#PyXA.apps.Pages.XAPagesPlaceholderTextList.background_fill_type">[docs]</a>    <span class="k">def</span> <span class="nf">background_fill_type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">XAPagesApplication</span><span class="o">.</span><span class="n">FillOption</span><span class="p">]:</span>
         <span class="n">ls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;fileName&quot;</span><span class="p">)</span>
@@ -2086,7 +2090,7 @@
 
 
 
-<div class="viewcode-block" id="XAPagesTableList"><a class="viewcode-back" href="../../../reference/apps/pages.html#PyXA.apps.Pages.XAPagesTableList">[docs]</a><span class="k">class</span> <span class="nc">XAPagesTableList</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAList</span><span class="p">):</span>
+<div class="viewcode-block" id="XAPagesTableList"><a class="viewcode-back" href="../../../reference/apps/pages.html#PyXA.apps.Pages.XAPagesTableList">[docs]</a><span class="k">class</span> <span class="nc">XAPagesTableList</span><span class="p">(</span><span class="n">XAPagesiWorkItemList</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A wrapper around lists of shapes that employs fast enumeration techniques.</span>
 
 <span class="sd">    All properties of shapes can be called as methods on the wrapped list, returning a list containing each shape&#39;s value for the property.</span>
@@ -2094,7 +2098,7 @@
 <span class="sd">    .. versionadded:: 0.0.5</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">XAPagesTable</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XAPagesTable</span><span class="p">)</span>
 
 <div class="viewcode-block" id="XAPagesTableList.name"><a class="viewcode-back" href="../../../reference/apps/pages.html#PyXA.apps.Pages.XAPagesTableList.name">[docs]</a>    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">))</span></div>
@@ -2259,8 +2263,10 @@
 
 <span class="sd">    .. versionadded:: 0.0.5</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">XAPagesRange</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">obj_class</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">obj_class</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">obj_class</span> <span class="o">=</span> <span class="n">XAPagesRange</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">obj_class</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
 
 <div class="viewcode-block" id="XAPagesRangeList.properties"><a class="viewcode-back" href="../../../reference/apps/pages.html#PyXA.apps.Pages.XAPagesRangeList.properties">[docs]</a>    <span class="k">def</span> <span class="nf">properties</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;properties&quot;</span><span class="p">))</span></div>
@@ -2327,7 +2333,7 @@
 <div class="viewcode-block" id="XAPagesRangeList.by_vertical_alignment"><a class="viewcode-back" href="../../../reference/apps/pages.html#PyXA.apps.Pages.XAPagesRangeList.by_vertical_alignment">[docs]</a>    <span class="k">def</span> <span class="nf">by_vertical_alignment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vertical_alignment</span><span class="p">:</span> <span class="n">XAPagesApplication</span><span class="o">.</span><span class="n">Alignment</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAPagesRange&#39;</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;verticalAlignment&quot;</span><span class="p">,</span> <span class="n">vertical_alignment</span><span class="o">.</span><span class="n">value</span><span class="p">)</span></div></div>
 
-<div class="viewcode-block" id="XAPagesRange"><a class="viewcode-back" href="../../../reference/apps/pages.html#PyXA.apps.Pages.XAPagesRange">[docs]</a><span class="k">class</span> <span class="nc">XAPagesRange</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAHasElements</span><span class="p">):</span>
+<div class="viewcode-block" id="XAPagesRange"><a class="viewcode-back" href="../../../reference/apps/pages.html#PyXA.apps.Pages.XAPagesRange">[docs]</a><span class="k">class</span> <span class="nc">XAPagesRange</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A class for managing and interacting with ranges of table cells in Pages.</span>
 
 <span class="sd">    .. versionadded:: 0.0.2</span>
@@ -2491,7 +2497,7 @@
 
 
 
-<div class="viewcode-block" id="XAPagesRowList"><a class="viewcode-back" href="../../../reference/apps/pages.html#PyXA.apps.Pages.XAPagesRowList">[docs]</a><span class="k">class</span> <span class="nc">XAPagesRowList</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAList</span><span class="p">):</span>
+<div class="viewcode-block" id="XAPagesRowList"><a class="viewcode-back" href="../../../reference/apps/pages.html#PyXA.apps.Pages.XAPagesRowList">[docs]</a><span class="k">class</span> <span class="nc">XAPagesRowList</span><span class="p">(</span><span class="n">XAPagesRangeList</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A wrapper around lists of rows that employs fast enumeration techniques.</span>
 
 <span class="sd">    All properties of rows can be called as methods on the wrapped list, returning a list containing each row&#39;s value for the property.</span>
@@ -2499,7 +2505,7 @@
 <span class="sd">    .. versionadded:: 0.0.5</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">XAPagesRow</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XAPagesRow</span><span class="p">)</span>
 
 <div class="viewcode-block" id="XAPagesRowList.address"><a class="viewcode-back" href="../../../reference/apps/pages.html#PyXA.apps.Pages.XAPagesRowList.address">[docs]</a>    <span class="k">def</span> <span class="nf">address</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;address&quot;</span><span class="p">))</span></div>
@@ -2534,7 +2540,7 @@
 
 
 
-<div class="viewcode-block" id="XAPagesColumnList"><a class="viewcode-back" href="../../../reference/apps/pages.html#PyXA.apps.Pages.XAPagesColumnList">[docs]</a><span class="k">class</span> <span class="nc">XAPagesColumnList</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAList</span><span class="p">):</span>
+<div class="viewcode-block" id="XAPagesColumnList"><a class="viewcode-back" href="../../../reference/apps/pages.html#PyXA.apps.Pages.XAPagesColumnList">[docs]</a><span class="k">class</span> <span class="nc">XAPagesColumnList</span><span class="p">(</span><span class="n">XAPagesRangeList</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A wrapper around lists of columns that employs fast enumeration techniques.</span>
 
 <span class="sd">    All properties of columns can be called as methods on the wrapped list, returning a list containing each column&#39;s value for the property.</span>
@@ -2542,7 +2548,7 @@
 <span class="sd">    .. versionadded:: 0.0.5</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">XAPagesColumn</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XAPagesColumn</span><span class="p">)</span>
 
 <div class="viewcode-block" id="XAPagesColumnList.address"><a class="viewcode-back" href="../../../reference/apps/pages.html#PyXA.apps.Pages.XAPagesColumnList.address">[docs]</a>    <span class="k">def</span> <span class="nf">address</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;address&quot;</span><span class="p">))</span></div>
@@ -2577,7 +2583,7 @@
 
 
 
-<div class="viewcode-block" id="XAPagesCellList"><a class="viewcode-back" href="../../../reference/apps/pages.html#PyXA.apps.Pages.XAPagesCellList">[docs]</a><span class="k">class</span> <span class="nc">XAPagesCellList</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAList</span><span class="p">):</span>
+<div class="viewcode-block" id="XAPagesCellList"><a class="viewcode-back" href="../../../reference/apps/pages.html#PyXA.apps.Pages.XAPagesCellList">[docs]</a><span class="k">class</span> <span class="nc">XAPagesCellList</span><span class="p">(</span><span class="n">XAPagesRangeList</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A wrapper around lists of cells that employs fast enumeration techniques.</span>
 
 <span class="sd">    All properties of cells can be called as methods on the wrapped list, returning a list containing each cell&#39;s value for the property.</span>
@@ -2585,7 +2591,7 @@
 <span class="sd">    .. versionadded:: 0.0.5</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">XAPagesCell</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XAPagesCell</span><span class="p">)</span>
 
 <div class="viewcode-block" id="XAPagesCellList.formatted_value"><a class="viewcode-back" href="../../../reference/apps/pages.html#PyXA.apps.Pages.XAPagesCellList.formatted_value">[docs]</a>    <span class="k">def</span> <span class="nf">formatted_value</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;formattedValue&quot;</span><span class="p">))</span></div>

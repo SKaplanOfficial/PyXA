@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PyXA.apps.Contacts &mdash; PyXA 0.0.7 documentation</title>
+  <title>PyXA.apps.Contacts &mdash; PyXA 0.0.8 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -39,7 +39,6 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../about/index.html">Project Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/index.html">Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/index.html#application-modules">Application Modules</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../reference/index.html">Code Documentation and Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../bugs.html">Bugs</a></li>
 </ul>
@@ -81,9 +80,10 @@
 
 <span class="kn">from</span> <span class="nn">PyXA</span> <span class="kn">import</span> <span class="n">XABase</span><span class="p">,</span> <span class="n">XAEvents</span>
 <span class="kn">from</span> <span class="nn">PyXA</span> <span class="kn">import</span> <span class="n">XABaseScriptable</span>
+<span class="kn">from</span> <span class="nn">..XAProtocols</span> <span class="kn">import</span> <span class="n">XACanOpenPath</span>
 
 
-<div class="viewcode-block" id="XAContactsApplication"><a class="viewcode-back" href="../../../reference/apps/contacts.html#PyXA.apps.Contacts.XAContactsApplication">[docs]</a><span class="k">class</span> <span class="nc">XAContactsApplication</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBApplication</span><span class="p">):</span>
+<div class="viewcode-block" id="XAContactsApplication"><a class="viewcode-back" href="../../../reference/apps/contacts.html#PyXA.apps.Contacts.XAContactsApplication">[docs]</a><span class="k">class</span> <span class="nc">XAContactsApplication</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBApplication</span><span class="p">,</span> <span class="n">XACanOpenPath</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A class for managing and interacting with Contacts.app.</span>
 
 <span class="sd">    .. seealso:: :class:`XAContactsGroup`, :class:`XAContactsPerson`</span>
@@ -413,7 +413,7 @@
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s2">&quot;&lt;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">())</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span></div>
 
-<div class="viewcode-block" id="XAContactsDocument"><a class="viewcode-back" href="../../../reference/apps/contacts.html#PyXA.apps.Contacts.XAContactsDocument">[docs]</a><span class="k">class</span> <span class="nc">XAContactsDocument</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBObject</span><span class="p">):</span>
+<div class="viewcode-block" id="XAContactsDocument"><a class="viewcode-back" href="../../../reference/apps/contacts.html#PyXA.apps.Contacts.XAContactsDocument">[docs]</a><span class="k">class</span> <span class="nc">XAContactsDocument</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A document in Contacts.app.</span>
 
 <span class="sd">    .. versionadded:: 0.0.7</span>
@@ -632,7 +632,7 @@
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s2">&quot;&lt;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="p">())</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span></div>
 
-<div class="viewcode-block" id="XAContactsAddress"><a class="viewcode-back" href="../../../reference/apps/contacts.html#PyXA.apps.Contacts.XAContactsAddress">[docs]</a><span class="k">class</span> <span class="nc">XAContactsAddress</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBObject</span><span class="p">):</span>
+<div class="viewcode-block" id="XAContactsAddress"><a class="viewcode-back" href="../../../reference/apps/contacts.html#PyXA.apps.Contacts.XAContactsAddress">[docs]</a><span class="k">class</span> <span class="nc">XAContactsAddress</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;An address associated with a contact in Contacts.app.</span>
 
 <span class="sd">    .. versionadded:: 0.0.7</span>
@@ -695,7 +695,7 @@
 
 <span class="sd">    .. versionadded:: 0.0.7</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">obj_class</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">obj_class</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">obj_class</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">obj_class</span> <span class="o">=</span> <span class="n">XAContactsContactInfo</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">obj_class</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
@@ -763,7 +763,7 @@
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s2">&quot;&lt;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="p">())</span> <span class="o">+</span> <span class="s2">&quot;::&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">())</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span></div>
 
-<div class="viewcode-block" id="XAContactsContactInfo"><a class="viewcode-back" href="../../../reference/apps/contacts.html#PyXA.apps.Contacts.XAContactsContactInfo">[docs]</a><span class="k">class</span> <span class="nc">XAContactsContactInfo</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBObject</span><span class="p">):</span>
+<div class="viewcode-block" id="XAContactsContactInfo"><a class="viewcode-back" href="../../../reference/apps/contacts.html#PyXA.apps.Contacts.XAContactsContactInfo">[docs]</a><span class="k">class</span> <span class="nc">XAContactsContactInfo</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Contact information associated with a contact in Contacts.app.</span>
 
 <span class="sd">    .. versionadded:: 0.0.7</span>
@@ -797,7 +797,7 @@
 <span class="sd">    .. versionadded:: 0.0.7</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">XAContactsCustomDate</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XAContactsCustomDate</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="XAContactsCustomDate"><a class="viewcode-back" href="../../../reference/apps/contacts.html#PyXA.apps.Contacts.XAContactsCustomDate">[docs]</a><span class="k">class</span> <span class="nc">XAContactsCustomDate</span><span class="p">(</span><span class="n">XAContactsContactInfo</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A custom date associated with a contact in Contacts.app.</span>
@@ -818,7 +818,7 @@
 <span class="sd">    .. versionadded:: 0.0.7</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">XAContactsEmail</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XAContactsEmail</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="XAContactsEmail"><a class="viewcode-back" href="../../../reference/apps/contacts.html#PyXA.apps.Contacts.XAContactsEmail">[docs]</a><span class="k">class</span> <span class="nc">XAContactsEmail</span><span class="p">(</span><span class="n">XAContactsContactInfo</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A document in Contacts.app.</span>
@@ -838,7 +838,7 @@
 
 <span class="sd">    .. versionadded:: 0.0.7</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">obj_class</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">obj_class</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">obj_class</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">obj_class</span> <span class="o">=</span> <span class="n">XAContactsEntry</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">obj_class</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
@@ -926,7 +926,7 @@
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s2">&quot;&lt;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">())</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span></div>
 
-<div class="viewcode-block" id="XAContactsEntry"><a class="viewcode-back" href="../../../reference/apps/contacts.html#PyXA.apps.Contacts.XAContactsEntry">[docs]</a><span class="k">class</span> <span class="nc">XAContactsEntry</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBObject</span><span class="p">):</span>
+<div class="viewcode-block" id="XAContactsEntry"><a class="viewcode-back" href="../../../reference/apps/contacts.html#PyXA.apps.Contacts.XAContactsEntry">[docs]</a><span class="k">class</span> <span class="nc">XAContactsEntry</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;An entry in Contacts.app.</span>
 
 <span class="sd">    .. versionadded:: 0.0.7</span>
@@ -1014,7 +1014,7 @@
 <span class="sd">    .. versionadded:: 0.0.7</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">XAContactsGroup</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XAContactsGroup</span><span class="p">)</span>
 
 <div class="viewcode-block" id="XAContactsGroupList.name"><a class="viewcode-back" href="../../../reference/apps/contacts.html#PyXA.apps.Contacts.XAContactsGroupList.name">[docs]</a>    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the name of each contact group in the list.</span>
@@ -1090,7 +1090,7 @@
 <span class="sd">    .. versionadded:: 0.0.7</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">XAContactsInstantMessage</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XAContactsInstantMessage</span><span class="p">)</span>
 
 <div class="viewcode-block" id="XAContactsInstantMessageList.service_name"><a class="viewcode-back" href="../../../reference/apps/contacts.html#PyXA.apps.Contacts.XAContactsInstantMessageList.service_name">[docs]</a>    <span class="k">def</span> <span class="nf">service_name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the service name of each IM address in the list.</span>
@@ -1194,7 +1194,7 @@
 <span class="sd">    .. versionadded:: 0.0.7</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">XAContactsPerson</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XAContactsPerson</span><span class="p">)</span>
 
 <div class="viewcode-block" id="XAContactsPersonList.nickname"><a class="viewcode-back" href="../../../reference/apps/contacts.html#PyXA.apps.Contacts.XAContactsPersonList.nickname">[docs]</a>    <span class="k">def</span> <span class="nf">nickname</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the nickname of each person in the list.</span>
@@ -1844,7 +1844,7 @@
 <span class="sd">    .. versionadded:: 0.0.7</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">XAContactsPhone</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XAContactsPhone</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="XAContactsPhone"><a class="viewcode-back" href="../../../reference/apps/contacts.html#PyXA.apps.Contacts.XAContactsPhone">[docs]</a><span class="k">class</span> <span class="nc">XAContactsPhone</span><span class="p">(</span><span class="n">XAContactsContactInfo</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A phone number associated with a contact in Contacts.app.</span>
@@ -1865,7 +1865,7 @@
 <span class="sd">    .. versionadded:: 0.0.7</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">XAContactsRelatedName</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XAContactsRelatedName</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="XAContactsRelatedName"><a class="viewcode-back" href="../../../reference/apps/contacts.html#PyXA.apps.Contacts.XAContactsRelatedName">[docs]</a><span class="k">class</span> <span class="nc">XAContactsRelatedName</span><span class="p">(</span><span class="n">XAContactsContactInfo</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A related name of a contact in Contacts.app.</span>
@@ -2038,7 +2038,7 @@
 <span class="sd">    .. versionadded:: 0.0.7</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">XAContactsURL</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XAContactsURL</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="XAContactsURL"><a class="viewcode-back" href="../../../reference/apps/contacts.html#PyXA.apps.Contacts.XAContactsURL">[docs]</a><span class="k">class</span> <span class="nc">XAContactsURL</span><span class="p">(</span><span class="n">XAContactsContactInfo</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A URL associated with a contact in Contacts.app.</span>

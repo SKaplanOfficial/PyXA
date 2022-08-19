@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PyXA.apps.Drafts &mdash; PyXA 0.0.8 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> PyXA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../about/index.html">Project Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reference/index.html">Code Documentation and Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../bugs.html">Bugs</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">PyXA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      <li>PyXA.apps.Drafts</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for PyXA.apps.Drafts</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;.. versionadded:: 0.0.8</span>
+
+<span class="sd">Control Drafts using JXA-like syntax.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">from</span> <span class="nn">PyXA</span> <span class="kn">import</span> <span class="n">XABase</span>
+<span class="kn">from</span> <span class="nn">PyXA</span> <span class="kn">import</span> <span class="n">XABaseScriptable</span>
+<span class="kn">from</span> <span class="nn">..XAProtocols</span> <span class="kn">import</span> <span class="n">XACanOpenPath</span>
+
+<div class="viewcode-block" id="XADraftsApplication"><a class="viewcode-back" href="../../../reference/apps/drafts.html#PyXA.apps.Drafts.XADraftsApplication">[docs]</a><span class="k">class</span> <span class="nc">XADraftsApplication</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBApplication</span><span class="p">,</span> <span class="n">XACanOpenPath</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A class for managing and interacting with Drafts.app.</span>
+
+<span class="sd">    .. versionadded:: 0.0.8</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The name of the application</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The version of Drafts.app</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">name</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">version</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">version</span><span class="p">()</span>
+
+<div class="viewcode-block" id="XADraftsApplication.new_draft"><a class="viewcode-back" href="../../../reference/apps/drafts.html#PyXA.apps.Drafts.XADraftsApplication.new_draft">[docs]</a>    <span class="k">def</span> <span class="nf">new_draft</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XADraftsDraft&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Creates a new draft with the given name and content</span>
+
+<span class="sd">        :param content: The full content of the draft (the first line is the name)</span>
+<span class="sd">        :type content: str</span>
+<span class="sd">        :return: The newly created draft object</span>
+<span class="sd">        :rtype: XADraftsDraft</span>
+
+<span class="sd">        .. versionadded:: 0.0.8</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">new_draft</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">make</span><span class="p">(</span><span class="s2">&quot;draft&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="n">content</span><span class="p">})</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">drafts</span><span class="p">()</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="n">new_draft</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">drafts</span><span class="p">()</span><span class="o">.</span><span class="n">content</span><span class="p">())</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">drafts</span><span class="p">()</span><span class="o">.</span><span class="n">last</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="XADraftsApplication.drafts"><a class="viewcode-back" href="../../../reference/apps/drafts.html#PyXA.apps.Drafts.XADraftsApplication.drafts">[docs]</a>    <span class="k">def</span> <span class="nf">drafts</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XADraftsDraftList&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Returns a list of drafts, as PyXA-wrapped objects, matching the given filter.</span>
+
+<span class="sd">        :param filter: Keys and values to filter drafts by, defaults to None</span>
+<span class="sd">        :type filter: dict, optional</span>
+<span class="sd">        :return: A PyXA list object wrapping a list of drafts</span>
+<span class="sd">        :rtype: XADraftsDraftList</span>
+
+<span class="sd">        .. versionadded:: 0.0.8</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">drafts</span><span class="p">(),</span> <span class="n">XADraftsDraftList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XADraftsApplication.make"><a class="viewcode-back" href="../../../reference/apps/drafts.html#PyXA.apps.Drafts.XADraftsApplication.make">[docs]</a>    <span class="k">def</span> <span class="nf">make</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">specifier</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Creates a new element of the given specifier class without adding it to any list.</span>
+
+<span class="sd">        Use :func:`XABase.XAList.push` to push the element onto a list.</span>
+
+<span class="sd">        :param specifier: The classname of the object to create</span>
+<span class="sd">        :type specifier: str</span>
+<span class="sd">        :param properties: The properties to give the object</span>
+<span class="sd">        :type properties: dict</span>
+<span class="sd">        :return: A PyXA wrapped form of the object</span>
+<span class="sd">        :rtype: XABase.XAObject</span>
+
+<span class="sd">        .. versionadded:: 0.0.8</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">properties</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">properties</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="n">obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">classForScriptingClass_</span><span class="p">(</span><span class="n">specifier</span><span class="p">)</span><span class="o">.</span><span class="n">alloc</span><span class="p">()</span><span class="o">.</span><span class="n">initWithProperties_</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">specifier</span> <span class="o">==</span> <span class="s2">&quot;draft&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">XADraftsDraft</span><span class="p">)</span></div></div>
+
+
+
+
+<div class="viewcode-block" id="XADraftsDraftList"><a class="viewcode-back" href="../../../reference/apps/drafts.html#PyXA.apps.Drafts.XADraftsDraftList">[docs]</a><span class="k">class</span> <span class="nc">XADraftsDraftList</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAList</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A wrapper around a list of drafts.</span>
+
+<span class="sd">    .. versionadded:: 0.0.8</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">XADraftsDraft</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
+
+<div class="viewcode-block" id="XADraftsDraftList.id"><a class="viewcode-back" href="../../../reference/apps/drafts.html#PyXA.apps.Drafts.XADraftsDraftList.id">[docs]</a>    <span class="k">def</span> <span class="nf">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Gets the ID of each draft in the list.</span>
+
+<span class="sd">        :return: A list of draft IDs</span>
+<span class="sd">        :rtype: List[str]</span>
+<span class="sd">        </span>
+<span class="sd">        .. versionadded:: 0.0.8</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="XADraftsDraftList.name"><a class="viewcode-back" href="../../../reference/apps/drafts.html#PyXA.apps.Drafts.XADraftsDraftList.name">[docs]</a>    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Gets the name of each draft in the list.</span>
+
+<span class="sd">        :return: A list of draft names</span>
+<span class="sd">        :rtype: List[str]</span>
+<span class="sd">        </span>
+<span class="sd">        .. versionadded:: 0.0.8</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="XADraftsDraftList.content"><a class="viewcode-back" href="../../../reference/apps/drafts.html#PyXA.apps.Drafts.XADraftsDraftList.content">[docs]</a>    <span class="k">def</span> <span class="nf">content</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Gets the content of each draft in the list.</span>
+
+<span class="sd">        :return: A list of draft contents</span>
+<span class="sd">        :rtype: List[str]</span>
+<span class="sd">        </span>
+<span class="sd">        .. versionadded:: 0.0.8</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;content&quot;</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="XADraftsDraftList.flagged"><a class="viewcode-back" href="../../../reference/apps/drafts.html#PyXA.apps.Drafts.XADraftsDraftList.flagged">[docs]</a>    <span class="k">def</span> <span class="nf">flagged</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Gets the flagged status of each draft in the list.</span>
+
+<span class="sd">        :return: A list of draft flagged statuses</span>
+<span class="sd">        :rtype: List[bool]</span>
+<span class="sd">        </span>
+<span class="sd">        .. versionadded:: 0.0.8</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;flagged&quot;</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="XADraftsDraftList.tags"><a class="viewcode-back" href="../../../reference/apps/drafts.html#PyXA.apps.Drafts.XADraftsDraftList.tags">[docs]</a>    <span class="k">def</span> <span class="nf">tags</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
+        <span class="sd">&quot;&quot;&quot;Gets the tags of each draft in the list.</span>
+
+<span class="sd">        :return: A list of draft tags</span>
+<span class="sd">        :rtype: List[List[str]]</span>
+<span class="sd">        </span>
+<span class="sd">        .. versionadded:: 0.0.8</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;tags&quot;</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="XADraftsDraftList.created_at"><a class="viewcode-back" href="../../../reference/apps/drafts.html#PyXA.apps.Drafts.XADraftsDraftList.created_at">[docs]</a>    <span class="k">def</span> <span class="nf">created_at</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">datetime</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Gets the creation date of each draft in the list.</span>
+
+<span class="sd">        :return: A list of draft creation dates</span>
+<span class="sd">        :rtype: List[datetime]</span>
+<span class="sd">        </span>
+<span class="sd">        .. versionadded:: 0.0.8</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;createdAt&quot;</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="XADraftsDraftList.modified_at"><a class="viewcode-back" href="../../../reference/apps/drafts.html#PyXA.apps.Drafts.XADraftsDraftList.modified_at">[docs]</a>    <span class="k">def</span> <span class="nf">modified_at</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">datetime</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Gets the last modification date of each draft in the list.</span>
+
+<span class="sd">        :return: A list of draft modification dates</span>
+<span class="sd">        :rtype: List[datetime]</span>
+<span class="sd">        </span>
+<span class="sd">        .. versionadded:: 0.0.8</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;modifiedAt&quot;</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="XADraftsDraftList.accessed_at"><a class="viewcode-back" href="../../../reference/apps/drafts.html#PyXA.apps.Drafts.XADraftsDraftList.accessed_at">[docs]</a>    <span class="k">def</span> <span class="nf">accessed_at</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">datetime</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Gets the last access date of each draft in the list.</span>
+
+<span class="sd">        :return: A list of draft last access dates</span>
+<span class="sd">        :rtype: List[datetime]</span>
+<span class="sd">        </span>
+<span class="sd">        .. versionadded:: 0.0.8</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;accessedAt&quot;</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="XADraftsDraftList.permalink"><a class="viewcode-back" href="../../../reference/apps/drafts.html#PyXA.apps.Drafts.XADraftsDraftList.permalink">[docs]</a>    <span class="k">def</span> <span class="nf">permalink</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Gets the URL of each draft in the list.</span>
+
+<span class="sd">        :return: A list of draft URLs</span>
+<span class="sd">        :rtype: List[str]</span>
+<span class="sd">        </span>
+<span class="sd">        .. versionadded:: 0.0.8</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;permalink&quot;</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="XADraftsDraftList.by_id"><a class="viewcode-back" href="../../../reference/apps/drafts.html#PyXA.apps.Drafts.XADraftsDraftList.by_id">[docs]</a>    <span class="k">def</span> <span class="nf">by_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XADraftsDraft&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Retrieves the draft whose ID matches the given ID, if one exists.</span>
+
+<span class="sd">        :return: The desired draft, if it is found</span>
+<span class="sd">        :rtype: Union[XADraftsDraft, None]</span>
+<span class="sd">        </span>
+<span class="sd">        .. versionadded:: 0.0.8</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="nb">id</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XADraftsDraftList.by_name"><a class="viewcode-back" href="../../../reference/apps/drafts.html#PyXA.apps.Drafts.XADraftsDraftList.by_name">[docs]</a>    <span class="k">def</span> <span class="nf">by_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XADraftsDraft&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Retrieves the draft whose name matches the given name, if one exists.</span>
+
+<span class="sd">        :return: The desired draft, if it is found</span>
+<span class="sd">        :rtype: Union[XADraftsDraft, None]</span>
+<span class="sd">        </span>
+<span class="sd">        .. versionadded:: 0.0.8</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XADraftsDraftList.by_content"><a class="viewcode-back" href="../../../reference/apps/drafts.html#PyXA.apps.Drafts.XADraftsDraftList.by_content">[docs]</a>    <span class="k">def</span> <span class="nf">by_content</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XADraftsDraft&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Retrieves the draft whose content matches the given content, if one exists.</span>
+
+<span class="sd">        :return: The desired draft, if it is found</span>
+<span class="sd">        :rtype: Union[XADraftsDraft, None]</span>
+<span class="sd">        </span>
+<span class="sd">        .. versionadded:: 0.0.8</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;content&quot;</span><span class="p">,</span> <span class="n">content</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XADraftsDraftList.by_flagged"><a class="viewcode-back" href="../../../reference/apps/drafts.html#PyXA.apps.Drafts.XADraftsDraftList.by_flagged">[docs]</a>    <span class="k">def</span> <span class="nf">by_flagged</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">flagged</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XADraftsDraft&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Retrieves the first draft whose flagged status matches the given boolean value, if one exists.</span>
+
+<span class="sd">        :return: The desired draft, if it is found</span>
+<span class="sd">        :rtype: Union[XADraftsDraft, None]</span>
+<span class="sd">        </span>
+<span class="sd">        .. versionadded:: 0.0.8</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;flagged&quot;</span><span class="p">,</span> <span class="n">flagged</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XADraftsDraftList.by_tags"><a class="viewcode-back" href="../../../reference/apps/drafts.html#PyXA.apps.Drafts.XADraftsDraftList.by_tags">[docs]</a>    <span class="k">def</span> <span class="nf">by_tags</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XADraftsDraft&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Retrieves the first draft whose list of tags matches the given list, if one exists.</span>
+
+<span class="sd">        :return: The desired draft, if it is found</span>
+<span class="sd">        :rtype: Union[XADraftsDraft, None]</span>
+<span class="sd">        </span>
+<span class="sd">        .. versionadded:: 0.0.8</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;tags&quot;</span><span class="p">,</span> <span class="n">tags</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XADraftsDraftList.by_created_at"><a class="viewcode-back" href="../../../reference/apps/drafts.html#PyXA.apps.Drafts.XADraftsDraftList.by_created_at">[docs]</a>    <span class="k">def</span> <span class="nf">by_created_at</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">created_at</span><span class="p">:</span> <span class="n">datetime</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XADraftsDraft&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Retrieves the draft whose creation date matches the given date, if one exists.</span>
+
+<span class="sd">        :return: The desired draft, if it is found</span>
+<span class="sd">        :rtype: Union[XADraftsDraft, None]</span>
+<span class="sd">        </span>
+<span class="sd">        .. versionadded:: 0.0.8</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;createdAt&quot;</span><span class="p">,</span> <span class="n">created_at</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XADraftsDraftList.by_modified_at"><a class="viewcode-back" href="../../../reference/apps/drafts.html#PyXA.apps.Drafts.XADraftsDraftList.by_modified_at">[docs]</a>    <span class="k">def</span> <span class="nf">by_modified_at</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">modified_at</span><span class="p">:</span> <span class="n">datetime</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XADraftsDraft&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Retrieves the draft whose last modification date matches the given date, if one exists.</span>
+
+<span class="sd">        :return: The desired draft, if it is found</span>
+<span class="sd">        :rtype: Union[XADraftsDraft, None]</span>
+<span class="sd">        </span>
+<span class="sd">        .. versionadded:: 0.0.8</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;modifiedAt&quot;</span><span class="p">,</span> <span class="n">modified_at</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XADraftsDraftList.by_accessed_at"><a class="viewcode-back" href="../../../reference/apps/drafts.html#PyXA.apps.Drafts.XADraftsDraftList.by_accessed_at">[docs]</a>    <span class="k">def</span> <span class="nf">by_accessed_at</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">accessed_at</span><span class="p">:</span> <span class="n">datetime</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XADraftsDraft&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Retrieves the draft whose last access date matches the given date, if one exists.</span>
+
+<span class="sd">        :return: The desired draft, if it is found</span>
+<span class="sd">        :rtype: Union[XADraftsDraft, None]</span>
+<span class="sd">        </span>
+<span class="sd">        .. versionadded:: 0.0.8</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;accessedAt&quot;</span><span class="p">,</span> <span class="n">accessed_at</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XADraftsDraftList.by_permalink"><a class="viewcode-back" href="../../../reference/apps/drafts.html#PyXA.apps.Drafts.XADraftsDraftList.by_permalink">[docs]</a>    <span class="k">def</span> <span class="nf">by_permalink</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">permalink</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XADraftsDraft&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Retrieves the draft whose URL matches the given URL, if one exists.</span>
+
+<span class="sd">        :return: The desired draft, if it is found</span>
+<span class="sd">        :rtype: Union[XADraftsDraft, None]</span>
+<span class="sd">        </span>
+<span class="sd">        .. versionadded:: 0.0.8</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;permalink&quot;</span><span class="p">,</span> <span class="n">permalink</span><span class="p">)</span></div></div>
+
+<div class="viewcode-block" id="XADraftsDraft"><a class="viewcode-back" href="../../../reference/apps/drafts.html#PyXA.apps.Drafts.XADraftsDraft">[docs]</a><span class="k">class</span> <span class="nc">XADraftsDraft</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A draft in Drafts.app.</span>
+
+<span class="sd">    .. versionadded:: 0.0.8</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The unique identifier of the draft</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The first line of the draft</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">content</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The content of the draft</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">flagged</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: The flagged status of the draft</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tags</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="c1">#: The tags assigned to the draft</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">created_at</span><span class="p">:</span> <span class="n">datetime</span> <span class="c1">#: The date the draft was created</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">modified_at</span><span class="p">:</span> <span class="n">datetime</span> <span class="c1">#: The date the draft was last modified</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">accessed_at</span><span class="p">:</span> <span class="n">datetime</span> <span class="c1">#: The date the draft was last accessed</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">permalink</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The URL of the draft</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">id</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">name</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">content</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">content</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">flagged</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">flagged</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">tags</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">tags</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">created_at</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">datetime</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">createdAt</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">modified_at</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">datetime</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">modifiedAt</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">accessed_at</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">datetime</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">accessedAt</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">permalink</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">permalink</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;&lt;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Stephen Kaplan.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

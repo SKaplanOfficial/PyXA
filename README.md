@@ -1,23 +1,28 @@
 <p align="center"><img src="https://raw.githubusercontent.com/SKaplanOfficial/PyXA/main/docs/_static/assets/PyXALogoTransparent.png" alt="The dark logo for PyXA" height="250px"></p>
 
 # Python for Automation
-Python for Automation, or PyXA for short, is a wrapper around Apple's Scripting Bridge framework that enables AppleScript- and JXA-like control over macOS applications from within Python. PyXA delivers intuitive application scripting by mapping existing AppleScript specifiers and commands, defined in sdef files, to per-application Python classes and associated methods. PyXA then expands on the capabilities of AppleScript by interfacing with low-level Objective-C frameworks.
+Python for Automation, or PyXA for short, is a wrapper around several macOS frameworks that enables AppleScript- and JXA-like control over macOS applications from within Python. PyXA's objects and methods are based on applications' scripting dictionaries and coupled with additional automation features supported by Apple's macOS APIs. 
 
 PyXA was created with the goals of:
-1. Simplifying the way AppleScript tasks can be accomplished via Python
-2. Disambiguating the capabilities of application scripting on macOS by providing easy-to-follow documentation throughout the entire project
-3. Introducing new features to macOS application scripting by creating simple, JXA-like methods for complex Objective-C procedures
+1. Simplifying the way automation tasks can be accomplished via Python
+2. Introducing new features to macOS application scripting by simplifying complex procedures into simple, declarative methods
+3. Disambiguating the capabilities of application scripting on macOS by providing easy-to-follow documentation throughout the entire project
 
-PyXA is not intended to replace AppleScript; rather, it is meant to provide general convenience in accomplishing AppleScript tasks via Python. PyXA fills a gap where currently available frameworks ultimately fall short: it aims to be easy to learn. Unlike other Objc wrappers, PyXA's methods are hard-coded and documented inline, meaning that you can spend less time searching for answers and more time automating your life.
+PyXA fills a gap where currently available frameworks ultimately fall short: it aims to be easy to learn for users accustomed to Python (or users who _must_ use Python). To that end, the package's documentation contains numerous examples of how to use just about every method, and additional examples are provided covering specific use cases. PyXA's code also serves as a source of examples for how to use [PyObjC](https://pyobjc.readthedocs.io/en/latest/) to interact with various macOS frameworks.
+
+PyXA is not intended to replace AppleScript or even to cover 100% of AppleScript's capabilities. Instead, PyXA is meant to provide general convenience in accomplishing AppleScript and other automation tasks via Python, for the most commonly used applications. If you need a complete Apple Event bridge, or if you find that PyXA cannot handle your particular use case, consider using [appscript](https://appscript.sourceforge.io) or one of its derivatives. If you just need something that works in most circumstances, that has abundant examples for you to reference, and supports some additional automation features (such as opening Maps to a specific address), then PyXA might be a good fit for you.
 
 # Feature Overview
 - Support for most AppleScript commands in built-in macOS applications (in progress)
+- Scripting capabilities for several non-scriptable applications by using APIs, URI schemes, and other methods
 - Support for direct operations on non-scriptable applications (e.g. `PyXA.application("Maps").front_window.collapse()`)
 - Command Chaining similar to JXA (e.g. `PyXA.application("Reminders").lists()[0].reminders().title()`)
 - Properties of scriptable elements accessible via object attributes (e.g. `note.name`, `tab.URL`, or `track.artist`)
+- Support for UI scripting of non-scriptable applications
 - Fast enumeration of scriptable objects
 - Automatic translation of clipboard items to PyXA objects
 - Support for compiling and executing AppleScript scripts via NSAppleScript
+- Full access to and control over the system clipboard
 
 # Some Examples
 ## Example 1: Open a URL in Safari and print the loaded page.
@@ -92,6 +97,16 @@ notes.new_note(f"<h1>Agenda for {end_date}</h1>", note_text)
 When run, the above script creates a note in the Notes application similar to the following:
 
 ![A note in the Notes app showing a summary of reminders and events for the day](https://raw.githubusercontent.com/SKaplanOfficial/PyXA/main/docs/_static/assets/Example3_Notes.png)
+
+## Example 4: Copy your last sent file in iMessage to the clipboard
+Lastly, PyXA has several convenient features for working with lists, interacting with the clipboard, and more soon to come. The example below highlights the simplicity of filtering lists of scriptable objects and setting the content of the clipboard. The filter method of PyXA's :class:`XABase.XAList` class enables straightforward construction of predicates to efficiently filter lists by. The content property of the :class:`XABase.XAClipboard` class can be set to both literal values and PyXA objects, allowing for concise scripts like the one below.
+
+```python
+import PyXA
+app = PyXA.application("Messages")
+last_file_transfer = app.file_transfers().filter("direction", "==", app.MessageDirection.OUTGOING)[-1]
+PyXA.XAClipboard().content = last_file_transfer
+```
 
 # Installation
 To install the latest version of PyXA on macOS, use the following pip command:

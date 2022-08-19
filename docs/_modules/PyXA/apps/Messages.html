@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PyXA.apps.Messages &mdash; PyXA 0.0.7 documentation</title>
+  <title>PyXA.apps.Messages &mdash; PyXA 0.0.8 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -39,7 +39,6 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../about/index.html">Project Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/index.html">Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/index.html#application-modules">Application Modules</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../reference/index.html">Code Documentation and Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../bugs.html">Bugs</a></li>
 </ul>
@@ -76,16 +75,17 @@
 
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
 <span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
 
-<span class="kn">from</span> <span class="nn">AppKit</span> <span class="kn">import</span> <span class="n">NSMutableArray</span>
+<span class="kn">from</span> <span class="nn">AppKit</span> <span class="kn">import</span> <span class="n">NSMutableArray</span><span class="p">,</span> <span class="n">NSURL</span>
 
 <span class="kn">from</span> <span class="nn">PyXA</span> <span class="kn">import</span> <span class="n">XABase</span>
 <span class="kn">from</span> <span class="nn">PyXA</span> <span class="kn">import</span> <span class="n">XAEvents</span>
 <span class="kn">from</span> <span class="nn">PyXA</span> <span class="kn">import</span> <span class="n">XABaseScriptable</span>
+<span class="kn">from</span> <span class="nn">..XAProtocols</span> <span class="kn">import</span> <span class="n">XAClipboardCodable</span>
 
 
-<div class="viewcode-block" id="XAMessagesApplication"><a class="viewcode-back" href="../../../reference/apps/messages.html#PyXA.apps.Messages.XAMessagesApplication">[docs]</a><span class="k">class</span> <span class="nc">XAMessagesApplication</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBApplication</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XACanConstructElement</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAAcceptsPushedElements</span><span class="p">):</span>
+<div class="viewcode-block" id="XAMessagesApplication"><a class="viewcode-back" href="../../../reference/apps/messages.html#PyXA.apps.Messages.XAMessagesApplication">[docs]</a><span class="k">class</span> <span class="nc">XAMessagesApplication</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBApplication</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A class for managing and interacting with Messages.app</span>
 
 <span class="sd">    .. seealso:: :class:`XAMessagesChat`, :class:`XAMessagesFileTransfer`, :class:`XAMessagesParticipant`, :class:`XAMessagesAccount`</span>
@@ -441,7 +441,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;file&quot;</span><span class="p">,</span> <span class="n">file</span><span class="p">)</span></div></div>
 
-<div class="viewcode-block" id="XAMessagesDocument"><a class="viewcode-back" href="../../../reference/apps/messages.html#PyXA.apps.Messages.XAMessagesDocument">[docs]</a><span class="k">class</span> <span class="nc">XAMessagesDocument</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBObject</span><span class="p">):</span>
+<div class="viewcode-block" id="XAMessagesDocument"><a class="viewcode-back" href="../../../reference/apps/messages.html#PyXA.apps.Messages.XAMessagesDocument">[docs]</a><span class="k">class</span> <span class="nc">XAMessagesDocument</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A class for managing and interacting with documents in Messages.app.</span>
 <span class="sd">    </span>
 <span class="sd">    .. versionadded:: 0.0.4</span>
@@ -467,7 +467,7 @@
 
 
 
-<div class="viewcode-block" id="XAMessagesChatList"><a class="viewcode-back" href="../../../reference/apps/messages.html#PyXA.apps.Messages.XAMessagesChatList">[docs]</a><span class="k">class</span> <span class="nc">XAMessagesChatList</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAList</span><span class="p">):</span>
+<div class="viewcode-block" id="XAMessagesChatList"><a class="viewcode-back" href="../../../reference/apps/messages.html#PyXA.apps.Messages.XAMessagesChatList">[docs]</a><span class="k">class</span> <span class="nc">XAMessagesChatList</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAList</span><span class="p">,</span> <span class="n">XAClipboardCodable</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A wrapper around a list of chats that employs fast enumeration techniques.</span>
 
 <span class="sd">    All properties of chats can be called as methods on the wrapped list, returning a list containing each chat&#39;s value for the property.</span>
@@ -575,10 +575,22 @@
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">match</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">participants</span><span class="p">):</span>
                 <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="n">chat</span><span class="p">,</span> <span class="n">XAMessagesChat</span><span class="p">)</span></div>
 
+<div class="viewcode-block" id="XAMessagesChatList.get_clipboard_representation"><a class="viewcode-back" href="../../../reference/apps/messages.html#PyXA.apps.Messages.XAMessagesChatList.get_clipboard_representation">[docs]</a>    <span class="k">def</span> <span class="nf">get_clipboard_representation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Gets a clipboard-codable representation of each chat in the list.</span>
+
+<span class="sd">        When the clipboard content is set to a list of chats, each chat&#39;s name is added to the clipboard.</span>
+
+<span class="sd">        :return: The list of chat names</span>
+<span class="sd">        :rtype: List[str]</span>
+
+<span class="sd">        .. versionadded:: 0.0.8</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">()</span></div>
+
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s2">&quot;&lt;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">())</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span></div>
 
-<div class="viewcode-block" id="XAMessagesChat"><a class="viewcode-back" href="../../../reference/apps/messages.html#PyXA.apps.Messages.XAMessagesChat">[docs]</a><span class="k">class</span> <span class="nc">XAMessagesChat</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XACanConstructElement</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAAcceptsPushedElements</span><span class="p">):</span>
+<div class="viewcode-block" id="XAMessagesChat"><a class="viewcode-back" href="../../../reference/apps/messages.html#PyXA.apps.Messages.XAMessagesChat">[docs]</a><span class="k">class</span> <span class="nc">XAMessagesChat</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">,</span> <span class="n">XAClipboardCodable</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A class for managing and interacting with chats in Messages.app</span>
 <span class="sd">    </span>
 <span class="sd">    .. versionadded:: 0.0.1</span>
@@ -627,13 +639,25 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">participants</span><span class="p">(),</span> <span class="n">XAMessagesParticipantList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
 
+<div class="viewcode-block" id="XAMessagesChat.get_clipboard_representation"><a class="viewcode-back" href="../../../reference/apps/messages.html#PyXA.apps.Messages.XAMessagesChat.get_clipboard_representation">[docs]</a>    <span class="k">def</span> <span class="nf">get_clipboard_representation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Gets a clipboard-codable representation of the chat.</span>
+
+<span class="sd">        When the clipboard content is set to a chat, the chat&#39;s name is added to the clipboard.</span>
+
+<span class="sd">        :return: The name of the chat</span>
+<span class="sd">        :rtype: str</span>
+
+<span class="sd">        .. versionadded:: 0.0.8</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span></div>
+
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s2">&quot;&lt;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">participants</span><span class="p">())</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span></div>
 
 
 
 
-<div class="viewcode-block" id="XAMessagesFileTransferList"><a class="viewcode-back" href="../../../reference/apps/messages.html#PyXA.apps.Messages.XAMessagesFileTransferList">[docs]</a><span class="k">class</span> <span class="nc">XAMessagesFileTransferList</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAList</span><span class="p">):</span>
+<div class="viewcode-block" id="XAMessagesFileTransferList"><a class="viewcode-back" href="../../../reference/apps/messages.html#PyXA.apps.Messages.XAMessagesFileTransferList">[docs]</a><span class="k">class</span> <span class="nc">XAMessagesFileTransferList</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAList</span><span class="p">,</span> <span class="n">XAClipboardCodable</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A wrapper around a list of file transfers that employs fast enumeration techniques.</span>
 
 <span class="sd">    All properties of file transfers can be called as methods on the wrapped list, returning a list containing each file transfer&#39;s value for the property.</span>
@@ -661,17 +685,18 @@
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">))</span></div>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[])</span></div>
 
-<div class="viewcode-block" id="XAMessagesFileTransferList.file_path"><a class="viewcode-back" href="../../../reference/apps/messages.html#PyXA.apps.Messages.XAMessagesFileTransferList.file_path">[docs]</a>    <span class="k">def</span> <span class="nf">file_path</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAMessagesFileTransferList.file_path"><a class="viewcode-back" href="../../../reference/apps/messages.html#PyXA.apps.Messages.XAMessagesFileTransferList.file_path">[docs]</a>    <span class="k">def</span> <span class="nf">file_path</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAPath</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the file path of each file transfer in the list.</span>
 
 <span class="sd">        :return: A list of file paths</span>
-<span class="sd">        :rtype: List[str]</span>
+<span class="sd">        :rtype: List[XABase.XAPath]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;filePath&quot;</span><span class="p">))</span></div>
+        <span class="n">ls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;filePath&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAPath</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">ls</span><span class="p">]</span></div>
 
 <div class="viewcode-block" id="XAMessagesFileTransferList.direction"><a class="viewcode-back" href="../../../reference/apps/messages.html#PyXA.apps.Messages.XAMessagesFileTransferList.direction">[docs]</a>    <span class="k">def</span> <span class="nf">direction</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">XAMessagesApplication</span><span class="o">.</span><span class="n">MessageDirection</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the direction of each file transfer in the list.</span>
@@ -682,7 +707,7 @@
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">ls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;direction&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="p">[</span><span class="n">XAMessagesApplication</span><span class="o">.</span><span class="n">MessageDirection</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">ls</span><span class="p">]</span></div>
+        <span class="k">return</span> <span class="p">[</span><span class="n">XAMessagesApplication</span><span class="o">.</span><span class="n">MessageDirection</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">OSType</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">stringValue</span><span class="p">()))</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">ls</span><span class="p">]</span></div>
 
 <div class="viewcode-block" id="XAMessagesFileTransferList.account"><a class="viewcode-back" href="../../../reference/apps/messages.html#PyXA.apps.Messages.XAMessagesFileTransferList.account">[docs]</a>    <span class="k">def</span> <span class="nf">account</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAMessagesAccountList&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Gets the account of each file transfer in the list.</span>
@@ -767,7 +792,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="XAMessagesFileTransferList.by_file_path"><a class="viewcode-back" href="../../../reference/apps/messages.html#PyXA.apps.Messages.XAMessagesFileTransferList.by_file_path">[docs]</a>    <span class="k">def</span> <span class="nf">by_file_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAMessagesFileTransfer&#39;</span><span class="p">:</span>
+<div class="viewcode-block" id="XAMessagesFileTransferList.by_file_path"><a class="viewcode-back" href="../../../reference/apps/messages.html#PyXA.apps.Messages.XAMessagesFileTransferList.by_file_path">[docs]</a>    <span class="k">def</span> <span class="nf">by_file_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_path</span><span class="p">:</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAPath</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAMessagesFileTransfer&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Retrieves the first file transfer whose file path matches the given path, if one exists.</span>
 
 <span class="sd">        :return: The desired file transfer, if it is found</span>
@@ -775,7 +800,7 @@
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;filePath&quot;</span><span class="p">,</span> <span class="n">file_path</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;filePath&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">file_path</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="XAMessagesFileTransferList.by_direction"><a class="viewcode-back" href="../../../reference/apps/messages.html#PyXA.apps.Messages.XAMessagesFileTransferList.by_direction">[docs]</a>    <span class="k">def</span> <span class="nf">by_direction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">direction</span><span class="p">:</span> <span class="n">XAMessagesApplication</span><span class="o">.</span><span class="n">MessageDirection</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAMessagesFileTransfer&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Retrieves the first file transfer whose direction matches the given enum value, if one exists.</span>
@@ -847,10 +872,39 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;started&quot;</span><span class="p">,</span> <span class="n">started</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s2">&quot;&lt;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">())</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span></div>
+<div class="viewcode-block" id="XAMessagesFileTransferList.filter"><a class="viewcode-back" href="../../../reference/apps/messages.html#PyXA.apps.Messages.XAMessagesFileTransferList.filter">[docs]</a>    <span class="k">def</span> <span class="nf">filter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">comparison_operation</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">value1</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">value2</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAList</span><span class="p">:</span>
+        <span class="n">substitutions</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;transfer status&quot;</span><span class="p">:</span> <span class="s2">&quot;transferStatus&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;file size&quot;</span><span class="p">:</span> <span class="s2">&quot;fileSize&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;file path&quot;</span><span class="p">:</span> <span class="s2">&quot;filePath&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;file progress&quot;</span><span class="p">:</span> <span class="s2">&quot;fileProgress&quot;</span>
+        <span class="p">}</span>
+        <span class="nb">filter</span> <span class="o">=</span> <span class="n">substitutions</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">filter</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
 
-<div class="viewcode-block" id="XAMessagesFileTransfer"><a class="viewcode-back" href="../../../reference/apps/messages.html#PyXA.apps.Messages.XAMessagesFileTransfer">[docs]</a><span class="k">class</span> <span class="nc">XAMessagesFileTransfer</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XACanConstructElement</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAAcceptsPushedElements</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value1</span><span class="p">,</span> <span class="n">XAMessagesApplication</span><span class="o">.</span><span class="n">MessageDirection</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value1</span><span class="p">,</span> <span class="n">XAMessagesApplication</span><span class="o">.</span><span class="n">TransferStatus</span><span class="p">):</span>
+            <span class="n">value1</span> <span class="o">=</span> <span class="n">XAEvents</span><span class="o">.</span><span class="n">event_from_str</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">unOSType</span><span class="p">(</span><span class="n">value1</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="nb">filter</span><span class="p">,</span> <span class="n">comparison_operation</span><span class="p">,</span> <span class="n">value1</span><span class="p">,</span> <span class="n">value2</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XAMessagesFileTransferList.get_clipboard_representation"><a class="viewcode-back" href="../../../reference/apps/messages.html#PyXA.apps.Messages.XAMessagesFileTransferList.get_clipboard_representation">[docs]</a>    <span class="k">def</span> <span class="nf">get_clipboard_representation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">NSURL</span><span class="p">]]:</span>
+        <span class="sd">&quot;&quot;&quot;Gets a clipboard-codable representation of each file transfer in the list.</span>
+
+<span class="sd">        When the clipboard content is set to a list of file transfers, each file transfer&#39;s file path URL is added to the clipboard.</span>
+
+<span class="sd">        :return: The list of file path URLs</span>
+<span class="sd">        :rtype: List[NSURL]</span>
+
+<span class="sd">        .. versionadded:: 0.0.8</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">items</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">paths</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">file_path</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">paths</span><span class="p">:</span>
+            <span class="n">items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">items</span></div>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;&lt;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">())</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span></div>
+
+<div class="viewcode-block" id="XAMessagesFileTransfer"><a class="viewcode-back" href="../../../reference/apps/messages.html#PyXA.apps.Messages.XAMessagesFileTransfer">[docs]</a><span class="k">class</span> <span class="nc">XAMessagesFileTransfer</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">,</span> <span class="n">XAClipboardCodable</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A class for managing and interacting with file transfers in Messages.app</span>
 <span class="sd">    </span>
 <span class="sd">    .. versionadded:: 0.0.1</span>
@@ -859,7 +913,7 @@
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The unique identifier for the file transfer</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The name of the file</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The local page to the file being transferred</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">file_path</span><span class="p">:</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAPath</span> <span class="c1">#: The local page to the file being transferred</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">direction</span><span class="p">:</span> <span class="n">XAMessagesApplication</span><span class="o">.</span><span class="n">MessageDirection</span> <span class="c1">#: The direction that the file is being sent</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">account</span><span class="p">:</span> <span class="n">XAMessagesAccount</span> <span class="c1">#: The account on which the file transfer is taking place</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">participant</span><span class="p">:</span> <span class="n">XAMessagesParticipant</span> <span class="c1">#: The other participant in the file transfer</span>
@@ -877,8 +931,8 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">name</span><span class="p">()</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">file_path</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">filePath</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">file_path</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAPath</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAPath</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">filePath</span><span class="p">())</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">direction</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XAMessagesApplication</span><span class="o">.</span><span class="n">MessageDirection</span><span class="p">:</span>
@@ -908,13 +962,26 @@
     <span class="k">def</span> <span class="nf">started</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">datetime</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">started</span><span class="p">()</span>
 
+<div class="viewcode-block" id="XAMessagesFileTransfer.get_clipboard_representation"><a class="viewcode-back" href="../../../reference/apps/messages.html#PyXA.apps.Messages.XAMessagesFileTransfer.get_clipboard_representation">[docs]</a>    <span class="k">def</span> <span class="nf">get_clipboard_representation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">NSURL</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Gets a clipboard-codable representation of the file transfer.</span>
+
+<span class="sd">        When the clipboard content is set to a file transfer, the path of the file transfer is added to the clipboard.</span>
+
+<span class="sd">        :return: The file path of the file transfer</span>
+<span class="sd">        :rtype: List[NSURL]</span>
+
+<span class="sd">        .. versionadded:: 0.0.8</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">file_path</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">file_path</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">]</span></div>
+
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s2">&quot;&lt;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span></div>
 
 
 
 
-<div class="viewcode-block" id="XAMessagesParticipantList"><a class="viewcode-back" href="../../../reference/apps/messages.html#PyXA.apps.Messages.XAMessagesParticipantList">[docs]</a><span class="k">class</span> <span class="nc">XAMessagesParticipantList</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAList</span><span class="p">):</span>
+<div class="viewcode-block" id="XAMessagesParticipantList"><a class="viewcode-back" href="../../../reference/apps/messages.html#PyXA.apps.Messages.XAMessagesParticipantList">[docs]</a><span class="k">class</span> <span class="nc">XAMessagesParticipantList</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAList</span><span class="p">,</span> <span class="n">XAClipboardCodable</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A wrapper around a list of participants that employs fast enumeration techniques.</span>
 
 <span class="sd">    All properties of participants can be called as methods on the wrapped list, returning a list containing each participant&#39;s value for the property.</span>
@@ -1065,10 +1132,22 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;fullName&quot;</span><span class="p">,</span> <span class="n">full_name</span><span class="p">)</span></div>
 
+<div class="viewcode-block" id="XAMessagesParticipantList.get_clipboard_representation"><a class="viewcode-back" href="../../../reference/apps/messages.html#PyXA.apps.Messages.XAMessagesParticipantList.get_clipboard_representation">[docs]</a>    <span class="k">def</span> <span class="nf">get_clipboard_representation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Gets a clipboard-codable representation of each participant in the list.</span>
+
+<span class="sd">        When the clipboard content is set to a list of participants, each participant&#39;s full name is added to the clipboard.</span>
+
+<span class="sd">        :return: The list of participant names</span>
+<span class="sd">        :rtype: List[str]</span>
+
+<span class="sd">        .. versionadded:: 0.0.8</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">full_name</span><span class="p">()</span></div>
+
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s2">&quot;&lt;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">())</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span></div>
 
-<div class="viewcode-block" id="XAMessagesParticipant"><a class="viewcode-back" href="../../../reference/apps/messages.html#PyXA.apps.Messages.XAMessagesParticipant">[docs]</a><span class="k">class</span> <span class="nc">XAMessagesParticipant</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XACanConstructElement</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAAcceptsPushedElements</span><span class="p">):</span>
+<div class="viewcode-block" id="XAMessagesParticipant"><a class="viewcode-back" href="../../../reference/apps/messages.html#PyXA.apps.Messages.XAMessagesParticipant">[docs]</a><span class="k">class</span> <span class="nc">XAMessagesParticipant</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">,</span> <span class="n">XAClipboardCodable</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A class for managing and interacting with chat participants in Messages.app</span>
 <span class="sd">    </span>
 <span class="sd">    .. versionadded:: 0.0.1</span>
@@ -1111,13 +1190,25 @@
     <span class="k">def</span> <span class="nf">full_name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">fullName</span><span class="p">()</span>
 
+<div class="viewcode-block" id="XAMessagesParticipant.get_clipboard_representation"><a class="viewcode-back" href="../../../reference/apps/messages.html#PyXA.apps.Messages.XAMessagesParticipant.get_clipboard_representation">[docs]</a>    <span class="k">def</span> <span class="nf">get_clipboard_representation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Gets a clipboard-codable representation of the participant.</span>
+
+<span class="sd">        When the clipboard content is set to a participant, the full name of the participant is added to the clipboard.</span>
+
+<span class="sd">        :return: The participant&#39;s full name</span>
+<span class="sd">        :rtype: str</span>
+
+<span class="sd">        .. versionadded:: 0.0.8</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">full_name</span></div>
+
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s2">&quot;&lt;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">full_name</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span></div>
 
 
 
 
-<div class="viewcode-block" id="XAMessagesAccountList"><a class="viewcode-back" href="../../../reference/apps/messages.html#PyXA.apps.Messages.XAMessagesAccountList">[docs]</a><span class="k">class</span> <span class="nc">XAMessagesAccountList</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAList</span><span class="p">):</span>
+<div class="viewcode-block" id="XAMessagesAccountList"><a class="viewcode-back" href="../../../reference/apps/messages.html#PyXA.apps.Messages.XAMessagesAccountList">[docs]</a><span class="k">class</span> <span class="nc">XAMessagesAccountList</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAList</span><span class="p">,</span> <span class="n">XAClipboardCodable</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A wrapper around a list of accounts that employs fast enumeration techniques.</span>
 
 <span class="sd">    All properties of accounts can be called as methods on the wrapped list, returning a list containing each account&#39;s value for the property.</span>
@@ -1229,10 +1320,22 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;serviceType&quot;</span><span class="p">,</span> <span class="n">service_type</span><span class="o">.</span><span class="n">value</span><span class="p">)</span></div>
 
+<div class="viewcode-block" id="XAMessagesAccountList.get_clipboard_representation"><a class="viewcode-back" href="../../../reference/apps/messages.html#PyXA.apps.Messages.XAMessagesAccountList.get_clipboard_representation">[docs]</a>    <span class="k">def</span> <span class="nf">get_clipboard_representation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Gets a clipboard-codable representation of each account in the list.</span>
+
+<span class="sd">        When the clipboard content is set to a list of accounts, each account&#39;s object description is added to the clipboard.</span>
+
+<span class="sd">        :return: The list of account descriptions</span>
+<span class="sd">        :rtype: List[str]</span>
+
+<span class="sd">        .. versionadded:: 0.0.8</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">object_description</span><span class="p">()</span></div>
+
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s2">&quot;&lt;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">service_type</span><span class="p">())</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span></div>
 
-<div class="viewcode-block" id="XAMessagesAccount"><a class="viewcode-back" href="../../../reference/apps/messages.html#PyXA.apps.Messages.XAMessagesAccount">[docs]</a><span class="k">class</span> <span class="nc">XAMessagesAccount</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XACanConstructElement</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAAcceptsPushedElements</span><span class="p">):</span>
+<div class="viewcode-block" id="XAMessagesAccount"><a class="viewcode-back" href="../../../reference/apps/messages.html#PyXA.apps.Messages.XAMessagesAccount">[docs]</a><span class="k">class</span> <span class="nc">XAMessagesAccount</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">,</span> <span class="n">XAClipboardCodable</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A class for managing and interacting with accounts in Messages.app</span>
 <span class="sd">    </span>
 <span class="sd">    .. versionadded:: 0.0.1</span>
@@ -1277,7 +1380,22 @@
 
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">participants</span><span class="p">(),</span> <span class="n">XAMessagesParticipantList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">participants</span><span class="p">(),</span> <span class="n">XAMessagesParticipantList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XAMessagesAccount.get_clipboard_representation"><a class="viewcode-back" href="../../../reference/apps/messages.html#PyXA.apps.Messages.XAMessagesAccount.get_clipboard_representation">[docs]</a>    <span class="k">def</span> <span class="nf">get_clipboard_representation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Gets a clipboard-codable representation of the account.</span>
+
+<span class="sd">        When the clipboard content is set to an account, the name of the account is added to the clipboard.</span>
+
+<span class="sd">        :return: The name of the account</span>
+<span class="sd">        :rtype: str</span>
+
+<span class="sd">        .. versionadded:: 0.0.8</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">object_description</span></div>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;&lt;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">service_type</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span></div>
 </pre></div>
 
            </div>

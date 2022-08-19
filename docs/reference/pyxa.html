@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PyXA Module &mdash; PyXA 0.0.7 documentation</title>
+  <title>PyXA Module &mdash; PyXA 0.0.8 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
@@ -42,7 +42,6 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../about/index.html">Project Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial/index.html">Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tutorial/index.html#application-modules">Application Modules</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Code Documentation and Reference</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="index.html#top-level-pyxa-modules">Top-level PyXA Modules</a><ul class="current">
 <li class="toctree-l3 current"><a class="current reference internal" href="#">PyXA Module</a></li>
@@ -91,31 +90,34 @@
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.PyXA.CGWindowListCopyWindowInfo" title="PyXA.PyXA.CGWindowListCopyWindowInfo"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CGWindowListCopyWindowInfo</span></code></a>(arg0, arg1, /)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.PyXA.CGImageSourceCreateWithData" title="PyXA.PyXA.CGImageSourceCreateWithData"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CGImageSourceCreateWithData</span></code></a>(arg0, arg1, /)</p></td>
+<td><p>CGImageSourceRef CGImageSourceCreateWithData(CFDataRef arg0, CFDictionaryRef arg1);</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.PyXA.CGWindowListCopyWindowInfo" title="PyXA.PyXA.CGWindowListCopyWindowInfo"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CGWindowListCopyWindowInfo</span></code></a>(arg0, arg1, /)</p></td>
 <td><p>CFArrayRef CGWindowListCopyWindowInfo(unsigned int arg0, unsigned int arg1);</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.PyXA.application" title="PyXA.PyXA.application"><code class="xref py py-obj docutils literal notranslate"><span class="pre">application</span></code></a>(app_identifier)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.PyXA.application" title="PyXA.PyXA.application"><code class="xref py py-obj docutils literal notranslate"><span class="pre">application</span></code></a>(app_identifier)</p></td>
 <td><p>Retrieves a PyXA application object representation of the target application without launching or activating the application.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.PyXA.current_application" title="PyXA.PyXA.current_application"><code class="xref py py-obj docutils literal notranslate"><span class="pre">current_application</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.PyXA.current_application" title="PyXA.PyXA.current_application"><code class="xref py py-obj docutils literal notranslate"><span class="pre">current_application</span></code></a>()</p></td>
 <td><p>Retrieves a PyXA representation of the frontmost application.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.PyXA.get_clipboard" title="PyXA.PyXA.get_clipboard"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_clipboard</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.PyXA.get_clipboard" title="PyXA.PyXA.get_clipboard"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_clipboard</span></code></a>()</p></td>
 <td><p>Returns the byte representation of all items on the clipboard.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.PyXA.get_clipboard_strings" title="PyXA.PyXA.get_clipboard_strings"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_clipboard_strings</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.PyXA.get_clipboard_strings" title="PyXA.PyXA.get_clipboard_strings"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_clipboard_strings</span></code></a>()</p></td>
 <td><p>Returns the string representation all items on the clipboard that can be represented as strings.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.PyXA.open_url" title="PyXA.PyXA.open_url"><code class="xref py py-obj docutils literal notranslate"><span class="pre">open_url</span></code></a>(path)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.PyXA.open_url" title="PyXA.PyXA.open_url"><code class="xref py py-obj docutils literal notranslate"><span class="pre">open_url</span></code></a>(path)</p></td>
 <td><p>Opens the document at the given URL in its default application.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.PyXA.run_applescript" title="PyXA.PyXA.run_applescript"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run_applescript</span></code></a>(source)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.PyXA.run_applescript" title="PyXA.PyXA.run_applescript"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run_applescript</span></code></a>(source)</p></td>
 <td><p>Runs AppleScript and returns its result.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.PyXA.running_applications" title="PyXA.PyXA.running_applications"><code class="xref py py-obj docutils literal notranslate"><span class="pre">running_applications</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.PyXA.running_applications" title="PyXA.PyXA.running_applications"><code class="xref py py-obj docutils literal notranslate"><span class="pre">running_applications</span></code></a>()</p></td>
 <td><p>Gets PyXA references to all currently visible (not hidden or minimized) running applications whose app bundles are stored in typical application directories.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.PyXA.set_clipboard" title="PyXA.PyXA.set_clipboard"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_clipboard</span></code></a>(content)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.PyXA.set_clipboard" title="PyXA.PyXA.set_clipboard"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_clipboard</span></code></a>(content)</p></td>
 <td><p>Sets the clipboard to the specified content.</p></td>
 </tr>
 </tbody>
@@ -135,6 +137,12 @@
 </tr>
 </tbody>
 </table>
+<dl class="py function">
+<dt class="sig sig-object py" id="PyXA.PyXA.CGImageSourceCreateWithData">
+<span class="sig-prename descclassname"><span class="pre">PyXA.PyXA.</span></span><span class="sig-name descname"><span class="pre">CGImageSourceCreateWithData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arg0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg1</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">/</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#PyXA.PyXA.CGImageSourceCreateWithData" title="Permalink to this definition"></a></dt>
+<dd><p>CGImageSourceRef CGImageSourceCreateWithData(CFDataRef arg0, CFDictionaryRef arg1);</p>
+</dd></dl>
+
 <dl class="py function">
 <dt class="sig sig-object py" id="PyXA.PyXA.CGWindowListCopyWindowInfo">
 <span class="sig-prename descclassname"><span class="pre">PyXA.PyXA.</span></span><span class="sig-name descname"><span class="pre">CGWindowListCopyWindowInfo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arg0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg1</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">/</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#PyXA.PyXA.CGWindowListCopyWindowInfo" title="Permalink to this definition"></a></dt>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PyXA.apps.Stocks &mdash; PyXA 0.0.7 documentation</title>
+  <title>PyXA.apps.Stocks &mdash; PyXA 0.0.8 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -39,7 +39,6 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../about/index.html">Project Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/index.html">Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/index.html#application-modules">Application Modules</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../reference/index.html">Code Documentation and Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../bugs.html">Bugs</a></li>
 </ul>
@@ -76,10 +75,11 @@
 
 <span class="kn">from</span> <span class="nn">curses</span> <span class="kn">import</span> <span class="n">nonl</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Union</span>
-<span class="kn">from</span> <span class="nn">AppKit</span> <span class="kn">import</span> <span class="n">NSPredicate</span><span class="p">,</span> <span class="n">NSMutableArray</span>
+<span class="kn">from</span> <span class="nn">AppKit</span> <span class="kn">import</span> <span class="n">NSPredicate</span><span class="p">,</span> <span class="n">NSMutableArray</span><span class="p">,</span> <span class="n">NSURL</span>
 
 <span class="kn">from</span> <span class="nn">PyXA</span> <span class="kn">import</span> <span class="n">XABase</span>
 <span class="kn">from</span> <span class="nn">PyXA</span> <span class="kn">import</span> <span class="n">XABaseScriptable</span>
+<span class="kn">from</span> <span class="nn">..XAProtocols</span> <span class="kn">import</span> <span class="n">XAClipboardCodable</span>
 
 <div class="viewcode-block" id="XAStocksApplication"><a class="viewcode-back" href="../../../reference/apps/stocks.html#PyXA.apps.Stocks.XAStocksApplication">[docs]</a><span class="k">class</span> <span class="nc">XAStocksApplication</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAApplication</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A class for managing and interacting with Stocks.app.</span>
@@ -164,7 +164,7 @@
 
 
 
-<div class="viewcode-block" id="XAStocksSavedStockList"><a class="viewcode-back" href="../../../reference/apps/stocks.html#PyXA.apps.Stocks.XAStocksSavedStockList">[docs]</a><span class="k">class</span> <span class="nc">XAStocksSavedStockList</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAList</span><span class="p">):</span>
+<div class="viewcode-block" id="XAStocksSavedStockList"><a class="viewcode-back" href="../../../reference/apps/stocks.html#PyXA.apps.Stocks.XAStocksSavedStockList">[docs]</a><span class="k">class</span> <span class="nc">XAStocksSavedStockList</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAList</span><span class="p">,</span> <span class="n">XAClipboardCodable</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A wrapper around a list of stocks.</span>
 
 <span class="sd">    .. versionadded:: 0.0.6</span>
@@ -191,10 +191,30 @@
         <span class="n">ls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;selected&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">ls</span><span class="p">]</span></div>
 
+<div class="viewcode-block" id="XAStocksSavedStockList.get_clipboard_representation"><a class="viewcode-back" href="../../../reference/apps/stocks.html#PyXA.apps.Stocks.XAStocksSavedStockList.get_clipboard_representation">[docs]</a>    <span class="k">def</span> <span class="nf">get_clipboard_representation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">NSURL</span><span class="p">]]:</span>
+        <span class="sd">&quot;&quot;&quot;Gets a clipboard-codable representation of each stock in the list.</span>
+
+<span class="sd">        When the clipboard content is set to a list of saved stocks, each stocks&#39;s name, price, and stocks URI are added to the clipboard.</span>
+
+<span class="sd">        :return: Each stock&#39;s name, price, and stocks URI</span>
+<span class="sd">        :rtype: List[Union[str, NSURL]]</span>
+
+<span class="sd">        .. versionadded:: 0.0.8</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">items</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">names</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">()</span>
+        <span class="n">prices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">price</span><span class="p">()</span>
+        <span class="n">symbols</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">symbol</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">names</span><span class="p">):</span>
+            <span class="n">items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot; - &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">prices</span><span class="p">[</span><span class="n">index</span><span class="p">]))</span>
+            <span class="n">items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAURL</span><span class="p">(</span><span class="s2">&quot;stocks://?symbol=&quot;</span> <span class="o">+</span> <span class="n">symbols</span><span class="p">[</span><span class="n">index</span><span class="p">])</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span>
+            
+        <span class="k">return</span> <span class="n">items</span></div>
+
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s2">&quot;&lt;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">object_description</span><span class="p">())</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span></div>
 
-<div class="viewcode-block" id="XAStocksSavedStock"><a class="viewcode-back" href="../../../reference/apps/stocks.html#PyXA.apps.Stocks.XAStocksSavedStock">[docs]</a><span class="k">class</span> <span class="nc">XAStocksSavedStock</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">):</span>
+<div class="viewcode-block" id="XAStocksSavedStock"><a class="viewcode-back" href="../../../reference/apps/stocks.html#PyXA.apps.Stocks.XAStocksSavedStock">[docs]</a><span class="k">class</span> <span class="nc">XAStocksSavedStock</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">,</span> <span class="n">XAClipboardCodable</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A class for interacting with stocks in Stocks.app.</span>
 
 <span class="sd">    .. versionadded:: 0.0.6</span>
@@ -242,7 +262,19 @@
 
 <span class="sd">        .. versionadded:: 0.0.6</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">actions</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">perform</span><span class="p">()</span></div></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">actions</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">perform</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="XAStocksSavedStock.get_clipboard_representation"><a class="viewcode-back" href="../../../reference/apps/stocks.html#PyXA.apps.Stocks.XAStocksSavedStock.get_clipboard_representation">[docs]</a>    <span class="k">def</span> <span class="nf">get_clipboard_representation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">NSURL</span><span class="p">]]:</span>
+        <span class="sd">&quot;&quot;&quot;Gets a clipboard-codable representation of the stock.</span>
+
+<span class="sd">        When the clipboard content is set to a saved stock, the stocks&#39;s name, price, and stocks URI are added to the clipboard.</span>
+
+<span class="sd">        :return: The stock&#39;s name, price, and stocks URI </span>
+<span class="sd">        :rtype: List[Union[str, NSURL]]</span>
+
+<span class="sd">        .. versionadded:: 0.0.8</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot; - &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">price</span><span class="p">),</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAURL</span><span class="p">(</span><span class="s2">&quot;stocks://?symbol=&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">symbol</span><span class="p">)</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">]</span></div></div>
 </pre></div>
 
            </div>

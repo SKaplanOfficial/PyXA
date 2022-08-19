@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PyXA.apps.Automator &mdash; PyXA 0.0.7 documentation</title>
+  <title>PyXA.apps.Automator &mdash; PyXA 0.0.8 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -39,7 +39,6 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../about/index.html">Project Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/index.html">Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/index.html#application-modules">Application Modules</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../reference/index.html">Code Documentation and Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../bugs.html">Bugs</a></li>
 </ul>
@@ -83,8 +82,9 @@
 
 <span class="kn">from</span> <span class="nn">PyXA</span> <span class="kn">import</span> <span class="n">XABase</span>
 <span class="kn">from</span> <span class="nn">PyXA</span> <span class="kn">import</span> <span class="n">XABaseScriptable</span>
+<span class="kn">from</span> <span class="nn">..XAProtocols</span> <span class="kn">import</span> <span class="n">XACanOpenPath</span>
 
-<div class="viewcode-block" id="XAAutomatorApplication"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorApplication">[docs]</a><span class="k">class</span> <span class="nc">XAAutomatorApplication</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBApplication</span><span class="p">):</span>
+<div class="viewcode-block" id="XAAutomatorApplication"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorApplication">[docs]</a><span class="k">class</span> <span class="nc">XAAutomatorApplication</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBApplication</span><span class="p">,</span> <span class="n">XACanOpenPath</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A class for managing and interacting with Automator.app.</span>
 
 <span class="sd">    .. seealso:: :class:`XAAutomatorWindow`, :class:`XAAutomatorDocument`</span>
@@ -334,6 +334,8 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">document</span><span class="p">(),</span> <span class="n">XAAutomatorDocument</span><span class="p">)</span></div>
 
 
+
+
 <div class="viewcode-block" id="XAAutomatorDocumentList"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorDocumentList">[docs]</a><span class="k">class</span> <span class="nc">XAAutomatorDocumentList</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAList</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A wrapper around a list of Automator documents which utilizes fast enumeration techniques.</span>
 
@@ -407,7 +409,7 @@
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s2">&quot;&lt;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">())</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span></div>
 
-<div class="viewcode-block" id="XAAutomatorDocument"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorDocument">[docs]</a><span class="k">class</span> <span class="nc">XAAutomatorDocument</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBObject</span><span class="p">):</span>
+<div class="viewcode-block" id="XAAutomatorDocument"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorDocument">[docs]</a><span class="k">class</span> <span class="nc">XAAutomatorDocument</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A class for managing and interacting with Automator windows.</span>
 
 <span class="sd">    .. seealso:: :class:`XAAutomatorApplication`</span>
@@ -434,6 +436,8 @@
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s2">&quot;&lt;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span></div>
+
+
 
 
 <div class="viewcode-block" id="XAAutomatorActionList"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList">[docs]</a><span class="k">class</span> <span class="nc">XAAutomatorActionList</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAList</span><span class="p">):</span>
@@ -891,8 +895,7 @@
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s2">&quot;&lt;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">())</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span></div>
 
-
-<div class="viewcode-block" id="XAAutomatorAction"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorAction">[docs]</a><span class="k">class</span> <span class="nc">XAAutomatorAction</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBObject</span><span class="p">):</span>
+<div class="viewcode-block" id="XAAutomatorAction"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorAction">[docs]</a><span class="k">class</span> <span class="nc">XAAutomatorAction</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A class for managing and interacting with actions in Automator.app.</span>
 
 <span class="sd">    .. seealso:: :class:`XAAutomatorApplication`</span>
@@ -1045,6 +1048,8 @@
         <span class="k">return</span> <span class="s2">&quot;&lt;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span></div>
 
 
+
+
 <div class="viewcode-block" id="XAAutomatorRequiredResourceList"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorRequiredResourceList">[docs]</a><span class="k">class</span> <span class="nc">XAAutomatorRequiredResourceList</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAList</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A wrapper around a list of Automator required resources which utilizes fast enumeration techniques.</span>
 
@@ -1138,7 +1143,7 @@
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s2">&quot;&lt;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">())</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span></div>
 
-<div class="viewcode-block" id="XAAutomatorRequiredResource"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorRequiredResource">[docs]</a><span class="k">class</span> <span class="nc">XAAutomatorRequiredResource</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBObject</span><span class="p">):</span>
+<div class="viewcode-block" id="XAAutomatorRequiredResource"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorRequiredResource">[docs]</a><span class="k">class</span> <span class="nc">XAAutomatorRequiredResource</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A class for managing and interacting with required resources in Automator.app.</span>
 
 <span class="sd">    .. seealso:: :class:`XAAutomatorApplication`</span>
@@ -1170,6 +1175,8 @@
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s2">&quot;&lt;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span></div>
+
+
 
 
 <div class="viewcode-block" id="XAAutomatorSettingList"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorSettingList">[docs]</a><span class="k">class</span> <span class="nc">XAAutomatorSettingList</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAList</span><span class="p">):</span>
@@ -1249,7 +1256,7 @@
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s2">&quot;&lt;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">())</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span></div>
 
-<div class="viewcode-block" id="XAAutomatorSetting"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorSetting">[docs]</a><span class="k">class</span> <span class="nc">XAAutomatorSetting</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBObject</span><span class="p">):</span>
+<div class="viewcode-block" id="XAAutomatorSetting"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorSetting">[docs]</a><span class="k">class</span> <span class="nc">XAAutomatorSetting</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A class for managing and interacting with Automator settings (i.e. named values).</span>
 
 <span class="sd">    .. seealso:: :class:`XAAutomatorApplication`</span>
@@ -1276,6 +1283,8 @@
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s2">&quot;&lt;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span></div>
+
+
 
 
 <div class="viewcode-block" id="XAAutomatorVariableList"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorVariableList">[docs]</a><span class="k">class</span> <span class="nc">XAAutomatorVariableList</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAList</span><span class="p">):</span>
@@ -1353,7 +1362,7 @@
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s2">&quot;&lt;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">())</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span></div>
 
-<div class="viewcode-block" id="XAAutomatorVariable"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorVariable">[docs]</a><span class="k">class</span> <span class="nc">XAAutomatorVariable</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBObject</span><span class="p">):</span>
+<div class="viewcode-block" id="XAAutomatorVariable"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorVariable">[docs]</a><span class="k">class</span> <span class="nc">XAAutomatorVariable</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A class for managing and interacting with Automator variables.</span>
 
 <span class="sd">    .. seealso:: :class:`XAAutomatorApplication`</span>
@@ -1380,6 +1389,8 @@
         
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s2">&quot;&lt;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span></div>
+
+
 
 
 <div class="viewcode-block" id="XAAutomatorWorkflowList"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorWorkflowList">[docs]</a><span class="k">class</span> <span class="nc">XAAutomatorWorkflowList</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAList</span><span class="p">):</span>

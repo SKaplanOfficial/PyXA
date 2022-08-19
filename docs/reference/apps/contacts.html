@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Contacts Module Reference &mdash; PyXA 0.0.7 documentation</title>
+  <title>Contacts Module Reference &mdash; PyXA 0.0.8 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
@@ -42,7 +42,6 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../about/index.html">Project Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorial/index.html">Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../tutorial/index.html#application-modules">Application Modules</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../index.html">Code Documentation and Reference</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../index.html#top-level-pyxa-modules">Top-level PyXA Modules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../index.html#pyxa-base-modules">PyXA Base Modules</a></li>
@@ -61,6 +60,7 @@
 <li class="toctree-l3"><a class="reference internal" href="messages.html">Messages Module Reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="music.html">Music Module Reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="notes.html">Notes Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="numbers.html">Numbers Module Reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pages.html">Pages Module Reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="photos.html">Photos Module Reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="preview.html">Preview Module Reference</a></li>
@@ -155,7 +155,7 @@
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Contacts.XAContactsEntry" title="PyXA.apps.Contacts.XAContactsEntry"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAContactsEntry</span></code></a>(properties)</p></td>
 <td><p>An entry in Contacts.app.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Contacts.XAContactsEntryList" title="PyXA.apps.Contacts.XAContactsEntryList"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAContactsEntryList</span></code></a>(properties[, obj_class, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Contacts.XAContactsEntryList" title="PyXA.apps.Contacts.XAContactsEntryList"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAContactsEntryList</span></code></a>(properties[, filter, ...])</p></td>
 <td><p>A wrapper around lists of contact entries that employs fast enumeration techniques.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Contacts.XAContactsGroup" title="PyXA.apps.Contacts.XAContactsGroup"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAContactsGroup</span></code></a>(properties)</p></td>
@@ -208,7 +208,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.Contacts.XAContactsAddress">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Contacts.</span></span><span class="sig-name descname"><span class="pre">XAContactsAddress</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Contacts.html#XAContactsAddress"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Contacts.XAContactsAddress" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XASBObject" title="PyXA.XABaseScriptable.XASBObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABaseScriptable.XASBObject</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAObject</span></code></a></p>
 <p>An address associated with a contact in Contacts.app.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.7.</span></p>
@@ -688,7 +688,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.Contacts.XAContactsApplication">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Contacts.</span></span><span class="sig-name descname"><span class="pre">XAContactsApplication</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Contacts.html#XAContactsApplication"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Contacts.XAContactsApplication" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XASBApplication" title="PyXA.XABaseScriptable.XASBApplication"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABaseScriptable.XASBApplication</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XASBApplication" title="PyXA.XABaseScriptable.XASBApplication"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABaseScriptable.XASBApplication</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XAProtocols.XACanOpenPath</span></code></p>
 <p>A class for managing and interacting with Contacts.app.</p>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
@@ -1154,7 +1154,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.Contacts.XAContactsContactInfo">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Contacts.</span></span><span class="sig-name descname"><span class="pre">XAContactsContactInfo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Contacts.html#XAContactsContactInfo"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Contacts.XAContactsContactInfo" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XASBObject" title="PyXA.XABaseScriptable.XASBObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABaseScriptable.XASBObject</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAObject</span></code></a></p>
 <p>Contact information associated with a contact in Contacts.app.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.7.</span></p>
@@ -1199,7 +1199,7 @@
 
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.Contacts.XAContactsContactInfoList">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Contacts.</span></span><span class="sig-name descname"><span class="pre">XAContactsContactInfoList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obj_class</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Contacts.html#XAContactsContactInfoList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Contacts.XAContactsContactInfoList" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Contacts.</span></span><span class="sig-name descname"><span class="pre">XAContactsContactInfoList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obj_class</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Contacts.html#XAContactsContactInfoList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Contacts.XAContactsContactInfoList" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAList" title="PyXA.XABase.XAList"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAList</span></code></a></p>
 <p>A wrapper around lists of contact information entries that employs fast enumeration techniques.</p>
 <p>All properties of contact information entries can be called as methods on the wrapped list, returning a list containing each entry’s value for the property.</p>
@@ -1361,7 +1361,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.Contacts.XAContactsDocument">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Contacts.</span></span><span class="sig-name descname"><span class="pre">XAContactsDocument</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Contacts.html#XAContactsDocument"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Contacts.XAContactsDocument" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XASBObject" title="PyXA.XABaseScriptable.XASBObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABaseScriptable.XASBObject</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAObject</span></code></a></p>
 <p>A document in Contacts.app.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.7.</span></p>
@@ -1568,7 +1568,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.Contacts.XAContactsEntry">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Contacts.</span></span><span class="sig-name descname"><span class="pre">XAContactsEntry</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Contacts.html#XAContactsEntry"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Contacts.XAContactsEntry" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XASBObject" title="PyXA.XABaseScriptable.XASBObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABaseScriptable.XASBObject</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAObject</span></code></a></p>
 <p>An entry in Contacts.app.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.7.</span></p>
@@ -1698,7 +1698,7 @@
 
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.Contacts.XAContactsEntryList">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Contacts.</span></span><span class="sig-name descname"><span class="pre">XAContactsEntryList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obj_class</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Contacts.html#XAContactsEntryList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Contacts.XAContactsEntryList" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Contacts.</span></span><span class="sig-name descname"><span class="pre">XAContactsEntryList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obj_class</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Contacts.html#XAContactsEntryList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Contacts.XAContactsEntryList" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAList" title="PyXA.XABase.XAList"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAList</span></code></a></p>
 <p>A wrapper around lists of contact entries that employs fast enumeration techniques.</p>
 <p>All properties of contact entries can be called as methods on the wrapped list, returning a list containing each entry’s value for the property.</p>

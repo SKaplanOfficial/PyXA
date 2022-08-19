@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PyXA.apps.SystemPreferences &mdash; PyXA 0.0.7 documentation</title>
+  <title>PyXA.apps.SystemPreferences &mdash; PyXA 0.0.8 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -39,7 +39,6 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../about/index.html">Project Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/index.html">Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/index.html#application-modules">Application Modules</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../reference/index.html">Code Documentation and Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../bugs.html">Bugs</a></li>
 </ul>
@@ -197,7 +196,7 @@
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s2">&quot;&lt;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">())</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span></div>
 
-<div class="viewcode-block" id="XAPreferencePane"><a class="viewcode-back" href="../../../reference/apps/systempreferences.html#PyXA.apps.SystemPreferences.XAPreferencePane">[docs]</a><span class="k">class</span> <span class="nc">XAPreferencePane</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAHasElements</span><span class="p">):</span>
+<div class="viewcode-block" id="XAPreferencePane"><a class="viewcode-back" href="../../../reference/apps/systempreferences.html#PyXA.apps.SystemPreferences.XAPreferencePane">[docs]</a><span class="k">class</span> <span class="nc">XAPreferencePane</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A class for managing and interacting with preference panes in System Preferences.</span>
 
 <span class="sd">    .. seealso:: :class:`XAPreferenceAnchor`</span>
@@ -312,7 +311,7 @@
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s2">&quot;&lt;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">())</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span></div>
 
-<div class="viewcode-block" id="XAPreferenceAnchor"><a class="viewcode-back" href="../../../reference/apps/systempreferences.html#PyXA.apps.SystemPreferences.XAPreferenceAnchor">[docs]</a><span class="k">class</span> <span class="nc">XAPreferenceAnchor</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBObject</span><span class="p">):</span>
+<div class="viewcode-block" id="XAPreferenceAnchor"><a class="viewcode-back" href="../../../reference/apps/systempreferences.html#PyXA.apps.SystemPreferences.XAPreferenceAnchor">[docs]</a><span class="k">class</span> <span class="nc">XAPreferenceAnchor</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A class for managing and interacting with anchors in System Preferences.</span>
 
 <span class="sd">    .. versionadded:: 0.0.2</span>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PyXA.apps.Reminders &mdash; PyXA 0.0.7 documentation</title>
+  <title>PyXA.apps.Reminders &mdash; PyXA 0.0.8 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -39,7 +39,6 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../about/index.html">Project Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/index.html">Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/index.html#application-modules">Application Modules</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../reference/index.html">Code Documentation and Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../bugs.html">Bugs</a></li>
 </ul>
@@ -84,7 +83,7 @@
 <span class="kn">from</span> <span class="nn">PyXA</span> <span class="kn">import</span> <span class="n">XABaseScriptable</span>
     
 
-<div class="viewcode-block" id="XARemindersApplication"><a class="viewcode-back" href="../../../reference/apps/reminders.html#PyXA.apps.Reminders.XARemindersApplication">[docs]</a><span class="k">class</span> <span class="nc">XARemindersApplication</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBApplication</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XACanConstructElement</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAAcceptsPushedElements</span><span class="p">):</span>
+<div class="viewcode-block" id="XARemindersApplication"><a class="viewcode-back" href="../../../reference/apps/reminders.html#PyXA.apps.Reminders.XARemindersApplication">[docs]</a><span class="k">class</span> <span class="nc">XARemindersApplication</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBApplication</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A class for managing and interacting with scripting elements of the Reminders application.</span>
 
 <span class="sd">    .. seealso:: :class:`XARemindersAccount`, :class:`XARemindersList`, :class:`XARemindersReminder`</span>
@@ -247,7 +246,7 @@
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">XARemindersReminder</span><span class="p">)</span></div></div>
 
 
-<div class="viewcode-block" id="XARemindersWindow"><a class="viewcode-back" href="../../../reference/apps/reminders.html#PyXA.apps.Reminders.XARemindersWindow">[docs]</a><span class="k">class</span> <span class="nc">XARemindersWindow</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">):</span>
+<div class="viewcode-block" id="XARemindersWindow"><a class="viewcode-back" href="../../../reference/apps/reminders.html#PyXA.apps.Reminders.XARemindersWindow">[docs]</a><span class="k">class</span> <span class="nc">XARemindersWindow</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBObject</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A window of the Reminders application.</span>
 
 <span class="sd">    .. versionadded:: 0.0.6</span>
@@ -473,7 +472,7 @@
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s2">&quot;&lt;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">())</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span></div>
 
-<div class="viewcode-block" id="XARemindersDocument"><a class="viewcode-back" href="../../../reference/apps/reminders.html#PyXA.apps.Reminders.XARemindersDocument">[docs]</a><span class="k">class</span> <span class="nc">XARemindersDocument</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">):</span>
+<div class="viewcode-block" id="XARemindersDocument"><a class="viewcode-back" href="../../../reference/apps/reminders.html#PyXA.apps.Reminders.XARemindersDocument">[docs]</a><span class="k">class</span> <span class="nc">XARemindersDocument</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBObject</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A document in the Reminders application.</span>
 
 <span class="sd">    .. versionadded:: 0.0.6</span>
@@ -609,7 +608,7 @@
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s2">&quot;&lt;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">())</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span></div>
 
-<div class="viewcode-block" id="XARemindersAccount"><a class="viewcode-back" href="../../../reference/apps/reminders.html#PyXA.apps.Reminders.XARemindersAccount">[docs]</a><span class="k">class</span> <span class="nc">XARemindersAccount</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">):</span>
+<div class="viewcode-block" id="XARemindersAccount"><a class="viewcode-back" href="../../../reference/apps/reminders.html#PyXA.apps.Reminders.XARemindersAccount">[docs]</a><span class="k">class</span> <span class="nc">XARemindersAccount</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBObject</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;An account in the Reminders application.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
@@ -796,7 +795,7 @@
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s2">&quot;&lt;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">())</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span></div>
 
-<div class="viewcode-block" id="XARemindersList"><a class="viewcode-back" href="../../../reference/apps/reminders.html#PyXA.apps.Reminders.XARemindersList">[docs]</a><span class="k">class</span> <span class="nc">XARemindersList</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">):</span>
+<div class="viewcode-block" id="XARemindersList"><a class="viewcode-back" href="../../../reference/apps/reminders.html#PyXA.apps.Reminders.XARemindersList">[docs]</a><span class="k">class</span> <span class="nc">XARemindersList</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBObject</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A class for...</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
@@ -1200,7 +1199,7 @@
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s2">&quot;&lt;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">())</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span></div>
 
-<div class="viewcode-block" id="XARemindersReminder"><a class="viewcode-back" href="../../../reference/apps/reminders.html#PyXA.apps.Reminders.XARemindersReminder">[docs]</a><span class="k">class</span> <span class="nc">XARemindersReminder</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">):</span>
+<div class="viewcode-block" id="XARemindersReminder"><a class="viewcode-back" href="../../../reference/apps/reminders.html#PyXA.apps.Reminders.XARemindersReminder">[docs]</a><span class="k">class</span> <span class="nc">XARemindersReminder</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBObject</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A class for...</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
@@ -1365,7 +1364,7 @@
 
 
 
-<div class="viewcode-block" id="XARemindersRecurrenceRule"><a class="viewcode-back" href="../../../reference/apps/reminders.html#PyXA.apps.Reminders.XARemindersRecurrenceRule">[docs]</a><span class="k">class</span> <span class="nc">XARemindersRecurrenceRule</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">):</span>
+<div class="viewcode-block" id="XARemindersRecurrenceRule"><a class="viewcode-back" href="../../../reference/apps/reminders.html#PyXA.apps.Reminders.XARemindersRecurrenceRule">[docs]</a><span class="k">class</span> <span class="nc">XARemindersRecurrenceRule</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBObject</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A class for interacting with Reminders.</span>
 
 <span class="sd">    .. seealso:: :class:`XARemindersReminder`</span>
@@ -1538,7 +1537,7 @@
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s2">&quot;&lt;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">())</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span></div>
 
-<div class="viewcode-block" id="XARemindersAlarm"><a class="viewcode-back" href="../../../reference/apps/reminders.html#PyXA.apps.Reminders.XARemindersAlarm">[docs]</a><span class="k">class</span> <span class="nc">XARemindersAlarm</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">):</span>
+<div class="viewcode-block" id="XARemindersAlarm"><a class="viewcode-back" href="../../../reference/apps/reminders.html#PyXA.apps.Reminders.XARemindersAlarm">[docs]</a><span class="k">class</span> <span class="nc">XARemindersAlarm</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBObject</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;An alarm attached to a reminder.</span>
 
 <span class="sd">    .. seealso:: :class:`XARemindersReminder`</span>

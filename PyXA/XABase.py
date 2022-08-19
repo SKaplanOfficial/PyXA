@@ -409,7 +409,7 @@ class XAList(XAObject):
             self.xa_elem = XAPredicate().from_dict(filter).evaluate(self.xa_elem)
 
     def by_property(self, property: str, value: Any) -> XAObject:
-        """Retrieves the element whose property value matches the given value, if one exists.
+        """Retrieves the first element whose property value matches the given value, if one exists.
 
         :param property: The property to match
         :type property: str
@@ -417,6 +417,14 @@ class XAList(XAObject):
         :type value: Any
         :return: The matching element, if one is found
         :rtype: XAObject
+
+        :Example:
+
+        >>> import PyXA
+        >>> app = PyXA.application("Photos")
+        >>> photo = app.media_items().by_property("id", "CB24FE9F-E9DC-4A5C-A0B0-CC779B1CEDCE/L0/001")
+        >>> print(photo)
+        <<class 'PyXA.apps.PhotosApp.XAPhotosMediaItem'>id=CB24FE9F-E9DC-4A5C-A0B0-CC779B1CEDCE/L0/001>
 
         .. versionadded:: 0.0.6
         """
@@ -435,6 +443,9 @@ class XAList(XAObject):
         :type value: str
         :return: The matching element, if one is found
         :rtype: XAObject
+
+        .. deprecated:: 0.0.8
+           Use :func:`filter` instead.
 
         .. versionadded:: 0.0.6
         """
@@ -459,6 +470,34 @@ class XAList(XAObject):
         :type value2: Union[Any, None], optional
         :return: The filter XAList object
         :rtype: XAList
+
+        :Example 1: Get the last file sent by you (via this machine) in Messages.app
+
+        >>> import PyXA
+        >>> app = PyXA.application("Messages")
+        >>> last_file_transfer = app.file_transfers().filter("direction", "==", app.MessageDirection.OUTGOING)[-1]
+        >>> print(last_file_transfer)
+        <<class 'PyXA.apps.Messages.XAMessagesFileTransfer'>Test.jpg>
+
+        :Example 2: Get the list of favorite photos/videos from Photos.app
+
+        >>> import PyXA
+        >>> app = PyXA.application("Photos")
+        >>> favorites = app.media_items().filter("favorite", "==", True)
+        >>> print(favorites)
+        <<class 'PyXA.apps.PhotosApp.XAPhotosMediaItemList'>['CB24FE9F-E9DC-4A5C-A0B0-CC779B1CEDCE/L0/001', 'EFEB7F37-8373-4972-8E43-21612F597185/L0/001', ...]>
+
+        .. note::
+        
+           For properties that appear to be boolean but fail to return expected filter results, try using the corresponding 0 or 1 value instead.
+
+        :Example 3: Provide a custom format string
+
+        >>> import PyXA
+        >>> app = PyXA.application("Photos")
+        >>> photo = app.media_items().filter("id == 'CB24FE9F-E9DC-4A5C-A0B0-CC779B1CEDCE/L0/001'")[0]
+        >>> print(photo)
+        <<class 'PyXA.apps.PhotosApp.XAPhotosMediaItem'>id=CB24FE9F-E9DC-4A5C-A0B0-CC779B1CEDCE/L0/001>
 
         .. versionadded:: 0.0.8
         """

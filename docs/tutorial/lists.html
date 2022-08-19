@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Working With Lists &mdash; PyXA 0.0.8 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Working With The Clipboard" href="clipboard.html" />
+    <link rel="prev" title="VLC Module Overview" href="apps/vlc/index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> PyXA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../about/index.html">Project Overview</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Tutorial</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="index.html#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#basic-usage">Basic Usage</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#additional-tutorial-topics">Additional Tutorial Topics</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="apps/index.html">Application Modules</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Working With Lists</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#forcing-evaluation">Forcing Evaluation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#filters">Filters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#bulk-actions">Bulk Actions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#adding-new-elements">Adding New Elements</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="clipboard.html">Working With The Clipboard</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user_input.html">Getting User Input</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ui_scripting.html">UI Scripting With PyXA</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tips_tricks.html">Tips and Tricks</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/index.html">Code Documentation and Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bugs.html">Bugs</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">PyXA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="index.html">Tutorial</a> &raquo;</li>
+      <li>Working With Lists</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/tutorial/lists.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="working-with-lists">
+<h1>Working With Lists<a class="headerlink" href="#working-with-lists" title="Permalink to this headline"></a></h1>
+<p>PyXA uses the <code class="xref py py-class docutils literal notranslate"><span class="pre">XABase.XAList</span></code> class to enable batch operations and provide fast enumeration over scriptable objects. This wrapper class behaves like a regular list in many situations; for example, when working with an <cite>XAList</cite> object, you can use indices, slices, and iterators as you would normally. To avoid sending numerous Apple Events and causing excessive delays, <cite>XALists</cite> lazily evaluate their members – that is, they don’t retrieve their member objects until you request an object at a specific index. At that point, they send a single Apple Event, obtain a reference to the desired scriptable object, and wrap it in a PyXA-compatible class.</p>
+<p>This approach allows you to quickly access large lists of scriptable objects such as all notes, songs, or photos. As evidence: the list-fetching portion of script below takes only 64 milliseconds to complete on my machine despite me having well over 2000 notes, 2000 songs, and 8000 photos.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">music_app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;Music&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">notes_app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;Notes&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">photos_app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;Photos&quot;</span><span class="p">)</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">time_1</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tracks</span> <span class="o">=</span> <span class="n">music_app</span><span class="o">.</span><span class="n">tracks</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">notes</span> <span class="o">=</span> <span class="n">notes_app</span><span class="o">.</span><span class="n">notes</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">photos</span> <span class="o">=</span> <span class="n">photos_app</span><span class="o">.</span><span class="n">media_items</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">time_2</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">time_2</span> <span class="o">-</span> <span class="n">time_1</span><span class="p">)</span>
+<span class="go">0:00:00.063908</span>
+</pre></div>
+</div>
+<p>In addition to speed, <cite>XALists</cite> provide batch operation capabilities. When working with a list of PyXA objects, all properties of those objects can be accessed via method calls on the list wrapper class. For example, you can retrieve the plaintext of every note, the name of every Music track, or the filename of every photo by just calling the appropriate method on the associated list object. The example below illustrates the latter.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">photos_app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;Photos&quot;</span><span class="p">)</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">time_1</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">photos</span> <span class="o">=</span> <span class="n">photos_app</span><span class="o">.</span><span class="n">media_items</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">photos</span><span class="o">.</span><span class="n">filename</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">time_2</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">time_2</span> <span class="o">-</span> <span class="n">time_1</span><span class="p">)</span>
+<span class="go">[&#39;IMG_0497.PNG&#39;, &#39;IMG_4341.JPG&#39;, &#39;IMG_2482.JPG&#39;, &#39;IMG_0488.JPG&#39;, ...]</span>
+<span class="go">0:00:00.691846</span>
+</pre></div>
+</div>
+<p>As you can see, this operation is also very speedy, even for large photo collections. Using multithreaded enumeration, PyXA sends many Apple Events requesting the filename property for each photo. Since each Apple Event involves a retrieving a single unicode property, without requiring any recursive queries, the entire operation can be done in well under a second. Note that the photo objects still have yet to be fully evaluated at this point.</p>
+<section id="forcing-evaluation">
+<h2>Forcing Evaluation<a class="headerlink" href="#forcing-evaluation" title="Permalink to this headline"></a></h2>
+<p>To force evaluation of an object, request it by index or by using the <code class="xref py py-func docutils literal notranslate"><span class="pre">XAList.first()</span></code> or <code class="xref py py-func docutils literal notranslate"><span class="pre">XAList.last()</span></code> methods, or by a specialized <code class="xref py py-func docutils literal notranslate"><span class="pre">XAList.by_property()</span></code> method (such as <cite>by_filename()</cite>). The code below showcases each of these approaches:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">photos_app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;Photos&quot;</span><span class="p">)</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">time_1</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">photos</span> <span class="o">=</span> <span class="n">photos_app</span><span class="o">.</span><span class="n">media_items</span><span class="p">()</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">photo_1</span> <span class="o">=</span> <span class="n">photos</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">photo_2</span> <span class="o">=</span> <span class="n">photos</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">photo_3</span> <span class="o">=</span> <span class="n">photos</span><span class="o">.</span><span class="n">at</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">photo_4</span> <span class="o">=</span> <span class="n">photos</span><span class="o">.</span><span class="n">at</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">photo_5</span> <span class="o">=</span> <span class="n">photos</span><span class="o">.</span><span class="n">first</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">photo_6</span> <span class="o">=</span> <span class="n">photos</span><span class="o">.</span><span class="n">last</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">photo_7</span> <span class="o">=</span> <span class="n">photos</span><span class="o">.</span><span class="n">by_filename</span><span class="p">(</span><span class="s2">&quot;IMG_0497.PNG&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">time_2</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">time_2</span> <span class="o">-</span> <span class="n">time_1</span><span class="p">)</span>
+<span class="go">0:00:01.201319</span>
+</pre></div>
+</div>
+<p>This script takes a bit longer than the previous ones due to the many requests for scriptable object references. Still, the overall process remains far faster than if we didn’t do lazy evaluation at all.</p>
+<p>For comparison, if we force evaluation on each object in a list by iterating over the list, we find that getting a property value for each object takes a significant amount of time. The script below uses the iterative approach to get the name of each note, and it took almost half a minute on my machine. Attempting this form of batch operation on 8000+ photos would take an even longer time.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">notes_app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;Notes&quot;</span><span class="p">)</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">time_1</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">notes</span> <span class="o">=</span> <span class="n">notes_app</span><span class="o">.</span><span class="n">notes</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">names</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">note</span> <span class="ow">in</span> <span class="n">notes</span><span class="p">:</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">note</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">time_2</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">names</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">time_2</span> <span class="o">-</span> <span class="n">time_1</span><span class="p">)</span>
+<span class="go">[&#39;Note 1&#39;, &#39;Note 2&#39;, ...]</span>
+<span class="go">0:00:33.767063</span>
+</pre></div>
+</div>
+</section>
+<section id="filters">
+<h2>Filters<a class="headerlink" href="#filters" title="Permalink to this headline"></a></h2>
+<p>Filter methods can be used to narrow down the list of objects, thereby making iteration more feasible. The script below uses a filter to narrow the list of all tracks down to just the tracks whose artist is Adele.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">music_app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;Music&quot;</span><span class="p">)</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">time_1</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tracks</span> <span class="o">=</span> <span class="n">music_app</span><span class="o">.</span><span class="n">tracks</span><span class="p">()</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="s2">&quot;artist&quot;</span><span class="p">,</span> <span class="s2">&quot;==&quot;</span><span class="p">,</span> <span class="s2">&quot;Adele&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">time_2</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">tracks</span><span class="o">.</span><span class="n">name</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">time_2</span> <span class="o">-</span> <span class="n">time_1</span><span class="p">)</span>
+<span class="go">[&#39;Hello&#39;, &#39;Chasing Pavements&#39;, &#39;Skyfall&#39;, ...]</span>
+<span class="go">0:00:00.076569</span>
+</pre></div>
+</div>
+<p>You can use <code class="xref py py-func docutils literal notranslate"><span class="pre">XAList.by_property()</span></code> to retrieve a single object from the list based on its property values. <code class="xref py py-func docutils literal notranslate"><span class="pre">XAList.containing()</span></code> will match the first object whose property value contains a given value, while <code class="xref py py-func docutils literal notranslate"><span class="pre">XAList.by_property()</span></code> will match the first object whose property value exactly matches the given value. The example below shows these methods at work.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">music_app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;Music&quot;</span><span class="p">)</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">time_1</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tracks</span> <span class="o">=</span> <span class="n">music_app</span><span class="o">.</span><span class="n">tracks</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">track_1</span> <span class="o">=</span> <span class="n">tracks</span><span class="o">.</span><span class="n">containing</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;yfal&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">track_2</span> <span class="o">=</span> <span class="n">tracks</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;genre&quot;</span><span class="p">,</span> <span class="s2">&quot;pop&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">name_1</span> <span class="o">=</span> <span class="n">track_1</span><span class="o">.</span><span class="n">name</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">name_2</span> <span class="o">=</span> <span class="n">track_2</span><span class="o">.</span><span class="n">name</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">time_2</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">name_1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">name_2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">time_2</span> <span class="o">-</span> <span class="n">time_1</span><span class="p">)</span>
+<span class="go">Skyfall</span>
+<span class="go">Take On Me</span>
+<span class="go">0:00:00.144339</span>
+</pre></div>
+</div>
+</section>
+<section id="bulk-actions">
+<h2>Bulk Actions<a class="headerlink" href="#bulk-actions" title="Permalink to this headline"></a></h2>
+<p>In addition to improving the efficiency of automation workflows aiming to get values from numerous scriptable objects, <cite>XALists</cite> are a quick and convenient way to execute actions on many objects at a time. The available actions vary by object type. The script below uses this strategy to implement a rudimentary dark mode for Safari by setting the background of all tabs to black and their body text to white.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">safari_app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;Safari&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tabs</span> <span class="o">=</span> <span class="n">safari_app</span><span class="o">.</span><span class="n">front_window</span><span class="o">.</span><span class="n">tabs</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tabs</span><span class="o">.</span><span class="n">do_javascript</span><span class="p">(</span><span class="s2">&quot;document.body.style.backgroundColor = &#39;black&#39;; document.body.style.textColor = &#39;white&#39;;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="adding-new-elements">
+<h2>Adding New Elements<a class="headerlink" href="#adding-new-elements" title="Permalink to this headline"></a></h2>
+<p>The <code class="xref py py-func docutils literal notranslate"><span class="pre">XAList.push()</span></code> method allows you to add new elements to a scriptable object list, thereby creating a scriptable object. This can be used to create new notes, new tabs, new playlists, and so on.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">safari_app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;Safari&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">new_doc</span> <span class="o">=</span> <span class="n">safari_app</span><span class="o">.</span><span class="n">make</span><span class="p">(</span><span class="s2">&quot;tab&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;URL&quot;</span><span class="p">:</span> <span class="s2">&quot;http://www.google.com&quot;</span><span class="p">})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">safari_app</span><span class="o">.</span><span class="n">front_window</span><span class="o">.</span><span class="n">tabs</span><span class="p">()</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="n">new_doc</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="apps/vlc/index.html" class="btn btn-neutral float-left" title="VLC Module Overview" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="clipboard.html" class="btn btn-neutral float-right" title="Working With The Clipboard" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Stephen Kaplan.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

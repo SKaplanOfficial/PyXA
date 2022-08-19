@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PyXA.apps.PhotosApp &mdash; PyXA 0.0.7 documentation</title>
+  <title>PyXA.apps.PhotosApp &mdash; PyXA 0.0.8 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -39,7 +39,6 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../about/index.html">Project Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/index.html">Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/index.html#application-modules">Application Modules</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../reference/index.html">Code Documentation and Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../bugs.html">Bugs</a></li>
 </ul>
@@ -86,9 +85,10 @@
 
 <span class="kn">from</span> <span class="nn">PyXA</span> <span class="kn">import</span> <span class="n">XABase</span>
 <span class="kn">from</span> <span class="nn">PyXA</span> <span class="kn">import</span> <span class="n">XABaseScriptable</span>
+<span class="kn">from</span> <span class="nn">..XAProtocols</span> <span class="kn">import</span> <span class="n">XACanOpenPath</span><span class="p">,</span> <span class="n">XAClipboardCodable</span>
         
 
-<div class="viewcode-block" id="XAPhotosApplication"><a class="viewcode-back" href="../../../reference/apps/photos.html#PyXA.apps.PhotosApp.XAPhotosApplication">[docs]</a><span class="k">class</span> <span class="nc">XAPhotosApplication</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBApplication</span><span class="p">):</span>
+<div class="viewcode-block" id="XAPhotosApplication"><a class="viewcode-back" href="../../../reference/apps/photos.html#PyXA.apps.PhotosApp.XAPhotosApplication">[docs]</a><span class="k">class</span> <span class="nc">XAPhotosApplication</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBApplication</span><span class="p">,</span> <span class="n">XACanOpenPath</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A class for managing and interacting with Photos.app.</span>
 
 <span class="sd">    .. versionadded:: 0.0.2</span>
@@ -384,7 +384,7 @@
 
 
 
-<div class="viewcode-block" id="XAPhotosMediaItemList"><a class="viewcode-back" href="../../../reference/apps/photos.html#PyXA.apps.PhotosApp.XAPhotosMediaItemList">[docs]</a><span class="k">class</span> <span class="nc">XAPhotosMediaItemList</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAList</span><span class="p">):</span>
+<div class="viewcode-block" id="XAPhotosMediaItemList"><a class="viewcode-back" href="../../../reference/apps/photos.html#PyXA.apps.PhotosApp.XAPhotosMediaItemList">[docs]</a><span class="k">class</span> <span class="nc">XAPhotosMediaItemList</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAList</span><span class="p">,</span> <span class="n">XAClipboardCodable</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A wrapper around lists of media items that employs fast enumeration techniques.</span>
 
 <span class="sd">    All properties of media items can be called as methods on the wrapped list, returning a list containing each media item&#39;s value for the property.</span>
@@ -442,7 +442,7 @@
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.6</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;properties&quot;</span><span class="p">))</span></div>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;favorite&quot;</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="XAPhotosMediaItemList.date"><a class="viewcode-back" href="../../../reference/apps/photos.html#PyXA.apps.PhotosApp.XAPhotosMediaItemList.date">[docs]</a>    <span class="k">def</span> <span class="nf">date</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">datetime</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the date of each media item in the list.</span>
@@ -659,10 +659,22 @@
         <span class="n">loc</span> <span class="o">=</span> <span class="p">(</span><span class="n">location</span><span class="o">.</span><span class="n">latitude</span><span class="p">,</span> <span class="n">location</span><span class="o">.</span><span class="n">longitude</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;location&quot;</span><span class="p">,</span> <span class="n">loc</span><span class="p">)</span></div>
 
+<div class="viewcode-block" id="XAPhotosMediaItemList.get_clipboard_representation"><a class="viewcode-back" href="../../../reference/apps/photos.html#PyXA.apps.PhotosApp.XAPhotosMediaItemList.get_clipboard_representation">[docs]</a>    <span class="k">def</span> <span class="nf">get_clipboard_representation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">NSURL</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Gets a clipboard-codable representation of each media item in the list.</span>
+
+<span class="sd">        When the clipboard content is set to a list of media items, each item&#39;s file URL is added to the clipboard.</span>
+
+<span class="sd">        :return: A list of media item file URLs</span>
+<span class="sd">        :rtype: List[NSURL]</span>
+
+<span class="sd">        .. versionadded:: 0.0.8</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">_get_url</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">]</span></div>
+
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s2">&quot;&lt;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">())</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span></div>
 
-<div class="viewcode-block" id="XAPhotosMediaItem"><a class="viewcode-back" href="../../../reference/apps/photos.html#PyXA.apps.PhotosApp.XAPhotosMediaItem">[docs]</a><span class="k">class</span> <span class="nc">XAPhotosMediaItem</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">):</span>
+<div class="viewcode-block" id="XAPhotosMediaItem"><a class="viewcode-back" href="../../../reference/apps/photos.html#PyXA.apps.PhotosApp.XAPhotosMediaItem">[docs]</a><span class="k">class</span> <span class="nc">XAPhotosMediaItem</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">,</span> <span class="n">XAClipboardCodable</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A photo or video in Photos.app.</span>
 
 <span class="sd">    .. versionadded:: 0.0.2</span>
@@ -741,6 +753,13 @@
             <span class="n">altitude</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">altitude</span><span class="p">,</span>
         <span class="p">)</span>
 
+    <span class="k">def</span> <span class="nf">_get_url</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NSURL</span><span class="p">:</span>
+        <span class="n">home</span> <span class="o">=</span> <span class="n">NSFileManager</span><span class="o">.</span><span class="n">defaultManager</span><span class="p">()</span><span class="o">.</span><span class="n">homeDirectoryForCurrentUser</span><span class="p">()</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">home</span><span class="o">.</span><span class="n">URLByAppendingPathComponent_</span><span class="p">(</span><span class="s2">&quot;Pictures/Photos Library.photoslibrary/originals/&quot;</span><span class="p">)</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">url</span><span class="o">.</span><span class="n">URLByAppendingPathComponent_</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">url</span><span class="o">.</span><span class="n">URLByAppendingPathComponent_</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">[:</span><span class="o">-</span><span class="mi">7</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">):]</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
+        <span class="k">return</span> <span class="n">url</span>
+
 <div class="viewcode-block" id="XAPhotosMediaItem.spotlight"><a class="viewcode-back" href="../../../reference/apps/photos.html#PyXA.apps.PhotosApp.XAPhotosMediaItem.spotlight">[docs]</a>    <span class="k">def</span> <span class="nf">spotlight</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAPhotosMediaItem&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Shows the media item in the front window of Photos.app.</span>
 
@@ -767,10 +786,7 @@
 
 <span class="sd">        .. versionadded:: 0.0.2</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">home</span> <span class="o">=</span> <span class="n">NSFileManager</span><span class="o">.</span><span class="n">defaultManager</span><span class="p">()</span><span class="o">.</span><span class="n">homeDirectoryForCurrentUser</span><span class="p">()</span>
-        <span class="n">url</span> <span class="o">=</span> <span class="n">home</span><span class="o">.</span><span class="n">URLByAppendingPathComponent_</span><span class="p">(</span><span class="s2">&quot;Pictures/Photos Library.photoslibrary/originals/&quot;</span><span class="p">)</span>
-        <span class="n">url</span> <span class="o">=</span> <span class="n">url</span><span class="o">.</span><span class="n">URLByAppendingPathComponent_</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-        <span class="n">url</span> <span class="o">=</span> <span class="n">url</span><span class="o">.</span><span class="n">URLByAppendingPathComponent_</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">[:</span><span class="o">-</span><span class="mi">7</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">):]</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_url</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">xa_wksp</span><span class="o">.</span><span class="n">openURL_</span><span class="p">(</span><span class="n">url</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="XAPhotosMediaItem.reveal_in_finder"><a class="viewcode-back" href="../../../reference/apps/photos.html#PyXA.apps.PhotosApp.XAPhotosMediaItem.reveal_in_finder">[docs]</a>    <span class="k">def</span> <span class="nf">reveal_in_finder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -778,10 +794,7 @@
 
 <span class="sd">        .. versionadded:: 0.0.2</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">home</span> <span class="o">=</span> <span class="n">NSFileManager</span><span class="o">.</span><span class="n">defaultManager</span><span class="p">()</span><span class="o">.</span><span class="n">homeDirectoryForCurrentUser</span><span class="p">()</span>
-        <span class="n">url</span> <span class="o">=</span> <span class="n">home</span><span class="o">.</span><span class="n">URLByAppendingPathComponent_</span><span class="p">(</span><span class="s2">&quot;Pictures/Photos Library.photoslibrary/originals/&quot;</span><span class="p">)</span>
-        <span class="n">url</span> <span class="o">=</span> <span class="n">url</span><span class="o">.</span><span class="n">URLByAppendingPathComponent_</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-        <span class="n">url</span> <span class="o">=</span> <span class="n">url</span><span class="o">.</span><span class="n">URLByAppendingPathComponent_</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">[:</span><span class="o">-</span><span class="mi">7</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">):]</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_url</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">xa_wksp</span><span class="o">.</span><span class="n">activateFileViewerSelectingURLs_</span><span class="p">([</span><span class="n">url</span><span class="p">])</span></div>
 
 <div class="viewcode-block" id="XAPhotosMediaItem.copy_to_clipboard"><a class="viewcode-back" href="../../../reference/apps/photos.html#PyXA.apps.PhotosApp.XAPhotosMediaItem.copy_to_clipboard">[docs]</a>    <span class="k">def</span> <span class="nf">copy_to_clipboard</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -796,6 +809,18 @@
         <span class="n">img</span> <span class="o">=</span> <span class="n">NSImage</span><span class="o">.</span><span class="n">alloc</span><span class="p">()</span><span class="o">.</span><span class="n">initWithContentsOfFile_</span><span class="p">(</span><span class="n">url</span><span class="o">.</span><span class="n">path</span><span class="p">())</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">set_clipboard</span><span class="p">([</span><span class="n">url</span><span class="p">])</span></div>
 
+<div class="viewcode-block" id="XAPhotosMediaItem.get_clipboard_representation"><a class="viewcode-back" href="../../../reference/apps/photos.html#PyXA.apps.PhotosApp.XAPhotosMediaItem.get_clipboard_representation">[docs]</a>    <span class="k">def</span> <span class="nf">get_clipboard_representation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NSURL</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Gets a clipboard-codable representation of the media item.</span>
+
+<span class="sd">        When the clipboard content is set to a media item, the item&#39;s file URL is added to the clipboard.</span>
+
+<span class="sd">        :return: The media item&#39;s file URL</span>
+<span class="sd">        :rtype: NSURL</span>
+
+<span class="sd">        .. versionadded:: 0.0.8</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_url</span><span class="p">()</span></div>
+
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="s2">&quot;&lt;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="o">+</span> <span class="s2">&quot;id=&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span>
@@ -804,14 +829,14 @@
 
 
 
-<div class="viewcode-block" id="XAPhotosContainerList"><a class="viewcode-back" href="../../../reference/apps/photos.html#PyXA.apps.PhotosApp.XAPhotosContainerList">[docs]</a><span class="k">class</span> <span class="nc">XAPhotosContainerList</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAList</span><span class="p">):</span>
+<div class="viewcode-block" id="XAPhotosContainerList"><a class="viewcode-back" href="../../../reference/apps/photos.html#PyXA.apps.PhotosApp.XAPhotosContainerList">[docs]</a><span class="k">class</span> <span class="nc">XAPhotosContainerList</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAList</span><span class="p">,</span> <span class="n">XAClipboardCodable</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A wrapper around lists of containers that employs fast enumeration techniques.</span>
 
 <span class="sd">    All properties of containers can be called as methods on the wrapped list, returning a list containing each container&#39;s value for the property.</span>
 
 <span class="sd">    .. versionadded:: 0.0.6</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">obj_class</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">obj_class</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">obj_class</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">obj_class</span> <span class="o">=</span> <span class="n">XAPhotosContainer</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">obj_class</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
@@ -897,10 +922,22 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;parent&quot;</span><span class="p">,</span> <span class="n">parent</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span></div>
 
+<div class="viewcode-block" id="XAPhotosContainerList.get_clipboard_representation"><a class="viewcode-back" href="../../../reference/apps/photos.html#PyXA.apps.PhotosApp.XAPhotosContainerList.get_clipboard_representation">[docs]</a>    <span class="k">def</span> <span class="nf">get_clipboard_representation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Gets a clipboard-codable representation of each container in the list.</span>
+
+<span class="sd">        When the clipboard content is set to a list of containers, each containers&#39;s name is added to the clipboard.</span>
+
+<span class="sd">        :return: The container&#39;s name</span>
+<span class="sd">        :rtype: str</span>
+
+<span class="sd">        .. versionadded:: 0.0.8</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">()</span></div>
+
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s2">&quot;&lt;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">())</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span></div>
 
-<div class="viewcode-block" id="XAPhotosContainer"><a class="viewcode-back" href="../../../reference/apps/photos.html#PyXA.apps.PhotosApp.XAPhotosContainer">[docs]</a><span class="k">class</span> <span class="nc">XAPhotosContainer</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">):</span>
+<div class="viewcode-block" id="XAPhotosContainer"><a class="viewcode-back" href="../../../reference/apps/photos.html#PyXA.apps.PhotosApp.XAPhotosContainer">[docs]</a><span class="k">class</span> <span class="nc">XAPhotosContainer</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">,</span> <span class="n">XAClipboardCodable</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A class for...</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
@@ -938,6 +975,18 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">spotlight</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
+<div class="viewcode-block" id="XAPhotosContainer.get_clipboard_representation"><a class="viewcode-back" href="../../../reference/apps/photos.html#PyXA.apps.PhotosApp.XAPhotosContainer.get_clipboard_representation">[docs]</a>    <span class="k">def</span> <span class="nf">get_clipboard_representation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Gets a clipboard-codable representation of the container.</span>
+
+<span class="sd">        When the clipboard content is set to a container, the containers&#39;s name is added to the clipboard.</span>
+
+<span class="sd">        :return: The container&#39;s name</span>
+<span class="sd">        :rtype: str</span>
+
+<span class="sd">        .. versionadded:: 0.0.8</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span></div>
+
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s2">&quot;&lt;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;, id=&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span></div>
 
@@ -952,7 +1001,7 @@
 <span class="sd">    .. versionadded:: 0.0.6</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">XAPhotosAlbum</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XAPhotosAlbum</span><span class="p">)</span>
 
 <div class="viewcode-block" id="XAPhotosAlbumList.push"><a class="viewcode-back" href="../../../reference/apps/photos.html#PyXA.apps.PhotosApp.XAPhotosAlbumList.push">[docs]</a>    <span class="k">def</span> <span class="nf">push</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">container</span><span class="p">:</span> <span class="s1">&#39;XAPhotosContainer&#39;</span><span class="p">):</span>
         <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;New Album&quot;</span>
@@ -993,7 +1042,7 @@
 <span class="sd">    .. versionadded:: 0.0.6</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">XAPhotosFolder</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XAPhotosFolder</span><span class="p">)</span>
 
 <div class="viewcode-block" id="XAPhotosFolderList.push"><a class="viewcode-back" href="../../../reference/apps/photos.html#PyXA.apps.PhotosApp.XAPhotosFolderList.push">[docs]</a>    <span class="k">def</span> <span class="nf">push</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">container</span><span class="p">:</span> <span class="s1">&#39;XAPhotosContainer&#39;</span><span class="p">):</span>
         <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;New Folder&quot;</span>

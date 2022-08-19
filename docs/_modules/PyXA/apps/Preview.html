@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PyXA.apps.Preview &mdash; PyXA 0.0.7 documentation</title>
+  <title>PyXA.apps.Preview &mdash; PyXA 0.0.8 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -39,7 +39,6 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../about/index.html">Project Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/index.html">Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/index.html#application-modules">Application Modules</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../reference/index.html">Code Documentation and Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../bugs.html">Bugs</a></li>
 </ul>
@@ -80,27 +79,15 @@
 
 <span class="kn">from</span> <span class="nn">PyXA</span> <span class="kn">import</span> <span class="n">XABase</span>
 <span class="kn">from</span> <span class="nn">PyXA</span> <span class="kn">import</span> <span class="n">XABaseScriptable</span>
+<span class="kn">from</span> <span class="nn">..XAProtocols</span> <span class="kn">import</span> <span class="n">XACanOpenPath</span><span class="p">,</span> <span class="n">XAClipboardCodable</span><span class="p">,</span> <span class="n">XACloseable</span><span class="p">,</span> <span class="n">XAPrintable</span>
 
-<div class="viewcode-block" id="XAPreviewApplication"><a class="viewcode-back" href="../../../reference/apps/preview.html#PyXA.apps.Preview.XAPreviewApplication">[docs]</a><span class="k">class</span> <span class="nc">XAPreviewApplication</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBApplication</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XACanConstructElement</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAAcceptsPushedElements</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XACanOpenPath</span><span class="p">):</span>
+<div class="viewcode-block" id="XAPreviewApplication"><a class="viewcode-back" href="../../../reference/apps/preview.html#PyXA.apps.Preview.XAPreviewApplication">[docs]</a><span class="k">class</span> <span class="nc">XAPreviewApplication</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBApplication</span><span class="p">,</span> <span class="n">XACanOpenPath</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A class for managing and interacting with Preview.app.</span>
 
 <span class="sd">    .. seealso:: :class:`XAPreviewWindow`, :class:`XAPreviewDocument`</span>
 
 <span class="sd">    .. versionadded:: 0.0.1</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-<div class="viewcode-block" id="XAPreviewApplication.SaveOption"><a class="viewcode-back" href="../../../reference/apps/preview.html#PyXA.apps.Preview.XAPreviewApplication.SaveOption">[docs]</a>    <span class="k">class</span> <span class="nc">SaveOption</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Options for the saving procedure when closing documents.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">ASK</span> <span class="o">=</span> <span class="n">XABase</span><span class="o">.</span><span class="n">OSType</span><span class="p">(</span><span class="s1">&#39;ask &#39;</span><span class="p">)</span> <span class="c1">#: Prompt the user whether to save the file</span>
-        <span class="n">NO</span>  <span class="o">=</span> <span class="n">XABase</span><span class="o">.</span><span class="n">OSType</span><span class="p">(</span><span class="s1">&#39;no  &#39;</span><span class="p">)</span> <span class="c1">#: Do not save the file</span>
-        <span class="n">YES</span> <span class="o">=</span> <span class="n">XABase</span><span class="o">.</span><span class="n">OSType</span><span class="p">(</span><span class="s1">&#39;yes &#39;</span><span class="p">)</span> <span class="c1">#: Save the file</span></div>
-
-<div class="viewcode-block" id="XAPreviewApplication.PrintErrorHandling"><a class="viewcode-back" href="../../../reference/apps/preview.html#PyXA.apps.Preview.XAPreviewApplication.PrintErrorHandling">[docs]</a>    <span class="k">class</span> <span class="nc">PrintErrorHandling</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Options for how to handle errors while printing.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">STANDARD</span> <span class="o">=</span> <span class="s1">&#39;lwst&#39;</span> <span class="c1">#: Standard PostScript error handling</span>
-        <span class="n">DETAILED</span> <span class="o">=</span> <span class="s1">&#39;lwdt&#39;</span> <span class="c1">#: Print a detailed report of PostScript errors</span></div>
-
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">xa_wcls</span> <span class="o">=</span> <span class="n">XAPreviewWindow</span>
@@ -247,7 +234,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">zoomable</span><span class="p">()</span></div>
 
 
-<div class="viewcode-block" id="XAPreviewDocumentList"><a class="viewcode-back" href="../../../reference/apps/preview.html#PyXA.apps.Preview.XAPreviewDocumentList">[docs]</a><span class="k">class</span> <span class="nc">XAPreviewDocumentList</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAList</span><span class="p">):</span>
+<div class="viewcode-block" id="XAPreviewDocumentList"><a class="viewcode-back" href="../../../reference/apps/preview.html#PyXA.apps.Preview.XAPreviewDocumentList">[docs]</a><span class="k">class</span> <span class="nc">XAPreviewDocumentList</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAList</span><span class="p">,</span> <span class="n">XAClipboardCodable</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A wrapper around lists of documents that employs fast enumeration techniques.</span>
 
 <span class="sd">    All properties of documents can be called as methods on the wrapped list, returning a list containing each documents&#39;s value for the property.</span>
@@ -263,8 +250,9 @@
 <div class="viewcode-block" id="XAPreviewDocumentList.name"><a class="viewcode-back" href="../../../reference/apps/preview.html#PyXA.apps.Preview.XAPreviewDocumentList.name">[docs]</a>    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="XAPreviewDocumentList.path"><a class="viewcode-back" href="../../../reference/apps/preview.html#PyXA.apps.Preview.XAPreviewDocumentList.path">[docs]</a>    <span class="k">def</span> <span class="nf">path</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;path&quot;</span><span class="p">))</span></div>
+<div class="viewcode-block" id="XAPreviewDocumentList.path"><a class="viewcode-back" href="../../../reference/apps/preview.html#PyXA.apps.Preview.XAPreviewDocumentList.path">[docs]</a>    <span class="k">def</span> <span class="nf">path</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAPath</span><span class="p">]:</span>
+        <span class="n">ls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;path&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAPath</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">ls</span><span class="p">]</span></div>
 
 <div class="viewcode-block" id="XAPreviewDocumentList.modified"><a class="viewcode-back" href="../../../reference/apps/preview.html#PyXA.apps.Preview.XAPreviewDocumentList.modified">[docs]</a>    <span class="k">def</span> <span class="nf">modified</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;modified&quot;</span><span class="p">))</span></div>
@@ -275,16 +263,29 @@
 <div class="viewcode-block" id="XAPreviewDocumentList.by_name"><a class="viewcode-back" href="../../../reference/apps/preview.html#PyXA.apps.Preview.XAPreviewDocumentList.by_name">[docs]</a>    <span class="k">def</span> <span class="nf">by_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAPreviewDocument&#39;</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="XAPreviewDocumentList.by_path"><a class="viewcode-back" href="../../../reference/apps/preview.html#PyXA.apps.Preview.XAPreviewDocumentList.by_path">[docs]</a>    <span class="k">def</span> <span class="nf">by_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAPreviewDocument&#39;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;path&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span></div>
+<div class="viewcode-block" id="XAPreviewDocumentList.by_path"><a class="viewcode-back" href="../../../reference/apps/preview.html#PyXA.apps.Preview.XAPreviewDocumentList.by_path">[docs]</a>    <span class="k">def</span> <span class="nf">by_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAPath</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAPreviewDocument&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;path&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="XAPreviewDocumentList.by_modified"><a class="viewcode-back" href="../../../reference/apps/preview.html#PyXA.apps.Preview.XAPreviewDocumentList.by_modified">[docs]</a>    <span class="k">def</span> <span class="nf">by_modified</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">modified</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAPreviewDocument&#39;</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;modified&quot;</span><span class="p">,</span> <span class="n">modified</span><span class="p">)</span></div>
 
+<div class="viewcode-block" id="XAPreviewDocumentList.get_clipboard_representation"><a class="viewcode-back" href="../../../reference/apps/preview.html#PyXA.apps.Preview.XAPreviewDocumentList.get_clipboard_representation">[docs]</a>    <span class="k">def</span> <span class="nf">get_clipboard_representation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">NSURL</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Gets a clipboard-codable representation of each document in the list.</span>
+
+<span class="sd">        When the clipboard content is set to a document, each documents&#39;s file URL is added to the clipboard.</span>
+
+<span class="sd">        :return: The document&#39;s file URL</span>
+<span class="sd">        :rtype: List[NSURL]</span>
+
+<span class="sd">        .. versionadded:: 0.0.8</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">paths</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">()</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">xa_elem</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">paths</span><span class="p">]</span></div>
+
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s2">&quot;&lt;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">())</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span></div>
     
-<div class="viewcode-block" id="XAPreviewDocument"><a class="viewcode-back" href="../../../reference/apps/preview.html#PyXA.apps.Preview.XAPreviewDocument">[docs]</a><span class="k">class</span> <span class="nc">XAPreviewDocument</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XACanConstructElement</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAAcceptsPushedElements</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XATextDocument</span><span class="p">,</span> <span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBPrintable</span><span class="p">):</span>
+<div class="viewcode-block" id="XAPreviewDocument"><a class="viewcode-back" href="../../../reference/apps/preview.html#PyXA.apps.Preview.XAPreviewDocument">[docs]</a><span class="k">class</span> <span class="nc">XAPreviewDocument</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XATextDocument</span><span class="p">,</span> <span class="n">XAPrintable</span><span class="p">,</span> <span class="n">XACloseable</span><span class="p">,</span> <span class="n">XAClipboardCodable</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A class for managing and interacting with documents in Preview.</span>
 
 <span class="sd">    .. seealso:: :class:`XAPreviewApplication`</span>
@@ -307,28 +308,29 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">name</span><span class="p">()</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">path</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">path</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">path</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAPath</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAPath</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">path</span><span class="p">())</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">modified</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">modified</span><span class="p">()</span>
 
-<div class="viewcode-block" id="XAPreviewDocument.close"><a class="viewcode-back" href="../../../reference/apps/preview.html#PyXA.apps.Preview.XAPreviewDocument.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">save</span><span class="p">:</span> <span class="n">XAPreviewApplication</span><span class="o">.</span><span class="n">SaveOption</span> <span class="o">=</span> <span class="n">XAPreviewApplication</span><span class="o">.</span><span class="n">SaveOption</span><span class="o">.</span><span class="n">YES</span><span class="p">,</span> <span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Closes the document, optionally saving it.</span>
+<div class="viewcode-block" id="XAPreviewDocument.print"><a class="viewcode-back" href="../../../reference/apps/preview.html#PyXA.apps.Preview.XAPreviewDocument.print">[docs]</a>    <span class="k">def</span> <span class="nf">print</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">print_properties</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">show_dialog</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAPreviewDocument&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Prints the document.</span>
 
-<span class="sd">        :Example 1: Save and close a document</span>
+<span class="sd">        :param print_properties: Properties to set for printing, defaults to None</span>
+<span class="sd">        :type print_properties: Union[dict, None], optional</span>
+<span class="sd">        :param show_dialog: Whether to show the print dialog, defaults to True</span>
+<span class="sd">        :type show_dialog: bool, optional</span>
+<span class="sd">        :return: The document object</span>
+<span class="sd">        :rtype: XAPreviewDocument</span>
 
-<span class="sd">        &gt;&gt;&gt; import PyXA</span>
-<span class="sd">        &gt;&gt;&gt; app = PyXA.application(&quot;Preview&quot;)</span>
-<span class="sd">        &gt;&gt;&gt; doc = app.documents()[0]</span>
-<span class="sd">        &gt;&gt;&gt; doc.close()</span>
-<span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">file_path</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">file_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">closeSaving_savingIn_</span><span class="p">(</span><span class="n">save</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">file_path</span><span class="p">)</span></div>
+        <span class="k">if</span> <span class="n">print_properties</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">print_properties</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">print_printDialog_withProperties_</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">,</span> <span class="n">show_dialog</span><span class="p">,</span> <span class="n">print_properties</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
 
 <div class="viewcode-block" id="XAPreviewDocument.save"><a class="viewcode-back" href="../../../reference/apps/preview.html#PyXA.apps.Preview.XAPreviewDocument.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Saves the document.</span>
@@ -347,6 +349,17 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">saveAs_in_</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">file_path</span><span class="p">)</span></div>
 
+<div class="viewcode-block" id="XAPreviewDocument.get_clipboard_representation"><a class="viewcode-back" href="../../../reference/apps/preview.html#PyXA.apps.Preview.XAPreviewDocument.get_clipboard_representation">[docs]</a>    <span class="k">def</span> <span class="nf">get_clipboard_representation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NSURL</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Gets a clipboard-codable representation of the document.</span>
+
+<span class="sd">        When the clipboard content is set to a document, the documents&#39;s file URL is added to the clipboard.</span>
+
+<span class="sd">        :return: The document&#39;s file URL</span>
+<span class="sd">        :rtype: NSURL</span>
+
+<span class="sd">        .. versionadded:: 0.0.8</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">xa_elem</span></div>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span></div>

@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>FontBook Module Reference &mdash; PyXA 0.0.7 documentation</title>
+  <title>FontBook Module Reference &mdash; PyXA 0.0.8 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
@@ -42,7 +42,6 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../about/index.html">Project Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorial/index.html">Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../tutorial/index.html#application-modules">Application Modules</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../index.html">Code Documentation and Reference</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../index.html#top-level-pyxa-modules">Top-level PyXA Modules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../index.html#pyxa-base-modules">PyXA Base Modules</a></li>
@@ -61,6 +60,7 @@
 <li class="toctree-l3"><a class="reference internal" href="messages.html">Messages Module Reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="music.html">Music Module Reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="notes.html">Notes Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="numbers.html">Numbers Module Reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pages.html">Pages Module Reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="photos.html">Photos Module Reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="preview.html">Preview Module Reference</a></li>
@@ -368,7 +368,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.FontBook.XAFontBookDocument">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.FontBook.</span></span><span class="sig-name descname"><span class="pre">XAFontBookDocument</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/FontBook.html#XAFontBookDocument"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.FontBook.XAFontBookDocument" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XASBObject" title="PyXA.XABaseScriptable.XASBObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABaseScriptable.XASBObject</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAObject</span></code></a></p>
 <p>A class for managing and interacting with documents in Font Book.app.</p>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
@@ -500,7 +500,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.FontBook.XAFontBookFontCollection">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.FontBook.</span></span><span class="sig-name descname"><span class="pre">XAFontBookFontCollection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/FontBook.html#XAFontBookFontCollection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.FontBook.XAFontBookFontCollection" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XASBObject" title="PyXA.XABaseScriptable.XASBObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABaseScriptable.XASBObject</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAObject</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XAProtocols.XAClipboardCodable</span></code></p>
 <p>A class for managing and interacting with font collections in Font Book.app.</p>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
@@ -543,7 +543,10 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookFontCollection.font_families" title="PyXA.apps.FontBook.XAFontBookFontCollection.font_families"><code class="xref py py-obj docutils literal notranslate"><span class="pre">font_families</span></code></a>([filter])</p></td>
 <td><p>Returns a list of font families matching the filter.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookFontCollection.typefaces" title="PyXA.apps.FontBook.XAFontBookFontCollection.typefaces"><code class="xref py py-obj docutils literal notranslate"><span class="pre">typefaces</span></code></a>([filter])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookFontCollection.get_clipboard_representation" title="PyXA.apps.FontBook.XAFontBookFontCollection.get_clipboard_representation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_clipboard_representation</span></code></a>()</p></td>
+<td><p>Gets a clipboard-codable representation of the collection.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookFontCollection.typefaces" title="PyXA.apps.FontBook.XAFontBookFontCollection.typefaces"><code class="xref py py-obj docutils literal notranslate"><span class="pre">typefaces</span></code></a>([filter])</p></td>
 <td><p>Returns a list of typefaces matching the filter.</p></td>
 </tr>
 </tbody>
@@ -575,6 +578,24 @@
 </div>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.FontBook.XAFontBookFontCollection.get_clipboard_representation">
+<span class="sig-name descname"><span class="pre">get_clipboard_representation</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/FontBook.html#XAFontBookFontCollection.get_clipboard_representation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.FontBook.XAFontBookFontCollection.get_clipboard_representation" title="Permalink to this definition"></a></dt>
+<dd><p>Gets a clipboard-codable representation of the collection.</p>
+<p>When the clipboard content is set to a collection, the name of the collection is added to the clipboard.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The name of the collection</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.8.</span></p>
+</div>
+</dd></dl>
+
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.FontBook.XAFontBookFontCollection.name">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.FontBook.XAFontBookFontCollection.name" title="Permalink to this definition"></a></dt>
@@ -600,8 +621,8 @@
 
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.FontBook.XAFontBookFontCollectionList">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.FontBook.</span></span><span class="sig-name descname"><span class="pre">XAFontBookFontCollectionList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obj_class</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/FontBook.html#XAFontBookFontCollectionList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.FontBook.XAFontBookFontCollectionList" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAList" title="PyXA.XABase.XAList"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAList</span></code></a></p>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.FontBook.</span></span><span class="sig-name descname"><span class="pre">XAFontBookFontCollectionList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obj_class</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/FontBook.html#XAFontBookFontCollectionList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.FontBook.XAFontBookFontCollectionList" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAList" title="PyXA.XABase.XAList"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAList</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XAProtocols.XAClipboardCodable</span></code></p>
 <p>A wrapper around lists of Font Book font containers that employs fast enumeration techniques.</p>
 <p>All properties of font containers can be called as methods on the wrapped list, returning a list containing each container’s value for the property.</p>
 <div class="versionadded">
@@ -638,10 +659,13 @@
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookFontCollectionList.enabled" title="PyXA.apps.FontBook.XAFontBookFontCollectionList.enabled"><code class="xref py py-obj docutils literal notranslate"><span class="pre">enabled</span></code></a>()</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookFontCollectionList.name" title="PyXA.apps.FontBook.XAFontBookFontCollectionList.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookFontCollectionList.get_clipboard_representation" title="PyXA.apps.FontBook.XAFontBookFontCollectionList.get_clipboard_representation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_clipboard_representation</span></code></a>()</p></td>
+<td><p>Gets a clipboard-codable representation of each collection in the list.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookFontCollectionList.name" title="PyXA.apps.FontBook.XAFontBookFontCollectionList.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a>()</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookFontCollectionList.properties" title="PyXA.apps.FontBook.XAFontBookFontCollectionList.properties"><code class="xref py py-obj docutils literal notranslate"><span class="pre">properties</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookFontCollectionList.properties" title="PyXA.apps.FontBook.XAFontBookFontCollectionList.properties"><code class="xref py py-obj docutils literal notranslate"><span class="pre">properties</span></code></a>()</p></td>
 <td><p></p></td>
 </tr>
 </tbody>
@@ -687,6 +711,24 @@
 <dd></dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.FontBook.XAFontBookFontCollectionList.get_clipboard_representation">
+<span class="sig-name descname"><span class="pre">get_clipboard_representation</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/FontBook.html#XAFontBookFontCollectionList.get_clipboard_representation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.FontBook.XAFontBookFontCollectionList.get_clipboard_representation" title="Permalink to this definition"></a></dt>
+<dd><p>Gets a clipboard-codable representation of each collection in the list.</p>
+<p>When the clipboard content is set to a list of collections, the name of each collection is added to the clipboard.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The list of collection names</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>List[str]</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.8.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.FontBook.XAFontBookFontCollectionList.name">
 <span class="sig-name descname"><span class="pre">name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/FontBook.html#XAFontBookFontCollectionList.name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.FontBook.XAFontBookFontCollectionList.name" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
@@ -701,7 +743,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.FontBook.XAFontBookFontContainer">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.FontBook.</span></span><span class="sig-name descname"><span class="pre">XAFontBookFontContainer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/FontBook.html#XAFontBookFontContainer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.FontBook.XAFontBookFontContainer" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XASBObject" title="PyXA.XABaseScriptable.XASBObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABaseScriptable.XASBObject</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAObject</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XAProtocols.XAClipboardCodable</span></code></p>
 <p>A class for managing and interacting with font containers in Font Book.app.</p>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
@@ -750,7 +792,10 @@
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookFontContainer.font_families" title="PyXA.apps.FontBook.XAFontBookFontContainer.font_families"><code class="xref py py-obj docutils literal notranslate"><span class="pre">font_families</span></code></a>([filter])</p></td>
 <td><p>Returns a list of font families matching the filter.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookFontContainer.typefaces" title="PyXA.apps.FontBook.XAFontBookFontContainer.typefaces"><code class="xref py py-obj docutils literal notranslate"><span class="pre">typefaces</span></code></a>([filter])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookFontContainer.get_clipboard_representation" title="PyXA.apps.FontBook.XAFontBookFontContainer.get_clipboard_representation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_clipboard_representation</span></code></a>()</p></td>
+<td><p>Gets a clipboard-codable representation of the container.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookFontContainer.typefaces" title="PyXA.apps.FontBook.XAFontBookFontContainer.typefaces"><code class="xref py py-obj docutils literal notranslate"><span class="pre">typefaces</span></code></a>([filter])</p></td>
 <td><p>Returns a list of typefaces matching the filter.</p></td>
 </tr>
 </tbody>
@@ -782,6 +827,24 @@
 <dd><p>Returns a list of font families matching the filter.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.6.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.FontBook.XAFontBookFontContainer.get_clipboard_representation">
+<span class="sig-name descname"><span class="pre">get_clipboard_representation</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/FontBook.html#XAFontBookFontContainer.get_clipboard_representation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.FontBook.XAFontBookFontContainer.get_clipboard_representation" title="Permalink to this definition"></a></dt>
+<dd><p>Gets a clipboard-codable representation of the container.</p>
+<p>When the clipboard content is set to a container, the name of the container is added to the clipboard.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The name of the container</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.8.</span></p>
 </div>
 </dd></dl>
 
@@ -823,7 +886,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.FontBook.XAFontBookFontContainerList">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.FontBook.</span></span><span class="sig-name descname"><span class="pre">XAFontBookFontContainerList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/FontBook.html#XAFontBookFontContainerList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.FontBook.XAFontBookFontContainerList" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAList" title="PyXA.XABase.XAList"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAList</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAList" title="PyXA.XABase.XAList"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAList</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XAProtocols.XAClipboardCodable</span></code></p>
 <p>A wrapper around lists of Font Book font containers that employs fast enumeration techniques.</p>
 <p>All properties of font containers can be called as methods on the wrapped list, returning a list containing each container’s value for the property.</p>
 <div class="versionadded">
@@ -860,16 +923,19 @@
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookFontContainerList.files" title="PyXA.apps.FontBook.XAFontBookFontContainerList.files"><code class="xref py py-obj docutils literal notranslate"><span class="pre">files</span></code></a>()</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookFontContainerList.id" title="PyXA.apps.FontBook.XAFontBookFontContainerList.id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">id</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookFontContainerList.get_clipboard_representation" title="PyXA.apps.FontBook.XAFontBookFontContainerList.get_clipboard_representation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_clipboard_representation</span></code></a>()</p></td>
+<td><p>Gets a clipboard-codable representation of each container in the list.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookFontContainerList.id" title="PyXA.apps.FontBook.XAFontBookFontContainerList.id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">id</span></code></a>()</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookFontContainerList.name" title="PyXA.apps.FontBook.XAFontBookFontContainerList.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookFontContainerList.name" title="PyXA.apps.FontBook.XAFontBookFontContainerList.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a>()</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookFontContainerList.path" title="PyXA.apps.FontBook.XAFontBookFontContainerList.path"><code class="xref py py-obj docutils literal notranslate"><span class="pre">path</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookFontContainerList.path" title="PyXA.apps.FontBook.XAFontBookFontContainerList.path"><code class="xref py py-obj docutils literal notranslate"><span class="pre">path</span></code></a>()</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookFontContainerList.properties" title="PyXA.apps.FontBook.XAFontBookFontContainerList.properties"><code class="xref py py-obj docutils literal notranslate"><span class="pre">properties</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookFontContainerList.properties" title="PyXA.apps.FontBook.XAFontBookFontContainerList.properties"><code class="xref py py-obj docutils literal notranslate"><span class="pre">properties</span></code></a>()</p></td>
 <td><p></p></td>
 </tr>
 </tbody>
@@ -913,6 +979,24 @@
 <dt class="sig sig-object py" id="PyXA.apps.FontBook.XAFontBookFontContainerList.files">
 <span class="sig-name descname"><span class="pre">files</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAPath" title="PyXA.XABase.XAPath"><span class="pre">PyXA.XABase.XAPath</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/FontBook.html#XAFontBookFontContainerList.files"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.FontBook.XAFontBookFontContainerList.files" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.FontBook.XAFontBookFontContainerList.get_clipboard_representation">
+<span class="sig-name descname"><span class="pre">get_clipboard_representation</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/FontBook.html#XAFontBookFontContainerList.get_clipboard_representation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.FontBook.XAFontBookFontContainerList.get_clipboard_representation" title="Permalink to this definition"></a></dt>
+<dd><p>Gets a clipboard-codable representation of each container in the list.</p>
+<p>When the clipboard content is set to a list of containers, the name of each container is added to the clipboard.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The list of container names</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>List[str]</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.8.</span></p>
+</div>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.FontBook.XAFontBookFontContainerList.id">
@@ -964,7 +1048,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.FontBook.XAFontBookFontFamily">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.FontBook.</span></span><span class="sig-name descname"><span class="pre">XAFontBookFontFamily</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/FontBook.html#XAFontBookFontFamily"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.FontBook.XAFontBookFontFamily" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XASBObject" title="PyXA.XABaseScriptable.XASBObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABaseScriptable.XASBObject</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAObject</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XAProtocols.XAClipboardCodable</span></code></p>
 <p>A class for managing and interacting with font families in Font Book.app.</p>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
@@ -983,7 +1067,10 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookFontFamily.delete" title="PyXA.apps.FontBook.XAFontBookFontFamily.delete"><code class="xref py py-obj docutils literal notranslate"><span class="pre">delete</span></code></a>()</p></td>
 <td><p>Permanently deletes the typeface.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookFontFamily.typefaces" title="PyXA.apps.FontBook.XAFontBookFontFamily.typefaces"><code class="xref py py-obj docutils literal notranslate"><span class="pre">typefaces</span></code></a>([filter])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookFontFamily.get_clipboard_representation" title="PyXA.apps.FontBook.XAFontBookFontFamily.get_clipboard_representation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_clipboard_representation</span></code></a>()</p></td>
+<td><p>Gets a clipboard-codable representation of the font family.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookFontFamily.typefaces" title="PyXA.apps.FontBook.XAFontBookFontFamily.typefaces"><code class="xref py py-obj docutils literal notranslate"><span class="pre">typefaces</span></code></a>([filter])</p></td>
 <td><p>Returns a list of typefaces matching the filter.</p></td>
 </tr>
 </tbody>
@@ -1057,6 +1144,24 @@
 <dd><p>The font files of the font family</p>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.FontBook.XAFontBookFontFamily.get_clipboard_representation">
+<span class="sig-name descname"><span class="pre">get_clipboard_representation</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/FontBook.html#XAFontBookFontFamily.get_clipboard_representation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.FontBook.XAFontBookFontFamily.get_clipboard_representation" title="Permalink to this definition"></a></dt>
+<dd><p>Gets a clipboard-codable representation of the font family.</p>
+<p>When the clipboard content is set to a font family, the name of the font family is added to the clipboard.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The name of the font family</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.8.</span></p>
+</div>
+</dd></dl>
+
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.FontBook.XAFontBookFontFamily.name">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.FontBook.XAFontBookFontFamily.name" title="Permalink to this definition"></a></dt>
@@ -1083,7 +1188,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.FontBook.XAFontBookFontFamilyList">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.FontBook.</span></span><span class="sig-name descname"><span class="pre">XAFontBookFontFamilyList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/FontBook.html#XAFontBookFontFamilyList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.FontBook.XAFontBookFontFamilyList" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAList" title="PyXA.XABase.XAList"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAList</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAList" title="PyXA.XABase.XAList"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAList</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XAProtocols.XAClipboardCodable</span></code></p>
 <p>A wrapper around lists of Font Book font families that employs fast enumeration techniques.</p>
 <p>All properties of font families can be called as methods on the wrapped list, returning a list containing each font family’s value for the property.</p>
 <div class="versionadded">
@@ -1132,10 +1237,13 @@
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookFontFamilyList.files" title="PyXA.apps.FontBook.XAFontBookFontFamilyList.files"><code class="xref py py-obj docutils literal notranslate"><span class="pre">files</span></code></a>()</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookFontFamilyList.name" title="PyXA.apps.FontBook.XAFontBookFontFamilyList.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookFontFamilyList.get_clipboard_representation" title="PyXA.apps.FontBook.XAFontBookFontFamilyList.get_clipboard_representation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_clipboard_representation</span></code></a>()</p></td>
+<td><p>Gets a clipboard-codable representation of each font family in the list.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookFontFamilyList.name" title="PyXA.apps.FontBook.XAFontBookFontFamilyList.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a>()</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookFontFamilyList.properties" title="PyXA.apps.FontBook.XAFontBookFontFamilyList.properties"><code class="xref py py-obj docutils literal notranslate"><span class="pre">properties</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookFontFamilyList.properties" title="PyXA.apps.FontBook.XAFontBookFontFamilyList.properties"><code class="xref py py-obj docutils literal notranslate"><span class="pre">properties</span></code></a>()</p></td>
 <td><p></p></td>
 </tr>
 </tbody>
@@ -1199,6 +1307,24 @@
 <dt class="sig sig-object py" id="PyXA.apps.FontBook.XAFontBookFontFamilyList.files">
 <span class="sig-name descname"><span class="pre">files</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAPath" title="PyXA.XABase.XAPath"><span class="pre">PyXA.XABase.XAPath</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/FontBook.html#XAFontBookFontFamilyList.files"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.FontBook.XAFontBookFontFamilyList.files" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.FontBook.XAFontBookFontFamilyList.get_clipboard_representation">
+<span class="sig-name descname"><span class="pre">get_clipboard_representation</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/FontBook.html#XAFontBookFontFamilyList.get_clipboard_representation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.FontBook.XAFontBookFontFamilyList.get_clipboard_representation" title="Permalink to this definition"></a></dt>
+<dd><p>Gets a clipboard-codable representation of each font family in the list.</p>
+<p>When the clipboard content is set to a list of font families, the name of each font family is added to the clipboard.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The list of font family names</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>List[str]</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.8.</span></p>
+</div>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.FontBook.XAFontBookFontFamilyList.name">
@@ -1279,7 +1405,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.FontBook.XAFontBookTypeface">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.FontBook.</span></span><span class="sig-name descname"><span class="pre">XAFontBookTypeface</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/FontBook.html#XAFontBookTypeface"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.FontBook.XAFontBookTypeface" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XASBObject" title="PyXA.XABaseScriptable.XASBObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABaseScriptable.XASBObject</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAObject</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XAProtocols.XAClipboardCodable</span></code></p>
 <p>A class for managing and interacting with typefaces in Font Book.app.</p>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
@@ -1339,6 +1465,18 @@
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookTypeface.style_name" title="PyXA.apps.FontBook.XAFontBookTypeface.style_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">style_name</span></code></a></p></td>
 <td><p>The name of the typeface's style</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Methods:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookTypeface.get_clipboard_representation" title="PyXA.apps.FontBook.XAFontBookTypeface.get_clipboard_representation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_clipboard_representation</span></code></a>()</p></td>
+<td><p>Gets a clipboard-codable representation of the typeface.</p></td>
 </tr>
 </tbody>
 </table>
@@ -1402,6 +1540,24 @@
 <dd><p>The type of the typeface</p>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.FontBook.XAFontBookTypeface.get_clipboard_representation">
+<span class="sig-name descname"><span class="pre">get_clipboard_representation</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/FontBook.html#XAFontBookTypeface.get_clipboard_representation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.FontBook.XAFontBookTypeface.get_clipboard_representation" title="Permalink to this definition"></a></dt>
+<dd><p>Gets a clipboard-codable representation of the typeface.</p>
+<p>When the clipboard content is set to a typeface, the name of the typeface is added to the clipboard.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The name of the typeface</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.8.</span></p>
+</div>
+</dd></dl>
+
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.FontBook.XAFontBookTypeface.id">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.FontBook.XAFontBookTypeface.id" title="Permalink to this definition"></a></dt>
@@ -1437,7 +1593,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.FontBook.XAFontBookTypefaceList">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.FontBook.</span></span><span class="sig-name descname"><span class="pre">XAFontBookTypefaceList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/FontBook.html#XAFontBookTypefaceList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.FontBook.XAFontBookTypefaceList" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAList" title="PyXA.XABase.XAList"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAList</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAList" title="PyXA.XABase.XAList"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAList</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XAProtocols.XAClipboardCodable</span></code></p>
 <p>A wrapper around lists of Font Book documents that employs fast enumeration techniques.</p>
 <p>All properties of documents can be called as methods on the wrapped list, returning a list containing each document’s value for the property.</p>
 <div class="versionadded">
@@ -1525,19 +1681,22 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookTypefaceList.font_type" title="PyXA.apps.FontBook.XAFontBookTypefaceList.font_type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">font_type</span></code></a>()</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookTypefaceList.id" title="PyXA.apps.FontBook.XAFontBookTypefaceList.id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">id</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookTypefaceList.get_clipboard_representation" title="PyXA.apps.FontBook.XAFontBookTypefaceList.get_clipboard_representation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_clipboard_representation</span></code></a>()</p></td>
+<td><p>Gets a clipboard-codable representation of each typeface in the list.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookTypefaceList.id" title="PyXA.apps.FontBook.XAFontBookTypefaceList.id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">id</span></code></a>()</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookTypefaceList.name" title="PyXA.apps.FontBook.XAFontBookTypefaceList.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookTypefaceList.name" title="PyXA.apps.FontBook.XAFontBookTypefaceList.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a>()</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookTypefaceList.post_script_name" title="PyXA.apps.FontBook.XAFontBookTypefaceList.post_script_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">post_script_name</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookTypefaceList.post_script_name" title="PyXA.apps.FontBook.XAFontBookTypefaceList.post_script_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">post_script_name</span></code></a>()</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookTypefaceList.properties" title="PyXA.apps.FontBook.XAFontBookTypefaceList.properties"><code class="xref py py-obj docutils literal notranslate"><span class="pre">properties</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookTypefaceList.properties" title="PyXA.apps.FontBook.XAFontBookTypefaceList.properties"><code class="xref py py-obj docutils literal notranslate"><span class="pre">properties</span></code></a>()</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookTypefaceList.style_name" title="PyXA.apps.FontBook.XAFontBookTypefaceList.style_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">style_name</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.FontBook.XAFontBookTypefaceList.style_name" title="PyXA.apps.FontBook.XAFontBookTypefaceList.style_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">style_name</span></code></a>()</p></td>
 <td><p></p></td>
 </tr>
 </tbody>
@@ -1668,6 +1827,24 @@
 <dd></dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.FontBook.XAFontBookTypefaceList.get_clipboard_representation">
+<span class="sig-name descname"><span class="pre">get_clipboard_representation</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/FontBook.html#XAFontBookTypefaceList.get_clipboard_representation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.FontBook.XAFontBookTypefaceList.get_clipboard_representation" title="Permalink to this definition"></a></dt>
+<dd><p>Gets a clipboard-codable representation of each typeface in the list.</p>
+<p>When the clipboard content is set to a list of typefaces, the name of each typeface is added to the clipboard.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The list of typeface names</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>List[str]</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.8.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.FontBook.XAFontBookTypefaceList.id">
 <span class="sig-name descname"><span class="pre">id</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/FontBook.html#XAFontBookTypefaceList.id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.FontBook.XAFontBookTypefaceList.id" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
@@ -1697,7 +1874,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.FontBook.XAFontBookWindow">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.FontBook.</span></span><span class="sig-name descname"><span class="pre">XAFontBookWindow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/FontBook.html#XAFontBookWindow"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.FontBook.XAFontBookWindow" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XASBObject" title="PyXA.XABaseScriptable.XASBObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABaseScriptable.XASBObject</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAObject</span></code></a></p>
 <p>A class for managing and interacting with documents in Font Book.app.</p>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
@@ -1806,6 +1983,12 @@
 <dt class="sig sig-object py" id="PyXA.apps.FontBook.XAFontBookWindow.name">
 <span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.FontBook.XAFontBookWindow.name" title="Permalink to this definition"></a></dt>
 <dd><p>The full title of the window</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.FontBook.XAFontBookWindow.properties">
+<span class="sig-name descname"><span class="pre">properties</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span></em><a class="headerlink" href="#PyXA.apps.FontBook.XAFontBookWindow.properties" title="Permalink to this definition"></a></dt>
+<dd><p>The scriptable properties dictionary for the object</p>
 </dd></dl>
 
 <dl class="py attribute">

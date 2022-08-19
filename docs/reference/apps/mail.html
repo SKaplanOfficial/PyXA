@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mail Module Reference &mdash; PyXA 0.0.7 documentation</title>
+  <title>Mail Module Reference &mdash; PyXA 0.0.8 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
@@ -42,7 +42,6 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../about/index.html">Project Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorial/index.html">Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../tutorial/index.html#application-modules">Application Modules</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../index.html">Code Documentation and Reference</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../index.html#top-level-pyxa-modules">Top-level PyXA Modules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../index.html#pyxa-base-modules">PyXA Base Modules</a></li>
@@ -61,6 +60,7 @@
 <li class="toctree-l3"><a class="reference internal" href="messages.html">Messages Module Reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="music.html">Music Module Reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="notes.html">Notes Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="numbers.html">Numbers Module Reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pages.html">Pages Module Reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="photos.html">Photos Module Reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="preview.html">Preview Module Reference</a></li>
@@ -122,7 +122,7 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Mail.XAMailAccount" title="PyXA.apps.Mail.XAMailAccount"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAMailAccount</span></code></a>(properties)</p></td>
 <td><p>A class for managing and interacting with accounts in Mail.app.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Mail.XAMailAccountList" title="PyXA.apps.Mail.XAMailAccountList"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAMailAccountList</span></code></a>(properties[, ...])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Mail.XAMailAccountList" title="PyXA.apps.Mail.XAMailAccountList"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAMailAccountList</span></code></a>(properties[, filter, ...])</p></td>
 <td><p>A wrapper around lists of mail accounts that employs fast enumeration techniques.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Mail.XAMailApplication" title="PyXA.apps.Mail.XAMailApplication"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAMailApplication</span></code></a>(properties)</p></td>
@@ -203,7 +203,7 @@
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Mail.XAMailRecipient" title="PyXA.apps.Mail.XAMailRecipient"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAMailRecipient</span></code></a>(properties)</p></td>
 <td><p>A class for managing and interacting with recipients in Mail.app.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Mail.XAMailRecipientList" title="PyXA.apps.Mail.XAMailRecipientList"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAMailRecipientList</span></code></a>(properties[, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Mail.XAMailRecipientList" title="PyXA.apps.Mail.XAMailRecipientList"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAMailRecipientList</span></code></a>(properties[, filter, ...])</p></td>
 <td><p>A wrapper around lists of mail recipients that employs fast enumeration techniques.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Mail.XAMailRule" title="PyXA.apps.Mail.XAMailRule"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAMailRule</span></code></a>(properties)</p></td>
@@ -250,7 +250,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.Mail.XAMailAccount">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Mail.</span></span><span class="sig-name descname"><span class="pre">XAMailAccount</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Mail.html#XAMailAccount"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Mail.XAMailAccount" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XASBObject" title="PyXA.XABaseScriptable.XASBObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABaseScriptable.XASBObject</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAObject</span></code></a></p>
 <p>A class for managing and interacting with accounts in Mail.app.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.4.</span></p>
@@ -438,6 +438,12 @@
 <dd><p>The port used to connect to the account</p>
 </dd></dl>
 
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.Mail.XAMailAccount.properties">
+<span class="sig-name descname"><span class="pre">properties</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span></em><a class="headerlink" href="#PyXA.apps.Mail.XAMailAccount.properties" title="Permalink to this definition"></a></dt>
+<dd><p>The scriptable properties dictionary for the object</p>
+</dd></dl>
+
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Mail.XAMailAccount.server_name">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">server_name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Mail.XAMailAccount.server_name" title="Permalink to this definition"></a></dt>
@@ -460,7 +466,7 @@
 
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.Mail.XAMailAccountList">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Mail.</span></span><span class="sig-name descname"><span class="pre">XAMailAccountList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">object_class</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Mail.html#XAMailAccountList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Mail.XAMailAccountList" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Mail.</span></span><span class="sig-name descname"><span class="pre">XAMailAccountList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">object_class</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Mail.html#XAMailAccountList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Mail.XAMailAccountList" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAList" title="PyXA.XABase.XAList"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAList</span></code></a></p>
 <p>A wrapper around lists of mail accounts that employs fast enumeration techniques.</p>
 <p>All properties of accounts can be called as methods on the wrapped list, returning a list containing each account’s value for the property.</p>
@@ -2204,7 +2210,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.Mail.XAMailAttachment">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Mail.</span></span><span class="sig-name descname"><span class="pre">XAMailAttachment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Mail.html#XAMailAttachment"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Mail.XAMailAttachment" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XASBObject" title="PyXA.XABaseScriptable.XASBObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABaseScriptable.XASBObject</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAObject</span></code></a></p>
 <p>A class for managing and interacting with message attachments in Mail.app.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.4.</span></p>
@@ -2452,7 +2458,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.Mail.XAMailDocument">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Mail.</span></span><span class="sig-name descname"><span class="pre">XAMailDocument</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Mail.html#XAMailDocument"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Mail.XAMailDocument" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XASBObject" title="PyXA.XABaseScriptable.XASBObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABaseScriptable.XASBObject</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAObject</span></code></a></p>
 <p>A class for managing and interacting with Mail documents.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.4.</span></p>
@@ -2587,7 +2593,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.Mail.XAMailHeader">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Mail.</span></span><span class="sig-name descname"><span class="pre">XAMailHeader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Mail.html#XAMailHeader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Mail.XAMailHeader" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XASBObject" title="PyXA.XABaseScriptable.XASBObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABaseScriptable.XASBObject</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAObject</span></code></a></p>
 <p>A class for managing and interacting with message headers in Mail.app.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.4.</span></p>
@@ -2696,6 +2702,12 @@
 <dd><p>The password for the account</p>
 </dd></dl>
 
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.Mail.XAMailICloudAccount.properties">
+<span class="sig-name descname"><span class="pre">properties</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span></em><a class="headerlink" href="#PyXA.apps.Mail.XAMailICloudAccount.properties" title="Permalink to this definition"></a></dt>
+<dd><p>The scriptable properties dictionary for the object</p>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="py class">
@@ -2760,6 +2772,12 @@
 <dt class="sig sig-object py" id="PyXA.apps.Mail.XAMailIMAPAccount.password">
 <span class="sig-name descname"><span class="pre">password</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Mail.XAMailIMAPAccount.password" title="Permalink to this definition"></a></dt>
 <dd><p>The password for the account</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.Mail.XAMailIMAPAccount.properties">
+<span class="sig-name descname"><span class="pre">properties</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span></em><a class="headerlink" href="#PyXA.apps.Mail.XAMailIMAPAccount.properties" title="Permalink to this definition"></a></dt>
+<dd><p>The scriptable properties dictionary for the object</p>
 </dd></dl>
 
 <dl class="py property">
@@ -2907,7 +2925,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.Mail.XAMailMessage">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Mail.</span></span><span class="sig-name descname"><span class="pre">XAMailMessage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Mail.html#XAMailMessage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Mail.XAMailMessage" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XASBObject" title="PyXA.XABaseScriptable.XASBObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABaseScriptable.XASBObject</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAObject</span></code></a></p>
 <p>A class for managing and interacting with messages in Mail.app.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.4.</span></p>
@@ -3172,6 +3190,12 @@
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.4.</span></p>
 </div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.Mail.XAMailMessage.properties">
+<span class="sig-name descname"><span class="pre">properties</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span></em><a class="headerlink" href="#PyXA.apps.Mail.XAMailMessage.properties" title="Permalink to this definition"></a></dt>
+<dd><p>The scriptable properties dictionary for the object</p>
 </dd></dl>
 
 <dl class="py property">
@@ -3616,7 +3640,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.Mail.XAMailMessageViewer">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Mail.</span></span><span class="sig-name descname"><span class="pre">XAMailMessageViewer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Mail.html#XAMailMessageViewer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Mail.XAMailMessageViewer" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XASBObject" title="PyXA.XABaseScriptable.XASBObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABaseScriptable.XASBObject</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAObject</span></code></a></p>
 <p>A class for managing and interacting with the message viewer window in Mail.app.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.4.</span></p>
@@ -4052,7 +4076,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.Mail.XAMailOutgoingMessage">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Mail.</span></span><span class="sig-name descname"><span class="pre">XAMailOutgoingMessage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Mail.html#XAMailOutgoingMessage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Mail.XAMailOutgoingMessage" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XASBObject" title="PyXA.XABaseScriptable.XASBObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABaseScriptable.XASBObject</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAObject</span></code></a></p>
 <p>A class for managing and interacting with outgoing messages in Mail.app.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.4.</span></p>
@@ -4342,6 +4366,12 @@
 <dd><p>The password for the account</p>
 </dd></dl>
 
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.Mail.XAMailPOPAccount.properties">
+<span class="sig-name descname"><span class="pre">properties</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span></em><a class="headerlink" href="#PyXA.apps.Mail.XAMailPOPAccount.properties" title="Permalink to this definition"></a></dt>
+<dd><p>The scriptable properties dictionary for the object</p>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="py class">
@@ -4431,7 +4461,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.Mail.XAMailRecipient">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Mail.</span></span><span class="sig-name descname"><span class="pre">XAMailRecipient</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Mail.html#XAMailRecipient"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Mail.XAMailRecipient" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XASBObject" title="PyXA.XABaseScriptable.XASBObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABaseScriptable.XASBObject</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAObject</span></code></a></p>
 <p>A class for managing and interacting with recipients in Mail.app.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.4.</span></p>
@@ -4467,7 +4497,7 @@
 
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.Mail.XAMailRecipientList">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Mail.</span></span><span class="sig-name descname"><span class="pre">XAMailRecipientList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">object_class</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Mail.html#XAMailRecipientList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Mail.XAMailRecipientList" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Mail.</span></span><span class="sig-name descname"><span class="pre">XAMailRecipientList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">object_class</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Mail.html#XAMailRecipientList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Mail.XAMailRecipientList" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAList" title="PyXA.XABase.XAList"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAList</span></code></a></p>
 <p>A wrapper around lists of mail recipients that employs fast enumeration techniques.</p>
 <p>All properties of recipients can be called as methods on the wrapped list, returning a list containing each recipients’s value for the property.</p>
@@ -4520,7 +4550,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.Mail.XAMailRule">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Mail.</span></span><span class="sig-name descname"><span class="pre">XAMailRule</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Mail.html#XAMailRule"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Mail.XAMailRule" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XASBObject" title="PyXA.XABaseScriptable.XASBObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABaseScriptable.XASBObject</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAObject</span></code></a></p>
 <p>A class for managing and interacting with rules in Mail.app.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.4.</span></p>
@@ -4713,6 +4743,12 @@
 <dd><p>If the rule matches, play the sound specified by name or path</p>
 </dd></dl>
 
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.Mail.XAMailRule.properties">
+<span class="sig-name descname"><span class="pre">properties</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span></em><a class="headerlink" href="#PyXA.apps.Mail.XAMailRule.properties" title="Permalink to this definition"></a></dt>
+<dd><p>The scriptable properties dictionary for the object</p>
+</dd></dl>
+
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Mail.XAMailRule.redirect_message">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">redirect_message</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Mail.XAMailRule.redirect_message" title="Permalink to this definition"></a></dt>
@@ -4768,7 +4804,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.Mail.XAMailRuleCondition">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Mail.</span></span><span class="sig-name descname"><span class="pre">XAMailRuleCondition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Mail.html#XAMailRuleCondition"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Mail.XAMailRuleCondition" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XASBObject" title="PyXA.XABaseScriptable.XASBObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABaseScriptable.XASBObject</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAObject</span></code></a></p>
 <p>A class for managing and interacting with rule conditions in Mail.app.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.4.</span></p>
@@ -5345,6 +5381,12 @@
 <dd><p>The port used to connect to the account</p>
 </dd></dl>
 
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.Mail.XAMailSMTPServer.properties">
+<span class="sig-name descname"><span class="pre">properties</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span></em><a class="headerlink" href="#PyXA.apps.Mail.XAMailSMTPServer.properties" title="Permalink to this definition"></a></dt>
+<dd><p>The scriptable properties dictionary for the object</p>
+</dd></dl>
+
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Mail.XAMailSMTPServer.server_name">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">server_name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Mail.XAMailSMTPServer.server_name" title="Permalink to this definition"></a></dt>
@@ -5516,7 +5558,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.Mail.XAMailSignature">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Mail.</span></span><span class="sig-name descname"><span class="pre">XAMailSignature</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Mail.html#XAMailSignature"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Mail.XAMailSignature" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XASBObject" title="PyXA.XABaseScriptable.XASBObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABaseScriptable.XASBObject</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAObject</span></code></a></p>
 <p>A class for managing and interacting with email signatures in Mail.app.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.4.</span></p>
@@ -5773,7 +5815,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.Mail.XAMailbox">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Mail.</span></span><span class="sig-name descname"><span class="pre">XAMailbox</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Mail.html#XAMailbox"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Mail.XAMailbox" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XASBObject" title="PyXA.XABaseScriptable.XASBObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABaseScriptable.XASBObject</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAObject</span></code></a></p>
 <p>A class for managing and interacting with mailboxes in Mail.app.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.4.</span></p>

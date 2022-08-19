@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>XABaseScriptable Module &mdash; PyXA 0.0.7 documentation</title>
+  <title>XABaseScriptable Module &mdash; PyXA 0.0.8 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
@@ -42,7 +42,6 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../about/index.html">Project Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial/index.html">Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tutorial/index.html#application-modules">Application Modules</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Code Documentation and Reference</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="index.html#top-level-pyxa-modules">Top-level PyXA Modules</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="index.html#pyxa-base-modules">PyXA Base Modules</a><ul class="current">
@@ -91,14 +90,8 @@
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABaseScriptable.XAHasScriptableElements" title="PyXA.XABaseScriptable.XAHasScriptableElements"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAHasScriptableElements</span></code></a>([properties])</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABaseScriptable.XASBApplication" title="PyXA.XABaseScriptable.XASBApplication"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XASBApplication</span></code></a>(properties)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABaseScriptable.XASBApplication" title="PyXA.XABaseScriptable.XASBApplication"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XASBApplication</span></code></a>(properties)</p></td>
 <td><p>An application class for scriptable applications.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABaseScriptable.XASBCloseable" title="PyXA.XABaseScriptable.XASBCloseable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XASBCloseable</span></code></a>([properties])</p></td>
-<td><p></p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABaseScriptable.XASBObject" title="PyXA.XABaseScriptable.XASBObject"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XASBObject</span></code></a>(properties)</p></td>
 <td><p>A class for PyXA objects scriptable with AppleScript/JXA.</p></td>
@@ -118,61 +111,29 @@
 </tbody>
 </table>
 <dl class="py class">
-<dt class="sig sig-object py" id="PyXA.XABaseScriptable.XAHasScriptableElements">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.XABaseScriptable.</span></span><span class="sig-name descname"><span class="pre">XAHasScriptableElements</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyXA/XABaseScriptable.html#XAHasScriptableElements"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABaseScriptable.XAHasScriptableElements" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAObject</span></code></a></p>
-<p><strong>Methods:</strong></p>
+<dt class="sig sig-object py" id="PyXA.XABaseScriptable.XASBApplication">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.XABaseScriptable.</span></span><span class="sig-name descname"><span class="pre">XASBApplication</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyXA/XABaseScriptable.html#XASBApplication"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABaseScriptable.XASBApplication" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#PyXA.XABaseScriptable.XASBObject" title="PyXA.XABaseScriptable.XASBObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABaseScriptable.XASBObject</span></code></a>, <a class="reference internal" href="xabase.html#PyXA.XABase.XAApplication" title="PyXA.XABase.XAApplication"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAApplication</span></code></a></p>
+<p>An application class for scriptable applications.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><code class="xref py py-class docutils literal notranslate"><span class="pre">XABase.XAApplication</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">XABase.XAWindow</span></code></p>
+</div>
+<p><strong>Classes:</strong></p>
 <table class="autosummary longtable docutils align-default">
 <colgroup>
 <col style="width: 10%" />
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABaseScriptable.XAHasScriptableElements.first_scriptable_element" title="PyXA.XABaseScriptable.XAHasScriptableElements.first_scriptable_element"><code class="xref py py-obj docutils literal notranslate"><span class="pre">first_scriptable_element</span></code></a>(specifier, obj_type)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABaseScriptable.XASBApplication.PrintErrorHandling" title="PyXA.XABaseScriptable.XASBApplication.PrintErrorHandling"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PrintErrorHandling</span></code></a>(value)</p></td>
+<td><p>Options for how to handle errors while printing.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABaseScriptable.XAHasScriptableElements.last_scriptable_element" title="PyXA.XABaseScriptable.XAHasScriptableElements.last_scriptable_element"><code class="xref py py-obj docutils literal notranslate"><span class="pre">last_scriptable_element</span></code></a>(specifier, obj_type)</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABaseScriptable.XAHasScriptableElements.scriptable_element_with_properties" title="PyXA.XABaseScriptable.XAHasScriptableElements.scriptable_element_with_properties"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scriptable_element_with_properties</span></code></a>(...)</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABaseScriptable.XAHasScriptableElements.scriptable_elements" title="PyXA.XABaseScriptable.XAHasScriptableElements.scriptable_elements"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scriptable_elements</span></code></a>(specifier, filter, obj_type)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABaseScriptable.XASBApplication.SaveOption" title="PyXA.XABaseScriptable.XASBApplication.SaveOption"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SaveOption</span></code></a>(value)</p></td>
+<td><p>Options for whether to save documents when closing them.</p></td>
 </tr>
 </tbody>
 </table>
-<dl class="py method">
-<dt class="sig sig-object py" id="PyXA.XABaseScriptable.XAHasScriptableElements.first_scriptable_element">
-<span class="sig-name descname"><span class="pre">first_scriptable_element</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">specifier</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obj_type</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyXA/XABaseScriptable.html#XAHasScriptableElements.first_scriptable_element"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABaseScriptable.XAHasScriptableElements.first_scriptable_element" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="PyXA.XABaseScriptable.XAHasScriptableElements.last_scriptable_element">
-<span class="sig-name descname"><span class="pre">last_scriptable_element</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">specifier</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obj_type</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyXA/XABaseScriptable.html#XAHasScriptableElements.last_scriptable_element"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABaseScriptable.XAHasScriptableElements.last_scriptable_element" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="PyXA.XABaseScriptable.XAHasScriptableElements.scriptable_element_with_properties">
-<span class="sig-name descname"><span class="pre">scriptable_element_with_properties</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">specifier</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obj_type</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyXA/XABaseScriptable.html#XAHasScriptableElements.scriptable_element_with_properties"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABaseScriptable.XAHasScriptableElements.scriptable_element_with_properties" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="PyXA.XABaseScriptable.XAHasScriptableElements.scriptable_elements">
-<span class="sig-name descname"><span class="pre">scriptable_elements</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">specifier</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obj_type</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyXA/XABaseScriptable.html#XAHasScriptableElements.scriptable_elements"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABaseScriptable.XAHasScriptableElements.scriptable_elements" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="PyXA.XABaseScriptable.XASBApplication">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.XABaseScriptable.</span></span><span class="sig-name descname"><span class="pre">XASBApplication</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyXA/XABaseScriptable.html#XASBApplication"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABaseScriptable.XASBApplication" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#PyXA.XABaseScriptable.XASBObject" title="PyXA.XABaseScriptable.XASBObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABaseScriptable.XASBObject</span></code></a>, <a class="reference internal" href="xabase.html#PyXA.XABase.XAApplication" title="PyXA.XABase.XAApplication"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAApplication</span></code></a>, <a class="reference internal" href="#PyXA.XABaseScriptable.XAHasScriptableElements" title="PyXA.XABaseScriptable.XAHasScriptableElements"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABaseScriptable.XAHasScriptableElements</span></code></a></p>
-<p>An application class for scriptable applications.</p>
-<div class="admonition seealso">
-<p class="admonition-title">See also</p>
-<p><code class="xref py py-class docutils literal notranslate"><span class="pre">XABase.XAApplication</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">XABase.XAWindow</span></code></p>
-</div>
 <p><strong>Attributes:</strong></p>
 <table class="autosummary longtable docutils align-default">
 <colgroup>
@@ -197,48 +158,99 @@
 </tr>
 </tbody>
 </table>
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.XABaseScriptable.XASBApplication.front_window">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">front_window</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.XABaseScriptable.XASBWindow" title="PyXA.XABaseScriptable.XASBWindow"><span class="pre">PyXA.XABaseScriptable.XASBWindow</span></a></em><a class="headerlink" href="#PyXA.XABaseScriptable.XASBApplication.front_window" title="Permalink to this definition"></a></dt>
-<dd><p>The front window of the application</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="PyXA.XABaseScriptable.XASBApplication.windows">
-<span class="sig-name descname"><span class="pre">windows</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.XABaseScriptable.XASBWindowList" title="PyXA.XABaseScriptable.XASBWindowList"><span class="pre">PyXA.XABaseScriptable.XASBWindowList</span></a></span></span><a class="reference internal" href="../_modules/PyXA/XABaseScriptable.html#XASBApplication.windows"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABaseScriptable.XASBApplication.windows" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
 <dl class="py class">
-<dt class="sig sig-object py" id="PyXA.XABaseScriptable.XASBCloseable">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.XABaseScriptable.</span></span><span class="sig-name descname"><span class="pre">XASBCloseable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyXA/XABaseScriptable.html#XASBCloseable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABaseScriptable.XASBCloseable" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAObject</span></code></a></p>
-<p><strong>Methods:</strong></p>
+<dt class="sig sig-object py" id="PyXA.XABaseScriptable.XASBApplication.PrintErrorHandling">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">PrintErrorHandling</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyXA/XABaseScriptable.html#XASBApplication.PrintErrorHandling"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABaseScriptable.XASBApplication.PrintErrorHandling" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
+<p>Options for how to handle errors while printing.</p>
+<p><strong>Attributes:</strong></p>
 <table class="autosummary longtable docutils align-default">
 <colgroup>
 <col style="width: 10%" />
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABaseScriptable.XASBCloseable.close" title="PyXA.XABaseScriptable.XASBCloseable.close"><code class="xref py py-obj docutils literal notranslate"><span class="pre">close</span></code></a>()</p></td>
-<td><p>Closes a document, window, or item.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABaseScriptable.XASBApplication.PrintErrorHandling.DETAILED" title="PyXA.XABaseScriptable.XASBApplication.PrintErrorHandling.DETAILED"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DETAILED</span></code></a></p></td>
+<td><p>Print a detailed report of PostScript errors</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABaseScriptable.XASBApplication.PrintErrorHandling.STANDARD" title="PyXA.XABaseScriptable.XASBApplication.PrintErrorHandling.STANDARD"><code class="xref py py-obj docutils literal notranslate"><span class="pre">STANDARD</span></code></a></p></td>
+<td><p>Standard PostScript error handling</p></td>
 </tr>
 </tbody>
 </table>
-<dl class="py method">
-<dt class="sig sig-object py" id="PyXA.XABaseScriptable.XASBCloseable.close">
-<span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><span class="pre">PyXA.XABase.XAObject</span></a></span></span><a class="reference internal" href="../_modules/PyXA/XABaseScriptable.html#XASBCloseable.close"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABaseScriptable.XASBCloseable.close" title="Permalink to this definition"></a></dt>
-<dd><p>Closes a document, window, or item.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>A reference to the PyXA objects that called this method.</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference internal" href="xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject">XABase.XAObject</a></p>
-</dd>
-</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.XABaseScriptable.XASBApplication.PrintErrorHandling.DETAILED">
+<span class="sig-name descname"><span class="pre">DETAILED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'lwdt'</span></em><a class="headerlink" href="#PyXA.XABaseScriptable.XASBApplication.PrintErrorHandling.DETAILED" title="Permalink to this definition"></a></dt>
+<dd><p>Print a detailed report of PostScript errors</p>
 </dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.XABaseScriptable.XASBApplication.PrintErrorHandling.STANDARD">
+<span class="sig-name descname"><span class="pre">STANDARD</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'lwst'</span></em><a class="headerlink" href="#PyXA.XABaseScriptable.XASBApplication.PrintErrorHandling.STANDARD" title="Permalink to this definition"></a></dt>
+<dd><p>Standard PostScript error handling</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.XABaseScriptable.XASBApplication.SaveOption">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">SaveOption</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyXA/XABaseScriptable.html#XASBApplication.SaveOption"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABaseScriptable.XASBApplication.SaveOption" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
+<p>Options for whether to save documents when closing them.</p>
+<p><strong>Attributes:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABaseScriptable.XASBApplication.SaveOption.ASK" title="PyXA.XABaseScriptable.XASBApplication.SaveOption.ASK"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ASK</span></code></a></p></td>
+<td><p>Ask user whether to save the file (bring up dialog)</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABaseScriptable.XASBApplication.SaveOption.NO" title="PyXA.XABaseScriptable.XASBApplication.SaveOption.NO"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NO</span></code></a></p></td>
+<td><p>Do not save the file</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABaseScriptable.XASBApplication.SaveOption.YES" title="PyXA.XABaseScriptable.XASBApplication.SaveOption.YES"><code class="xref py py-obj docutils literal notranslate"><span class="pre">YES</span></code></a></p></td>
+<td><p>Save the file</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.XABaseScriptable.XASBApplication.SaveOption.ASK">
+<span class="sig-name descname"><span class="pre">ASK</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1634954016</span></em><a class="headerlink" href="#PyXA.XABaseScriptable.XASBApplication.SaveOption.ASK" title="Permalink to this definition"></a></dt>
+<dd><p>Ask user whether to save the file (bring up dialog)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.XABaseScriptable.XASBApplication.SaveOption.NO">
+<span class="sig-name descname"><span class="pre">NO</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1852776480</span></em><a class="headerlink" href="#PyXA.XABaseScriptable.XASBApplication.SaveOption.NO" title="Permalink to this definition"></a></dt>
+<dd><p>Do not save the file</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.XABaseScriptable.XASBApplication.SaveOption.YES">
+<span class="sig-name descname"><span class="pre">YES</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2036691744</span></em><a class="headerlink" href="#PyXA.XABaseScriptable.XASBApplication.SaveOption.YES" title="Permalink to this definition"></a></dt>
+<dd><p>Save the file</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.XABaseScriptable.XASBApplication.front_window">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">front_window</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.XABaseScriptable.XASBWindow" title="PyXA.XABaseScriptable.XASBWindow"><span class="pre">PyXA.XABaseScriptable.XASBWindow</span></a></em><a class="headerlink" href="#PyXA.XABaseScriptable.XASBApplication.front_window" title="Permalink to this definition"></a></dt>
+<dd><p>The front window of the application</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.XABaseScriptable.XASBApplication.properties">
+<span class="sig-name descname"><span class="pre">properties</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span></em><a class="headerlink" href="#PyXA.XABaseScriptable.XASBApplication.properties" title="Permalink to this definition"></a></dt>
+<dd><p>The scriptable properties dictionary for the object</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.XABaseScriptable.XASBApplication.windows">
+<span class="sig-name descname"><span class="pre">windows</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.XABaseScriptable.XASBWindowList" title="PyXA.XABaseScriptable.XASBWindowList"><span class="pre">PyXA.XABaseScriptable.XASBWindowList</span></a></span></span><a class="reference internal" href="../_modules/PyXA/XABaseScriptable.html#XASBApplication.windows"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABaseScriptable.XASBApplication.windows" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
 
 </dd></dl>
 
@@ -251,6 +263,15 @@
 <p class="admonition-title">See also</p>
 <p><code class="xref py py-class docutils literal notranslate"><span class="pre">XABase.XAObject</span></code></p>
 </div>
+<p><strong>Attributes:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+</tbody>
+</table>
 <p><strong>Methods:</strong></p>
 <table class="autosummary longtable docutils align-default">
 <colgroup>
@@ -263,6 +284,12 @@
 </tr>
 </tbody>
 </table>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.XABaseScriptable.XASBObject.properties">
+<span class="sig-name descname"><span class="pre">properties</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span></em><a class="headerlink" href="#PyXA.XABaseScriptable.XASBObject.properties" title="Permalink to this definition"></a></dt>
+<dd><p>The scriptable properties dictionary for the object</p>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.XABaseScriptable.XASBObject.set_property">
 <span class="sig-name descname"><span class="pre">set_property</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">property_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyXA/XABaseScriptable.html#XASBObject.set_property"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABaseScriptable.XASBObject.set_property" title="Permalink to this definition"></a></dt>
@@ -304,6 +331,15 @@
 </tr>
 </tbody>
 </table>
+<p><strong>Attributes:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+</tbody>
+</table>
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.XABaseScriptable.XASBPrintable.print">
 <span class="sig-name descname"><span class="pre">print</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">print_dialog</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><span class="pre">PyXA.XABase.XAObject</span></a></span></span><a class="reference internal" href="../_modules/PyXA/XABaseScriptable.html#XASBPrintable.print"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABaseScriptable.XASBPrintable.print" title="Permalink to this definition"></a></dt>
@@ -324,12 +360,18 @@
 </div>
 </dd></dl>
 
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.XABaseScriptable.XASBPrintable.properties">
+<span class="sig-name descname"><span class="pre">properties</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span></em><a class="headerlink" href="#PyXA.XABaseScriptable.XASBPrintable.properties" title="Permalink to this definition"></a></dt>
+<dd><p>The scriptable properties dictionary for the object</p>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.XABaseScriptable.XASBWindow">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.XABaseScriptable.</span></span><span class="sig-name descname"><span class="pre">XASBWindow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyXA/XABaseScriptable.html#XASBWindow"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABaseScriptable.XASBWindow" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#PyXA.XABaseScriptable.XASBObject" title="PyXA.XABaseScriptable.XASBObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABaseScriptable.XASBObject</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="#PyXA.XABaseScriptable.XASBObject" title="PyXA.XABaseScriptable.XASBObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABaseScriptable.XASBObject</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XAProtocols.XACloseable</span></code></p>
 <p><strong>Attributes:</strong></p>
 <table class="autosummary longtable docutils align-default">
 <colgroup>
@@ -376,10 +418,13 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABaseScriptable.XASBWindow.collapse" title="PyXA.XABaseScriptable.XASBWindow.collapse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">collapse</span></code></a>()</p></td>
 <td><p>Collapses (minimizes) the window.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABaseScriptable.XASBWindow.toggle_zoom" title="PyXA.XABaseScriptable.XASBWindow.toggle_zoom"><code class="xref py py-obj docutils literal notranslate"><span class="pre">toggle_zoom</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABaseScriptable.XASBWindow.get_clipboard_representation" title="PyXA.XABaseScriptable.XASBWindow.get_clipboard_representation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_clipboard_representation</span></code></a>()</p></td>
+<td><p>Gets a clipboard-codable representation of the window.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABaseScriptable.XASBWindow.toggle_zoom" title="PyXA.XABaseScriptable.XASBWindow.toggle_zoom"><code class="xref py py-obj docutils literal notranslate"><span class="pre">toggle_zoom</span></code></a>()</p></td>
 <td><p>Uncollapses (unminimizes/expands) the window.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABaseScriptable.XASBWindow.uncollapse" title="PyXA.XABaseScriptable.XASBWindow.uncollapse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">uncollapse</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABaseScriptable.XASBWindow.uncollapse" title="PyXA.XABaseScriptable.XASBWindow.uncollapse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">uncollapse</span></code></a>()</p></td>
 <td><p>Uncollapses (unminimizes/expands) the window.</p></td>
 </tr>
 </tbody>
@@ -410,6 +455,24 @@
 </dl>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.XABaseScriptable.XASBWindow.get_clipboard_representation">
+<span class="sig-name descname"><span class="pre">get_clipboard_representation</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../_modules/PyXA/XABaseScriptable.html#XASBWindow.get_clipboard_representation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABaseScriptable.XASBWindow.get_clipboard_representation" title="Permalink to this definition"></a></dt>
+<dd><p>Gets a clipboard-codable representation of the window.</p>
+<p>When the clipboard content is set to a window, the name of the window is added to the clipboard.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The name of the window</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.8.</span></p>
+</div>
+</dd></dl>
+
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.XABaseScriptable.XASBWindow.id">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.XABaseScriptable.XASBWindow.id" title="Permalink to this definition"></a></dt>
@@ -426,6 +489,12 @@
 <dt class="sig sig-object py" id="PyXA.XABaseScriptable.XASBWindow.name">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.XABaseScriptable.XASBWindow.name" title="Permalink to this definition"></a></dt>
 <dd><p>The title of the window</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.XABaseScriptable.XASBWindow.properties">
+<span class="sig-name descname"><span class="pre">properties</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span></em><a class="headerlink" href="#PyXA.XABaseScriptable.XASBWindow.properties" title="Permalink to this definition"></a></dt>
+<dd><p>The scriptable properties dictionary for the object</p>
 </dd></dl>
 
 <dl class="py property">
@@ -500,6 +569,21 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABaseScriptable.XASBWindowList.collapse" title="PyXA.XABaseScriptable.XASBWindowList.collapse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">collapse</span></code></a>()</p></td>
 <td><p>Collapses all windows in the list.</p></td>
 </tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XABaseScriptable.XASBWindowList.get_clipboard_representation" title="PyXA.XABaseScriptable.XASBWindowList.get_clipboard_representation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_clipboard_representation</span></code></a>()</p></td>
+<td><p>Gets a clipboard-codable representation of each window in the list.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XABaseScriptable.XASBWindowList.name" title="PyXA.XABaseScriptable.XASBWindowList.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Attributes:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
 </tbody>
 </table>
 <dl class="py method">
@@ -509,6 +593,35 @@
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.5.</span></p>
 </div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.XABaseScriptable.XASBWindowList.get_clipboard_representation">
+<span class="sig-name descname"><span class="pre">get_clipboard_representation</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../_modules/PyXA/XABaseScriptable.html#XASBWindowList.get_clipboard_representation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABaseScriptable.XASBWindowList.get_clipboard_representation" title="Permalink to this definition"></a></dt>
+<dd><p>Gets a clipboard-codable representation of each window in the list.</p>
+<p>When the clipboard content is set to a list of windows, the name of each window is added to the clipboard.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A list of window names</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.8.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.XABaseScriptable.XASBWindowList.name">
+<span class="sig-name descname"><span class="pre">name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/PyXA/XABaseScriptable.html#XASBWindowList.name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.XABaseScriptable.XASBWindowList.name" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.XABaseScriptable.XASBWindowList.properties">
+<span class="sig-name descname"><span class="pre">properties</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span></em><a class="headerlink" href="#PyXA.XABaseScriptable.XASBWindowList.properties" title="Permalink to this definition"></a></dt>
+<dd><p>The scriptable properties dictionary for the object</p>
 </dd></dl>
 
 </dd></dl>

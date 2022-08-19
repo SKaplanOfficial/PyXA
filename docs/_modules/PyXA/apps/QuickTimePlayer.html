@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PyXA.apps.QuickTimePlayer &mdash; PyXA 0.0.7 documentation</title>
+  <title>PyXA.apps.QuickTimePlayer &mdash; PyXA 0.0.8 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -39,7 +39,6 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../about/index.html">Project Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/index.html">Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/index.html#application-modules">Application Modules</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../reference/index.html">Code Documentation and Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../bugs.html">Bugs</a></li>
 </ul>
@@ -82,8 +81,9 @@
 
 <span class="kn">from</span> <span class="nn">PyXA</span> <span class="kn">import</span> <span class="n">XABase</span>
 <span class="kn">from</span> <span class="nn">PyXA</span> <span class="kn">import</span> <span class="n">XABaseScriptable</span>
+<span class="kn">from</span> <span class="nn">..XAProtocols</span> <span class="kn">import</span> <span class="n">XACanOpenPath</span>
 
-<div class="viewcode-block" id="XAQuickTimeApplication"><a class="viewcode-back" href="../../../reference/apps/quicktimeplayer.html#PyXA.apps.QuickTimePlayer.XAQuickTimeApplication">[docs]</a><span class="k">class</span> <span class="nc">XAQuickTimeApplication</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBApplication</span><span class="p">):</span>
+<div class="viewcode-block" id="XAQuickTimeApplication"><a class="viewcode-back" href="../../../reference/apps/quicktimeplayer.html#PyXA.apps.QuickTimePlayer.XAQuickTimeApplication">[docs]</a><span class="k">class</span> <span class="nc">XAQuickTimeApplication</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBApplication</span><span class="p">,</span> <span class="n">XACanOpenPath</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A class for managing and interacting with QuickTime.app.</span>
 
 <span class="sd">    .. seealso:: :class:`XAQuickTimeWindow`, :class:`XAQuickTimeDocument`, :class:`XAQuickTimeAudioRecordingDevice`, :class:`XAQuickTimeVideoRecordingDevice`, :class:`XAQuickTimeAudioCompressionPreset`, :class:`XAQuickTimeMovieCompressionPreset`, :class:`XAQuickTimeScreenCompressionPreset`</span>
@@ -712,7 +712,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;currentScreenCompression&quot;</span><span class="p">,</span> <span class="n">current_screen_compression</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span></div></div>
 
-<div class="viewcode-block" id="XAQuickTimeDocument"><a class="viewcode-back" href="../../../reference/apps/quicktimeplayer.html#PyXA.apps.QuickTimePlayer.XAQuickTimeDocument">[docs]</a><span class="k">class</span> <span class="nc">XAQuickTimeDocument</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBObject</span><span class="p">):</span>
+<div class="viewcode-block" id="XAQuickTimeDocument"><a class="viewcode-back" href="../../../reference/apps/quicktimeplayer.html#PyXA.apps.QuickTimePlayer.XAQuickTimeDocument">[docs]</a><span class="k">class</span> <span class="nc">XAQuickTimeDocument</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A class for managing and interacting with documents in QuickTime.app.</span>
 
 <span class="sd">    .. seealso:: :class:`XAQuickTimeApplication`</span>
@@ -886,7 +886,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;ID&quot;</span><span class="p">))</span></div></div>
 
-<div class="viewcode-block" id="XAQuickTimeAudioRecordingDevice"><a class="viewcode-back" href="../../../reference/apps/quicktimeplayer.html#PyXA.apps.QuickTimePlayer.XAQuickTimeAudioRecordingDevice">[docs]</a><span class="k">class</span> <span class="nc">XAQuickTimeAudioRecordingDevice</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBObject</span><span class="p">):</span>
+<div class="viewcode-block" id="XAQuickTimeAudioRecordingDevice"><a class="viewcode-back" href="../../../reference/apps/quicktimeplayer.html#PyXA.apps.QuickTimePlayer.XAQuickTimeAudioRecordingDevice">[docs]</a><span class="k">class</span> <span class="nc">XAQuickTimeAudioRecordingDevice</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A class for managing and interacting with microphones in QuickTime.app.</span>
 
 <span class="sd">    .. seealso:: :class:`XAQuickTimeApplication`</span>
@@ -954,7 +954,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;ID&quot;</span><span class="p">))</span></div></div>
 
-<div class="viewcode-block" id="XAQuickTimeVideoRecordingDevice"><a class="viewcode-back" href="../../../reference/apps/quicktimeplayer.html#PyXA.apps.QuickTimePlayer.XAQuickTimeVideoRecordingDevice">[docs]</a><span class="k">class</span> <span class="nc">XAQuickTimeVideoRecordingDevice</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBObject</span><span class="p">):</span>
+<div class="viewcode-block" id="XAQuickTimeVideoRecordingDevice"><a class="viewcode-back" href="../../../reference/apps/quicktimeplayer.html#PyXA.apps.QuickTimePlayer.XAQuickTimeVideoRecordingDevice">[docs]</a><span class="k">class</span> <span class="nc">XAQuickTimeVideoRecordingDevice</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A class for managing and interacting with cameras in QuickTime.app.</span>
 
 <span class="sd">    .. seealso:: :class:`XAQuickTimeApplication`</span>
@@ -1022,7 +1022,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;ID&quot;</span><span class="p">))</span></div></div>
 
-<div class="viewcode-block" id="XAQuickTimeAudioCompressionPreset"><a class="viewcode-back" href="../../../reference/apps/quicktimeplayer.html#PyXA.apps.QuickTimePlayer.XAQuickTimeAudioCompressionPreset">[docs]</a><span class="k">class</span> <span class="nc">XAQuickTimeAudioCompressionPreset</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBObject</span><span class="p">):</span>
+<div class="viewcode-block" id="XAQuickTimeAudioCompressionPreset"><a class="viewcode-back" href="../../../reference/apps/quicktimeplayer.html#PyXA.apps.QuickTimePlayer.XAQuickTimeAudioCompressionPreset">[docs]</a><span class="k">class</span> <span class="nc">XAQuickTimeAudioCompressionPreset</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A class for managing and interacting with audio compression presets in QuickTime.app.</span>
 
 <span class="sd">    .. seealso:: :class:`XAQuickTimeApplication`</span>
@@ -1090,7 +1090,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;ID&quot;</span><span class="p">))</span></div></div>
 
-<div class="viewcode-block" id="XAQuickTimeMovieCompressionPreset"><a class="viewcode-back" href="../../../reference/apps/quicktimeplayer.html#PyXA.apps.QuickTimePlayer.XAQuickTimeMovieCompressionPreset">[docs]</a><span class="k">class</span> <span class="nc">XAQuickTimeMovieCompressionPreset</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBObject</span><span class="p">):</span>
+<div class="viewcode-block" id="XAQuickTimeMovieCompressionPreset"><a class="viewcode-back" href="../../../reference/apps/quicktimeplayer.html#PyXA.apps.QuickTimePlayer.XAQuickTimeMovieCompressionPreset">[docs]</a><span class="k">class</span> <span class="nc">XAQuickTimeMovieCompressionPreset</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A class for managing and interacting with movie compression presets in QuickTime.app.</span>
 
 <span class="sd">    .. seealso:: :class:`XAQuickTimeApplication`</span>
@@ -1158,7 +1158,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;ID&quot;</span><span class="p">))</span></div></div>
 
-<div class="viewcode-block" id="XAQuickTimeScreenCompressionPreset"><a class="viewcode-back" href="../../../reference/apps/quicktimeplayer.html#PyXA.apps.QuickTimePlayer.XAQuickTimeScreenCompressionPreset">[docs]</a><span class="k">class</span> <span class="nc">XAQuickTimeScreenCompressionPreset</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBObject</span><span class="p">):</span>
+<div class="viewcode-block" id="XAQuickTimeScreenCompressionPreset"><a class="viewcode-back" href="../../../reference/apps/quicktimeplayer.html#PyXA.apps.QuickTimePlayer.XAQuickTimeScreenCompressionPreset">[docs]</a><span class="k">class</span> <span class="nc">XAQuickTimeScreenCompressionPreset</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A class for managing and interacting with screen compression presets in QuickTime.app.</span>
 
 <span class="sd">    .. seealso:: :class:`XAQuickTimeApplication`</span>

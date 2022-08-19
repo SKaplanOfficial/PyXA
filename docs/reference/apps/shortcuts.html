@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Shortcuts Module Reference &mdash; PyXA 0.0.7 documentation</title>
+  <title>Shortcuts Module Reference &mdash; PyXA 0.0.8 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
@@ -42,7 +42,6 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../about/index.html">Project Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorial/index.html">Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../tutorial/index.html#application-modules">Application Modules</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../index.html">Code Documentation and Reference</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../index.html#top-level-pyxa-modules">Top-level PyXA Modules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../index.html#pyxa-base-modules">PyXA Base Modules</a></li>
@@ -61,6 +60,7 @@
 <li class="toctree-l3"><a class="reference internal" href="messages.html">Messages Module Reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="music.html">Music Module Reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="notes.html">Notes Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="numbers.html">Numbers Module Reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pages.html">Pages Module Reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="photos.html">Photos Module Reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="preview.html">Preview Module Reference</a></li>
@@ -139,7 +139,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.Shortcuts.XAShortcut">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Shortcuts.</span></span><span class="sig-name descname"><span class="pre">XAShortcut</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Shortcuts.html#XAShortcut"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Shortcuts.XAShortcut" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XASBPrintable" title="PyXA.XABaseScriptable.XASBPrintable"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABaseScriptable.XASBPrintable</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XASBPrintable" title="PyXA.XABaseScriptable.XASBPrintable"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABaseScriptable.XASBPrintable</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XAProtocols.XAClipboardCodable</span></code></p>
 <p>A class for managing and interacting with shortcuts.</p>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
@@ -188,7 +188,10 @@
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Shortcuts.XAShortcut.run" title="PyXA.apps.Shortcuts.XAShortcut.run"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run</span></code></a>([input])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Shortcuts.XAShortcut.get_clipboard_representation" title="PyXA.apps.Shortcuts.XAShortcut.get_clipboard_representation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_clipboard_representation</span></code></a>()</p></td>
+<td><p>Gets a clipboard-codable representation of the shortcut.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Shortcuts.XAShortcut.run" title="PyXA.apps.Shortcuts.XAShortcut.run"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run</span></code></a>([input])</p></td>
 <td><p>Runs the shortcut with the provided input.</p></td>
 </tr>
 </tbody>
@@ -215,6 +218,24 @@
 <dt class="sig sig-object py" id="PyXA.apps.Shortcuts.XAShortcut.folder">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">folder</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.apps.Shortcuts.XAShortcutFolder" title="PyXA.apps.Shortcuts.XAShortcutFolder"><span class="pre">PyXA.apps.Shortcuts.XAShortcutFolder</span></a></em><a class="headerlink" href="#PyXA.apps.Shortcuts.XAShortcut.folder" title="Permalink to this definition"></a></dt>
 <dd><p>The folder that contains the shortcut</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Shortcuts.XAShortcut.get_clipboard_representation">
+<span class="sig-name descname"><span class="pre">get_clipboard_representation</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">objc.NSImage</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Shortcuts.html#XAShortcut.get_clipboard_representation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Shortcuts.XAShortcut.get_clipboard_representation" title="Permalink to this definition"></a></dt>
+<dd><p>Gets a clipboard-codable representation of the shortcut.</p>
+<p>When the clipboard content is set to a shortcut, the shortcut’s name, subtitle, and icon are added to the clipboard.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The shortcut’s name, subtitle, and icon</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>List[Union[str, str, NSImage]]</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.8.</span></p>
+</div>
 </dd></dl>
 
 <dl class="py property">
@@ -300,7 +321,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.Shortcuts.XAShortcutFolder">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Shortcuts.</span></span><span class="sig-name descname"><span class="pre">XAShortcutFolder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Shortcuts.html#XAShortcutFolder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Shortcuts.XAShortcutFolder" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XASBObject" title="PyXA.XABaseScriptable.XASBObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABaseScriptable.XASBObject</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAObject</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XAProtocols.XAClipboardCodable</span></code></p>
 <p>A class for managing and interacting with folders of shortcuts.</p>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
@@ -309,6 +330,21 @@
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.2.</span></p>
 </div>
+<p><strong>Methods:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Shortcuts.XAShortcutFolder.get_clipboard_representation" title="PyXA.apps.Shortcuts.XAShortcutFolder.get_clipboard_representation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_clipboard_representation</span></code></a>()</p></td>
+<td><p>Gets a clipboard-codable representation of the folder.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Shortcuts.XAShortcutFolder.shortcuts" title="PyXA.apps.Shortcuts.XAShortcutFolder.shortcuts"><code class="xref py py-obj docutils literal notranslate"><span class="pre">shortcuts</span></code></a>([filter])</p></td>
+<td><p>Returns a list of shortcuts matching the given filter.</p></td>
+</tr>
+</tbody>
+</table>
 <p><strong>Attributes:</strong></p>
 <table class="autosummary longtable docutils align-default">
 <colgroup>
@@ -324,18 +360,24 @@
 </tr>
 </tbody>
 </table>
-<p><strong>Methods:</strong></p>
-<table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
-<tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Shortcuts.XAShortcutFolder.shortcuts" title="PyXA.apps.Shortcuts.XAShortcutFolder.shortcuts"><code class="xref py py-obj docutils literal notranslate"><span class="pre">shortcuts</span></code></a>([filter])</p></td>
-<td><p>Returns a list of shortcuts matching the given filter.</p></td>
-</tr>
-</tbody>
-</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Shortcuts.XAShortcutFolder.get_clipboard_representation">
+<span class="sig-name descname"><span class="pre">get_clipboard_representation</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Shortcuts.html#XAShortcutFolder.get_clipboard_representation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Shortcuts.XAShortcutFolder.get_clipboard_representation" title="Permalink to this definition"></a></dt>
+<dd><p>Gets a clipboard-codable representation of the folder.</p>
+<p>When the clipboard content is set to a shortcut folder, the folders’s name is added to the clipboard.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The name of the folder</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.8.</span></p>
+</div>
+</dd></dl>
+
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Shortcuts.XAShortcutFolder.id">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Shortcuts.XAShortcutFolder.id" title="Permalink to this definition"></a></dt>
@@ -389,7 +431,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.Shortcuts.XAShortcutFolderList">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Shortcuts.</span></span><span class="sig-name descname"><span class="pre">XAShortcutFolderList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Shortcuts.html#XAShortcutFolderList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Shortcuts.XAShortcutFolderList" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAList" title="PyXA.XABase.XAList"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAList</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAList" title="PyXA.XABase.XAList"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAList</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XAProtocols.XAClipboardCodable</span></code></p>
 <p>A wrapper around lists of shortcuts folders that employs fast enumeration techniques.</p>
 <p>All properties of folders can be called as methods on the wrapped list, returning a list containing each folders’s value for the property.</p>
 <div class="versionadded">
@@ -408,13 +450,16 @@
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Shortcuts.XAShortcutFolderList.by_name" title="PyXA.apps.Shortcuts.XAShortcutFolderList.by_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_name</span></code></a>(name)</p></td>
 <td><p>Retrieves the first folder whose name matches the given name, if one exists.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Shortcuts.XAShortcutFolderList.id" title="PyXA.apps.Shortcuts.XAShortcutFolderList.id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">id</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Shortcuts.XAShortcutFolderList.get_clipboard_representation" title="PyXA.apps.Shortcuts.XAShortcutFolderList.get_clipboard_representation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_clipboard_representation</span></code></a>()</p></td>
+<td><p>Gets a clipboard-codable representation of each folder in the list.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Shortcuts.XAShortcutFolderList.id" title="PyXA.apps.Shortcuts.XAShortcutFolderList.id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">id</span></code></a>()</p></td>
 <td><p>Gets the ID of each folder in the list.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Shortcuts.XAShortcutFolderList.name" title="PyXA.apps.Shortcuts.XAShortcutFolderList.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Shortcuts.XAShortcutFolderList.name" title="PyXA.apps.Shortcuts.XAShortcutFolderList.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a>()</p></td>
 <td><p>Gets the name of each folder in the list.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Shortcuts.XAShortcutFolderList.shortcuts" title="PyXA.apps.Shortcuts.XAShortcutFolderList.shortcuts"><code class="xref py py-obj docutils literal notranslate"><span class="pre">shortcuts</span></code></a>([filter])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Shortcuts.XAShortcutFolderList.shortcuts" title="PyXA.apps.Shortcuts.XAShortcutFolderList.shortcuts"><code class="xref py py-obj docutils literal notranslate"><span class="pre">shortcuts</span></code></a>([filter])</p></td>
 <td><p>Gets the shortcuts within each folder in the list.</p></td>
 </tr>
 </tbody>
@@ -450,6 +495,24 @@
 </dl>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.4.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Shortcuts.XAShortcutFolderList.get_clipboard_representation">
+<span class="sig-name descname"><span class="pre">get_clipboard_representation</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Shortcuts.html#XAShortcutFolderList.get_clipboard_representation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Shortcuts.XAShortcutFolderList.get_clipboard_representation" title="Permalink to this definition"></a></dt>
+<dd><p>Gets a clipboard-codable representation of each folder in the list.</p>
+<p>When the clipboard content is set to a list of shortcut folders, each folders’s name is added to the clipboard.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The list of folder names</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>List[str]</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.8.</span></p>
 </div>
 </dd></dl>
 
@@ -509,7 +572,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.Shortcuts.XAShortcutList">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Shortcuts.</span></span><span class="sig-name descname"><span class="pre">XAShortcutList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Shortcuts.html#XAShortcutList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Shortcuts.XAShortcutList" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAList" title="PyXA.XABase.XAList"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAList</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAList" title="PyXA.XABase.XAList"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAList</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XAProtocols.XAClipboardCodable</span></code></p>
 <p>A wrapper around lists of shortcuts that employs fast enumeration techniques.</p>
 <p>All properties of shortcuts can be called as methods on the wrapped list, returning a list containing each shortcut’s value for the property.</p>
 <div class="versionadded">
@@ -558,16 +621,19 @@
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Shortcuts.XAShortcutList.folder" title="PyXA.apps.Shortcuts.XAShortcutList.folder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">folder</span></code></a>()</p></td>
 <td><p>Gets the containing folder of each shortcut in the list.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Shortcuts.XAShortcutList.icon" title="PyXA.apps.Shortcuts.XAShortcutList.icon"><code class="xref py py-obj docutils literal notranslate"><span class="pre">icon</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Shortcuts.XAShortcutList.get_clipboard_representation" title="PyXA.apps.Shortcuts.XAShortcutList.get_clipboard_representation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_clipboard_representation</span></code></a>()</p></td>
+<td><p>Gets a clipboard-codable representation of each shortcut in the list.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Shortcuts.XAShortcutList.icon" title="PyXA.apps.Shortcuts.XAShortcutList.icon"><code class="xref py py-obj docutils literal notranslate"><span class="pre">icon</span></code></a>()</p></td>
 <td><p>Gets the icon of each shortcut in the list.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Shortcuts.XAShortcutList.id" title="PyXA.apps.Shortcuts.XAShortcutList.id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">id</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Shortcuts.XAShortcutList.id" title="PyXA.apps.Shortcuts.XAShortcutList.id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">id</span></code></a>()</p></td>
 <td><p>Gets the ID of each shortcut in the list.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Shortcuts.XAShortcutList.name" title="PyXA.apps.Shortcuts.XAShortcutList.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Shortcuts.XAShortcutList.name" title="PyXA.apps.Shortcuts.XAShortcutList.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a>()</p></td>
 <td><p>Gets the name of each shortcut in the list.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Shortcuts.XAShortcutList.subtitle" title="PyXA.apps.Shortcuts.XAShortcutList.subtitle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">subtitle</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Shortcuts.XAShortcutList.subtitle" title="PyXA.apps.Shortcuts.XAShortcutList.subtitle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">subtitle</span></code></a>()</p></td>
 <td><p>Gets the subtitle of each shortcut in the list.</p></td>
 </tr>
 </tbody>
@@ -777,6 +843,24 @@
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Shortcuts.XAShortcutList.get_clipboard_representation">
+<span class="sig-name descname"><span class="pre">get_clipboard_representation</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">objc.NSImage</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Shortcuts.html#XAShortcutList.get_clipboard_representation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Shortcuts.XAShortcutList.get_clipboard_representation" title="Permalink to this definition"></a></dt>
+<dd><p>Gets a clipboard-codable representation of each shortcut in the list.</p>
+<p>When the clipboard content is set to a list of shortcuts, each shortcut’s name, subtitle, and icon are added to the clipboard.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A list of each shortcut’s name, subtitle, and icon</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>List[Union[List[str], List[str], List[NSImage]]]</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.8.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Shortcuts.XAShortcutList.icon">
 <span class="sig-name descname"><span class="pre">icon</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../xabase.html#PyXA.XABase.XAImageList" title="PyXA.XABase.XAImageList"><span class="pre">PyXA.XABase.XAImageList</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Shortcuts.html#XAShortcutList.icon"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Shortcuts.XAShortcutList.icon" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the icon of each shortcut in the list.</p>
@@ -849,7 +933,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.Shortcuts.XAShortcutsApplication">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Shortcuts.</span></span><span class="sig-name descname"><span class="pre">XAShortcutsApplication</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Shortcuts.html#XAShortcutsApplication"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Shortcuts.XAShortcutsApplication" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XASBApplication" title="PyXA.XABaseScriptable.XASBApplication"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABaseScriptable.XASBApplication</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XASBApplication" title="PyXA.XABaseScriptable.XASBApplication"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABaseScriptable.XASBApplication</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XAProtocols.XACanOpenPath</span></code></p>
 <p>A class for managing and interacting with Shortcuts.app.</p>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>

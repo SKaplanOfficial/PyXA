@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tutorial &mdash; PyXA 0.0.7 documentation</title>
+  <title>Tutorial &mdash; PyXA 0.0.8 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
@@ -19,7 +19,7 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Automator Module" href="apps/automator/index.html" />
+    <link rel="next" title="Application Modules" href="apps/index.html" />
     <link rel="prev" title="Project Overview" href="../about/index.html" /> 
 </head>
 
@@ -44,40 +44,13 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Tutorial</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#basic-usage">Basic Usage</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="#application-modules">Application Modules</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#first-party-application-modules">First-Party Application Modules</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="apps/automator/index.html">Automator Module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="apps/calculator/index.html">Calculator Module Overview</a></li>
-<li class="toctree-l3"><a class="reference internal" href="apps/calendar/index.html">Calendar Module Overview</a></li>
-<li class="toctree-l3"><a class="reference internal" href="apps/console/index.html">Console Module Overview</a></li>
-<li class="toctree-l3"><a class="reference internal" href="apps/contacts/index.html">Contacts Module Overview</a></li>
-<li class="toctree-l3"><a class="reference internal" href="apps/dictionary/index.html">Dictionary Module Overview</a></li>
-<li class="toctree-l3"><a class="reference internal" href="apps/finder/index.html">Finder Module Overview</a></li>
-<li class="toctree-l3"><a class="reference internal" href="apps/fontbook/index.html">Font Book Module Overview</a></li>
-<li class="toctree-l3"><a class="reference internal" href="apps/keynote/index.html">Keynote Module Overview</a></li>
-<li class="toctree-l3"><a class="reference internal" href="apps/mail/index.html">Mail Module Overview</a></li>
-<li class="toctree-l3"><a class="reference internal" href="apps/maps/index.html">Maps Module Overview</a></li>
-<li class="toctree-l3"><a class="reference internal" href="apps/messages/index.html">Messages Module Overview</a></li>
-<li class="toctree-l3"><a class="reference internal" href="apps/music/index.html">Music Module Overview</a></li>
-<li class="toctree-l3"><a class="reference internal" href="apps/notes/index.html">Notes Module Overview</a></li>
-<li class="toctree-l3"><a class="reference internal" href="apps/pages/index.html">Pages Module Overview</a></li>
-<li class="toctree-l3"><a class="reference internal" href="apps/photos/index.html">Photos Module Overview</a></li>
-<li class="toctree-l3"><a class="reference internal" href="apps/preview/index.html">Preview Module Overview</a></li>
-<li class="toctree-l3"><a class="reference internal" href="apps/quicktimeplayer/index.html">QuickTime Module Overview</a></li>
-<li class="toctree-l3"><a class="reference internal" href="apps/reminders/index.html">Reminders Module Overview</a></li>
-<li class="toctree-l3"><a class="reference internal" href="apps/safari/index.html">Safari Module Overview</a></li>
-<li class="toctree-l3"><a class="reference internal" href="apps/shortcuts/index.html">Shortcuts Module Overview</a></li>
-<li class="toctree-l3"><a class="reference internal" href="apps/stocks/index.html">Stocks Module Overview</a></li>
-<li class="toctree-l3"><a class="reference internal" href="apps/systempreferences/index.html">System Preferences Module Overview</a></li>
-<li class="toctree-l3"><a class="reference internal" href="apps/terminal/index.html">Terminal Module Overview</a></li>
-<li class="toctree-l3"><a class="reference internal" href="apps/textedit/index.html">TextEdit Module Overview</a></li>
-<li class="toctree-l3"><a class="reference internal" href="apps/tv/index.html">TV Module Overview</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#third-party-application-modules">Third-Party Application Modules</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="apps/chromium/index.html">Chromium Module Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#additional-tutorial-topics">Additional Tutorial Topics</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="apps/index.html">Application Modules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lists.html">Working With Lists</a></li>
+<li class="toctree-l3"><a class="reference internal" href="clipboard.html">Working With The Clipboard</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user_input.html">Getting User Input</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ui_scripting.html">UI Scripting With PyXA</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tips_tricks.html">Tips and Tricks</a></li>
 </ul>
 </li>
 </ul>
@@ -200,47 +173,16 @@ https://www.google.com
 </div>
 <p>When you double click on the script from within Finder, or when you run <cite>./basics</cite> in the Terminal, the workflow should execute as it did before. If you want, you can <a class="reference external" href="https://support.apple.com/en-gb/guide/mac-help/mchlp2313/mac">change the icon of the file</a> to give your automation a distinct look. You can then move the file to your desktop, the dock, or anywhere you want.</p>
 </section>
-</section>
-<section id="application-modules">
-<h1>Application Modules<a class="headerlink" href="#application-modules" title="Permalink to this headline"></a></h1>
-<section id="first-party-application-modules">
-<h2>First-Party Application Modules<a class="headerlink" href="#first-party-application-modules" title="Permalink to this headline"></a></h2>
+<section id="additional-tutorial-topics">
+<h2>Additional Tutorial Topics<a class="headerlink" href="#additional-tutorial-topics" title="Permalink to this headline"></a></h2>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="apps/automator/index.html">Automator Module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apps/calculator/index.html">Calculator Module Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apps/calendar/index.html">Calendar Module Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apps/console/index.html">Console Module Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apps/contacts/index.html">Contacts Module Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apps/dictionary/index.html">Dictionary Module Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apps/finder/index.html">Finder Module Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apps/fontbook/index.html">Font Book Module Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apps/keynote/index.html">Keynote Module Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apps/mail/index.html">Mail Module Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apps/maps/index.html">Maps Module Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apps/messages/index.html">Messages Module Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apps/music/index.html">Music Module Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apps/notes/index.html">Notes Module Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apps/pages/index.html">Pages Module Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apps/photos/index.html">Photos Module Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apps/preview/index.html">Preview Module Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apps/quicktimeplayer/index.html">QuickTime Module Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apps/reminders/index.html">Reminders Module Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apps/safari/index.html">Safari Module Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apps/shortcuts/index.html">Shortcuts Module Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apps/stocks/index.html">Stocks Module Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apps/systempreferences/index.html">System Preferences Module Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apps/terminal/index.html">Terminal Module Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apps/textedit/index.html">TextEdit Module Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apps/tv/index.html">TV Module Overview</a></li>
-</ul>
-</div>
-</section>
-<section id="third-party-application-modules">
-<h2>Third-Party Application Modules<a class="headerlink" href="#third-party-application-modules" title="Permalink to this headline"></a></h2>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="apps/chromium/index.html">Chromium Module Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apps/index.html">Application Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lists.html">Working With Lists</a></li>
+<li class="toctree-l1"><a class="reference internal" href="clipboard.html">Working With The Clipboard</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user_input.html">Getting User Input</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ui_scripting.html">UI Scripting With PyXA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tips_tricks.html">Tips and Tricks</a></li>
 </ul>
 </div>
 </section>
@@ -251,7 +193,7 @@ https://www.google.com
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="../about/index.html" class="btn btn-neutral float-left" title="Project Overview" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="apps/automator/index.html" class="btn btn-neutral float-right" title="Automator Module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="apps/index.html" class="btn btn-neutral float-right" title="Application Modules" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

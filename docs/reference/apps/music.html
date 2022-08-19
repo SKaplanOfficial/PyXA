@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Music Module Reference &mdash; PyXA 0.0.7 documentation</title>
+  <title>Music Module Reference &mdash; PyXA 0.0.8 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
@@ -42,7 +42,6 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../about/index.html">Project Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorial/index.html">Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../tutorial/index.html#application-modules">Application Modules</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../index.html">Code Documentation and Reference</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../index.html#top-level-pyxa-modules">Top-level PyXA Modules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../index.html#pyxa-base-modules">PyXA Base Modules</a></li>
@@ -61,6 +60,7 @@
 <li class="toctree-l3"><a class="reference internal" href="messages.html">Messages Module Reference</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">Music Module Reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="notes.html">Notes Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="numbers.html">Numbers Module Reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pages.html">Pages Module Reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="photos.html">Photos Module Reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="preview.html">Preview Module Reference</a></li>
@@ -185,7 +185,7 @@
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Music.XAMusicItem" title="PyXA.apps.Music.XAMusicItem"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAMusicItem</span></code></a>(properties)</p></td>
 <td><p>A generic class with methods common to the various playable media classes in TV.app.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Music.XAMusicItemList" title="PyXA.apps.Music.XAMusicItemList"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAMusicItemList</span></code></a>(properties[, obj_class, filter])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Music.XAMusicItemList" title="PyXA.apps.Music.XAMusicItemList"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAMusicItemList</span></code></a>(properties[, filter, obj_class])</p></td>
 <td><p>A wrapper around lists of music items that employs fast enumeration techniques.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Music.XAMusicLibraryPlaylist" title="PyXA.apps.Music.XAMusicLibraryPlaylist"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAMusicLibraryPlaylist</span></code></a>(properties)</p></td>
@@ -203,7 +203,7 @@
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Music.XAMusicPlaylist" title="PyXA.apps.Music.XAMusicPlaylist"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAMusicPlaylist</span></code></a>(properties)</p></td>
 <td><p>A playlist in Music.app.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Music.XAMusicPlaylistList" title="PyXA.apps.Music.XAMusicPlaylistList"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAMusicPlaylistList</span></code></a>(properties[, obj_class, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Music.XAMusicPlaylistList" title="PyXA.apps.Music.XAMusicPlaylistList"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAMusicPlaylistList</span></code></a>(properties[, filter, ...])</p></td>
 <td><p>A wrapper around lists of playlists that employs fast enumeration techniques.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Music.XAMusicPlaylistWindow" title="PyXA.apps.Music.XAMusicPlaylistWindow"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAMusicPlaylistWindow</span></code></a>(properties)</p></td>
@@ -239,7 +239,7 @@
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Music.XAMusicTrack" title="PyXA.apps.Music.XAMusicTrack"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAMusicTrack</span></code></a>(properties)</p></td>
 <td><p>A class for managing and interacting with tracks in TV.app.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Music.XAMusicTrackList" title="PyXA.apps.Music.XAMusicTrackList"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAMusicTrackList</span></code></a>(properties[, obj_class, filter])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Music.XAMusicTrackList" title="PyXA.apps.Music.XAMusicTrackList"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAMusicTrackList</span></code></a>(properties[, filter, obj_class])</p></td>
 <td><p>A wrapper around lists of music tracks that employs fast enumeration techniques.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Music.XAMusicURLTrack" title="PyXA.apps.Music.XAMusicURLTrack"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAMusicURLTrack</span></code></a>(properties)</p></td>
@@ -269,7 +269,7 @@
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Music.XAMusicWindow" title="PyXA.apps.Music.XAMusicWindow"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAMusicWindow</span></code></a>(properties)</p></td>
 <td><p>A windows of Music.app.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Music.XAMusicWindowList" title="PyXA.apps.Music.XAMusicWindowList"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAMusicWindowList</span></code></a>(properties[, obj_class, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Music.XAMusicWindowList" title="PyXA.apps.Music.XAMusicWindowList"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAMusicWindowList</span></code></a>(properties[, filter, ...])</p></td>
 <td><p>A wrapper around lists of music browser windows that employs fast enumeration techniques.</p></td>
 </tr>
 </tbody>
@@ -737,7 +737,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.Music.XAMusicApplication">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Music.</span></span><span class="sig-name descname"><span class="pre">XAMusicApplication</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Music.html#XAMusicApplication"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Music.XAMusicApplication" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XASBApplication" title="PyXA.XABaseScriptable.XASBApplication"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABaseScriptable.XASBApplication</span></code></a>, <a class="reference internal" href="../xabase.html#PyXA.XABase.XACanOpenPath" title="PyXA.XABase.XACanOpenPath"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XACanOpenPath</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XASBApplication" title="PyXA.XABaseScriptable.XASBApplication"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABaseScriptable.XASBApplication</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XAProtocols.XACanOpenPath</span></code></p>
 <p>A class for managing and interacting with TV.app.</p>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
@@ -1559,7 +1559,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Music.XAMusicApplication.add_to_playlist">
-<span class="sig-name descname"><span class="pre">add_to_playlist</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">urls</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">objc.NSURL</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">playlist</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Music.html#XAMusicApplication.add_to_playlist"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Music.XAMusicApplication.add_to_playlist" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">add_to_playlist</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">urls</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">objc.NSURL</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">playlist</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Music.html#XAMusicApplication.add_to_playlist"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Music.XAMusicApplication.add_to_playlist" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -4203,7 +4203,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.Music.XAMusicItem">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Music.</span></span><span class="sig-name descname"><span class="pre">XAMusicItem</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Music.html#XAMusicItem"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Music.XAMusicItem" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XASBObject" title="PyXA.XABaseScriptable.XASBObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABaseScriptable.XASBObject</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAObject</span></code></a></p>
 <p>A generic class with methods common to the various playable media classes in TV.app.</p>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
@@ -4249,7 +4249,10 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Music.XAMusicItem.download" title="PyXA.apps.Music.XAMusicItem.download"><code class="xref py py-obj docutils literal notranslate"><span class="pre">download</span></code></a>()</p></td>
 <td><p>Downloads the item into the local library.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Music.XAMusicItem.reveal" title="PyXA.apps.Music.XAMusicItem.reveal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reveal</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Music.XAMusicItem.get_clipboard_representation" title="PyXA.apps.Music.XAMusicItem.get_clipboard_representation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_clipboard_representation</span></code></a>()</p></td>
+<td><p>Gets a clipboard-codable representation of the music item.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Music.XAMusicItem.reveal" title="PyXA.apps.Music.XAMusicItem.reveal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reveal</span></code></a>()</p></td>
 <td><p>Reveals the item in the TV.app window.</p></td>
 </tr>
 </tbody>
@@ -4274,6 +4277,24 @@
 </dl>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.1.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Music.XAMusicItem.get_clipboard_representation">
+<span class="sig-name descname"><span class="pre">get_clipboard_representation</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Music.html#XAMusicItem.get_clipboard_representation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Music.XAMusicItem.get_clipboard_representation" title="Permalink to this definition"></a></dt>
+<dd><p>Gets a clipboard-codable representation of the music item.</p>
+<p>When a music item is copied to the clipboard, the name of the music item is added to the clipboard.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The name of the music item</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.8.</span></p>
 </div>
 </dd></dl>
 
@@ -4332,7 +4353,7 @@
 
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.Music.XAMusicItemList">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Music.</span></span><span class="sig-name descname"><span class="pre">XAMusicItemList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obj_class</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Music.html#XAMusicItemList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Music.XAMusicItemList" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Music.</span></span><span class="sig-name descname"><span class="pre">XAMusicItemList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obj_class</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Music.html#XAMusicItemList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Music.XAMusicItemList" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAList" title="PyXA.XABase.XAList"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAList</span></code></a></p>
 <p>A wrapper around lists of music items that employs fast enumeration techniques.</p>
 <p>All properties of music items can be called as methods on the wrapped list, returning a list containing each item’s value for the property.</p>
@@ -4367,19 +4388,22 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Music.XAMusicItemList.container" title="PyXA.apps.Music.XAMusicItemList.container"><code class="xref py py-obj docutils literal notranslate"><span class="pre">container</span></code></a>()</p></td>
 <td><p>Gets the container of each music item in the list.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Music.XAMusicItemList.id" title="PyXA.apps.Music.XAMusicItemList.id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">id</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Music.XAMusicItemList.get_clipboard_representation" title="PyXA.apps.Music.XAMusicItemList.get_clipboard_representation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_clipboard_representation</span></code></a>()</p></td>
+<td><p>Gets a clipboard-codable representation of each music item in the list.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Music.XAMusicItemList.id" title="PyXA.apps.Music.XAMusicItemList.id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">id</span></code></a>()</p></td>
 <td><p>Gets the ID of each music item in the list.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Music.XAMusicItemList.index" title="PyXA.apps.Music.XAMusicItemList.index"><code class="xref py py-obj docutils literal notranslate"><span class="pre">index</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Music.XAMusicItemList.index" title="PyXA.apps.Music.XAMusicItemList.index"><code class="xref py py-obj docutils literal notranslate"><span class="pre">index</span></code></a>()</p></td>
 <td><p>Gets the index of each music item in the list.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Music.XAMusicItemList.name" title="PyXA.apps.Music.XAMusicItemList.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Music.XAMusicItemList.name" title="PyXA.apps.Music.XAMusicItemList.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a>()</p></td>
 <td><p>Gets the name of each music item in the list.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Music.XAMusicItemList.persistent_id" title="PyXA.apps.Music.XAMusicItemList.persistent_id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">persistent_id</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Music.XAMusicItemList.persistent_id" title="PyXA.apps.Music.XAMusicItemList.persistent_id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">persistent_id</span></code></a>()</p></td>
 <td><p>Gets the persistent ID of each music item in the list.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Music.XAMusicItemList.properties" title="PyXA.apps.Music.XAMusicItemList.properties"><code class="xref py py-obj docutils literal notranslate"><span class="pre">properties</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Music.XAMusicItemList.properties" title="PyXA.apps.Music.XAMusicItemList.properties"><code class="xref py py-obj docutils literal notranslate"><span class="pre">properties</span></code></a>()</p></td>
 <td><p>Gets the properties of each music item in the list.</p></td>
 </tr>
 </tbody>
@@ -4500,6 +4524,24 @@
 </dl>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.7.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Music.XAMusicItemList.get_clipboard_representation">
+<span class="sig-name descname"><span class="pre">get_clipboard_representation</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Music.html#XAMusicItemList.get_clipboard_representation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Music.XAMusicItemList.get_clipboard_representation" title="Permalink to this definition"></a></dt>
+<dd><p>Gets a clipboard-codable representation of each music item in the list.</p>
+<p>When a list of music items is copied to the clipboard, the name of each item is added to the clipboard.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A list of track names</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>List[str]</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.8.</span></p>
 </div>
 </dd></dl>
 
@@ -4896,7 +4938,7 @@
 
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.Music.XAMusicPlaylistList">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Music.</span></span><span class="sig-name descname"><span class="pre">XAMusicPlaylistList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obj_class</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Music.html#XAMusicPlaylistList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Music.XAMusicPlaylistList" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Music.</span></span><span class="sig-name descname"><span class="pre">XAMusicPlaylistList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obj_class</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Music.html#XAMusicPlaylistList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Music.XAMusicPlaylistList" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#PyXA.apps.Music.XAMusicItemList" title="PyXA.apps.Music.XAMusicItemList"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.apps.Music.XAMusicItemList</span></code></a></p>
 <p>A wrapper around lists of playlists that employs fast enumeration techniques.</p>
 <p>All properties of playlists can be called as methods on the wrapped list, returning a list containing each playlist’s value for the property.</p>
@@ -6664,7 +6706,7 @@
 
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.Music.XAMusicTrackList">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Music.</span></span><span class="sig-name descname"><span class="pre">XAMusicTrackList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obj_class</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Music.html#XAMusicTrackList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Music.XAMusicTrackList" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Music.</span></span><span class="sig-name descname"><span class="pre">XAMusicTrackList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obj_class</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Music.html#XAMusicTrackList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Music.XAMusicTrackList" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#PyXA.apps.Music.XAMusicItemList" title="PyXA.apps.Music.XAMusicItemList"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.apps.Music.XAMusicItemList</span></code></a></p>
 <p>A wrapper around lists of music tracks that employs fast enumeration techniques.</p>
 <p>All properties of music tracks can be called as methods on the wrapped list, returning a list containing each track’s value for the property.</p>
@@ -9991,7 +10033,7 @@
 
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.Music.XAMusicWindowList">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Music.</span></span><span class="sig-name descname"><span class="pre">XAMusicWindowList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obj_class</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Music.html#XAMusicWindowList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Music.XAMusicWindowList" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Music.</span></span><span class="sig-name descname"><span class="pre">XAMusicWindowList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obj_class</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Music.html#XAMusicWindowList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Music.XAMusicWindowList" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#PyXA.apps.Music.XAMusicItemList" title="PyXA.apps.Music.XAMusicItemList"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.apps.Music.XAMusicItemList</span></code></a></p>
 <p>A wrapper around lists of music browser windows that employs fast enumeration techniques.</p>
 <p>All properties of music browser windows can be called as methods on the wrapped list, returning a list containing each windows’s value for the property.</p>

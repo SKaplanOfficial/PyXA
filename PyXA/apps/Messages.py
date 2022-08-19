@@ -5,13 +5,14 @@ Control the macOS Messages application using JXA-like syntax.
 
 from datetime import datetime
 from enum import Enum
-from typing import List, Tuple, Union
+from typing import Any, List, Tuple, Union
 
-from AppKit import NSMutableArray
+from AppKit import NSMutableArray, NSURL
 
 from PyXA import XABase
 from PyXA import XAEvents
 from PyXA import XABaseScriptable
+from ..XAProtocols import XAClipboardCodable
 
 
 class XAMessagesApplication(XABaseScriptable.XASBApplication):
@@ -396,7 +397,7 @@ class XAMessagesDocument(XABase.XAObject):
 
 
 
-class XAMessagesChatList(XABase.XAList):
+class XAMessagesChatList(XABase.XAList, XAClipboardCodable):
     """A wrapper around a list of chats that employs fast enumeration techniques.
 
     All properties of chats can be called as methods on the wrapped list, returning a list containing each chat's value for the property.
@@ -504,10 +505,22 @@ class XAMessagesChatList(XABase.XAList):
             if len(match) == len(participants):
                 return self._new_element(chat, XAMessagesChat)
 
+    def get_clipboard_representation(self) -> List[str]:
+        """Gets a clipboard-codable representation of each chat in the list.
+
+        When the clipboard content is set to a list of chats, each chat's name is added to the clipboard.
+
+        :return: The list of chat names
+        :rtype: List[str]
+
+        .. versionadded:: 0.0.8
+        """
+        return self.name()
+
     def __repr__(self):
         return "<" + str(type(self)) + str(self.id()) + ">"
 
-class XAMessagesChat(XABase.XAObject):
+class XAMessagesChat(XABase.XAObject, XAClipboardCodable):
     """A class for managing and interacting with chats in Messages.app
     
     .. versionadded:: 0.0.1
@@ -556,13 +569,25 @@ class XAMessagesChat(XABase.XAObject):
         """
         return self._new_element(self.xa_elem.participants(), XAMessagesParticipantList, filter)
 
+    def get_clipboard_representation(self) -> str:
+        """Gets a clipboard-codable representation of the chat.
+
+        When the clipboard content is set to a chat, the chat's name is added to the clipboard.
+
+        :return: The name of the chat
+        :rtype: str
+
+        .. versionadded:: 0.0.8
+        """
+        return self.name
+
     def __repr__(self):
         return "<" + str(type(self)) + str(self.participants()) + ">"
 
 
 
 
-class XAMessagesFileTransferList(XABase.XAList):
+class XAMessagesFileTransferList(XABase.XAList, XAClipboardCodable):
     """A wrapper around a list of file transfers that employs fast enumeration techniques.
 
     All properties of file transfers can be called as methods on the wrapped list, returning a list containing each file transfer's value for the property.
@@ -590,17 +615,18 @@ class XAMessagesFileTransferList(XABase.XAList):
         
         .. versionadded:: 0.0.4
         """
-        return list(self.xa_elem.arrayByApplyingSelector_("name"))
+        return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
-    def file_path(self) -> List[str]:
+    def file_path(self) -> List[XABase.XAPath]:
         """Gets the file path of each file transfer in the list.
 
         :return: A list of file paths
-        :rtype: List[str]
+        :rtype: List[XABase.XAPath]
         
         .. versionadded:: 0.0.4
         """
-        return list(self.xa_elem.arrayByApplyingSelector_("filePath"))
+        ls = self.xa_elem.arrayByApplyingSelector_("filePath")
+        return [XABase.XAPath(x) for x in ls]
 
     def direction(self) -> List[XAMessagesApplication.MessageDirection]:
         """Gets the direction of each file transfer in the list.
@@ -611,7 +637,7 @@ class XAMessagesFileTransferList(XABase.XAList):
         .. versionadded:: 0.0.4
         """
         ls = self.xa_elem.arrayByApplyingSelector_("direction")
-        return [XAMessagesApplication.MessageDirection(x) for x in ls]
+        return [XAMessagesApplication.MessageDirection(XABase.OSType(x.stringValue())) for x in ls]
 
     def account(self) -> 'XAMessagesAccountList':
         """Gets the account of each file transfer in the list.
@@ -696,7 +722,7 @@ class XAMessagesFileTransferList(XABase.XAList):
         """
         return self.by_property("name", name)
 
-    def by_file_path(self, file_path: str) -> 'XAMessagesFileTransfer':
+    def by_file_path(self, file_path: XABase.XAPath) -> 'XAMessagesFileTransfer':
         """Retrieves the first file transfer whose file path matches the given path, if one exists.
 
         :return: The desired file transfer, if it is found
@@ -704,7 +730,7 @@ class XAMessagesFileTransferList(XABase.XAList):
         
         .. versionadded:: 0.0.4
         """
-        return self.by_property("filePath", file_path)
+        return self.by_property("filePath", str(file_path.xa_elem))
 
     def by_direction(self, direction: XAMessagesApplication.MessageDirection) -> 'XAMessagesFileTransfer':
         """Retrieves the first file transfer whose direction matches the given enum value, if one exists.
@@ -776,10 +802,39 @@ class XAMessagesFileTransferList(XABase.XAList):
         """
         return self.by_property("started", started)
 
-    def __repr__(self):
-        return "<" + str(type(self)) + str(self.id()) + ">"
+    def filter(self, filter: str, comparison_operation: Union[str, None] = None, value1: Union[Any, None] = None, value2: Union[Any, None] = None) -> XABase.XAList:
+        substitutions = {
+            "transfer status": "transferStatus",
+            "file size": "fileSize",
+            "file path": "filePath",
+            "file progress": "fileProgress"
+        }
+        filter = substitutions.get(filter, filter)
 
-class XAMessagesFileTransfer(XABase.XAObject):
+        if isinstance(value1, XAMessagesApplication.MessageDirection) or isinstance(value1, XAMessagesApplication.TransferStatus):
+            value1 = XAEvents.event_from_str(XABase.unOSType(value1.value))
+        return super().filter(filter, comparison_operation, value1, value2)
+
+    def get_clipboard_representation(self) -> List[Union[str, NSURL]]:
+        """Gets a clipboard-codable representation of each file transfer in the list.
+
+        When the clipboard content is set to a list of file transfers, each file transfer's file path URL is added to the clipboard.
+
+        :return: The list of file path URLs
+        :rtype: List[NSURL]
+
+        .. versionadded:: 0.0.8
+        """
+        items = []
+        paths = self.file_path()
+        for name in paths:
+            items.append(path.xa_elem)
+        return items
+
+    def __repr__(self):
+        return "<" + str(type(self)) + str(self.name()) + ">"
+
+class XAMessagesFileTransfer(XABase.XAObject, XAClipboardCodable):
     """A class for managing and interacting with file transfers in Messages.app
     
     .. versionadded:: 0.0.1
@@ -788,7 +843,7 @@ class XAMessagesFileTransfer(XABase.XAObject):
         super().__init__(properties)
         self.id: str #: The unique identifier for the file transfer
         self.name: str #: The name of the file
-        self.file_path: str #: The local page to the file being transferred
+        self.file_path: XABase.XAPath #: The local page to the file being transferred
         self.direction: XAMessagesApplication.MessageDirection #: The direction that the file is being sent
         self.account: XAMessagesAccount #: The account on which the file transfer is taking place
         self.participant: XAMessagesParticipant #: The other participant in the file transfer
@@ -806,8 +861,8 @@ class XAMessagesFileTransfer(XABase.XAObject):
         return self.xa_elem.name()
 
     @property
-    def file_path(self) -> str:
-        return self.xa_elem.filePath()
+    def file_path(self) -> XABase.XAPath:
+        return XABase.XAPath(self.xa_elem.filePath())
 
     @property
     def direction(self) -> XAMessagesApplication.MessageDirection:
@@ -837,13 +892,26 @@ class XAMessagesFileTransfer(XABase.XAObject):
     def started(self) -> datetime:
         return self.xa_elem.started()
 
+    def get_clipboard_representation(self) -> List[NSURL]:
+        """Gets a clipboard-codable representation of the file transfer.
+
+        When the clipboard content is set to a file transfer, the path of the file transfer is added to the clipboard.
+
+        :return: The file path of the file transfer
+        :rtype: List[NSURL]
+
+        .. versionadded:: 0.0.8
+        """
+        print(self.file_path.xa_elem)
+        return [self.file_path.xa_elem]
+
     def __repr__(self):
         return "<" + str(type(self)) + str(self.name) + ">"
 
 
 
 
-class XAMessagesParticipantList(XABase.XAList):
+class XAMessagesParticipantList(XABase.XAList, XAClipboardCodable):
     """A wrapper around a list of participants that employs fast enumeration techniques.
 
     All properties of participants can be called as methods on the wrapped list, returning a list containing each participant's value for the property.
@@ -994,10 +1062,22 @@ class XAMessagesParticipantList(XABase.XAList):
         """
         return self.by_property("fullName", full_name)
 
+    def get_clipboard_representation(self) -> List[str]:
+        """Gets a clipboard-codable representation of each participant in the list.
+
+        When the clipboard content is set to a list of participants, each participant's full name is added to the clipboard.
+
+        :return: The list of participant names
+        :rtype: List[str]
+
+        .. versionadded:: 0.0.8
+        """
+        return self.full_name()
+
     def __repr__(self):
         return "<" + str(type(self)) + str(self.name()) + ">"
 
-class XAMessagesParticipant(XABase.XAObject):
+class XAMessagesParticipant(XABase.XAObject, XAClipboardCodable):
     """A class for managing and interacting with chat participants in Messages.app
     
     .. versionadded:: 0.0.1
@@ -1040,13 +1120,25 @@ class XAMessagesParticipant(XABase.XAObject):
     def full_name(self) -> str:
         return self.xa_elem.fullName()
 
+    def get_clipboard_representation(self) -> str:
+        """Gets a clipboard-codable representation of the participant.
+
+        When the clipboard content is set to a participant, the full name of the participant is added to the clipboard.
+
+        :return: The participant's full name
+        :rtype: str
+
+        .. versionadded:: 0.0.8
+        """
+        return self.full_name
+
     def __repr__(self):
         return "<" + str(type(self)) + self.full_name + ">"
 
 
 
 
-class XAMessagesAccountList(XABase.XAList):
+class XAMessagesAccountList(XABase.XAList, XAClipboardCodable):
     """A wrapper around a list of accounts that employs fast enumeration techniques.
 
     All properties of accounts can be called as methods on the wrapped list, returning a list containing each account's value for the property.
@@ -1158,10 +1250,22 @@ class XAMessagesAccountList(XABase.XAList):
         """
         return self.by_property("serviceType", service_type.value)
 
+    def get_clipboard_representation(self) -> List[str]:
+        """Gets a clipboard-codable representation of each account in the list.
+
+        When the clipboard content is set to a list of accounts, each account's object description is added to the clipboard.
+
+        :return: The list of account descriptions
+        :rtype: List[str]
+
+        .. versionadded:: 0.0.8
+        """
+        return self.object_description()
+
     def __repr__(self):
         return "<" + str(type(self)) + str(self.service_type()) + ">"
 
-class XAMessagesAccount(XABase.XAObject):
+class XAMessagesAccount(XABase.XAObject, XAClipboardCodable):
     """A class for managing and interacting with accounts in Messages.app
     
     .. versionadded:: 0.0.1
@@ -1207,3 +1311,18 @@ class XAMessagesAccount(XABase.XAObject):
         .. versionadded:: 0.0.4
         """
         return self._new_element(self.xa_elem.participants(), XAMessagesParticipantList, filter)
+
+    def get_clipboard_representation(self) -> str:
+        """Gets a clipboard-codable representation of the account.
+
+        When the clipboard content is set to an account, the name of the account is added to the clipboard.
+
+        :return: The name of the account
+        :rtype: str
+
+        .. versionadded:: 0.0.8
+        """
+        return self.object_description
+
+    def __repr__(self):
+        return "<" + str(type(self)) + str(self.service_type) + ">"

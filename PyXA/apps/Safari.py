@@ -11,7 +11,7 @@ from AppKit import NSURL
 
 from PyXA import XABase
 from PyXA import XABaseScriptable
-from ..XAProtocols import XACanOpenPath, XAClipboardCodable
+from ..XAProtocols import XACanOpenPath, XAClipboardCodable, XACloseable
 
 class XASafariApplication(XABaseScriptable.XASBApplication, XABaseScriptable.XASBPrintable, XABase.XAObject, XACanOpenPath):
     """A class for interacting with Safari.app.
@@ -255,7 +255,7 @@ class XASafariApplication(XABaseScriptable.XASBApplication, XABaseScriptable.XAS
 
 
 
-class XASafariWindow(XABaseScriptable.XASBWindow, XABaseScriptable.XASBCloseable, XABaseScriptable.XASBPrintable, XABase.XAObject):
+class XASafariWindow(XABaseScriptable.XASBWindow, XABaseScriptable.XASBPrintable, XABase.XAObject):
     """A class for interacting with Safari windows.
 
     .. versionadded:: 0.0.1
@@ -342,10 +342,10 @@ class XASafariWindow(XABaseScriptable.XASBWindow, XABaseScriptable.XASBCloseable
 
 
 
-class XASafariGeneric(XABaseScriptable.XASBCloseable, XABase.XAObject):
+class XASafariGeneric(XACloseable, XABase.XAObject):
     """A generic class containing methods relevant to Safari tabs and documents.
 
-    .. seealso:: :class:`XASafariDocument`, :class:`XASafariTab`, :class:`XABaseScriptable.XASBCloseable`
+    .. seealso:: :class:`XASafariDocument`, :class:`XASafariTab`
 
     .. versionadded:: 0.0.1
     """

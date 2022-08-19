@@ -14,7 +14,7 @@ from ScriptingBridge import SBObject
 from PyXA import XABase
 from PyXA.XABase import OSType, XAImage, XAList
 from PyXA import XABaseScriptable
-from ..XAProtocols import XACanOpenPath
+from ..XAProtocols import XACanOpenPath, XAClipboardCodable, XADeletable, XASelectable
 
 class XAFinderApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
     """A class for managing and interacting with Finder.app.
@@ -771,8 +771,9 @@ class XAFinderItemList(XABase.XAList):
     def modification_date(self) -> List[datetime]:
         return list(self.xa_elem.arrayByApplyingSelector_("modificationDate"))
 
-    def url(self) -> List[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("URL"))
+    def url(self) -> List[XABase.XAPath]:
+        ls = self.xa_elem.arrayByApplyingSelector_("URL")
+        return [XABase.XAPath(x[7:]) for x in ls]
 
     def owner(self) -> List[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("owner"))
@@ -856,8 +857,8 @@ class XAFinderItemList(XABase.XAList):
     def by_modification_date(self, modification_date: datetime) -> 'XAFinderItem':
         return self.by_property("modificationDate", modification_date)
 
-    def by_url(self, url: str) -> 'XAFinderItem':
-        return self.by_property("URL", url)
+    def by_url(self, url: XABase.XAPath) -> 'XAFinderItem':
+        return self.by_property("URL", str(url.xa_elem))
 
     def by_owner(self, owner: str) -> 'XAFinderItem':
         return self.by_property("owner", owner)
@@ -886,10 +887,28 @@ class XAFinderItemList(XABase.XAList):
     def by_information_window(self, information_window: 'XAFinderInformationWindow') -> 'XAFinderItem':
         return self.by_property("informationWindow", information_window.xa_elem)
 
+    def get_clipboard_representation(self) -> List[Union[str, NSURL]]:
+        """Gets a clipboard-codable representation of each item in the list.
+
+        When the clipboard content is set to a list of Finder items, each item's name and URL are added to the clipboard.
+
+        :return: The name and URL of each item in the list
+        :rtype: List[Union[str, NSURL]]
+
+        .. versionadded:: 0.0.8
+        """
+        items = []
+        names = self.name()
+        urls = self.url()
+        for index, name in enumerate(names):
+            items.append(name)
+            items.append(urls[index].xa_elem)
+        return items
+
     def __repr__(self):
         return str(self.name())
 
-class XAFinderItem(XABase.XASelectable, XABase.XADeletable):
+class XAFinderItem(XABase.XAObject, XASelectable, XADeletable, XAClipboardCodable):
     """A generic class with methods common to the various item classes of Finder.
 
     .. seealso:: :class:`XAFinderContainer`, :class:`XAFinderFile`
@@ -1000,8 +1019,8 @@ class XAFinderItem(XABase.XASelectable, XABase.XADeletable):
         return self.xa_elem.modificationDate()
 
     @property
-    def url(self) -> str:
-        return self.xa_elem.URL()
+    def url(self) -> XABase.XAPath:
+        return XABase.XAPath(self.xa_elem.URL()[7:])
 
     @property
     def owner(self) -> str:
@@ -1107,8 +1126,7 @@ class XAFinderItem(XABase.XASelectable, XABase.XADeletable):
 
         .. versionadded:: 0.0.2
         """
-        url = NSURL.alloc().initWithString_(self.url)
-        self.xa_wksp.openURL_(url)
+        self.url.open()
 
     def set_property(self, property_name: str, value: Any):
         if isinstance(value, tuple):
@@ -1124,12 +1142,17 @@ class XAFinderItem(XABase.XASelectable, XABase.XADeletable):
                 value = NSValue.valueWithRect_(NSMakeRect(x, y, w, h))
         super().set_property(property_name, value)
 
-    def delete(self):
-        """Permanently deletes the item.
+    def get_clipboard_representation(self) -> List[Union[str, NSURL]]:
+        """Gets a clipboard-codable representation of the item.
 
-        .. versionadded:: 0.0.4
+        When the clipboard content is set to a Finder item, the item's name and URL are added to the clipboard.
+
+        :return: The name and URL of the item
+        :rtype: List[Union[str, NSURL]]
+
+        .. versionadded:: 0.0.8
         """
-        self.xa_elem.delete()
+        return [self.name, self.url.xa_elem]
 
     def __repr__(self):
         return "<" + str(type(self)) + self.name + ">"
@@ -2068,7 +2091,7 @@ class XAFinderDesktopWindow(XAFinderWindow):
 
 
 
-class XAFinderClippingWindowList(XAFinderItemList):
+class XAFinderClippingWindowList(XAFinderWindowList):
     """A wrapper around lists of clipping windows that employs fast enumeration techniques.
 
     All properties of clipping windows can be called as methods on the wrapped list, returning a list containing each window's value for the property.
@@ -2078,7 +2101,7 @@ class XAFinderClippingWindowList(XAFinderItemList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, filter, XAFinderClippingWindow)
 
-class XAFinderClippingWindow(XAFinderItem, XABaseScriptable.XASBPrintable):
+class XAFinderClippingWindow(XAFinderWindow, XABaseScriptable.XASBPrintable):
     """A class for managing and interacting with clipping windows in Finder.
 
     .. versionadded:: 0.0.3
@@ -2428,6 +2451,9 @@ class XAFinderColumnList(XABase.XAList):
     def by_visible(self, visible: bool) -> 'XAFinderColumn':
         return self.by_property("visible", visible)
 
+    def __repr__(self):
+        return "<" + str(type(self)) + str(self.name()) + ">"
+
 class XAFinderColumn(XABase.XAObject):
     """A class for managing and interacting with columns in Finder windows.
 
@@ -2470,3 +2496,6 @@ class XAFinderColumn(XABase.XAObject):
     @property
     def visible(self) -> bool:
         return self.xa_elem.visible()
+
+    def __repr__(self):
+        return "<" + str(type(self)) + self.name + ">"

@@ -10,6 +10,7 @@ from ScriptingBridge import SBElementArray
 from PyXA import XABase
 from PyXA.XABase import OSType
 from PyXA import XABaseScriptable
+from ..XAProtocols import XACloseable
 
 class XANumbersApplication(XABaseScriptable.XASBApplication):
     """A class for managing and interacting with Numbers.app.
@@ -453,7 +454,7 @@ class XANumbersDocumentList(XABase.XAList):
     def __repr__(self):
         return "<" + str(type(self)) + str(self.name()) + ">"
 
-class XANumbersDocument(XABaseScriptable.XASBPrintable, XABaseScriptable.XASBCloseable):
+class XANumbersDocument(XABaseScriptable.XASBPrintable, XACloseable):
     """A class for managing and interacting with Numbers documents.
 
     .. seealso:: :class:`XANumbersApplication`

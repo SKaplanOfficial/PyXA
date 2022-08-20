@@ -5,6 +5,7 @@ General classes and methods applicable to any PyXA object.
 
 from datetime import datetime
 from enum import Enum
+import importlib
 from pprint import pprint
 import tempfile
 import time, os, sys
@@ -12,6 +13,10 @@ from typing import Any, Callable, Literal, Tuple, Union, List, Dict
 import threading
 from bs4 import BeautifulSoup, element
 import requests
+import subprocess
+import objc
+
+from PyXA.apps import application_classes
 
 from PyObjCTools import AppHelper
 
@@ -23,6 +28,9 @@ from Quartz import CGImageSourceRef, CGImageSourceCreateWithData, CFDataRef
 from CoreLocation import CLLocation
 from ScriptingBridge import SBApplication, SBElementArray
 import ScriptingBridge
+import Speech
+import AVFoundation
+import CoreLocation
 
 import threading, signal
 
@@ -118,6 +126,26 @@ class XAObject():
         }
         return obj_class(properties, *args)
 
+    def _spawn_thread(self, function: Callable[..., Any], args: Union[List[Any], None] = None, kwargs: Union[List[Any], None] = None, daemon: bool = True) -> threading.Thread:
+        """Spawns a new thread running the specified function.
+
+        :param function: The function to run in the new thread
+        :type function: Callable[..., Any]
+        :param args: Arguments to pass to the function
+        :type args: List[Any]
+        :param kwargs: Keyword arguments to pass to the function
+        :type kwargs: List[Any]
+        :param daemon: Whether the thread should be a daemon thread, defaults to True
+        :type daemon: bool, optional
+        :return: The thread object
+        :rtype: threading.Thread
+
+        .. versionadded:: 0.0.9
+        """
+        new_thread = threading.Thread(target=function, args=args or [], kwargs=kwargs or {}, daemon=daemon)
+        new_thread.start()
+        return new_thread
+
     def has_element(self) -> bool:
         """Whether this object has an AppleScript/JXA/Objective-C scripting element associated with it.
 
@@ -200,6 +228,17 @@ class AppleScript(XAObject):
     .. versionadded:: 0.0.5
     """
     def __init__(self, script: Union[str, List[str], None] = None):
+        """Creates a new AppleScript object.
+
+        :param script: A string or list of strings representing lines of AppleScript code, or the path to a script plaintext file, defaults to None
+        :type script: Union[str, List[str], None], optional
+
+        .. versionadded:: 0.0.5
+        """
+        self.script: List[str] #: The lines of AppleScript code contained in the script
+        self.last_result: Any #: The return value of the last execution of the script
+        self.file_path: XAPath #: The file path of this script, if one exists
+
         if isinstance(script, str):
             if script.startswith("/"):
                 with open(script, 'r') as f:
@@ -211,11 +250,27 @@ class AppleScript(XAObject):
         elif script == None:
             self.script = []
 
+    @property
+    def last_result(self) -> Any:
+        return self.__last_result
+
+    @property
+    def file_path(self) -> 'XAPath':
+        return self.__file_path
+
     def add(self, script: Union[str, List[str], 'AppleScript']):
         """Adds the supplied string, list of strings, or script as a new line entry in the script.
 
         :param script: The script to append to the current script string.
         :type script: Union[str, List[str], AppleScript]
+
+        :Example:
+
+        >>> import PyXA
+        >>> script = PyXA.AppleScript("tell application \"Safari\"")
+        >>> script.add("print the document of window 1")
+        >>> script.add("end tell")
+        >>> script.run()
 
         .. versionadded:: 0.0.5
         """
@@ -226,39 +281,241 @@ class AppleScript(XAObject):
         elif isinstance(script, AppleScript):
             self.script.extend(script.script)
 
+    def insert(self, index: int, script: Union[str, List[str], 'AppleScript']):
+        """Inserts the supplied string, list of strings, or script as a line entry in the script starting at the given line index.
+
+        :param index: The line index to begin insertion at
+        :type index: int
+        :param script: The script to insert into the current script
+        :type script: Union[str, List[str], AppleScript]
+
+        :Example:
+
+        >>> import PyXA
+        >>> script = PyXA.AppleScript.load("/Users/exampleUser/Downloads/Test.scpt")
+        >>> script.insert(1, "activate")
+        >>> script.run()
+
+        .. versionadded:: 0.0.9
+        """
+        if isinstance(script, str):
+            self.script.insert(index, script)
+        elif isinstance(script, list):
+            for line in script:
+                self.script.insert(index, line)
+                index += 1
+        elif isinstance(script, AppleScript):
+            for line in script.script:
+                self.script.insert(index, line)
+                index += 1
+
+    def pop(self, index: int) -> str:
+        """Removes the line at the given index from the script.
+
+        :param index: The index of the line to remove
+        :type index: int
+        :return: The text of the removed line
+        :rtype: str
+
+        :Example:
+
+        >>> import PyXA
+        >>> script = PyXA.AppleScript.load("/Users/exampleUser/Downloads/Test.scpt")
+        >>> print(script.pop(1))
+            get chats
+
+        .. versionadded:: 0.0.9
+        """
+        return self.script.pop(index)
+
+    def load(path: Union['XAPath', str]) -> 'AppleScript':
+        """Loads an AppleScript (.scpt) file as a runnable AppleScript object.
+
+        :param path: The path of the .scpt file to load
+        :type path: Union[XAPath, str]
+        :return: The newly loaded AppleScript object
+        :rtype: AppleScript
+
+        :Example 1: Load and run a script
+
+        >>> import PyXA
+        >>> script = PyXA.AppleScript.load("/Users/exampleUser/Downloads/Test.scpt")
+        >>> print(script.run())
+        {
+            'string': None,
+            'int': 0, 
+            'bool': False,
+            'float': 0.0,
+            'date': None,
+            'file_url': None,
+            'type_code': 845507684,
+            'data': {length = 8962, bytes = 0x646c6532 00000000 6c697374 000022f2 ... 6e756c6c 00000000 },
+            'event': <NSAppleEventDescriptor: [ 'obj '{ ... } ]>
+        }
+
+        :Example 2: Load, modify, and run a script
+
+        >>> import PyXA
+        >>> script = PyXA.AppleScript.load("/Users/exampleUser/Downloads/Test.scpt")
+        >>> script.pop(1)
+        >>> script.insert(1, "activate")
+        >>> script.run()
+
+        .. versionadded:: 0.0.8
+        """
+        if isinstance(path, str):
+            path = XAPath(path)
+        script = AppKit.NSAppleScript.alloc().initWithContentsOfURL_error_(path.xa_elem, None)[0]
+
+        attributed_string = script.richTextSource()
+        attributed_string = str(attributed_string).split("}")
+        parts = []
+        for x in attributed_string:
+            parts.extend(x.split("{"))
+
+        for x in parts:
+            if "=" in x:
+                parts.remove(x)
+
+        script = AppleScript("".join(parts).split("\n"))
+        script.__file_path = path
+        return script
+
+    def save(self, path: Union['XAPath', str, None] = None):
+        """Saves the script to the specified file path, or to the path from which the script was loaded.
+
+        :param path: The path to save the script at, defaults to None
+        :type path: Union[XAPath, str, None], optional
+
+        :Example 1: Save the script to a specified path
+
+        >>> import PyXA
+        >>> script = PyXA.AppleScript(f\"\"\"
+        >>>     tell application "Safari"
+        >>>         activate
+        >>>     end tell
+        >>> \"\"\")
+        >>> script.save("/Users/exampleUser/Downloads/Example.scpt")
+
+        :Example 2: Load a script, modify it, then save it
+
+        >>> import PyXA
+        >>> script = PyXA.AppleScript.load("/Users/steven/Downloads/Example.scpt")
+        >>> script.insert(2, "delay 2")
+        >>> script.insert(3, "set the miniaturized of window 1 to true")
+        >>> script.save()
+
+        .. versionadded:: 0.0.9
+        """
+        if path is None and self.file_path is None:
+            print("No path to save script to!")
+            return
+        
+        if isinstance(path, str):
+            path = XAPath(path)
+
+        script = ""
+        for line in self.script:
+            script += line + "\n"
+        script = AppKit.NSAppleScript.alloc().initWithSource_(script)
+        script.compileAndReturnError_(None)
+        source = (script.richTextSource().string())
+
+        if path is not None:
+            self.__file_path = path
+
+        with open(self.file_path.xa_elem.path(), "w") as f:
+            f.write(source)
+
+    def extract_result_data(result: dict) -> List[Tuple[str, str]]:
+        """Extracts string data from an AppleScript execution result dictionary.
+
+        :param result: The execution result dictionary to extract data from
+        :type result: dict
+        :return: A list of responses contained in the result structured as tuples
+        :rtype: List[Tuple[str, str]]
+
+        :Example:
+
+        >>> import PyXA
+        >>> script = PyXA.AppleScript.load("/Users/exampleUser/Downloads/Test.scpt")
+        >>> print(script.script)
+        >>> result = script.run()
+        >>> print(PyXA.AppleScript.extract_result_data(result))
+        ['tell application "Messages"', '\\tget chats', 'end tell']
+        [('ID', 'iMessage;-;+12345678910'), ('ID', 'iMessage;-;+12345678911'), ('ID', 'iMessage;-;example@icloud.com'), ...]
+
+        .. versionadded:: 0.0.9
+        """
+        result = result["event"]
+        response_objects = []
+        num_responses = result.numberOfItems()
+        for response_index in range(1, num_responses + 1):
+            response = result.descriptorAtIndex_(response_index)
+
+            data = ()
+            num_params = response.numberOfItems()
+            for param_index in range(1, num_params + 1):
+                param = response.descriptorAtIndex_(param_index).stringValue()
+                if param is not None:
+                    data += (param.strip(), )
+            response_objects.append(data)
+
+        return response_objects
+
     def run(self) -> Any:
         """Compiles and runs the script, returning the result.
 
         :return: The return value of the script.
         :rtype: Any
+
+        :Example:
+
+        import PyXA
+        script = PyXA.AppleScript(f\"\"\"tell application "System Events"
+            return 1 + 2
+        end tell
+        \"\"\")
+        print(script.run())
+        {
+            'string': '3',
+            'int': 3,
+            'bool': False,
+            'float': 3.0,
+            'date': None,
+            'file_url': None,
+            'type_code': 3,
+            'data': {length = 4, bytes = 0x03000000},
+            'event': <NSAppleEventDescriptor: 3>
+        }
         
         .. versionadded:: 0.0.5
         """
-        value = None
         script = ""
         for line in self.script:
             script += line + "\n"
         script = AppKit.NSAppleScript.alloc().initWithSource_(script)
-        result = script.executeAndReturnError_(None)[0]
-
-        print(result)
         
+        result = script.executeAndReturnError_(None)[0]
         if result is not None:
-            # if result.descriptorType() == OSType('obj '):
-            #     form = result.descriptorForKeyword_(OSType("form"))
-            #     want = result.descriptorForKeyword_(OSType("want"))
-            #     seld = result.descriptorForKeyword_(OSType("seld"))
-                
-            #     if want.data().decode() == "niwc":
-            #         # Window
-            #         print("hi")
-            return result.stringValue()
+            self.__last_result = {
+                "string": result.stringValue(),
+                "int": result.int32Value(),
+                "bool": result.booleanValue(),
+                "float": result.doubleValue(),
+                "date": result.dateValue(),
+                "file_url": result.fileURLValue(),
+                "type_code": result.typeCodeValue(),
+                "data": result.data(),
+                "event": result,
+            }
+            return self.last_result
 
 
 
 
 class XAClipboard(XAObject):
-    """A wrapper class for managing and interacting with the system pasteboard
+    """A wrapper class for managing and interacting with the system clipboard.
 
     .. versionadded:: 0.0.5
     """
@@ -378,6 +635,57 @@ class XAClipboard(XAObject):
         """
         self.xa_elem.clearContents()
         self.xa_elem.writeObjects_(content)
+
+
+
+
+class XANotification(XAObject):
+    """A class for managing and interacting with notifications.
+
+    .. versionadded:: 0.0.9
+    """
+    def __init__(self, text: str, title: Union[str, None] = None, subtitle: Union[str, None] = None, sound_name: Union[str, None] = None):
+        """Initializes a notification object.
+
+        :param text: The main text of the notification
+        :type text: str
+        :param title: The title of the notification, defaults to None
+        :type title: Union[str, None], optional
+        :param subtitle: The subtitle of the notification, defaults to None
+        :type subtitle: Union[str, None], optional
+        :param sound_name: The sound to play when the notification is displayed, defaults to None
+        :type sound_name: Union[str, None], optional
+
+        .. versionadded:: 0.0.9
+        """
+        self.text = text
+        self.title = title
+        self.subtitle = subtitle
+        self.sound_name = sound_name
+
+    def display(self):
+        """Displays the notification.
+
+        .. todo::
+        
+           Currently uses :func:`subprocess.Popen`. Should use UserNotifications in the future.
+
+        .. versionadded:: 0.0.9
+        """
+        script = AppleScript()
+        script.add(f"display notification \\\"{self.text}\\\"")
+
+        if self.title is not None:
+            script.add(f"with title \\\"{self.title}\\\"")
+        
+        if self.subtitle is not None:
+            script.add(f"subtitle \\\"{self.subtitle}\\\"")
+
+        if self.sound_name is not None:
+            script.add(f"sound name \\\"{self.sound_name}\\\"")
+
+        cmd = "osascript -e \"" + " ".join(script.script) + "\""
+        subprocess.Popen([cmd], shell=True)
 
 
 
@@ -877,7 +1185,6 @@ class XAApplication(XAObject, XAClipboardCodable):
 
         .. versionadded:: 0.0.8
         """
-        print(type(self.xa_elem.icon()))
         return [self.xa_elem.localizedName(), self.xa_elem.bundleURL(), self.xa_elem.icon()]
 
 
@@ -1054,6 +1361,80 @@ class XASound(XAObject, XAClipboardCodable):
 
 
 
+class XACommandDetector(XAObject):
+    def __init__(self, command_function_map: Union[Dict[str, Callable[[], Any]], None] = None):
+        """Creates a command detector object.
+
+        :param command_function_map: A dictionary mapping command strings to function objects
+        :type command_function_map: Dict[str, Callable[[], Any]]
+
+        .. versionadded:: 0.0.9
+        """
+        self.command_function_map = command_function_map or {} #: The dictionary of commands and corresponding functions to run upon detection
+
+    def on_detect(self, command: str, function: Callable[[], Any]):
+        """Adds or replaces a command to listen for upon calling :func:`listen`, and associates the given function with that command.
+
+        :param command: The command to listen for
+        :type command: str
+        :param function: The function to call when the command is heard
+        :type function: Callable[[], Any]
+
+        :Example:
+
+        >>> detector = PyXA.XACommandDetector()
+        >>> detector.on_detect("go to google", PyXA.XAURL("http://google.com").open)
+        >>> detector.listen()
+
+        .. versionadded:: 0.0.9
+        """
+        self.command_function_map[command] = function
+
+    def listen(self) -> Any:
+        """Begins listening for the specified commands.
+
+        :return: The execution return value of the corresponding command function
+        :rtype: Any
+
+        :Example:
+
+        >>> import PyXA
+        >>> PyXA.speak("What app do you want to open?")
+        >>> PyXA.XACommandDetector({
+        >>>     "safari": PyXA.application("Safari").activate,
+        >>>     "messages": PyXA.application("Messages").activate,
+        >>>     "shortcuts": PyXA.application("Shortcuts").activate,
+        >>>     "mail": PyXA.application("Mail").activate,
+        >>>     "calendar": PyXA.application("Calendar").activate,
+        >>>     "notes": PyXA.application("Notes").activate,
+        >>>     "music": PyXA.application("Music").activate,
+        >>>     "tv": PyXA.application("TV").activate,
+        >>>     "pages": PyXA.application("Pages").activate,
+        >>>     "numbers": PyXA.application("Numbers").activate,
+        >>>     "keynote": PyXA.application("Keynote").activate,
+        >>> }).listen()
+
+        .. versionadded:: 0.0.9
+        """
+        command_function_map = self.command_function_map
+        return_value = None
+        class NSSpeechRecognizerDelegate(AppKit.NSObject):
+            def speechRecognizer_didRecognizeCommand_(self, recognizer, cmd):
+                return_value = command_function_map[cmd]()
+                AppHelper.stopEventLoop()
+
+        recognizer = AppKit.NSSpeechRecognizer.alloc().init()
+        recognizer.setCommands_(list(command_function_map.keys()))
+        recognizer.setBlocksOtherRecognizers_(True)
+        recognizer.setDelegate_(NSSpeechRecognizerDelegate.alloc().init().retain())
+        recognizer.startListening()
+        AppHelper.runConsoleEventLoop()
+
+        return return_value
+
+
+
+
 class XAURL(XAObject, XAClipboardCodable):
     def __init__(self, url: Union[str, AppKit.NSURL]):
         super().__init__()
@@ -1167,7 +1548,6 @@ class XAPath(XAObject, XAClipboardCodable):
         self.xa_wksp = AppKit.NSWorkspace.sharedWorkspace()
 
     def open(self):
-        print(self.xa_elem)
         self.xa_wksp.openURL_(self.xa_elem)
 
     def select(self):
@@ -2723,29 +3103,36 @@ class XALocation(XAObject):
 
     .. versionadded:: 0.0.2
     """
-    def __init__(self, raw_value: Any = None, title: str = None, latitude: float = 0, longitude: float = 0, altitude: float = None, radius: int = 0, address: str = None, url: str = None, route_type: str = None, handle: str = None):
-        self.raw_value = raw_value
-        self.title = title
-        self.latitude = latitude
-        self.longitude = longitude
-        self.altitude = altitude
-        self.radius = radius
-        self.address = address
-        self.url = url
-        self.route_type = route_type
-        self.handle = handle
+    def __init__(self, raw_value: CoreLocation.CLLocation = None, title: str = None, latitude: float = 0, longitude: float = 0, altitude: float = None, radius: int = 0, address: str = None):
+        self.raw_value = raw_value #: The raw CLLocation object
+        self.title = title #: The name of the location
+        self.latitude = latitude #: The latitude of the location
+        self.longitude = longitude #: The longitude of the location
+        self.altitude = altitude #: The altitude of the location
+        self.radius = radius #: The horizontal accuracy of the location measurement
+        self.address = address #: The addres of the location
+        self.current_location #: The current location of the device
 
-    def set_raw_value(self, raw_value: Any):
-        self.raw_value = raw_value
+    @property
+    def raw_value(self) -> CoreLocation.CLLocation: 
+        return self.__raw_value
 
-    def prepare_for_export(self):
-        self.raw_value.setTitle_(self.title)
-        self.raw_value.setGeoLocation_(CLLocation.alloc().initWithLatitude_longitude_(self.latitude, self.longitude))
-        self.raw_value.setRadius_(self.radius)
-        self.raw_value.setAddress_(self.address)
-        self.raw_value.setGeoURLString_(self.url)
-        self.raw_value.setRouteType_(self.route_type)
-        self.raw_value.setMapKitHandle_(self.handle)
+    @raw_value.setter
+    def raw_value(self, raw_value: CoreLocation.CLLocation):
+        self.__raw_value = raw_value
+        if raw_value is not None:
+            self.latitude = raw_value.coordinate()[0]
+            self.longitude = raw_value.coordinate()[1]
+            self.altitude = raw_value.altitude()
+            self.radius = raw_value.horizontalAccuracy()
+
+    @property
+    def current_location(self) -> 'XALocation':
+        self.raw_value = None
+        self._spawn_thread(self.__get_current_location)
+        while self.raw_value is None:
+            time.sleep(0.01)
+        return self
 
     def show_in_maps(self):
         """Shows the location in Maps.app.
@@ -2754,6 +3141,27 @@ class XALocation(XAObject):
         """
         XAURL(f"maps://?q={self.title},ll={self.latitude},{self.longitude}").open()
 
+    def __get_current_location(self):
+        location_manager = CoreLocation.CLLocationManager.alloc().init()
+        old_self = self
+        class CLLocationManagerDelegate(AppKit.NSObject):
+            def locationManager_didUpdateLocations_(self, manager, locations):
+                if locations is not None:
+                    old_self.raw_value = locations[0]
+                    AppHelper.stopEventLoop()
+
+            def locationManager_didFailWithError_(self, manager, error):
+                print(manager, error)
+
+        location_manager.requestWhenInUseAuthorization()
+        location_manager.setDelegate_(CLLocationManagerDelegate.alloc().init().retain())
+        location_manager.requestLocation()
+
+        AppHelper.runConsoleEventLoop()
+
+    def __repr__(self):
+        return "<" + str(type(self)) + str((self.latitude, self.longitude)) + ">"
+        
     
 
 
@@ -2850,7 +3258,7 @@ class XADialog(XAObject):
 
     .. versionadded:: 0.0.8
     """
-    def __init__(self, text: str = "", title: str = "", buttons: Union[None, List[Union[str, int]]] = None, hidden_answer: bool = False, default_button: Union[str, int, None] = None, cancel_button: Union[str, int, None] = None, icon: Union[Literal["stop", "note", "caution"], None] = None, default_answer: Union[str, int, None] = None):
+    def __init__(self, text: str = "", title: Union[str, None] = None, buttons: Union[None, List[Union[str, int]]] = None, hidden_answer: bool = False, default_button: Union[str, int, None] = None, cancel_button: Union[str, int, None] = None, icon: Union[Literal["stop", "note", "caution"], None] = None, default_answer: Union[str, int, None] = None):
         super().__init__()
         self.text: str = text
         self.title: str = title
@@ -2883,12 +3291,13 @@ class XADialog(XAObject):
         default_answer = str(self.default_answer).replace("'", '"')
         default_answer_str = "default answer \"" + default_answer + "\"" if self.default_answer is not None else ""
 
-        script = AppKit.NSAppleScript.alloc().initWithSource_(f"""
+        script = AppleScript(f"""
         tell application "Terminal"
             display dialog \"{self.text}\" with title \"{self.title}\" buttons {buttons} {default_button_str} {cancel_button_str} {icon_str} {default_answer_str} hidden answer {self.hidden_answer}
         end tell
         """)
-        result = script.executeAndReturnError_(None)[0]
+
+        result = script.run()["event"]
         if result is not None:
             if result.numberOfItems() > 1:
                 return [result.descriptorAtIndex_(1).stringValue(), result.descriptorAtIndex_(2).stringValue()]
@@ -2925,12 +3334,12 @@ class XAMenu(XAObject):
         menu_items = [x.replace("'", "") for x in self.menu_items]
         menu_items = str(menu_items).replace("'", '"')
         default_items = str(self.default_items).replace("'", '"')
-        script = AppKit.NSAppleScript.alloc().initWithSource_(f"""
+        script = AppleScript(f"""
         tell application "Terminal"
             choose from list {menu_items} with title \"{self.title}\" with prompt \"{self.prompt}\" default items {default_items} OK button name \"{self.ok_button_name}\" cancel button name \"{self.cancel_button_name}\" multiple selections allowed {self.multiple_selections_allowed} empty selection allowed {self.empty_selection_allowed}
         end tell
         """)
-        result = script.executeAndReturnError_(None)[0]
+        result = script.run()["event"]
         if result is not None:
             if self.multiple_selections_allowed:
                 values = []
@@ -2974,12 +3383,12 @@ class XAFilePicker(XAObject):
 
         default_location_str = "default location \"" + self.default_location + "\"" if self.default_location is not None else ""
 
-        script = AppKit.NSAppleScript.alloc().initWithSource_(f"""
+        script = AppleScript(f"""
         tell application "Terminal"
             choose file with prompt \"{self.prompt}\" {types_str}{default_location_str} invisibles {self.show_invisibles} multiple selections allowed {self.multiple_selections_allowed} showing package contents {self.show_package_contents}
         end tell
         """)
-        result = script.executeAndReturnError_(None)[0]
+        result = script.run()["event"]
 
         if result is not None:
             if self.multiple_selections_allowed:
@@ -3018,12 +3427,12 @@ class XAFolderPicker(XAObject):
 
         default_location_str = "default location \"" + self.default_location + "\"" if self.default_location is not None else ""
 
-        script = AppKit.NSAppleScript.alloc().initWithSource_(f"""
+        script = AppleScript(f"""
         tell application "Terminal"
             choose folder with prompt \"{self.prompt}\" {default_location_str} invisibles {self.show_invisibles} multiple selections allowed {self.multiple_selections_allowed} showing package contents {self.show_package_contents}
         end tell
         """)
-        result = script.executeAndReturnError_(None)[0]
+        result = script.run()["event"]
         if result is not None:
             if self.multiple_selections_allowed:
                 values = []
@@ -3037,7 +3446,7 @@ class XAFolderPicker(XAObject):
 
 
 
-class XAFileNameDialog(object):
+class XAFileNameDialog(XAObject):
     """A file name input window.
 
     .. versionadded:: 0.0.8
@@ -3059,11 +3468,11 @@ class XAFileNameDialog(object):
 
         default_location_str = "default location \"" + self.default_location + "\"" if self.default_location is not None else ""
 
-        script = AppKit.NSAppleScript.alloc().initWithSource_(f"""
+        script = AppleScript(f"""
         tell application "Terminal"
             choose file name with prompt \"{self.prompt}\" default name \"{self.default_name}\" {default_location_str}
         end tell
         """)
-        result = script.executeAndReturnError_(None)[0]
+        result = script.run()["event"]
         if result is not None:
             return XAPath(result.fileURLValue())

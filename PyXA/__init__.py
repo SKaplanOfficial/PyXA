@@ -7,6 +7,7 @@ from .PyXA import (
     get_clipboard_strings,
     set_clipboard,
     run_applescript,
+    speak,
 )
 
 from .XABase import (
@@ -18,6 +19,9 @@ from .XABase import (
     XAPath,
     AppleScript,
     XAClipboard,
+    XANotification,
     XAImage,
     XAPredicate,
+    XACommandDetector,
+    XALocation,
 )

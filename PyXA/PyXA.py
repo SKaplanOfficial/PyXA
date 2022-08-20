@@ -457,3 +457,9 @@ def run_applescript(source: Union[str, NSURL]) -> Any:
         script = NSAppleScript.initWithContentsOfURL_error_(source, None)
     else:
         script = NSAppleScript.alloc().initWithSource_(source)
+
+def speak(message: str):
+    synthesizer = AppKit.NSSpeechSynthesizer.alloc().initWithVoice_(None)
+    synthesizer.startSpeakingString_(message)
+    while synthesizer.isSpeaking():
+        time.sleep(0.01)

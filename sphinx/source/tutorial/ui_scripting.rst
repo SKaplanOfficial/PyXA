@@ -1,2 +1,2 @@
-UI Scripting With PyXA
-======================
+UI Scripting
+============

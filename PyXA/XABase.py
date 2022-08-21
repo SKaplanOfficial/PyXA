@@ -1436,9 +1436,10 @@ class XACommandDetector(XAObject):
 
 
 class XASpotlight(XAObject):
-    def __init__(self, query: Any, timeout: int = 10):
-        self.query: Any = query #: The query terms to search
-        self.timeout: int = timeout #: The amount of time in seconds to timeout the search after
+    def __init__(self, *query: List[Any]):
+        self.query: List[Any] = query #: The query terms to search
+        self.timeout: int = 10 #: The amount of time in seconds to timeout the search after
+        self.predicate: Union[str, XAPredicate] = None #: The predicate to filter search results by
         self.results: List[XAPath] #: The results of the search
         self.__results = None
 
@@ -1446,22 +1447,12 @@ class XASpotlight(XAObject):
         nc = AppKit.NSNotificationCenter.defaultCenter()
         nc.addObserver_selector_name_object_(self, '_queryNotification:', None, self.query_object)
 
-        if isinstance(query, str) or isinstance(query, int) or isinstance(query, float):
-            # Search string
-            self.__search_by_str(query)
-        elif isinstance(query, datetime):
-            # Search date + or - 24 hours
-            self.__search_by_date(query)
-        elif isinstance(query, list) or isinstance(query, tuple):
-            # Search date range
-            if isinstance(query[0], datetime) and isinstance(query[1], datetime):
-                self.__search_by_date_range(query[0], query[1])
-
-        AppKit.NSRunLoop.currentRunLoop().runUntilDate_(datetime.now() + timedelta(seconds = 0.5))
-
     @property
     def results(self) -> List['XAPath']:
-        total_time = 0.5
+        if len(self.query) == 0 and self.predicate is None:
+            return []
+        self.run()
+        total_time = 0
         while self.__results is None and total_time < self.timeout:
             AppKit.NSRunLoop.currentRunLoop().runUntilDate_(datetime.now() + timedelta(seconds = 0.5))
             total_time += 0.5
@@ -1469,21 +1460,79 @@ class XASpotlight(XAObject):
             return []
         return self.__results
 
+    def run(self):
+        """Runs the search.
+
+        :Example:
+
+        >>> import PyXA
+        >>> from datetime import date, datetime, time
+        >>> date1 = datetime.combine(date(2022, 5, 17), time(0, 0, 0))
+        >>> date2 = datetime.combine(date(2022, 5, 18), time(0, 0, 0))
+        >>> search = PyXA.XASpotlight(date1, date2)
+        >>> print(search.results)
+        [<<class 'PyXA.XABase.XAPath'>file:///Users/exampleUser/Downloads/>, <<class 'PyXA.XABase.XAPath'>file:///Users/exampleUser/Downloads/Example.txt>, ...]
+
+        .. versionadded:: 0.0.9
+        """
+        if self.predicate is not None:
+            # Search with custom predicate
+            if isinstance(self.predicate, XAPredicate):
+                self.predicate = self.predicate.get_clipboard_representation()
+            self.__search_with_predicate(self.predicate)
+        elif len(self.query) == 1 and isinstance(self.query[0], datetime):
+            # Search date + or - 24 hours
+            self.__search_by_date(self.query)
+        elif len(self.query) == 2 and isinstance(self.query[0], datetime) and isinstance(self.query[1], datetime):
+            # Search date range
+            self.__search_by_date_range(self.query[0], self.query[1])
+        elif all(isinstance(x, str) or isinstance(x, int) or isinstance(x, float) for x in self.query):
+            # Search matching multiple strings
+            self.__search_by_strs(self.query)
+        elif isinstance(self.query[0], datetime) and all(isinstance(x, str) or isinstance(x, int) or isinstance(x, float) for x in self.query[1:]):
+            # Search by date and string
+            self.__search_by_date_strings(self.query[0], self.query[1:])
+        elif isinstance(self.query[0], datetime) and isinstance(self.query[1], datetime) and all(isinstance(x, str) or isinstance(x, int) or isinstance(x, float) for x in self.query[2:]):
+            # Search by date range and string
+            self.__search_by_date_range_strings(self.query[0], self.query[1], self.query[2:])
+
+        AppKit.NSRunLoop.currentRunLoop().runUntilDate_(datetime.now() + timedelta(seconds = 0.5))
+
     def show_in_finder(self):
-        AppKit.NSWorkspace.sharedWorkspace().showSearchResultsForQueryString_(self.query)
-        
-    def __search_by_str(self, term: str):
-        predicate = AppKit.NSPredicate.predicateWithFormat_(f"(kMDItemDisplayName CONTAINS '{term}') OR (kMDItemTextContent CONTAINS '{term}') OR (kMDItemFSName CONTAINS '{term}')")
-        self.query_object.setPredicate_(predicate)
-        self.query_object.startQuery()
+        """Shows the search in Finder. This might not reveal the same search results.
+
+        .. versionadded:: 0.0.9
+        """
+        AppKit.NSWorkspace.sharedWorkspace().showSearchResultsForQueryString_(str(self.query))
+
+    def __search_by_strs(self, terms: Tuple[str]):
+        expanded_terms = [[x]*3 for x in terms]
+        expanded_terms = [x for sublist in expanded_terms for x in sublist]
+        format = "((kMDItemDisplayName CONTAINS %@) OR (kMDItemTextContent CONTAINS %@) OR (kMDItemFSName CONTAINS %@)) AND " * len(terms)
+        self.__search_with_predicate(format[:-5], *expanded_terms)
 
     def __search_by_date(self, date: datetime):
-        predicate = AppKit.NSPredicate.predicateWithFormat_(f"((kMDItemContentCreationDate > %@) AND (kMDItemContentCreationDate < %@)) OR ((kMDItemContentModificationDate > %@) AND (kMDItemContentModificationDate < %@)) OR ((kMDItemFSCreationDate > %@) AND (kMDItemFSCreationDate < %@)) OR ((kMDItemFSContentChangeDate > %@) AND (kMDItemFSContentChangeDate < %@)) OR ((kMDItemDateAdded > %@) AND (kMDItemDateAdded < %@))", *[date - timedelta(hours=24), date + timedelta(hours=24)]*5)
-        self.query_object.setPredicate_(predicate)
-        self.query_object.startQuery()
+        self.__search_with_predicate(f"((kMDItemContentCreationDate > %@) AND (kMDItemContentCreationDate < %@)) OR ((kMDItemContentModificationDate > %@) AND (kMDItemContentModificationDate < %@)) OR ((kMDItemFSCreationDate > %@) AND (kMDItemFSCreationDate < %@)) OR ((kMDItemFSContentChangeDate > %@) AND (kMDItemFSContentChangeDate < %@)) OR ((kMDItemDateAdded > %@) AND (kMDItemDateAdded < %@))", *[date - timedelta(hours=12), date + timedelta(hours=12)]*5)
 
     def __search_by_date_range(self, date1: datetime, date2: datetime):
-        predicate = AppKit.NSPredicate.predicateWithFormat_(f"((kMDItemContentCreationDate > %@) AND (kMDItemContentCreationDate < %@)) OR ((kMDItemContentModificationDate > %@) AND (kMDItemContentModificationDate < %@)) OR ((kMDItemFSCreationDate > %@) AND (kMDItemFSCreationDate < %@)) OR ((kMDItemFSContentChangeDate > %@) AND (kMDItemFSContentChangeDate < %@)) OR ((kMDItemDateAdded > %@) AND (kMDItemDateAdded < %@))", date1, date2)
+        self.__search_with_predicate(f"((kMDItemContentCreationDate > %@) AND (kMDItemContentCreationDate < %@)) OR ((kMDItemContentModificationDate > %@) AND (kMDItemContentModificationDate < %@)) OR ((kMDItemFSCreationDate > %@) AND (kMDItemFSCreationDate < %@)) OR ((kMDItemFSContentChangeDate > %@) AND (kMDItemFSContentChangeDate < %@)) OR ((kMDItemDateAdded > %@) AND (kMDItemDateAdded < %@))", *[date1, date2]*5)
+
+    def __search_by_date_strings(self, date: datetime, terms: Tuple[str]):
+        expanded_terms = [[x]*3 for x in terms]
+        expanded_terms = [x for sublist in expanded_terms for x in sublist]
+        format = "((kMDItemDisplayName CONTAINS %@) OR (kMDItemTextContent CONTAINS %@) OR (kMDItemFSName CONTAINS %@)) AND " * len(terms)
+        format += "(((kMDItemContentCreationDate > %@) AND (kMDItemContentCreationDate < %@)) OR ((kMDItemContentModificationDate > %@) AND (kMDItemContentModificationDate < %@)) OR ((kMDItemFSCreationDate > %@) AND (kMDItemFSCreationDate < %@)) OR ((kMDItemFSContentChangeDate > %@) AND (kMDItemFSContentChangeDate < %@)) OR ((kMDItemDateAdded > %@) AND (kMDItemDateAdded < %@)))"
+        self.__search_with_predicate(format, *expanded_terms, *[date - timedelta(hours=12), date + timedelta(hours=12)]*5)
+
+    def __search_by_date_range_strings(self, date1: datetime, date2: datetime, terms: Tuple[str]):
+        expanded_terms = [[x]*3 for x in terms]
+        expanded_terms = [x for sublist in expanded_terms for x in sublist]
+        format = "((kMDItemDisplayName CONTAINS %@) OR (kMDItemTextContent CONTAINS %@) OR (kMDItemFSName CONTAINS %@)) AND " * len(terms)
+        format += "(((kMDItemContentCreationDate > %@) AND (kMDItemContentCreationDate < %@)) OR ((kMDItemContentModificationDate > %@) AND (kMDItemContentModificationDate < %@)) OR ((kMDItemFSCreationDate > %@) AND (kMDItemFSCreationDate < %@)) OR ((kMDItemFSContentChangeDate > %@) AND (kMDItemFSContentChangeDate < %@)) OR ((kMDItemDateAdded > %@) AND (kMDItemDateAdded < %@)))"
+        self.__search_with_predicate(format, *expanded_terms, *[date1, date2]*5)
+
+    def __search_with_predicate(self, predicate_format: str, *args: List[Any]):
+        predicate = AppKit.NSPredicate.predicateWithFormat_(predicate_format, *args)
         self.query_object.setPredicate_(predicate)
         self.query_object.startQuery()
 

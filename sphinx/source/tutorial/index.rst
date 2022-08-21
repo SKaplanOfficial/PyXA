@@ -131,7 +131,9 @@ Additional Tutorial Topics
    lists
    clipboard
    user_input
+   spotlight
    ui_scripting
+   applescript
    tips_tricks
 
 

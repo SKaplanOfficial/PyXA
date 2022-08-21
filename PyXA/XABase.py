@@ -309,7 +309,7 @@ class AppleScript(XAObject):
                 self.script.insert(index, line)
                 index += 1
 
-    def pop(self, index: int) -> str:
+    def pop(self, index: int = -1) -> str:
         """Removes the line at the given index from the script.
 
         :param index: The index of the line to remove
@@ -427,7 +427,7 @@ class AppleScript(XAObject):
         with open(self.file_path.xa_elem.path(), "w") as f:
             f.write(source)
 
-    def extract_result_data(result: dict) -> List[Tuple[str, str]]:
+    def parse_result_data(result: dict) -> List[Tuple[str, str]]:
         """Extracts string data from an AppleScript execution result dictionary.
 
         :param result: The execution result dictionary to extract data from
@@ -441,7 +441,7 @@ class AppleScript(XAObject):
         >>> script = PyXA.AppleScript.load("/Users/exampleUser/Downloads/Test.scpt")
         >>> print(script.script)
         >>> result = script.run()
-        >>> print(PyXA.AppleScript.extract_result_data(result))
+        >>> print(PyXA.AppleScript.parse_result_data(result))
         ['tell application "Messages"', '\\tget chats', 'end tell']
         [('ID', 'iMessage;-;+12345678910'), ('ID', 'iMessage;-;+12345678911'), ('ID', 'iMessage;-;example@icloud.com'), ...]
 
@@ -455,10 +455,14 @@ class AppleScript(XAObject):
 
             data = ()
             num_params = response.numberOfItems()
-            for param_index in range(1, num_params + 1):
-                param = response.descriptorAtIndex_(param_index).stringValue()
-                if param is not None:
-                    data += (param.strip(), )
+            if num_params == 0:
+                data = response.stringValue().strip()
+
+            else:
+                for param_index in range(1, num_params + 1):
+                    param = response.descriptorAtIndex_(param_index).stringValue()
+                    if param is not None:
+                        data += (param.strip(), )
             response_objects.append(data)
 
         return response_objects
@@ -510,6 +514,9 @@ class AppleScript(XAObject):
                 "event": result,
             }
             return self.last_result
+
+    def __repr__(self):
+        return "<" + str(type(self)) + str(self.script) + ">"
 
 
 

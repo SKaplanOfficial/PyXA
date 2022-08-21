@@ -1,10 +1,10 @@
 Searching Spotlight
 ===================
-The :class:`XABase.XASpotlight` class allows you to search Spotlight and obtain :class:`XABase.XAPath` references to files. With this, you can easily locate and open files with particular names, containing particular content, or modified on a particular date. The examples below show how to carry out such tasks.
+The :class:`PyXA.XABase.XASpotlight` class allows you to search Spotlight and obtain :class:`~PyXA.XABase.XAPath` references to files. With this, you can easily locate and open files with particular names, containing particular content, or modified on a particular date. The examples below show how to carry out such tasks.
 
 Simple Searches
 ---------------
-To perform a simple term-based file search, instantiate a :class:`XABase.XASpotlight` object and provide a search term as an argument, as seen in the code below. This will instruct PyXA to prepare a new Spotlight search, but it won't begin the search until you actually attempt to access the results. When you provide a string, integer, or float as a search term, PyXA searches for files where the term appears in their display name, file system name, or text content. The search can take some time depending on how many items match the search, but usually completes within a second. The results of a search are given as a list of :class:`XABase.XAPath` objects.
+To perform a simple term-based file search, instantiate a :class:`~PyXA.XABase.XASpotlight` object and provide a search term as an argument, as seen in the code below. This will instruct PyXA to prepare a new Spotlight search, but it won't begin the search until you actually attempt to access the results. When you provide a string, integer, or float as a search term, PyXA searches for files where the term appears in their display name, file system name, or text content. The search can take some time depending on how many items match the search, but usually completes within a second. The results of a search are given as a list of :class:`~PyXA.XABase.XAPath` objects.
 
     >>> import PyXA
     >>> search = PyXA.XASpotlight("Example")
@@ -49,7 +49,7 @@ If you find that searches are taking too long, you can increase the specificity 
 
 Search by Date
 --------------
-PyXA also provides a mechanism to search Spotlight by date. To perform a simple date-based search, instantiate a :class:`XABase.XASpotlight` object and pass a :class:`datetime` object as an argument. This instructs PyXA to search for files created, added, or modified within the surrounding 24-hour period (plus or minus 12 hours from the supplied datetime).
+PyXA also provides a mechanism to search Spotlight by date. To perform a simple date-based search, instantiate a :class:`~PyXA.XABase.XASpotlight` object and pass a :class:`datetime` object as an argument. This instructs PyXA to search for files created, added, or modified within the surrounding 24-hour period (plus or minus 12 hours from the supplied datetime).
 
     >>> import PyXA
     >>> from datetime import datetime
@@ -82,7 +82,7 @@ You can also combined these two date-based search methods with term-based ones b
 
 Search by Predicate
 -------------------
-PyXA allows you to supply your own predicate to filter search results by. You can supply the predicate as either a raw string or as an :class:`XABase.XAPredicate` object. For the former, use Apple's documentation on `File Metadata Query Expression Syntax`_ as a reference. The following examples show how to use both strategies.
+PyXA allows you to supply your own predicate to filter search results by. You can supply the predicate as either a raw string or as an :class:`~:PyXA.XABase.XAPredicate` object. For the former, use Apple's documentation on `File Metadata Query Expression Syntax`_ as a reference. The following examples show how to use both strategies.
 
     >>> import PyXA
     >>> search = PyXA.XASpotlight()

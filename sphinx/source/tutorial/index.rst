@@ -53,7 +53,7 @@ And the equivalent JXA syntax would be:
       return Application('Safari').windows()[0].currentTab.url()
    })();
 
-As you can see, the syntax of PyXA closely follows the syntax of JXA while remaining true to the standard conventions of Python. Most notably, multi-word names for variables and methods use the Pythonic snake_case format instead of camelCase. For example, as seen above, PyXA uses `current_tab` while JXA uses `currentTab`. Another difference is that PyXA prefers object properties while JXA blurs the line between properties and methods. In PyXA, the properties listed in an application's scripting dictionary are referenced using the dot notation for object properties, and actions on objects are executed via method calls. PyXA also includes properties and methods beyond those described in scripting dictionaries on an application-specific basis.
+As you can see, the syntax of PyXA closely follows the syntax of JXA while remaining true to the standard conventions of Python. Most notably, multi-word names for variables and methods use the Pythonic snake_case format instead of camelCase. For example, as seen above, PyXA uses :func:`~PyXA.apps.Safari.XASafariWindow.current_tab` while JXA uses `currentTab`. Another difference is that PyXA prefers object properties while JXA blurs the line between properties and methods. In PyXA, the properties listed in an application's scripting dictionary are referenced using the dot notation for object properties, and actions on objects are executed via method calls. PyXA also includes properties and methods beyond those described in scripting dictionaries on an application-specific basis.
 
 Like AppleScript and JXA, PyXA's syntax is often flexible, allowing multiple ways to accomplish the same goal. All of the following code samples are valid ways to create the same workflow as above.
 
@@ -82,7 +82,7 @@ Let's make our workflow more useful by having it save the URL to a new note. To 
    current_url = PyXA.application("Safari").front_window.current_tab.url
    PyXA.application("Notes").new_note(current_url)
 
-If you run this workflow and go to the Notes app, you'll see that a new note has been created containing the current tab's URL in bold typeface. This is already a more useful automation, but we can improve it by making Notes automatically activate and show the newly created note. To do this, we can simply call the new note object's `show()` method:
+If you run this workflow and go to the Notes app, you'll see that a new note has been created containing the current tab's URL in bold typeface. This is already a more useful automation, but we can improve it by making Notes automatically activate and show the newly created note. To do this, we can simply call the new note object's :func:`~PyXA.apps.Notes.XANote.show()` method:
 
 .. code-block:: Python
 
@@ -90,7 +90,7 @@ If you run this workflow and go to the Notes app, you'll see that a new note has
    current_url = PyXA.application("Safari").front_window.current_tab.url
    PyXA.application("Notes").new_note(current_url).show()
 
-When you run this, the Notes app will open to newly created note containing the current Safari tab's URL. Cool! Let's make another change. Right now, the URL is used as the title for the note, but it would be nice if the title reflected the title of the webpage. Since we need to retrieve multiple properties from the current tab, we should store a reference to it in a variable to keep our script running efficiently. We'll retrieve the `URL` property of the current tab as we did before, and now we'll also retrieve the `name` property. We can then specify the title and content of the new note by passing two arguments to the `new_note()` method. Another improvement we'll make is turning the URL into an actually clickable link by surrounding it with HTML anchor tags. Our script thus becomes:
+When you run this, the Notes app will open to newly created note containing the current Safari tab's URL. Cool! Let's make another change. Right now, the URL is used as the title for the note, but it would be nice if the title reflected the title of the webpage. Since we need to retrieve multiple properties from the current tab, we should store a reference to it in a variable to keep our script running efficiently. We'll retrieve the `URL` property of the current tab as we did before, and now we'll also retrieve the `name` property. We can then specify the title and content of the new note by passing two arguments to the :func:`~PyXA.app.Notes.XANotesApplication.new_note()` method. Another improvement we'll make is turning the URL into an actually clickable link by surrounding it with HTML anchor tags. Our script thus becomes:
 
 .. code-block:: Python
 

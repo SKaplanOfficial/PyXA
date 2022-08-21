@@ -24,4 +24,5 @@ from .XABase import (
     XAPredicate,
     XACommandDetector,
     XALocation,
+    XASpotlight,
 )

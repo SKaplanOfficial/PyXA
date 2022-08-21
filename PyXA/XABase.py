@@ -3,7 +3,7 @@
 General classes and methods applicable to any PyXA object.
 """
 
-from datetime import datetime
+from datetime import datetime, timedelta
 from enum import Enum
 import importlib
 from pprint import pprint
@@ -1432,6 +1432,66 @@ class XACommandDetector(XAObject):
 
         return return_value
 
+
+
+
+class XASpotlight(XAObject):
+    def __init__(self, query: Any, timeout: int = 10):
+        self.query: Any = query #: The query terms to search
+        self.timeout: int = timeout #: The amount of time in seconds to timeout the search after
+        self.results: List[XAPath] #: The results of the search
+        self.__results = None
+
+        self.query_object = AppKit.NSMetadataQuery.alloc().init()
+        nc = AppKit.NSNotificationCenter.defaultCenter()
+        nc.addObserver_selector_name_object_(self, '_queryNotification:', None, self.query_object)
+
+        if isinstance(query, str) or isinstance(query, int) or isinstance(query, float):
+            # Search string
+            self.__search_by_str(query)
+        elif isinstance(query, datetime):
+            # Search date + or - 24 hours
+            self.__search_by_date(query)
+        elif isinstance(query, list) or isinstance(query, tuple):
+            # Search date range
+            if isinstance(query[0], datetime) and isinstance(query[1], datetime):
+                self.__search_by_date_range(query[0], query[1])
+
+        AppKit.NSRunLoop.currentRunLoop().runUntilDate_(datetime.now() + timedelta(seconds = 0.5))
+
+    @property
+    def results(self) -> List['XAPath']:
+        total_time = 0.5
+        while self.__results is None and total_time < self.timeout:
+            AppKit.NSRunLoop.currentRunLoop().runUntilDate_(datetime.now() + timedelta(seconds = 0.5))
+            total_time += 0.5
+        if self.__results is None:
+            return []
+        return self.__results
+
+    def show_in_finder(self):
+        AppKit.NSWorkspace.sharedWorkspace().showSearchResultsForQueryString_(self.query)
+        
+    def __search_by_str(self, term: str):
+        predicate = AppKit.NSPredicate.predicateWithFormat_(f"(kMDItemDisplayName CONTAINS '{term}') OR (kMDItemTextContent CONTAINS '{term}') OR (kMDItemFSName CONTAINS '{term}')")
+        self.query_object.setPredicate_(predicate)
+        self.query_object.startQuery()
+
+    def __search_by_date(self, date: datetime):
+        predicate = AppKit.NSPredicate.predicateWithFormat_(f"((kMDItemContentCreationDate > %@) AND (kMDItemContentCreationDate < %@)) OR ((kMDItemContentModificationDate > %@) AND (kMDItemContentModificationDate < %@)) OR ((kMDItemFSCreationDate > %@) AND (kMDItemFSCreationDate < %@)) OR ((kMDItemFSContentChangeDate > %@) AND (kMDItemFSContentChangeDate < %@)) OR ((kMDItemDateAdded > %@) AND (kMDItemDateAdded < %@))", *[date - timedelta(hours=24), date + timedelta(hours=24)]*5)
+        self.query_object.setPredicate_(predicate)
+        self.query_object.startQuery()
+
+    def __search_by_date_range(self, date1: datetime, date2: datetime):
+        predicate = AppKit.NSPredicate.predicateWithFormat_(f"((kMDItemContentCreationDate > %@) AND (kMDItemContentCreationDate < %@)) OR ((kMDItemContentModificationDate > %@) AND (kMDItemContentModificationDate < %@)) OR ((kMDItemFSCreationDate > %@) AND (kMDItemFSCreationDate < %@)) OR ((kMDItemFSContentChangeDate > %@) AND (kMDItemFSContentChangeDate < %@)) OR ((kMDItemDateAdded > %@) AND (kMDItemDateAdded < %@))", date1, date2)
+        self.query_object.setPredicate_(predicate)
+        self.query_object.startQuery()
+
+    def _queryNotification_(self, notification):
+        if notification.name() == AppKit.NSMetadataQueryDidFinishGatheringNotification:
+            self.query_object.stopQuery()
+            results = notification.object().results()
+            self.__results = [XAPath(x.valueForAttribute_(AppKit.NSMetadataItemPathKey)) for x in results]
 
 
 

@@ -25,6 +25,7 @@ application_classes = {
     "font book": ("FontBook", "XAFontBookApplication"),
     "quicktime player": ("QuickTimePlayer", "XAQuickTimeApplication"),
     "numbers": ("Numbers", "XANumbersApplication"),
+    "script editor": ("ScriptEditor", "XAScriptEditorApplication"),
 
     ### First Party Non-scriptable Apps
     "calculator": ("Calculator", "XACalculatorApplication"),

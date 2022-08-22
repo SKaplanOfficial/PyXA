@@ -32,6 +32,8 @@ import Speech
 import AVFoundation
 import CoreLocation
 import ScreenCaptureKit
+import UserNotifications
+import UserNotificationsUI
 
 import threading, signal
 
@@ -1550,8 +1552,8 @@ class XASpotlight(XAObject):
         self.run()
         total_time = 0
         while self.__results is None and total_time < self.timeout:
-            AppKit.NSRunLoop.currentRunLoop().runUntilDate_(datetime.now() + timedelta(seconds = 0.5))
-            total_time += 0.5
+            AppKit.NSRunLoop.currentRunLoop().runUntilDate_(datetime.now() + timedelta(seconds = 0.01))
+            total_time += 0.01
         if self.__results is None:
             return []
         return self.__results
@@ -1592,7 +1594,7 @@ class XASpotlight(XAObject):
             # Search by date range and string
             self.__search_by_date_range_strings(self.query[0], self.query[1], self.query[2:])
 
-        AppKit.NSRunLoop.currentRunLoop().runUntilDate_(datetime.now() + timedelta(seconds = 0.5))
+        AppKit.NSRunLoop.currentRunLoop().runUntilDate_(datetime.now() + timedelta(seconds = 0.01))
 
     def show_in_finder(self):
         """Shows the search in Finder. This might not reveal the same search results.
@@ -1650,7 +1652,7 @@ class XAURL(XAObject, XAClipboardCodable):
         self.html: element.tag #: The html of the URL
         self.title: str #: The title of the URL
         self.soup: BeautifulSoup = None #: The bs4 object for the URL, starts as None until a bs4-related action is made
-
+        self.url: str = url #: The string form of the URL
         if isinstance(url, str):
             url = url.replace(" ", "%20")
             url = AppKit.NSURL.alloc().initWithString_(url)
@@ -1746,7 +1748,7 @@ class XAPath(XAObject, XAClipboardCodable):
         if isinstance(path, str):
             path = AppKit.NSURL.alloc().initFileURLWithPath_(path)
         self.xa_elem = path
-        self.path = path.path()
+        self.path = path.path() #: The path string without the file:// prefix
         self.xa_wksp = AppKit.NSWorkspace.sharedWorkspace()
 
     def open(self):
@@ -3678,3 +3680,211 @@ class XAFileNameDialog(XAObject):
         result = script.run()["event"]
         if result is not None:
             return XAPath(result.fileURLValue())
+
+
+
+
+class XASpeech(XAObject):
+    def __init__(self, message: str = "", voice: Union[str, None] = None, volume: float = 0.5, rate: int = 200):
+        self.message: str = message #: The message to speak
+        self.voice: Union[str, None] = voice #: The voice that the message is spoken in
+        self.volume: float = volume #: The speaking volume
+        self.rate: int = rate #: The speaking rate
+
+    def voices(self) -> List[str]:
+        """Gets the list of voice names available on the system.
+
+        :return: The list of voice names
+        :rtype: List[str]
+
+        :Example:
+
+        >>> import PyXA
+        >>> speaker = PyXA.XASpeech()
+        >>> print(speaker.voices())
+        ['Agnes', 'Alex', 'Alice', 'Allison',
+
+        .. versionadded:: 0.0.9
+        """
+        ls = AppKit.NSSpeechSynthesizer.availableVoices()
+        return [x.replace("com.apple.speech.synthesis.voice.", "").replace(".premium", "").title() for x in ls]
+    
+    def speak(self, path: Union[str, XAPath, None] = None):
+        """Speaks the provided message using the desired voice, volume, and speaking rate. 
+
+        :param path: The path to a .AIFF file to output sound to, defaults to None
+        :type path: Union[str, XAPath, None], optional
+
+        :Example 1: Speak a message aloud
+
+        >>> import PyXA
+        >>> PyXA.XASpeech("This is a test").speak()
+
+        :Example 2: Output spoken message to an AIFF file
+
+        >>> import PyXA
+        >>> speaker = PyXA.XASpeech("Hello, world!")
+        >>> speaker.speak("/Users/steven/Downloads/Hello.AIFF")
+
+        :Example 3: Control the voice, volume, and speaking rate
+
+        >>> import PyXA
+        >>> speaker = PyXA.XASpeech(
+        >>>     message = "Hello, world!",
+        >>>     voice = "Alex",
+        >>>     volume = 1,
+        >>>     rate = 500
+        >>> )
+        >>> speaker.speak()
+
+        .. versionadded:: 0.0.9
+        """
+        # Get the selected voice by name
+        voice = None
+        for v in AppKit.NSSpeechSynthesizer.availableVoices():
+            if self.voice.lower() in v.lower():
+                voice = v
+
+        # Set up speech synthesis object
+        synthesizer = AppKit.NSSpeechSynthesizer.alloc().initWithVoice_(voice)
+        synthesizer.setVolume_(self.volume)
+        synthesizer.setRate_(self.rate)
+
+        # Start speaking
+        if path is None:
+            synthesizer.startSpeakingString_(self.message)
+        else:
+            if isinstance(path, str):
+                path = XAPath(path)
+            synthesizer.startSpeakingString_toURL_(self.message, path.xa_elem)
+
+        # Wait for speech to complete
+        while synthesizer.isSpeaking():
+            time.sleep(0.01)
+
+
+
+
+class XAMenuBar(XAObject):
+    def __init__(self, structure: Union[Dict[str, Dict[str, Callable[[], None]]], None] = None):
+        """Creates a new menu bar object for interacting with the system menu bar.
+
+        :param structure: A dictionary specifying the titles of menu, the items contained within them, and the method to execute when each item is clicked, defaults to None
+        :type structure: Union[Dict[str, Dict[str, Callable[[], None]]], None], optional
+
+        .. versionadded:: 0.0.9
+        """
+        self.menu_structure = structure or {} #: The layout of the menus and menu items to add to the menu bar
+
+        detector = self
+        class MyApplicationAppDelegate(AppKit.NSObject):
+            start_time = datetime.now()
+
+            def applicationDidFinishLaunching_(self, sender):
+                
+                for menu_name, menu_items in detector.menu_structure.items():
+                    status_bar = AppKit.NSStatusBar.systemStatusBar()
+                    status_item = status_bar.statusItemWithLength_(AppKit.NSVariableStatusItemLength).retain()
+
+                    status_item.setTitle_(menu_name)
+                    status_item.setHighlightMode_(objc.YES)
+                    status_item.setToolTip_('Sync Trigger')
+                    status_item.setEnabled_(objc.YES)
+
+                    menu = AppKit.NSMenu.alloc().init()
+                    for sub_item in menu_items:
+                        item = AppKit.NSMenuItem.alloc().initWithTitle_action_keyEquivalent_(sub_item, 'action:', '')
+                        menu.addItem_(item)
+
+                    menuitem = AppKit.NSMenuItem.alloc().initWithTitle_action_keyEquivalent_('Quit', 'terminate:', '')
+                    menu.addItem_(menuitem)
+                    status_item.setMenu_(menu)
+
+            def action_(self, menu_item):
+                selection = menu_item.title()
+                for menu_name, menu_items in detector.menu_structure.items():
+                    for item, method in menu_items.items():
+                        if selection == item:
+                            method()
+
+        app = AppKit.NSApplication.sharedApplication()
+        app.setDelegate_(MyApplicationAppDelegate.alloc().init().retain())
+
+    def add_menu(self, title: str, menu_items: Union[Dict[str, Callable[[], None]], None] = None):
+        """Adds a new menu to the menu bar.
+
+        :param title: The title of the menu; the button name that appears in the menu bar
+        :type title: str
+        :param menu_items: The items in the menu and the method to call when each item is clicked, defaults to None
+        :type menu_items: Union[Dict[str, Callable[[], None]], None], optional
+
+        :Example:
+
+        >>> import PyXA
+        >>> mbar = PyXA.XAMenuBar()
+        >>> mbar.add_menu("Apps", {
+        >>>     "Finder": lambda: PyXA.application("Finder").activate(),
+        >>>     "Safari": lambda: PyXA.application("Safari").activate(),
+        >>>     "Notes": lambda: PyXA.application("Notes").activate(),
+        >>>     "Terminal": lambda: PyXA.application("Terminal").activate(),
+        >>>     "TextEdit": lambda: PyXA.application("TextEdit").activate(),
+        >>>     "Messages": lambda: PyXA.application("Messages").activate(),
+        >>>     "Shortcuts": lambda: PyXA.application("Shortcuts").activate(),
+        >>>     "GitHub Desktop": lambda: PyXA.application("GitHub Desktop").activate(),
+        >>> })
+        >>> 
+        >>> mbar.add_menu("Sites", {
+        >>>     "Google": lambda: PyXA.XAURL("https://google.com").open(),
+        >>>     "Reddit": lambda: PyXA.XAURL("https://reddit.com").open(),
+        >>>     "YouTube": lambda: PyXA.XAURL("https://youtube.com").open(),
+        >>>     "Apple Documentation": lambda: PyXA.XAURL("https://developer.apple.com/documentation/technologies").open(),
+        >>> })
+        >>> mbar.display()
+
+        .. versionadded:: 0.0.9
+        """
+        self.menu_structure[title] = menu_items or {}
+
+    def add_item(self, menu: str, item: str, method: Callable[[], None]):
+        """Add a submenu item to the specified menu, creating the menu if necessary.
+
+        :param menu: The title of the menu to add a new item to, or the new menu to create
+        :type menu: str
+        :param item: The item name
+        :type item: str
+        :param method: The method to call when the item is clicked
+        :type method: Callable[[], None]
+
+        :Example:
+
+        >>> import PyXA
+        >>> mbar = PyXA.XAMenuBar({
+        >>>     "Utilities": {}
+        >>> })
+        >>> mbar.add_item("Utilities", "Hide all applications", lambda: PyXA.running_applications().hide())
+        >>> mbar.display()
+
+        .. versionadded:: 0.0.9
+        """
+        if menu in self.menu_structure:
+            self.menu_structure[menu][item] = method
+        else:
+            self.menu_structure[menu] = {
+                item: method
+            }
+
+    def display(self):
+        """Displays the custom menus on the menu bar.
+
+        :Example:
+
+        >>> import PyXA
+        >>> mbar = PyXA.XAMenuBar({"🔥": {}})
+        >>> mbar.display()
+
+        .. versionadded:: 0.0.9
+        """
+        try:
+            AppHelper.runEventLoop(installInterrupt=True)
+        except Exception as e:
+            print(e)

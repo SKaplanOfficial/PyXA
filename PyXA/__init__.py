@@ -2,12 +2,7 @@ from .PyXA import (
     current_application,
     application,
     running_applications,
-    open_url,
-    get_clipboard,
-    get_clipboard_strings,
-    set_clipboard,
-    run_applescript,
-    speak,
+    scriptable_applications,
 )
 
 from .XABase import (
@@ -26,4 +21,6 @@ from .XABase import (
     XALocation,
     XASpotlight,
     XASpeechRecognizer,
+    XASpeech,
+    XAMenuBar,
 )

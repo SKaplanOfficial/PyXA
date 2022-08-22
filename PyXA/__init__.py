@@ -25,4 +25,5 @@ from .XABase import (
     XACommandDetector,
     XALocation,
     XASpotlight,
+    XASpeechRecognizer,
 )

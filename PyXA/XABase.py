@@ -31,6 +31,7 @@ import ScriptingBridge
 import Speech
 import AVFoundation
 import CoreLocation
+import ScreenCaptureKit
 
 import threading, signal
 
@@ -1442,6 +1443,94 @@ class XACommandDetector(XAObject):
 
 
 
+class XASpeechRecognizer(XAObject):
+    def __init__(self, finish_conditions: Union[None, Dict[Callable[[str], bool], Callable[[str], bool]]] = None):
+        """Creates a speech recognizer object.
+
+        By default, with no other rules specified, the Speech Recognizer will timeout after 10 seconds once :func:`listen` is called.
+
+        :param finish_conditions: A dictionary of rules and associated methods to call when a rule evaluates to true, defaults to None
+        :type finish_conditions: Union[None, Dict[Callable[[str], bool], Callable[[str], bool]]], optional
+
+        .. versionadded:: 0.0.9
+        """
+        default_conditions = {
+            lambda x: self.time_elapsed > timedelta(seconds = 10): lambda x: self.spoken_query,
+        }
+        self.finish_conditions: Callable[[str], bool] = finish_conditions or default_conditions #: A dictionary of rules and associated methods to call when a rule evaluates to true
+        self.spoken_query: str = "" #: The recognized spoken input
+        self.start_time: datetime #: The time that the Speech Recognizer begins listening
+        self.time_elapsed: timedelta #: The amount of time passed since the start time
+
+    def __prepare(self):
+        # Request microphone access if we don't already have it
+        Speech.SFSpeechRecognizer.requestAuthorization_(None)
+
+        # Set up audio session
+        self.audio_session = AVFoundation.AVAudioSession.sharedInstance()
+        self.audio_session.setCategory_mode_options_error_(AVFoundation.AVAudioSessionCategoryRecord, AVFoundation.AVAudioSessionModeMeasurement, AVFoundation.AVAudioSessionCategoryOptionDuckOthers, None)
+        self.audio_session.setActive_withOptions_error_(True, AVFoundation.AVAudioSessionSetActiveOptionNotifyOthersOnDeactivation, None)
+
+        # Set up recognition request
+        self.recognizer = Speech.SFSpeechRecognizer.alloc().init()
+        self.recognition_request = Speech.SFSpeechAudioBufferRecognitionRequest.alloc().init()
+        self.recognition_request.setShouldReportPartialResults_(True)
+
+        # Set up audio engine
+        self.audio_engine = AVFoundation.AVAudioEngine.alloc().init()
+        self.input_node = self.audio_engine.inputNode()
+        recording_format = self.input_node.outputFormatForBus_(0)
+        self.input_node.installTapOnBus_bufferSize_format_block_(0, 1024, recording_format,
+            lambda buffer, _when: self.recognition_request.appendAudioPCMBuffer_(buffer))
+        self.audio_engine.prepare()
+        self.audio_engine.startAndReturnError_(None)
+
+    def on_detect(self, rule: Callable[[str], bool], method: Callable[[str], bool]):
+        """Sets the given rule to call the specified method if a spoken query passes the rule.
+
+        :param rule: A function that takes the spoken query as a parameter and returns a boolean value depending on whether the query passes a desired rule
+        :type rule: Callable[[str], bool]
+        :param method: A function that takes the spoken query as a parameter and acts on it
+        :type method: Callable[[str], bool]
+
+        .. versionadded:: 0.0.9
+        """
+        self.finish_conditions[rule] = method
+
+    def listen(self) -> Any:
+        """Begins listening for a query until a rule returns True.
+
+        :return: The value returned by the method invoked upon matching some rule
+        :rtype: Any
+
+        .. versionadded:: 0.0.9
+        """
+        self.start_time = datetime.now()
+        self.time_elapsed = None
+        self.__prepare()
+
+        old_self = self
+        def detect_speech(transcription, error):
+            if error is not None:
+                print("Failed to detect speech. Error: ", error)
+            else:
+                old_self.spoken_query = transcription.bestTranscription().formattedString()
+                print(old_self.spoken_query)
+
+        recognition_task = self.recognizer.recognitionTaskWithRequest_resultHandler_(self.recognition_request, detect_speech)
+        while self.spoken_query == "" or not any(x(self.spoken_query) for x in self.finish_conditions):
+            self.time_elapsed = datetime.now() - self.start_time
+            AppKit.NSRunLoop.currentRunLoop().runUntilDate_(datetime.now() + timedelta(seconds = 0.5))
+
+        self.audio_engine.stop()
+        for rule, method in self.finish_conditions.items():
+            if rule(self.spoken_query):
+                return method(self.spoken_query)
+
+
+
+
+
 class XASpotlight(XAObject):
     def __init__(self, *query: List[Any]):
         self.query: List[Any] = query #: The query terms to search
@@ -1644,9 +1733,6 @@ class XAURL(XAObject, XAClipboardCodable):
         .. versionadded:: 0.0.8
         """
         return [self.xa_elem, str(self.xa_elem)]
-
-    def __str__(self):
-        return str(self.xa_elem)
 
     def __repr__(self):
         return "<" + str(type(self)) + str(self.xa_elem) + ">"

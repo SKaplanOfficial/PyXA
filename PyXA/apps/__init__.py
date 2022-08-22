@@ -49,4 +49,5 @@ application_classes = {
     "hammerspoon": ("Hammerspoon", "XAHammerspoonApplication"),
 
     "vlc": ("VLC", "XAVLCApplication"),
+    "fantastical": ("Fantastical", "XAFantasticalApplication"),
 }

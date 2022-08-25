@@ -45,3 +45,4 @@ Third-Party Application Modules
    drafts/index
    hammerspoon/index
    vlc/index
+   omnioutliner/index

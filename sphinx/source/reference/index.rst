@@ -58,4 +58,5 @@ Third-Party Application Modules
    apps/chromium
    apps/drafts
    apps/hammerspoon
+   apps/omnioutliner
    apps/vlc

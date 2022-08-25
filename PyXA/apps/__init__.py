@@ -50,4 +50,5 @@ application_classes = {
 
     "vlc": ("VLC", "XAVLCApplication"),
     "fantastical": ("Fantastical", "XAFantasticalApplication"),
+    "omnioutliner": ("OmniOutliner", "XAOmniOutlinerApplication"),
 }

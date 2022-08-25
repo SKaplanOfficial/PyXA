@@ -66,29 +66,15 @@ class XAScriptEditorItem(XABase.XAObject):
         """
         return self.xa_elem.exists()
     
-    def moveTo(self) -> None:
-        """Move object(s) to a new location.
-        """
-        return self.xa_elem.moveTo_(...)
-    
-
-    def saveAs(self) -> None:
-        """Save an object.
-        """
-        return self.xa_elem.saveAs_in_(...)
-    
-
-    def saveAs(self) -> None:
-        """Save an object.
-        """
-        return self.xa_elem.saveAs_in_runOnly_startupScreen_stayOpen_(...)
-    
 
 class XAScriptEditorApplication(XABaseScriptable.XASBApplication):
-    """A class for...
+    """A class for managing and interacting with Script Editor.app.
+
+    .. versionadded:: 0.0.9
     """
     def __init__(self, properties):
         super().__init__(properties)
+        self.xa_wcls = XAScriptEditorWindow
         
         self.frontmost: bool #: Whether Script Editor is the active application
         self.name: str #: The name of the application
@@ -482,11 +468,11 @@ class XAScriptEditorWindow(XABaseScriptable.XASBWindow):
 
     @property
     def bounds(self) -> Tuple[Tuple[int, int], Tuple[int, int]]:
-        return self.xa_scel.bounds()
+        return self.xa_elem.bounds()
 
     @property
     def closeable(self) -> bool:
-        return self.xa_scel.closeable()
+        return self.xa_elem.closeable()
 
     @property
     def document(self) -> XAScriptEditorDocument:
@@ -498,19 +484,19 @@ class XAScriptEditorWindow(XABaseScriptable.XASBWindow):
 
     @property
     def id(self) -> int:
-        return self.xa_scel.id()
+        return self.xa_elem.id()
 
     @property
     def index(self) -> int:
-        return self.xa_scel.index()
+        return self.xa_elem.index()
 
     @property
     def miniaturizable(self) -> bool:
-        return self.xa_scel.miniaturizable()
+        return self.xa_elem.miniaturizable()
 
     @property
     def miniaturized(self) -> bool:
-        return self.xa_scel.miniaturized()
+        return self.xa_elem.miniaturized()
 
     @property
     def modal(self) -> bool:
@@ -522,7 +508,7 @@ class XAScriptEditorWindow(XABaseScriptable.XASBWindow):
 
     @property
     def resizable(self) -> bool:
-        return self.xa_scel.resizable()
+        return self.xa_elem.resizable()
 
     @property
     def titled(self) -> bool:
@@ -530,15 +516,15 @@ class XAScriptEditorWindow(XABaseScriptable.XASBWindow):
 
     @property
     def visible(self) -> bool:
-        return self.xa_scel.visible()
+        return self.xa_elem.visible()
 
     @property
     def zoomable(self) -> bool:
-        return self.xa_scel.zoomable()
+        return self.xa_elem.zoomable()
 
     @property
     def zoomed(self) -> bool:
-        return self.xa_scel.zoomed()
+        return self.xa_elem.zoomed()
 
 
     

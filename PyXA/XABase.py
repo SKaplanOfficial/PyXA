@@ -1012,6 +1012,11 @@ class XAApplication(XAObject, XAClipboardCodable):
     def frontmost(self) -> bool:
         return self.xa_elem.isActive()
 
+    @frontmost.setter
+    def frontmost(self, frontmost: bool):
+        if frontmost is True:
+            self.xa_elem.activateWithOptions_(AppKit.NSApplicationActivateIgnoringOtherApps)
+
     @property
     def launch_date(self) -> datetime:
         return self.xa_elem.launchDate()
@@ -1752,10 +1757,25 @@ class XAPath(XAObject, XAClipboardCodable):
         self.xa_wksp = AppKit.NSWorkspace.sharedWorkspace()
 
     def open(self):
+        """Opens the file in its default application.
+
+        .. versionadded: 0.0.5
+        """
         self.xa_wksp.openURL_(self.xa_elem)
 
+    def show_in_finder(self):
+        """Opens a Finder window showing the folder containing this path, with the associated file selected. Synonymous with :func:`select`.
+
+        .. versionadded: 0.0.9
+        """
+        self.select()
+
     def select(self):
-        self.xa_wksp.selectFile_inFileViewerRootedAtPath_(self.xa_elem)
+        """Opens a Finder window showing the folder containing this path, with the associated file selected. Synonymous with :func:`show_in_finder`.
+
+        .. versionadded: 0.0.5
+        """
+        self.xa_wksp.activateFileViewerSelectingURLs_([self.xa_elem])
 
     def get_clipboard_representation(self) -> List[Union[AppKit.NSURL, str]]:
         """Gets a clipboard-codable representation of the path.
@@ -3007,6 +3027,43 @@ class XAText(XAObject):
     """
     def __init__(self, properties):
         super().__init__(properties)
+
+        self.text: str #: The plaint ext contents of the rich text
+        self.color: XAColor #: The color of the first character
+        self.font: str #: The name of the font of the first character
+        self.size: int #: The size in points of the first character
+
+    @property
+    def text(self) -> str:
+        return self.xa_elem.text()
+
+    @text.setter
+    def text(self, text: str):
+        self.set_property("text", text)
+
+    @property
+    def color(self) -> 'XAColor':
+        return XAColor(self.xa_elem.color())
+
+    @color.setter
+    def color(self, color: 'XAColor'):
+        self.set_property("color", color.xa_elem)
+
+    @property
+    def font(self) -> str:
+        return self.xa_elem.font()
+
+    @font.setter
+    def font(self, font: str):
+        self.set_property("font", font)
+
+    @property
+    def size(self) -> int:
+        return self.xa_elem.size()
+
+    @size.setter
+    def size(self, size: int):
+        self.set_property("size", size)
 
     def paragraphs(self, filter: dict = None) -> 'XAParagraphList':
         return self._new_element(self.xa_elem.paragraphs(), XAParagraphList, filter)

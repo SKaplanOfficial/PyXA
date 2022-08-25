@@ -42,37 +42,4 @@ Calculator Resources
 ####################
 - `Calculator User Guide - Apple Support <https://support.apple.com/guide/calculator/welcome/mac>`_
 
-Calculator Classes and Methods
-##############################
-
-Classes
-*******
-   
-.. autosummary:: PyXA.apps.Calculator
-   :nosignatures:
-
-   ~PyXA.apps.Calculator.XACalculatorApplication
-
-XACalculatorApplication Methods
-*******************************
-
-.. autosummary:: PyXA.apps.Calculator.XACalculatorApplication
-   :nosignatures:
-
-   ~PyXA.apps.Calculator.XACalculatorApplication.open_about_panel
-   ~PyXA.apps.Calculator.XACalculatorApplication.save_tape
-   ~PyXA.apps.Calculator.XACalculatorApplication.open_page_setup
-   ~PyXA.apps.Calculator.XACalculatorApplication.print_tape
-   ~PyXA.apps.Calculator.XACalculatorApplication.copy_value
-   ~PyXA.apps.Calculator.XACalculatorApplication.show_basic_calculator
-   ~PyXA.apps.Calculator.XACalculatorApplication.show_scientific_calculator
-   ~PyXA.apps.Calculator.XACalculatorApplication.show_programmer_calculator
-   ~PyXA.apps.Calculator.XACalculatorApplication.toggle_thousands_separators
-   ~PyXA.apps.Calculator.XACalculatorApplication.toggle_RPN_mode
-   ~PyXA.apps.Calculator.XACalculatorApplication.show_paper_tape
-   ~PyXA.apps.Calculator.XACalculatorApplication.show_help
-   ~PyXA.apps.Calculator.XACalculatorApplication.clear_value
-   ~PyXA.apps.Calculator.XACalculatorApplication.input
-   ~PyXA.apps.Calculator.XACalculatorApplication.current_value
-
-For all classes, methods, and inherited members on one page, see the :ref:`Calculator Module Reference`
+For all classes, methods, and inherited members of the Calculator module, see the :ref:`Calculator Module Reference`.

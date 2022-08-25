@@ -477,8 +477,8 @@ class XASafariDocumentList(XABase.XAList, XAClipboardCodable):
     def by_name(self, name: str) -> 'XASafariDocument':
         """Retrieves the document whose name matches the given name, if one exists.
 
-        :return: The desired tab, if it is found
-        :rtype: Union[XASafariTab, None]
+        :return: The desired document, if it is found
+        :rtype: Union[XASafariDocument, None]
         
         .. versionadded:: 0.0.4
         """
@@ -487,8 +487,8 @@ class XASafariDocumentList(XABase.XAList, XAClipboardCodable):
     def by_modified(self, modified: bool) -> 'XASafariDocument':
         """Retrieves the tab whose modified status matches the given boolean value, if one exists.
 
-        :return: The desired tab, if it is found
-        :rtype: Union[XASafariTab, None]
+        :return: The desired document, if it is found
+        :rtype: Union[XASafariDocument, None]
         
         .. versionadded:: 0.0.4
         """
@@ -497,8 +497,8 @@ class XASafariDocumentList(XABase.XAList, XAClipboardCodable):
     def by_file(self, file: str) -> 'XASafariDocument':
         """Retrieves the tab whose file matches the given file path, if one exists.
 
-        :return: The desired tab, if it is found
-        :rtype: Union[XASafariTab, None]
+        :return: The desired document, if it is found
+        :rtype: Union[XASafariDocument, None]
         
         .. versionadded:: 0.0.4
         """
@@ -507,8 +507,8 @@ class XASafariDocumentList(XABase.XAList, XAClipboardCodable):
     def by_source(self, source: str) -> 'XASafariDocument':
         """Retrieves the tab whose source HTML matches the given HTML, if one exists.
 
-        :return: The desired tab, if it is found
-        :rtype: Union[XASafariTab, None]
+        :return: The desired document, if it is found
+        :rtype: Union[XASafariDocument, None]
         
         .. versionadded:: 0.0.4
         """
@@ -517,8 +517,8 @@ class XASafariDocumentList(XABase.XAList, XAClipboardCodable):
     def by_url(self, url: XABase.XAURL) -> 'XASafariDocument':
         """Retrieves the tab whose URL matches the given URL, if one exists.
 
-        :return: The desired tab, if it is found
-        :rtype: Union[XASafariTab, None]
+        :return: The desired document, if it is found
+        :rtype: Union[XASafariDocument, None]
         
         .. versionadded:: 0.0.4
         """
@@ -527,8 +527,8 @@ class XASafariDocumentList(XABase.XAList, XAClipboardCodable):
     def by_text(self, text: str) -> 'XASafariDocument':
         """Retrieves the tab whose visible text matches the given text, if one exists.
 
-        :return: The desired tab, if it is found
-        :rtype: Union[XASafariTab, None]
+        :return: The desired document, if it is found
+        :rtype: Union[XASafariDocument, None]
         
         .. versionadded:: 0.0.4
         """

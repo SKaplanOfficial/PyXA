@@ -43,23 +43,4 @@ Console Resources
 #################
 - `Console User Guide - Apple Support <https://support.apple.com/guide/console/welcome/mac>`_
 
-Console Classes and Methods
-###########################
-
-Classes
-*******
-   
-.. autosummary:: PyXA.apps.Console
-   :nosignatures:
-
-   ~PyXA.apps.Console.XAConsoleApplication
-
-XAConsoleApplication Methods
-****************************
-   
-.. autosummary:: PyXA.apps.Console.XAConsoleApplication
-   :nosignatures:
-
-   ~PyXA.apps.Console.XAConsoleApplication.select_device
-
-For all classes, methods, and inherited members on one page, see the :ref:`Console Module Reference`
+For all classes, methods, and inherited members of the Console module, see the :ref:`Console Module Reference`.

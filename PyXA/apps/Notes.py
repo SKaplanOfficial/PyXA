@@ -7,7 +7,6 @@ from datetime import datetime
 from enum import Enum
 from typing import List, Tuple, Union
 from AppKit import NSURL
-from numpy import isin
 
 from ScriptingBridge import SBElementArray
 
@@ -27,19 +26,6 @@ class XANotesApplication(XABaseScriptable.XASBApplication, XACanOpenPath, XACanP
 
     .. versionadded:: 0.0.1
     """
-    class SaveOption(Enum):
-        """Options for whether to save documents when closing them.
-        """
-        YES = OSType('yes ') #: Save the file
-        NO  = OSType('no  ') #: Do not save the file
-        ASK = OSType('ask ') #: Ask user whether to save the file (bring up dialog)
-
-    class PrintErrorHandling(Enum):
-        """Options for how to handle errors while printing.
-        """
-        STANDARD = 'lwst' #: Standard PostScript error handling
-        DETAILED = 'lwdt' #: Print a detailed report of PostScript errors
-
     class FileFormat(Enum):
         NATIVE = OSType('item') #: The native Notes format
 

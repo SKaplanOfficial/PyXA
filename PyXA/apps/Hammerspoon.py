@@ -43,6 +43,16 @@ class XAHammerspoonApplication(XABaseScriptable.XASBApplication):
 
            In order for this to work, you must add `hs.allowAppleScript(true)` to your Hammerspoon config.
 
+        :Example:
+
+        >>> import PyXA
+        >>> app = PyXA.application("hammerspoon")
+        >>> app.execute_lua_code(\"\"\"
+        >>>     app = hs.appfinder.appFromName("Finder")
+        >>>     app:activate()
+        >>>     app:selectMenuItem({"Window", "Bring All to Front"})
+        >>> \"\"\")
+
         .. versionadded:: 0.0.8
         """
         return self.xa_scel.executeLuaCode_(code)

@@ -98,7 +98,7 @@ class XAPrintable(XAProtocol):
         """
         if print_properties is None:
             print_properties = {}
-        self.xa_elem.printWithProperties_printDialog_(self.xa_elem, show_dialog, print_properties)
+        self.xa_elem.printWithProperties_printDialog_(print_properties, show_dialog)
         return self
 
 
@@ -114,7 +114,11 @@ class XACloseable(XAProtocol):
             save = 1852776480
         else:
             save = save.value
-        self.xa_elem.closeSaving_savingIn_(save, AppKit.NSURL.alloc().initFileURLWithPath_(location))
+
+        if location is not None:
+            self.xa_elem.closeSaving_savingIn_(save, AppKit.NSURL.alloc().initFileURLWithPath_(location))
+        else:
+            self.xa_elem.closeSaving_savingIn_(save, None)
 
 
 class XAClipboardCodable(XAProtocol):

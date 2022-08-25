@@ -13,7 +13,7 @@ PyXA fills a gap where currently available frameworks ultimately fall short: it 
 PyXA is not intended to replace AppleScript or even to cover 100% of AppleScript's capabilities. Instead, PyXA is meant to provide general convenience in accomplishing AppleScript and other automation tasks via Python, for the most commonly used applications. If you need a complete Apple Event bridge, or if you find that PyXA cannot handle your particular use case, consider using [appscript](https://appscript.sourceforge.io) or one of its derivatives. If you just need something that works in most circumstances, that has abundant examples for you to reference, and supports some additional automation features (such as opening Maps to a specific address), then PyXA might be a good fit for you.
 
 # Feature Overview
-- Support for most AppleScript commands in built-in macOS applications (in progress)
+- Support for most AppleScript commands in built-in macOS applications and some third-party applications (in progress)
 - Scripting capabilities for several non-scriptable applications by using APIs, URI schemes, and other methods
 - Support for direct operations on non-scriptable applications (e.g. `PyXA.application("Maps").front_window.collapse()`)
 - Command Chaining similar to JXA (e.g. `PyXA.application("Reminders").lists()[0].reminders().title()`)
@@ -23,6 +23,9 @@ PyXA is not intended to replace AppleScript or even to cover 100% of AppleScript
 - Automatic translation of clipboard items to PyXA objects
 - Support for compiling and executing AppleScript scripts via NSAppleScript
 - Full access to and control over the system clipboard
+- Support for dialogs, alerts, file/color pickers, and notifications
+- Classes for speech and speech recognition
+- Ability to create custom menu bar items
 
 # Some Examples
 ## Example 1: Open a URL in Safari and print the loaded page.

@@ -2,9 +2,11 @@
 from time import sleep
 from typing import Tuple, Union, List
 
+import AppKit
+
 from PyXA import XABase
 from PyXA import XABaseScriptable
-from ..XAProtocols import XACanOpenPath, XACanPrintPath, XAClipboardCodable
+from ..XAProtocols import XACanOpenPath, XACanPrintPath, XAClipboardCodable, XACloseable
 
 class XAVLCApplication(XABaseScriptable.XASBApplication, XACanOpenPath, XACanPrintPath):
     """VLC's top level scripting object.
@@ -26,14 +28,13 @@ class XAVLCApplication(XABaseScriptable.XASBApplication, XACanOpenPath, XACanPri
         self.fullscreen_mode: bool #: Indicates wheter fullscreen is enabled or not.
         self.muted: bool #: Is VLC currently muted?
         self.name_of_current_item: str #: Name of the current playlist item.
-        self.path_of_current_item: str #: Path to the current playlist item.
+        self.path_of_current_item: XABase.XAPath #: Path to the current playlist item.
         self.playback_shows_menu: bool #: Indicates whether a DVD menu is currently being shown.
         self.playing: bool #: Is VLC playing an item?
 
     @property
     def properties(self) -> dict:
         return self.xa_elem.properties()
-
 
     @property
     def frontmost(self) -> bool:
@@ -51,13 +52,25 @@ class XAVLCApplication(XABaseScriptable.XASBApplication, XACanOpenPath, XACanPri
     def audio_desync(self) -> int:
         return self.xa_scel.audioDesync()
 
+    @audio_desync.setter
+    def audio_desync(self, audio_desync: int):
+        self.set_property("audioDesync", audio_desync)
+
     @property
     def audio_volume(self) -> int:
         return self.xa_scel.audioVolume()
 
+    @audio_volume.setter
+    def audio_volume(self, audio_volume: int):
+        self.set_property("audioVolume", audio_volume)
+
     @property
     def current_time(self) -> int:
         return self.xa_scel.currentTime()
+
+    @current_time.setter
+    def current_time(self, current_time: int):
+        self.set_property("currentTime", current_time)
 
     @property
     def duration_of_current_item(self) -> int:
@@ -66,6 +79,10 @@ class XAVLCApplication(XABaseScriptable.XASBApplication, XACanOpenPath, XACanPri
     @property
     def fullscreen_mode(self) -> bool:
         return self.xa_scel.fullscreenMode()
+
+    @fullscreen_mode.setter
+    def fullscreen_mode(self, fullscreen_mode: bool):
+        self.set_property("fullscreenMode", fullscreen_mode)
 
     @property
     def muted(self) -> bool:
@@ -76,8 +93,8 @@ class XAVLCApplication(XABaseScriptable.XASBApplication, XACanOpenPath, XACanPri
         return self.xa_scel.nameOfCurrentItem()
 
     @property
-    def path_of_current_item(self) -> str:
-        return self.xa_scel.pathOfCurrentItem()
+    def path_of_current_item(self) -> XABase.XAPath:
+        return XABase.XAPath(self.xa_scel.pathOfCurrentItem())
 
     @property
     def playback_shows_menu(self) -> bool:
@@ -92,6 +109,24 @@ class XAVLCApplication(XABaseScriptable.XASBApplication, XACanOpenPath, XACanPri
 
         :param target: The path to a file or the URL to a website to open.
         :type target: Union[XABase.XAURL, XABase.XAPath, str]
+
+        :Example 1: Open files from file paths
+
+        >>> import PyXA
+        >>> app = PyXA.application("VLC")
+        >>> app.open("/Users/exampleUser/Downloads/Example.avi")
+        >>> 
+        >>> path = PyXA.XAPath("/Users/exampleUser/Documents/Example.m4v")
+        >>> app.open(path)
+
+        :Example 2: Open URLs
+
+        >>> import PyXA
+        >>> app = PyXA.application("VLC")
+        >>> app.open("https://upload.wikimedia.org/wikipedia/commons/transcoded/0/0f/Baby_pelican.ogg/Baby_pelican.ogg.mp3")
+        >>> 
+        >>> url = PyXA.XAURL("https://www.youtube.com/watch?v=e9B3E_DnnWw")
+        >>> app.open(url)
 
         .. versionadded:: 0.0.8
         """
@@ -117,12 +152,12 @@ class XAVLCApplication(XABaseScriptable.XASBApplication, XACanOpenPath, XACanPri
         return self.xa_scel.fullscreen()
     
     def get_url(self, url: Union[XABase.XAURL, XABase.XAPath, str]):
-        """Get a URL.
+        """Get a URL without playing it.
 
         .. versionadded:: 0.0.8
         """
         self.open(url)
-        sleep(0.1)
+        sleep(0.01)
         self.stop()
     
     def move_menu_focus_down(self):
@@ -235,8 +270,19 @@ class XAVLCApplication(XABaseScriptable.XASBApplication, XACanOpenPath, XACanPri
         """
         return self._new_element(self.xa_scel.documents(), XAVLCDocumentList, filter)
 
+    def make(self, specifier: str, properties: dict):
+        """Creates a new element of the given specifier class without adding it to any list.
 
-class XAVLCDocumentList(XABase.XAList, XAClipboardCodable):
+        .. versionadded:: 0.0.9
+        """
+        obj = self.xa_scel.classForScriptingClass_(specifier).alloc().initWithProperties_(properties)
+
+        if specifier == "document":
+            return self._new_element(obj, XAVLCDocument)
+
+
+
+class XAVLCDocumentList(XABase.XAList, XACloseable, XAClipboardCodable):
     """A wrapper around a list of documents.
 
     .. versionadded:: 0.0.8
@@ -245,22 +291,67 @@ class XAVLCDocumentList(XABase.XAList, XAClipboardCodable):
         super().__init__(properties, XAVLCDocument, filter)
 
     def name(self) -> List[str]:
+        """Gets the name of each document in the list.
+
+        :return: A list of document names
+        :rtype: List[str]
+        
+        .. versionadded:: 0.0.9
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
     def modified(self) -> List[bool]:
+        """Gets the modified status of each document in the list.
+
+        :return: A list of modified status booleans
+        :rtype: List[bool]
+        
+        .. versionadded:: 0.0.9
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("modified"))
 
-    def path(self) -> List[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("path"))
+    def path(self) -> List[XABase.XAPath]:
+        """Gets the file path of each document in the list.
+
+        :return: A list of file paths
+        :rtype: List[XABase.XAPath]
+        
+        .. versionadded:: 0.0.9
+        """
+        ls = self.xa_elem.arrayByApplyingSelector_("path")
+        return [XABase.XAPath(x) for x in ls]
 
     def by_name(self, name: str) -> Union['XAVLCDocument', None]:
+        """Retrieves the first document whose name matches the given name, if one exists.
+
+        :return: The desired document, if it is found
+        :rtype: Union[XAVLCDocument, None]
+        
+        .. versionadded:: 0.0.9
+        """
         return self.by_property("name", name)
 
     def by_modified(self, modified: bool) -> Union['XAVLCDocument', None]:
+        """Retrieves the first document whose modified status matches the given boolean value, if one exists.
+
+        :return: The desired document, if it is found
+        :rtype: Union[XAVLCDocument, None]
+        
+        .. versionadded:: 0.0.9
+        """
         return self.by_property("modified", modified)
 
-    def by_path(self, path: str) -> Union['XAVLCDocument', None]:
-        return self.by_property("path", path)
+    def by_path(self, path: Union[str, XABase.XAPath]) -> Union['XAVLCDocument', None]:
+        """Retrieves the first document whose file path matches the given path, if one exists.
+
+        :return: The desired document, if it is found
+        :rtype: Union[XAVLCDocument, None]
+        
+        .. versionadded:: 0.0.9
+        """
+        if isinstance(path, str):
+            path = XABase.XAPath(path)
+        return self.by_property("path", path.xa_elem)
 
     def get_clipboard_representation(self) -> List[str]:
         """Gets a clipboard-codable representation of each document in the list.
@@ -283,9 +374,14 @@ class XAVLCDocument(XABase.XAObject):
     def __init__(self, properties):
         super().__init__(properties)
         
+        self.properties: dict #: All properties of the document
         self.modified: bool #: Has the document been modified since the last save?
         self.name: str #: The document's name.
-        self.path: str #: The document's path.
+        self.path: XABase.XAPath #: The document's path.
+
+    @property
+    def properties(self) -> dict:
+        return self.xa_elem.properties()
 
     @property
     def modified(self) -> bool:
@@ -295,12 +391,25 @@ class XAVLCDocument(XABase.XAObject):
     def name(self) -> str:
         return self.xa_elem.name()
 
+    @name.setter
+    def name(self, name: str):
+        self.set_property("name", name)
+
     @property
-    def path(self) -> str:
-        return self.xa_elem.path()
+    def path(self) -> XABase.XAPath:
+        return XABase.XAPath(self.xa_elem.path())
+
+    @path.setter
+    def path(self, path: Union[str, XABase.XAPath]):
+        if isinstance(path, str):
+            path = XABase.XAPath(path)
+        self.path = path
+        self.set_property("path", path.xa_elem)
 
     def __repr__(self):
         return "<" + str(type(self)) + str(self.name) + ">"
+
+
 
 
 class XAVLCWindow(XABaseScriptable.XASBWindow):
@@ -328,8 +437,20 @@ class XAVLCWindow(XABaseScriptable.XASBWindow):
         self.zoomed: bool #: Whether the window is currently zoomed.
 
     @property
-    def bounds(self) -> Tuple[Tuple[int, int], Tuple[int, int]]:
-        return self.xa_elem.bounds()
+    def bounds(self) -> Tuple[int, int, int, int]:
+        bounds = self.xa_elem.bounds()
+        origin = bounds.origin
+        size = bounds.size
+        return (origin.x, origin.y, size.width, size.height)
+
+    @bounds.setter
+    def bounds(self, bounds: Tuple[int, int, int, int]):
+        x = bounds[0]
+        y = bounds[1]
+        w = bounds[2]
+        h = bounds[3]
+        value = AppKit.NSValue.valueWithRect_(AppKit.NSMakeRect(x, y, w, h))
+        self.set_property("bounds", value)
 
     @property
     def closeable(self) -> bool:
@@ -338,6 +459,10 @@ class XAVLCWindow(XABaseScriptable.XASBWindow):
     @property
     def document(self) -> XAVLCDocument:
         return self.xa_elem.document()
+
+    @document.setter
+    def document(self, document: XAVLCDocument):
+        self.set_property("document", document.xa_elem)
 
     @property
     def floating(self) -> bool:
@@ -351,6 +476,10 @@ class XAVLCWindow(XABaseScriptable.XASBWindow):
     def index(self) -> int:
         return self.xa_elem.index()
 
+    @index.setter
+    def index(self, index: int):
+        self.set_property("index", index)
+
     @property
     def miniaturizable(self) -> bool:
         return self.xa_elem.miniaturizable()
@@ -359,6 +488,10 @@ class XAVLCWindow(XABaseScriptable.XASBWindow):
     def miniaturized(self) -> bool:
         return self.xa_elem.miniaturized()
 
+    @miniaturized.setter
+    def miniaturized(self, miniaturized: bool):
+        self.set_property("miniaturized", miniaturized)
+
     @property
     def modal(self) -> bool:
         return self.xa_elem.modal()
@@ -366,6 +499,10 @@ class XAVLCWindow(XABaseScriptable.XASBWindow):
     @property
     def name(self) -> str:
         return self.xa_elem.name()
+
+    @name.setter
+    def name(self, name: str):
+        self.set_property("name", name)
 
     @property
     def resizable(self) -> bool:
@@ -379,6 +516,10 @@ class XAVLCWindow(XABaseScriptable.XASBWindow):
     def visible(self) -> bool:
         return self.xa_elem.visible()
 
+    @visible.setter
+    def visible(self, visible: bool):
+        self.set_property("visible", visible)
+
     @property
     def zoomable(self) -> bool:
         return self.xa_elem.zoomable()
@@ -386,3 +527,7 @@ class XAVLCWindow(XABaseScriptable.XASBWindow):
     @property
     def zoomed(self) -> bool:
         return self.xa_elem.zoomed()
+
+    @zoomed.setter
+    def zoomed(self, zoomed: bool):
+        self.set_property("zoomed", zoomed)

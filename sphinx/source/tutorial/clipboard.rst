@@ -69,7 +69,7 @@ To write content to the clipboard, set the :attr:`~PyXA.XABase.XAClipboard.conte
     
     url = PyXA.XAURL("http://macrumors.com")
     cb.content = url
-    >>>
+    
     sound = PyXA.XASound("/Users/steven/Downloads/Test.mp3")
     cb.content = sound
 

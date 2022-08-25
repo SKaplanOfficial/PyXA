@@ -1599,7 +1599,7 @@ class XAAutomatorWorkflow(XAAutomatorDocument):
         self.xa_elem.delete()
 
     def save(self) -> 'XAAutomatorWorkflow':
-        """Saves the workflow to the disk at the location specified by :attribute:`XAAutomatorWorkflow.path`, or in the downloads folder if no path has been specified.
+        """Saves the workflow to the disk at the location specified by :attr:`XAAutomatorWorkflow.path`, or in the downloads folder if no path has been specified.
 
         :return: The workflow object.
         :rtype: XAAutomatorWorkflow

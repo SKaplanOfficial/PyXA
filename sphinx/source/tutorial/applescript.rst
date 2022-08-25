@@ -77,7 +77,6 @@ This structure provides a convenient way to access the information contained in 
    print(result["string"])
    # Running AppleScripts — PyXA 0.0.9 documentation
 
-
 When dealing with other forms of data, such as a list of Safari tab names or the list of IDs of all chats in Messages, you can use the :func:`~PyXA.XABase.AppleScript.parse_result_data` function to extract the text and numbers from the raw Apple Event data. This function takes the results dictionary, isolated the NSAppleEventDescriptor, loops through each sub-descriptor, gets the string value of the descriptor or creates a tuple of the sub-descriptor's values, then returns a list containing the value or tuple associated with each entry. The first code snippet below shows how to get the names of all Safari tabs, the second shows how to list the ID property of all chats in Messages, and the third shows how to create PyXA objects from the returned data.
 
 .. code-block:: Python

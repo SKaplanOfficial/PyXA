@@ -124,7 +124,7 @@ class XASBWindowList(XABase.XAList):
         self.xa_ocls = self.xa_prnt.xa_wcls
 
     def name(self) -> List[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("name"))
+        return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
     # TODO
 
@@ -148,6 +148,9 @@ class XASBWindowList(XABase.XAList):
         """
         return self.name()
 
+    def __repr__(self):
+        return "<" + str(type(self)) + str(self.name()) + ">"
+
 class XASBWindow(XASBObject, XACloseable):
     def __init__(self, properties):
         super().__init__(properties)
@@ -163,39 +166,39 @@ class XASBWindow(XASBObject, XACloseable):
 
     @property
     def name(self) -> str:
-        return self.xa_scel.name()
+        return self.xa_elem.name()
 
     @property
     def id(self) -> str:
-        return self.xa_scel.id()
+        return self.xa_elem.id()
 
     @property
     def index(self) -> int:
-        return self.xa_scel.index()
+        return self.xa_elem.index()
 
     @property
     def bounds(self) -> Tuple[Tuple[int, int]]:
-        return self.xa_scel.bounds()
+        return self.xa_elem.bounds()
 
     @property
     def closeable(self) -> bool:
-        return self.xa_scel.closeable()
+        return self.xa_elem.closeable()
 
     @property
     def resizable(self) -> bool:
-        return self.xa_scel.resizable()
+        return self.xa_elem.resizable()
 
     @property
     def visible(self) -> bool:
-        return self.xa_scel.visible()
+        return self.xa_elem.visible()
 
     @property
     def zoomable(self) -> bool:
-        return self.xa_scel.zoomable()
+        return self.xa_elem.zoomable()
 
     @property
     def zoomed(self) -> bool:
-        return self.xa_scel.zoomed()
+        return self.xa_elem.zoomed()
 
     def collapse(self) -> 'XABase.XAWindow':
         """Collapses (minimizes) the window.

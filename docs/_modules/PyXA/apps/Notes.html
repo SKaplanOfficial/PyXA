@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PyXA.apps.Notes &mdash; PyXA 0.0.8 documentation</title>
+  <title>PyXA.apps.Notes &mdash; PyXA 0.0.9 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -77,7 +77,6 @@
 <span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
 <span class="kn">from</span> <span class="nn">AppKit</span> <span class="kn">import</span> <span class="n">NSURL</span>
-<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">isin</span>
 
 <span class="kn">from</span> <span class="nn">ScriptingBridge</span> <span class="kn">import</span> <span class="n">SBElementArray</span>
 
@@ -97,19 +96,6 @@
 
 <span class="sd">    .. versionadded:: 0.0.1</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-<div class="viewcode-block" id="XANotesApplication.SaveOption"><a class="viewcode-back" href="../../../reference/apps/numbers.html#PyXA.apps.Notes.XANotesApplication.SaveOption">[docs]</a>    <span class="k">class</span> <span class="nc">SaveOption</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Options for whether to save documents when closing them.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">YES</span> <span class="o">=</span> <span class="n">OSType</span><span class="p">(</span><span class="s1">&#39;yes &#39;</span><span class="p">)</span> <span class="c1">#: Save the file</span>
-        <span class="n">NO</span>  <span class="o">=</span> <span class="n">OSType</span><span class="p">(</span><span class="s1">&#39;no  &#39;</span><span class="p">)</span> <span class="c1">#: Do not save the file</span>
-        <span class="n">ASK</span> <span class="o">=</span> <span class="n">OSType</span><span class="p">(</span><span class="s1">&#39;ask &#39;</span><span class="p">)</span> <span class="c1">#: Ask user whether to save the file (bring up dialog)</span></div>
-
-<div class="viewcode-block" id="XANotesApplication.PrintErrorHandling"><a class="viewcode-back" href="../../../reference/apps/numbers.html#PyXA.apps.Notes.XANotesApplication.PrintErrorHandling">[docs]</a>    <span class="k">class</span> <span class="nc">PrintErrorHandling</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Options for how to handle errors while printing.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">STANDARD</span> <span class="o">=</span> <span class="s1">&#39;lwst&#39;</span> <span class="c1">#: Standard PostScript error handling</span>
-        <span class="n">DETAILED</span> <span class="o">=</span> <span class="s1">&#39;lwdt&#39;</span> <span class="c1">#: Print a detailed report of PostScript errors</span></div>
-
 <div class="viewcode-block" id="XANotesApplication.FileFormat"><a class="viewcode-back" href="../../../reference/apps/numbers.html#PyXA.apps.Notes.XANotesApplication.FileFormat">[docs]</a>    <span class="k">class</span> <span class="nc">FileFormat</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
         <span class="n">NATIVE</span> <span class="o">=</span> <span class="n">OSType</span><span class="p">(</span><span class="s1">&#39;item&#39;</span><span class="p">)</span> <span class="c1">#: The native Notes format</span></div>
 

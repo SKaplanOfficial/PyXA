@@ -9,6 +9,7 @@ from .XABase import (
     XAAlert, XAAlertStyle,
     XAMenu, XAFilePicker, XAFolderPicker, XAFileNameDialog, XADialog,
     XAColorPicker, XAColorPickerStyle,
+    XAColor,
     XASound,
     XAURL,
     XAPath,

@@ -1853,7 +1853,7 @@ class XAOmniOutlinerRow(XABase.XAObject):
         :param items: The row(s) to expand, defaults to None
         :type items: Union[XAOmniOutlinerRow, List[XAOmniOutlinerRow], XAOmniOutlinerRowList, None], optional
 
-        .. versionadded: 0.0.9
+        .. versionadded:: 0.0.9
         """
         if items is None:
             # Expand all items in the row
@@ -1889,7 +1889,7 @@ class XAOmniOutlinerRow(XABase.XAObject):
     def outdent(self):
         """Outdents the row.
 
-        .. versionadded: 0.0.9
+        .. versionadded:: 0.0.9
         """
         self.xa_elem.outdent()
 
@@ -2026,7 +2026,7 @@ class XAOmniOutlinerRow(XABase.XAObject):
         :param file: The file to import
         :type file: Union[str, XABase.XAPath]
 
-        .. versionadded: 0.0.9
+        .. versionadded:: 0.0.9
         """
         if isinstance(file, str):
             file = XABase.XAPath(file)

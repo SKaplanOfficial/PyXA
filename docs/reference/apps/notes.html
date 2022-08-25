@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Notes Module Reference &mdash; PyXA 0.0.8 documentation</title>
+  <title>Notes Module Reference &mdash; PyXA 0.0.9 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
@@ -1142,12 +1142,6 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="numbers.html#PyXA.apps.Notes.XANotesApplication.FileFormat" title="PyXA.apps.Notes.XANotesApplication.FileFormat"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FileFormat</span></code></a>(value)</p></td>
 <td><p>An enumeration.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="numbers.html#PyXA.apps.Notes.XANotesApplication.PrintErrorHandling" title="PyXA.apps.Notes.XANotesApplication.PrintErrorHandling"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PrintErrorHandling</span></code></a>(value)</p></td>
-<td><p>Options for how to handle errors while printing.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="numbers.html#PyXA.apps.Notes.XANotesApplication.SaveOption" title="PyXA.apps.Notes.XANotesApplication.SaveOption"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SaveOption</span></code></a>(value)</p></td>
-<td><p>Options for whether to save documents when closing them.</p></td>
-</tr>
 </tbody>
 </table>
 <p><strong>Methods:</strong></p>
@@ -1231,83 +1225,6 @@
 <dt class="sig sig-object py" id="PyXA.apps.Notes.XANotesApplication.FileFormat.NATIVE">
 <span class="sig-name descname"><span class="pre">NATIVE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1769235821</span></em><a class="headerlink" href="#PyXA.apps.Notes.XANotesApplication.FileFormat.NATIVE" title="Permalink to this definition"></a></dt>
 <dd><p>The native Notes format</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="PyXA.apps.Notes.XANotesApplication.PrintErrorHandling">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">PrintErrorHandling</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Notes.html#XANotesApplication.PrintErrorHandling"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Notes.XANotesApplication.PrintErrorHandling" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
-<p>Options for how to handle errors while printing.</p>
-<p><strong>Attributes:</strong></p>
-<table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
-<tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="numbers.html#PyXA.apps.Notes.XANotesApplication.PrintErrorHandling.DETAILED" title="PyXA.apps.Notes.XANotesApplication.PrintErrorHandling.DETAILED"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DETAILED</span></code></a></p></td>
-<td><p>Print a detailed report of PostScript errors</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="numbers.html#PyXA.apps.Notes.XANotesApplication.PrintErrorHandling.STANDARD" title="PyXA.apps.Notes.XANotesApplication.PrintErrorHandling.STANDARD"><code class="xref py py-obj docutils literal notranslate"><span class="pre">STANDARD</span></code></a></p></td>
-<td><p>Standard PostScript error handling</p></td>
-</tr>
-</tbody>
-</table>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="PyXA.apps.Notes.XANotesApplication.PrintErrorHandling.DETAILED">
-<span class="sig-name descname"><span class="pre">DETAILED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'lwdt'</span></em><a class="headerlink" href="#PyXA.apps.Notes.XANotesApplication.PrintErrorHandling.DETAILED" title="Permalink to this definition"></a></dt>
-<dd><p>Print a detailed report of PostScript errors</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="PyXA.apps.Notes.XANotesApplication.PrintErrorHandling.STANDARD">
-<span class="sig-name descname"><span class="pre">STANDARD</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'lwst'</span></em><a class="headerlink" href="#PyXA.apps.Notes.XANotesApplication.PrintErrorHandling.STANDARD" title="Permalink to this definition"></a></dt>
-<dd><p>Standard PostScript error handling</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="PyXA.apps.Notes.XANotesApplication.SaveOption">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">SaveOption</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Notes.html#XANotesApplication.SaveOption"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Notes.XANotesApplication.SaveOption" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
-<p>Options for whether to save documents when closing them.</p>
-<p><strong>Attributes:</strong></p>
-<table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
-<tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="numbers.html#PyXA.apps.Notes.XANotesApplication.SaveOption.ASK" title="PyXA.apps.Notes.XANotesApplication.SaveOption.ASK"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ASK</span></code></a></p></td>
-<td><p>Ask user whether to save the file (bring up dialog)</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="numbers.html#PyXA.apps.Notes.XANotesApplication.SaveOption.NO" title="PyXA.apps.Notes.XANotesApplication.SaveOption.NO"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NO</span></code></a></p></td>
-<td><p>Do not save the file</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="numbers.html#PyXA.apps.Notes.XANotesApplication.SaveOption.YES" title="PyXA.apps.Notes.XANotesApplication.SaveOption.YES"><code class="xref py py-obj docutils literal notranslate"><span class="pre">YES</span></code></a></p></td>
-<td><p>Save the file</p></td>
-</tr>
-</tbody>
-</table>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="PyXA.apps.Notes.XANotesApplication.SaveOption.ASK">
-<span class="sig-name descname"><span class="pre">ASK</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1634954016</span></em><a class="headerlink" href="#PyXA.apps.Notes.XANotesApplication.SaveOption.ASK" title="Permalink to this definition"></a></dt>
-<dd><p>Ask user whether to save the file (bring up dialog)</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="PyXA.apps.Notes.XANotesApplication.SaveOption.NO">
-<span class="sig-name descname"><span class="pre">NO</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1852776480</span></em><a class="headerlink" href="#PyXA.apps.Notes.XANotesApplication.SaveOption.NO" title="Permalink to this definition"></a></dt>
-<dd><p>Do not save the file</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="PyXA.apps.Notes.XANotesApplication.SaveOption.YES">
-<span class="sig-name descname"><span class="pre">YES</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2036691744</span></em><a class="headerlink" href="#PyXA.apps.Notes.XANotesApplication.SaveOption.YES" title="Permalink to this definition"></a></dt>
-<dd><p>Save the file</p>
 </dd></dl>
 
 </dd></dl>

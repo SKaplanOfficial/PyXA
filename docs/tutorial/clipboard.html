@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Working With The Clipboard &mdash; PyXA 0.0.8 documentation</title>
+  <title>Working With The Clipboard &mdash; PyXA 0.0.9 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
@@ -53,7 +53,10 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="user_input.html">Getting User Input</a></li>
-<li class="toctree-l3"><a class="reference internal" href="ui_scripting.html">UI Scripting With PyXA</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spotlight.html">Searching Spotlight</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ui_scripting.html">UI Scripting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="applescript.html">Running AppleScripts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="menubar.html">Add Items to the Menu Bar</a></li>
 <li class="toctree-l3"><a class="reference internal" href="tips_tricks.html">Tips and Tricks</a></li>
 </ul>
 </li>
@@ -90,74 +93,71 @@
              
   <section id="working-with-the-clipboard">
 <h1>Working With The Clipboard<a class="headerlink" href="#working-with-the-clipboard" title="Permalink to this headline"></a></h1>
-<p>PyXA affords full access to the system clipboard (or pasteboard, in Objective-C terms), making it easy to read content from or write content to the clipboard from within Python. PyXA provides a convenient <code class="xref py py-class docutils literal notranslate"><span class="pre">XAClipboard</span></code> class to handle clipboard-related actions.</p>
+<p>PyXA affords full access to the system clipboard (or pasteboard, in Objective-C terms), making it easy to read content from or write content to the clipboard from within Python. PyXA provides a convenient <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAClipboard" title="PyXA.XABase.XAClipboard"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAClipboard</span></code></a> class to handle clipboard-related actions.</p>
 <section id="reading-clipboard-content">
 <h2>Reading Clipboard Content<a class="headerlink" href="#reading-clipboard-content" title="Permalink to this headline"></a></h2>
-<p>To read content from the clipboard, you need only to instantiate an instance of <code class="xref py py-class docutils literal notranslate"><span class="pre">XAClipboard</span></code> and access its <a href="#id1"><span class="problematic" id="id2">:ivar:`content`</span></a> property. This will provide a dictionary containing the raw NSData object, property list, and string associated with each object type in the clipboard. The example below shows this in action. In this case, the text “Testing 1 2 3…” was copied from a plaintext file, where no formatting data is present.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pprint</span> <span class="kn">import</span> <span class="n">pprint</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">cb</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XAClipboard</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">pprint</span><span class="p">(</span><span class="n">cb</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
-<span class="go">{&#39;public.utf8-plain-text&#39;: {&#39;data&#39;: {length = 16, bytes = 0x54657374696e672031203220332e2e2e},</span>
-<span class="go">                            &#39;properties&#39;: None,</span>
-<span class="go">                            &#39;strings&#39;: &#39;Testing 1 2 3...&#39;}}</span>
+<p>To read content from the clipboard, you need only to instantiate an instance of <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAClipboard" title="PyXA.XABase.XAClipboard"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAClipboard</span></code></a> and access its <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAClipboard.content" title="PyXA.XABase.XAClipboard.content"><code class="xref py py-attr docutils literal notranslate"><span class="pre">content</span></code></a> property. This will provide a dictionary containing the raw NSData object, property list, and string associated with each object type in the clipboard. The example below shows this in action. In this case, the text “Testing 1 2 3…” was copied from a plaintext file, where no formatting data is present.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="n">cb</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XAClipboard</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">cb</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+<span class="c1"># {&#39;public.utf8-plain-text&#39;: {&#39;data&#39;: {length = 16, bytes = 0x54657374696e672031203220332e2e2e}, &#39;properties&#39;: None, &#39;strings&#39;: &#39;Testing 1 2 3...&#39;}}</span>
 </pre></div>
 </div>
 <p>In comparison, when running the code after copying text from within Pages, we also receive the formatting data objects and their associated properties and strings, as shown below. Note that we use <cite>print</cite> instead of <cite>pprint</cite> in order to save space here, but the output follows the save structure as before: for each type of data contained in the clipboard, we receive the NSData object, the property list, and the string associated with that data type. The key difference is that copying formatted text places several types of data on the clipboard, including the plaintext representation, while copying plaintext directly only involves a single clipboard type.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">cb</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XAClipboard</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">cb</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
-<span class="go">{&#39;com.apple.flat-rtfd&#39;: {&#39;data&#39;: {length = 408, bytes = 0x72746664 00000000 03000000 02000000 ... 00000000 00000000 }, &#39;properties&#39;: None, &#39;strings&#39;: None}, &#39;public.rtf&#39;: {&#39;data&#39;: {length = 317, bytes = 0x7b5c7274 66315c61 6e73695c 616e7369 ... 20322033 2e2e2e7d }, &#39;properties&#39;: None, &#39;strings&#39;: &#39;{\\rtf1\\ansi\\ansicpg1252\\cocoartf2638\n\\cocoatextscaling0\\cocoaplatform0{\\fonttbl\\f0\\fnil\\fcharset0 HelveticaNeue;}\n{\\colortbl;\\red255\\green255\\blue255;\\red0\\green0\\blue0;}\n{\\*\\expandedcolortbl;;\\cssrgb\\c0\\c0\\c0;}\n\\deftab720\n\\pard\\pardeftab720\\partightenfactor0\n\n\\f0\\fs22 \\cf2 \\up0 \\nosupersub \\ulnone Testing 1 2 3...}&#39;}, &#39;public.utf16-external-plain-text&#39;: {&#39;data&#39;: {length = 34, bytes = 0xfffe5400 65007300 74006900 6e006700 ... 33002e00 2e002e00 }, &#39;properties&#39;: None, &#39;strings&#39;: None}, &#39;public.utf8-plain-text&#39;: {&#39;data&#39;: {length = 16, bytes = 0x54657374696e672031203220332e2e2e}, &#39;properties&#39;: None, &#39;strings&#39;: &#39;Testing 1 2 3...&#39;}, &#39;org.nspasteboard.TransientType&#39;: {&#39;data&#39;: {length = 0, bytes = 0x}, &#39;properties&#39;: None, &#39;strings&#39;: &#39;&#39;}, &#39;org.nspasteboard.AutoGeneratedType&#39;: {&#39;data&#39;: {length = 0, bytes = 0x}, &#39;properties&#39;: None, &#39;strings&#39;: &#39;&#39;}}</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="n">cb</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XAClipboard</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">cb</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+<span class="c1"># {&#39;com.apple.flat-rtfd&#39;: {&#39;data&#39;: {length = 408, bytes = 0x72746664 00000000 03000000 02000000 ... 00000000 00000000 }, &#39;properties&#39;: None, &#39;strings&#39;: None}, &#39;public.rtf&#39;: {&#39;data&#39;: {length = 317, bytes = 0x7b5c7274 66315c61 6e73695c 616e7369 ... 20322033 2e2e2e7d }, &#39;properties&#39;: None, &#39;strings&#39;: &#39;{\\rtf1\\ansi\\ansicpg1252\\cocoartf2638\n\\cocoatextscaling0\\cocoaplatform0{\\fonttbl\\f0\\fnil\\fcharset0 HelveticaNeue;}\n{\\colortbl;\\red255\\green255\\blue255;\\red0\\green0\\blue0;}\n{\\*\\expandedcolortbl;;\\cssrgb\\c0\\c0\\c0;}\n\\deftab720\n\\pard\\pardeftab720\\partightenfactor0\n\n\\f0\\fs22 \\cf2 \\up0 \\nosupersub \\ulnone Testing 1 2 3...}&#39;}, &#39;public.utf16-external-plain-text&#39;: {&#39;data&#39;: {length = 34, bytes = 0xfffe5400 65007300 74006900 6e006700 ... 33002e00 2e002e00 }, &#39;properties&#39;: None, &#39;strings&#39;: None}, &#39;public.utf8-plain-text&#39;: {&#39;data&#39;: {length = 16, bytes = 0x54657374696e672031203220332e2e2e}, &#39;properties&#39;: None, &#39;strings&#39;: &#39;Testing 1 2 3...&#39;}, &#39;org.nspasteboard.TransientType&#39;: {&#39;data&#39;: {length = 0, bytes = 0x}, &#39;properties&#39;: None, &#39;strings&#39;: &#39;&#39;}, &#39;org.nspasteboard.AutoGeneratedType&#39;: {&#39;data&#39;: {length = 0, bytes = 0x}, &#39;properties&#39;: None, &#39;strings&#39;: &#39;&#39;}}</span>
 </pre></div>
 </div>
-<p>You can parse the content dictionary to obtain the exact information that you need, or you can use built-in convenience functions to obtain the most common data types. These functions currently include <code class="xref py py-func docutils literal notranslate"><span class="pre">XAClipboard.get_strings()</span></code>, <code class="xref py py-func docutils literal notranslate"><span class="pre">XAClipboard.get_urls()</span></code>, and <code class="xref py py-func docutils literal notranslate"><span class="pre">XAClipboard.get_images()</span></code>. For example:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">cb</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XAClipboard</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">cb</span><span class="o">.</span><span class="n">get_strings</span><span class="p">())</span>
-<span class="go">[&#39;Testing 1 2 3...&#39;]</span>
+<p>You can parse the content dictionary to obtain the exact information that you need, or you can use built-in convenience functions to obtain the most common data types. These functions currently include <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAClipboard.get_strings" title="PyXA.XABase.XAClipboard.get_strings"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_strings()</span></code></a>, <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAClipboard.get_urls" title="PyXA.XABase.XAClipboard.get_urls"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_urls()</span></code></a>, and <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAClipboard.get_images" title="PyXA.XABase.XAClipboard.get_images"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_images()</span></code></a>. For example:</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="n">cb</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XAClipboard</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">cb</span><span class="o">.</span><span class="n">get_strings</span><span class="p">())</span>
+<span class="c1"># [&#39;Testing 1 2 3...&#39;]</span>
 </pre></div>
 </div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">cb</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XAClipboard</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">cb</span><span class="o">.</span><span class="n">get_urls</span><span class="p">())</span>
-<span class="go">[&lt;&lt;class &#39;PyXA.XABase.XAPath&#39;&gt;file:///Users/exampleUser/Documents/example.jpeg&gt;]</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="n">cb</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XAClipboard</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">cb</span><span class="o">.</span><span class="n">get_urls</span><span class="p">())</span>
+<span class="c1"># [&lt;&lt;class &#39;PyXA.XABase.XAPath&#39;&gt;file:///Users/exampleUser/Documents/example.jpeg&gt;]</span>
 </pre></div>
 </div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">cb</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XAClipboard</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">cb</span><span class="o">.</span><span class="n">get_images</span><span class="p">())</span>
-<span class="go">[&lt;PyXA.XABase.XAImage object at 0x11c551e20&gt;, &lt;PyXA.XABase.XAImage object at 0x11c551fa0&gt;, &lt;PyXA.XABase.XAImage object at 0x100cb9310&gt;]</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="n">cb</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XAClipboard</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">cb</span><span class="o">.</span><span class="n">get_images</span><span class="p">())</span>
+<span class="c1"># [&lt;PyXA.XABase.XAImage object at 0x11c551e20&gt;, &lt;PyXA.XABase.XAImage object at 0x11c551fa0&gt;, &lt;PyXA.XABase.XAImage object at 0x100cb9310&gt;]</span>
 </pre></div>
 </div>
 </section>
 <section id="writing-content-to-the-clipboard">
 <h2>Writing Content to the Clipboard<a class="headerlink" href="#writing-content-to-the-clipboard" title="Permalink to this headline"></a></h2>
-<p>To write content to the clipboard, set the <a href="#id3"><span class="problematic" id="id4">:ivar:`content`</span></a> property of the <code class="xref py py-class docutils literal notranslate"><span class="pre">XAClipboard</span></code> object. This works for Python’s base literal classes, some general Python classes, and all PyXA classes. The example below highlights how this functionality can be used for different data types.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">cb</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XAClipboard</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">cb</span><span class="o">.</span><span class="n">content</span> <span class="o">=</span> <span class="s2">&quot;Testing 1 2 3&quot;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">cb</span><span class="o">.</span><span class="n">content</span> <span class="o">=</span> <span class="mi">42</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">cb</span><span class="o">.</span><span class="n">content</span> <span class="o">=</span> <span class="kc">True</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">cb</span><span class="o">.</span><span class="n">content</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;Three&quot;</span><span class="p">]</span>
-<span class="go">&gt;&gt;&gt;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">image</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XAImage</span><span class="p">(</span><span class="s2">&quot;/Users/exampleUser/Documents/Test.jpg&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">cb</span><span class="o">.</span><span class="n">content</span> <span class="o">=</span> <span class="n">image</span>
-<span class="go">&gt;&gt;&gt;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">path</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XAPath</span><span class="p">(</span><span class="s2">&quot;/Users/steven/Downloads/Test.jpg&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">cb</span><span class="o">.</span><span class="n">content</span> <span class="o">=</span> <span class="n">path</span>
-<span class="go">&gt;&gt;&gt;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">url</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XAURL</span><span class="p">(</span><span class="s2">&quot;http://macrumors.com&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">cb</span><span class="o">.</span><span class="n">content</span> <span class="o">=</span> <span class="n">url</span>
-<span class="go">&gt;&gt;&gt;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">sound</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XASound</span><span class="p">(</span><span class="s2">&quot;/Users/steven/Downloads/Test.mp3&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">cb</span><span class="o">.</span><span class="n">content</span> <span class="o">=</span> <span class="n">sound</span>
+<p>To write content to the clipboard, set the <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAClipboard.content" title="PyXA.XABase.XAClipboard.content"><code class="xref py py-attr docutils literal notranslate"><span class="pre">content</span></code></a> property of the <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAClipboard" title="PyXA.XABase.XAClipboard"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAClipboard</span></code></a> object. This works for Python’s base literal classes, some general Python classes, and all PyXA classes. The example below highlights how this functionality can be used for different data types.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="n">cb</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XAClipboard</span><span class="p">()</span>
+<span class="n">cb</span><span class="o">.</span><span class="n">content</span> <span class="o">=</span> <span class="s2">&quot;Testing 1 2 3&quot;</span>
+<span class="n">cb</span><span class="o">.</span><span class="n">content</span> <span class="o">=</span> <span class="mi">42</span>
+<span class="n">cb</span><span class="o">.</span><span class="n">content</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">cb</span><span class="o">.</span><span class="n">content</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;Three&quot;</span><span class="p">]</span>
+
+<span class="n">image</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XAImage</span><span class="p">(</span><span class="s2">&quot;/Users/exampleUser/Documents/Test.jpg&quot;</span><span class="p">)</span>
+<span class="n">cb</span><span class="o">.</span><span class="n">content</span> <span class="o">=</span> <span class="n">image</span>
+
+<span class="n">path</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XAPath</span><span class="p">(</span><span class="s2">&quot;/Users/steven/Downloads/Test.jpg&quot;</span><span class="p">)</span>
+<span class="n">cb</span><span class="o">.</span><span class="n">content</span> <span class="o">=</span> <span class="n">path</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XAURL</span><span class="p">(</span><span class="s2">&quot;http://macrumors.com&quot;</span><span class="p">)</span>
+<span class="n">cb</span><span class="o">.</span><span class="n">content</span> <span class="o">=</span> <span class="n">url</span>
+
+<span class="n">sound</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XASound</span><span class="p">(</span><span class="s2">&quot;/Users/steven/Downloads/Test.mp3&quot;</span><span class="p">)</span>
+<span class="n">cb</span><span class="o">.</span><span class="n">content</span> <span class="o">=</span> <span class="n">sound</span>
 </pre></div>
 </div>
-<p>For strings and other literal values, the plaintext form of the value will be added to the clipboard. For PyXA class objects, one or more items representing the object in multiple forms will be added to the clipboard. For example, setting the clipboard content to an <code class="xref py py-class docutils literal notranslate"><span class="pre">XAURL</span></code> object will add the URL as a URL type and as a plaintext string, while setting the content to an <code class="xref py py-class docutils literal notranslate"><span class="pre">XASound</span></code> object will add the raw sound data, a file URL, and the file path string. More information on how each PyXA object type is represented can be found in the corresponding code reference material.</p>
-<p>You can also copy <code class="xref py py-class docutils literal notranslate"><span class="pre">XAList</span></code> objects to the clipboard in the same way. When you do this, data for each element in the list is added to the clipboard. The type of data added to the clipboard varies based on the list type, but it generally matches the data type added for a single element of the corresponding class. For example, for Music tracks, a single track copied to the clipboard adds the track name to the clipboard, while a list of tracks copies the names of each track to the clipboard (as separate items).</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">tracks</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;Music&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">tracks</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">PyXA</span><span class="o">.</span><span class="n">XAClipboard</span><span class="p">()</span><span class="o">.</span><span class="n">content</span> <span class="o">=</span> <span class="n">tracks</span>
+<p>For strings and other literal values, the plaintext form of the value will be added to the clipboard. For PyXA class objects, one or more items representing the object in multiple forms will be added to the clipboard. For example, setting the clipboard content to an <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAURL" title="PyXA.XABase.XAURL"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAURL</span></code></a> object will add the URL as a URL type and as a plaintext string, while setting the content to an <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XASound" title="PyXA.XABase.XASound"><code class="xref py py-class docutils literal notranslate"><span class="pre">XASound</span></code></a> object will add the raw sound data, a file URL, and the file path string. More information on how each PyXA object type is represented can be found in the corresponding code reference material.</p>
+<p>You can also copy <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAList" title="PyXA.XABase.XAList"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAList</span></code></a> objects to the clipboard in the same way. When you do this, data for each element in the list is added to the clipboard. The type of data added to the clipboard varies based on the list type, but it generally matches the data type added for a single element of the corresponding class. For example, for Music tracks, a single track copied to the clipboard adds the track name to the clipboard, while a list of tracks copies the names of each track to the clipboard (as separate items).</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="n">tracks</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;Music&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">tracks</span><span class="p">()</span>
+<span class="n">PyXA</span><span class="o">.</span><span class="n">XAClipboard</span><span class="p">()</span><span class="o">.</span><span class="n">content</span> <span class="o">=</span> <span class="n">tracks</span>
 </pre></div>
 </div>
 </section>

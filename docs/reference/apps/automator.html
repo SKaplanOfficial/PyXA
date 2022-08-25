@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Automator Module Reference &mdash; PyXA 0.0.8 documentation</title>
+  <title>Automator Module Reference &mdash; PyXA 0.0.9 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
@@ -112,6 +112,18 @@
 <p><span class="versionmodified added">New in version 0.0.4.</span></p>
 </div>
 <p>Control Automator using JXA-like syntax.</p>
+<p><strong>Functions:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Automator.NSMakeRect" title="PyXA.apps.Automator.NSMakeRect"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NSMakeRect</span></code></a>(arg0, arg1, arg2, arg3, /)</p></td>
+<td><p>Foundation.NSRect NSMakeRect(double arg0, double arg1, double arg2, double arg3);</p></td>
+</tr>
+</tbody>
+</table>
 <p><strong>Classes:</strong></p>
 <table class="autosummary longtable docutils align-default">
 <colgroup>
@@ -163,6 +175,12 @@
 </tr>
 </tbody>
 </table>
+<dl class="py function">
+<dt class="sig sig-object py" id="PyXA.apps.Automator.NSMakeRect">
+<span class="sig-prename descclassname"><span class="pre">PyXA.apps.Automator.</span></span><span class="sig-name descname"><span class="pre">NSMakeRect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arg0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg3</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">/</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#PyXA.apps.Automator.NSMakeRect" title="Permalink to this definition"></a></dt>
+<dd><p>Foundation.NSRect NSMakeRect(double arg0, double arg1, double arg2, double arg3);</p>
+</dd></dl>
+
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.Automator.XAAutomatorAction">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Automator.</span></span><span class="sig-name descname"><span class="pre">XAAutomatorAction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Automator.html#XAAutomatorAction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Automator.XAAutomatorAction" title="Permalink to this definition"></a></dt>
@@ -1367,12 +1385,6 @@
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Automator.XAAutomatorApplication.PrintErrorHandling" title="PyXA.apps.Automator.XAAutomatorApplication.PrintErrorHandling"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PrintErrorHandling</span></code></a>(value)</p></td>
-<td><p>Options for how to handle errors while printing.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Automator.XAAutomatorApplication.SaveOption" title="PyXA.apps.Automator.XAAutomatorApplication.SaveOption"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SaveOption</span></code></a>(value)</p></td>
-<td><p>Options for whether to save documents when closing them.</p></td>
-</tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Automator.XAAutomatorApplication.WarningLevel" title="PyXA.apps.Automator.XAAutomatorApplication.WarningLevel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WarningLevel</span></code></a>(value)</p></td>
 <td><p>Options for warning level in regard to likelihood of data loss.</p></td>
 </tr>
@@ -1426,83 +1438,6 @@
 </tr>
 </tbody>
 </table>
-<dl class="py class">
-<dt class="sig sig-object py" id="PyXA.apps.Automator.XAAutomatorApplication.PrintErrorHandling">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">PrintErrorHandling</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Automator.html#XAAutomatorApplication.PrintErrorHandling"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Automator.XAAutomatorApplication.PrintErrorHandling" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
-<p>Options for how to handle errors while printing.</p>
-<p><strong>Attributes:</strong></p>
-<table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
-<tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Automator.XAAutomatorApplication.PrintErrorHandling.DETAILED" title="PyXA.apps.Automator.XAAutomatorApplication.PrintErrorHandling.DETAILED"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DETAILED</span></code></a></p></td>
-<td><p>Print a detailed report of PostScript errors</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Automator.XAAutomatorApplication.PrintErrorHandling.STANDARD" title="PyXA.apps.Automator.XAAutomatorApplication.PrintErrorHandling.STANDARD"><code class="xref py py-obj docutils literal notranslate"><span class="pre">STANDARD</span></code></a></p></td>
-<td><p>Standard PostScript error handling</p></td>
-</tr>
-</tbody>
-</table>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="PyXA.apps.Automator.XAAutomatorApplication.PrintErrorHandling.DETAILED">
-<span class="sig-name descname"><span class="pre">DETAILED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'lwdt'</span></em><a class="headerlink" href="#PyXA.apps.Automator.XAAutomatorApplication.PrintErrorHandling.DETAILED" title="Permalink to this definition"></a></dt>
-<dd><p>Print a detailed report of PostScript errors</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="PyXA.apps.Automator.XAAutomatorApplication.PrintErrorHandling.STANDARD">
-<span class="sig-name descname"><span class="pre">STANDARD</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'lwst'</span></em><a class="headerlink" href="#PyXA.apps.Automator.XAAutomatorApplication.PrintErrorHandling.STANDARD" title="Permalink to this definition"></a></dt>
-<dd><p>Standard PostScript error handling</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="PyXA.apps.Automator.XAAutomatorApplication.SaveOption">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">SaveOption</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Automator.html#XAAutomatorApplication.SaveOption"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Automator.XAAutomatorApplication.SaveOption" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
-<p>Options for whether to save documents when closing them.</p>
-<p><strong>Attributes:</strong></p>
-<table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
-<tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Automator.XAAutomatorApplication.SaveOption.ASK" title="PyXA.apps.Automator.XAAutomatorApplication.SaveOption.ASK"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ASK</span></code></a></p></td>
-<td><p>Ask user whether to save the file (bring up dialog)</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Automator.XAAutomatorApplication.SaveOption.NO" title="PyXA.apps.Automator.XAAutomatorApplication.SaveOption.NO"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NO</span></code></a></p></td>
-<td><p>Do not save the file</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Automator.XAAutomatorApplication.SaveOption.YES" title="PyXA.apps.Automator.XAAutomatorApplication.SaveOption.YES"><code class="xref py py-obj docutils literal notranslate"><span class="pre">YES</span></code></a></p></td>
-<td><p>Save the file</p></td>
-</tr>
-</tbody>
-</table>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="PyXA.apps.Automator.XAAutomatorApplication.SaveOption.ASK">
-<span class="sig-name descname"><span class="pre">ASK</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1634954016</span></em><a class="headerlink" href="#PyXA.apps.Automator.XAAutomatorApplication.SaveOption.ASK" title="Permalink to this definition"></a></dt>
-<dd><p>Ask user whether to save the file (bring up dialog)</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="PyXA.apps.Automator.XAAutomatorApplication.SaveOption.NO">
-<span class="sig-name descname"><span class="pre">NO</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1852776480</span></em><a class="headerlink" href="#PyXA.apps.Automator.XAAutomatorApplication.SaveOption.NO" title="Permalink to this definition"></a></dt>
-<dd><p>Do not save the file</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="PyXA.apps.Automator.XAAutomatorApplication.SaveOption.YES">
-<span class="sig-name descname"><span class="pre">YES</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2036691744</span></em><a class="headerlink" href="#PyXA.apps.Automator.XAAutomatorApplication.SaveOption.YES" title="Permalink to this definition"></a></dt>
-<dd><p>Save the file</p>
-</dd></dl>
-
-</dd></dl>
-
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.Automator.XAAutomatorApplication.WarningLevel">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">WarningLevel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Automator.html#XAAutomatorApplication.WarningLevel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Automator.XAAutomatorApplication.WarningLevel" title="Permalink to this definition"></a></dt>
@@ -2707,7 +2642,7 @@
 <td><p>Executes the workflow.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Automator.XAAutomatorWorkflow.save" title="PyXA.apps.Automator.XAAutomatorWorkflow.save"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save</span></code></a>()</p></td>
-<td><p>Saves the workflow to the disk at the location specified by <a href="#id1"><span class="problematic" id="id2">:attribute:`XAAutomatorWorkflow.path`</span></a>, or in the downloads folder if no path has been specified.</p></td>
+<td><p>Saves the workflow to the disk at the location specified by <code class="xref py py-attr docutils literal notranslate"><span class="pre">XAAutomatorWorkflow.path</span></code>, or in the downloads folder if no path has been specified.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Automator.XAAutomatorWorkflow.variables" title="PyXA.apps.Automator.XAAutomatorWorkflow.variables"><code class="xref py py-obj docutils literal notranslate"><span class="pre">variables</span></code></a>([filter])</p></td>
 <td><p>Returns a list of variables, as PyXA objects, matching the given filter.</p></td>
@@ -2826,7 +2761,7 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Automator.XAAutomatorWorkflow.save">
 <span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Automator.XAAutomatorWorkflow" title="PyXA.apps.Automator.XAAutomatorWorkflow"><span class="pre">PyXA.apps.Automator.XAAutomatorWorkflow</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Automator.html#XAAutomatorWorkflow.save"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Automator.XAAutomatorWorkflow.save" title="Permalink to this definition"></a></dt>
-<dd><p>Saves the workflow to the disk at the location specified by <a href="#id3"><span class="problematic" id="id4">:attribute:`XAAutomatorWorkflow.path`</span></a>, or in the downloads folder if no path has been specified.</p>
+<dd><p>Saves the workflow to the disk at the location specified by <code class="xref py py-attr docutils literal notranslate"><span class="pre">XAAutomatorWorkflow.path</span></code>, or in the downloads folder if no path has been specified.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>The workflow object.</p>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PyXA.apps.Safari &mdash; PyXA 0.0.8 documentation</title>
+  <title>PyXA.apps.Safari &mdash; PyXA 0.0.9 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -547,8 +547,8 @@
 <div class="viewcode-block" id="XASafariDocumentList.by_name"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariDocumentList.by_name">[docs]</a>    <span class="k">def</span> <span class="nf">by_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XASafariDocument&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Retrieves the document whose name matches the given name, if one exists.</span>
 
-<span class="sd">        :return: The desired tab, if it is found</span>
-<span class="sd">        :rtype: Union[XASafariTab, None]</span>
+<span class="sd">        :return: The desired document, if it is found</span>
+<span class="sd">        :rtype: Union[XASafariDocument, None]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -557,8 +557,8 @@
 <div class="viewcode-block" id="XASafariDocumentList.by_modified"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariDocumentList.by_modified">[docs]</a>    <span class="k">def</span> <span class="nf">by_modified</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">modified</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XASafariDocument&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Retrieves the tab whose modified status matches the given boolean value, if one exists.</span>
 
-<span class="sd">        :return: The desired tab, if it is found</span>
-<span class="sd">        :rtype: Union[XASafariTab, None]</span>
+<span class="sd">        :return: The desired document, if it is found</span>
+<span class="sd">        :rtype: Union[XASafariDocument, None]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -567,8 +567,8 @@
 <div class="viewcode-block" id="XASafariDocumentList.by_file"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariDocumentList.by_file">[docs]</a>    <span class="k">def</span> <span class="nf">by_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XASafariDocument&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Retrieves the tab whose file matches the given file path, if one exists.</span>
 
-<span class="sd">        :return: The desired tab, if it is found</span>
-<span class="sd">        :rtype: Union[XASafariTab, None]</span>
+<span class="sd">        :return: The desired document, if it is found</span>
+<span class="sd">        :rtype: Union[XASafariDocument, None]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -577,8 +577,8 @@
 <div class="viewcode-block" id="XASafariDocumentList.by_source"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariDocumentList.by_source">[docs]</a>    <span class="k">def</span> <span class="nf">by_source</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XASafariDocument&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Retrieves the tab whose source HTML matches the given HTML, if one exists.</span>
 
-<span class="sd">        :return: The desired tab, if it is found</span>
-<span class="sd">        :rtype: Union[XASafariTab, None]</span>
+<span class="sd">        :return: The desired document, if it is found</span>
+<span class="sd">        :rtype: Union[XASafariDocument, None]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -587,8 +587,8 @@
 <div class="viewcode-block" id="XASafariDocumentList.by_url"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariDocumentList.by_url">[docs]</a>    <span class="k">def</span> <span class="nf">by_url</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">:</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAURL</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XASafariDocument&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Retrieves the tab whose URL matches the given URL, if one exists.</span>
 
-<span class="sd">        :return: The desired tab, if it is found</span>
-<span class="sd">        :rtype: Union[XASafariTab, None]</span>
+<span class="sd">        :return: The desired document, if it is found</span>
+<span class="sd">        :rtype: Union[XASafariDocument, None]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -597,8 +597,8 @@
 <div class="viewcode-block" id="XASafariDocumentList.by_text"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariDocumentList.by_text">[docs]</a>    <span class="k">def</span> <span class="nf">by_text</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XASafariDocument&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Retrieves the tab whose visible text matches the given text, if one exists.</span>
 
-<span class="sd">        :return: The desired tab, if it is found</span>
-<span class="sd">        :rtype: Union[XASafariTab, None]</span>
+<span class="sd">        :return: The desired document, if it is found</span>
+<span class="sd">        :rtype: Union[XASafariDocument, None]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>

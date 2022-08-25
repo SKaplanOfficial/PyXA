@@ -21,7 +21,6 @@ Example 1 - Using TextEdit methods and attributes
 This example utilizes most of the methods provided in the TextEdit module, and it shows how to accomplish common tasks such as retrieving the currently opened documents, opening documents, creating new documents, and editing documents.
 
 .. code-block:: python
-   :linenos:
 
    import PyXA
    textedit = PyXA.application("TextEdit")
@@ -64,7 +63,6 @@ Example 2 - Creating documents from text returned by other PyXA methods
 The example below implements a crude yet functional automatic flashcard generator that uses the text content of a webpage to create a randomized set of flashcards. The first half of the code uses the :mod:`PyXA.Safari` module to extract the visible text of a Wikipedia page, then saves that text to the disk. The second half then uses the TextEdit module to obtain a list of paragraphs in the text, from which five are randomly selected. The first sentence of each selected paragraphs is used as the hint for the flashcard. This could have use as a study tool or as a way to quickly summarize a topic, in addition to other potential uses.
 
 .. code-block:: python
-   :linenos:
 
    import os
    from pprint import pprint

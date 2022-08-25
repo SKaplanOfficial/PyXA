@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Searching Spotlight &mdash; PyXA 0.0.9 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="UI Scripting" href="ui_scripting.html" />
+    <link rel="prev" title="Getting User Input" href="user_input.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> PyXA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../about/index.html">Project Overview</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Tutorial</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="index.html#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#basic-usage">Basic Usage</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#additional-tutorial-topics">Additional Tutorial Topics</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="apps/index.html">Application Modules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lists.html">Working With Lists</a></li>
+<li class="toctree-l3"><a class="reference internal" href="clipboard.html">Working With The Clipboard</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user_input.html">Getting User Input</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Searching Spotlight</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#simple-searches">Simple Searches</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#search-by-date">Search by Date</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#search-by-predicate">Search by Predicate</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="ui_scripting.html">UI Scripting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="applescript.html">Running AppleScripts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="menubar.html">Add Items to the Menu Bar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tips_tricks.html">Tips and Tricks</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/index.html">Code Documentation and Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bugs.html">Bugs</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">PyXA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="index.html">Tutorial</a> &raquo;</li>
+      <li>Searching Spotlight</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/tutorial/spotlight.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="searching-spotlight">
+<h1>Searching Spotlight<a class="headerlink" href="#searching-spotlight" title="Permalink to this headline"></a></h1>
+<p>The <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XASpotlight" title="PyXA.XABase.XASpotlight"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XASpotlight</span></code></a> class allows you to search Spotlight and obtain <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAPath" title="PyXA.XABase.XAPath"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAPath</span></code></a> references to files. With this, you can easily locate and open files with particular names, containing particular content, or modified on a particular date. The examples below show how to carry out such tasks.</p>
+<section id="simple-searches">
+<h2>Simple Searches<a class="headerlink" href="#simple-searches" title="Permalink to this headline"></a></h2>
+<p>To perform a simple term-based file search, instantiate a <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XASpotlight" title="PyXA.XABase.XASpotlight"><code class="xref py py-class docutils literal notranslate"><span class="pre">XASpotlight</span></code></a> object and provide a search term as an argument, as seen in the code below. This will instruct PyXA to prepare a new Spotlight search, but it won’t begin the search until you actually attempt to access the results. When you provide a string, integer, or float as a search term, PyXA searches for files where the term appears in their display name, file system name, or text content. The search can take some time depending on how many items match the search, but usually completes within a second. The results of a search are given as a list of <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAPath" title="PyXA.XABase.XAPath"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAPath</span></code></a> objects.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">search</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XASpotlight</span><span class="p">(</span><span class="s2">&quot;Example&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">search</span><span class="o">.</span><span class="n">results</span><span class="p">)</span>
+<span class="go">[&lt;&lt;class &#39;PyXA.XABase.XAPath&#39;&gt;file:///Users/exampleUser/Documents/ExampleFile1.txt&gt;, &lt;&lt;class &#39;PyXA.XABase.XAPath&#39;&gt;file:///Users/exampleUser/Documents/ExampleFile2.pdf&gt;, ...]</span>
+</pre></div>
+</div>
+<p>The more specific your query is, the less time the search will take. The easiest way to increase the specificity is to provide a longer search string, as in the following example:</p>
+<blockquote>
+<div><p>import PyXA
+search = PyXA.XASpotlight(“This is a test”)
+print(len(search.results))
+10</p>
+</div></blockquote>
+<p>Alternatively, you can supply multiple arguments to check for multiple terms. Doing this instructs PyXA to search for files where all of the supplied terms are found in the name or content of the file. For example, a text file named “test.txt” containing the text “This is awesome” would appear in the first search below but not the second. In the first search, we are looking for files where “this” appears in the filename or content, “is” appears in the filename or content, “a” appears in the filename or content, and “test” appears in the filename or content. Our example file has “test” in its name, and “this”, “is”, and “a” all appear in its content, thus the file would appear in the search results. For the second search, we are looking for files where “This is” appears in the filename or content and “a test” appears in the filename or content. Our example file does not match that condition, thus it would not appear in the search results.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">search</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XASpotlight</span><span class="p">(</span><span class="s2">&quot;This&quot;</span><span class="p">,</span> <span class="s2">&quot;is&quot;</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;test&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">search</span><span class="o">.</span><span class="n">results</span><span class="p">))</span>
+<span class="go">40022</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">search</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XASpotlight</span><span class="p">(</span><span class="s2">&quot;This is&quot;</span><span class="p">,</span> <span class="s2">&quot;a test&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">search</span><span class="o">.</span><span class="n">results</span><span class="p">))</span>
+<span class="go">49</span>
+</pre></div>
+</div>
+<p>Note that the first search above returned over 800 times more results than the second and thus takes noticeably longer to finish. Just as before, providing longer search strings increases the specificity of the query, helping Spotlight to more quickly narrow down the search results. When providing multiple arguments, you can also increase specificity by simply providing more arguments, as highlighted by the two code snippets below:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">search</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XASpotlight</span><span class="p">(</span><span class="s2">&quot;This&quot;</span><span class="p">,</span> <span class="s2">&quot;is&quot;</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;test&quot;</span><span class="p">,</span> <span class="s2">&quot;avocado&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">search</span><span class="o">.</span><span class="n">results</span><span class="p">))</span>
+<span class="go">15</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">search</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XASpotlight</span><span class="p">(</span><span class="s2">&quot;This&quot;</span><span class="p">,</span> <span class="s2">&quot;is&quot;</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;test&quot;</span><span class="p">,</span> <span class="s2">&quot;avocado&quot;</span><span class="p">,</span> <span class="s2">&quot;quack&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">search</span><span class="o">.</span><span class="n">results</span><span class="p">))</span>
+<span class="go">2</span>
+</pre></div>
+</div>
+<p>If you find that searches are taking too long, you can increase the specificity of your search query in any of the following ways:
+- Use terms less likely to appear in many files
+- Use longer strings, combining multiple words in one argument
+- Use multiple search terms, providing multiple words as separate arguments
+- Combining all of the above methods</p>
+</section>
+<section id="search-by-date">
+<h2>Search by Date<a class="headerlink" href="#search-by-date" title="Permalink to this headline"></a></h2>
+<p>PyXA also provides a mechanism to search Spotlight by date. To perform a simple date-based search, instantiate a <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XASpotlight" title="PyXA.XABase.XASpotlight"><code class="xref py py-class docutils literal notranslate"><span class="pre">XASpotlight</span></code></a> object and pass a <code class="xref py py-class docutils literal notranslate"><span class="pre">datetime</span></code> object as an argument. This instructs PyXA to search for files created, added, or modified within the surrounding 24-hour period (plus or minus 12 hours from the supplied datetime).</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">search</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XASpotlight</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">search</span><span class="o">.</span><span class="n">results</span><span class="p">)</span>
+<span class="go">[&lt;&lt;class &#39;PyXA.XABase.XAPath&#39;&gt;file:///Users/exampleUser/Documents/&gt;, &lt;&lt;class &#39;PyXA.XABase.XAPath&#39;&gt;file:///Users/exampleUser/Documents/GitHub/&gt;, ...]</span>
+</pre></div>
+</div>
+<p>To search for files created, added, or modified within a specific time range, you can supply two datetime objects as arguments, as seen in the example below:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">date</span><span class="p">,</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">time</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">date1</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">combine</span><span class="p">(</span><span class="n">date</span><span class="p">(</span><span class="mi">2022</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">17</span><span class="p">),</span> <span class="n">time</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">date2</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">combine</span><span class="p">(</span><span class="n">date</span><span class="p">(</span><span class="mi">2022</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">18</span><span class="p">),</span> <span class="n">time</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">search</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XASpotlight</span><span class="p">(</span><span class="n">date1</span><span class="p">,</span> <span class="n">date2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">search</span><span class="o">.</span><span class="n">results</span><span class="p">)</span>
+<span class="go">[&lt;&lt;class &#39;PyXA.XABase.XAPath&#39;&gt;file:///Users/exampleUser/Downloads/&gt;, &lt;&lt;class &#39;PyXA.XABase.XAPath&#39;&gt;file:///Users/exampleUser/Downloads/Example.txt&gt;, ...]</span>
+</pre></div>
+</div>
+<p>You can also combined these two date-based search methods with term-based ones by adding additional arguments. The date(s) must always come before the term(s). All previously noted strategies for increasing query specificity still apply. The two code snippets below showcase this in action.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">search</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XASpotlight</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(),</span> <span class="s2">&quot;This&quot;</span><span class="p">,</span> <span class="s2">&quot;is&quot;</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;test&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">search</span><span class="o">.</span><span class="n">results</span><span class="p">))</span>
+<span class="go">42</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">search</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XASpotlight</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">-</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">minutes</span><span class="o">=</span><span class="mi">5</span><span class="p">),</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(),</span> <span class="s2">&quot;This is a test&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">search</span><span class="o">.</span><span class="n">results</span><span class="p">))</span>
+<span class="go">2</span>
+</pre></div>
+</div>
+</section>
+<section id="search-by-predicate">
+<h2>Search by Predicate<a class="headerlink" href="#search-by-predicate" title="Permalink to this headline"></a></h2>
+<p>PyXA allows you to supply your own predicate to filter search results by. You can supply the predicate as either a raw string or as an <code class="xref py py-class docutils literal notranslate"><span class="pre">XAPredicate</span></code> object. For the former, use Apple’s documentation on <a class="reference external" href="https://developer.apple.com/library/archive/documentation/Carbon/Conceptual/SpotlightQuery/Concepts/QueryFormat.html#//apple_ref/doc/uid/TP40001849">File Metadata Query Expression Syntax</a> as a reference. The following examples show how to use both strategies.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">search</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XASpotlight</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">search</span><span class="o">.</span><span class="n">predicate</span> <span class="o">=</span> <span class="s2">&quot;kMDItemDisplayName == &#39;Example.txt&#39;&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">search</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">search</span><span class="o">.</span><span class="n">results</span><span class="p">)</span>
+<span class="go">[&lt;&lt;class &#39;PyXA.XABase.XAPath&#39;&gt;file:///Users/exampleUser/Downloads/Example.txt&gt;]</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">search</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XASpotlight</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">predicate</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XAPredicate</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">predicate</span><span class="o">.</span><span class="n">add_eq_condition</span><span class="p">(</span><span class="s2">&quot;kMDItemDisplayName&quot;</span><span class="p">,</span> <span class="s2">&quot;Example.txt&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">search</span><span class="o">.</span><span class="n">predicate</span> <span class="o">=</span> <span class="n">predicate</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">search</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">search</span><span class="o">.</span><span class="n">results</span><span class="p">))</span>
+<span class="go">[&lt;&lt;class &#39;PyXA.XABase.XAPath&#39;&gt;file:///Users/exampleUser/Downloads/Example.txt&gt;]</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="user_input.html" class="btn btn-neutral float-left" title="Getting User Input" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="ui_scripting.html" class="btn btn-neutral float-right" title="UI Scripting" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Stephen Kaplan.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

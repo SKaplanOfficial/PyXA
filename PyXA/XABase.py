@@ -21,21 +21,15 @@ from PyXA.apps import application_classes
 from PyObjCTools import AppHelper
 
 import AppKit
-import Quartz
-import WebKit
-import CoreServices
-from Quartz import CGImageSourceRef, CGImageSourceCreateWithData, CFDataRef
+from Quartz import CGImageSourceRef, CGImageSourceCreateWithData, CFDataRef, CGRectMake
 from CoreLocation import CLLocation
 from ScriptingBridge import SBApplication, SBElementArray
 import ScriptingBridge
 import Speech
 import AVFoundation
 import CoreLocation
-import ScreenCaptureKit
-import UserNotifications
-import UserNotificationsUI
 
-import threading, signal
+import threading
 
 from PyXA.XAErrors import InvalidPredicateError
 from .XAProtocols import XAClipboardCodable
@@ -155,6 +149,10 @@ class XAObject():
         :return: True if this object's element attribute is set, False otherwise.
         :rtype: bool
 
+        .. deprecated:: 0.0.9
+        
+           Perform this check manually instead.
+
         .. versionadded:: 0.0.1
         """
         return self.xa_elem is not None
@@ -179,6 +177,10 @@ class XAObject():
         :type element: XAObject
         :return: A reference to this PyXA object.
         :rtype: XAObject
+
+        .. deprecated:: 0.0.9
+        
+           Set the element attribute directly instead.
 
         .. versionadded:: 0.0.1
         """
@@ -1377,6 +1379,10 @@ class XASound(XAObject, XAClipboardCodable):
 
 
 class XACommandDetector(XAObject):
+    """A command-based query detector.
+
+    .. versionadded:: 0.0.9
+    """
     def __init__(self, command_function_map: Union[Dict[str, Callable[[], Any]], None] = None):
         """Creates a command detector object.
 
@@ -1451,6 +1457,10 @@ class XACommandDetector(XAObject):
 
 
 class XASpeechRecognizer(XAObject):
+    """A rule-based query detector.
+
+    .. versionadded:: 0.0.9
+    """
     def __init__(self, finish_conditions: Union[None, Dict[Callable[[str], bool], Callable[[str], bool]]] = None):
         """Creates a speech recognizer object.
 
@@ -1537,8 +1547,11 @@ class XASpeechRecognizer(XAObject):
 
 
 
-
 class XASpotlight(XAObject):
+    """A Spotlight query for files on the disk.
+
+    .. versionadded:: 0.0.9
+    """
     def __init__(self, *query: List[Any]):
         self.query: List[Any] = query #: The query terms to search
         self.timeout: int = 10 #: The amount of time in seconds to timeout the search after
@@ -1647,7 +1660,12 @@ class XASpotlight(XAObject):
 
 
 
+
 class XAURL(XAObject, XAClipboardCodable):
+    """A URL using any scheme recognized by the system. This can be a file URL.
+
+    .. versionadded:: 0.0.5
+    """
     def __init__(self, url: Union[str, AppKit.NSURL]):
         super().__init__()
         self.parameters: str #: The query parameters of the URL
@@ -1696,14 +1714,32 @@ class XAURL(XAObject, XAClipboardCodable):
         self.soup = BeautifulSoup(req.text, "html.parser")
 
     def open(self):
+        """Opens the URL in the appropriate default application.
+
+        .. versionadded:: 0.0.5
+        """
         AppKit.NSWorkspace.sharedWorkspace().openURL_(self.xa_elem)
 
     def extract_text(self) -> List[str]:
+        """Extracts the visible text from the webpage that the URL points to.
+
+        :return: The list of extracted lines of text
+        :rtype: List[str]
+
+        .. versionadded:: 0.0.8
+        """
         if self.soup is None:
             self.__get_soup()
         return self.soup.get_text().splitlines()
 
     def extract_images(self) -> List['XAImage']:
+        """Extracts all images from HTML of the webpage that the URL points to.
+
+        :return: The list of extracted images
+        :rtype: List[XAImage]
+
+        .. versionadded:: 0.0.8
+        """
         data = AppKit.NSData.alloc().initWithContentsOfURL_(AppKit.NSURL.URLWithString_(str(self.xa_elem)))
         image = AppKit.NSImage.alloc().initWithData_(data)
 
@@ -1748,6 +1784,10 @@ class XAURL(XAObject, XAClipboardCodable):
 
 
 class XAPath(XAObject, XAClipboardCodable):
+    """A path to a file on the disk.
+
+    .. versionadded:: 0.0.5
+    """
     def __init__(self, path: Union[str, AppKit.NSURL]):
         super().__init__()
         if isinstance(path, str):
@@ -1796,19 +1836,44 @@ class XAPath(XAObject, XAClipboardCodable):
 
 
 class XAPredicate(XAObject, XAClipboardCodable):
+    """A predicate used to filter arrays.
+
+    .. versionadded:: 0.0.4
+    """
     def __init__(self):
         self.keys: List[str] = []
         self.operators: List[str] = []
         self.values: List[str] = []
 
     def from_dict(self, ref_dict: dict) -> 'XAPredicate':
+        """Populates the XAPredicate object from the supplied dictionary.
+
+        The predicate will use == for all comparisons.
+
+        :param ref_dict: A specification of key, value pairs
+        :type ref_dict: dict
+        :return: The populated predicate object
+        :rtype: XAPredicate
+
+        .. versionadded:: 0.0.4
+        """
         for key, value in ref_dict.items():
             self.keys.append(key)
             self.operators.append("==")
             self.values.append(value)
         return self
 
-    def from_args(self, *args):
+    def from_args(self, *args) -> 'XAPredicate':
+        """Populates the XAPredicate object from the supplied key, value argument pairs.
+
+        The number of keys and values must be equal. The predicate will use == for all comparisons.
+
+        :raises InvalidPredicateError: Raised when the number of keys does not match the number of values
+        :return: The populated predicate object
+        :rtype: XAPredicate
+
+        .. versionadded:: 0.0.4
+        """
         arg_num = len(args)
         if arg_num % 2 != 0:
             raise InvalidPredicateError("The number of keys and values must be equal; the number of arguments must be an even number.")
@@ -1821,6 +1886,15 @@ class XAPredicate(XAObject, XAClipboardCodable):
         return self
 
     def evaluate(self, target: AppKit.NSArray) -> AppKit.NSArray:
+        """Evaluates the predicate on the given array.
+
+        :param target: The array to evaluate against the predicate
+        :type target: AppKit.NSArray
+        :return: The filtered array
+        :rtype: AppKit.NSArray
+
+        .. versionadded:: 0.0.4
+        """
         placeholders = ["%@"] * len(self.values)
         expressions = [" ".join(expr) for expr in zip(self.keys, self.operators, placeholders)]
         format = "( " + " ) && ( ".join(expressions) + " )"
@@ -1828,10 +1902,34 @@ class XAPredicate(XAObject, XAClipboardCodable):
         return target.filteredArrayUsingPredicate_(predicate)
 
     def evaluate_with_format(target: AppKit.NSArray, fmt: str) -> AppKit.NSArray:
+        """Evaluates the specified array against a predicate with the given format.
+
+        :param target: The array to filter
+        :type target: AppKit.NSArray
+        :param fmt: The format string for the predicate
+        :type fmt: str
+        :return: The filtered array
+        :rtype: AppKit.NSArray
+
+        .. versionadded:: 0.0.4
+        """
         predicate = AppKit.NSPredicate.predicateWithFormat_(fmt)
         return target.filteredArrayUsingPredicate_(predicate)
 
     def evaluate_with_dict(target: AppKit.NSArray, properties_dict: dict) -> AppKit.NSArray:
+        """Evaluates the specified array against a predicate constructed from the supplied dictionary.
+
+        The predicate will use == for all comparisons.
+
+        :param target: The array to filter
+        :type target: AppKit.NSArray
+        :param properties_dict: The specification of key, value pairs
+        :type properties_dict: dict
+        :return: The filtered array
+        :rtype: AppKit.NSArray
+
+        .. versionadded:: 0.0.4
+        """
         fmt = ""
         for key, value in properties_dict.items():
             if isinstance(value, str):
@@ -3239,9 +3337,9 @@ class XAColor(XAObject):
         if len(args) == 1:
             self.copy_color(args[0])
         else:
-            red = args[0] if len(args) > 1 else 255
-            green = args[1] if len(args) > 2 else 255
-            blue = args[2] if len(args) > 3 else 255
+            red = args[0] if len(args) >= 0 else 255
+            green = args[1] if len(args) >= 1 else 255
+            blue = args[2] if len(args) >= 3 else 255
             alpha = args[3] if len(args) == 4 else 1.0
             self.xa_elem = AppKit.NSCalibratedRGBColor.alloc().initWithRed_green_blue_alpha_(red, green, blue, alpha)
 

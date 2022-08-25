@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PyXA.apps.Hammerspoon &mdash; PyXA 0.0.8 documentation</title>
+  <title>PyXA.apps.Hammerspoon &mdash; PyXA 0.0.9 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -112,6 +112,16 @@
 <span class="sd">        .. note::</span>
 
 <span class="sd">           In order for this to work, you must add `hs.allowAppleScript(true)` to your Hammerspoon config.</span>
+
+<span class="sd">        :Example:</span>
+
+<span class="sd">        &gt;&gt;&gt; import PyXA</span>
+<span class="sd">        &gt;&gt;&gt; app = PyXA.application(&quot;hammerspoon&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; app.execute_lua_code(\&quot;\&quot;\&quot;</span>
+<span class="sd">        &gt;&gt;&gt;     app = hs.appfinder.appFromName(&quot;Finder&quot;)</span>
+<span class="sd">        &gt;&gt;&gt;     app:activate()</span>
+<span class="sd">        &gt;&gt;&gt;     app:selectMenuItem({&quot;Window&quot;, &quot;Bring All to Front&quot;})</span>
+<span class="sd">        &gt;&gt;&gt; \&quot;\&quot;\&quot;)</span>
 
 <span class="sd">        .. versionadded:: 0.0.8</span>
 <span class="sd">        &quot;&quot;&quot;</span>

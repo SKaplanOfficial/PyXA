@@ -4,7 +4,10 @@ Control the macOS Terminal application using JXA-like syntax.
 """
 
 from enum import Enum
-from typing import List, Tuple, Union
+import subprocess
+from typing import Any, Dict, List, Tuple, Union
+
+import AppKit
 
 from PyXA import XABase
 from PyXA import XABaseScriptable
@@ -17,19 +20,6 @@ class XATerminalApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
 
     .. versionadded:: 0.0.1
     """
-    class SaveOption(Enum):
-        """Options for what to do when calling a save event.
-        """
-        SAVE_FILE   = XABase.OSType('yes ') #: Save the file. 
-        DONT_SAVE   = XABase.OSType('no  ') #: Do not save the file. 
-        ASK         = XABase.OSType('ask ') #: Ask the user whether or not to save the file. 
-
-    class PrintSetting(Enum):
-        """Options to use when printing contacts.
-        """
-        STANDARD_ERROR_HANDLING = XABase.OSType('lwst') #: Standard PostScript error handling 
-        DETAILED_ERROR_HANDLING = XABase.OSType('lwdt') #: print a detailed report of PostScript errors
-
     def __init__(self, properties):
         super().__init__(properties)
         self.xa_wcls = XATerminalWindow
@@ -56,38 +46,58 @@ class XATerminalApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
     def default_settings(self) -> 'XATerminalSettingsSet':
         return self._new_element(self.xa_scel.defaultSettings(), XATerminalSettingsSet)
 
+    @default_settings.setter
+    def default_settings(self, default_settings: 'XATerminalSettingsSet'):
+        self.set_property("defaultSettings", default_settings.xa_elem)
+
     @property
     def startup_settings(self) -> 'XATerminalSettingsSet':
         return self._new_element(self.xa_scel.startupSettings(), XATerminalSettingsSet)
 
-    def do_script(self, script: str, window_tab: Union['XATerminalWindow', 'XATerminalTab'] = None) -> 'XATerminalApplication':
+    @startup_settings.setter
+    def startup_settings(self, startup_settings: 'XATerminalSettingsSet'):
+        self.set_property("startupSettings", startup_settings.xa_elem)
+
+    @property
+    def current_tab(self) -> 'XATerminalTab':
+        return self.front_window.selected_tab
+
+    @current_tab.setter
+    def current_tab(self, current_tab: 'XATerminalTab'):
+        self.front_window.selected_tab = current_tab
+
+    def do_script(self, script: str, window_tab: Union['XATerminalWindow', 'XATerminalTab'] = None, return_result: bool = False) -> Union['XATerminalApplication', Dict[str, str]]:
         """Executes a Terminal script in the specified window or tab.
 
-        If no window or tab is provided, the script will run in a new tab of the frontmost window.
+        If no window or tab is provided, the script will run in a new tab of the frontmost window. If return_result is True, the script will be run in a new tab no regardless of the value of window_tab.
 
         :param script: The script to execute.
         :type script: str
         :param window_tab: The window or tab to execute the script in, defaults to None
         :type window_tab: Union[XATerminalWindow, XATerminalTab], optional
-        :return: A reference to the Terminal application object.
-        :rtype: XATerminalApplication
+        :param return_result: Whether to return the result of script execution, defaults to False
+        :type return_result: bool, optional
+        :return: A reference to the Terminal application object, or the result of script execution.
+        :rtype: Union[XATerminalApplication, Dict[str, str]]
+
+        .. versionchanged:: 0.0.9
+
+           Now optionally returns the script execution result.
 
         .. versionadded:: 0.0.1
         """
         if window_tab is None:
             window_tab = self.front_window
-        self.xa_scel.doScript_in_(script, window_tab.xa_elem)
-        return self
 
-    def current_tab(self) -> 'XATerminalTab':
-        """Returns the selected tab of the frontmost Terminal window.
-
-        :return: A PyXA reference to the current tab.
-        :rtype: XATerminalTab
-
-        .. versionadded:: 0.0.1
-        """
-        return self.front_window.selected_tab()
+        if return_result:
+            value = subprocess.Popen([script], stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
+            return {
+                "stdout": value.stdout.read().decode(),
+                "stderr": value.stderr.read().decode(),
+            }
+        else:
+            self.xa_scel.doScript_in_(script, window_tab.xa_elem)
+            return self
 
     def settings_sets(self, filter: dict = None) -> Union['XATerminalSettingsSetList', None]:
         """Returns a list of settings sets, as PyXA-wrapped objects, matching the given filter.
@@ -114,7 +124,7 @@ class XATerminalWindow(XABaseScriptable.XASBWindow, XABaseScriptable.XASBPrintab
         self.name: str #: The title of the window
         self.id: int #: The unique identifier for the window
         self.index: int #: The index of the window in the front-to-back ordering
-        self.bounds: Tuple[Tuple[int, int], Tuple[int, int]] #: The bounding rectangle of the window
+        self.bounds: Tuple[int, int, int, int] #: The bounding rectangle of the window
         self.closeable: bool #: Whether the window has a close button
         self.miniaturizable: bool #: Whether the window can be minimized
         self.miniaturized: bool #: Whether the window is currently minimized
@@ -138,9 +148,25 @@ class XATerminalWindow(XABaseScriptable.XASBWindow, XABaseScriptable.XASBPrintab
     def index(self) -> int:
         return self.xa_elem.index()
 
+    @index.setter
+    def index(self, index: int):
+        self.set_property("index", index)
+
     @property
-    def bounds(self) -> Tuple[Tuple[int, int], Tuple[int, int]]:
-        return self.xa_elem.bounds()
+    def bounds(self) -> Tuple[int, int, int, int]:
+        rect = self.xa_elem.bounds()
+        origin = rect.origin
+        size = rect.size
+        return (origin.x, origin.y, size.width, size.height)
+
+    @bounds.setter
+    def bounds(self, bounds: Tuple[int, int, int, int]):
+        x = bounds[0]
+        y = bounds[1]
+        w = bounds[2]
+        h = bounds[3]
+        value = AppKit.NSValue.valueWithRect_(AppKit.NSMakeRect(x, y, w, h))
+        self.set_property("bounds", value)
 
     @property
     def closeable(self) -> bool:
@@ -154,6 +180,10 @@ class XATerminalWindow(XABaseScriptable.XASBWindow, XABaseScriptable.XASBPrintab
     def miniaturized(self) -> bool:
         return self.xa_elem.miniaturized()
 
+    @miniaturized.setter
+    def miniaturized(self, miniaturized: bool):
+        self.set_property("miniaturized", miniaturized)
+
     @property
     def resizable(self) -> bool:
         return self.xa_elem.resizable()
@@ -161,6 +191,10 @@ class XATerminalWindow(XABaseScriptable.XASBWindow, XABaseScriptable.XASBPrintab
     @property
     def visible(self) -> bool:
         return self.xa_elem.visible()
+
+    @visible.setter
+    def visible(self, visible: bool):
+        self.set_property("visible", visible)
 
     @property
     def zoomable(self) -> bool:
@@ -170,28 +204,33 @@ class XATerminalWindow(XABaseScriptable.XASBWindow, XABaseScriptable.XASBPrintab
     def zoomed(self) -> bool:
         return self.xa_elem.zoomed()
 
+    @zoomed.setter
+    def zoomed(self, zoomed: bool):
+        self.set_property("zoomed", zoomed)
+
     @property
     def frontmost(self) -> bool:
         return self.xa_elem.frontmost()
+
+    @frontmost.setter
+    def frontmost(self, frontmost: bool):
+        self.set_property("frontmost", frontmost)
 
     @property
     def selected_tab(self) -> 'XATerminalTab':
         return self._new_element(self.xa_elem.selectedTab(), XATerminalTab)
 
+    @selected_tab.setter
+    def selected_tab(self, selected_tab: 'XATerminalTab'):
+        self.set_property("selectedTab", selected_tab.xa_elem)
+
     @property
     def position(self) -> Tuple[int, int]:
         return self.xa_elem.position()
 
-    def selected_tab(self) -> 'XATerminalTab':
-        """Gets a reference to the window's currently selected tab.
-
-        :return: The selected tab.
-        :rtype: XATerminalTab
-
-        .. versionadded:: 0.0.1
-        """
-        tab_obj = self.xa_elem.selectedTab()
-        return self._new_element(tab_obj, XATerminalTab)
+    @position.setter
+    def position(self, position: Tuple[int, int]):
+        self.set_property("position", position)
 
     def tabs(self, filter: dict = None) -> Union['XATerminalTabList', None]:
         """Returns a list of tabs, as PyXA-wrapped objects, matching the given filter.
@@ -483,9 +522,17 @@ class XATerminalTab(XABase.XAObject, XAClipboardCodable):
     def number_of_rows(self) -> int:
         return self.xa_elem.numberOfRows()
 
+    @number_of_rows.setter
+    def number_of_rows(self, number_of_rows: int):
+        self.set_property("numberOfRows", number_of_rows)
+
     @property
     def number_of_columns(self) -> int:
         return self.xa_elem.numberOfColumns()
+
+    @number_of_columns.setter
+    def number_of_columns(self, number_of_columns: int):
+        self.set_property("numberOfColumns", number_of_columns)
 
     @property
     def contents(self) -> str:
@@ -507,13 +554,25 @@ class XATerminalTab(XABase.XAObject, XAClipboardCodable):
     def selected(self) -> bool:
         return self.xa_elem.selected()
 
+    @selected.setter
+    def selected(self, selected: bool):
+        self.set_property("selected", selected)
+
     @property
     def title_displays_custom_title(self) -> bool:
         return self.xa_elem.titleDisplaysCustomTitle()
 
+    @title_displays_custom_title.setter
+    def title_displays_custom_title(self, title_displays_custom_title: bool):
+        self.set_property("titleDisplaysCustomTitle", title_displays_custom_title)
+
     @property
     def custom_title(self) -> str:
         return self.xa_elem.customTitle()
+
+    @custom_title.setter
+    def custom_title(self, custom_title: str):
+        self.set_property("customTitle", custom_title)
 
     @property
     def tty(self) -> str:
@@ -523,16 +582,9 @@ class XATerminalTab(XABase.XAObject, XAClipboardCodable):
     def current_settings(self) -> 'XATerminalSettingsSet':
         return self._new_element(self.xa_elem.currentSettings(), XATerminalSettingsSet)
 
-    def current_settings(self) -> 'XATerminalSettingsSet':
-        """Gets a reference to the settings set currently in use by the tab.
-
-        :return: The tab's settings set.
-        :rtype: XATerminalSettingsSet
-
-        .. versionadded:: 0.0.1
-        """
-        settings_set_obj = self.xa_elem.currentSettings()
-        return self._new_element(settings_set_obj, XATerminalSettingsSet)
+    @current_settings.setter
+    def current_settings(self, current_settings: 'XATerminalSettingsSet'):
+        self.set_property("currentSettings", current_settings.xa_elem)
 
     def get_clipboard_representation(self) -> List[str]:
         """Gets a clipboard-codable representation of the tab.
@@ -975,69 +1027,137 @@ class XATerminalSettingsSet(XABase.XAObject, XAClipboardCodable):
     def name(self) -> str:
         return self.xa_elem.name()
 
+    @name.setter
+    def name(self, name: str):
+        self.set_property("name", name)
+
     @property
     def number_of_rows(self) -> int:
         return self.xa_elem.numberOfRows()
+    
+    @number_of_rows.setter
+    def number_of_rows(self, number_of_rows: int):
+        self.set_property("numberOfRows", number_of_rows)
 
     @property
     def number_of_columns(self) -> int:
         return self.xa_elem.numberOfColumns()
 
+    @number_of_columns.setter
+    def number_of_columns(self, number_of_columns: int):
+        self.set_property("numberOfColumns", number_of_columns)
+
     @property
     def cursor_color(self) -> XABase.XAColor:
         return XABase.XAColor(self.xa_elem.cursorColor())
+
+    @cursor_color.setter
+    def cursor_color(self, cursor_color: XABase.XAColor):
+        self.set_property("cursorColor", cursor_color.xa_elem)
 
     @property
     def background_color(self) -> XABase.XAColor:
         return XABase.XAColor(self.xa_elem.backgroundColor())
 
+    @background_color.setter
+    def background_color(self, background_color: XABase.XAColor):
+        self.set_property("backgroundColor", background_color.xa_elem)
+
     @property
     def normal_text_color(self) -> XABase.XAColor:
         return XABase.XAColor(self.xa_elem.normalTextColor())
+
+    @normal_text_color.setter
+    def normal_text_color(self, normal_text_color: XABase.XAColor):
+        self.set_property("normalTextColor", normal_text_color.xa_elem)
 
     @property
     def bold_text_color(self) -> XABase.XAColor:
         return XABase.XAColor(self.xa_elem.boldTextColor())
 
+    @bold_text_color.setter
+    def bold_text_color(self, bold_text_color: XABase.XAColor):
+        self.set_property("boldTextColor", bold_text_color.xa_elem)
+
     @property
     def font_name(self) -> str:
         return self.xa_elem.fontName()
+
+    @font_name.setter
+    def font_name(self, font_name: str):
+        self.set_property("fontName", font_name)
 
     @property
     def font_size(self) -> int:
         return self.xa_elem.fontSize()
 
+    @font_size.setter
+    def font_size(self, font_size: int):
+        self.set_property("fontSize", font_size)
+
     @property
     def font_antialiasing(self) -> bool:
         return self.xa_elem.fontAntialiasing()
+
+    @font_antialiasing.setter
+    def font_antialiasing(self, font_antialiasing: bool):
+        self.set_property("fontAntialiasing", font_antialiasing)
 
     @property
     def clean_commands(self) -> List[str]:
         return self.xa_elem.cleanCommands()
 
+    @clean_commands.setter
+    def clean_commands(self, clean_commands: List[str]):
+        self.set_property("cleanCommands", clean_commands)
+
     @property
     def title_displays_device_name(self) -> bool:
         return self.xa_elem.titleDisplaysDeviceName()
+
+    @title_displays_device_name.setter
+    def title_displays_device_name(self, title_displays_device_name: bool):
+        self.set_property("titleDisplaysDeviceName", title_displays_device_name)
 
     @property
     def title_displays_shell_path(self) -> bool:
         return self.xa_elem.titleDisplaysShellPath()
 
+    @title_displays_shell_path.setter
+    def title_displays_shell_path(self, title_displays_shell_path: bool):
+        self.set_property("titleDisplaysShellPath", title_displays_shell_path)
+
     @property
     def title_displays_window_size(self) -> bool:
         return self.xa_elem.titleDisplaysWindowSize()
+
+    @title_displays_window_size.setter
+    def title_displays_window_size(self, title_displays_window_size: bool):
+        self.set_property("titleDisplaysWindowSize", title_displays_window_size)
 
     @property
     def title_displays_settings_name(self) -> bool:
         return self.xa_elem.titleDisplaysSettingsName()
 
+    @title_displays_settings_name.setter
+    def title_displays_settings_name(self, title_displays_settings_name: bool):
+        self.set_property("titleDisplaysSettingsName", title_displays_settings_name)
+
     @property
     def title_displays_custom_title(self) -> bool:
         return self.xa_elem.titleDisplaysCustomTitle()
 
+    @title_displays_custom_title.setter
+    def title_displays_custom_title(self, title_displays_custom_title: bool):
+        self.set_property("titleDisplaysCustomTitle", title_displays_custom_title)
+
     @property
     def custom_title(self) -> str:
         return self.xa_elem.customTitle()
+
+    @custom_title.setter
+    def custom_title(self, custom_title: str):
+        self.set_property("customTitle", custom_title)
 
     def get_clipboard_representation(self) -> str:
         """Gets a clipboard-codable representation of the settings set.

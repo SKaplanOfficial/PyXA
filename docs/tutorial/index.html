@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tutorial &mdash; PyXA 0.0.8 documentation</title>
+  <title>Tutorial &mdash; PyXA 0.0.9 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
@@ -49,7 +49,10 @@
 <li class="toctree-l3"><a class="reference internal" href="lists.html">Working With Lists</a></li>
 <li class="toctree-l3"><a class="reference internal" href="clipboard.html">Working With The Clipboard</a></li>
 <li class="toctree-l3"><a class="reference internal" href="user_input.html">Getting User Input</a></li>
-<li class="toctree-l3"><a class="reference internal" href="ui_scripting.html">UI Scripting With PyXA</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spotlight.html">Searching Spotlight</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ui_scripting.html">UI Scripting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="applescript.html">Running AppleScripts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="menubar.html">Add Items to the Menu Bar</a></li>
 <li class="toctree-l3"><a class="reference internal" href="tips_tricks.html">Tips and Tricks</a></li>
 </ul>
 </li>
@@ -122,7 +125,7 @@ https://www.google.com
 <span class="p">})();</span><span class="w"></span>
 </pre></div>
 </div>
-<p>As you can see, the syntax of PyXA closely follows the syntax of JXA while remaining true to the standard conventions of Python. Most notably, multi-word names for variables and methods use the Pythonic snake_case format instead of camelCase. For example, as seen above, PyXA uses <cite>current_tab</cite> while JXA uses <cite>currentTab</cite>. Another difference is that PyXA prefers object properties while JXA blurs the line between properties and methods. In PyXA, the properties listed in an application’s scripting dictionary are referenced using the dot notation for object properties, and actions on objects are executed via method calls. PyXA also includes properties and methods beyond those described in scripting dictionaries on an application-specific basis.</p>
+<p>As you can see, the syntax of PyXA closely follows the syntax of JXA while remaining true to the standard conventions of Python. Most notably, multi-word names for variables and methods use the Pythonic snake_case format instead of camelCase. For example, as seen above, PyXA uses <a class="reference internal" href="../reference/apps/safari.html#PyXA.apps.Safari.XASafariWindow.current_tab" title="PyXA.apps.Safari.XASafariWindow.current_tab"><code class="xref py py-func docutils literal notranslate"><span class="pre">current_tab()</span></code></a> while JXA uses <cite>currentTab</cite>. Another difference is that PyXA prefers object properties while JXA blurs the line between properties and methods. In PyXA, the properties listed in an application’s scripting dictionary are referenced using the dot notation for object properties, and actions on objects are executed via method calls. PyXA also includes properties and methods beyond those described in scripting dictionaries on an application-specific basis.</p>
 <p>Like AppleScript and JXA, PyXA’s syntax is often flexible, allowing multiple ways to accomplish the same goal. All of the following code samples are valid ways to create the same workflow as above.</p>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">PyXA</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;Safari&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">windows</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">current_tab</span><span class="o">.</span><span class="n">url</span><span class="p">)</span>
@@ -143,13 +146,13 @@ https://www.google.com
 <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;Notes&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">new_note</span><span class="p">(</span><span class="n">current_url</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>If you run this workflow and go to the Notes app, you’ll see that a new note has been created containing the current tab’s URL in bold typeface. This is already a more useful automation, but we can improve it by making Notes automatically activate and show the newly created note. To do this, we can simply call the new note object’s <cite>show()</cite> method:</p>
+<p>If you run this workflow and go to the Notes app, you’ll see that a new note has been created containing the current tab’s URL in bold typeface. This is already a more useful automation, but we can improve it by making Notes automatically activate and show the newly created note. To do this, we can simply call the new note object’s <a class="reference internal" href="../reference/apps/numbers.html#PyXA.apps.Notes.XANote.show" title="PyXA.apps.Notes.XANote.show"><code class="xref py py-func docutils literal notranslate"><span class="pre">show()</span></code></a> method:</p>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">PyXA</span>
 <span class="n">current_url</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;Safari&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">front_window</span><span class="o">.</span><span class="n">current_tab</span><span class="o">.</span><span class="n">url</span>
 <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;Notes&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">new_note</span><span class="p">(</span><span class="n">current_url</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>When you run this, the Notes app will open to newly created note containing the current Safari tab’s URL. Cool! Let’s make another change. Right now, the URL is used as the title for the note, but it would be nice if the title reflected the title of the webpage. Since we need to retrieve multiple properties from the current tab, we should store a reference to it in a variable to keep our script running efficiently. We’ll retrieve the <cite>URL</cite> property of the current tab as we did before, and now we’ll also retrieve the <cite>name</cite> property. We can then specify the title and content of the new note by passing two arguments to the <cite>new_note()</cite> method. Another improvement we’ll make is turning the URL into an actually clickable link by surrounding it with HTML anchor tags. Our script thus becomes:</p>
+<p>When you run this, the Notes app will open to newly created note containing the current Safari tab’s URL. Cool! Let’s make another change. Right now, the URL is used as the title for the note, but it would be nice if the title reflected the title of the webpage. Since we need to retrieve multiple properties from the current tab, we should store a reference to it in a variable to keep our script running efficiently. We’ll retrieve the <cite>URL</cite> property of the current tab as we did before, and now we’ll also retrieve the <cite>name</cite> property. We can then specify the title and content of the new note by passing two arguments to the <code class="xref py py-func docutils literal notranslate"><span class="pre">new_note()</span></code> method. Another improvement we’ll make is turning the URL into an actually clickable link by surrounding it with HTML anchor tags. Our script thus becomes:</p>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">PyXA</span>
 <span class="n">current_tab</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;Safari&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">front_window</span><span class="o">.</span><span class="n">current_tab</span>
 <span class="n">current_url</span> <span class="o">=</span> <span class="s2">&quot;&lt;a href=&quot;</span> <span class="o">+</span> <span class="n">current_tab</span><span class="o">.</span><span class="n">url</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span> <span class="o">+</span> <span class="n">current_tab</span><span class="o">.</span><span class="n">url</span> <span class="o">+</span> <span class="s2">&quot;&lt;/a&gt;&quot;</span>
@@ -181,7 +184,10 @@ https://www.google.com
 <li class="toctree-l1"><a class="reference internal" href="lists.html">Working With Lists</a></li>
 <li class="toctree-l1"><a class="reference internal" href="clipboard.html">Working With The Clipboard</a></li>
 <li class="toctree-l1"><a class="reference internal" href="user_input.html">Getting User Input</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ui_scripting.html">UI Scripting With PyXA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spotlight.html">Searching Spotlight</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ui_scripting.html">UI Scripting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="applescript.html">Running AppleScripts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="menubar.html">Add Items to the Menu Bar</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tips_tricks.html">Tips and Tricks</a></li>
 </ul>
 </div>

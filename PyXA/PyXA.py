@@ -24,33 +24,133 @@ from .XAErrors import ApplicationNotFoundError
 from .apps import application_classes
 from PyXA import XABaseScriptable
 
-VERSION = "0.0.5"
+VERSION = "0.0.9"
 DATE = str(datetime.now())
 
 appspace = NSApplication.sharedApplication()
 workspace = NSWorkspace.sharedWorkspace()
-apps = []
+app_paths: List[str] = []
 
-def _get_path_to_app(app_identifier: str) -> str:
-    if not app_identifier.endswith(".app"):
-            app_identifier += ".app"
+scriptable_applications: List[str] = list(application_classes.keys()) #: A list of names of scriptable applications
 
-    def _check(path, _index, _stop):
-        nonlocal app_identifier
-        current_path = path + "/" + app_identifier
-        if os.path.exists(current_path):
-            app_identifier = current_path
+# class _staticproperty(staticmethod):
+#     def __get__(self, *_):         
+#         return self.__func__()
 
-    if not app_identifier.startswith("/"):
-        locations = AppKit.NSMutableArray.arrayWithArray_(workspace._locationsForApplications())
-        locations.insertObject_atIndex_("/System/Applications", 0)
-        locations.insertObject_atIndex_("/Applications", 0)
-        locations.enumerateObjectsUsingBlock_(_check)
+# class Application(XAObject):
+#     shared_app = NSApplication.sharedApplication()
+#     workspace = NSWorkspace.sharedWorkspace()
+#     app_paths: List[str] = [] #: A list containing the path to each application
+#     current_application: XAApplication #: The currently active application
 
-    if os.path.exists(app_identifier):
-        return app_identifier
+#     def __init__(self, app_identifier: str):
+#         """Creates an application object.
+
+#         :param app_identifier: The name of an application
+#         :type app_identifier: str
+
+#         .. versionadded:: 0.0.9
+#         """
+#         self.app = 
+
+#     def _get_path_to_app(app_identifier: str) -> str:
+#         Application._xa_load_app_paths()
+#         for path in app_paths:
+#             if app_identifier in path:
+#                 return path
+
+#         raise ApplicationNotFoundError(app_identifier)
+
+#     def _xa_load_app_paths():
+#         if Application.app_paths == []:
+#             search = XASpotlight()
+#             search.predicate = "kMDItemContentType == 'com.apple.application-bundle'"
+#             search.run()
+#             app_paths = [x.path for x in search.results]
+
+#     @_staticproperty
+#     def current_application() -> XAApplication:
+#         return application(workspace.frontmostApplication().localizedName())
+
+#     def _xa_get_open_app(app_identifier: str):
+#         def _match_open_app(obj, index, stop):
+#             return (obj.localizedName() == app_identifier, stop)
+
+#         idx_set = workspace.runningApplications().indexesOfObjectsPassingTest_(_match_open_app)
+#         if idx_set.count() == 1:
+#             index = idx_set.firstIndex()
+#             app = workspace.runningApplications()[index]
+#             return Application._xa_get_app_ref(app_identifier.lower(), app)
+
+#     def _xa_get_app_ref(app_identifier: str, app_object):
+#         properties = {
+#             "parent": None,
+#             "appspace": Application.shared_app,
+#             "workspace": Application.workspace,
+#             "element": app_object,
+#             "appref": app_object,
+#         }
+
+#         app_obj = application_classes.get(app_identifier, XAApplication)
+#         if isinstance(app_obj, tuple):
+#             module = importlib.import_module("PyXA.apps." + app_obj[0])
+#             app_class = getattr(module, app_obj[1], None)
+#             if app_class is not None:
+#                 application_classes[app_identifier] = app_class
+#                 app = app_class
+#             else:
+#                 raise NotImplementedError()
+
+#         return application_classes.get(app_identifier, XAApplication)(properties)
+
+#     def _xa_get_application(app_identifier: str) -> XAApplication:
+#         """Retrieves a PyXA application object representation of the target application without launching or activating the application.
+
+#         :param app_identifier: The name of the application to get an object of.
+#         :type app_identifier: str
+#         :return: A PyXA application object referencing the target application.
+#         :rtype: XAApplication
+
+#         .. versionadded:: 0.0.9
+#         """
+#         open_app = Application._xa_get_open_app(app_identifier)
+#         if open_app is not None:
+#             return open_app
+
+#         app_path = _get_path_to_app(app_identifier)
+#         bundle = NSBundle.alloc().initWithPath_(app_path)
+#         url = workspace.URLForApplicationWithBundleIdentifier_(bundle.bundleIdentifier())
+
+#         config = AppKit.NSWorkspaceOpenConfiguration.alloc().init()
+#         config.setActivates_(False)
+#         config.setHides_(True)
+
+#         app_ref = None
+#         def _launch_completion_handler(app, _error):
+#             nonlocal app_ref
+#             app_ref = Application._xa_get_app_ref(app_identifier.lower(), app)
+
+#         workspace.openApplicationAtURL_configuration_completionHandler_(url, config, _launch_completion_handler)
+#         while app_ref is None:
+#             sleep(0.01)
+#         return app_ref
+
+
+def _xa_get_path_to_app(app_identifier: str) -> str:
+    _xa_load_app_paths()
+    for path in app_paths:
+        if app_identifier in path:
+            return path
 
     raise ApplicationNotFoundError(app_identifier)
+
+def _xa_load_app_paths():
+    global app_paths
+    if app_paths == []:
+        search = XASpotlight()
+        search.predicate = "kMDItemContentType == 'com.apple.application-bundle'"
+        search.run()
+        app_paths = [x.path for x in search.results]
 
 
 def running_applications() -> List[XAApplication]:
@@ -269,7 +369,7 @@ def current_application() -> XAApplication:
 
     .. versionadded:: 0.0.1
     """
-    return application(workspace.frontmostApplication().localizedName().lower())
+    return application(workspace.frontmostApplication().localizedName())
 
 
 def application(app_identifier: str) -> XAApplication:
@@ -282,6 +382,7 @@ def application(app_identifier: str) -> XAApplication:
 
     .. versionadded:: 0.0.1
     """
+    app_identifier_l = app_identifier.lower()
 
     def _match_open_app(obj, index, stop):
         return (obj.localizedName() == app_identifier, stop)
@@ -298,21 +399,20 @@ def application(app_identifier: str) -> XAApplication:
             "appref": app,
         }
 
-        app_obj = application_classes.get(app_identifier.lower(), XAApplication)
-        if app_identifier.lower() in application_classes and isinstance(app_obj, tuple):
+        app_obj = application_classes.get(app_identifier_l, XAApplication)
+        if isinstance(app_obj, tuple):
             module = importlib.import_module("PyXA.apps." + app_obj[0])
             app_class = getattr(module, app_obj[1], None)
             if app_class is not None:
-                application_classes[app_identifier.lower()] = app_class
+                application_classes[app_identifier_l] = app_class
                 app = app_class
             else:
                 raise NotImplementedError()
 
-        app_ref = application_classes.get(app_identifier.lower(), XAApplication)(properties)
-        apps.append(app_ref)
+        app_ref = application_classes.get(app_identifier_l, XAApplication)(properties)
         return app_ref
 
-    app_path = _get_path_to_app(app_identifier)
+    app_path = _xa_get_path_to_app(app_identifier)
     bundle = NSBundle.alloc().initWithPath_(app_path)
     url = workspace.URLForApplicationWithBundleIdentifier_(bundle.bundleIdentifier())
 
@@ -331,135 +431,20 @@ def application(app_identifier: str) -> XAApplication:
             "appref": app,
         }
 
-        app_obj = application_classes.get(app_identifier.lower(), XAApplication)
-        if app_identifier.lower() in application_classes and isinstance(app_obj, tuple):
+        app_obj = application_classes.get(app_identifier_l, None)
+        if isinstance(app_obj, tuple):
             module = importlib.import_module("PyXA.apps." + app_obj[0])
             app_class = getattr(module, app_obj[1], None)
             if app_class is not None:
-                application_classes[app_identifier.lower()] = app_class
+                application_classes[app_identifier_l] = app_class
                 app = app_class
             else:
                 raise NotImplementedError()
 
-        app = application_classes.get(app_identifier.lower(), XAApplication)(properties)
-        apps.append(app)
-        app_ref = app
+        app_ref = application_classes.get(app_identifier_l, XAApplication)(properties)
 
     
     workspace.openApplicationAtURL_configuration_completionHandler_(url, config, _launch_completion_handler)
     while app_ref is None:
         sleep(0.01)
     return app_ref
-
-
-def open_url(path: Union[str, NSURL]) -> None:
-    """Opens the document at the given URL in its default application.
-
-    :param path: The path of the item to open. This can be a file path, folder path, web address, or application URL.
-    :type path: Union[str, NSURL]
-
-    .. deprecated:: 0.0.5
-       Use :class:`XAURL` instead.
-
-    .. versionadded:: 0.0.2
-    """
-    url = path
-    if isinstance(path, str):
-        url = NSURL.alloc().initWithString_(path)
-    if not url.path().startswith("/"):
-        url = NSURL.alloc().initFileURLWithPath_(url.path())
-    workspace.openURL_(url)
-
-
-def get_clipboard() -> List[bytes]:
-    """Returns the byte representation of all items on the clipboard.
-
-    :return: A list of items currently on the clipboard in their byte representation.
-    :rtype: List[bytes]
-
-    .. seealso:: :func:`get_clipboard_strings`, :func:`set_clipboard`
-
-    .. deprecated:: 0.0.5
-       Use :attribute:`XABase.XAClipboard.content` instead.
-
-    .. versionadded:: 0.0.1
-    """
-    items = []
-    pb = NSPasteboard.generalPasteboard()
-    for item in pb.pasteboardItems():
-        for item_type in item.types():
-            items.append(item.dataForType_(item_type))
-    return items
-
-
-def get_clipboard_strings() -> List[str]:
-    """Returns the string representation all items on the clipboard that can be represented as strings.
-
-    :return: A list of items currently on the clipboard in their string representation.
-    :rtype: List[str]
-
-    .. seealso:: :func:`get_clipboard`, :func:`set_clipboard`
-
-    .. deprecated:: 0.0.5
-       Use :attribute:`XABase.XAClipboard.content` instead.
-
-    .. versionadded:: 0.0.1
-    """
-    items = []
-    pb = NSPasteboard.generalPasteboard()
-    for item in pb.pasteboardItems():
-        if NSPasteboardTypeString in item.types():
-            decoded_item = item.dataForType_(NSPasteboardTypeString).decode()
-            if "\r" in decoded_item:
-                items.extend(decoded_item.split("\r"))
-            elif "\n" in decoded_item:
-                items.extend(decoded_item.split("\n"))
-            else:
-                items.append(decoded_item)
-    return items
-
-
-def set_clipboard(content: Any) -> None:
-    """Sets the clipboard to the specified content.
-
-    :param content: The item or object to set the clipboard to. Can be a list of items.
-    :type content: Any
-
-    .. seealso:: :func:`get_clipboard`, :func:`get_clipboard_strings`
-
-    .. deprecated:: 0.0.5
-       Use :func:`XABase.XAClipboard.set_content` instead.
-
-    .. versionadded:: 0.0.1
-    """
-    pb = NSPasteboard.generalPasteboard()
-    pb.clearContents()
-    pb.writeObjects_(NSArray.arrayWithObject_(content))
-
-def run_applescript(source: Union[str, NSURL]) -> Any:
-    """Runs AppleScript and returns its result.
-
-    :param source: Either AppleScript code as text or the path to a .scpt file.
-    :type source: Union[str, NSURL]
-    :return: The value returned from the script upon completing execution.
-    :rtype: Any
-
-    .. deprecated:: 0.0.5
-       Use :class:`AppleScript` instead.
-
-    .. versionadded:: 0.0.1
-    """
-    script = None
-    if source.startswith("/"):
-        source = NSURL.fileURLWithPath_(source)
-        script = NSAppleScript.initWithContentsOfURL_error_(source, None)
-    elif isinstance(source, NSURL):
-        script = NSAppleScript.initWithContentsOfURL_error_(source, None)
-    else:
-        script = NSAppleScript.alloc().initWithSource_(source)
-
-def speak(message: str):
-    synthesizer = AppKit.NSSpeechSynthesizer.alloc().initWithVoice_(None)
-    synthesizer.startSpeakingString_(message)
-    while synthesizer.isSpeaking():
-        time.sleep(0.01)

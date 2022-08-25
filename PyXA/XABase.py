@@ -3823,112 +3823,209 @@ class XASpeech(XAObject):
 
 
 class XAMenuBar(XAObject):
-    def __init__(self, structure: Union[Dict[str, Dict[str, Callable[[], None]]], None] = None):
+    def __init__(self):
         """Creates a new menu bar object for interacting with the system menu bar.
-
-        :param structure: A dictionary specifying the titles of menu, the items contained within them, and the method to execute when each item is clicked, defaults to None
-        :type structure: Union[Dict[str, Dict[str, Callable[[], None]]], None], optional
 
         .. versionadded:: 0.0.9
         """
-        self.menu_structure = structure or {} #: The layout of the menus and menu items to add to the menu bar
+        self._menus = {}
+        self._menu_items = {}
+        self._methods = {}
 
         detector = self
         class MyApplicationAppDelegate(AppKit.NSObject):
             start_time = datetime.now()
 
             def applicationDidFinishLaunching_(self, sender):
-                
-                for menu_name, menu_items in detector.menu_structure.items():
-                    status_bar = AppKit.NSStatusBar.systemStatusBar()
-                    status_item = status_bar.statusItemWithLength_(AppKit.NSVariableStatusItemLength).retain()
-
-                    status_item.setTitle_(menu_name)
-                    status_item.setHighlightMode_(objc.YES)
-                    status_item.setToolTip_('Sync Trigger')
-                    status_item.setEnabled_(objc.YES)
-
-                    menu = AppKit.NSMenu.alloc().init()
-                    for sub_item in menu_items:
-                        item = AppKit.NSMenuItem.alloc().initWithTitle_action_keyEquivalent_(sub_item, 'action:', '')
-                        menu.addItem_(item)
+                for item_name, status_item in detector._menus.items():
+                    menu = status_item.menu()
 
                     menuitem = AppKit.NSMenuItem.alloc().initWithTitle_action_keyEquivalent_('Quit', 'terminate:', '')
                     menu.addItem_(menuitem)
-                    status_item.setMenu_(menu)
 
             def action_(self, menu_item):
                 selection = menu_item.title()
-                for menu_name, menu_items in detector.menu_structure.items():
-                    for item, method in menu_items.items():
-                        if selection == item:
-                            method()
+                for item_name in detector._methods:
+                    if selection == item_name:
+                        detector._methods[item_name]()
 
         app = AppKit.NSApplication.sharedApplication()
         app.setDelegate_(MyApplicationAppDelegate.alloc().init().retain())
 
-    def add_menu(self, title: str, menu_items: Union[Dict[str, Callable[[], None]], None] = None):
-        """Adds a new menu to the menu bar.
+    def add_menu(self, title: str, image: Union[XAImage, None] = None, tool_tip: Union[str, None] = None, img_width: int = 30, img_height: int = 30):
+        """Adds a new menu to be displayed in the system menu bar.
 
-        :param title: The title of the menu; the button name that appears in the menu bar
+        :param title: The name of the menu
         :type title: str
-        :param menu_items: The items in the menu and the method to call when each item is clicked, defaults to None
-        :type menu_items: Union[Dict[str, Callable[[], None]], None], optional
+        :param image: The image to display for the menu, defaults to None
+        :type image: Union[XAImage, None], optional
+        :param tool_tip: The tooltip to display on hovering over the menu, defaults to None
+        :type tool_tip: Union[str, None], optional
+        :param img_width: The width of the image, in pixels, defaults to 30
+        :type img_width: int, optional
+        :param img_height: The height of the image, in pixels, defaults to 30
+        :type img_height: int, optional
 
         :Example:
 
         >>> import PyXA
-        >>> mbar = PyXA.XAMenuBar()
-        >>> mbar.add_menu("Apps", {
-        >>>     "Finder": lambda: PyXA.application("Finder").activate(),
-        >>>     "Safari": lambda: PyXA.application("Safari").activate(),
-        >>>     "Notes": lambda: PyXA.application("Notes").activate(),
-        >>>     "Terminal": lambda: PyXA.application("Terminal").activate(),
-        >>>     "TextEdit": lambda: PyXA.application("TextEdit").activate(),
-        >>>     "Messages": lambda: PyXA.application("Messages").activate(),
-        >>>     "Shortcuts": lambda: PyXA.application("Shortcuts").activate(),
-        >>>     "GitHub Desktop": lambda: PyXA.application("GitHub Desktop").activate(),
-        >>> })
-        >>> 
-        >>> mbar.add_menu("Sites", {
-        >>>     "Google": lambda: PyXA.XAURL("https://google.com").open(),
-        >>>     "Reddit": lambda: PyXA.XAURL("https://reddit.com").open(),
-        >>>     "YouTube": lambda: PyXA.XAURL("https://youtube.com").open(),
-        >>>     "Apple Documentation": lambda: PyXA.XAURL("https://developer.apple.com/documentation/technologies").open(),
-        >>> })
-        >>> mbar.display()
+        >>> menu_bar = PyXA.XAMenuBar()
+        >>> img = PyXA.XAImage("/Users/steven/Downloads/Blackness.jpg")
+        >>> menu_bar.add_menu("Menu 1", image=img, img_width=100, img_height=100)
+        >>> menu_bar.display()
 
         .. versionadded:: 0.0.9
         """
-        self.menu_structure[title] = menu_items or {}
+        status_bar = AppKit.NSStatusBar.systemStatusBar()
+        status_item = status_bar.statusItemWithLength_(AppKit.NSVariableStatusItemLength).retain()
+        status_item.setTitle_(title)
+       
+        if isinstance(image, XAImage):
+            img = image.xa_elem.copy()
+            img.setScalesWhenResized_(True)
+            img.setSize_((img_width, img_height))
+            status_item.button().setImage_(img)
 
-    def add_item(self, menu: str, item: str, method: Callable[[], None]):
-        """Add a submenu item to the specified menu, creating the menu if necessary.
+        status_item.setHighlightMode_(objc.YES)
 
-        :param menu: The title of the menu to add a new item to, or the new menu to create
+        if isinstance(tool_tip, str):
+            status_item.setToolTip_(tool_tip)
+
+        menu = AppKit.NSMenu.alloc().init()
+        status_item.setMenu_(menu)
+
+        status_item.setEnabled_(objc.YES)
+        self._menus[title] = status_item
+
+    def add_item(self, menu: str, item_name: str, method: Union[Callable[[], None], None] = None, image: Union[XAImage, None] = None, img_width: int = 20, img_height: int = 20):
+        """Adds an item to a menu, creating the menu if necessary.
+
+        :param menu: The name of the menu to add an item to, or the name of the menu to create
         :type menu: str
-        :param item: The item name
-        :type item: str
-        :param method: The method to call when the item is clicked
+        :param item_name: The name of the item
+        :type item_name: str
+        :param method: The method to associate with the item (the method called when the item is clicked)
         :type method: Callable[[], None]
+        :param image: The image for the item, defaults to None
+        :type image: Union[XAImage, None], optional
+        :param img_width: The width of image, in pixels, defaults to 30
+        :type img_width: int, optional
+        :param img_height: The height of the image, in pixels, defaults to 30
+        :type img_height: int, optional
 
         :Example:
 
         >>> import PyXA
-        >>> mbar = PyXA.XAMenuBar({
-        >>>     "Utilities": {}
-        >>> })
-        >>> mbar.add_item("Utilities", "Hide all applications", lambda: PyXA.running_applications().hide())
-        >>> mbar.display()
+        >>> menu_bar = PyXA.XAMenuBar()
+        >>> 
+        >>> menu_bar.add_menu("Menu 1")
+        >>> menu_bar.add_item(menu="Menu 1", item_name="Item 1", method=lambda : print("Action 1"))
+        >>> menu_bar.add_item(menu="Menu 1", item_name="Item 2", method=lambda : print("Action 2"))
+        >>> 
+        >>> menu_bar.add_item(menu="Menu 2", item_name="Item 1", method=lambda : print("Action 1"))
+        >>> img = PyXA.XAImage("/Users/exampleUser/Downloads/example.jpg")
+        >>> menu_bar.add_item("Menu 2", "Item 1", lambda : print("Action 1"), image=img, img_width=100)
+        >>> menu_bar.display()
 
         .. versionadded:: 0.0.9
         """
-        if menu in self.menu_structure:
-            self.menu_structure[menu][item] = method
-        else:
-            self.menu_structure[menu] = {
-                item: method
-            }
+        item = AppKit.NSMenuItem.alloc().initWithTitle_action_keyEquivalent_(item_name, 'action:', '')
+        
+        if isinstance(image, XAImage):
+            img = image.xa_elem.copy()
+            img.setScalesWhenResized_(True)
+            img.setSize_((img_width, img_height))
+            item.setImage_(img)
+        
+        if menu not in self._menus:
+            self.add_menu(menu)
+        self._menu_items[item_name] = item
+        self._menus[menu].menu().addItem_(item)
+        self._methods[item_name] = method
+
+    def set_image(self, item_name: str, image: XAImage, img_width: int = 30, img_height: int = 30):
+        """Sets the image displayed for a menu or menu item.
+
+        :param item_name: The name of the item to update
+        :type item_name: str
+        :param image: The image to display
+        :type image: XAImage
+        :param img_width: The width of the image, in pixels, defaults to 30
+        :type img_width: int, optional
+        :param img_height: The height of the image, in pixels, defaults to 30
+        :type img_height: int, optional
+
+        :Example: Set Image on State Change
+
+        >>> import PyXA
+        >>> current_state = True # On
+        >>> img_on = PyXA.XAImage("/Users/exampleUser/Documents/on.jpg")
+        >>> img_off = PyXA.XAImage("/Users/exampleUser/Documents/off.jpg")
+        >>> menu_bar = PyXA.XAMenuBar()
+        >>> menu_bar.add_menu("Status", image=img_on)
+        >>> 
+        >>> def update_state():
+        >>>     global current_state
+        >>>     if current_state is True:
+        >>>         # ... (Actions for turning off)
+        >>>         menu_bar.set_text("Turn off", "Turn on")
+        >>>         menu_bar.set_image("Status", img_off)
+        >>>         current_state = False
+        >>>     else:
+        >>>         # ... (Actions for turning on)
+        >>>         menu_bar.set_text("Turn off", "Turn off")
+        >>>         menu_bar.set_image("Status", img_on)
+        >>>         current_state = True
+
+        menu_bar.add_item("Status", "Turn off", update_state)
+        menu_bar.display()
+
+        .. versionadded:: 0.0.9
+        """
+        img = image.xa_elem.copy()
+        img.setScalesWhenResized_(True)
+        img.setSize_((img_width, img_height))
+        if item_name in self._menus:
+            self._menus[item_name].button().setImage_(img)
+        elif item_name in self._methods:
+            self._menu_items[item_name].setImage_(img)
+
+    def set_text(self, item_name: str, text: str):
+        """Sets the text displayed for a menu or menu item.
+
+        :param item_name: The name of the item to update
+        :type item_name: str
+        :param text: The new text to display
+        :type text: str
+
+        :Example: Random Emoji Ticker
+
+        >>> import PyXA
+        >>> import random
+        >>> import threading
+        >>> 
+        >>> menu_bar = PyXA.XAMenuBar()
+        >>> menu_bar.add_menu("Emoji")
+        >>>
+        >>> emojis = ["😀", "😍", "🙂", "😎", "🤩", "🤯", "😭", "😱", "😴", "🤒", "😈", "🤠"]
+        >>>
+        >>> def update_display():
+        >>>     while True:
+        >>>         new_emoji = random.choice(emojis)
+        >>>         menu_bar.set_text("Emoji", new_emoji)
+        >>>         sleep(0.25)
+        >>> 
+        >>> emoji_ticker = threading.Thread(target=update_display)
+        >>> emoji_ticker.start()
+        >>> menu_bar.display()
+
+        .. versionadded:: 0.0.9
+        """
+        if item_name in self._menus:
+            self._menus[item_name].setTitle_(text)
+        elif item_name in self._methods:
+            self._menu_items[item_name].setTitle_(text)
+            self._methods[text] = self._methods[item_name]
 
     def display(self):
         """Displays the custom menus on the menu bar.
@@ -3936,7 +4033,8 @@ class XAMenuBar(XAObject):
         :Example:
 
         >>> import PyXA
-        >>> mbar = PyXA.XAMenuBar({"🔥": {}})
+        >>> mbar = PyXA.XAMenuBar()
+        >>> mbar.add_menu("🔥")
         >>> mbar.display()
 
         .. versionadded:: 0.0.9

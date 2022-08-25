@@ -56,6 +56,7 @@ Third-Party Application Modules
    :maxdepth: 2
 
    apps/chromium
+   apps/fantastical
    apps/drafts
    apps/hammerspoon
    apps/omnioutliner

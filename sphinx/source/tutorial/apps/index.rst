@@ -43,6 +43,7 @@ Third-Party Application Modules
 
    chromium/index
    drafts/index
+   fantastical/index
    hammerspoon/index
    vlc/index
    omnioutliner/index

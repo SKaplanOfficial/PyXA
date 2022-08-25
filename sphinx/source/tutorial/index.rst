@@ -134,6 +134,7 @@ Additional Tutorial Topics
    spotlight
    ui_scripting
    applescript
+   menubar
    tips_tricks
 
 

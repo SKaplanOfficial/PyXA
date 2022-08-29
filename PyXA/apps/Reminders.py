@@ -7,7 +7,7 @@ from datetime import datetime
 from typing import List, Literal, Union, Tuple
 
 import EventKit
-from AppKit import NSURL, NSArray
+import AppKit
 
 from PyXA import XABase
 from PyXA import XABaseScriptable
@@ -31,15 +31,30 @@ class XARemindersApplication(XABaseScriptable.XASBApplication):
         }
         self.xa_estr = self._exec_suppresed(EventKit.EKEventStore.alloc().init)
 
+        self.name: str #: The name of the application
+        self.frontmost: bool #: Whether Reminders is the active application
+        self.version: str #: The version number of Reminders.app
         self.defaultAccount: XARemindersAccount #: The default account in the Reminders application
         self.defaultList: XARemindersList #: The default list in the Reminders application
 
     @property
-    def defaultAccount(self) -> 'XARemindersAccount':
+    def name(self) -> str:
+        return self.xa_elem.name()
+
+    @property
+    def frontmost(self) -> bool:
+        return self.xa_elem.frontmost()
+
+    @property
+    def version(self) -> str:
+        return self.xa_elem.version()
+
+    @property
+    def default_account(self) -> 'XARemindersAccount':
         return self._new_element(self.xa_elem.defaultAccount(), XARemindersAccount)
 
     @property
-    def defaultList(self) -> 'XARemindersList':
+    def default_list(self) -> 'XARemindersList':
         return self._new_element(self.xa_elem.defaultList(), XARemindersList)
 
     def _get_clipboard_reminder(self, reminder_name: str) -> 'XARemindersReminder':
@@ -187,7 +202,7 @@ class XARemindersWindow(XABaseScriptable.XASBObject):
         self.name: str #: The title of the window.
         self.id: int #: The unique identifier of the window.
         self.index: int #: The index of the window, ordered front to back.
-        self.bounds: Tuple[Tuple[int, int], Tuple[int, int]] #: The bounding rectangle of the window.
+        self.bounds: Tuple[int, int, int, int] #: The bounding rectangle of the window.
         self.closeable: bool #: Does the window have a close button?
         self.miniaturizable: bool #: Does the window have a minimize button?
         self.miniaturized: bool #: Is the window minimized right now?
@@ -209,9 +224,25 @@ class XARemindersWindow(XABaseScriptable.XASBObject):
     def index(self) -> int:
         return self.xa_elem.index()
 
+    @index.setter
+    def index(self, index: int):
+        self.set_property('index', index)
+
     @property
-    def bounds(self) -> Tuple[Tuple[int, int], Tuple[int, int]]:
-        return self.xa_elem.bounds()
+    def bounds(self) -> Tuple[int, int, int, int]:
+        rect = self.xa_elem.bounds()
+        origin = rect.origin
+        size = rect.size
+        return (origin.x, origin.y, size.width, size.height)
+
+    @bounds.setter
+    def bounds(self, bounds: Tuple[int, int, int, int]):
+        x = bounds[0]
+        y = bounds[1]
+        w = bounds[2]
+        h = bounds[3]
+        value = AppKit.NSValue.valueWithRect_(AppKit.NSMakeRect(x, y, w, h))
+        self.set_property("bounds", value)
 
     @property
     def closeable(self) -> bool:
@@ -225,6 +256,10 @@ class XARemindersWindow(XABaseScriptable.XASBObject):
     def miniaturized(self) -> bool:
         return self.xa_elem.miniaturized()
 
+    @miniaturized.setter
+    def miniaturized(self, miniaturized: bool):
+        self.set_property('miniaturized', miniaturized)
+
     @property
     def resizable(self) -> bool:
         return self.xa_elem.resizable()
@@ -233,6 +268,10 @@ class XARemindersWindow(XABaseScriptable.XASBObject):
     def visible(self) -> bool:
         return self.xa_elem.visible()
 
+    @visible.setter
+    def visible(self, visible: bool):
+        self.set_property('visible', visible)
+
     @property
     def zoomable(self) -> bool:
         return self.xa_elem.zoomable()
@@ -240,6 +279,10 @@ class XARemindersWindow(XABaseScriptable.XASBObject):
     @property
     def zoomed(self) -> bool:
         return self.xa_elem.zoomed()
+
+    @zoomed.setter
+    def zoomed(self, zoomed: bool):
+        self.set_property('zoomed', zoomed)
 
     @property
     def document(self) -> 'XARemindersDocument':
@@ -431,7 +474,7 @@ class XARemindersDocument(XABaseScriptable.XASBObject):
     def file(self) -> XABase.XAPath:
         return XABase.XAPath(self.xa_elem.file())
 
-    def close(self, save: bool = True, location: Union[str, NSURL] = None) -> None:
+    def close(self, save: bool = True, location: Union[str, AppKit.NSURL] = None) -> None:
         """Closes a document.
         """
         file_path = XABase.XAPath(location).xa_elem
@@ -762,6 +805,10 @@ class XARemindersList(XABaseScriptable.XASBObject):
     def name(self) -> str:
         return self.xa_elem.name()
 
+    @name.setter
+    def name(self, name: str):
+        self.set_property('name', name)
+
     @property
     def container(self) -> Union[XARemindersAccount, 'XARemindersList']:
         return self._new_element(self.xa_elem.container(), XARemindersAccount)
@@ -770,9 +817,17 @@ class XARemindersList(XABaseScriptable.XASBObject):
     def color(self) -> str:
         return self.xa_elem.color()
 
+    @color.setter
+    def color(self, color: str):
+        self.set_property('color', color)
+
     @property
     def emblem(self) -> str:
         return self.xa_elem.emblem()
+
+    @emblem.setter
+    def emblem(self, emblem: str):
+        self.set_property('emblem', emblem)
 
     def delete(self) -> None:
         """Deletes the list.
@@ -1130,7 +1185,9 @@ class XARemindersReminderList(XABase.XAList):
         return "<" + str(type(self)) + str(self.name()) + ">"
 
 class XARemindersReminder(XABaseScriptable.XASBObject):
-    """A class for...
+    """A reminder in Reminders.app.
+
+    .. versionadded:: 0.0.6
     """
     def __init__(self, properties):
         super().__init__(properties)
@@ -1165,6 +1222,10 @@ class XARemindersReminder(XABaseScriptable.XASBObject):
     def name(self) -> str:
         return self.xa_elem.name()
 
+    @name.setter
+    def name(self, name: str):
+        self.set_property('name', name)
+
     @property
     def id(self) -> str:
         return self.xa_elem.id()
@@ -1174,44 +1235,76 @@ class XARemindersReminder(XABaseScriptable.XASBObject):
         return self._new_element(self.xa_elem.container(), XARemindersList)
 
     @property
-    def creationDate(self) -> datetime:
+    def creation_date(self) -> datetime:
         return self.xa_elem.creationDate()
 
     @property
-    def modificationDate(self) -> datetime:
+    def modification_date(self) -> datetime:
         return self.xa_elem.modificationDate()
 
     @property
     def body(self) -> str:
         return self.xa_elem.body()
 
+    @body.setter
+    def body(self, body: str):
+        self.set_property('body', body)
+
     @property
     def completed(self) -> bool:
         return self.xa_elem.completed()
 
+    @completed.setter
+    def completed(self, completed: bool):
+        self.set_property('completed', completed)
+
     @property
-    def completionDate(self) -> datetime:
+    def completion_date(self) -> datetime:
         return self.xa_elem.completionDate()
 
+    @completion_date.setter
+    def completion_date(self, completion_date: datetime):
+        self.set_property('completionDate', completion_date)
+
     @property
-    def dueDate(self) -> datetime:
+    def due_date(self) -> datetime:
         return self.xa_elem.dueDate()
 
-    @property
-    def alldayDueDate(self) -> datetime:
-        return self.xa_elem.alldayDueDate()
+    @due_date.setter
+    def due_date(self, due_date: datetime):
+        self.set_property('dueDate', due_date)
 
     @property
-    def remindMeDate(self) -> datetime:
+    def allday_due_date(self) -> datetime:
+        return self.xa_elem.alldayDueDate()
+
+    @allday_due_date.setter
+    def allday_due_date(self, allday_due_date: datetime):
+        self.set_property('alldayDueDate', allday_due_date)
+
+    @property
+    def remind_me_date(self) -> datetime:
         return self.xa_elem.remindMeDate()
+
+    @remind_me_date.setter
+    def remind_me_date(self, remind_me_date: datetime):
+        self.set_property('remindMeDate', remind_me_date)
 
     @property
     def priority(self) -> int:
         return self.xa_elem.priority()
 
+    @priority.setter
+    def priority(self, priority: int):
+        self.set_property('priority', priority)
+
     @property
     def flagged(self) -> bool:
         return self.xa_elem.flagged()
+
+    @flagged.setter
+    def flagged(self, flagged: bool):
+        self.set_property('flagged', flagged)
 
     @property
     def all_day(self) -> bool:
@@ -1286,7 +1379,7 @@ class XARemindersReminder(XABaseScriptable.XASBObject):
         .. versionadded:: 0.0.6
         """
         reminder = self.__get_ek_reminder()
-        return self._new_element(reminder.alarms() or NSArray.alloc().initWithArray_([]), XARemindersAlarmList, filter)
+        return self._new_element(reminder.alarms() or AppKit.NSArray.alloc().initWithArray_([]), XARemindersAlarmList, filter)
 
     def __repr__(self):
         return "<" + str(type(self)) + self.name + ">"

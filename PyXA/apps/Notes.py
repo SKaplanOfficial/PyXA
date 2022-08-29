@@ -6,8 +6,8 @@ Control the macOS Notes application using JXA-like syntax.
 from datetime import datetime
 from enum import Enum
 from typing import List, Tuple, Union
-from AppKit import NSURL
 
+import AppKit
 from ScriptingBridge import SBElementArray
 
 from PyXA import XABase
@@ -47,6 +47,10 @@ class XANotesApplication(XABaseScriptable.XASBApplication, XACanOpenPath, XACanP
     def frontmost(self) -> bool:
         return self.xa_scel.frontmost()
 
+    @frontmost.setter
+    def frontmost(self, frontmost: bool):
+        self.set_property("frontmost", frontmost)
+
     @property
     def version(self) -> str:
         return self.xa_scel.version()
@@ -54,10 +58,22 @@ class XANotesApplication(XABaseScriptable.XASBApplication, XACanOpenPath, XACanP
     @property
     def default_account(self) -> 'XANotesAccount':
         return self._new_element(self.xa_scel.defaultAccount(), XANotesAccount)
+
+    @default_account.setter
+    def default_account(self, default_account: 'XANotesAccount'):
+        self.set_property('defaultAccount', default_account.xa_elem)
         
     @property
     def selection(self) -> 'XANoteList':
         return self._new_element(self.xa_scel.selection(), XANoteList)
+
+    @selection.setter
+    def selection(self, selection: Union['XANoteList', List['XANote']]):
+        if isinstance(selection, list):
+            selection = [x.xa_elem for x in selection]
+            self.set_property("selection", selection)
+        else:
+            self.set_property('selection', selection.xa_elem)
 
     def open(self, path: str) -> 'XANote':
         super().open(path)
@@ -573,10 +589,10 @@ class XANotesAttachmentList(XABase.XAList, XAClipboardCodable):
         for attachment_ls in self.xa_elem:
             if isinstance(attachment_ls, SBElementArray):
                 for attachment in attachment_ls:
-                    url = NSURL.alloc().initFileURLWithPath_(directory + attachment.name())
+                    url = AppKit.NSURL.alloc().initFileURLWithPath_(directory + attachment.name())
                     attachment.saveIn_as_(url, XANotesApplication.FileFormat.NATIVE.value)
             else:
-                url = NSURL.alloc().initFileURLWithPath_(directory + attachment_ls.name())
+                url = AppKit.NSURL.alloc().initFileURLWithPath_(directory + attachment_ls.name())
                 attachment_ls.saveIn_as_(url, XANotesApplication.FileFormat.NATIVE.value)
         return self
 
@@ -585,7 +601,7 @@ class XANotesAttachmentList(XABase.XAList, XAClipboardCodable):
 
 
 class XANotesWindow(XABaseScriptable.XASBWindow):
-    """A class for interacting with windows of Notes.app.
+    """A window of Notes.app.
 
     .. versionadded:: 0.0.1
     """
@@ -594,7 +610,7 @@ class XANotesWindow(XABaseScriptable.XASBWindow):
         self.name: str #: The full title of the window
         self.id: int #: The unique identifier for the window
         self.index: int #: The index of the window in front-to-back ordering
-        self.bounds: Tuple[Tuple[int, int], Tuple[int, int]] #: The bounding rectangle of the window
+        self.bounds: Tuple[int, int, int, int] #: The bounding rectangle of the window
         self.closeable: bool #: Whether the window has a close button
         self.miniaturizable: bool #: Whether the window can be minimized
         self.miniaturized: bool #: Whether the window is currently minimized
@@ -616,9 +632,25 @@ class XANotesWindow(XABaseScriptable.XASBWindow):
     def index(self) -> int:
         return self.xa_scel.index()
 
+    @index.setter
+    def index(self, index: int):
+        self.set_property('index', index)
+
     @property
-    def bounds(self) -> Tuple[Tuple[int, int], Tuple[int, int]]:
-        return self.xa_scel.bounds()
+    def bounds(self) -> Tuple[int, int, int, int]:
+        rect = self.xa_elem.bounds()
+        origin = rect.origin
+        size = rect.size
+        return (origin.x, origin.y, size.width, size.height)
+
+    @bounds.setter
+    def bounds(self, bounds: Tuple[int, int, int, int]):
+        x = bounds[0]
+        y = bounds[1]
+        w = bounds[2]
+        h = bounds[3]
+        value = AppKit.NSValue.valueWithRect_(AppKit.NSMakeRect(x, y, w, h))
+        self.set_property("bounds", value)
 
     @property
     def closeable(self) -> bool:
@@ -632,6 +664,10 @@ class XANotesWindow(XABaseScriptable.XASBWindow):
     def miniaturized(self) -> bool:
         return self.xa_scel.miniaturized()
 
+    @miniaturized.setter
+    def miniaturized(self, miniaturized: bool):
+        self.set_property('miniaturized', miniaturized)
+    
     @property
     def resizable(self) -> bool:
         return self.xa_scel.resizable()
@@ -640,6 +676,10 @@ class XANotesWindow(XABaseScriptable.XASBWindow):
     def visible(self) -> bool:
         return self.xa_scel.visible()
 
+    @visible.setter
+    def visible(self, visible: bool):
+        self.set_property('visible', visible)
+
     @property
     def zoomable(self) -> bool:
         return self.xa_scel.zoomable()
@@ -647,6 +687,10 @@ class XANotesWindow(XABaseScriptable.XASBWindow):
     @property
     def zoomed(self) -> bool:
         return self.xa_scel.zoomed()
+
+    @zoomed.setter
+    def zoomed(self, zoomed: bool):
+        self.set_property('zoomed', zoomed)
 
     @property
     def document(self) -> 'XANotesDocument':
@@ -674,6 +718,10 @@ class XANotesFolder(XABase.XAObject, XAClipboardCodable):
     @property
     def name(self) -> str:
         return self.xa_elem.name()
+
+    @name.setter
+    def name(self, name: str):
+        self.set_property('name', name)
 
     @property
     def id(self) -> str:
@@ -800,6 +848,10 @@ class XANote(XABase.XAObject, XAClipboardCodable, XAShowable, XADeletable):
     def name(self) -> str:
         return self.xa_elem.name()
 
+    @name.setter
+    def name(self, name: str):
+        self.set_property('name', name)
+
     @property
     def id(self) -> str:
         return self.xa_elem.id()
@@ -808,9 +860,17 @@ class XANote(XABase.XAObject, XAClipboardCodable, XAShowable, XADeletable):
     def body(self) -> str:
         return self.xa_elem.body()
 
+    @body.setter
+    def body(self, body: str):
+        self.set_property('body', body)
+
     @property
     def plaintext(self) -> str:
         return self.xa_elem.plaintext()
+
+    @plaintext.setter
+    def plaintext(self, plaintext: set):
+        self.set_property('plaintext', plaintext)
 
     @property
     def creation_date(self) -> datetime:
@@ -998,7 +1058,7 @@ class XANoteAttachment(XABase.XAObject, XAClipboardCodable):
 
         .. versionadded:: 0.0.4
         """
-        url = NSURL.alloc().initFileURLWithPath_(directory + self.name)
+        url = AppKit.NSURL.alloc().initFileURLWithPath_(directory + self.name)
         self.xa_elem.saveIn_as_(url, XANotesApplication.FileFormat.NATIVE.value)
         return self
 
@@ -1009,13 +1069,13 @@ class XANoteAttachment(XABase.XAObject, XAClipboardCodable):
         """
         self.xa_elem.delete()
 
-    def get_clipboard_representation(self) -> Union[str, List[Union[NSURL, str]]]:
+    def get_clipboard_representation(self) -> Union[str, List[Union[AppKit.NSURL, str]]]:
         """Gets a clipboard-codable representation of the attachment.
 
         When the clipboard content is set to an attachment, the URL of the attachment (if one exists) and the attachment's name are added to the clipboard.
 
         :return: The URL and name of the attachment, or just the name of the attachment
-        :rtype: List[Union[NSURL, str]]
+        :rtype: List[Union[AppKit.NSURL, str]]
 
         .. versionadded:: 0.0.8
         """
@@ -1046,6 +1106,11 @@ class XANotesAccount(XABase.XAObject, XAClipboardCodable):
     @property
     def name(self) -> str:
         return self.xa_elem.name()
+
+    @name.setter
+    def name(self, name: str):
+        self.set_property('name', name)
+
     @property
     def upgraded(self) -> bool:
         return self.xa_elem.upgraded()
@@ -1057,6 +1122,10 @@ class XANotesAccount(XABase.XAObject, XAClipboardCodable):
     @property
     def default_folder(self) -> 'XANotesFolder':
         return self._new_element(self.xa_elem.defaultFolder(), XANotesFolder)
+
+    @default_folder.setter
+    def default_folder(self, default_folder: 'XANotesFolder'):
+        self.set_property('defaultFolder', default_folder.xa_elem)
 
     def show(self) -> 'XANotesAccount':
         """Shows the first folder belonging to the account.

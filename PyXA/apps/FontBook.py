@@ -5,6 +5,8 @@ Control the macOS FontBook application using JXA-like syntax.
 
 from typing import List, Tuple, Union
 
+import AppKit
+
 from PyXA import XABase
 from PyXA import XABaseScriptable
 from ..XAProtocols import XAClipboardCodable
@@ -44,9 +46,17 @@ class XAFontBookApplication(XABaseScriptable.XASBApplication):
     def validate_fonts_before_installing(self) -> bool:
         return self.xa_scel.validateFontsBeforeInstalling()
 
+    @validate_fonts_before_installing.setter
+    def validate_fonts_before_installing(self, validate_fonts_before_installing: bool):
+        self.set_property('validateFontsBeforeInstalling', validate_fonts_before_installing)
+
     @property
     def installation_target(self) -> 'XAFontBookFontLibrary':
         return self._new_element(self.xa_scel.installationTarget(), XAFontBookFontLibrary)
+
+    @installation_target.setter
+    def installation_target(self, installation_target: 'XAFontBookFontLibrary'):
+        self.set_property('installationTarget', installation_target.xa_elem)
 
     @property
     def fonts_library(self) -> 'XAFontBookFontBookAllFontsLibraryObject':
@@ -57,15 +67,39 @@ class XAFontBookApplication(XABaseScriptable.XASBApplication):
         ls = self.xa_scel.selection()
         return self._new_element(ls, XAFontBookTypefaceList)
 
+    @selection.setter
+    def selection(self, selection: Union['XAFontBookTypefaceList', List['XAFontBookTypeface']]):
+        if isinstance(selection, list):
+            selection = [x.xa_elem for x in selection]
+            self.set_property('selection', selection)
+        else:
+            self.set_property('selection', selection.xa_elem)
+
     @property
     def selected_font_families(self) -> 'XAFontBookFontFamilyList':
         ls = self.xa_scel.selectedFontFamilies()
         return self._new_element(ls, XAFontBookFontFamilyList)
 
+    @selected_font_families.setter
+    def selected_font_families(self, selected_font_families: Union['XAFontBookFontFamilyList', List['XAFontBookFontFamily']]):
+        if isinstance(selected_font_families, list):
+            selected_font_families = [x.xa_elem for x in selected_font_families]
+            self.set_property('selectedFontFamilies', selected_font_families)
+        else:
+            self.set_property('selectedFontFamilies', selected_font_families.xa_elem)
+
     @property
     def selected_collections(self) -> 'XAFontBookFontCollectionList':
         ls = self.xa_scel.selectedCollections()
         return self._new_element(ls, XAFontBookFontCollectionList)
+
+    @selected_collections.setter
+    def selected_collections(self, selected_collections: Union['XAFontBookFontCollectionList', List['XAFontBookFontCollection']]):
+        if isinstance(selected_collections, list):
+            selected_collections = [x.xa_elem for x in selected_collections]
+            self.set_property('selectedCollections', selected_collections)
+        else:
+            self.set_property('selectedCollections', selected_collections.xa_elem)
 
     def documents(self, filter: dict = None) -> 'XAFontBookDocumentList':
         """Returns a list of documents matching the filter.
@@ -119,34 +153,6 @@ class XAFontBookApplication(XABaseScriptable.XASBApplication):
 
 
 
-# class XAFontBookWindowList(XABase.XAList):
-#     """A wrapper around lists of Font Book windows that employs fast enumeration techniques.
-
-#     All properties of windows can be called as methods on the wrapped list, returning a list containing each window's value for the property.
-
-#     .. versionadded:: 0.0.6
-#     """
-#     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-#         super().__init__(properties, XAFontBookDocument, filter)
-
-#     def path(self) -> List[str]:
-#         return list(self.xa_elem.arrayByApplyingSelector_("path"))
-
-#     def modified(self) -> List[bool]:
-#         return list(self.xa_elem.arrayByApplyingSelector_("modified"))
-
-#     def name(self) -> List[str]:
-#         return list(self.xa_elem.arrayByApplyingSelector_("name"))
-
-#     def by_path(self, path: str) -> 'XAFontBookDocument':
-#         return self.by_property("path", path)
-
-#     def by_modified(self, modified: bool) -> 'XAFontBookDocument':
-#         return self.by_property("modified", modified)
-
-#     def by_name(self, name: str) -> 'XAFontBookDocument':
-#         return self.by_property("name", name)
-
 class XAFontBookWindow(XABase.XAObject):
     """A class for managing and interacting with documents in Font Book.app.
 
@@ -158,7 +164,7 @@ class XAFontBookWindow(XABase.XAObject):
         super().__init__(properties)
         self.name: str #: The full title of the window
         self.id: int #: The unique identifier for the window
-        self. bounds: Tuple[Tuple[int, int], Tuple[int, int]] #: The bounding rectangle of the window
+        self.bounds: Tuple[int, int, int, int] #: The bounding rectangle of the window
         self.closeable: bool #: Whether the window has a close button
         self.titled: bool # Whether the window has a title bar
         self.index: int #: The index of the window in the front-to-back window ordering
@@ -170,6 +176,94 @@ class XAFontBookWindow(XABase.XAObject):
         self.visible: bool #: Whether the window is currently visible
         self.zoomable: bool #: Whether the window can be zoomed
         self.zoomed: bool #: Whether the window is currently zoomed
+
+    @property
+    def name(self) -> str:
+        return self.xa_elem.name()
+
+    @name.setter
+    def name(self, name: str):
+        self.set_property('name', name)
+
+    @property
+    def id(self) -> int:
+        return self.xa_elem.id()
+
+    @property
+    def bounds(self) -> Tuple[int, int, int, int]:
+        rect = self.xa_elem.bounds()
+        origin = rect.origin
+        size = rect.size
+        return (origin.x, origin.y, size.width, size.height)
+
+    @bounds.setter
+    def bounds(self, bounds: Tuple[int, int, int, int]):
+        x = bounds[0]
+        y = bounds[1]
+        w = bounds[2]
+        h = bounds[3]
+        value = AppKit.NSValue.valueWithRect_(AppKit.NSMakeRect(x, y, w, h))
+        self.set_property("bounds", value)
+
+    @property
+    def closeable(self) -> bool:
+        return self.xa_elem.closeable()
+
+    @property
+    def titled(self) -> bool:
+        return self.xa_elem.titled()
+    
+    @property
+    def index(self) -> int:
+        return self.xa_elem.index()
+
+    @index.setter
+    def index(self, index: int):
+        self.set_property('index', index)
+
+    @property
+    def floating(self) -> bool:
+        return self.xa_elem.floating()
+
+    @property
+    def miniaturizable(self) -> bool:
+        return self.xa_elem.miniaturizable()
+
+    @property
+    def miniaturized(self) -> bool:
+        return self.xa_elem.miniaturized()
+
+    @miniaturized.setter
+    def miniaturized(self, miniaturized: bool):
+        self.set_property('miniaturized', miniaturized)
+
+    @property
+    def modal(self) -> bool:
+        return self.xa_elem.modal()
+
+    @property
+    def resizable(self) -> bool:
+        return self.xa_elem.resizable()
+
+    @property
+    def visible(self) -> bool:
+        return self.xa_elem.visible()
+
+    @visible.setter
+    def visible(self, visible: bool):
+        self.set_property('visible', visible)
+
+    @property
+    def zoomable(self) -> bool:
+        return self.xa_elem.zoomable()
+
+    @property
+    def zoomed(self) -> bool:
+        return self.xa_elem.zoomed()
+
+    @zoomed.setter
+    def zoomed(self, zoomed: bool):
+        self.set_property('zoomed', zoomed)
     
 
 
@@ -216,8 +310,12 @@ class XAFontBookDocument(XABase.XAObject):
         self.name: str #: The name of the document
 
     @property
-    def path(self) -> str:
-        return self.xa_elem.path()
+    def path(self) -> XABase.XAPath:
+        return XABase.XAPath(self.xa_elem.path())
+
+    @path.setter
+    def path(self, path: XABase.XAPath):
+        self.set_property('path', path.path)
 
     @property
     def modified(self) -> bool:
@@ -226,6 +324,10 @@ class XAFontBookDocument(XABase.XAObject):
     @property
     def name(self) -> str:
         return self.xa_elem.name()
+
+    @name.setter
+    def name(self, name: str):
+        self.set_property('name', name)
 
 
 
@@ -334,6 +436,10 @@ class XAFontBookFontFamily(XABase.XAObject, XAClipboardCodable):
     @property
     def enabled(self) -> bool:
         return self.xa_elem.enabled()
+
+    @enabled.setter
+    def enabled(self, enabled: bool):
+        self.set_property('enabled', enabled)
 
     @property
     def duplicated(self) -> bool:
@@ -560,6 +666,10 @@ class XAFontBookTypeface(XABase.XAObject, XAClipboardCodable):
     @property
     def enabled(self) -> bool:
         return self.xa_elem.enabled()
+
+    @enabled.setter
+    def enabled(self, enabled: bool):
+        self.set_property('enabled', enabled)
 
     @property
     def duplicated(self) -> bool:
@@ -823,6 +933,10 @@ class XAFontBookFontCollection(XABase.XAObject, XAClipboardCodable):
     def name(self) -> str:
         return self.xa_elem.name()
 
+    @name.setter
+    def name(self, name: str):
+        self.set_property('name', name)
+
     @property
     def display_name(self) -> str:
         return self.xa_elem.displayName()
@@ -834,6 +948,10 @@ class XAFontBookFontCollection(XABase.XAObject, XAClipboardCodable):
     @property
     def enabled(self) -> bool:
         return self.xa_elem.enabled()
+
+    @enabled.setter
+    def enabled(self, enabled: bool):
+        self.set_property('enabled', enabled)
 
     def font_families(self, filter: dict = None) -> 'XAFontBookFontFamilyList':
         """Returns a list of font families matching the filter.

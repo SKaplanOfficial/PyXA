@@ -7,7 +7,7 @@ from enum import Enum
 from typing import Any, List, Tuple, Union
 import threading
 
-from AppKit import NSURL
+import AppKit
 
 from PyXA import XABase
 from PyXA import XABaseScriptable
@@ -20,19 +20,6 @@ class XASafariApplication(XABaseScriptable.XASBApplication, XABaseScriptable.XAS
 
     .. versionadded:: 0.0.1
     """
-    class SaveOption(Enum):
-        """Options for whether to save documents when closing them.
-        """
-        YES = XABase.OSType('yes ') #: Save the file
-        NO  = XABase.OSType('no  ') #: Do not save the file
-        ASK = XABase.OSType('ask ') #: Ask user whether to save the file (bring up dialog)
-
-    class PrintErrorHandling(Enum):
-        """Options for how to handle errors while printing.
-        """
-        STANDARD = 'lwst' #: Standard PostScript error handling
-        DETAILED = 'lwdt' #: Print a detailed report of PostScript errors
-
     def __init__(self, properties):
         super().__init__(properties)
         self.xa_wcls = XASafariWindow
@@ -46,6 +33,10 @@ class XASafariApplication(XABaseScriptable.XASBApplication, XABaseScriptable.XAS
     def frontmost(self) -> bool:
         return self.xa_scel.frontmost()
 
+    @frontmost.setter
+    def frontmost(self, frontmost: bool):
+        self.set_property("frontmost", frontmost)
+
     @property
     def name(self) -> str:
         return self.xa_scel.name()
@@ -57,6 +48,10 @@ class XASafariApplication(XABaseScriptable.XASBApplication, XABaseScriptable.XAS
     @property
     def current_document(self) -> 'XASafariDocument':
         return self._new_element(self.xa_scel.documents()[0], XASafariDocument)
+
+    @current_document.setter
+    def current_document(self, current_document: 'XASafariDocument'):
+        self.front_window.document = current_document
 
     def open(self, url: str = "https://google.com") -> 'XASafariApplication':
         """Opens a URL in new tab.
@@ -265,7 +260,7 @@ class XASafariWindow(XABaseScriptable.XASBWindow, XABaseScriptable.XASBPrintable
         self.name: str #: The title of the window
         self.id: int #: The unique identifier for the window
         self.index: int #: The index of the window in the front-to-back ordering
-        self.bounds: Tuple[Tuple[int, int], Tuple[int, int]] #: The bounding rectangle of the window
+        self.bounds: Tuple[int, int, int, int] #: The bounding rectangle of the window
         self.closeable: bool #: Whether the window has a close button
         self.miniaturizable: bool #: Whether the window can be minimized
         self.miniaturized: bool #: Whether the window is currently minimized
@@ -288,9 +283,25 @@ class XASafariWindow(XABaseScriptable.XASBWindow, XABaseScriptable.XASBPrintable
     def index(self) -> int:
         return self.xa_scel.index()
 
+    @index.setter
+    def index(self, index: int):
+        self.set_property("index", index)
+
     @property
-    def bounds(self) -> Tuple[Tuple[int, int], Tuple[int, int]]:
-        return self.xa_scel.bounds()
+    def bounds(self) -> Tuple[int, int, int, int]:
+        rect = self.xa_elem.bounds()
+        origin = rect.origin
+        size = rect.size
+        return (origin.x, origin.y, size.width, size.height)
+
+    @bounds.setter
+    def bounds(self, bounds: Tuple[int, int, int, int]):
+        x = bounds[0]
+        y = bounds[1]
+        w = bounds[2]
+        h = bounds[3]
+        value = AppKit.NSValue.valueWithRect_(AppKit.NSMakeRect(x, y, w, h))
+        self.set_property("bounds", value)
 
     @property
     def closeable(self) -> bool:
@@ -304,6 +315,10 @@ class XASafariWindow(XABaseScriptable.XASBWindow, XABaseScriptable.XASBPrintable
     def miniaturized(self) -> bool:
         return self.xa_scel.miniaturized()
 
+    @miniaturized.setter
+    def miniaturized(self, miniaturized: bool):
+        self.set_property("miniaturized", miniaturized)
+
     @property
     def resizable(self) -> bool:
         return self.xa_scel.resizable()
@@ -311,6 +326,10 @@ class XASafariWindow(XABaseScriptable.XASBWindow, XABaseScriptable.XASBPrintable
     @property
     def visible(self) -> bool:
         return self.xa_scel.visible()
+
+    @visible.setter
+    def visible(self, visible: bool):
+        self.set_property("visible", visible)
 
     @property
     def zoomable(self) -> bool:
@@ -320,6 +339,10 @@ class XASafariWindow(XABaseScriptable.XASBWindow, XABaseScriptable.XASBPrintable
     def zoomed(self) -> bool:
         return self.xa_scel.zoomed()
 
+    @zoomed.setter
+    def zoomed(self, zoomed: bool):
+        self.set_property("zoomed", zoomed)
+
     @property
     def document(self) -> 'XASafariDocument':
         return self._new_element(self.xa_elem.document(), XASafariDocument)
@@ -327,6 +350,10 @@ class XASafariWindow(XABaseScriptable.XASBWindow, XABaseScriptable.XASBPrintable
     @property
     def current_tab(self) -> 'XASafariTab':
         return self._new_element(self.xa_elem.currentTab(), XASafariTab)
+
+    @current_tab.setter
+    def current_tab(self, current_tab: 'XASafariTab'):
+        self.set_property("currentTab", current_tab.xa_elem)
 
     def tabs(self, filter: dict = None) -> 'XASafariTabList':
         """Returns a list of tabs matching the given filter.
@@ -655,6 +682,12 @@ class XASafariDocument(XASafariGeneric, XAClipboardCodable, XABaseScriptable.XAS
     def url(self) -> XABase.XAURL:
         return XABase.XAURL(self.xa_elem.URL())
 
+    @url.setter
+    def url(self, url: Union[str, XABase.XAURL]):
+        if isinstance(url, str):
+            url = XABase.XAURL(url)
+        self.set_property("URL", url.xa_elem)
+
     @property
     def text(self) -> str:
         return self.xa_elem.text()
@@ -964,6 +997,12 @@ class XASafariTab(XASafariGeneric, XAClipboardCodable):
     @property
     def url(self) -> XABase.XAURL:
         return XABase.XAURL(self.xa_elem.URL())
+
+    @url.setter
+    def url(self, url: Union[str, XABase.XAURL]):
+        if isinstance(url, str):
+            url = XABase.XAURL(url)
+        self.set_property("URL", url.xa_elem)
 
     @property
     def index(self) -> int:

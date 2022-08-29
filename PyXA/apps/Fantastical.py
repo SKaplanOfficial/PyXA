@@ -5,7 +5,8 @@ Control Fantastical using JXA-like syntax.
 
 from datetime import datetime
 from typing import Any, Callable, Literal, Tuple, Union, List, Dict
-from AppKit import NSURL
+
+import AppKit
 
 from PyXA import XABase
 from PyXA import XABaseScriptable
@@ -31,6 +32,10 @@ class XAFantasticalApplication(XABaseScriptable.XASBApplication):
     @property
     def frontmost(self) -> bool:
         return self.xa_scel.frontmost()
+
+    @frontmost.setter
+    def frontmost(self, frontmost: frontmost):
+        self.set_property("frontmost", frontmost)
 
     @property
     def version(self) -> str:
@@ -233,6 +238,10 @@ class XAFantasticalDocument(XABase.XAObject, XACloseable, XADeletable, XAPrintab
     def name(self) -> str:
         return self.xa_elem.name()
 
+    @name.setter
+    def name(self, name: str):
+        self.set_property("name", name)
+
     @property
     def modified(self) -> bool:
         return self.xa_elem.modified()
@@ -241,25 +250,11 @@ class XAFantasticalDocument(XABase.XAObject, XACloseable, XADeletable, XAPrintab
     def file(self) -> XABase.XAPath:
         return XABase.XAPath(self.xa_elem.file())
 
-    def save(self, type: Literal["script", "script bundle", "application", "text"], path: Union[str, XABase.XAPath], run_only: bool = False, show_startup_screen: bool  = False, stay_open: bool = False):
-        """Saves the document as the specified file type.
-
-        :param type: The file type in which to save the data
-        :type type: Literal['script', 'script bundle', 'application', 'text']
-        :param path: The file path in which to save the data
-        :type path: Union[str, XABase.XAPath]
-        :param run_only: Should the script be saved as Run-Only? If it is, you will not be able to edit the contents of the script again, defaults to False. (Applies to all script types except for "text")
-        :type run_only: bool, optional
-        :param show_startup_screen: Show the startup screen? Defaults to False. (Only applies to scripts saved as "application")
-        :type show_startup_screen: bool, optional
-        :param stay_open: Should the application remain open after it is launched? Defaults to False. (Only applies to scripts saved as "application")
-        :type stay_open: bool, optional
-
-        .. versionadded:: 0.0.9
-        """
-        if isinstance(path, str):
-            path = XABase.XAPath(path)
-        self.xa_elem.saveAs_in_runOnly_startupScreen_stayOpen_(type, path.xa_elem, run_only, show_startup_screen, stay_open)
+    @file.setter
+    def file(self, file: Union[str, XABase.XAPath]):
+        if isinstance(file, str):
+            file = XABase.XAPath(file)
+        self.set_property("file", file.xa_elem)
 
     def print(self, print_properties: Union[dict, None] = None, show_dialog: bool = True) -> 'XAPrintable':
         """Prints the object.
@@ -307,7 +302,7 @@ class XAFantasticalWindow(XABaseScriptable.XASBWindow, XAPrintable, XACloseable)
         self.name: str #: The full title of the window.
         self.id: int #: The unique identifier for the window
         self.index: int #: The index of the window in the front-to-back ordering
-        self.bounds: Tuple[Tuple[int, int], Tuple[int, int]] #: The bounding rectangle of the window
+        self.bounds: Tuple[int, int, int, int] #: The bounding rectangle of the window
         self.closeable: bool #: Whether the window has a close button
         self.miniaturizable: bool #: Whether the window can be minimized
         self.miniaturized: bool #: Whether the window is currently minimized
@@ -329,9 +324,25 @@ class XAFantasticalWindow(XABaseScriptable.XASBWindow, XAPrintable, XACloseable)
     def index(self) -> int:
         return self.xa_elem.index()
 
+    @index.setter
+    def index(self, index: int):
+        self.set_property("index", index)
+
     @property
-    def bounds(self) -> Tuple[Tuple[int, int], Tuple[int, int]]:
-        return self.xa_elem.bounds()
+    def bounds(self) -> Tuple[int, int, int, int]:
+        rect = self.xa_elem.bounds()
+        origin = rect.origin
+        size = rect.size
+        return (origin.x, origin.y, size.width, size.height)
+
+    @bounds.setter
+    def bounds(self, bounds: Tuple[int, int, int, int]):
+        x = bounds[0]
+        y = bounds[1]
+        w = bounds[2]
+        h = bounds[3]
+        value = AppKit.NSValue.valueWithRect_(AppKit.NSMakeRect(x, y, w, h))
+        self.set_property("bounds", value)
 
     @property
     def closeable(self) -> bool:
@@ -345,6 +356,10 @@ class XAFantasticalWindow(XABaseScriptable.XASBWindow, XAPrintable, XACloseable)
     def miniaturized(self) -> bool:
         return self.xa_elem.miniaturized()
 
+    @miniaturized.setter
+    def miniaturized(self, miniaturized: bool):
+        self.set_property("miniaturized", miniaturized)
+
     @property
     def resizable(self) -> bool:
         return self.xa_elem.resizable()
@@ -352,6 +367,10 @@ class XAFantasticalWindow(XABaseScriptable.XASBWindow, XAPrintable, XACloseable)
     @property
     def visible(self) -> bool:
         return self.xa_elem.visible()
+
+    @visible.setter
+    def visible(self, visible: bool):
+        self.set_property("visible", visible)
 
     @property
     def zoomable(self) -> bool:
@@ -361,9 +380,17 @@ class XAFantasticalWindow(XABaseScriptable.XASBWindow, XAPrintable, XACloseable)
     def zoomed(self) -> bool:
         return self.xa_elem.zoomed()
 
+    @zoomed.setter
+    def zoomed(self, zoomed: bool):
+        self.set_property("zoomed", zoomed)
+
     @property
     def document(self) -> XAFantasticalDocument:
         return self._new_element(self.xa_elem.document(), XAFantasticalDocument)
+
+    @document.setter
+    def document(self, document: XAFantasticalDocument):
+        self.set_property("document", document.xa_elem)
 
 
     

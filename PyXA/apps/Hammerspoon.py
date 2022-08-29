@@ -27,6 +27,10 @@ class XAHammerspoonApplication(XABaseScriptable.XASBApplication):
     def frontmost(self) -> bool:
         return self.xa_scel.frontmost()
 
+    @frontmost.setter
+    def frontmost(self, frontmost: bool):
+        self.set_property("frontmost", frontmost)
+
     @property
     def version(self) -> str:
         return self.xa_scel.version()

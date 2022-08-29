@@ -8,7 +8,7 @@ from enum import Enum
 from typing import Any, List, Tuple, Union
 from Foundation import NSFileManager
 
-from AppKit import NSString, NSURL, NSArray, NSPoint, NSValue, NSMakeRect
+import AppKit
 from ScriptingBridge import SBObject
 
 from PyXA import XABase
@@ -163,6 +163,10 @@ class XAFinderApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
     def frontmost(self) -> bool:
         return self.xa_scel.frontmost()
 
+    @frontmost.setter
+    def frontmost(self, frontmost: bool):
+        self.set_property('frontmost', frontmost)
+
     @property
     def product_version(self) -> str:
         return self.xa_scel.productVersion()
@@ -174,6 +178,14 @@ class XAFinderApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
     @property
     def selection(self) -> 'XAFinderItemList':
         return self._new_element(self.xa_scel.selection().get(), XAFinderItemList)
+
+    @selection.setter
+    def selection(self, selection: List['XAFinderItem', 'XAFinderItemList']):
+        if isinstance(selection, list):
+            selection = [x.xa_elem for x in selection]
+            self.set_property("selection", selection)
+        else:
+            self.set_property('selection', selection)
 
     @property
     def insertion_location(self) -> 'XAFinderApplication':
@@ -219,7 +231,7 @@ class XAFinderApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
 
         .. versionadded:: 0.0.1
         """
-        NS_str = NSString.alloc().initWithString_(path)
+        NS_str = AppKit.NSString.alloc().initWithString_(path)
         return NS_str.stringByResolvingSymlinksInPath()
 
     def select_item(self, path: str) -> 'XAFinderApplication':
@@ -252,7 +264,7 @@ class XAFinderApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         This opens a new tab of Finder for each different parent folder in the list of paths to select. This method utilizes fast specialized methods from Objective-C to improve the performance of selecting large amounts of files. As such, when dealing with multiple file paths, this method should always be used instead of calling :func:`select_item` repeatedly.
 
         :param path: The paths to select.
-        :type filepath: str
+        :type filepath: Union[str, AppKit.NSURL]
         :return: A reference to the Finder application object.
         :rtype: XAFinderApplication
 
@@ -268,18 +280,18 @@ class XAFinderApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         .. versionadded:: 0.0.1
         """
         self.temp_urls = []
-        def resolve(path: Union[str, NSURL], index: int, stop: bool):
-            url = NSURL.alloc().initWithString_(self._resolve_symlinks(path))
+        def resolve(path: Union[str, AppKit.NSURL], index: int, stop: bool):
+            url = AppKit.NSURL.alloc().initWithString_(self._resolve_symlinks(path))
             self.temp_urls.append(url)
-        NSArray.alloc().initWithArray_(paths).enumerateObjectsUsingBlock_(resolve)
+        AppKit.NSArray.alloc().initWithArray_(paths).enumerateObjectsUsingBlock_(resolve)
         self.xa_wksp.activateFileViewerSelectingURLs_(self.temp_urls)
         return self
 
-    def recycle_item(self, path: Union[str, NSURL]) -> 'XAFinderApplication':
+    def recycle_item(self, path: Union[str, AppKit.NSURL]) -> 'XAFinderApplication':
         """Moves the file or folder at the specified path to the trash.
 
         :param path: The path of the file or folder to recycle.
-        :type path: Union[str, NSURL]
+        :type path: Union[str, AppKit.NSURL]
         :return: A reference to the Finder application object.
         :rtype: XAFinderApplication
 
@@ -295,19 +307,19 @@ class XAFinderApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         """
         if isinstance(path, str):
             if path.startswith("file://"):
-                path = NSURL.alloc().initWithString_(path)
+                path = AppKit.NSURL.alloc().initWithString_(path)
             else:
-                path = NSURL.alloc().initFileURLWithPath_(path)
+                path = AppKit.NSURL.alloc().initFileURLWithPath_(path)
         self.xa_fmgr.trashItemAtURL_resultingItemURL_error_(path, None, None)
         return self
 
-    def recycle_items(self, paths: List[Union[str, NSURL]]) -> 'XAFinderApplication':
+    def recycle_items(self, paths: List[Union[str, AppKit.NSURL]]) -> 'XAFinderApplication':
         """Moves the files or folders at the specified paths to the trash.
 
         This method utilizes fast enumeration methods from Objective-C to improve the performance of recycling large amounts of files. As such, it is preferred over calling :func:`recycle_item` repeatedly, especially when dealing with large lists of paths.
 
         :param path: The paths of the file and/or folders to recycle.
-        :type path: List[Union[str, NSURL]]
+        :type path: List[Union[str, AppKit.NSURL]]
         :return: A reference to the Finder application object.
         :rtype: XAFinderApplication
 
@@ -322,9 +334,9 @@ class XAFinderApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
 
         .. versionadded:: 0.0.1
         """
-        def recycle(path: Union[str, NSURL], index: int, stop: bool):
+        def recycle(path: Union[str, AppKit.NSURL], index: int, stop: bool):
             self.recycle_item(path)
-        NSArray.alloc().initWithArray_(paths).enumerateObjectsUsingBlock_(recycle)
+        AppKit.NSArray.alloc().initWithArray_(paths).enumerateObjectsUsingBlock_(recycle)
         return self
 
     def empty_trash(self) -> 'XAFinderApplication':
@@ -344,11 +356,11 @@ class XAFinderApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         self.xa_scel.emptySecurity_(True)
         return self
 
-    def delete_item(self, path: Union[str, NSURL]) -> 'XAFinderApplication':
+    def delete_item(self, path: Union[str, AppKit.NSURL]) -> 'XAFinderApplication':
         """Permanently deletes the file or folder at the specified path.
 
         :param path: The path of the file or folder to delete.
-        :type path: Union[str, NSURL]
+        :type path: Union[str, AppKit.NSURL]
         :return: A reference to the Finder application object.
         :rtype: XAFinderApplication
 
@@ -364,19 +376,19 @@ class XAFinderApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         """
         if isinstance(path, str):
             if path.startswith("file://"):
-                path = NSURL.alloc().initWithString_(path)
+                path = AppKit.NSURL.alloc().initWithString_(path)
             else:
-                path = NSURL.alloc().initFileURLWithPath_(path)
+                path = AppKit.NSURL.alloc().initFileURLWithPath_(path)
         self.xa_fmgr.removeItemAtURL_error_(path, None)
         return self
 
-    def delete_items(self, paths: List[Union[str, NSURL]]) -> 'XAFinderApplication':
+    def delete_items(self, paths: List[Union[str, AppKit.NSURL]]) -> 'XAFinderApplication':
         """Permanently deletes the files or folders at the specified paths.
 
         This method utilizes fast enumeration methods from Objective-C to improve the performance of deleting large amounts of files. As such, it is preferred over calling :func:`delete_item` repeatedly, especially when dealing with large lists of paths.
 
         :param path: The paths of the files and/or folders to delete.
-        :type path: Union[str, NSURL]
+        :type path: Union[str, AppKit.NSURL]
         :return: A reference to the Finder application object.
         :rtype: XAFinderApplication
 
@@ -391,9 +403,9 @@ class XAFinderApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
 
         .. versionadded:: 0.0.1
         """
-        def delete(path: Union[str, NSURL], index: int, stop: bool):
+        def delete(path: Union[str, AppKit.NSURL], index: int, stop: bool):
             self.delete_item(path)
-        NSArray.alloc().initWithArray_(paths).enumerateObjectsUsingBlock_(delete)
+        AppKit.NSArray.alloc().initWithArray_(paths).enumerateObjectsUsingBlock_(delete)
         return self
 
     def duplicate_item(self, path: str) -> 'XAFinderApplication':
@@ -418,9 +430,9 @@ class XAFinderApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         """
         if isinstance(path, str):
             if path.startswith("file://"):
-                path = NSURL.alloc().initWithString_(path)
+                path = AppKit.NSURL.alloc().initWithString_(path)
             else:
-                path = NSURL.alloc().initFileURLWithPath_(path)
+                path = AppKit.NSURL.alloc().initFileURLWithPath_(path)
         new_path = path
 
         copy_num = 1
@@ -429,7 +441,7 @@ class XAFinderApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
                 new_path = path.path() + f" {copy_num}"
             else:
                 new_path = path.path().replace("." + path.pathExtension(), f" {copy_num}." + path.pathExtension())
-            new_path = NSURL.alloc().initFileURLWithPath_(new_path)
+            new_path = AppKit.NSURL.alloc().initFileURLWithPath_(new_path)
             copy_num += 1
         self.xa_fmgr.copyItemAtURL_toURL_error_(path, new_path, None)
         return self
@@ -455,9 +467,9 @@ class XAFinderApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
 
         .. versionadded:: 0.0.1
         """
-        def duplicate(path: Union[str, NSURL], index: int, stop: bool):
+        def duplicate(path: Union[str, AppKit.NSURL], index: int, stop: bool):
             self.duplicate_item(path)
-        NSArray.alloc().initWithArray_(paths).enumerateObjectsUsingBlock_(duplicate)
+        AppKit.NSArray.alloc().initWithArray_(paths).enumerateObjectsUsingBlock_(duplicate)
         return self
 
         for path in paths:
@@ -488,9 +500,9 @@ class XAFinderApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         return self.xa_wksp.fileLabels()
 
     # Directories
-    def directory(self, path: Union[str, NSURL]):
+    def directory(self, path: Union[str, AppKit.NSURL]):
         if isinstance(path, str):
-            path = NSURL.alloc().initFileURLWithPath_(path)
+            path = AppKit.NSURL.alloc().initFileURLWithPath_(path)
         folder_obj = self.xa_scel.folders().objectAtLocation_(path)
         return self._new_element(folder_obj, XAFinderFolder)
         
@@ -526,7 +538,7 @@ class XAFinderApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
 
         .. versionadded:: 0.0.1
         """
-        path = NSURL.alloc().initFileURLWithPath_(self.xa_fmgr.homeDirectoryForCurrentUser().path() + "/Documents")
+        path = AppKit.NSURL.alloc().initFileURLWithPath_(self.xa_fmgr.homeDirectoryForCurrentUser().path() + "/Documents")
         folder_obj = self.xa_scel.folders().objectAtLocation_(path)
         return self._new_element(folder_obj, XAFinderFolder)
 
@@ -538,7 +550,7 @@ class XAFinderApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
 
         .. versionadded:: 0.0.1
         """
-        path = NSURL.alloc().initFileURLWithPath_(self.xa_fmgr.homeDirectoryForCurrentUser().path() + "/Downloads")
+        path = AppKit.NSURL.alloc().initFileURLWithPath_(self.xa_fmgr.homeDirectoryForCurrentUser().path() + "/Downloads")
         folder_obj = self.xa_scel.folders().objectAtLocation_(path)
         return self._new_element(folder_obj, XAFinderFolder)
 
@@ -550,7 +562,7 @@ class XAFinderApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
 
         .. versionadded:: 0.0.1
         """
-        path = NSURL.alloc().initFileURLWithPath_(self.xa_fmgr.homeDirectoryForCurrentUser().path() + "/Pictures")
+        path = AppKit.NSURL.alloc().initFileURLWithPath_(self.xa_fmgr.homeDirectoryForCurrentUser().path() + "/Pictures")
         folder_obj = self.xa_scel.folders().objectAtLocation_(path)
         return self._new_element(folder_obj, XAFinderFolder)
 
@@ -562,7 +574,7 @@ class XAFinderApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
 
         .. versionadded:: 0.0.1
         """
-        path = NSURL.alloc().initFileURLWithPath_(self.xa_fmgr.homeDirectoryForCurrentUser().path() + "/Movies")
+        path = AppKit.NSURL.alloc().initFileURLWithPath_(self.xa_fmgr.homeDirectoryForCurrentUser().path() + "/Movies")
         folder_obj = self.xa_scel.folders().objectAtLocation_(path)
         return self._new_element(folder_obj, XAFinderFolder)
 
@@ -574,7 +586,7 @@ class XAFinderApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
 
         .. versionadded:: 0.0.1
         """
-        path = NSURL.alloc().initFileURLWithPath_(self.xa_fmgr.homeDirectoryForCurrentUser().path() + "/Music")
+        path = AppKit.NSURL.alloc().initFileURLWithPath_(self.xa_fmgr.homeDirectoryForCurrentUser().path() + "/Music")
         folder_obj = self.xa_scel.folders().objectAtLocation_(path)
         return self._new_element(folder_obj, XAFinderFolder)
 
@@ -586,7 +598,7 @@ class XAFinderApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
 
         .. versionadded:: 0.0.1
         """
-        path = NSURL.alloc().initFileURLWithPath_(self.xa_fmgr.homeDirectoryForCurrentUser().path() + "/Public")
+        path = AppKit.NSURL.alloc().initFileURLWithPath_(self.xa_fmgr.homeDirectoryForCurrentUser().path() + "/Public")
         folder_obj = self.xa_scel.folders().objectAtLocation_(path)
         return self._new_element(folder_obj, XAFinderFolder)
 
@@ -598,7 +610,7 @@ class XAFinderApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
 
         .. versionadded:: 0.0.1
         """
-        path = NSURL.alloc().initFileURLWithPath_("/Applications")
+        path = AppKit.NSURL.alloc().initFileURLWithPath_("/Applications")
         folder_obj = self.xa_scel.folders().objectAtLocation_(path)
         return self._new_element(folder_obj, XAFinderFolder)
 
@@ -610,7 +622,7 @@ class XAFinderApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
 
         .. versionadded:: 0.0.1
         """
-        path = NSURL.alloc().initFileURLWithPath_(self.xa_fmgr.homeDirectoryForCurrentUser().path() + "/Trash")
+        path = AppKit.NSURL.alloc().initFileURLWithPath_(self.xa_fmgr.homeDirectoryForCurrentUser().path() + "/Trash")
         folder_obj = self.xa_scel.folders().objectAtLocation_(path)
         return self._new_element(folder_obj, XAFinderFolder)
 
@@ -887,13 +899,13 @@ class XAFinderItemList(XABase.XAList):
     def by_information_window(self, information_window: 'XAFinderInformationWindow') -> 'XAFinderItem':
         return self.by_property("informationWindow", information_window.xa_elem)
 
-    def get_clipboard_representation(self) -> List[Union[str, NSURL]]:
+    def get_clipboard_representation(self) -> List[Union[str, AppKit.NSURL]]:
         """Gets a clipboard-codable representation of each item in the list.
 
         When the clipboard content is set to a list of Finder items, each item's name and URL are added to the clipboard.
 
         :return: The name and URL of each item in the list
-        :rtype: List[Union[str, NSURL]]
+        :rtype: List[Union[str, AppKit.NSURL]]
 
         .. versionadded:: 0.0.8
         """
@@ -925,7 +937,7 @@ class XAFinderItem(XABase.XAObject, XASelectable, XADeletable, XAClipboardCodabl
         self.index: int #: The index within the containing folder/disk
         self.position: Tuple[int, int] #: The position of the item within the parent window
         self.desktop_position: Tuple[int, int] #: The position of an item on the desktop
-        self.bounds: Tuple[Tuple[int, int], Tuple[int, int]] #: The bounding rectangle of an item
+        self.bounds: Tuple[int, int, int, int] #: The bounding rectangle of an item
         self.label_index: int #: The label assigned to the item
         self.locked: bool #: Whether the file is locked
         self.kind: str #: The kind of the item, e.g. "Folder" or "File"
@@ -954,6 +966,10 @@ class XAFinderItem(XABase.XAObject, XASelectable, XADeletable, XAClipboardCodabl
     def name(self) -> str:
         return self.xa_elem.name()
 
+    @name.setter
+    def name(self, name: str):
+        self.set_property('name', name)
+
     @property
     def displayed_name(self) -> str:
         return self.xa_elem.displayedName()
@@ -962,9 +978,17 @@ class XAFinderItem(XABase.XAObject, XASelectable, XADeletable, XAClipboardCodabl
     def name_extension(self) -> str:
         return self.xa_elem.nameExtension()
 
+    @name_extension.setter
+    def name_extension(self, name_extension: str):
+        self.set_property('nameExtension', name_extension)
+
     @property
     def extension_hidden(self) -> bool:
         return self.xa_elem.extensionHidden()
+
+    @extension_hidden.setter
+    def extension_hidden(self, extension_hidden: bool):
+        self.set_property('extensionHidden', extension_hidden)
 
     @property
     def index(self) -> int:
@@ -974,21 +998,49 @@ class XAFinderItem(XABase.XAObject, XASelectable, XADeletable, XAClipboardCodabl
     def position(self) -> Tuple[int, int]:
         return self.xa_elem.position()
 
+    @position.setter
+    def position(self, position: Tuple[int, int]):
+        self.set_property('position', position)
+
     @property
     def desktop_position(self) -> Tuple[int, int]:
         return self.xa_elem.desktopPosition()
 
+    @desktop_position.setter
+    def desktop_position(self, desktop_position: Tuple[int, int]):
+        self.set_property('desktopPosition', desktop_position)
+
     @property
-    def bounds(self) -> Tuple[Tuple[int, int], Tuple[int, int]]:
-        return self.xa_elem.bounds()
+    def bounds(self) -> Tuple[int, int, int, int]:
+        rect = self.xa_elem.bounds()
+        origin = rect.origin
+        size = rect.size
+        return (origin.x, origin.y, size.width, size.height)
+
+    @bounds.setter
+    def bounds(self, bounds: Tuple[int, int, int, int]):
+        x = bounds[0]
+        y = bounds[1]
+        w = bounds[2]
+        h = bounds[3]
+        value = AppKit.NSValue.valueWithRect_(AppKit.NSMakeRect(x, y, w, h))
+        self.set_property("bounds", value)
 
     @property
     def label_index(self) -> int:
         return self.xa_elem.labelIndex()
 
+    @label_index.setter
+    def label_index(self, label_index: int):
+        self.set_property('labelIndex', label_index)
+
     @property
     def locked(self) -> bool:
         return self.xa_elem.locked()
+
+    @locked.setter
+    def locked(self, locked: bool):
+        self.set_property('locked', locked)
 
     @property
     def kind(self) -> str:
@@ -1001,6 +1053,10 @@ class XAFinderItem(XABase.XAObject, XASelectable, XADeletable, XAClipboardCodabl
     @property
     def comment(self) -> str:
         return self.xa_elem.comment()
+
+    @comment.setter
+    def comment(self, comment: str):
+        self.set_property('comment', comment)
 
     @property
     def size(self) -> int:
@@ -1018,6 +1074,10 @@ class XAFinderItem(XABase.XAObject, XASelectable, XADeletable, XAClipboardCodabl
     def modification_date(self) -> datetime:
         return self.xa_elem.modificationDate()
 
+    @modification_date.setter
+    def modification_date(self, modification_date: datetime):
+        self.set_property('modificationDate', modification_date)
+
     @property
     def url(self) -> XABase.XAPath:
         return XABase.XAPath(self.xa_elem.URL()[7:])
@@ -1026,21 +1086,41 @@ class XAFinderItem(XABase.XAObject, XASelectable, XADeletable, XAClipboardCodabl
     def owner(self) -> str:
         return self.xa_elem.owner()
 
+    @owner.setter
+    def owner(self, owner: str):
+        self.set_property('owner', owner)
+
     @property
     def group(self) -> str:
         return self.xa_elem.group()
+
+    @group.setter
+    def group(self, group: str):
+        self.set_property('group', group)
 
     @property
     def owner_privileges(self) -> XAFinderApplication.PrivacySetting:
         return self.xa_elem.ownerPrivileges()
 
+    @owner_privileges.setter
+    def owner_privileges(self, owner_privileges: XAFinderApplication.PrivacySetting):
+        self.set_property('ownerPrivileges', owner_privileges.value)
+
     @property
     def group_privileges(self) -> XAFinderApplication.PrivacySetting:
         return self.xa_elem.groupPrivileges()
 
+    @group_privileges.setter
+    def group_privileges(self, group_privileges: XAFinderApplication.PrivacySetting):
+        self.set_property('groupPrivileges', group_privileges.value)
+
     @property
     def everyone_privileges(self) -> XAFinderApplication.PrivacySetting:
         return self.xa_elem.everyonePrivileges()
+
+    @everyone_privileges.setter
+    def group_privileges(self, everyone_privileges: XAFinderApplication.PrivacySetting):
+        self.set_property('everyoneErivileges', everyone_privileges.value)
 
     @property
     def container(self) -> 'XAFinderContainer':
@@ -1064,6 +1144,10 @@ class XAFinderItem(XABase.XAObject, XASelectable, XADeletable, XAClipboardCodabl
     def icon(self) -> XAImage:
         icon_obj = self.xa_elem.icon()
         return self._new_element(icon_obj, XAImage)
+
+    @icon.setter
+    def icon(self, icon: XAImage):
+        self.set_property('icon', icon.xa_elem)
 
     @property
     def information_window(self) -> 'XAFinderInformationWindow':
@@ -1089,15 +1173,15 @@ class XAFinderItem(XABase.XAObject, XASelectable, XADeletable, XAClipboardCodabl
 
         .. versionadded:: 0.0.1
         """
-        url = NSURL.alloc().initWithString_(self.URL).absoluteURL()
+        url = AppKit.NSURL.alloc().initWithString_(self.URL).absoluteURL()
         self.set_clipboard(url)
         return self
 
-    def move_to(self, new_path: Union[str, NSURL], overwrite: bool = False) -> 'XAFinderItem':
+    def move_to(self, new_path: Union[str, AppKit.NSURL], overwrite: bool = False) -> 'XAFinderItem':
         """Moves the item to the specified path.
 
         :param new_path: The path to move the item to.
-        :type new_path: Union[str, NSURL]
+        :type new_path: Union[str, AppKit.NSURL]
         :param overwrite: Whether to overwrite existing files of the same name at the target path, defaults to False
         :type overwrite: bool, optional
         :return: A reference to the Finder item that called this method.
@@ -1106,8 +1190,8 @@ class XAFinderItem(XABase.XAObject, XASelectable, XADeletable, XAClipboardCodabl
         .. versionadded:: 0.0.1
         """
         if isinstance(new_path, str):
-            new_path = NSURL.alloc().initFileURLWithPath_(new_path)
-        old_path = NSURL.alloc().initWithString_(self.URL)
+            new_path = AppKit.NSURL.alloc().initFileURLWithPath_(new_path)
+        old_path = AppKit.NSURL.alloc().initWithString_(self.URL)
         self.xa_fmgr.moveItemAtURL_toURL_error_(old_path, new_path, None)
         return self
 
@@ -1128,27 +1212,13 @@ class XAFinderItem(XABase.XAObject, XASelectable, XADeletable, XAClipboardCodabl
         """
         self.url.open()
 
-    def set_property(self, property_name: str, value: Any):
-        if isinstance(value, tuple):
-            if isinstance(value[0], int):
-                # Value is a position
-                value = NSValue.valueWithPoint_(NSPoint(value[0], value[1]))
-            elif isinstance(value[0], tuple):
-                # Value is a rectangle boundary
-                x = value[0][0]
-                y = value[0][1]
-                w = value[1][0]
-                h = value[1][1]
-                value = NSValue.valueWithRect_(NSMakeRect(x, y, w, h))
-        super().set_property(property_name, value)
-
-    def get_clipboard_representation(self) -> List[Union[str, NSURL]]:
+    def get_clipboard_representation(self) -> List[Union[str, AppKit.NSURL]]:
         """Gets a clipboard-codable representation of the item.
 
         When the clipboard content is set to a Finder item, the item's name and URL are added to the clipboard.
 
         :return: The name and URL of the item
-        :rtype: List[Union[str, NSURL]]
+        :rtype: List[Union[str, AppKit.NSURL]]
 
         .. versionadded:: 0.0.8
         """
@@ -1427,6 +1497,10 @@ class XAFinderDisk(XAFinderContainer):
     def ignore_privileges(self) -> bool:
         return self.xa_elem.ignorePrivileges()
 
+    @ignore_privileges.setter
+    def ignore_privileges(self, ignore_privileges: bool):
+        self.set_property('ignorePrivileges', ignore_privileges)
+
 
 
 
@@ -1461,6 +1535,10 @@ class XAFinderTrash(XAFinderContainer):
     @property
     def warns_before_emptying(self) -> bool:
         return self.xa_elem.warnsBeforeEmptying() 
+
+    @warns_before_emptying.setter
+    def warns_before_emptying(self, warns_before_emptying: bool):
+        self.set_property('warnsBeforeEmptying', warns_before_emptying)
 
 
 
@@ -1535,13 +1613,25 @@ class XAFinderFile(XAFinderItem, XABaseScriptable.XASBPrintable):
     def file_type(self) -> int:
         return self.xa_elem.fileType()
 
+    @file_type.setter
+    def file_type(self, file_type: int):
+        self.set_property('fileType', file_type)
+
     @property
     def creator_type(self) -> int:
         return self.xa_elem.creatorType()
 
+    @creator_type.setter
+    def creator_type(self, creator_type: int):
+        self.set_property('creatorType', creator_type)
+
     @property
     def stationery(self) -> bool:
         return self.xa_elem.stationery()
+
+    @stationery.setter
+    def stationery(self, stationery: bool):
+        self.set_property('stationery', stationery)
 
     @property
     def product_version(self) -> str:
@@ -1583,6 +1673,10 @@ class XAFinderAliasFile(XAFinderFile):
     def original_item(self) -> XAFinderItem:
         item_obj = self.xa_elem.originalItem()
         return self._new_element(item_obj, XAFinderItem)
+
+    @original_item.setter
+    def original_item(self, original_item: XAFinderItem):
+        self.set_property('originalItem', original_item.xa_elem)
 
 
 
@@ -1856,7 +1950,7 @@ class XAFinderWindow(XABaseScriptable.XASBWindow, XABaseScriptable.XASBPrintable
         super().__init__(properties)
         self.id: int #: The unique identifier for the window
         self.position: Tuple[int, int] #: The upper left position of the window
-        self.bounds: Tuple[Tuple[int, int], Tuple[int, int]] #: The boundary rectangle for the window
+        self.bounds: Tuple[int, int, int, int] #: The boundary rectangle for the window
         self.titled: bool #: Whether the window has a title bar
         self.name: str #: The name of the window
         self.index: int #: The index of the window in the front-to-back order of Finder windows
@@ -1878,9 +1972,25 @@ class XAFinderWindow(XABaseScriptable.XASBWindow, XABaseScriptable.XASBPrintable
     def position(self) -> Tuple[int, int]:
         return self.xa_elem.position()
 
+    @position.setter
+    def position(self, position: Tuple[int, int]):
+        self.set_property('position', position)
+
     @property
-    def bounds(self) -> Tuple[Tuple[int, int], Tuple[int, int]]:
-        return self.xa_elem.bounds()
+    def bounds(self) -> Tuple[int, int, int, int]:
+        rect = self.xa_elem.bounds()
+        origin = rect.origin
+        size = rect.size
+        return (origin.x, origin.y, size.width, size.height)
+
+    @bounds.setter
+    def bounds(self, bounds: Tuple[int, int, int, int]):
+        x = bounds[0]
+        y = bounds[1]
+        w = bounds[2]
+        h = bounds[3]
+        value = AppKit.NSValue.valueWithRect_(AppKit.NSMakeRect(x, y, w, h))
+        self.set_property("bounds", value)
 
     @property
     def titled(self) -> bool:
@@ -1893,6 +2003,10 @@ class XAFinderWindow(XABaseScriptable.XASBWindow, XABaseScriptable.XASBPrintable
     @property
     def index(self) -> int:
         return self.xa_elem.index()
+
+    @index.setter
+    def index(self, index: int):
+        self.set_property('index', index)
 
     @property
     def closeable(self) -> bool:
@@ -1918,6 +2032,10 @@ class XAFinderWindow(XABaseScriptable.XASBWindow, XABaseScriptable.XASBPrintable
     def zoomed(self) -> bool:
         return self.xa_elem.zoomed()
 
+    @zoomed.setter
+    def zoomed(self, zoomed: bool):
+        self.set_property('zoomed', zoomed)
+
     @property
     def visible(self) -> bool:
         return self.xa_elem.visible()
@@ -1926,23 +2044,13 @@ class XAFinderWindow(XABaseScriptable.XASBWindow, XABaseScriptable.XASBPrintable
     def collapsed(self) -> bool:
         return self.xa_elem.collapsed()
 
+    @collapsed.setter
+    def collapsed(self, collapsed: bool):
+        self.set_property('collapsed', collapsed)
+
     @property
     def properties(self) -> dict:
         return self.xa_elem.properties()
-
-    def set_property(self, property_name: str, value: Any):
-        if isinstance(value, tuple):
-            if isinstance(value[0], int):
-                # Value is a position
-                value = NSValue.valueWithPoint_(NSPoint(value[0], value[1]))
-            elif isinstance(value[0], tuple):
-                # Value is a rectangle boundary
-                x = value[0][0]
-                y = value[0][1]
-                w = value[1][0]
-                h = value[1][1]
-                value = NSValue.valueWithRect_(NSMakeRect(x, y, w, h))
-        super().set_property(property_name, value)
 
 
 
@@ -2033,26 +2141,50 @@ class XAFinderFinderWindow(XAFinderWindow):
     def current_view(self) -> XAFinderApplication.ViewSetting:
         return self.xa_elem.currentView()
 
+    @current_view.setter
+    def current_view(self, current_view: XAFinderApplication.ViewSetting):
+        self.set_property('currentView', current_view.value)
+
     @property
     def toolbar_visible(self) -> bool:
         return self.xa_elem.toolbarVisible()
+
+    @toolbar_visible.setter
+    def toolbar_visible(self, toolbar_visible: bool):
+        self.set_property('toolbarVisible', toolbar_visible)
 
     @property
     def statusbar_visible(self) -> bool:
         return self.xa_elem.statusbarVisible()
 
+    @statusbar_visible.setter
+    def statusbar_visible(self, statusbar_visible: bool):
+        self.set_property('statusbarVisible', statusbar_visible)
+
     @property
     def pathbar_visible(self) -> bool:
         return self.xa_elem.pathbarVisible()
+
+    @pathbar_visible.setter
+    def pathbar_visible(self, pathbar_visible: bool):
+        self.set_property('pathbarVisible', pathbar_visible)
 
     @property
     def sidebar_width(self) -> int:
         return self.xa_elem.sidebarWidth()
 
+    @sidebar_width.setter
+    def sidebar_width(self, sidebar_width: int):
+        self.set_property('sidebarWidth', sidebar_width)
+
     @property
     def target(self) -> XAFinderContainer:
         obj = self.xa_elem.target()
         return self._new_element(obj, XAFinderContainer)
+
+    @target.setter
+    def target(self, target: XAFinderContainer):
+        self.set_property('target', target.xa_elem)
 
     @property
     def icon_view_options(self) -> 'XAFinderIconViewOptions':
@@ -2213,6 +2345,10 @@ class XAFinderPreferencesWindow(XAFinderWindow):
     def current_panel(self) -> XAFinderApplication.Panel:
         return self.xa_elem.currentPanel()
 
+    @current_panel.setter
+    def current_panel(self, current_panel: XAFinderApplication.Panel):
+        self.set_property('currentPanel', current_panel.value)
+
 
 
 
@@ -2258,6 +2394,10 @@ class XAFinderInformationWindow(XAFinderWindow):
     def current_panel(self) -> XAFinderApplication.Panel:
         return self.xa_elem.currentPanel()
 
+    @current_panel.setter
+    def current_panel(self, current_panel: XAFinderApplication.Panel):
+        self.set_property('currentPanel', current_panel.value)
+
 
 
 
@@ -2281,35 +2421,67 @@ class XAFinderIconViewOptions(XABase.XAObject):
     def arrangement(self) -> XAFinderApplication.Arrangement:
         return self.xa_elem.arrangement()
 
+    @arrangement.setter
+    def arrangement(self, arrangement: XAFinderApplication.Arrangement):
+        self.set_property('arrangement', arrangement.value)
+
     @property
     def icon_size(self) -> int:
         return self.xa_elem.iconSize()
+
+    @icon_size.setter
+    def icon_size(self, icon_size: int):
+        self.set_property('iconSize', icon_size)
 
     @property
     def shows_item_info(self) -> bool:
         return self.xa_elem.showsItemInfo()
 
+    @shows_item_info.setter
+    def shows_item_info(self, shows_item_info: bool):
+        self.set_property('showsItemInfo', shows_item_info)
+
     @property
     def shows_icon_preview(self) -> bool:
         return self.xa_elem.showsIconPreview()
+
+    @shows_icon_preview.setter
+    def shows_icon_preview(self, shows_icon_preview: bool):
+        self.set_property('showsIconPreview', shows_icon_preview)
 
     @property
     def text_size(self) -> int:
         return self.xa_elem.textSize()
 
+    @text_size.setter
+    def text_size(self, text_size: int):
+        self.set_property('textSize', text_size)
+
     @property
     def label_position(self) -> XAFinderApplication.LabelPosition:
         return self.xa_elem.labelPosition()
+
+    @label_position.setter
+    def label_position(self, label_position: XAFinderApplication.LabelPosition):
+        self.set_property('labelPosition', label_position.value)
 
     @property
     def background_picture(self) -> XAFinderFile:
         bg_obj = self.xa_elem.backgroundPicture()
         return self._new_element(bg_obj, XAFinderFile)
 
+    @background_picture.setter
+    def background_picture(self, background_picture: XAFinderFile):
+        self.set_property('backgroundPicture', background_picture.xa_elem)
+
     @property
     def background_color(self) -> XABase.XAColor:
         bg_obj = self.xa_elem.backgroundColor()
         return self._new_element(bg_obj, XABase.XAColor)
+
+    @background_color.setter
+    def background_color(self, background_color: XABase.XAColor):
+        self.set_property('backgroundColor', background_color.xa_elem)
 
 
 
@@ -2331,21 +2503,41 @@ class XAFinderColumnViewOptions(XABase.XAObject):
     def text_size(self) -> int:
         return self.xa_elem.textSize()
 
+    @text_size.setter
+    def text_size(self, text_size: int):
+        self.set_property('textSize', text_size)
+
     @property
     def shows_icon(self) -> bool:
         return self.xa_elem.showsIcon()
+
+    @shows_icon.setter
+    def shows_icon(self, shows_icon: bool):
+        self.set_property('showsIcon', shows_icon)
 
     @property
     def shows_icon_preview(self) -> bool:
         return self.xa_elem.showsIconPreview()
 
+    @shows_icon_preview.setter
+    def shows_icon_preview(self, shows_icon_preview: bool):
+        self.set_property('showsIconPreview', shows_icon_preview)
+
     @property
     def shows_preview_column(self) -> bool:
         return self.xa_elem.showsPreviewColumn()
 
+    @shows_preview_column.setter
+    def shows_preview_column(self, shows_preview_column: bool):
+        self.set_property('showsPreviewColumn', shows_preview_column)
+
     @property
     def discloses_preview_pane(self) -> bool:
         return self.xa_elem.disclosesPreviewPane()
+
+    @discloses_preview_pane.setter
+    def discloses_preview_pane(self, discloses_preview_pane: bool):
+        self.set_property('disclosesPreviewPane', discloses_preview_pane)
 
 
 
@@ -2368,26 +2560,50 @@ class XAFinderListViewOptions(XABase.XAObject):
     def calculates_folder_sizes(self) -> bool:
         return self.xa_elem.calculatesFolderSizes()
 
+    @calculates_folder_sizes.setter
+    def calculates_folder_sizes(self, calculates_folder_sizes: bool):
+        self.set_property('calculatesFolderSizes', calculates_folder_sizes)
+
     @property
     def shows_icon_preview(self) -> bool:
         return self.xa_elem.showsIconPreview()
+
+    @shows_icon_preview.setter
+    def shows_icon_preview(self, shows_icon_preview: bool):
+        self.set_property('showsIconPreview', shows_icon_preview)
 
     @property
     def icon_size(self) -> XAFinderApplication.IconSize:
         return self.xa_elem.iconSize()
 
+    @icon_size.setter
+    def icon_size(self, icon_size: XAFinderApplication.IconSize):
+        self.set_property('iconSize', icon_size.value)
+
     @property
     def text_size(self) -> int:
         return self.xa_elem.textSize()
+
+    @text_size.setter
+    def text_size(self, text_size: int):
+        self.set_property('textSize', text_size)
 
     @property
     def uses_relative_dates(self) -> bool:
         return self.xa_elem.usesRelativeDates()
 
+    @uses_relative_dates.setter
+    def uses_relative_dates(self, uses_relative_dates: bool):
+        self.set_property('usesRelativeDates', uses_relative_dates)
+
     @property
     def sort_column(self) -> 'XAFinderColumn':
         column_obj = self.xa_elem.sortColumn()
         return self._new_element(column_obj, XAFinderColumn)
+
+    @sort_column.setter
+    def sort_column(self, sort_column: 'XAFinderColumn'):
+        self.set_property('sortColumn', sort_column.xa_elem)
 
     def columns(self, filter: dict = None) -> 'XAFinderColumn':
         """Returns a list of columns matching the filter.
@@ -2473,6 +2689,10 @@ class XAFinderColumn(XABase.XAObject):
     def index(self) -> int:
         return self.xa_elem.index()
 
+    @index.setter
+    def index(self, index: int):
+        self.set_property('index', index)
+
     @property
     def name(self) -> XAFinderApplication.ColumnName:
         return self.xa_elem.name()
@@ -2481,9 +2701,17 @@ class XAFinderColumn(XABase.XAObject):
     def sort_direction(self) -> XAFinderApplication.SortDirection:
         return self.xa_elem.sortDirection()
 
+    @sort_direction.setter
+    def sort_direction(self, sort_direction: XAFinderApplication.SortDirection):
+        self.set_property('sortDirection', sort_direction.value)
+
     @property
     def width(self) -> int:
         return self.xa_elem.width()
+
+    @width.setter
+    def width(self, width: int):
+        self.set_property('width', width)
 
     @property
     def minimum_width(self) -> int:
@@ -2496,6 +2724,10 @@ class XAFinderColumn(XABase.XAObject):
     @property
     def visible(self) -> bool:
         return self.xa_elem.visible()
+
+    @visible.setter
+    def visible(self, visible: bool):
+        self.set_property('visible', visible)
 
     def __repr__(self):
         return "<" + str(type(self)) + self.name + ">"

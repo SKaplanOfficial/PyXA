@@ -2,14 +2,14 @@
 
 Control the macOS Keynote application using JXA-like syntax.
 """
+from datetime import datetime
 from enum import Enum
 from time import sleep
 from typing import Any, List, Tuple, Union
-from AppKit import NSURL, NSPoint, NSValue
 
-from PyXA import XABase, XAEvents
-import ApplicationServices
+import AppKit
 
+from PyXA import XABase
 from PyXA.XABase import OSType
 from PyXA import XABaseScriptable
 from ..XAProtocols import XACanOpenPath, XACloseable
@@ -21,13 +21,6 @@ class XAKeynoteApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
 
     .. versionadded:: 0.0.2
     """
-    class SaveOption(Enum):
-        """Options for what to do when calling a save event.
-        """
-        SAVE_FILE   = OSType('yes ') #: Save the file. 
-        DONT_SAVE   = OSType('no  ') #: Do not save the file. 
-        ASK         = OSType('ask ') #: Ask the user whether or not to save the file. 
-
     class ExportFormat(Enum):
         """Options for what format to export a Keynote project as.
         """
@@ -91,7 +84,7 @@ class XAKeynoteApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
     class Transition(Enum):
         """The available options for transitions to assign to slides.
         """
-        NONE  = OSType('tnil') 
+        NONE                = OSType('tnil') 
         MAGIC_MOVE          = OSType('tmjv')   
         SHIMMER             = OSType('tshm')  
         SPARKLE             = OSType('tspk')   
@@ -289,7 +282,7 @@ class XAKeynoteApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
 
     def new_document(self, file_path: str = "./Untitled.key", theme: 'XAKeynoteTheme' = None) -> 'XAKeynoteDocument':
         if isinstance(file_path, str):
-            file_path = NSURL.alloc().initFileURLWithPath_(file_path)
+            file_path = AppKit.NSURL.alloc().initFileURLWithPath_(file_path)
         properties = {
             "file": file_path,
         }
@@ -383,7 +376,7 @@ class XAKeynoteWindow(XABaseScriptable.XASBWindow, XABaseScriptable.XASBPrintabl
         self.name: str #: The title of the window
         self.id: int #: The unique identifier for the window
         self.index: int #: The index of the window in the front-to-back ordering
-        self.bounds: Tuple[Tuple[int, int], Tuple[int, int]] #: The bounding rectangle of the window
+        self.bounds: Tuple[int, int, int, int] #: The bounding rectangle of the window
         self.closeable: bool #: Whether the window has a close button
         self.miniaturizable: bool #: Whether the window can be minimized
         self.miniaturized: bool #: Whether the window is currently minimized
@@ -405,9 +398,25 @@ class XAKeynoteWindow(XABaseScriptable.XASBWindow, XABaseScriptable.XASBPrintabl
     def index(self) -> int:
         return self.xa_scel.index()
 
+    @index.setter
+    def index(self, index: int):
+        self.set_property('index', index)
+
     @property
-    def bounds(self) -> Tuple[Tuple[int, int], Tuple[int, int]]:
-        return self.xa_scel.bounds()
+    def bounds(self) -> Tuple[int, int, int, int]:
+        rect = self.xa_elem.bounds()
+        origin = rect.origin
+        size = rect.size
+        return (origin.x, origin.y, size.width, size.height)
+
+    @bounds.setter
+    def bounds(self, bounds: Tuple[int, int, int, int]):
+        x = bounds[0]
+        y = bounds[1]
+        w = bounds[2]
+        h = bounds[3]
+        value = AppKit.NSValue.valueWithRect_(AppKit.NSMakeRect(x, y, w, h))
+        self.set_property("bounds", value)
 
     @property
     def closeable(self) -> bool:
@@ -421,6 +430,10 @@ class XAKeynoteWindow(XABaseScriptable.XASBWindow, XABaseScriptable.XASBPrintabl
     def miniaturized(self) -> bool:
         return self.xa_scel.miniaturized()
 
+    @miniaturized.setter
+    def miniaturized(self, miniaturized: bool):
+        self.set_property('miniaturized', miniaturized)
+
     @property
     def resizable(self) -> bool:
         return self.xa_scel.resizable()
@@ -429,6 +442,10 @@ class XAKeynoteWindow(XABaseScriptable.XASBWindow, XABaseScriptable.XASBPrintabl
     def visible(self) -> bool:
         return self.xa_scel.visible()
 
+    @visible.setter
+    def visible(self, visible: bool):
+        self.set_property('visible', visible)
+
     @property
     def zoomable(self) -> bool:
         return self.xa_scel.zoomable()
@@ -436,6 +453,10 @@ class XAKeynoteWindow(XABaseScriptable.XASBWindow, XABaseScriptable.XASBPrintabl
     @property
     def zoomed(self) -> bool:
         return self.xa_scel.zoomed()
+
+    @zoomed.setter
+    def zoomed(self, zoomed: bool):
+        self.set_property('zoomed', zoomed)
 
     @property
     def document(self) -> 'XAKeynoteDocument':
@@ -604,41 +625,85 @@ class XAKeynoteDocument(XABaseScriptable.XASBPrintable, XACloseable):
     def slide_numbers_showing(self) -> bool:
         return self.xa_elem.slideNumbersShowing()
 
+    @slide_numbers_showing.setter
+    def slide_numbers_showing(self, slide_numbers_showing: bool):
+        self.set_property('slideNumbersShowing', slide_numbers_showing)
+
     @property
     def document_theme(self) -> 'XAKeynoteTheme':
         return self._new_element(self.xa_elem.documentTheme(), XAKeynoteTheme)
+
+    @document_theme.setter
+    def document_theme(self, document_theme: 'XAKeynoteTheme'):
+        self.set_property('documentTheme', document_theme.xa_elem)
 
     @property
     def auto_loop(self) -> bool:
         return self.xa_elem.autoLoop()
 
+    @auto_loop.setter
+    def auto_loop(self, auto_loop: bool):
+        self.set_property('autoLoop', auto_loop)
+
     @property
     def auto_play(self) -> bool:
         return self.xa_elem.autoPlay()
+
+    @auto_play.setter
+    def auto_play(self, auto_play: bool):
+        self.set_property('autoPlay', auto_play)
 
     @property
     def auto_restart(self) -> bool:
         return self.xa_elem.autoRestart()
 
+    @auto_restart.setter
+    def auto_restart(self, auto_restart: bool):
+        self.set_property('autoRestart', auto_restart)
+
     @property
     def maximum_idle_duration(self) -> int:
         return self.xa_elem.maximumIdleDuration()
+
+    @maximum_idle_duration.setter
+    def maximum_idle_duration(self, maximum_idle_duration: int):
+        self.set_property('maximumIdleDuration', maximum_idle_duration)
 
     @property
     def current_slide(self) -> 'XAKeynoteSlide':
         return self._new_element(self.xa_elem.currentSlide(), XAKeynoteSlide)
 
+    @current_slide.setter
+    def current_slide(self, current_slide: 'XAKeynoteSlide'):
+        self.set_property('currentSlide', current_slide.xa_elem)
+
     @property
     def height(self) -> int:
         return self.xa_elem.height()
+
+    @height.setter
+    def height(self, height: int):
+        self.set_property('height', height)
 
     @property
     def width(self) -> int:
         return self.xa_elem.width()
 
+    @width.setter
+    def width(self, width: int):
+        self.set_property('width', width)
+
     @property
     def selection(self) -> 'XAKeynoteiWorkItemList':
         return self._new_element(self.xa_elem.selection(), XAKeynoteiWorkItemList)
+
+    @selection.setter
+    def selection(self, selection: Union['XAKeynoteiWorkItemList', List['XAKeynoteiWorkItem']]):
+        if isinstance(selection, list):
+            selection = [x.xa_elem for x in selection]
+            self.set_property('selection', selection)
+        else:
+            self.set_property('selection', selection.xa_elem)
 
     @property
     def password_protected(self) -> bool:
@@ -709,11 +774,11 @@ class XAKeynoteDocument(XABaseScriptable.XASBPrintable, XACloseable):
         export_format = XAKeynoteApplication.ExportFormat.KEYNOTE.value
         self.xa_elem.saveIn_as_(self.file, export_format)
 
-    def export(self, file_path: Union[str, NSURL] = None, format: XAKeynoteApplication.ExportFormat = XAKeynoteApplication.ExportFormat.PDF):
+    def export(self, file_path: Union[str, AppKit.NSURL] = None, format: XAKeynoteApplication.ExportFormat = XAKeynoteApplication.ExportFormat.PDF):
         """Exports the slideshow in the specified format.
 
         :param file_path: The path to save the exported file at, defaults to None
-        :type file_path: Union[str, NSURL], optional
+        :type file_path: Union[str, AppKit.NSURL], optional
         :param format: The format to export the file in, defaults to XAKeynoteApplication.ExportFormat.PDF
         :type format: XAKeynoteApplication.ExportFormat, optional
 
@@ -722,16 +787,16 @@ class XAKeynoteDocument(XABaseScriptable.XASBPrintable, XACloseable):
         if file_path is None:
             file_path = self.file.path()[:-4] + ".pdf"
         if isinstance(file_path, str):
-            file_path = NSURL.alloc().initFileURLWithPath_(file_path)
+            file_path = AppKit.NSURL.alloc().initFileURLWithPath_(file_path)
         self.xa_elem.exportTo_as_withProperties_(file_path, format.value, None)
 
-    def make_image_slides(self, files: List[Union[str, NSURL]], set_titles: bool = False, slide_layout: 'XAKeynoteSlideLayout' = None) -> 'XAKeynoteDocument':
+    def make_image_slides(self, files: List[Union[str, AppKit.NSURL]], set_titles: bool = False, slide_layout: 'XAKeynoteSlideLayout' = None) -> 'XAKeynoteDocument':
         """Creates slides out of image files.
 
         Creates a new slide for each image file path in the files list, if the image can be found.
 
         :param files: A list of paths to image files
-        :type files: List[Union[str, NSURL]]
+        :type files: List[Union[str, AppKit.NSURL]]
         :param set_titles: Whether to set the slide titles to the image file name, defaults to False
         :type set_titles: bool, optional
         :param slide_layout: The base slide layout to use for the new slides, defaults to None
@@ -744,7 +809,7 @@ class XAKeynoteDocument(XABaseScriptable.XASBPrintable, XACloseable):
         urls = []
         for file in files:
             if isinstance(file, str):
-                file = NSURL.alloc().initFileURLWithPath_(file)
+                file = AppKit.NSURL.alloc().initFileURLWithPath_(file)
             urls.append(file)
         self.xa_elem.makeImageSlidesFiles_setTitles_slideLayout_(urls, set_titles, slide_layout)
         return self
@@ -1106,9 +1171,17 @@ class XAKeynoteSlide(XAKeynoteContainer):
     def body_showing(self) -> bool:
         return self.xa_elem.bodyShowing()
 
+    @body_showing.setter
+    def body_showing(self, body_showing: bool):
+        self.set_property('bodyShowing', body_showing)
+
     @property
     def skipped(self) -> bool:
         return self.xa_elem.shipped()
+
+    @skipped.setter
+    def skipped(self, skipped: bool):
+        self.set_property('skipped', skipped)
 
     @property
     def slide_number(self) -> int:
@@ -1118,13 +1191,25 @@ class XAKeynoteSlide(XAKeynoteContainer):
     def title_showing(self) -> bool:
         return self.xa_elem.titleShowing()
 
+    @title_showing.setter
+    def title_showing(self, title_showing: bool):
+        self.set_property('titleShowing', title_showing)
+
     @property
     def transition_properties(self) -> dict:
         return self.xa_elem.transitionProperties()
 
+    @transition_properties.setter
+    def transition_properties(self, transition_properties: 'XAKeynoteTransitionSettings'):
+        self.set_property('transitionProperties', transition_properties.xa_elem)
+
     @property
     def base_layout(self) -> 'XAKeynoteSlideLayout':
         return self._new_element(self.xa_elem.baseLayout(), XAKeynoteSlideLayout)
+
+    @base_layout.setter
+    def base_layout(self, base_layout: 'XAKeynoteSlideLayout'):
+        self.set_property('baseLayout', base_layout.xa_elem)
 
     @property
     def default_body_item(self) -> 'XAKeynoteShape':
@@ -1137,6 +1222,13 @@ class XAKeynoteSlide(XAKeynoteContainer):
     @property
     def presenter_notes(self) -> XABase.XAText:
         return self._new_element(self.xa_elem.presenterNotes(), XABase.XAText)
+
+    @presenter_notes.setter
+    def presenter_notes(self, presenter_notes: Union[XABase.XAText, str]):
+        if isinstance(presenter_notes, str):
+            self.set_property('presenterNotes', presenter_notes)
+        else:
+            self.set_property('presenterNotes', presenter_notes.xa_elem)
 
     def duplicate(self) -> 'XAKeynoteSlide':
         """Duplicates the slide, mimicking the action of copying and pasting the slide manually.
@@ -1156,11 +1248,11 @@ class XAKeynoteSlide(XAKeynoteContainer):
         """
         self.xa_elem.delete()
 
-    def add_image(self, file_path: Union[str, NSURL]) -> 'XAKeynoteImage':
+    def add_image(self, file_path: Union[str, AppKit.NSURL]) -> 'XAKeynoteImage':
         """Adds the image at the specified path to the slide.
 
         :param file_path: The path to the image file.
-        :type file_path: Union[str, NSURL]
+        :type file_path: Union[str, AppKit.NSURL]
         :return: The newly created image object.
         :rtype: XAKeynoteImage
 
@@ -1168,7 +1260,7 @@ class XAKeynoteSlide(XAKeynoteContainer):
         """
         url = file_path
         if isinstance(url, str):
-            url = NSURL.alloc().initFileURLWithPath_(file_path)
+            url = AppKit.NSURL.alloc().initFileURLWithPath_(file_path)
         image = self.xa_prnt.xa_prnt.construct("image", {
             "file": url,
         })
@@ -1313,13 +1405,25 @@ class XAKeynoteiWorkItem(XABase.XAObject):
     def height(self) -> int:
         return self.xa_elem.height()
 
+    @height.setter
+    def height(self, height: int):
+        self.set_property('height', height)
+
     @property
     def locked(self) -> bool:
         return self.xa_elem.locked()
 
+    @locked.setter
+    def locked(self, locked: bool):
+        self.set_property('locked', locked)
+
     @property
     def width(self) -> int:
         return self.xa_elem.width()
+
+    @width.setter
+    def width(self, width: int):
+        self.set_property('width', width)
 
     @property
     def parent(self) -> XAKeynoteContainer:
@@ -1328,6 +1432,10 @@ class XAKeynoteiWorkItem(XABase.XAObject):
     @property
     def position(self) -> Tuple[int, int]:
         return self.xa_elem.position()
+
+    @position.setter
+    def position(self, position: Tuple[int, int]):
+        self.set_property('position', position)
 
     def delete(self):
         """Deletes the item.
@@ -1388,7 +1496,7 @@ class XAKeynoteiWorkItem(XABase.XAObject):
         return self
 
     def set_position(self, x: int, y: int) -> 'XAKeynoteiWorkItem':
-        position = NSValue.valueWithPoint_(NSPoint(x, y))
+        position = AppKit.NSValue.valueWithPoint_(AppKit.NSPoint(x, y))
         self.xa_elem.setValue_forKey_(position, "position")
 
 
@@ -1453,17 +1561,33 @@ class XAKeynoteGroup(XAKeynoteContainer):
     def height(self) -> int:
         return self.xa_elem.height()
 
+    @height.setter
+    def height(self, height: int):
+        self.set_property('height', height)
+
     @property
     def position(self) -> Tuple[int, int]:
         return self.xa_elem.position()
+
+    @position.setter
+    def position(self, position: Tuple[int, int]):
+        self.set_property('position', position)
 
     @property
     def width(self) -> int:
         return self.xa_elem.width()
 
+    @width.setter
+    def width(self, width: int):
+        self.set_property('width', width)
+
     @property
     def rotation(self) -> int:
         return self.xa_elem.rotation()
+
+    @rotation.setter
+    def rotation(self, rotation: int):
+        self.set_property('rotation', rotation)
 
     @property
     def parent(self) -> XAKeynoteContainer:
@@ -1543,6 +1667,10 @@ class XAKeynoteImage(XAKeynoteiWorkItem):
     def description(self) -> str:
         return self.xa_elem.object_description()
 
+    @description.setter
+    def description(self, description: str):
+        self.set_property('description', description)
+
     @property
     def file(self) -> str:
         return self.xa_elem.file()
@@ -1551,21 +1679,41 @@ class XAKeynoteImage(XAKeynoteiWorkItem):
     def file_name(self) -> str:
         return self.xa_elem.fileName()
 
+    @file_name.setter
+    def file_name(self, file_name: str):
+        self.set_property('fileName', file_name)
+
     @property
     def opacity(self) -> int:
         return self.xa_elem.opacity()
+
+    @opacity.setter
+    def opacity(self, opacity: int):
+        self.set_property('opacity', opacity)
 
     @property
     def reflection_showing(self) -> bool:
         return self.xa_elem.reflectionShowing()
 
+    @reflection_showing.setter
+    def reflection_showing(self, reflection_showing: bool):
+        self.set_property('reflectionShowing', reflection_showing)
+
     @property
     def reflection_value(self) -> int:
         return self.xa_elem.reflectionValue()
 
+    @reflection_value.setter
+    def reflection_value(self, reflection_value: int):
+        self.set_property('reflectionValue', reflection_value)
+
     @property
     def rotation(self) -> int:
         return self.xa_elem.rotation()
+
+    @rotation.setter
+    def rotation(self, rotation: int):
+        self.set_property('rotation', rotation)
 
     def rotate(self, degrees: int) -> 'XAKeynoteImage':
         """Rotates the image by the specified number of degrees.
@@ -1580,11 +1728,11 @@ class XAKeynoteImage(XAKeynoteiWorkItem):
         self.set_property("rotation", self.rotation + degrees)
         return self
 
-    def replace_with(self, img_path: Union[str, NSURL]) -> 'XAKeynoteImage':
+    def replace_with(self, img_path: Union[str, AppKit.NSURL]) -> 'XAKeynoteImage':
         """Removes the image and inserts another in its place with the same width and height.
 
         :param img_path: The path to the new image file.
-        :type img_path: Union[str, NSURL]
+        :type img_path: Union[str, AppKit.NSURL]
         :return: A reference to the new PyXA image object.
         :rtype: XAKeynoteImage
 
@@ -1640,13 +1788,25 @@ class XAKeynoteAudioClip(XAKeynoteiWorkItem):
     def file_name(self) -> str:
         return self.xa_elem.fileName()
 
+    @file_name.setter
+    def file_name(self, file_name: str):
+        self.set_property('fileName', file_name)
+
     @property
     def clip_volume(self) -> int:
         return self.xa_elem.clipVolume()
 
+    @clip_volume.setter
+    def clip_volume(self, clip_volume: int):
+        self.set_property('clipVolume', clip_volume)
+
     @property
     def repetition_method(self) -> XAKeynoteApplication.RepetitionMethod:
         return XAKeynoteApplication.RepetitionMethod(self.xa_elem.repetitionMethod())
+
+    @repetition_method.setter
+    def repetition_method(self, repetition_method: XAKeynoteApplication.RepetitionMethod):
+        self.set_property('repetitionMethod', repetition_method.value)
 
 
 
@@ -1732,21 +1892,41 @@ class XAKeynoteShape(XAKeynoteiWorkItem):
     def object_text(self) -> str:
         return self.xa_elem.objectText()
 
+    @object_text.setter
+    def object_text(self, object_text: str):
+        self.set_property('objectText', object_text)
+
     @property
     def opacity(self) -> int:
         return self.xa_elem.opacity()
+
+    @opacity.setter
+    def opacity(self, opacity: int):
+        self.set_property('opacity', opacity)
 
     @property
     def reflection_showing(self) -> bool:
         return self.xa_elem.reflectionShowing()
 
+    @reflection_showing.setter
+    def reflection_showing(self, reflection_showing: bool):
+        self.set_property('reflectionShowing', reflection_showing)
+
     @property
     def reflection_value(self) -> int:
         return self.xa_elem.reflectionValue()
 
+    @reflection_value.setter
+    def reflection_value(self, reflection_value: int):
+        self.set_property('reflectionValue', reflection_value)
+
     @property
     def rotation(self) -> int:
         return self.xa_elem.rotation()
+
+    @rotation.setter
+    def rotation(self, rotation: int):
+        self.set_property('rotation', rotation)
 
     def rotate(self, degrees: int) -> 'XAKeynoteShape':
         """Rotates the shape by the specified number of degrees.
@@ -1765,7 +1945,7 @@ class XAKeynoteShape(XAKeynoteiWorkItem):
         if isinstance(value, tuple):
             if isinstance(value[0], int):
                 # Value is a position
-                value = NSValue.valueWithPoint_(NSPoint(value[0], value[1]))
+                value = AppKit.NSValue.valueWithPoint_(AppKit.NSPoint(value[0], value[1]))
         super().set_property(property_name, value)
 
 
@@ -1849,21 +2029,41 @@ class XAKeynoteLine(XAKeynoteiWorkItem):
     def end_point(self) -> Tuple[int, int]:
         return self.xa_elem.endPoint()
 
+    @end_point.setter
+    def end_point(self, end_point: Tuple[int, int]):
+        self.set_property('endPoint', end_point)
+
     @property
     def reflection_showing(self) -> bool:
         return self.xa_elem.reflectionShowing()
+
+    @reflection_showing.setter
+    def reflection_showing(self, reflection_showing: bool):
+        self.set_property('reflectionShowing', reflection_showing)
 
     @property
     def reflection_value(self) -> int:
         return self.xa_elem.reflectionValue()
 
+    @reflection_value.setter
+    def reflection_value(self, reflection_value: int):
+        self.set_property('reflectionValue', reflection_value)
+
     @property
     def rotation(self) -> int:
         return self.xa_elem.rotation()
 
+    @rotation.setter
+    def rotation(self, rotation: int):
+        self.set_property('rotation', rotation)
+
     @property
     def start_point(self) -> Tuple[int, int]:
         return self.xa_elem.startPoint()
+
+    @start_point.setter
+    def start_point(self, start_point: Tuple[int, int]):
+        self.set_property('startPoint', start_point)
 
 
 
@@ -1940,29 +2140,57 @@ class XAKeynoteMovie(XAKeynoteiWorkItem):
     def file_name(self) -> str:
         return self.xa_elem.fileName()
 
+    @file_name.setter
+    def file_name(self, file_name: str):
+        self.set_property('fileName', file_name)
+
     @property
     def movie_volume(self) -> int:
         return self.xa_elem.moveVolume()
+
+    @movie_volume.setter
+    def movie_volume(self, movie_volume: int):
+        self.set_property('movieVolume', movie_volume)
 
     @property
     def opacity(self) -> int:
         return self.xa_elem.opacity()
 
+    @opacity.setter
+    def opacity(self, opacity: int):
+        self.set_property('opacity', opacity)
+
     @property
     def reflection_showing(self) -> bool:
         return self.xa_elem.reflectionShowing()
+
+    @reflection_showing.setter
+    def reflection_showing(self, reflection_showing: bool):
+        self.set_property('reflectionShowing', reflection_showing)
 
     @property
     def reflection_value(self) -> int:
         return self.xa_elem.reflectionValue()
 
+    @reflection_value.setter
+    def reflection_value(self, reflection_value: int):
+        self.set_property('reflection_value', reflection_value)
+
     @property
     def repetition_method(self) -> XAKeynoteApplication.RepetitionMethod:
         return XAKeynoteApplication.RepetitionMethod(self.xa_elem.repetitionMethod())
 
+    @repetition_method.setter
+    def repetition_method(self, repetition_method: XAKeynoteApplication.RepetitionMethod):
+        self.set_property('repetitionMethod', repetition_method.value)
+
     @property
     def rotation(self) -> int:
         return self.xa_elem.rotation()
+
+    @rotation.setter
+    def rotation(self, rotation: int):
+        self.set_property('rotation', rotation)
 
 
 
@@ -2033,26 +2261,45 @@ class XAKeynoteTextItem(XAKeynoteiWorkItem):
     def background_fill_type(self) -> XAKeynoteApplication.FillOption:
         return XAKeynoteApplication.FillOption(self.xa_elem.backgroundFillType())
 
-
     @property
     def text(self) -> XABase.XAText:
         return self._new_element(self.xa_elem.text())
+
+    @text.setter
+    def text(self, text: str):
+        self.set_property('text', text)
 
     @property
     def opacity(self) -> int:
         return self.xa_elem.opacity()
 
+    @opacity.setter
+    def opacity(self, opacity: int):
+        self.set_property('opacity', opacity)
+
     @property
     def reflection_showing(self) -> bool:
         return self.xa_elem.reflectionShowing()
+
+    @reflection_showing.setter
+    def reflection_showing(self, reflection_showing: bool):
+        self.set_property('reflectionShowing', reflection_showing)
 
     @property
     def reflection_value(self) -> int:
         return self.xa_elem.reflectionValue()
 
+    @reflection_value.setter
+    def reflection_value(self, reflection_value: int):
+        self.set_property('reflectionValue', reflection_value)
+
     @property
     def rotation(self) -> int:
         return self.xa_elem.rotation()
+
+    @rotation.setter
+    def rotation(self, rotation: int):
+        self.set_property('rotation', rotation)
 
 
 
@@ -2137,25 +2384,49 @@ class XAKeynoteTable(XAKeynoteiWorkItem):
     def name(self) -> str:
         return self.xa_elem.name()
 
+    @name.setter
+    def name(self, name: str):
+        self.set_property('name', name)
+
     @property
     def row_count(self) -> int:
         return self.xa_elem.rowCount()
+
+    @row_count.setter
+    def row_count(self, row_count: int):
+        self.set_property('rowCount', row_count)
 
     @property
     def column_count(self) -> int:
         return self.xa_elem.columnCount()
 
+    @column_count.setter
+    def column_count(self, column_count: int):
+        self.set_property('columnCount', column_count)
+
     @property
     def header_row_count(self) -> int:
         return self.xa_elem.headerRowCount()
+
+    @header_row_count.setter
+    def header_row_count(self, header_row_count: int):
+        self.set_property('headerRowCount', header_row_count)
 
     @property
     def header_column_count(self) -> int:
         return self.xa_elem.headerColumnCount()
 
+    @header_column_count.setter
+    def header_column_count(self, header_column_count: int):
+        self.set_property('headerColumnCount', header_column_count)
+
     @property
     def footer_row_count(self) -> int:
         return self.xa_elem.footerRowCount()
+
+    @footer_row_count.setter
+    def footer_row_count(self, footer_row_count: int):
+        self.set_property('footerRowCount', footer_row_count)
 
     @property
     def cell_range(self) -> 'XAKeynoteRange':
@@ -2164,6 +2435,10 @@ class XAKeynoteTable(XAKeynoteiWorkItem):
     @property
     def selection_range(self) -> 'XAKeynoteRange':
         return self._new_element(self.xa_elem.selectionRange(), XAKeynoteRange)
+
+    @selection_range.setter
+    def selection_range(self, selection_range: 'XAKeynoteRange'):
+        self.set_property('selectionRange', selection_range.xa_elem)
 
     # TODO
     def sort(self, columns: List['XAKeynoteColumn'], rows: List['XAKeynoteRow'], direction: XAKeynoteApplication.SortDirection = XAKeynoteApplication.SortDirection.ASCENDING) -> 'XAKeynoteTable':
@@ -2326,17 +2601,33 @@ class XAKeynoteRange(XABase.XAObject):
     def font_name(self) -> str:
         return self.xa_elem.fontName()
 
+    @font_name.setter
+    def font_name(self, font_name: str):
+        self.set_property('fontName', font_name)
+
     @property
     def font_size(self) -> int:
         return self.xa_elem.fontSize()
+
+    @font_size.setter
+    def font_size(self, font_size: int):
+        self.set_property('fontSize', font_size)
 
     @property
     def format(self) -> XAKeynoteApplication.CellFormat:
         return XAKeynoteApplication.CellFormat(self.xa_elem.format())
 
+    @format.setter
+    def format(self, format: XAKeynoteApplication.CellFormat):
+        self.set_property('format', format.value)
+
     @property
     def alignment(self) -> XAKeynoteApplication.Alignment:
         return XAKeynoteApplication.Alignment(self.xa_elem.alighment())
+
+    @alignment.setter
+    def alignment(self, alignment: XAKeynoteApplication.Alignment):
+        self.set_property('alignment', alignment.value)
 
     @property
     def name(self) -> str:
@@ -2346,17 +2637,33 @@ class XAKeynoteRange(XABase.XAObject):
     def text_color(self) -> XABase.XAColor:
         return XABase.XAColor(self.xa_elem.textColor())
 
+    @text_color.setter
+    def text_color(self, text_color: XABase.XAColor):
+        self.set_property('textColor', text_color.xa_elem)
+
     @property
     def text_wrap(self) -> bool:
         return self.xa_elem.textWrap()
+
+    @text_wrap.setter
+    def text_wrap(self, text_wrap: bool):
+        self.set_property('textWrap', text_wrap)
 
     @property
     def background_color(self) -> XABase.XAColor:
         return XABase.XAColor(self.xa_elem.backgroundColor())
 
+    @background_color.setter
+    def background_color(self, background_color: XABase.XAColor):
+        self.set_property('backgroundColor', background_color.xa_elem)
+
     @property
     def vertical_alignment(self) -> XAKeynoteApplication.Alignment:
         return XAKeynoteApplication.Alignment(self.xa_elem.verticalAlignment())
+
+    @vertical_alignment.setter
+    def vertical_alignment(self, vertical_alignment: XAKeynoteApplication.Alignment):
+        self.set_property('verticalAlignment', vertical_alignment.value)
 
     def clear(self) -> 'XAKeynoteRange':
         """Clears the content of every cell in the range.
@@ -2504,6 +2811,10 @@ class XAKeynoteRow(XAKeynoteRange):
     def height(self) -> float:
         return self.xa_elem.height()
 
+    @height.setter
+    def height(self, height: float):
+        self.set_property('height', height)
+
 
 
 
@@ -2546,6 +2857,10 @@ class XAKeynoteColumn(XAKeynoteRange):
     @property
     def width(self) -> float:
         return self.xa_elem.width()
+
+    @width.setter
+    def width(self, width: float):
+        self.set_property('width', width)
 
 
 
@@ -2614,8 +2929,12 @@ class XAKeynoteCell(XAKeynoteRange):
         return self.xa_elem.formula()
 
     @property
-    def value(self) -> str:
+    def value(self) -> Union[int, float, datetime, str, bool, None]:
         return self.xa_elem.value().get()
+
+    @value.setter
+    def value(self, value: Union[int, float, datetime, str, bool, None]):
+        self.set_property('value', value)
 
     @property
     def column(self) -> XAKeynoteColumn:
@@ -2624,3 +2943,51 @@ class XAKeynoteCell(XAKeynoteRange):
     @property
     def row(self) -> XAKeynoteRow:
         return self._new_element(self.xa_elem.row(), XAKeynoteRow)
+
+
+
+
+class XAKeynoteTransitionSettings(XABase.XAObject):
+    """Properties common to all transtions.
+
+    .. versionadded:: 0.1.0
+    """
+    def __init__(self, properties):
+        super().__init__(properties)
+
+        self.automatic_transition: bool
+        self.transition_delay: float
+        self.transition_duration: float
+        self.transition_effect: XAKeynoteApplication.Transition
+
+    @property
+    def automatic_transition(self) -> bool:
+        return self.xa_elem.automatic_transition()
+
+    @automatic_transition.setter
+    def automatic_transition(self, automatic_transition: bool):
+        self.set_property('automaticTransition', automatic_transition)
+
+    @property
+    def transition_delay(self) -> float:
+        return self.xa_elem.transition_delay()
+
+    @transition_delay.setter
+    def transition_delay(self, transition_delay: float):
+        self.set_property('transitionDelay', transition_delay)
+
+    @property
+    def transition_duration(self) -> float:
+        return self.xa_elem.transition_duration()
+
+    @transition_duration.setter
+    def transition_duration(self, transition_duration: float):
+        self.set_property('transitionDuration', transition_duration)
+
+    @property
+    def transition_effect(self) -> XAKeynoteApplication.Transition:
+        return XAKeynoteApplication.Transition(self.xa_elem.transition_effect())
+
+    @transition_effect.setter
+    def transition_effect(self, transition_effect: XAKeynoteApplication.Transition):
+        self.set_property('transitionEffect', transition_effect.value)

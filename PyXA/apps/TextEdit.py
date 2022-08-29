@@ -5,7 +5,8 @@ Control the macOS TextEdit application using JXA-like syntax.
 
 from enum import Enum
 from typing import List, Tuple, Union
-from AppKit import NSFileManager, NSURL
+
+import AppKit
 
 from PyXA import XABase
 from PyXA.XABase import OSType
@@ -32,6 +33,10 @@ class XATextEditApplication(XABaseScriptable.XASBApplication, XACanOpenPath, XAC
     def frontmost(self) -> bool:
         return self.xa_scel.frontmost()
 
+    @frontmost.setter
+    def frontmost(self, frontmost: bool):
+        self.set_property("frontmost", frontmost)
+
     @property
     def name(self) -> str:
         return self.xa_scel.name()
@@ -44,11 +49,11 @@ class XATextEditApplication(XABaseScriptable.XASBApplication, XACanOpenPath, XAC
         super().open(path)
         return self.front_window.document
 
-    def print(self, file: Union[str, NSURL, 'XATextEditDocument'], print_properties: dict = None, show_prompt: bool = True):
+    def print(self, file: Union[str, AppKit.NSURL, 'XATextEditDocument'], print_properties: dict = None, show_prompt: bool = True):
         """Prints a TextEdit document.
 
         :param file: The document or path to a document to print
-        :type file: Union[str, NSURL, XATextEditDocument]
+        :type file: Union[str, AppKit.NSURL, XATextEditDocument]
         :param print_properties: Settings to print with or to preset in the print dialog, defaults to None
         :type print_properties: dict, optional
         :param show_prompt: Whether to show the print dialog, defaults to True
@@ -78,9 +83,9 @@ class XATextEditApplication(XABaseScriptable.XASBApplication, XACanOpenPath, XAC
         .. versionadded:: 0.0.3
         """
         if isinstance(file, str):
-            file = NSURL.alloc().initFileURLWithPath_(file)
+            file = AppKit.NSURL.alloc().initFileURLWithPath_(file)
         elif isinstance(file, XATextEditDocument):
-            file = NSURL.alloc().initFileURLWithPath_(file.path)
+            file = AppKit.NSURL.alloc().initFileURLWithPath_(file.path)
         self.xa_scel.print_printDialog_withProperties_(file, show_prompt, print_properties)
 
     def documents(self, filter: dict = None) -> 'XATextEditDocumentList':
@@ -162,7 +167,7 @@ class XATextEditApplication(XABaseScriptable.XASBApplication, XACanOpenPath, XAC
         .. versionadded:: 0.0.1
         """
         if location is None:
-            location = NSFileManager.alloc().homeDirectoryForCurrentUser().relativePath() + "/Documents/" + name
+            location = AppKit.NSFileManager.alloc().homeDirectoryForCurrentUser().relativePath() + "/Documents/" + name
         else:
             if not location.endswith("/"):
                 location = location + "/"
@@ -201,6 +206,8 @@ class XATextEditApplication(XABaseScriptable.XASBApplication, XACanOpenPath, XAC
             return self._new_element(obj, XATextEditDocument)
 
 
+
+
 class XATextEditWindow(XABaseScriptable.XASBPrintable):
     """A class for managing and interacting with TextEdit windows.
 
@@ -210,7 +217,7 @@ class XATextEditWindow(XABaseScriptable.XASBPrintable):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.bounds: Tuple[Tuple[int, int], Tuple[int, int]] #: The bounding rectangle of the window
+        self.bounds: Tuple[int, int, int, int] #: The bounding rectangle of the window
         self.closeable: bool #: Whether the window has a close button
         self.document: XATextEditDocument #: The active document
         self.floating: bool #: Whether the window floats
@@ -227,8 +234,20 @@ class XATextEditWindow(XABaseScriptable.XASBPrintable):
         self.zoomed: bool #: Whether the window is currently zoomed
 
     @property
-    def bounds(self) -> Tuple[Tuple[int, int], Tuple[int, int]]:
-        return self.xa_elem.bounds()
+    def bounds(self) -> Tuple[int, int, int, int]:
+        rect = self.xa_elem.bounds()
+        origin = rect.origin
+        size = rect.size
+        return (origin.x, origin.y, size.width, size.height)
+
+    @bounds.setter
+    def bounds(self, bounds: Tuple[int, int, int, int]):
+        x = bounds[0]
+        y = bounds[1]
+        w = bounds[2]
+        h = bounds[3]
+        value = AppKit.NSValue.valueWithRect_(AppKit.NSMakeRect(x, y, w, h))
+        self.set_property("bounds", value)
 
     @property
     def closeable(self) -> bool:
@@ -238,6 +257,10 @@ class XATextEditWindow(XABaseScriptable.XASBPrintable):
     def document(self) -> 'XATextEditDocument':
         doc_obj = self.xa_elem.document()
         return self._new_element(doc_obj, XATextEditDocument)
+
+    @document.setter
+    def document(self, document: 'XATextEditDocument'):
+        self.set_property("document", document.xa_elem)
 
     @property
     def floating(self) -> bool:
@@ -251,6 +274,10 @@ class XATextEditWindow(XABaseScriptable.XASBPrintable):
     def index(self) -> int:
         return self.xa_elem.index()
 
+    @index.setter
+    def index(self, index: int):
+        self.set_property("index", index)
+
     @property
     def miniaturizable(self) -> bool:
         return self.xa_elem.miniaturizable()
@@ -259,6 +286,10 @@ class XATextEditWindow(XABaseScriptable.XASBPrintable):
     def miniaturized(self) -> bool:
         return self.xa_elem.miniaturized()
 
+    @miniaturized.setter
+    def miniaturized(self, miniaturized: bool):
+        self.set_property("miniaturized", miniaturized)
+
     @property
     def modal(self) -> bool:
         return self.xa_elem.modal()
@@ -266,6 +297,10 @@ class XATextEditWindow(XABaseScriptable.XASBPrintable):
     @property
     def name(self) -> str:
         return self.xa_elem.name()
+
+    @name.setter
+    def name(self, name: str):
+        self.set_property("name", name)
 
     @property
     def resizable(self) -> bool:
@@ -279,6 +314,10 @@ class XATextEditWindow(XABaseScriptable.XASBPrintable):
     def visible(self) -> bool:
         return self.xa_elem.visible()
 
+    @visible.setter
+    def visible(self, visible: bool):
+        self.set_property("visible", visible)
+
     @property
     def zoomable(self) -> bool:
         return self.xa_elem.zoomable()
@@ -286,6 +325,12 @@ class XATextEditWindow(XABaseScriptable.XASBPrintable):
     @property
     def zoomed(self) -> bool:
         return self.xa_elem.zoomed()
+
+    @zoomed.setter
+    def zoomed(self, zoomed: bool):
+        self.set_property("zoomed", zoomed)
+
+
 
 
 class XATextEditDocumentList(XABase.XAList, XAClipboardCodable):
@@ -512,13 +557,13 @@ class XATextEditDocumentList(XABase.XAList, XAClipboardCodable):
             doc.setValue_forKey_(doc.text().get()[::-1], "text")
         return self
 
-    def get_clipboard_representation(self) -> List[Union[str, NSURL]]:
+    def get_clipboard_representation(self) -> List[Union[str, AppKit.NSURL]]:
         """Gets a clipboard-codable representation of each document in the list.
 
         When the clipboard content is set to a list of documents, each documents's file URL and name are added to the clipboard.
 
         :return: A list of each document's file URL and name
-        :rtype: List[Union[str, NSURL]]
+        :rtype: List[Union[str, AppKit.NSURL]]
 
         .. versionadded:: 0.0.8
         """
@@ -555,12 +600,20 @@ class XATextEditDocument(XABase.XATextDocument, XAPrintable, XAClipboardCodable,
         return self.xa_elem.properties()
 
     @property
-    def path(self) -> str:
+    def path(self) -> XABase.XAPath:
         return XABase.XAPath(self.xa_elem.path())
+
+    @path.setter
+    def path(self, path: XABase.XAPath):
+        self.set_property("path", path.xa_elem)
 
     @property
     def name(self) -> str:
         return self.xa_elem.name()
+
+    @name.setter
+    def name(self, name: str):
+        self.set_property("name", name)
 
     @property
     def modified(self) -> bool:
@@ -601,10 +654,10 @@ class XATextEditDocument(XABase.XATextDocument, XAPrintable, XAClipboardCodable,
         .. versionadded:: 0.0.2
         """
         if file_path is not None:
-            url = NSURL.alloc().initFileURLWithPath_(file_path)
+            url = AppKit.NSURL.alloc().initFileURLWithPath_(file_path)
             self.xa_elem.saveAs_in_("txt", url)
         else:
-            url = NSURL.alloc().initFileURLWithPath_(self.path)
+            url = AppKit.NSURL.alloc().initFileURLWithPath_(self.path)
             self.xa_elem.saveAs_in_("txt", url)
 
     def copy(self):
@@ -615,16 +668,16 @@ class XATextEditDocument(XABase.XATextDocument, XAPrintable, XAClipboardCodable,
 
         .. versionadded:: 0.0.2
         """
-        url =  NSURL.alloc().initFileURLWithPath_(self.path)
+        url = AppKit.NSURL.alloc().initFileURLWithPath_(self.path)
         self.set_clipboard([self.text, url])
 
-    def get_clipboard_representation(self) -> List[Union[str, NSURL]]:
+    def get_clipboard_representation(self) -> List[Union[str, AppKit.NSURL]]:
         """Gets a clipboard-codable representation of the document.
 
         When the clipboard content is set to a document, the documents's file URL and body text are added to the clipboard.
 
         :return: The document's file URL and body text
-        :rtype: List[Union[str, NSURL]]
+        :rtype: List[Union[str, AppKit.NSURL]]
 
         .. versionadded:: 0.0.8
         """

@@ -2,12 +2,9 @@
 
 Control the macOS QuickTime application using JXA-like syntax.
 """
-from datetime import datetime
-from re import S
 from typing import Any, List, Tuple, Union
-from AppKit import NSFileManager, NSURL, NSSet
 
-from AppKit import NSPredicate, NSMutableArray, NSValue, NSMakeRect
+import AppKit
 
 from PyXA import XABase
 from PyXA import XABaseScriptable
@@ -42,6 +39,10 @@ class XAQuickTimeApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
     def frontmost(self) -> bool:
         return self.xa_scel.frontmost()
 
+    @frontmost.setter
+    def frontmost(self, frontmost: bool):
+        self.set_property("frontmost", frontmost)
+
     @property
     def version(self) -> str:
         return self.xa_scel.version()
@@ -50,23 +51,23 @@ class XAQuickTimeApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
     def current_document(self) -> 'XAQuickTimeDocument':
         return self.front_window.document
 
-    def open(self, path: Union[str, NSURL]) -> 'XAQuickTimeDocument':
+    def open(self, path: Union[str, AppKit.NSURL]) -> 'XAQuickTimeDocument':
         """Opens the file at the given filepath.
 
         :param target: The path of a file to open.
-        :type target: Union[str, NSURL]
+        :type target: Union[str, AppKit.NSURL]
         :return: A reference to the newly opened document.
         :rtype: XAQuickTimeDocument
 
         .. versionadded:: 0.0.6
         """
-        if not isinstance(path, NSURL):
+        if not isinstance(path, AppKit.NSURL):
             if "://" not in path:
                 path = XABase.XAPath(path)
         self.xa_wksp.openURLs_withAppBundleIdentifier_options_additionalEventParamDescriptor_launchIdentifiers_([path.xa_elem], self.xa_elem.bundleIdentifier(), 0, None, None)
         return self._new_element(self.front_window.document, XAQuickTimeDocument)
 
-    def open_url(self, url: Union[str, NSURL]) -> 'XAQuickTimeDocument':
+    def open_url(self, url: Union[str, AppKit.NSURL]) -> 'XAQuickTimeDocument':
         """Opens the file at the given (remote) URL.
 
         :param target: The path of a file to stream.
@@ -76,7 +77,7 @@ class XAQuickTimeApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
 
         .. versionadded:: 0.0.6
         """
-        if not isinstance(url, NSURL):
+        if not isinstance(url, AppKit.NSURL):
             if "://" not in url:
                 url = XABase.XAURL(url)
         self.xa_scel.openURL_(url)
@@ -196,7 +197,7 @@ class XAQuickTimeWindow(XABaseScriptable.XASBWindow):
     def __init__(self, properties):
         super().__init__(properties)
         self.id: int #: The unique identifier for the window
-        self.bounds: Tuple[Tuple[int, int], Tuple[int, int]] #: The boundary rectangle for the window
+        self.bounds: Tuple[int, int, int, int] #: The boundary rectangle for the window
         self.name: str #: The name of the window
         self.index: int #: The index of the window in the front-to-back order of Finder windows
         self.closeable: bool #: Whether the window has a close button
@@ -214,16 +215,20 @@ class XAQuickTimeWindow(XABaseScriptable.XASBWindow):
         return self.xa_elem.id()
 
     @property
-    def position(self) -> Tuple[int, int]:
-        return self.xa_elem.position()
+    def bounds(self) -> Tuple[int, int, int, int]:
+        rect = self.xa_elem.bounds()
+        origin = rect.origin
+        size = rect.size
+        return (origin.x, origin.y, size.width, size.height)
 
-    @property
-    def bounds(self) -> Tuple[Tuple[int, int], Tuple[int, int]]:
-        return self.xa_elem.bounds()
-
-    @property
-    def titled(self) -> bool:
-        return self.xa_elem.titled()
+    @bounds.setter
+    def bounds(self, bounds: Tuple[int, int, int, int]):
+        x = bounds[0]
+        y = bounds[1]
+        w = bounds[2]
+        h = bounds[3]
+        value = AppKit.NSValue.valueWithRect_(AppKit.NSMakeRect(x, y, w, h))
+        self.set_property("bounds", value)
 
     @property
     def name(self) -> str:
@@ -233,17 +238,13 @@ class XAQuickTimeWindow(XABaseScriptable.XASBWindow):
     def index(self) -> int:
         return self.xa_elem.index()
 
+    @index.setter
+    def index(self, index: int):
+        self.set_property("index", index)
+
     @property
     def closeable(self) -> bool:
         return self.xa_elem.closeable()
-
-    @property
-    def floating(self) -> bool:
-        return self.xa_elem.floating()
-
-    @property
-    def modal(self) -> bool:
-        return self.xa_elem.modal()
 
     @property
     def resizable(self) -> bool:
@@ -257,13 +258,29 @@ class XAQuickTimeWindow(XABaseScriptable.XASBWindow):
     def zoomed(self) -> bool:
         return self.xa_elem.zoomed()
 
+    @zoomed.setter
+    def zoomed(self, zoomed: bool):
+        self.set_property("zoomed", zoomed)
+
     @property
     def visible(self) -> bool:
         return self.xa_elem.visible()
 
+    @visible.setter
+    def visible(self, visible: bool):
+        self.set_property("visible", visible)
+
     @property
-    def collapsed(self) -> bool:
-        return self.xa_elem.collapsed()
+    def miniaturizable(self) -> bool:
+        return self.xa_elem.miniaturizable()
+
+    @property
+    def miniaturized(self) -> bool:
+        return self.xa_elem.miniaturized()
+
+    @miniaturized.setter
+    def miniaturized(self, miniaturized: bool):
+        self.set_property("miniaturized", miniaturized)
 
     @property
     def properties(self) -> dict:
@@ -281,7 +298,7 @@ class XAQuickTimeWindow(XABaseScriptable.XASBWindow):
                 y = value[0][1]
                 w = value[1][0]
                 h = value[1][1]
-                value = NSValue.valueWithRect_(NSMakeRect(x, y, w, h))
+                value = AppKit.NSValue.valueWithRect_(AppKit.NSMakeRect(x, y, w, h))
         super().set_property(property_name, value)
 
 
@@ -677,9 +694,17 @@ class XAQuickTimeDocument(XABase.XAObject):
     def audio_volume(self) -> float:
         return self.xa_elem.audioVolume()
 
+    @audio_volume.setter
+    def audio_volume(self, audio_volume: float):
+        self.set_property("audioVolume", audio_volume)
+
     @property
     def current_time(self) -> float:
         return self.xa_elem.currentTime()
+
+    @current_time.setter
+    def current_time(self, current_time: float):
+        self.set_property("currentTime", current_time)
 
     @property
     def data_rate(self) -> int:
@@ -697,9 +722,17 @@ class XAQuickTimeDocument(XABase.XAObject):
     def looping(self) -> bool:
         return self.xa_elem.looping()
 
+    @looping.setter
+    def looping(self, looping: bool):
+        self.set_property("looping", looping)
+
     @property
     def muted(self) -> bool:
         return self.xa_elem.muted()
+
+    @muted.setter
+    def muted(self, muted: bool):
+        self.set_property("muted", muted)
 
     @property
     def natural_dimensions(self) -> Tuple[int, int]:
@@ -713,29 +746,57 @@ class XAQuickTimeDocument(XABase.XAObject):
     def rate(self) -> float:
         return self.xa_elem.rate()
 
+    @rate.setter
+    def rate(self, rate: float):
+        self.set_property("rate", rate)
+
     @property
     def presenting(self) -> bool:
         return self.xa_elem.presenting()
+
+    @presenting.setter
+    def presenting(self, presenting: bool):
+        self.set_property("presenting", presenting)
 
     @property
     def current_microphone(self) -> 'XAQuickTimeAudioRecordingDevice':
         return self._new_element(self.xa_elem.currentMicrophone(), XAQuickTimeAudioRecordingDevice)
 
+    @current_microphone.setter
+    def current_microphone(self, current_microphone: 'XAQuickTimeAudioRecordingDevice'):
+        self.set_property("currentMicrophone", current_microphone.xa_elem)
+
     @property
     def current_camera(self) -> 'XAQuickTimeVideoRecordingDevice':
         return self._new_element(self.xa_elem.currentCamera(), XAQuickTimeVideoRecordingDevice)
+
+    @current_camera.setter
+    def current_camera(self, current_camera: 'XAQuickTimeVideoRecordingDevice'):
+        self.set_property("currentCamera", current_camera.xa_elem)
 
     @property
     def current_audio_compression(self) -> 'XAQuickTimeAudioCompressionPreset':
         return self._new_element(self.xa_elem.currentAudioCompression(), XAQuickTimeAudioCompressionPreset)
 
+    @current_audio_compression.setter
+    def current_audio_compression(self, current_audio_compression: 'XAQuickTimeAudioCompressionPreset'):
+        self.set_property("currentAudioCompression", current_audio_compression.xa_elem)
+
     @property
     def current_movie_compression(self) -> 'XAQuickTimeMovieCompressionPreset':
         return self._new_element(self.xa_elem.currentMovieCompression(), XAQuickTimeMovieCompressionPreset)
 
+    @current_movie_compression.setter
+    def current_movie_compression(self, current_movie_compression: 'XAQuickTimeMovieCompressionPreset'):
+        self.set_property("currentMovieCompression", current_movie_compression.xa_elem)
+
     @property
     def current_screen_compression(self) -> 'XAQuickTimeScreenCompressionPreset':
         return self._new_element(self.xa_elem.currentScreenCompression(), XAQuickTimeScreenCompressionPreset)
+
+    @current_screen_compression.setter
+    def current_screen_compression(self, current_screen_compression: 'XAQuickTimeScreenCompressionPreset'):
+        self.set_property("currentScreenCompression", current_screen_compression.xa_elem)
 
     def play(self) -> 'XAQuickTimeDocument':
         self.xa_elem.play()

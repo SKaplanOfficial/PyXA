@@ -2,8 +2,9 @@
 
 Control the macOS Shortcuts application using JXA-like syntax.
 """
-from typing import Any, List, Union
-from AppKit import NSImage
+from typing import Any, List, Tuple, Union
+
+import AppKit
 
 from PyXA import XABase
 from PyXA import XABaseScriptable
@@ -12,12 +13,31 @@ from ..XAProtocols import XACanOpenPath, XAClipboardCodable
 class XAShortcutsApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
     """A class for managing and interacting with Shortcuts.app.
 
-    .. seealso:: :class:`XATextEditWindow`, :class:`XATextEditDocument`
-
     .. versionadded:: 0.0.2
     """
     def __init__(self, properties):
         super().__init__(properties)
+        self.xa_wcls = XAShortcutsWindow
+        
+        self.name: str #: The name of the application
+        self.frontmost: bool #: Whether Shortcuts is the active application
+        self.version: str #: The version number of Shortcuts.app
+
+    @property
+    def name(self) -> str:
+        return self.xa_scel.name()
+
+    @property
+    def frontmost(self) -> bool:
+        return self.xa_scel.frontmost()
+
+    @frontmost.setter
+    def frontmost(self, frontmost: bool):
+        self.set_property("frontmost", frontmost)
+
+    @property
+    def version(self) -> str:
+        return self.xa_scel.version()
 
     def run(self, shortcut: 'XAShortcut', input: Any = None) -> Any:
         """Runs the shortcut with the provided input.
@@ -77,6 +97,105 @@ class XAShortcutsApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         .. versionadded:: 0.0.2
         """
         return self._new_element(self.xa_scel.shortcuts(), XAShortcutList, filter)
+
+
+
+
+class XAShortcutsWindow(XABaseScriptable.XASBWindow):
+    """A window of Shortcuts.app.
+
+    .. seealso:: :class:`XAShortcutsApplication`
+
+    .. versionadded:: 0.1.0
+    """
+    def __init__(self, properties):
+        super().__init__(properties)
+
+        self.name: str #: The title of the window
+        self.id: int #: The unique identifier for the window
+        self.index: int #: The index of the window in the front-to-back ordering
+        self.bounds: Tuple[int, int, int, int] #: The bounding rectangle of the window
+        self.closeable: bool #: Whether the window has a close button
+        self.miniaturizable: bool #: Whether the window can be minimized
+        self.miniaturized: bool #: Whether the window is currently minimized
+        self.resizable: bool #: Whether the window can be resized
+        self.visible: bool #: Whether the window is currently visible
+        self.zoomable: bool #: Whether the window can be zoomed
+        self.zoomed: bool #: Whether the window is currently zoomed
+
+    @property
+    def name(self) -> str:
+        return self.xa_elem.name()
+
+    @property
+    def id(self) -> int:
+        return self.xa_elem.id()
+
+    @property
+    def index(self) -> int:
+        return self.xa_elem.index()
+
+    @index.setter
+    def index(self, index: int):
+        self.set_property("index", index)
+
+    @property
+    def bounds(self) -> Tuple[int, int, int, int]:
+        rect = self.xa_elem.bounds()
+        origin = rect.origin
+        size = rect.size
+        return (origin.x, origin.y, size.width, size.height)
+
+    @bounds.setter
+    def bounds(self, bounds: Tuple[int, int, int, int]):
+        x = bounds[0]
+        y = bounds[1]
+        w = bounds[2]
+        h = bounds[3]
+        value = AppKit.NSValue.valueWithRect_(AppKit.NSMakeRect(x, y, w, h))
+        self.set_property("bounds", value)
+
+    @property
+    def closeable(self) -> bool:
+        return self.xa_elem.closeable()
+
+    @property
+    def miniaturizable(self) -> bool:
+        return self.xa_elem.miniaturizable()
+
+    @property
+    def miniaturized(self) -> bool:
+        return self.xa_elem.miniaturized()
+
+    @miniaturized.setter
+    def miniaturized(self, miniaturized: bool):
+        self.set_property("miniaturized", miniaturized)
+
+    @property
+    def resizable(self) -> bool:
+        return self.xa_elem.resizable()
+
+    @property
+    def visible(self) -> bool:
+        return self.xa_elem.visible()
+
+    @visible.setter
+    def visible(self, visible: bool):
+        self.set_property("visible", visible)
+
+    @property
+    def zoomable(self) -> bool:
+        return self.xa_elem.zoomable()
+
+    @property
+    def zoomed(self) -> bool:
+        return self.xa_elem.zoomed()
+
+    @zoomed.setter
+    def zoomed(self, zoomed: bool):
+        self.set_property("zoomed", zoomed)
+
+
 
 
 class XAShortcutFolderList(XABase.XAList, XAClipboardCodable):
@@ -164,6 +283,7 @@ class XAShortcutFolder(XABase.XAObject, XAClipboardCodable):
     """
     def __init__(self, properties):
         super().__init__(properties)
+
         self.id: str #: A unique identifier for the folder
         self.name: str #: The name string for the folder
 
@@ -222,6 +342,8 @@ class XAShortcutFolder(XABase.XAObject, XAClipboardCodable):
         if other is None:
             return False
         return self.id == other.id
+
+
 
 
 class XAShortcutList(XABase.XAList, XAClipboardCodable):
@@ -397,13 +519,13 @@ class XAShortcutList(XABase.XAList, XAClipboardCodable):
         """
         return self.by_property("actionCount", action_count)
 
-    def get_clipboard_representation(self) -> List[Union[List[str], List[str], List[NSImage]]]:
+    def get_clipboard_representation(self) -> List[Union[List[str], List[str], List[AppKit.NSImage]]]:
         """Gets a clipboard-codable representation of each shortcut in the list.
 
         When the clipboard content is set to a list of shortcuts, each shortcut's name, subtitle, and icon are added to the clipboard.
 
         :return: A list of each shortcut's name, subtitle, and icon
-        :rtype: List[Union[List[str], List[str], List[NSImage]]]
+        :rtype: List[Union[List[str], List[str], List[AppKit.NSImage]]]
 
         .. versionadded:: 0.0.8
         """
@@ -508,13 +630,13 @@ class XAShortcut(XABaseScriptable.XASBPrintable, XAClipboardCodable):
             input = input.xa_elem
         return self.xa_elem.runWithInput_(input)
 
-    def get_clipboard_representation(self) -> List[Union[str, str, NSImage]]:
+    def get_clipboard_representation(self) -> List[Union[str, str, AppKit.NSImage]]:
         """Gets a clipboard-codable representation of the shortcut.
 
         When the clipboard content is set to a shortcut, the shortcut's name, subtitle, and icon are added to the clipboard.
 
         :return: The shortcut's name, subtitle, and icon
-        :rtype: List[Union[str, str, NSImage]]
+        :rtype: List[Union[str, str, AppKit.NSImage]]
 
         .. versionadded:: 0.0.8
         """

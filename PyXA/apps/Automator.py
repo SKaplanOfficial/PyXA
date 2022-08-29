@@ -6,9 +6,8 @@ Control Automator using JXA-like syntax.
 from enum import Enum
 from turtle import st
 from typing import Any, List, Tuple, Union
-from AppKit import NSFileManager, NSURL, NSSet, NSValue, NSMakeRect
 
-from AppKit import NSPredicate, NSMutableArray, NSFileManager
+import AppKit
 
 from PyXA import XABase
 from PyXA import XABaseScriptable
@@ -44,11 +43,15 @@ class XAAutomatorApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
     def frontmost(self) -> bool:
         return self.xa_scel.frontmost()
 
+    @frontmost.setter
+    def frontmost(self, frontmost: bool):
+        self.set_property('frontmost', frontmost)
+
     @property
     def version(self) -> str:
         return self.xa_scel.version()
 
-    def open(self, path: Union[str, NSURL]) -> 'XAAutomatorWorkflow':
+    def open(self, path: Union[str, AppKit.NSURL]) -> 'XAAutomatorWorkflow':
         """Opens the file at the given filepath.
 
         :param target: The path to a file or the URL to a website to open.
@@ -58,7 +61,7 @@ class XAAutomatorApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
 
         .. versionadded:: 0.0.1
         """
-        if not isinstance(path, NSURL):
+        if not isinstance(path, AppKit.NSURL):
             path = XABase.XAPath(path)
         self.xa_wksp.openURLs_withAppBundleIdentifier_options_additionalEventParamDescriptor_launchIdentifiers_([path.xa_elem], self.xa_elem.bundleIdentifier(), 0, None, None)
         return self.workflows()[0]
@@ -147,7 +150,7 @@ class XAAutomatorApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
 
         if specifier == "workflow":
             if "path" not in properties and "name" in properties:
-                fm = NSFileManager.defaultManager()
+                fm = AppKit.NSFileManager.defaultManager()
                 properties.update({"path": f"{fm.homeDirectoryForCurrentUser().path()}/Downloads/{properties.get('name')}.workflow"})
             elif not properties.get("path").endswith(".workflow"):
                 properties.update({"path": properties.get("path") + ".workflow"})
@@ -165,6 +168,9 @@ class XAAutomatorApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         elif specifier == "setting":
             return self._new_element(obj, XAAutomatorSetting)
 
+
+
+
 class XAAutomatorWindow(XABaseScriptable.XASBWindow):
     """A class for managing and interacting with Automator windows.
 
@@ -177,7 +183,7 @@ class XAAutomatorWindow(XABaseScriptable.XASBWindow):
         self.name: str #: The full title of the window
         self.id: int #: The unique identifier for the window
         self.index: int #: The index of the window in the front-to-back ordering
-        self.bounds: Tuple[Tuple[int, int], Tuple[int, int]] #: The bounding rectangle of the window
+        self.bounds: Tuple[int, int, int, int] #: The bounding rectangle of the window
         self.floating: bool #: Whether the window float
         self.modal: bool #: Whether the window is a modal window
         self.closeable: bool #: Whether the window has a close button
@@ -211,16 +217,19 @@ class XAAutomatorWindow(XABaseScriptable.XASBWindow):
         self.set_property("index", index)
 
     @property
-    def bounds(self) -> Tuple[Tuple[int, int], Tuple[int, int]]:
-        return self.xa_elem.bounds()
+    def bounds(self) -> Tuple[int, int, int, int]:
+        rect = self.xa_elem.bounds()
+        origin = rect.origin
+        size = rect.size
+        return (origin.x, origin.y, size.width, size.height)
 
     @bounds.setter
-    def bounds(self, bounds: Tuple[Tuple[int, int], Tuple[int, int]]):
-        x = bounds[0][0]
-        y = bounds[0][1]
-        w = bounds[1][0]
-        h = bounds[1][1]
-        value = NSValue.valueWithRect_(NSMakeRect(x, y, w, h))
+    def bounds(self, bounds: Tuple[int, int, int, int]):
+        x = bounds[0]
+        y = bounds[1]
+        w = bounds[2]
+        h = bounds[3]
+        value = AppKit.NSValue.valueWithRect_(AppKit.NSMakeRect(x, y, w, h))
         self.set_property("bounds", value)
 
     @property
@@ -381,12 +390,14 @@ class XAAutomatorDocument(XABase.XAObject):
         self.set_property("name", name)
 
     @property
-    def path(self) -> str:
-        return self.xa_elem.path()
+    def path(self) -> XABase.XAPath:
+        return XABase.XAPath(self.xa_elem.path())
 
     @path.setter
-    def path(self, path: str):
-        self.set_property("path", path)
+    def path(self, path: Union[str, XABase.XAPath]):
+        if isinstance(path, str):
+            path = XABase.XAPath(path)
+        self.set_property("path", path.path)
 
     def __repr__(self):
         return "<" + str(type(self)) + self.name + ">"
@@ -963,8 +974,8 @@ class XAAutomatorAction(XABase.XAObject):
         return self._new_element(self.xa_elem.parentWorkflow(), XAAutomatorWorkflow)
 
     @property
-    def path(self) -> str:
-        return self.xa_elem.path()
+    def path(self) -> XABase.XAPath:
+        return XABase.XAPath(self.xa_elem.path())
 
     @property
     def show_action_when_run(self) -> bool:
@@ -1552,10 +1563,6 @@ class XAAutomatorWorkflow(XAAutomatorDocument):
     @property
     def name(self) -> str:
         return self.xa_elem.name()
-
-    @name.setter
-    def name(self, name: str):
-        self.set_property("name", name)
 
     def execute(self) -> Any:
         """Executes the workflow.

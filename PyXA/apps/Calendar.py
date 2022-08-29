@@ -3,7 +3,7 @@ from enum import Enum
 from typing import List, Tuple, Union
 
 import EventKit
-from AppKit import NSMutableArray
+import AppKit
 
 from PyXA import XABase
 from PyXA import XABaseScriptable
@@ -16,19 +16,6 @@ class XACalendarApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
 
     .. versionadded:: 0.0.1
     """
-    class SaveOption(Enum):
-        """Options for what to do when calling a save event.
-        """
-        SAVE_FILE   = XABase.OSType('yes ') #: Save the file. 
-        DONT_SAVE   = XABase.OSType('no  ') #: Do not save the file. 
-        ASK         = XABase.OSType('ask ') #: Ask the user whether or not to save the file. 
-
-    class PrintSetting(Enum):
-        """Options to use when printing.
-        """
-        STANDARD_ERROR_HANDLING = XABase.OSType('lwst') #: Standard PostScript error handling 
-        DETAILED_ERROR_HANDLING = XABase.OSType('lwdt') #: print a detailed report of PostScript errors
-
     class ParticipationStatus(Enum):
         """Event participation statuses.
         """
@@ -83,6 +70,10 @@ class XACalendarApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
     @property
     def frontmost(self) -> bool:
         return self.xa_scel.frontmost()
+
+    @frontmost.setter
+    def frontmost(self, frontmost: bool):
+        self.set_property('frontmost', frontmost)
 
     @property
     def version(self) -> str:
@@ -340,7 +331,7 @@ class XACalendarWindow(XABaseScriptable.XASBWindow):
         self.name: str #: The name of the window
         self.id: str #: The unique identifier for the window
         self.index: int #: The index of the window in the front-to-back ordering
-        self.bounds: Tuple[Tuple[int, int], Tuple[int, int]] #: The bounding rectangle of the window
+        self.bounds: Tuple[int, int, int, int] #: The bounding rectangle of the window
         self.closeable: bool #: Whether the window has a close button
         self.miniaturizable: bool #: Whether the window can be minimized
         self.miniaturized: bool #: Whether the window is currently minimized
@@ -366,9 +357,25 @@ class XACalendarWindow(XABaseScriptable.XASBWindow):
     def index(self) -> int:
         return self.xa_elem.index()
 
+    @index.setter
+    def index(self, index: int):
+        self.set_property('index', index)
+
     @property
-    def bounds(self) -> Tuple[Tuple[int, int], Tuple[int, int]]:
-        return self.xa_elem.bounds()
+    def bounds(self) -> Tuple[int, int, int, int]:
+        rect = self.xa_elem.bounds()
+        origin = rect.origin
+        size = rect.size
+        return (origin.x, origin.y, size.width, size.height)
+
+    @bounds.setter
+    def bounds(self, bounds: Tuple[int, int, int, int]):
+        x = bounds[0]
+        y = bounds[1]
+        w = bounds[2]
+        h = bounds[3]
+        value = AppKit.NSValue.valueWithRect_(AppKit.NSMakeRect(x, y, w, h))
+        self.set_property("bounds", value)
 
     @property
     def closeable(self) -> bool:
@@ -382,6 +389,10 @@ class XACalendarWindow(XABaseScriptable.XASBWindow):
     def miniaturized(self) -> bool:
         return self.xa_elem.miniaturized()
 
+    @miniaturized.setter
+    def miniaturized(self, miniaturized: bool):
+        self.set_property('miniaturized', miniaturized)
+
     @property
     def resizable(self) -> bool:
         return self.xa_elem.resizable()
@@ -390,6 +401,10 @@ class XACalendarWindow(XABaseScriptable.XASBWindow):
     def visible(self) -> bool:
         return self.xa_elem.visible()
 
+    @visible.setter
+    def visible(self, visible: bool):
+        self.set_property('visible', visible)
+
     @property
     def zoomable(self) -> bool:
         return self.xa_elem.zoomable()
@@ -397,6 +412,10 @@ class XACalendarWindow(XABaseScriptable.XASBWindow):
     @property
     def zoomed(self) -> bool:
         return self.xa_elem.zoomed()
+
+    @zoomed.setter
+    def zoomed(self, zoomed: bool):
+        self.set_property('zoomed', zoomed)
 
     @property
     def document(self) -> 'XACalendarDocument':
@@ -707,9 +726,17 @@ class XACalendarCalendar(XABase.XAObject):
     def name(self) -> str:
         return self.xa_elem.name()
 
+    @name.setter
+    def name(self, name: str):
+        self.set_property('name', name)
+
     @property
     def color(self) -> XABase.XAColor:
         return XABase.XAColor(self.xa_elem.color())
+
+    @color.setter
+    def color(self, color: XABase.XAColor):
+        self.set_property('color', color.xa_elem)
 
     @property
     def calendar_identifier(self) -> str:
@@ -722,6 +749,10 @@ class XACalendarCalendar(XABase.XAObject):
     @property
     def description(self) -> str:
         return self.xa_elem.description()
+
+    @description.setter
+    def description(self, description: str):
+        self.set_property('description', description)
 
     def delete(self) -> 'XACalendarEvent':
         """Deletes the calendar.
@@ -846,9 +877,17 @@ class XACalendarAlarm(XABase.XAObject):
     def trigger_interval(self) -> int:
         return self.xa_elem.triggerInterval()
 
+    @trigger_interval.setter
+    def trigger_interval(self, trigger_interval: int):
+        self.set_property('triggerInterval', trigger_interval)
+
     @property
     def trigger_date(self) -> datetime:
         return self.xa_elem.triggerDate()
+
+    @trigger_date.setter
+    def trigger_date(self, trigger_date: datetime):
+        self.set_property('triggerDate', trigger_date)
 
 
 
@@ -889,9 +928,17 @@ class XACalendarSoundAlarm(XACalendarAlarm):
     def sound_name(self) -> str:
         return self.xa_elem.soundName()
 
+    @sound_name.setter
+    def sound_name(self, sound_name: str):
+        self.set_property('soundName', sound_name)
+
     @property
     def sound_file(self) -> str:
         return self.xa_elem.soundFile()
+
+    @sound_file.setter
+    def sound_file(self, sound_file: str):
+        self.set_property('soundFile', sound_file)
 
 
 
@@ -908,6 +955,10 @@ class XACalendarOpenFileAlarm(XACalendarAlarm):
     @property
     def file_path(self) -> str:
         return self.xa_elem.filePath()
+
+    @file_path.setter
+    def file_path(self, file_path: str):
+        self.set_property('filePath', file_path)
 
 
 
@@ -1357,7 +1408,7 @@ class XACalendarEvent(XABase.XAObject):
         self.url: str #: The URL associated with the event
 
         if hasattr(self.xa_elem, "uid"):
-            events = NSMutableArray.arrayWithArray_([])
+            events = AppKit.NSMutableArray.arrayWithArray_([])
             for year in range(2006, datetime.now().year + 4, 4):
                 start_date = date(year, 1, 1)
                 end_date = start_date + timedelta(days = 365 * 4)
@@ -1373,21 +1424,41 @@ class XACalendarEvent(XABase.XAObject):
     def description(self) -> str:
         return self.xa_elem.description()
 
+    @description.setter
+    def description(self, description: str):
+        self.set_property('description', description)
+
     @property
     def start_date(self) -> datetime:
         return self.xa_elem.startDate()
+
+    @start_date.setter
+    def start_date(self, start_date: datetime):
+        self.set_property('startDate', start_date)
 
     @property
     def end_date(self) -> datetime:
         return self.xa_elem.endDate()
 
+    @end_date.setter
+    def end_date(self, end_date: datetime):
+        self.set_property('endDate', end_date)
+
     @property
     def allday_event(self) -> bool:
         return self.xa_elem.alldayEvent()
 
+    @allday_event.setter
+    def allday_event(self, allday_event: bool):
+        self.set_property('alldayEvent', allday_event)
+
     @property
     def recurrence(self) -> str:
         return self.xa_elem.recurrence()
+
+    @recurrence.setter
+    def recurrence(self, recurrence: str):
+        self.set_property('recurrence', recurrence)
 
     @property
     def sequence(self) -> int:
@@ -1397,21 +1468,41 @@ class XACalendarEvent(XABase.XAObject):
     def stamp_date(self) -> datetime:
         return self.xa_elem.stampDate()
 
+    @stamp_date.setter
+    def stamp_date(self, stamp_date: datetime):
+        self.set_property('stampDate', stamp_date)
+
     @property
     def excluded_dates(self) -> List[datetime]:
         return self.xa_elem.excludedDates()
 
+    @excluded_dates.setter
+    def excluded_dates(self, excluded_dates: List[datetime]):
+        self.set_property('excludedDates', excluded_dates)
+
     @property
     def status(self) -> XACalendarApplication.EventStatus:
-        return XACalendarApplication.EventStatus(XABase.OSType(self.xa_elem.status().stringValue())) 
+        return XACalendarApplication.EventStatus(XABase.OSType(self.xa_elem.status().stringValue()))
+
+    @status.setter
+    def status(self, status: XACalendarApplication.EventStatus):
+        self.set_property('status', status.value)
 
     @property
     def summary(self) -> str:
         return self.xa_elem.summary()
 
+    @summary.setter
+    def summary(self, summary: str):
+        self.set_property('summary', summary)
+
     @property
     def location(self) -> str:
         return self.xa_elem.location()
+
+    @location.setter
+    def location(self, location: str):
+        self.set_property('location', location)
 
     @property
     def uid(self) -> str:
@@ -1420,6 +1511,10 @@ class XACalendarEvent(XABase.XAObject):
     @property
     def url(self) -> str:
         return self.xa_elem.URL()
+
+    @url.setter
+    def url(self, url: str):
+        self.set_property('URL', url)
 
     def show(self) -> 'XACalendarEvent':
         """Shows the event in the front calendar window.

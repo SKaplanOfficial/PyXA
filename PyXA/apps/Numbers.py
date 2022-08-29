@@ -2,9 +2,11 @@
 
 Control the macOS Numbers application using JXA-like syntax.
 """
+from datetime import datetime
 from enum import Enum
 from typing import Any, List, Tuple, Union
-from AppKit import NSURL, NSSet, NSPoint, NSValue, NSMutableArray
+
+import AppKit
 from ScriptingBridge import SBElementArray
 
 from PyXA import XABase
@@ -19,13 +21,6 @@ class XANumbersApplication(XABaseScriptable.XASBApplication):
 
     .. versionadded:: 0.0.8
     """
-    class SaveOption(Enum):
-        """Options for what to do when calling a save event.
-        """
-        SAVE_FILE   = OSType('yes ') #: Save the file. 
-        DONT_SAVE   = OSType('no  ') #: Do not save the file. 
-        ASK         = OSType('ask ') #: Ask the user whether or not to save the file. 
-
     class ExportFormat(Enum):
         """Options for what format to export a Numbers project as.
         """
@@ -34,12 +29,6 @@ class XANumbersApplication(XABaseScriptable.XASBApplication):
         MICROSOFT_EXCEL         = OSType('Nexl') #: Excel format
         CSV                     = OSType('Ncsv') #: CSV format
         NUMBERS_09              = OSType('Nnmb') #: Numbers 2009 format
-
-    class PrintSetting(Enum):
-        """Options to use when printing documents.
-        """
-        STANDARD_ERROR_HANDLING = OSType('lwst') #: Standard PostScript error handling 
-        DETAILED_ERROR_HANDLING = OSType('lwdt') #: print a detailed report of PostScript errors 
 
     class ImageQuality(Enum):
         """Options for the quality of exported images.
@@ -159,17 +148,17 @@ class XANumbersApplication(XABaseScriptable.XASBApplication):
         self.xa_scel.print_withProperties_printDialog_(item.xa_elem, print_properties, show_dialog)
         return self
 
-    def open(self, path: Union[str, NSURL]) -> 'XANumbersDocument':
+    def open(self, path: Union[str, AppKit.NSURL]) -> 'XANumbersDocument':
             """Opens the file at the given filepath.
 
             :param target: The path of the file to open.
-            :type target: Union[str, NSURL]
+            :type target: Union[str, AppKit.NSURL]
             :return: A reference to newly created document object
             :rtype: XANumbersDocument
 
             .. versionadded:: 0.0.8
             """
-            if not isinstance(path, NSURL):
+            if not isinstance(path, AppKit.NSURL):
                 path = XABase.XAPath(path)
             self.xa_wksp.openURLs_withAppBundleIdentifier_options_additionalEventParamDescriptor_launchIdentifiers_([path.xa_elem], self.xa_elem.bundleIdentifier(), 0, None, None)
             return self.documents()[0]
@@ -227,7 +216,7 @@ class XANumbersApplication(XABaseScriptable.XASBApplication):
 
     def new_document(self, file_path: str = "./Untitled.key", template: 'XANumbersSheet' = None) -> 'XANumbersDocument':
         if isinstance(file_path, str):
-            file_path = NSURL.alloc().initFileURLWithPath_(file_path)
+            file_path = AppKit.NSURL.alloc().initFileURLWithPath_(file_path)
         properties = {
             "file": file_path,
         }
@@ -322,7 +311,7 @@ class XANumbersWindow(XABaseScriptable.XASBWindow, XABaseScriptable.XASBPrintabl
         self.name: str #: The title of the window
         self.id: int #: The unique identifier for the window
         self.index: int #: The index of the window in the front-to-back ordering
-        self.bounds: Tuple[Tuple[int, int], Tuple[int, int]] #: The bounding rectangle of the window
+        self.bounds: Tuple[int, int, int, int] #: The bounding rectangle of the window
         self.closeable: bool #: Whether the window has a close button
         self.miniaturizable: bool #: Whether the window can be minimized
         self.miniaturized: bool #: Whether the window is currently minimized
@@ -344,9 +333,25 @@ class XANumbersWindow(XABaseScriptable.XASBWindow, XABaseScriptable.XASBPrintabl
     def index(self) -> int:
         return self.xa_elem.index()
 
+    @index.setter
+    def index(self, index: int):
+        self.set_property('index', index)
+
     @property
-    def bounds(self) -> Tuple[Tuple[int, int], Tuple[int, int]]:
-        return self.xa_elem.bounds()
+    def bounds(self) -> Tuple[int, int, int, int]:
+        rect = self.xa_elem.bounds()
+        origin = rect.origin
+        size = rect.size
+        return (origin.x, origin.y, size.width, size.height)
+
+    @bounds.setter
+    def bounds(self, bounds: Tuple[int, int, int, int]):
+        x = bounds[0]
+        y = bounds[1]
+        w = bounds[2]
+        h = bounds[3]
+        value = AppKit.NSValue.valueWithRect_(AppKit.NSMakeRect(x, y, w, h))
+        self.set_property("bounds", value)
 
     @property
     def closeable(self) -> bool:
@@ -360,6 +365,10 @@ class XANumbersWindow(XABaseScriptable.XASBWindow, XABaseScriptable.XASBPrintabl
     def miniaturized(self) -> bool:
         return self.xa_elem.miniaturized()
 
+    @miniaturized.setter
+    def miniaturized(self, miniaturized: bool):
+        self.set_property('miniaturized', miniaturized)
+
     @property
     def resizable(self) -> bool:
         return self.xa_elem.resizable()
@@ -368,6 +377,10 @@ class XANumbersWindow(XABaseScriptable.XASBWindow, XABaseScriptable.XASBPrintabl
     def visible(self) -> bool:
         return self.xa_elem.visible()
 
+    @visible.setter
+    def visible(self, visible: bool):
+        self.set_property('visible', visible)
+
     @property
     def zoomable(self) -> bool:
         return self.xa_elem.zoomable()
@@ -375,6 +388,10 @@ class XANumbersWindow(XABaseScriptable.XASBWindow, XABaseScriptable.XASBPrintabl
     @property
     def zoomed(self) -> bool:
         return self.xa_elem.zoomed()
+
+    @zoomed.setter
+    def zoomed(self, zoomed: bool):
+        self.set_property('zoomed', zoomed)
 
     @property
     def document(self) -> 'XANumbersDocument':
@@ -501,19 +518,31 @@ class XANumbersDocument(XABaseScriptable.XASBPrintable, XACloseable):
     def active_sheet(self) -> 'XANumbersSheet':
         return self._new_element(self.xa_elem.activeSheet(), XANumbersSheet)
 
+    @active_sheet.setter
+    def active_sheet(self, active_sheet: 'XANumbersSheet'):
+        self.set_property('activeSheet', active_sheet.xa_elem)
+
     @property
     def selection(self) -> 'XANumbersiWorkItemList':
         return self._new_element(self.xa_elem.selection(), XANumbersiWorkItemList)
+
+    @selection.setter
+    def selection(self, selection: Union['XANumbersiWorkItemList', 'XANumbersiWorkItem']):
+        if isinstance(selection, list):
+            selection = [x.xa_elem for x in selection]
+            self.set_property('selection', selection)
+        else:
+            self.set_property('selection', selection.xa_elem)
 
     @property
     def password_protected(self) -> bool:
         return self.xa_elem.passwordProtected()
 
-    def export(self, file_path: Union[str, NSURL] = None, format: XANumbersApplication.ExportFormat = XANumbersApplication.ExportFormat.PDF):
+    def export(self, file_path: Union[str, AppKit.NSURL] = None, format: XANumbersApplication.ExportFormat = XANumbersApplication.ExportFormat.PDF):
         """Exports the document in the specified format.
 
         :param file_path: The path to save the exported file at, defaults to None
-        :type file_path: Union[str, NSURL], optional
+        :type file_path: Union[str, AppKit.NSURL], optional
         :param format: The format to export the file in, defaults to XANumbersApplication.ExportFormat.PDF
         :type format: XANumbersApplication.ExportFormat, optional
 
@@ -522,7 +551,7 @@ class XANumbersDocument(XABaseScriptable.XASBPrintable, XACloseable):
         if file_path is None:
             file_path = self.file.path()[:-4] + ".pdf"
         if isinstance(file_path, str):
-            file_path = NSURL.alloc().initFileURLWithPath_(file_path)
+            file_path = AppKit.NSURL.alloc().initFileURLWithPath_(file_path)
         self.xa_elem.exportTo_as_withProperties_(file_path, format.value, None)
 
     def new_sheet(self, properties: dict = None) -> 'XANumbersSheet':
@@ -633,18 +662,6 @@ class XANumbersDocument(XABaseScriptable.XASBPrintable, XACloseable):
         """
         return self._new_element(self.xa_elem.sheets(), XANumbersSheetList, filter)
 
-    def sections(self, filter: Union[dict, None] = None) -> 'XANumbersSectionList':
-        """Returns a list of sections, as PyXA objects, matching the given filter.
-
-        :param filter: A dictionary specifying property-value pairs that all returned sections will have, or None
-        :type filter: Union[dict, None]
-        :return: The list of sections
-        :rtype: XANumbersSectionList
-
-        .. versionadded:: 0.0.8
-        """
-        return self._new_element(self.xa_elem.sections(), XANumbersSectionList, filter)
-
     def shapes(self, filter: Union[dict, None] = None) -> 'XANumbersShapeList':
         """Returns a list of shapes, as PyXA objects, matching the given filter.
 
@@ -731,38 +748,6 @@ class XANumbersTemplate(XABase.XAObject):
 
     def __repr__(self):
         return f"<{str(type(self))}{self.name}, id={str(self.id)}>"
-
-
-
-
-class XANumbersSectionList(XABase.XAList):
-    """A wrapper around lists of sections that employs fast enumeration techniques.
-
-    .. versionadded:: 0.0.8
-    """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XANumbersSection, filter)
-
-    def body_text(self) -> List[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("bodyText"))
-
-    def by_body_text(self, body_text: str) -> 'XANumbersSection':
-        return self.by_property("bodyText", body_text)
-
-class XANumbersSection(XABase.XAObject):
-    """A class for managing and interacting with sections in Numbers.
-
-    .. seealso:: :class:`XANumbersApplication`, :class:`XANumbersiWorkItem`
-
-    .. versionadded:: 0.0.8
-    """
-    def __init__(self, properties):
-        super().__init__(properties)
-        self.body_text: str #: The section body text
-
-    @property
-    def body_text(self) -> str:
-        return self.xa_elem.bodyText()
 
 
 
@@ -952,6 +937,10 @@ class XANumbersSheet(XANumbersContainer):
     def name(self) -> str:
         return self.xa_elem.name()
 
+    @name.setter
+    def name(self, name: str):
+        self.set_property('name', name)
+
     # def duplicate(self) -> 'XANumbersPage':
     #     """Duplicates the page, mimicking the action of copying and pasting the page manually.
 
@@ -977,11 +966,11 @@ class XANumbersSheet(XANumbersContainer):
     #     """
     #     self.xa_elem.get().delete()
 
-    def add_image(self, file_path: Union[str, NSURL]) -> 'XANumbersImage':
+    def add_image(self, file_path: Union[str, AppKit.NSURL]) -> 'XANumbersImage':
         """Adds the image at the specified path to the slide.
 
         :param file_path: The path to the image file.
-        :type file_path: Union[str, NSURL]
+        :type file_path: Union[str, AppKit.NSURL]
         :return: The newly created image object.
         :rtype: XANumbersImage
 
@@ -989,7 +978,7 @@ class XANumbersSheet(XANumbersContainer):
         """
         url = file_path
         if isinstance(url, str):
-            url = NSURL.alloc().initFileURLWithPath_(file_path)
+            url = AppKit.NSURL.alloc().initFileURLWithPath_(file_path)
         image = self.xa_prnt.xa_prnt.xa_prnt.xa_prnt.make("image", {
             "file": url,
         })
@@ -1098,13 +1087,25 @@ class XANumbersiWorkItem(XABase.XAObject):
     def height(self) -> int:
         return self.xa_elem.height()
 
+    @height.setter
+    def height(self, height: int):
+        self.set_property('height', height)
+
     @property
     def locked(self) -> bool:
         return self.xa_elem.locked()
 
+    @locked.setter
+    def locked(self, locked: bool):
+        self.set_property('locked', locked)
+
     @property
     def width(self) -> int:
         return self.xa_elem.width()
+
+    @width.setter
+    def width(self, width: int):
+        self.set_property('width', width)
 
     @property
     def parent(self) -> XANumbersContainer:
@@ -1113,6 +1114,10 @@ class XANumbersiWorkItem(XABase.XAObject):
     @property
     def position(self) -> Tuple[int, int]:
         return self.xa_elem.position()
+
+    @position.setter
+    def position(self, position: Tuple[int, int]):
+        self.set_property('position', position)
 
     def delete(self):
         """Deletes the item.
@@ -1173,7 +1178,7 @@ class XANumbersiWorkItem(XABase.XAObject):
         return self
 
     def set_position(self, x: int, y: int) -> 'XANumbersiWorkItem':
-        position = NSValue.valueWithPoint_(NSPoint(x, y))
+        position = AppKit.NSValue.valueWithPoint_(AppKit.NSPoint(x, y))
         self.xa_elem.setValue_forKey_(position, "position")
 
 
@@ -1238,17 +1243,33 @@ class XANumbersGroup(XANumbersContainer):
     def height(self) -> int:
         return self.xa_elem.height()
 
+    @height.setter
+    def height(self, height: int):
+        self.set_property('height', height)
+
     @property
     def position(self) -> Tuple[int, int]:
         return self.xa_elem.position()
+
+    @position.setter
+    def position(self, position: Tuple[int, int]):
+        self.set_property('position', position)
 
     @property
     def width(self) -> int:
         return self.xa_elem.width()
 
+    @width.setter
+    def width(self, width: int):
+        self.set_property('width', width)
+
     @property
     def rotation(self) -> int:
         return self.xa_elem.rotation()
+
+    @rotation.setter
+    def rotation(self, rotation: int):
+        self.set_property('rotation', rotation)
 
     @property
     def parent(self) -> XANumbersContainer:
@@ -1345,32 +1366,56 @@ class XANumbersImage(XANumbersiWorkItem):
         self.rotation: int #: The rotation of the image, in degrees from 0 to 359
 
     @property
-    def description(self) -> str:
+    def object_description(self) -> str:
         return self.xa_elem.object_description()
 
+    @object_description.setter
+    def object_description(self, object_description: str):
+        self.set_property('objectDescription', object_description)
+
     @property
-    def file(self) -> str:
-        return self.xa_elem.file()
+    def file(self) -> XABase.XAPath:
+        return XABase.XAPath(self.xa_elem.file())
 
     @property
     def file_name(self) -> str:
         return self.xa_elem.fileName().get()
 
+    @file_name.setter
+    def file_name(self, file_name: str):
+        self.set_property('fileName', file_name)
+
     @property
     def opacity(self) -> int:
         return self.xa_elem.opacity()
+
+    @opacity.setter
+    def opacity(self, opacity: int):
+        self.set_property('opacity', opacity)
 
     @property
     def reflection_showing(self) -> bool:
         return self.xa_elem.reflectionShowing()
 
+    @reflection_showing.setter
+    def reflection_showing(self, reflection_showing: bool):
+        self.set_property('reflectionShowing', reflection_showing)
+
     @property
     def reflection_value(self) -> int:
         return self.xa_elem.reflectionValue()
 
+    @reflection_value.setter
+    def reflection_value(self, reflection_value: int):
+        self.set_property('reflectionValue', reflection_value)
+
     @property
     def rotation(self) -> int:
         return self.xa_elem.rotation()
+
+    @rotation.setter
+    def rotation(self, rotation: int):
+        self.set_property('rotation', rotation)
 
     def rotate(self, degrees: int) -> 'XANumbersImage':
         """Rotates the image by the specified number of degrees.
@@ -1396,11 +1441,11 @@ class XANumbersImage(XANumbersiWorkItem):
         self.set_property("rotation", self.rotation + degrees)
         return self
 
-    def replace_with(self, img_path: Union[str, NSURL]) -> 'XANumbersImage':
+    def replace_with(self, img_path: Union[str, AppKit.NSURL]) -> 'XANumbersImage':
         """Removes the image and inserts another in its place with the same width and height.
 
         :param img_path: The path to the new image file.
-        :type img_path: Union[str, NSURL]
+        :type img_path: Union[str, AppKit.NSURL]
         :return: A reference to the new PyXA image object.
         :rtype: XANumbersImage
 
@@ -1467,13 +1512,25 @@ class XANumbersAudioClip(XANumbersiWorkItem):
     def file_name(self) -> str:
         return self.xa_elem.fileName()
 
+    @file_name.setter
+    def file_name(self, file_name: str):
+        self.set_property('fileName', file_name)
+
     @property
     def clip_volume(self) -> int:
         return self.xa_elem.clipVolume()
 
+    @clip_volume.setter
+    def clip_volume(self, clip_volume: int):
+        self.set_property('clipVolume', clip_volume)
+
     @property
     def repetition_method(self) -> XANumbersApplication.RepetitionMethod:
         return XANumbersApplication.RepetitionMethod(self.xa_elem.repetitionMethod())
+
+    @repetition_method.setter
+    def repetition_method(self, repetition_method: XANumbersApplication.RepetitionMethod):
+        self.set_property('repetitionMethod', repetition_method.value)
 
 
 
@@ -1559,21 +1616,41 @@ class XANumbersShape(XANumbersiWorkItem):
     def object_text(self) -> str:
         return self.xa_elem.objectText()
 
+    @object_text.setter
+    def object_text(self, object_text: str):
+        self.set_property('objectText', object_text)
+
     @property
     def opacity(self) -> int:
         return self.xa_elem.opacity()
+
+    @opacity.setter
+    def opacity(self, opacity: int):
+        self.set_property('opacity', opacity)
 
     @property
     def reflection_showing(self) -> bool:
         return self.xa_elem.reflectionShowing()
 
+    @reflection_showing.setter
+    def reflection_showing(self, reflection_showing: bool):
+        self.set_property('reflectionShowing', reflection_showing)
+
     @property
     def reflection_value(self) -> int:
         return self.xa_elem.reflectionValue()
 
+    @reflection_value.setter
+    def reflection_value(self, reflection_value: int):
+        self.set_property('reflectionValue', reflection_value)
+
     @property
     def rotation(self) -> int:
         return self.xa_elem.rotation()
+
+    @rotation.setter
+    def rotation(self, rotation: int):
+        self.set_property('rotation', rotation)
 
     def rotate(self, degrees: int) -> 'XANumbersShape':
         """Rotates the shape by the specified number of degrees.
@@ -1592,7 +1669,7 @@ class XANumbersShape(XANumbersiWorkItem):
         if isinstance(value, tuple):
             if isinstance(value[0], int):
                 # Value is a position
-                value = NSValue.valueWithPoint_(NSPoint(value[0], value[1]))
+                value = AppKit.NSValue.valueWithPoint_(AppKit.NSPoint(value[0], value[1]))
         super().set_property(property_name, value)
 
 
@@ -1676,21 +1753,41 @@ class XANumbersLine(XANumbersiWorkItem):
     def end_point(self) -> Tuple[int, int]:
         return self.xa_elem.endPoint()
 
+    @end_point.setter
+    def end_point(self, end_point: Tuple[int, int]):
+        self.set_property('endPoint', end_point)
+
     @property
     def reflection_showing(self) -> bool:
         return self.xa_elem.reflectionShowing()
+
+    @reflection_showing.setter
+    def reflection_showing(self, reflection_showing: bool):
+        self.set_property('reflectionShowing', reflection_showing)
 
     @property
     def reflection_value(self) -> int:
         return self.xa_elem.reflectionValue()
 
+    @reflection_value.setter
+    def reflection_value(self, reflection_value: int):
+        self.set_property('reflectionValue', reflection_value)
+
     @property
     def rotation(self) -> int:
         return self.xa_elem.rotation()
 
+    @rotation.setter
+    def rotation(self, rotation: int):
+        self.set_property('rotation', rotation)
+
     @property
     def start_point(self) -> Tuple[int, int]:
         return self.xa_elem.startPoint()
+
+    @start_point.setter
+    def start_point(self, start_point: Tuple[int, int]):
+        self.set_property('startPoint', start_point)
 
     def rotate(self, degrees: int) -> 'XANumbersLine':
         """Rotates the line by the specified number of degrees.
@@ -1787,29 +1884,57 @@ class XANumbersMovie(XANumbersiWorkItem):
     def file_name(self) -> str:
         return self.xa_elem.fileName()
 
+    @file_name.setter
+    def file_name(self, file_name: str):
+        self.set_property('fileName', file_name)
+
     @property
     def movie_volume(self) -> int:
         return self.xa_elem.moveVolume()
+
+    @movie_volume.setter
+    def movie_volume(self, movie_volume: int):
+        self.set_property('movieVolume', movie_volume)
 
     @property
     def opacity(self) -> int:
         return self.xa_elem.opacity()
 
+    @opacity.setter
+    def opacity(self, opacity: int):
+        self.set_property('opacity', opacity)
+
     @property
     def reflection_showing(self) -> bool:
         return self.xa_elem.reflectionShowing()
+
+    @reflection_showing.setter
+    def reflection_showing(self, reflection_showing: bool):
+        self.set_property('reflectionShowing', reflection_showing)
 
     @property
     def reflection_value(self) -> int:
         return self.xa_elem.reflectionValue()
 
+    @reflection_value.setter
+    def reflection_value(self, reflection_value: int):
+        self.set_property('reflectionValue', reflection_value)
+
     @property
     def repetition_method(self) -> XANumbersApplication.RepetitionMethod:
         return XANumbersApplication.RepetitionMethod(self.xa_elem.repetitionMethod())
 
+    @repetition_method.setter
+    def repetition_method(self, repetition_method: XANumbersApplication.RepetitionMethod):
+        self.set_property('repetitionMethod', repetition_method.value)
+
     @property
     def rotation(self) -> int:
         return self.xa_elem.rotation()
+
+    @rotation.setter
+    def rotation(self, rotation: int):
+        self.set_property('rotation', rotation)
 
     def rotate(self, degrees: int) -> 'XANumbersMovie':
         """Rotates the movie by the specified number of degrees.
@@ -1904,21 +2029,44 @@ class XANumbersTextItem(XANumbersiWorkItem):
     def text(self) -> XABase.XAText:
         return self._new_element(self.xa_elem.text())
 
+    @text.setter
+    def text(self, text: Union[XABase.XAText, str]):
+        if isinstance(text, str):
+            self.set_property('text', text)
+        else:
+            self.set_property('text', text.xa_elem)
+
     @property
     def opacity(self) -> int:
         return self.xa_elem.opacity()
+
+    @opacity.setter
+    def opacity(self, opacity: int):
+        self.set_property('opacity', opacity)
 
     @property
     def reflection_showing(self) -> bool:
         return self.xa_elem.reflectionShowing()
 
+    @reflection_showing.setter
+    def reflection_showing(self, reflection_showing: bool):
+        self.set_property('reflectionShowing', reflection_showing)
+
     @property
     def reflection_value(self) -> int:
         return self.xa_elem.reflectionValue()
 
+    @reflection_value.setter
+    def reflection_value(self, reflection_value: int):
+        self.set_property('reflectionValue', reflection_value)
+
     @property
     def rotation(self) -> int:
         return self.xa_elem.rotation()
+
+    @rotation.setter
+    def rotation(self, rotation: int):
+        self.set_property('rotation', rotation)
 
     def rotate(self, degrees: int) -> 'XANumbersTextItem':
         """Rotates the text item by the specified number of degrees.
@@ -2026,25 +2174,49 @@ class XANumbersTable(XANumbersiWorkItem):
     def name(self) -> str:
         return self.xa_elem.name()
 
+    @name.setter
+    def name(self, name: str):
+        self.set_property('name', name)
+
     @property
     def row_count(self) -> int:
         return self.xa_elem.rowCount()
+
+    @row_count.setter
+    def row_count(self, row_count: int):
+        self.set_property('rowCount', row_count)
 
     @property
     def column_count(self) -> int:
         return self.xa_elem.columnCount()
 
+    @column_count.setter
+    def column_count(self, column_count: int):
+        self.set_property('columnCount', column_count)
+
     @property
     def header_row_count(self) -> int:
         return self.xa_elem.headerRowCount()
+
+    @header_row_count.setter
+    def header_row_count(self, header_row_count: int):
+        self.set_property('headerRowCount', header_row_count)
 
     @property
     def header_column_count(self) -> int:
         return self.xa_elem.headerColumnCount()
 
+    @header_column_count.setter
+    def header_column_count(self, header_column_count: int):
+        self.set_property('headerColumnCount', header_column_count)
+
     @property
     def footer_row_count(self) -> int:
         return self.xa_elem.footerRowCount()
+
+    @footer_row_count.setter
+    def footer_row_count(self, footer_row_count: int):
+        self.set_property('footerRowCount', footer_row_count)
 
     @property
     def cell_range(self) -> 'XANumbersRange':
@@ -2054,17 +2226,33 @@ class XANumbersTable(XANumbersiWorkItem):
     def selection_range(self) -> 'XANumbersRange':
         return self._new_element(self.xa_elem.selectionRange(), XANumbersRange)
 
+    @selection_range.setter
+    def selection_range(self, selection_range: 'XANumbersRange'):
+        self.set_property('selectionRange', selection_range.xa_elem)
+
     @property
     def filtered(self) -> bool:
         return self.xa_elem.filtered()
+
+    @filtered.setter
+    def filtered(self, filtered: bool):
+        self.set_property('filtered', filtered)
 
     @property
     def header_rows_frozen(self) -> bool:
         return self.xa_elem.headerRowsFrozen()
 
+    @header_rows_frozen.setter
+    def header_rows_frozen(self, header_rows_frozen: bool):
+        self.set_property('headerRowsFrozen', header_rows_frozen)
+
     @property
     def header_columns_frozen(self) -> bool:
         return self.xa_elem.headerColumnsFrozen()
+
+    @header_columns_frozen.setter
+    def header_columns_frozen(self, header_columns_frozen: bool):
+        self.set_property('header_columns_frozen', header_columns_frozen)
 
     # TODO
     def sort(self, columns: List['XANumbersColumn'], rows: List['XANumbersRow'], direction: XANumbersApplication.SortDirection = XANumbersApplication.SortDirection.ASCENDING) -> 'XANumbersTable':
@@ -2227,17 +2415,33 @@ class XANumbersRange(XABase.XAObject):
     def font_name(self) -> str:
         return self.xa_elem.fontName()
 
+    @font_name.setter
+    def font_name(self, font_name: str):
+        self.set_property('fontName', font_name)
+
     @property
     def font_size(self) -> int:
         return self.xa_elem.fontSize()
+
+    @font_size.setter
+    def font_size(self, font_size: float):
+        self.set_property('fontSize', font_size)
 
     @property
     def format(self) -> XANumbersApplication.CellFormat:
         return XANumbersApplication.CellFormat(self.xa_elem.format())
 
+    @format.setter
+    def format(self, format: XANumbersApplication.CellFormat):
+        self.set_property('format', format.value)
+
     @property
     def alignment(self) -> XANumbersApplication.Alignment:
         return XANumbersApplication.Alignment(self.xa_elem.alighment())
+
+    @alignment.setter
+    def alignment(self, alignment: XANumbersApplication.Alignment):
+        self.set_property('alignment', alignment.value)
 
     @property
     def name(self) -> str:
@@ -2247,17 +2451,33 @@ class XANumbersRange(XABase.XAObject):
     def text_color(self) -> XABase.XAColor:
         return XABase.XAColor(self.xa_elem.textColor())
 
+    @text_color.setter
+    def text_color(self, text_color: XABase.XAColor):
+        self.set_property('textColor', text_color.xa_elem)
+
     @property
     def text_wrap(self) -> bool:
         return self.xa_elem.textWrap()
+
+    @text_wrap.setter
+    def text_wrap(self, text_wrap: bool):
+        self.set_property('textWrap', text_wrap)
 
     @property
     def background_color(self) -> XABase.XAColor:
         return XABase.XAColor(self.xa_elem.backgroundColor())
 
+    @background_color.setter
+    def background_color(self, background_color: XABase.XAColor):
+        self.set_property('backgroundColor', background_color.xa_elem)
+
     @property
     def vertical_alignment(self) -> XANumbersApplication.Alignment:
         return XANumbersApplication.Alignment(self.xa_elem.verticalAlignment())
+
+    @vertical_alignment.setter
+    def vertical_alignment(self, vertical_alignment: XANumbersApplication.Alignment):
+        self.set_property('verticalAlignment', vertical_alignment.value)
 
     def clear(self) -> 'XANumbersRange':
         """Clears the content of every cell in the range.
@@ -2405,6 +2625,10 @@ class XANumbersRow(XANumbersRange):
     def height(self) -> float:
         return self.xa_elem.height()
 
+    @height.setter
+    def height(self, height: float):
+        self.set_property('height', height)
+
 
 
 
@@ -2447,6 +2671,10 @@ class XANumbersColumn(XANumbersRange):
     @property
     def width(self) -> float:
         return self.xa_elem.width()
+
+    @width.setter
+    def width(self, width: float):
+        self.set_property('width', width)
 
 
 
@@ -2515,8 +2743,12 @@ class XANumbersCell(XANumbersRange):
         return self.xa_elem.formula()
 
     @property
-    def value(self) -> str:
+    def value(self) -> Union[int, float, datetime, str, bool, None]:
         return self.xa_elem.value().get()
+
+    @value.setter
+    def value(self, value: Union[int, float, datetime, str, bool, None]):
+        self.set_property('value', value)
 
     @property
     def column(self) -> XANumbersColumn:

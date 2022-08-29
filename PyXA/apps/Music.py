@@ -6,14 +6,14 @@ Control the macOS Music application using JXA-like syntax.
 from datetime import datetime
 from enum import Enum
 from typing import List, Literal, Tuple, Union
-from AppKit import NSURL
+from AppKit import NSURL, NSValue, NSMakeRect
 
 from PyXA import XABase
 from PyXA import XABaseScriptable
 from ..XAProtocols import XACanOpenPath
 
 class XAMusicApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
-    """A class for managing and interacting with TV.app.
+    """A class for managing and interacting with Music.app.
 
     .. seealso:: :class:`XAMusicWindow`, class:`XAMusicSource`, :class:`XAMusicPlaylist`, :class:`XAMusicTrack`
 
@@ -166,13 +166,29 @@ class XAMusicApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         ls = self.xa_scel.currentAirPlayDevices()
         return self._new_element(ls, XAMusicAirPlayDeviceList)
 
+    @current_airplay_devices.setter
+    def current_airplay_devices(self, current_airplay_devices: Union['XAMusicAirPlayDeviceList', List['XAMusicAirPlayDevice']]):
+        if isinstance(current_airplay_devices, list):
+            current_airplay_devices = [x.xa_elem for x in current_airplay_devices]
+            self.set_property('currentAirplayDevices', current_airplay_devices)
+        else:
+            self.set_property('currentAirplayDevices', current_airplay_devices.xa_elem)
+
     @property
     def current_encoder(self) -> 'XAMusicEncoder':
         return self._new_element(self.xa_scel.currentEncoder(), XAMusicEncoder)
 
+    @current_encoder.setter
+    def current_encoder(self, current_encoder: 'XAMusicEncoder'):
+        self.set_property('currentEncoder', current_encoder.xa_elem)
+
     @property
     def current_eq_preset(self) -> 'XAMusicEQPreset':
         return self._new_element(self.xa_scel.currentEQPreset(), XAMusicEQPreset)
+
+    @current_eq_preset.setter
+    def current_eq_preset(self, current_eq_preset: 'XAMusicEQPreset'):
+        self.set_property('currentEQPreset', current_eq_preset.xa_elem)
 
     @property
     def current_playlist(self) -> 'XAMusicPlaylist':
@@ -194,21 +210,41 @@ class XAMusicApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
     def current_visual(self) -> 'XAMusicVisual':
         return self._new_element(self.xa_scel.currentVisual(), XAMusicVisual)
 
+    @current_visual.setter
+    def current_visual(self, current_visual: 'XAMusicVisual'):
+        self.set_property('currentVisual', current_visual.xa_elem)
+
     @property
     def eq_enabled(self) -> bool:
         return self.xa_scel.eqEnabled()
+
+    @eq_enabled.setter
+    def eq_enabled(self, eq_enabled: bool):
+        self.set_property('eqEnabled', eq_enabled)
 
     @property
     def fixed_indexing(self) -> bool:
         return self.xa_scel.fixedIndexing()
 
+    @fixed_indexing.setter
+    def fixed_indexing(self, fixed_indexing: bool):
+        self.set_property('fixedIndexing', fixed_indexing)
+
     @property
     def frontmost(self) -> bool:
         return self.xa_scel.frontmost()
 
+    @frontmost.setter
+    def frontmost(self, frontmost: bool):
+        self.set_property('frontmost', frontmost)
+
     @property
     def full_screen(self) -> bool:
         return self.xa_scel.fullScreen()
+
+    @full_screen.setter
+    def full_screen(self, full_screen: bool):
+        self.set_property('fullScreen', full_screen)
 
     @property
     def name(self) -> str:
@@ -218,9 +254,17 @@ class XAMusicApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
     def mute(self) -> bool:
         return self.xa_scel.mute()
 
+    @mute.setter
+    def mute(self, mute: bool):
+        self.set_property('mute', mute)
+
     @property
     def player_position(self) -> float:
         return self.xa_scel.playerPosition()
+
+    @player_position.setter
+    def player_position(self, player_position: float):
+        self.set_property('playerPosition', player_position)
 
     @property
     def player_state(self) -> 'XAMusicApplication.PlayerState':
@@ -234,17 +278,33 @@ class XAMusicApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
     def shuffle_enabled(self) -> bool:
         return self.xa_scel.shuffleEnabled()
 
+    @shuffle_enabled.setter
+    def shuffle_enabled(self, shuffle_enabled: bool):
+        self.set_property('shuffleEnabled', shuffle_enabled)
+
     @property
     def shuffle_mode(self) -> 'XAMusicApplication.ShuffleMode':
         return XAMusicApplication.ShuffleMode(self.xa_scel.shuffleMode())
+
+    @shuffle_mode.setter
+    def shuffle_mode(self, shuffle_mode: 'XAMusicApplication.ShuffleMode'):
+        self.set_property('shuffleMode', shuffle_mode.value)
 
     @property
     def song_repeat(self) -> 'XAMusicApplication.RepeatMode':
         return XAMusicApplication.RepeatMode(self.xa_scel.songRepeat())
 
+    @song_repeat.setter
+    def song_repeat(self, song_repeat: 'XAMusicApplication.RepeatMode'):
+        self.set_property('songRepeat', song_repeat.value)
+
     @property
     def sound_volume(self) -> int:
         return self.xa_scel.soundVolume()
+
+    @sound_volume.setter
+    def sound_volume(self, sound_volume: int):
+        self.set_property('soundVolume', sound_volume)
 
     @property
     def version(self) -> str:
@@ -253,6 +313,10 @@ class XAMusicApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
     @property
     def visuals_enabled(self) -> bool:
         return self.xa_scel.visualsEnabled()
+
+    @visuals_enabled.setter
+    def visuals_enabled(self, visuals_enabled: bool):
+        self.set_property('visualsEnabled', visuals_enabled)
 
     def play(self, item: 'XAMusicItem' = None) -> 'XAMusicApplication':
         """Plays the specified TV item (e.g. track, playlist, etc.). If no item is provided, this plays the current track from its current player position.
@@ -773,6 +837,10 @@ class XAMusicItem(XABase.XAObject):
     def name(self) -> str:
         return self.xa_elem.name()
 
+    @name.setter
+    def name(self, name: str):
+        self.set_property('name', name)
+
     @property
     def persistent_id(self) -> str:
         return self.xa_elem.persistentID()
@@ -1052,6 +1120,10 @@ class XAMusicAirPlayDevice(XAMusicItem):
     def selected(self) -> bool:
         return self.xa_elem.selected()
 
+    @selected.setter
+    def selected(self, selected: bool):
+        self.set_property('selected', selected)
+
     @property
     def supports_audio(self) -> bool:
         return self.xa_elem.supportsAudio()
@@ -1063,6 +1135,10 @@ class XAMusicAirPlayDevice(XAMusicItem):
     @property
     def sound_volume(self) -> int:
         return self.xa_elem.soundVolume()
+
+    @sound_volume.setter
+    def sound_volume(self, sound_volume: int):
+        self.set_property('soundVolume', sound_volume)
 
 
 
@@ -1216,9 +1292,17 @@ class XAMusicArtwork(XAMusicItem):
     def data(self) -> XABase.XAImage:
         return XABase.XAImage(self.xa_elem.data())
 
+    @data.setter
+    def data(self, data: XABase.XAImage):
+        self.set_property('data', data.xa_elem)
+
     @property
     def object_description(self) -> str:
         return self.xa_elem.objectDescription()
+
+    @object_description.setter
+    def object_description(self, object_description: str):
+        self.set_property('objectDescription', object_description)
 
     @property
     def downloaded(self) -> bool:
@@ -1232,9 +1316,17 @@ class XAMusicArtwork(XAMusicItem):
     def kind(self) -> int:
         return self.xa_elem.kind()
 
+    @kind.setter
+    def kind(self, kind: int):
+        self.set_property('kind', kind)
+
     @property
     def raw_data(self) -> bytes:
         return self.xa_elem.rawData()
+
+    @raw_data.setter
+    def raw_data(self, raw_data: str):
+        self.set_property('rawData', raw_data)
 
 
 
@@ -1580,41 +1672,81 @@ class XAMusicEQPreset(XAMusicItem):
     def band1(self) -> float:
         return self.xa_elem.band1()
 
+    @band1.setter
+    def band1(self, band1: float):
+        self.set_property('band1', band1)
+
     @property
     def band2(self) -> float:
         return self.xa_elem.band2()
+
+    @band2.setter
+    def band2(self, band2: float):
+        self.set_property('band2', band2)
 
     @property
     def band3(self) -> float:
         return self.xa_elem.band3()
 
+    @band3.setter
+    def band3(self, band3: float):
+        self.set_property('band3', band3)
+
     @property
     def band4(self) -> float:
         return self.xa_elem.band4()
+
+    @band4.setter
+    def band4(self, band4: float):
+        self.set_property('band4', band4)
 
     @property
     def band5(self) -> float:
         return self.xa_elem.band5()
 
+    @band5.setter
+    def band5(self, band5: float):
+        self.set_property('band5', band5)
+
     @property
     def band6(self) -> float:
         return self.xa_elem.band6()
+
+    @band6.setter
+    def band6(self, band6: float):
+        self.set_property('band6', band6)
 
     @property
     def band7(self) -> float:
         return self.xa_elem.band7()
 
+    @band7.setter
+    def band7(self, band7: float):
+        self.set_property('band7', band7)
+
     @property
     def band8(self) -> float:
         return self.xa_elem.band8()
+
+    @band8.setter
+    def band8(self, band8: float):
+        self.set_property('band8', band8)
 
     @property
     def band9(self) -> float:
         return self.xa_elem.band9()
 
+    @band9.setter
+    def band9(self, band9: float):
+        self.set_property('band9', band9)
+
     @property
     def band10(self) -> float:
         return self.xa_elem.band10()
+
+    @band10.setter
+    def band10(self, band10: float):
+        self.set_property('band10', band10)
 
     @property
     def modifiable(self) -> bool:
@@ -1624,9 +1756,17 @@ class XAMusicEQPreset(XAMusicItem):
     def preamp(self) -> float:
         return self.xa_elem.preamp()
 
+    @preamp.setter
+    def preamp(self, preamp: float):
+        self.set_property('preamp', preamp)
+
     @property
     def update_tracks(self) -> bool:
         return self.xa_elem.updateTracks()
+
+    @update_tracks.setter
+    def update_tracks(self, update_tracks: bool):
+        self.set_property('updateTracks', update_tracks)
 
 
 
@@ -1883,9 +2023,17 @@ class XAMusicPlaylist(XAMusicItem):
     def object_description(self) -> str:
         return self.xa_elem.objectDescription()
 
+    @object_description.setter
+    def object_description(self, object_description: str):
+        self.set_property('objectDescription', object_description)
+
     @property
     def disliked(self) -> bool:
         return self.xa_elem.disliked()
+
+    @disliked.setter
+    def disliked(self, disliked: bool):
+        self.set_property('disliked', disliked)
 
     @property
     def duration(self) -> int:
@@ -1895,9 +2043,17 @@ class XAMusicPlaylist(XAMusicItem):
     def name(self) -> str:
         return self.xa_elem.name()
 
+    @name.setter
+    def name(self, name: str):
+        self.set_property('name', name)
+
     @property
     def loved(self) -> bool:
         return self.xa_elem.loved()
+
+    @loved.setter
+    def loved(self, loved: bool):
+        self.set_property('loved', loved)
 
     @property
     def parent(self) -> 'XAMusicPlaylist':
@@ -2143,29 +2299,57 @@ class XAMusicAudioCDPlaylist(XAMusicPlaylist):
     def artist(self) -> str:
         return self.xa_elem.artist()
 
+    @artist.setter
+    def artist(self, artist: str):
+        self.set_property('artist', artist)
+
     @property
     def compilation(self) -> bool:
         return self.xa_elem.compilation()
+
+    @compilation.setter
+    def compilation(self, compilation: bool):
+        self.set_property('compilation', compilation)
 
     @property
     def composer(self) -> str:
         return self.xa_elem.composer()
 
+    @composer.setter
+    def composer(self, composer: str):
+        self.set_property('composer', composer)
+
     @property
     def disc_count(self) -> int:
         return self.xa_elem.discCount()
+
+    @disc_count.setter
+    def disc_count(self, disc_count: int):
+        self.set_property('discCount', disc_count)
 
     @property
     def disc_number(self) -> int:
         return self.xa_elem.discNumber()
 
+    @disc_number.setter
+    def disc_number(self, disc_number: int):
+        self.set_property('discNumber', disc_number)
+
     @property
     def genre(self) -> str:
         return self.xa_elem.genre()
+
+    @genre.setter
+    def genre(self, genre: str):
+        self.set_property('genre', genre)
     
     @property
     def year(self) -> int:
         return self.xa_elem.year()
+
+    @year.setter
+    def year(self, year: int):
+        self.set_property('year', year)
 
     def audio_cd_tracks(self, filter: Union[dict, None] = None) -> 'XAMusicAudioCDTrackList':
         """Returns a list of audio CD tracks, as PyXA objects, matching the given filter.
@@ -4002,21 +4186,41 @@ class XAMusicTrack(XAMusicItem):
     def album(self) -> str:
         return self.xa_elem.album()
 
+    @album.setter
+    def album(self, album: str):
+        self.set_property('album', album)
+
     @property
     def album_artist(self) -> str:
         return self.xa_elem.albumArtist()
+
+    @album_artist.setter
+    def album_artist(self, album_artist: str):
+        self.set_property('albumArtist', album_artist)
 
     @property
     def album_disliked(self) -> bool:
         return self.xa_elem.albumDisliked()
 
+    @album_disliked.setter
+    def album_disliked(self, album_disliked: bool):
+        self.set_property('albumDisliked', album_disliked)
+
     @property
     def album_loved(self) -> bool:
         return self.xa_elem.albumLoved()
 
+    @album_loved.setter
+    def album_loved(self, album_loved: bool):
+        self.set_property('albumLoved', album_loved)
+
     @property
     def album_rating(self) -> int:
         return self.xa_elem.albumRating()
+
+    @album_rating.setter
+    def album_rating(self, album_rating: int):
+        self.set_property('albumRating', album_rating)
 
     @property
     def album_rating_kind(self) -> XAMusicApplication.RatingKind:
@@ -4026,6 +4230,10 @@ class XAMusicTrack(XAMusicItem):
     def artist(self) -> str:
         return self.xa_elem.artist()
 
+    @artist.setter
+    def artist(self, artist: str):
+        self.set_property('artist', artist)
+
     @property
     def bit_rate(self) -> int:
         return self.xa_elem.bitRate()
@@ -4034,17 +4242,33 @@ class XAMusicTrack(XAMusicItem):
     def bookmark(self) -> float:
         return self.xa_elem.bookmark()
 
+    @bookmark.setter
+    def bookmark(self, bookmark: float):
+        self.set_property('bookmark', bookmark)
+
     @property
     def bookmarkable(self) -> bool:
         return self.xa_elem.bookmarkable()
+
+    @bookmarkable.setter
+    def bookmarkable(self, bookmarkable: bool):
+        self.set_property('bookmarkable', bookmarkable)
 
     @property
     def bpm(self) -> int:
         return self.xa_elem.bpm()
 
+    @bpm.setter
+    def bpm(self, bpm: int):
+        self.set_property('bpm', bpm)
+
     @property
     def category(self) -> str:
         return self.xa_elem.category()
+
+    @category.setter
+    def category(self, category: str):
+        self.set_property('category', category)
 
     @property
     def cloud_status(self) -> XAMusicApplication.iCloudStatus:
@@ -4054,13 +4278,25 @@ class XAMusicTrack(XAMusicItem):
     def comment(self) -> str:
         return self.xa_elem.comment()
 
+    @comment.setter
+    def comment(self, comment: str):
+        self.set_property('comment', comment)
+
     @property
     def compilation(self) -> bool:
         return self.xa_elem.compilation()
 
+    @compilation.setter
+    def compilation(self, compilation: bool):
+        self.set_property('compilation', compilation)
+
     @property
     def composer(self) -> str:
         return self.xa_elem.composer()
+
+    @composer.setter
+    def composer(self, composer: str):
+        self.set_property('composer', composer)
 
     @property
     def database_id(self) -> int:
@@ -4074,17 +4310,33 @@ class XAMusicTrack(XAMusicItem):
     def object_description(self) -> str:
         return self.xa_elem.objectDescription()
 
+    @object_description.setter
+    def object_description(self, object_description: str):
+        self.set_property('objectDescription', object_description)
+
     @property
     def disc_count(self) -> int:
         return self.xa_elem.discCount()
+
+    @disc_count.setter
+    def disc_count(self, disc_count: int):
+        self.set_property('discCount', disc_count)
 
     @property
     def disc_number(self) -> int:
         return self.xa_elem.discNumber()
 
+    @disc_number.setter
+    def disc_number(self, disc_number: int):
+        self.set_property('discNumber', disc_number)
+
     @property
     def disliked(self) -> bool:
         return self.xa_elem.disliked()
+
+    @disliked.setter
+    def disliked(self, disliked: bool):
+        self.set_property('disliked', disliked)
 
     @property
     def downloader_apple_id(self) -> str:
@@ -4102,33 +4354,65 @@ class XAMusicTrack(XAMusicItem):
     def enabled(self) -> bool:
         return self.xa_elem.enabled()
 
+    @enabled.setter
+    def enabled(self, enabled: bool):
+        self.set_property('enabled', enabled)
+
     @property
     def episode_id(self) -> str:
         return self.xa_elem.episodeID()
+
+    @episode_id.setter
+    def episode_id(self, episode_id: str):
+        self.set_property('episodeId', episode_id)
 
     @property
     def episode_number(self) -> int:
         return self.xa_elem.episodeNumber()
 
+    @episode_number.setter
+    def episode_number(self, episode_number: int):
+        self.set_property('episodeNumber', episode_number)
+
     @property
     def eq(self) -> str:
         return self.xa_elem.EQ()
+
+    @eq.setter
+    def eq(self, eq: str):
+        self.set_property('EQ', eq)
 
     @property
     def finish(self) -> float:
         return self.xa_elem.finish()
 
+    @finish.setter
+    def finish(self, finish: float):
+        self.set_property('finish', finish)
+
     @property
     def gapless(self) -> bool:
         return self.xa_elem.gapless()
+
+    @gapless.setter
+    def gapless(self, gapless: bool):
+        self.set_property('gapless', gapless)
 
     @property
     def genre(self) -> str:
         return self.xa_elem.genre()
 
+    @genre.setter
+    def genre(self, genre: str):
+        self.set_property('genre', genre)
+
     @property
     def grouping(self) -> str:
         return self.xa_elem.grouping()
+
+    @grouping.setter
+    def grouping(self, grouping: str):
+        self.set_property('grouping', grouping)
 
     @property
     def kind(self) -> str:
@@ -4138,17 +4422,33 @@ class XAMusicTrack(XAMusicItem):
     def long_description(self) -> str:
         return self.xa_elem.longDescription()
 
+    @long_description.setter
+    def long_description(self, long_description: str):
+        self.set_property('longDescription', long_description)
+
     @property
     def loved(self) -> bool:
         return self.xa_elem.loved()
+
+    @loved.setter
+    def loved(self, loved: bool):
+        self.set_property('loved', loved)
 
     @property
     def lyrics(self) -> str:
         return self.xa_elem.lyrics()
 
+    @lyrics.setter
+    def lyrics(self, lyrics: str):
+        self.set_property('lyrics', lyrics)
+
     @property
     def media_kind(self) -> XAMusicApplication.MediaKind:
         return XAMusicApplication.MediaKind(self.xa_elem.mediaKind())
+
+    @media_kind.setter
+    def media_kind(self, media_kind: XAMusicApplication.MediaKind):
+        self.set_property('mediaKind', media_kind.value)
 
     @property
     def modification_date(self) -> datetime:
@@ -4158,21 +4458,41 @@ class XAMusicTrack(XAMusicItem):
     def movement(self) -> str:
         return self.xa_elem.movement()
 
+    @movement.setter
+    def movement(self, movement: str):
+        self.set_property('movement', movement)
+
     @property
     def movement_count(self) -> int:
         return self.xa_elem.movementCount()
+
+    @movement_count.setter
+    def movement_count(self, movement_count: int):
+        self.set_property('movementCount', movement_count)
 
     @property
     def movement_number(self) -> int:
         return self.xa_elem.movementNumber()
 
+    @movement_number.setter
+    def movement_number(self, movement_number: int):
+        self.set_property('movementNumber', movement_number)
+
     @property
     def played_count(self) -> int:
         return self.xa_elem.playedCount()
 
+    @played_count.setter
+    def played_count(self, played_count: int):
+        self.set_property('playedCount', played_count)
+
     @property
     def played_date(self) -> datetime:
         return self.xa_elem.playedDate()
+
+    @played_date.setter
+    def played_date(self, played_date: datetime):
+        self.set_property('playedDate', played_date)
 
     @property
     def purchaser_apple_id(self) -> str:
@@ -4185,6 +4505,10 @@ class XAMusicTrack(XAMusicItem):
     @property
     def rating(self) -> int:
         return self.xa_elem.rating()
+
+    @rating.setter
+    def rating(self, rating: int):
+        self.set_property('rating', rating)
 
     @property
     def rating_kind(self) -> XAMusicApplication.RatingKind:
@@ -4202,45 +4526,89 @@ class XAMusicTrack(XAMusicItem):
     def season_number(self) -> int:
         return self.xa_elem.seasonNumber()
 
+    @season_number.setter
+    def season_number(self, season_number: int):
+        self.set_property('seasonNumber', season_number)
+
     @property
     def shufflable(self) -> bool:
         return self.xa_elem.shufflable()
+
+    @shufflable.setter
+    def shufflable(self, shufflable: bool):
+        self.set_property('shufflable', shufflable)
 
     @property
     def skipped_count(self) -> int:
         return self.xa_elem.skippedCount()
 
+    @skipped_count.setter
+    def skipped_count(self, skipped_count: int):
+        self.set_property('skippedCount', skipped_count)
+
     @property
     def skipped_date(self) -> datetime:
         return self.xa_elem.skippedDate()
+
+    @skipped_date.setter
+    def skipped_date(self, skipped_date: datetime):
+        self.set_property('skippedDate', skipped_date)
 
     @property
     def show(self) -> str:
         return self.xa_elem.show()
 
+    @show.setter
+    def show(self, show: str):
+        self.set_property('show', show)
+
     @property
     def sort_album(self) -> str:
         return self.xa_elem.sortAlbum()
+
+    @sort_album.setter
+    def sort_album(self, sort_album: str):
+        self.set_property('sortAlbum', sort_album)
 
     @property
     def sort_artist(self) -> str:
         return self.xa_elem.sortArtist()
 
+    @sort_artist.setter
+    def sort_artist(self, sort_artist: str):
+        self.set_property('sortArtist', sort_artist)
+
     @property
     def sort_album_artist(self) -> str:
         return self.xa_elem.sortAlbumArtist()
+
+    @sort_album_artist.setter
+    def sort_album_artist(self, sort_album_artist: str):
+        self.set_property('sortAlbumArtist', sort_album_artist)
 
     @property
     def sort_name(self) -> str:
         return self.xa_elem.sortName()
 
+    @sort_name.setter
+    def sort_name(self, sort_name: str):
+        self.set_property('sortName', sort_name)
+
     @property
     def sort_composer(self) -> str:
         return self.xa_elem.sortComposer()
 
+    @sort_composer.setter
+    def sort_composer(self, sort_composer: str):
+        self.set_property('sortComposer', sort_composer)
+
     @property
     def sort_show(self) -> str:
         return self.xa_elem.sortShow()
+
+    @sort_show.setter
+    def sort_show(self, sort_show: str):
+        self.set_property('sortShow', sort_show)
 
     @property
     def size(self) -> int:
@@ -4250,6 +4618,10 @@ class XAMusicTrack(XAMusicItem):
     def start(self) -> float:
         return self.xa_elem.start()
 
+    @start.setter
+    def start(self, start: float):
+        self.set_property('start', start)
+
     @property
     def time(self) -> str:
         return self.xa_elem.time()
@@ -4258,25 +4630,49 @@ class XAMusicTrack(XAMusicItem):
     def track_count(self) -> int:
         return self.xa_elem.trackCount()
 
+    @track_count.setter
+    def track_count(self, track_count: int):
+        self.set_property('trackCount', track_count)
+
     @property
     def track_number(self) -> int:
         return self.xa_elem.trackNumber()
+
+    @track_number.setter
+    def track_number(self, track_number: int):
+        self.set_property('trackNumber', track_number)
 
     @property
     def unplayed(self) -> bool:
         return self.xa_elem.unplayed()
 
+    @unplayed.setter
+    def unplayed(self, unplayed: bool):
+        self.set_property('unplayed', unplayed)
+
     @property
     def volume_adjustment(self) -> int:
         return self.xa_elem.volumeAdjustment()
+
+    @volume_adjustment.setter
+    def volume_adjustment(self, volume_adjustment: int):
+        self.set_property('volumeAdjustment', volume_adjustment)
 
     @property
     def work(self) -> str:
         return self.xa_elem.work()
 
+    @work.setter
+    def work(self, work: str):
+        self.set_property('work', work)
+
     @property
     def year(self) -> int:
         return self.xa_elem.year()
+
+    @year.setter
+    def year(self, year: int):
+        self.set_property('year', year)
 
     def select(self) -> 'XAMusicItem':
         """Selects the item.
@@ -4357,8 +4753,12 @@ class XAMusicAudioCDTrack(XAMusicTrack):
         self.location: XABase.XAURL #: The location of the file represented by the track
 
     @property
-    def location(self) -> XABase.XAURL:
-        return XABase.XAURL(self.xa_elem.location())
+    def location(self) -> XABase.XAPath:
+        return XABase.XAPath(self.xa_elem.location())
+
+    @location.setter
+    def location(self, location: XABase.XAPath):
+        self.set_property('location', location.xa_elem)
 
 
 
@@ -4404,8 +4804,12 @@ class XAMusicFileTrack(XAMusicTrack):
         self.location: XABase.XAURL #: The location of the file represented by the track
 
     @property
-    def location(self) -> XABase.XAURL:
-        return XABase.XAURL(self.xa_elem.location())
+    def location(self) -> XABase.XAPath:
+        return XABase.XAPath(self.xa_elem.location())
+
+    @location.setter
+    def location(self, location: XABase.XAPath):
+        self.set_property('location', location.xa_elem)
 
 
 
@@ -4473,6 +4877,10 @@ class XAMusicURLTrack(XAMusicTrack):
     @property
     def address(self) -> str:
         return self.xa_elem.address()
+
+    @address.setter
+    def address(self, address: str):
+        self.set_property('address', address)
 
 
 
@@ -4561,6 +4969,10 @@ class XAMusicUserPlaylist(XAMusicPlaylist):
     @property
     def shared(self) -> bool:
         return self.xa_elem.shared()
+
+    @shared.setter
+    def shared(self, shared: bool):
+        self.set_property('shared', shared)
 
     @property
     def smart(self) -> bool:
@@ -4874,7 +5286,7 @@ class XAMusicWindow(XABaseScriptable.XASBWindow, XAMusicItem):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.bounds: Tuple[Tuple[int, int], Tuple[int, int]] #: The bounding rectangle for the window
+        self.bounds: Tuple[int, int, int, int] #: The bounding rectangle for the window
         self.closeable: bool #: Whether the window has a close button
         self.collapseable: bool #: Whether the window can be minimized
         self.collapsed: bool #: Whether the window is currently minimized
@@ -4901,8 +5313,20 @@ class XAMusicWindow(XABaseScriptable.XASBWindow, XAMusicItem):
             self.__init__(properties)
 
     @property
-    def bounds(self) -> Tuple[Tuple[int, int], Tuple[int, int]]:
-        return self.xa_elem.bounds()
+    def bounds(self) -> Tuple[int, int, int, int]:
+        rect = self.xa_elem.bounds()
+        origin = rect.origin
+        size = rect.size
+        return (origin.x, origin.y, size.width, size.height)
+
+    @bounds.setter
+    def bounds(self, bounds: Tuple[int, int, int, int]):
+        x = bounds[0]
+        y = bounds[1]
+        w = bounds[2]
+        h = bounds[3]
+        value = NSValue.valueWithRect_(NSMakeRect(x, y, w, h))
+        self.set_property("bounds", value)
 
     @property
     def closeable(self) -> bool:
@@ -4916,13 +5340,25 @@ class XAMusicWindow(XABaseScriptable.XASBWindow, XAMusicItem):
     def collapsed(self) -> bool:
         return self.xa_elem.miniaturized()
 
+    @collapsed.setter
+    def collapsed(self, collapsed: bool):
+        self.set_property('collapsed', collapsed)
+
     @property
     def full_screen(self) -> bool:
         return self.xa_elem.fullScreen()
 
+    @full_screen.setter
+    def full_screen(self, full_screen: bool):
+        self.set_property('fullScreen', full_screen)
+
     @property
     def position(self) -> Tuple[int, int]:
         return self.xa_elem.position()
+
+    @position.setter
+    def position(self, position: Tuple[int, int]):
+        self.set_property('position', position)
 
     @property
     def resizable(self) -> bool:
@@ -4932,6 +5368,10 @@ class XAMusicWindow(XABaseScriptable.XASBWindow, XAMusicItem):
     def visible(self) -> bool:
         return self.xa_elem.visible()
 
+    @visible.setter
+    def visible(self, visible: bool):
+        self.set_property('visible', visible)
+
     @property
     def zoomable(self) -> bool:
         return self.xa_elem.zoomable()
@@ -4939,6 +5379,10 @@ class XAMusicWindow(XABaseScriptable.XASBWindow, XAMusicItem):
     @property
     def zoomed(self) -> bool:
         return self.xa_elem.zoomed()
+
+    @zoomed.setter
+    def zoomed(self, zoomed: bool):
+        self.set_property('zoomed', zoomed)
 
 
 
@@ -5004,6 +5448,14 @@ class XAMusicBrowserWindow(XAMusicWindow):
         super().__init__(properties)
         self.selection: XAMusicTrackList #: The selected tracks
         self.view: XAMusicPlaylist #: The playlist currently displayed in the window
+
+    @property
+    def selection(self) -> XAMusicTrackList:
+        return self._new_element(self.xa_elem.selection(), XAMusicTrackList)
+
+    @property
+    def view(self) -> XAMusicPlaylist:
+        return self._new_element(self.xa_elem.view(), XAMusicPlaylist)
 
 
 
@@ -5111,6 +5563,14 @@ class XAMusicPlaylistWindow(XAMusicWindow):
         super().__init__(properties)
         self.selection: XAMusicTrackList #: The selected tracks
         self.view: XAMusicPlaylist #: The playlist currently displayed in the window
+
+    @property
+    def selection(self) -> XAMusicTrackList:
+        return self._new_element(self.xa_elem.selection(), XAMusicTrackList)
+
+    @property
+    def view(self) -> XAMusicPlaylist:
+        return self._new_element(self.xa_elem.view(), XAMusicPlaylist)
 
 
 

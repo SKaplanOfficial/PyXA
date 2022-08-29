@@ -32,6 +32,10 @@ class XASystemPreferencesApplication(XABaseScriptable.XASBApplication):
     def frontmost(self) -> bool:
         return self.xa_scel.frontmost()
 
+    @frontmost.setter
+    def frontmost(self, frontmost: bool):
+        self.set_property("frontmost", frontmost)
+
     @property
     def version(self) -> str:
         return self.xa_scel.version()
@@ -40,9 +44,17 @@ class XASystemPreferencesApplication(XABaseScriptable.XASBApplication):
     def show_all(self) -> bool:
         return self.xa_scel.showAll()
 
+    @show_all.setter
+    def show_all(self, show_all: bool):
+        self.set_property("showAll", show_all)
+
     @property
     def current_pane(self) -> 'XAPreferencePane':
         return self._new_element(self.xa_scel.currentPane(), XAPreferencePane)
+
+    @current_pane.setter
+    def current_pane(self, current_pane: 'XAPreferencePane'):
+        self.set_property("currentPane", current_pane.xa_elem)
 
     @property
     def preferences_window(self) -> XABaseScriptable.XASBWindow:

@@ -313,7 +313,6 @@ class XAPhotosApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
 
 
 
-
 class XAPhotosMediaItemList(XABase.XAList, XAClipboardCodable):
     """A wrapper around lists of media items that employs fast enumeration techniques.
 
@@ -634,21 +633,41 @@ class XAPhotosMediaItem(XABase.XAObject, XAClipboardCodable):
     def keywords(self) -> List[str]:
         return self.xa_elem.keywords()
 
+    @keywords.setter
+    def keywords(self, keywords: List[str]):
+        self.set_property('keywords', keywords)
+
     @property
     def name(self) -> str:
         return self.xa_elem.name()
+
+    @name.setter
+    def name(self, name: str):
+        self.set_property('name', name)
 
     @property
     def object_description(self) -> str:
         return self.xa_elem.objectDescription()
 
+    @object_description.setter
+    def object_description(self, object_description: str):
+        self.set_property('objectDescription', object_description)
+
     @property
     def favorite(self) -> bool:
         return self.xa_elem.favorite()
 
+    @favorite.setter
+    def favorite(self, favorite: bool):
+        self.set_property('favorite', favorite)
+
     @property
     def date(self) -> datetime:
         return self.xa_elem.date()
+
+    @date.setter
+    def date(self, date: datetime):
+        self.set_property('date', date)
 
     @property
     def id(self) -> str:
@@ -682,6 +701,13 @@ class XAPhotosMediaItem(XABase.XAObject, XAClipboardCodable):
             longitude = loc[1],
             altitude = self.altitude,
         )
+
+    @location.setter
+    def location(self, location: Union[XABase.XALocation, List[float]]):
+        if isinstance(location, list):
+            self.set_property('location', location)
+        else:
+            self.set_property('location', [location.latitude, location.longitude])
 
     def _get_url(self) -> NSURL:
         home = NSFileManager.defaultManager().homeDirectoryForCurrentUser()
@@ -889,6 +915,10 @@ class XAPhotosContainer(XABase.XAObject, XAClipboardCodable):
     @property
     def name(self) -> str:
         return self.xa_elem.name()
+
+    @name.setter
+    def name(self, name: str):
+        self.set_property('name', name)
 
     @property
     def parent(self) -> 'XAPhotosFolder':

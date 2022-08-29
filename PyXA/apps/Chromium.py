@@ -4,7 +4,8 @@ Control Chromium using JXA-like syntax.
 """
 
 from typing import Any, List, Tuple, Union
-from AppKit import NSURL
+
+import AppKit
 
 from PyXA import XABase
 from PyXA import XABaseScriptable
@@ -34,6 +35,10 @@ class XAChromiumApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
     @property
     def frontmost(self) -> bool:
         return self.xa_scel.frontmost()
+
+    @frontmost.setter
+    def frontmost(self, frontmost: bool):
+        self.set_property("frontmost", frontmost)
 
     @property
     def version(self) -> str:
@@ -179,7 +184,7 @@ class XAChromiumWindow(XABaseScriptable.XASBWindow):
         self.name: str #: The full title of the window
         self.id: int #: The unique identifier for the window
         self.index: int #: The index of the window in the front-to-back ordering
-        self.bounds: Tuple[Tuple[int, int], Tuple[int, int]] #: The bounding rectangle of the window
+        self.bounds: Tuple[int, int, int, int] #: The bounding rectangle of the window
         self.closeable: bool #: Whether the window has a close button
         self.minimizable: bool #: Whether the window can be minimized
         self.minimized: bool #: Whether the window is currently minimized
@@ -195,6 +200,10 @@ class XAChromiumWindow(XABaseScriptable.XASBWindow):
     def given_name(self) -> str:
         return self.xa_elem.givenName()
 
+    @given_name.setter
+    def given_name(self, given_name: str):
+        self.set_property("givenName", given_name)
+
     @property
     def name(self) -> str:
         return self.xa_elem.name()
@@ -207,9 +216,25 @@ class XAChromiumWindow(XABaseScriptable.XASBWindow):
     def index(self) -> int:
         return self.xa_elem.index()
 
+    @index.setter
+    def index(self, index: int):
+        self.set_property("index", index)
+
     @property
-    def bounds(self) -> Tuple[Tuple[int, int], Tuple[int, int]]:
-        return self.xa_elem.bounds()
+    def bounds(self) -> Tuple[int, int, int, int]:
+        rect = self.xa_elem.bounds()
+        origin = rect.origin
+        size = rect.size
+        return (origin.x, origin.y, size.width, size.height)
+
+    @bounds.setter
+    def bounds(self, bounds: Tuple[int, int, int, int]):
+        x = bounds[0]
+        y = bounds[1]
+        w = bounds[2]
+        h = bounds[3]
+        value = AppKit.NSValue.valueWithRect_(AppKit.NSMakeRect(x, y, w, h))
+        self.set_property("bounds", value)
 
     @property
     def closeable(self) -> bool:
@@ -223,6 +248,10 @@ class XAChromiumWindow(XABaseScriptable.XASBWindow):
     def minimized(self) -> bool:
         return self.xa_elem.minimized()
 
+    @minimized.setter
+    def minimized(self, minimized: bool):
+        self.set_property("minimized", minimized)
+
     @property
     def resizable(self) -> bool:
         return self.xa_elem.resizable()
@@ -230,6 +259,10 @@ class XAChromiumWindow(XABaseScriptable.XASBWindow):
     @property
     def visible(self) -> bool:
         return self.xa_elem.visible()
+
+    @visible.setter
+    def visible(self, visible: bool):
+        self.set_property("visible", visible)
 
     @property
     def zoomable(self) -> bool:
@@ -239,17 +272,33 @@ class XAChromiumWindow(XABaseScriptable.XASBWindow):
     def zoomed(self) -> bool:
         return self.xa_elem.zoomed()
 
+    @zoomed.setter
+    def zoomed(self, zoomed: bool):
+        self.set_property("zoomed", zoomed)
+
     @property
     def mode(self) -> str:
         return self.xa_elem.mode()
+
+    @mode.setter
+    def mode(self, mode: str):
+        self.set_property("mode", mode)
 
     @property
     def active_tab_index(self) -> int:
         return self.xa_elem.activeTabIndex() 
 
+    @active_tab_index.setter
+    def active_tab_index(self, active_tab_index: int):
+        self.set_property("activeTabIndex", active_tab_index)
+
     @property
     def active_tab(self) -> 'XAChromiumTab':
         return self._new_element(self.xa_elem.activeTab(), XAChromiumTab)
+
+    @active_tab.setter
+    def active_tab(self, active_tab: 'XAChromiumTab'):
+        self.set_property("activeTab", active_tab.xa_elem)
 
     def new_tab(self, url: Union[str, XABase.XAURL, None] = None) -> 'XAChromiumTab':
         """Opens a new tab at the specified URL.
@@ -375,13 +424,13 @@ class XAChromiumTabList(XABase.XAList, XAClipboardCodable):
         """
         return self.by_property("loading", loading)
 
-    def get_clipboard_representation(self) -> List[Union[str, NSURL]]:
+    def get_clipboard_representation(self) -> List[Union[str, AppKit.NSURL]]:
         """Gets a clipboard-codable representation of each tab in the list.
 
         When the clipboard content is set to a list of Chromium tabs, each tab's URL is added to the clipboard.
 
         :return: A list of tab URLs
-        :rtype: List[Union[str, NSURL]]
+        :rtype: List[Union[str, AppKit.NSURL]]
 
         .. versionadded:: 0.0.8
         """
@@ -421,6 +470,10 @@ class XAChromiumTab(XABase.XAObject, XAClipboardCodable):
     @property
     def url(self) -> XABase.XAURL:
         return XABase.XAURL(self.xa_elem.URL())
+
+    @url.setter
+    def url(self, url: XABase.XAURL):
+        self.set_property("URL", url.url)
 
     @property
     def loading(self) -> bool:
@@ -522,9 +575,9 @@ class XAChromiumTab(XABase.XAObject, XAClipboardCodable):
         self.xa_elem.viewSource()
         return self
 
-    def save(self, file_path: Union[str, NSURL], save_assets: bool = True) -> 'XAChromiumTab':
+    def save(self, file_path: Union[str, AppKit.NSURL], save_assets: bool = True) -> 'XAChromiumTab':
         if isinstance(file_path, str):
-            file_path = NSURL.alloc().initFileURLWithPath_(file_path)
+            file_path = AppKit.NSURL.alloc().initFileURLWithPath_(file_path)
         if save_assets:
             self.xa_elem.saveIn_as_(file_path, "complete html")
         else:
@@ -607,13 +660,13 @@ class XAChromiumTab(XABase.XAObject, XAClipboardCodable):
         window.tabs().push(new_tab)
         return self
 
-    def get_clipboard_representation(self) -> List[Union[str, NSURL]]:
+    def get_clipboard_representation(self) -> List[Union[str, AppKit.NSURL]]:
         """Gets a clipboard-codable representation of the tab.
 
         When the clipboard content is set to a Chromium tab, the tab's title and URL are added to the clipboard.
 
         :return: The tab's title and URL
-        :rtype: List[Union[str, NSURL]]
+        :rtype: List[Union[str, AppKit.NSURL]]
 
         .. versionadded:: 0.0.8
         """
@@ -730,6 +783,10 @@ class XAChromiumBookmarkFolder(XABase.XAObject, XAClipboardCodable):
     @property
     def title(self) -> str:
         return self.xa_elem.title()
+
+    @title.setter
+    def title(self, title: str):
+        self.set_property("title", title)
 
     @property
     def index(self) -> int:
@@ -875,13 +932,13 @@ class XAChromiumBookmarkItemList(XABase.XAList, XAClipboardCodable):
         """
         return self.by_property("index", index)
 
-    def get_clipboard_representation(self) -> List[Union[str, NSURL]]:
+    def get_clipboard_representation(self) -> List[Union[str, AppKit.NSURL]]:
         """Gets a clipboard-codable representation of each bookmark item in the list.
 
         When the clipboard content is set to a list of bookmark items, each item's title and URL are added to the clipboard.
 
         :return: The list of each bookmark items's title and URL
-        :rtype: List[Union[str, NSURL]]
+        :rtype: List[Union[str, AppKit.NSURL]]
 
         .. versionadded:: 0.0.8
         """
@@ -918,9 +975,17 @@ class XAChromiumBookmarkItem(XABase.XAObject, XAClipboardCodable):
     def title(self) -> str:
         return self.xa_elem.title()
 
+    @title.setter
+    def title(self, title: str):
+        self.set_property("title", title)
+
     @property
     def url(self) -> XABase.XAURL:
         return XABase.XAURL(self.xa_elem.URL())
+
+    @url.setter
+    def url(self, url: XABase.XAURL):
+        self.set_property("URL", url.url)
 
     @property
     def index(self) -> int:
@@ -933,13 +998,13 @@ class XAChromiumBookmarkItem(XABase.XAObject, XAClipboardCodable):
         """
         self.xa_elem.delete()
 
-    def get_clipboard_representation(self) -> List[Union[str, NSURL]]:
+    def get_clipboard_representation(self) -> List[Union[str, AppKit.NSURL]]:
         """Gets a clipboard-codable representation of the bookmark item.
 
         When the clipboard content is set to a bookmark item, the item's title and URL are added to the clipboard.
 
         :return: The bookmark items's title and URL
-        :rtype: List[Union[str, NSURL]]
+        :rtype: List[Union[str, AppKit.NSURL]]
 
         .. versionadded:: 0.0.8
         """

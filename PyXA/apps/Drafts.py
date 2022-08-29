@@ -298,13 +298,25 @@ class XADraftsDraft(XABase.XAObject):
     def content(self) -> str:
         return self.xa_elem.content()
 
+    @content.setter
+    def content(self, content: str):
+        self.set_property("content", content)
+
     @property
     def flagged(self) -> bool:
         return self.xa_elem.flagged()
 
+    @flagged.setter
+    def flagged(self, flagged: bool):
+        self.set_property("flagged", flagged)
+
     @property
     def tags(self) -> List[str]:
         return self.xa_elem.tags()
+    
+    @tags.setter
+    def tags(self, tags: List[str]):
+        self.set_property("tags", tags)
 
     @property
     def created_at(self) -> datetime:

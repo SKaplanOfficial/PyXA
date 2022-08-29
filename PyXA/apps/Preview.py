@@ -5,13 +5,14 @@ Control the macOS Preview application using JXA-like syntax.
 
 from enum import Enum
 from typing import List, Tuple, Union
-from AppKit import NSURL
+
+import AppKit
 
 from PyXA import XABase
 from PyXA import XABaseScriptable
-from ..XAProtocols import XACanOpenPath, XAClipboardCodable, XACloseable, XAPrintable
+from ..XAProtocols import XACanOpenPath, XACanPrintPath, XAClipboardCodable, XACloseable, XAPrintable
 
-class XAPreviewApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
+class XAPreviewApplication(XABaseScriptable.XASBApplication, XACanOpenPath, XACanPrintPath):
     """A class for managing and interacting with Preview.app.
 
     .. seealso:: :class:`XAPreviewWindow`, :class:`XAPreviewDocument`
@@ -30,6 +31,10 @@ class XAPreviewApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
     def frontmost(self) -> bool:
         return self.xa_scel.frontmost()
 
+    @frontmost.setter
+    def frontmost(self, frontmost: bool):
+        self.set_property("frontmost", frontmost)
+
     @property
     def name(self) -> str:
         return self.xa_scel.name()
@@ -38,7 +43,7 @@ class XAPreviewApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
     def version(self) -> str:
         return self.xa_scel.version()
 
-    def print(self, path: Union[str, NSURL], show_prompt: bool = True):
+    def print(self, path: Union[str, AppKit.NSURL], show_prompt: bool = True):
         """Opens the print dialog for the file at the given path, if the file can be opened in Preview.
 
         :param path: The path of the file to print.
@@ -49,10 +54,9 @@ class XAPreviewApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         .. versionadded:: 0.0.1
         """
         if isinstance(path, str):
-            path = NSURL.alloc().initFileURLWithPath_(path)
+            path = AppKit.NSURL.alloc().initFileURLWithPath_(path)
         self.xa_scel.print_printDialog_withProperties_(path, show_prompt, None)
 
-    # Documents
     def documents(self, filter: dict = None) -> 'XAPreviewDocumentList':
         """Returns a list of documents matching the filter.
 
@@ -72,6 +76,8 @@ class XAPreviewApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         return self._new_element(self.xa_scel.documents(), XAPreviewDocumentList, filter)
 
 
+
+
 class XAPreviewWindow(XABaseScriptable.XASBPrintable):
     """A class for managing and interacting with Preview windows.
 
@@ -83,7 +89,7 @@ class XAPreviewWindow(XABaseScriptable.XASBPrintable):
         super().__init__(properties)
 
         self.properties: dict #: All properties of the window
-        self.bounds: Tuple[Tuple[int, int], Tuple[int, int]] #: The bounding rectangle of the window
+        self.bounds: Tuple[int, int, int, int] #: The bounding rectangle of the window
         self.closeable: bool #: Whether the window has a close button
         self.document: XAPreviewDocument #: The document currently displayed in the window
         self.floating: bool #: WHether the window floats
@@ -104,8 +110,20 @@ class XAPreviewWindow(XABaseScriptable.XASBPrintable):
         return self.xa_elem.properties()
 
     @property
-    def bounds(self) -> Tuple[Tuple[int, int], Tuple[int, int]]:
-        return self.xa_elem.bounds()
+    def bounds(self) -> Tuple[int, int, int, int]:
+        rect = self.xa_elem.bounds()
+        origin = rect.origin
+        size = rect.size
+        return (origin.x, origin.y, size.width, size.height)
+
+    @bounds.setter
+    def bounds(self, bounds: Tuple[int, int, int, int]):
+        x = bounds[0]
+        y = bounds[1]
+        w = bounds[2]
+        h = bounds[3]
+        value = AppKit.NSValue.valueWithRect_(AppKit.NSMakeRect(x, y, w, h))
+        self.set_property("bounds", value)
 
     @property
     def closeable(self) -> bool:
@@ -114,6 +132,10 @@ class XAPreviewWindow(XABaseScriptable.XASBPrintable):
     @property
     def document(self) -> 'XAPreviewDocument':
         return self._new_element(self.xa_elem.document(), XAPreviewDocument)
+
+    @document.setter
+    def document(self, document: 'XAPreviewDocument'):
+        self.set_property("document", document.xa_elem)
 
     @property
     def floating(self) -> bool:
@@ -127,6 +149,10 @@ class XAPreviewWindow(XABaseScriptable.XASBPrintable):
     def index(self) -> int:
         return self.xa_elem.index()
 
+    @index.setter
+    def index(self, index: int):
+        self.set_property("index", index)
+
     @property
     def miniaturizable(self) -> bool:
         return self.xa_elem.miniaturizable()
@@ -135,6 +161,10 @@ class XAPreviewWindow(XABaseScriptable.XASBPrintable):
     def miniaturized(self) -> bool:
         return self.xa_elem.miniaturized()
 
+    @miniaturized.setter
+    def miniaturized(self, miniaturized: bool):
+        self.set_property("miniaturized", miniaturized)
+
     @property
     def modal(self) -> bool:
         return self.xa_elem.modal()
@@ -142,6 +172,10 @@ class XAPreviewWindow(XABaseScriptable.XASBPrintable):
     @property
     def name(self) -> str:
         return self.xa_elem.name()
+
+    @name.setter
+    def name(self, name: str):
+        self.set_property("name", name)
 
     @property
     def resizable(self) -> bool:
@@ -155,6 +189,10 @@ class XAPreviewWindow(XABaseScriptable.XASBPrintable):
     def visible(self) -> bool:
         return self.xa_elem.visible()
 
+    @visible.setter
+    def visible(self, visible: bool):
+        self.set_property("visible", visible)
+
     @property
     def zoomable(self) -> bool:
         return self.xa_elem.zoomable()
@@ -162,6 +200,12 @@ class XAPreviewWindow(XABaseScriptable.XASBPrintable):
     @property
     def zoomed(self) -> bool:
         return self.xa_elem.zoomable()
+
+    @zoomed.setter
+    def zoomed(self, zoomed: bool):
+        self.set_property("zoomed", zoomed)
+
+
 
 
 class XAPreviewDocumentList(XABase.XAList, XAClipboardCodable):
@@ -237,9 +281,17 @@ class XAPreviewDocument(XABase.XATextDocument, XAPrintable, XACloseable, XAClipb
     def name(self) -> str:
         return self.xa_elem.name()
 
+    @name.setter
+    def name(self, name: str):
+        self.set_property("name", name)
+
     @property
     def path(self) -> XABase.XAPath:
         return XABase.XAPath(self.xa_elem.path())
+
+    @path.setter
+    def path(self, path: XABase.XAPath):
+        self.set_property("path", path.xa_elem)
 
     @property
     def modified(self) -> bool:
@@ -279,7 +331,7 @@ class XAPreviewDocument(XABase.XATextDocument, XAPrintable, XACloseable, XAClipb
         """
         self.xa_elem.saveAs_in_(None, file_path)
 
-    def get_clipboard_representation(self) -> NSURL:
+    def get_clipboard_representation(self) -> AppKit.NSURL:
         """Gets a clipboard-codable representation of the document.
 
         When the clipboard content is set to a document, the documents's file URL is added to the clipboard.

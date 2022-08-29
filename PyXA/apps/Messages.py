@@ -7,7 +7,7 @@ from datetime import datetime
 from enum import Enum
 from typing import Any, List, Tuple, Union
 
-from AppKit import NSMutableArray, NSURL
+import AppKit
 
 from PyXA import XABase
 from PyXA import XAEvents
@@ -22,19 +22,6 @@ class XAMessagesApplication(XABaseScriptable.XASBApplication):
 
     .. versionadded:: 0.0.1
     """
-    class SaveOption(Enum):
-        """Options for whether to save documents when closing them.
-        """
-        YES = XABase.OSType('yes ') #: Save the file
-        NO  = XABase.OSType('no  ') #: Do not save the file
-        ASK = XABase.OSType('ask ') #: Ask user whether to save the file (bring up dialog)
-
-    class PrintErrorHandling(Enum):
-        """Options for how to handle errors while printing.
-        """
-        STANDARD = 'lwst' #: Standard PostScript error handling
-        DETAILED = 'lwdt' #: Print a detailed report of PostScript errors
-
     class ServiceType(Enum):
         """Options for services types supported by Messages.app.
         """
@@ -240,7 +227,7 @@ class XAMessagesWindow(XABaseScriptable.XASBWindow):
         self.name: str #: The title of the window
         self.id: int #: The unique identifier for the window
         self.index: int #: The index of the window in the front-to-back ordering
-        self.bounds: Tuple[Tuple[int, int], Tuple[int, int]] #: The bounding rectangle of the window
+        self.bounds: Tuple[int, int, int, int] #: The bounding rectangle of the window
         self.closeable: bool #: Whether the window has a close button
         self.miniaturizable: bool #: Whether the window can be minimized
         self.miniaturized: bool #: Whether the window is currently minimized
@@ -262,9 +249,25 @@ class XAMessagesWindow(XABaseScriptable.XASBWindow):
     def index(self) -> int:
         return self.xa_scel.index()
 
+    @index.setter
+    def index(self, index: int):
+        self.set_property('index', index)
+
     @property
-    def bounds(self) -> Tuple[Tuple[int, int], Tuple[int, int]]:
-        return self.xa_scel.bounds()
+    def bounds(self) -> Tuple[int, int, int, int]:
+        rect = self.xa_elem.bounds()
+        origin = rect.origin
+        size = rect.size
+        return (origin.x, origin.y, size.width, size.height)
+
+    @bounds.setter
+    def bounds(self, bounds: Tuple[int, int, int, int]):
+        x = bounds[0]
+        y = bounds[1]
+        w = bounds[2]
+        h = bounds[3]
+        value = AppKit.NSValue.valueWithRect_(AppKit.NSMakeRect(x, y, w, h))
+        self.set_property("bounds", value)
 
     @property
     def closeable(self) -> bool:
@@ -278,6 +281,10 @@ class XAMessagesWindow(XABaseScriptable.XASBWindow):
     def miniaturized(self) -> bool:
         return self.xa_scel.miniaturized()
 
+    @miniaturized.setter
+    def miniaturized(self, miniaturized: bool):
+        self.set_property('miniaturized', miniaturized)
+
     @property
     def resizable(self) -> bool:
         return self.xa_scel.resizable()
@@ -286,6 +293,10 @@ class XAMessagesWindow(XABaseScriptable.XASBWindow):
     def visible(self) -> bool:
         return self.xa_scel.visible()
 
+    @visible.setter
+    def visible(self, visible: bool):
+        self.set_property('visible', visible)
+
     @property
     def zoomable(self) -> bool:
         return self.xa_scel.zoomable()
@@ -293,6 +304,10 @@ class XAMessagesWindow(XABaseScriptable.XASBWindow):
     @property
     def zoomed(self) -> bool:
         return self.xa_scel.zoomed()
+
+    @zoomed.setter
+    def zoomed(self, zoomed: bool):
+        self.set_property('zoomed', zoomed)
 
     @property
     def document(self) -> 'XAMessagesDocument':
@@ -815,19 +830,19 @@ class XAMessagesFileTransferList(XABase.XAList, XAClipboardCodable):
             value1 = XAEvents.event_from_str(XABase.unOSType(value1.value))
         return super().filter(filter, comparison_operation, value1, value2)
 
-    def get_clipboard_representation(self) -> List[Union[str, NSURL]]:
+    def get_clipboard_representation(self) -> List[Union[str, AppKit.NSURL]]:
         """Gets a clipboard-codable representation of each file transfer in the list.
 
         When the clipboard content is set to a list of file transfers, each file transfer's file path URL is added to the clipboard.
 
         :return: The list of file path URLs
-        :rtype: List[NSURL]
+        :rtype: List[AppKit.NSURL]
 
         .. versionadded:: 0.0.8
         """
         items = []
         paths = self.file_path()
-        for name in paths:
+        for path in paths:
             items.append(path.xa_elem)
         return items
 
@@ -892,13 +907,13 @@ class XAMessagesFileTransfer(XABase.XAObject, XAClipboardCodable):
     def started(self) -> datetime:
         return self.xa_elem.started()
 
-    def get_clipboard_representation(self) -> List[NSURL]:
+    def get_clipboard_representation(self) -> List[AppKit.NSURL]:
         """Gets a clipboard-codable representation of the file transfer.
 
         When the clipboard content is set to a file transfer, the path of the file transfer is added to the clipboard.
 
         :return: The file path of the file transfer
-        :rtype: List[NSURL]
+        :rtype: List[AppKit.NSURL]
 
         .. versionadded:: 0.0.8
         """
@@ -1289,6 +1304,10 @@ class XAMessagesAccount(XABase.XAObject, XAClipboardCodable):
     @property
     def enabled(self) -> bool:
         return self.xa_elem.enabled()
+
+    @enabled.setter
+    def enabled(self, enabled: bool):
+        self.set_property('enabled', enabled)
 
     @property
     def connection_status(self) -> XAMessagesApplication.ConnectionStatus:

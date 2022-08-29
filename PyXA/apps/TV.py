@@ -6,7 +6,8 @@ Control the macOS TV application using JXA-like syntax.
 from datetime import datetime
 from enum import Enum
 from typing import List, Literal, Tuple, Union
-from AppKit import NSURL
+
+import AppKit
 
 from PyXA import XABase
 from PyXA import XABaseScriptable
@@ -109,13 +110,25 @@ class XATVApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
     def fixed_indexing(self) -> bool:
         return self.xa_scel.fixedIndexing()
 
+    @fixed_indexing.setter
+    def fixed_indexing(self, fixed_indexing: bool):
+        self.set_property('fixedIndexing', fixed_indexing)
+
     @property
     def frontmost(self) -> bool:
         return self.xa_scel.frontmost()
 
+    @frontmost.setter
+    def frontmost(self, frontmost: bool):
+        self.set_property('frontmost', frontmost)
+
     @property
     def full_screen(self) -> bool:
         return self.xa_scel.fullScreen()
+
+    @full_screen.setter
+    def full_screen(self, full_screen: bool):
+        self.set_property('fullScreen', full_screen)
 
     @property
     def name(self) -> str:
@@ -125,9 +138,17 @@ class XATVApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
     def mute(self) -> bool:
         return self.xa_scel.mute()
 
+    @mute.setter
+    def mute(self, mute: bool):
+        self.set_property('mute', mute)
+
     @property
     def player_position(self) -> float:
         return self.xa_scel.playerPosition()
+
+    @player_position.setter
+    def player_position(self, player_position: float):
+        self.set_property('playerPosition', player_position)
 
     @property
     def player_state(self) -> 'XATVApplication.PlayerState':
@@ -140,6 +161,10 @@ class XATVApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
     @property
     def sound_volume(self) -> int:
         return self.xa_scel.soundVolume()
+
+    @sound_volume.setter
+    def sound_volume(self, sound_volume: int):
+        self.set_property('soundVolume', sound_volume)
 
     @property
     def version(self) -> str:
@@ -321,11 +346,11 @@ class XATVApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
     # def convert(self, items):
     #     self.xa_scel.convert_([item.xa_elem for item in items])
 
-    def add_to_playlist(self, urls: List[Union[str, NSURL]], playlist):
+    def add_to_playlist(self, urls: List[Union[str, AppKit.NSURL]], playlist):
         items = []
         for url in urls:
             if isinstance(url, str):
-                url = NSURL.alloc().initFileURLWithPath_(url)
+                url = AppKit.NSURL.alloc().initFileURLWithPath_(url)
             items.append(url)
         print(items)
         self.xa_scel.add_to_(items, playlist.xa_elem)
@@ -573,6 +598,10 @@ class XATVItem(XABase.XAObject):
     def name(self) -> str:
         return self.xa_elem.name()
 
+    @name.setter
+    def name(self, name: str):
+        self.set_property('name', name)
+
     @property
     def persistent_id(self) -> str:
         return self.xa_elem.persistentID()
@@ -757,9 +786,17 @@ class XATVArtwork(XATVItem):
     def data(self) -> XABase.XAImage:
         return XABase.XAImage(self.xa_elem.data())
 
+    @data.setter
+    def data(self, data: XABase.XAImage):
+        self.set_property('data', data.xa_elem)
+
     @property
     def object_description(self) -> str:
         return self.xa_elem.objectDescription()
+
+    @object_description.setter
+    def object_description(self, object_description: str):
+        self.set_property('objectDescription', object_description)
 
     @property
     def downloaded(self) -> bool:
@@ -773,9 +810,17 @@ class XATVArtwork(XATVItem):
     def kind(self) -> int:
         return self.xa_elem.kind()
 
+    @kind.setter
+    def kind(self, kind: int):
+        self.set_property('kind', kind)
+
     @property
     def raw_data(self) -> bytes:
         return self.xa_elem.rawData()
+
+    @raw_data.setter
+    def raw_data(self, raw_data: bytes):
+        self.set_property('rawData', raw_data)
 
 
 
@@ -990,6 +1035,10 @@ class XATVPlaylist(XATVItem):
     def object_description(self) -> str:
         return self.xa_elem.objectDescription()
 
+    @object_description.setter
+    def object_description(self, object_description: str):
+        self.set_property('objectDescription', object_description)
+
     @property
     def duration(self) -> int:
         return self.xa_elem.duration()
@@ -997,6 +1046,10 @@ class XATVPlaylist(XATVItem):
     @property
     def name(self) -> str:
         return self.xa_elem.name()
+
+    @name.setter
+    def name(self, name: str):
+        self.set_property('name', name)
 
     @property
     def parent(self) -> 'XATVPlaylist':
@@ -2376,9 +2429,17 @@ class XATVTrack(XATVItem):
     def album(self) -> str:
         return self.xa_elem.album()
 
+    @album.setter
+    def album(self, album: str):
+        self.set_property('album', album)
+
     @property
     def album_rating(self) -> int:
         return self.xa_elem.albumRating()
+
+    @album_rating.setter
+    def album_rating(self, album_rating: int):
+        self.set_property('albumRating', album_rating)
 
     @property
     def album_rating_kind(self) -> XATVApplication.RatingKind:
@@ -2392,17 +2453,33 @@ class XATVTrack(XATVItem):
     def bookmark(self) -> float:
         return self.xa_elem.bookmark()
 
+    @bookmark.setter
+    def bookmark(self, bookmark: float):
+        self.set_property('bookmark', bookmark)
+
     @property
     def bookmarkable(self) -> bool:
         return self.xa_elem.bookmarkable()
+
+    @bookmarkable.setter
+    def bookmarkable(self, bookmarkable: bool):
+        self.set_property('bookmarkable', bookmarkable)
 
     @property
     def category(self) -> str:
         return self.xa_elem.category()
 
+    @category.setter
+    def category(self, category: str):
+        self.set_property('category', category)
+
     @property
     def comment(self) -> str:
         return self.xa_elem.comment()
+
+    @comment.setter
+    def comment(self, comment: str):
+        self.set_property('comment', comment)
 
     @property
     def database_id(self) -> int:
@@ -2416,17 +2493,33 @@ class XATVTrack(XATVItem):
     def object_description(self) -> str:
         return self.xa_elem.objectDescription()
 
+    @object_description.setter
+    def object_description(self, object_description: str):
+        self.set_property('objectDescription', object_description)
+
     @property
     def director(self) -> str:
         return self.xa_elem.director()
+
+    @director.setter
+    def director(self, director: str):
+        self.set_property('director', director)
 
     @property
     def disc_count(self) -> int:
         return self.xa_elem.discCount()
 
+    @disc_count.setter
+    def disc_count(self, disc_count: int):
+        self.set_property('discCount', disc_count)
+
     @property
     def disc_number(self) -> int:
         return self.xa_elem.discNumber()
+
+    @disc_number.setter
+    def disc_number(self, disc_number: int):
+        self.set_property('discNumber', disc_number)
 
     @property
     def downloader_apple_id(self) -> str:
@@ -2444,25 +2537,49 @@ class XATVTrack(XATVItem):
     def enabled(self) -> bool:
         return self.xa_elem.enabled()
 
+    @enabled.setter
+    def enabled(self, enabled: bool):
+        self.set_property('enabled', enabled)
+
     @property
     def episode_id(self) -> str:
         return self.xa_elem.episodeID()
+
+    @episode_id.setter
+    def episode_id(self, episode_id: str):
+        self.set_property('episodeID', episode_id)
 
     @property
     def episode_number(self) -> int:
         return self.xa_elem.episodeNumber()
 
+    @episode_number.setter
+    def episode_number(self, episode_number: int):
+        self.set_property('episodeNumber', episode_number)
+
     @property
     def finish(self) -> float:
         return self.xa_elem.finish()
+
+    @finish.setter
+    def finish(self, finish: float):
+        self.set_property('finish', finish)
 
     @property
     def genre(self) -> str:
         return self.xa_elem.genre()
 
+    @genre.setter
+    def genre(self, genre: str):
+        self.set_property('genre', genre)
+
     @property
     def grouping(self) -> str:
         return self.xa_elem.grouping()
+
+    @grouping.setter
+    def grouping(self, grouping: str):
+        self.set_property('grouping', grouping)
 
     @property
     def kind(self) -> str:
@@ -2472,9 +2589,17 @@ class XATVTrack(XATVItem):
     def long_description(self) -> str:
         return self.xa_elem.longDescription()
 
+    @long_description.setter
+    def long_description(self, long_description: str):
+        self.set_property('longDescription', long_description)
+
     @property
     def media_kind(self) -> XATVApplication.MediaKind:
         return XATVApplication.MediaKind(self.xa_elem.mediaKind())
+
+    @media_kind.setter
+    def media_kind(self, media_kind: XATVApplication.MediaKind):
+        self.set_property('mediaKind', media_kind.value)
 
     @property
     def modification_date(self) -> datetime:
@@ -2484,9 +2609,17 @@ class XATVTrack(XATVItem):
     def played_count(self) -> int:
         return self.xa_elem.playedCount()
 
+    @played_count.setter
+    def played_count(self, played_count: int):
+        self.set_property('playedCount', played_count)
+
     @property
     def played_date(self) -> datetime:
         return self.xa_elem.playedDate()
+
+    @played_date.setter
+    def played_date(self, played_date: datetime):
+        self.set_property('playedDate', played_date)
 
     @property
     def purchaser_apple_id(self) -> str:
@@ -2499,6 +2632,10 @@ class XATVTrack(XATVItem):
     @property
     def rating(self) -> int:
         return self.xa_elem.rating()
+
+    @rating.setter
+    def rating(self, rating: int):
+        self.set_property('rating', rating)
 
     @property
     def rating_kind(self) -> XATVApplication.RatingKind:
@@ -2516,33 +2653,65 @@ class XATVTrack(XATVItem):
     def season_number(self) -> int:
         return self.xa_elem.seasonNumber()
 
+    @season_number.setter
+    def season_number(self, season_number: int):
+        self.set_property('seasonNumber', season_number)
+
     @property
     def skipped_count(self) -> int:
         return self.xa_elem.skippedCount()
+
+    @skipped_count.setter
+    def skipped_count(self, skipped_count: int):
+        self.set_property('skippedCount', skipped_count)
 
     @property
     def skipped_date(self) -> datetime:
         return self.xa_elem.skippedDate()
 
+    @skipped_date.setter
+    def skipped_date(self, skipped_date: datetime):
+        self.set_property('skippedDate', skipped_date)
+
     @property
     def show(self) -> str:
         return self.xa_elem.show()
+
+    @show.setter
+    def show(self, show: str):
+        self.set_property('show', show)
 
     @property
     def sort_album(self) -> str:
         return self.xa_elem.sortAlbum()
 
+    @sort_album.setter
+    def sort_album(self, sort_album: str):
+        self.set_property('sortAlbum', sort_album)
+
     @property
     def sort_director(self) -> str:
         return self.xa_elem.sortDirector()
+
+    @sort_director.setter
+    def sort_director(self, sort_director: str):
+        self.set_property('sortDirector', sort_director)
 
     @property
     def sort_name(self) -> str:
         return self.xa_elem.sortName()
 
+    @sort_name.setter
+    def sort_name(self, sort_name: str):
+        self.set_property('sortName', sort_name)
+
     @property
     def sort_show(self) -> str:
         return self.xa_elem.sortShow()
+
+    @sort_show.setter
+    def sort_show(self, sort_show: str):
+        self.set_property('sortShow', sort_show)
 
     @property
     def size(self) -> int:
@@ -2552,6 +2721,10 @@ class XATVTrack(XATVItem):
     def start(self) -> float:
         return self.xa_elem.start()
 
+    @start.setter
+    def start(self, start: float):
+        self.set_property('start', start)
+
     @property
     def time(self) -> str:
         return self.xa_elem.time()
@@ -2560,21 +2733,41 @@ class XATVTrack(XATVItem):
     def track_count(self) -> int:
         return self.xa_elem.trackCount()
 
+    @track_count.setter
+    def track_count(self, track_count: int):
+        self.set_property('trackCount', track_count)
+
     @property
     def track_number(self) -> int:
         return self.xa_elem.trackNumber()
+
+    @track_number.setter
+    def track_number(self, track_number: int):
+        self.set_property('trackNumber', track_number)
 
     @property
     def unplayed(self) -> bool:
         return self.xa_elem.unplayed()
 
+    @unplayed.setter
+    def unplayed(self, unplayed: bool):
+        self.set_property('unplayed', unplayed)
+
     @property
     def volume_adjustment(self) -> int:
         return self.xa_elem.volumeAdjustment()
 
+    @volume_adjustment.setter
+    def volume_adjustment(self, volume_adjustment: int):
+        self.set_property('volumeAdjustment', volume_adjustment)
+
     @property
     def year(self) -> int:
         return self.xa_elem.year()
+
+    @year.setter
+    def year(self, year: int):
+        self.set_property('year', year)
 
     def select(self) -> 'XATVItem':
         """Selects the item.
@@ -2656,8 +2849,14 @@ class XATVFileTrack(XATVTrack):
         self.location: XABase.XAURL #: The location of the file represented by the track
 
     @property
-    def location(self) -> XABase.XAURL:
-        return XABase.XAURL(self.xa_elem.location())
+    def location(self) -> XABase.XAPath:
+        return XABase.XAPath(self.xa_elem.location())
+
+    @location.setter
+    def location(self, location: Union[XABase.XAPath, str]):
+        if isinstance(location, str):
+            location = XABase.XAPath(location)
+        self.set_property('location', location.xa_elem)
 
 
 
@@ -2723,8 +2922,14 @@ class XATVURLTrack(XATVTrack):
         self.address: str #: The URL for the track
 
     @property
-    def address(self) -> str:
-        return self.xa_elem.address()
+    def address(self) -> XABase.XAURL:
+        return XABase.XAURL(self.xa_elem.address())
+
+    @address.setter
+    def address(self, address: Union[XABase.XAURL, str]):
+        if isinstance(address, str):
+            address = XABase.XAURL(address)
+        self.set_property('address', address.xa_elem)
 
 
 
@@ -2792,6 +2997,10 @@ class XATVUserPlaylist(XATVPlaylist):
     @property
     def shared(self) -> bool:
         return self.xa_elem.shared()
+
+    @shared.setter
+    def shared(self, shared: bool):
+        self.set_property('shared', shared)
 
     @property
     def smart(self) -> bool:
@@ -3080,7 +3289,7 @@ class XATVWindow(XABaseScriptable.XASBWindow, XATVItem):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.bounds: Tuple[Tuple[int, int], Tuple[int, int]] #: The bounding rectangle for the window
+        self.bounds: Tuple[int, int, int, int] #: The bounding rectangle for the window
         self.closeable: bool #: Whether the window has a close button
         self.collapseable: bool #: Whether the window can be minimized
         self.collapsed: bool #: Whether the window is currently minimized
@@ -3103,8 +3312,20 @@ class XATVWindow(XABaseScriptable.XASBWindow, XATVItem):
             self.__init__(properties)
 
     @property
-    def bounds(self) -> Tuple[Tuple[int, int], Tuple[int, int]]:
-        return self.xa_elem.bounds()
+    def bounds(self) -> Tuple[int, int, int, int]:
+        rect = self.xa_elem.bounds()
+        origin = rect.origin
+        size = rect.size
+        return (origin.x, origin.y, size.width, size.height)
+
+    @bounds.setter
+    def bounds(self, bounds: Tuple[int, int, int, int]):
+        x = bounds[0]
+        y = bounds[1]
+        w = bounds[2]
+        h = bounds[3]
+        value = AppKit.NSValue.valueWithRect_(AppKit.NSMakeRect(x, y, w, h))
+        self.set_property("bounds", value)
 
     @property
     def closeable(self) -> bool:
@@ -3118,13 +3339,25 @@ class XATVWindow(XABaseScriptable.XASBWindow, XATVItem):
     def collapsed(self) -> bool:
         return self.xa_elem.miniaturized()
 
+    @collapsed.setter
+    def collapsed(self, collapsed: bool):
+        self.set_property('collapsed', collapsed)
+
     @property
     def full_screen(self) -> bool:
         return self.xa_elem.fullScreen()
 
+    @full_screen.setter
+    def full_screen(self, full_screen: bool):
+        self.set_property('fullScreen', full_screen)
+
     @property
     def position(self) -> Tuple[int, int]:
         return self.xa_elem.position()
+
+    @position.setter
+    def position(self, position: Tuple[int, int]):
+        self.set_property('position', position)
 
     @property
     def resizable(self) -> bool:
@@ -3134,6 +3367,10 @@ class XATVWindow(XABaseScriptable.XASBWindow, XATVItem):
     def visible(self) -> bool:
         return self.xa_elem.visible()
 
+    @visible.setter
+    def visible(self, visible: bool):
+        self.set_property('visible', visible)
+
     @property
     def zoomable(self) -> bool:
         return self.xa_elem.zoomable()
@@ -3141,6 +3378,10 @@ class XATVWindow(XABaseScriptable.XASBWindow, XATVItem):
     @property
     def zoomed(self) -> bool:
         return self.xa_elem.zoomed()
+
+    @zoomed.setter
+    def zoomed(self, zoomed: bool):
+        self.set_property('zoomed', zoomed)
 
 
 
@@ -3207,6 +3448,18 @@ class XATVBrowserWindow(XATVWindow):
         self.selection: XATVTrackList #: The selected tracks
         self.view: XATVPlaylist #: The playlist currently displayed in the window
 
+    @property
+    def selection(self) -> XATVTrackList:
+        return self._new_element(self.xa_elem.selection(), XATVTrackList)
+
+    @property
+    def view(self) -> XATVPlaylist:
+        return self._new_element(self.xa_elem.view(), XATVPlaylist)
+
+    @view.setter
+    def view(self, view: XATVPlaylist):
+        self.set_property('view', view.xa_elem)
+
 
 
 
@@ -3271,6 +3524,14 @@ class XATVPlaylistWindow(XATVWindow):
         super().__init__(properties)
         self.selection: XATVTrackList #: The selected tracks
         self.view: XATVPlaylist #: The playlist currently displayed in the window
+
+    @property
+    def selection(self) -> XATVTrackList:
+        return self._new_element(self.xa_elem.selection(), XATVTrackList)
+
+    @property
+    def view(self) -> XATVPlaylist:
+        return self._new_element(self.xa_elem.view(), XATVPlaylist)
 
 
 

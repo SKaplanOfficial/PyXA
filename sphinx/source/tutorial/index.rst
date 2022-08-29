@@ -135,6 +135,7 @@ Additional Tutorial Topics
    ui_scripting
    applescript
    menubar
+   extensions/web/rssfeed
    tips_tricks
 
 

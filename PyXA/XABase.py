@@ -7,6 +7,7 @@ from datetime import datetime, timedelta
 from enum import Enum
 import importlib
 from pprint import pprint
+import random
 import tempfile
 import time, os, sys
 from typing import Any, Callable, Literal, Tuple, Union, List, Dict
@@ -725,6 +726,9 @@ class XAList(XAObject):
         super().__init__(properties)
         self.xa_ocls = object_class
 
+        if not isinstance(self.xa_elem, AppKit.NSArray):
+            self.xa_elem = AppKit.NSMutableArray.alloc().initWithArray_(self.xa_elem)
+
         if filter is not None:
             self.xa_elem = XAPredicate().from_dict(filter).evaluate(self.xa_elem)
 
@@ -892,7 +896,10 @@ class XAList(XAObject):
 
         .. versionadded:: 0.0.3
         """
-        self.xa_elem = self.xa_elem.shuffledArray()
+        try:
+            self.xa_elem = self.xa_elem.shuffledArray()
+        except AttributeError:
+            random.shuffle(self.xa_elem)
         return self
 
     def push(self, element: XAObject):
@@ -1212,7 +1219,7 @@ class XASound(XAObject, XAClipboardCodable):
 
     .. versionadded:: 0.0.1
     """
-    def __init__(self, sound_file: Union[str, AppKit.NSURL]):
+    def __init__(self, sound_file: Union[str, 'XAURL', 'XAPath']):
         if isinstance(sound_file, str):
             if "/" in sound_file:
                 sound_file = XAPath(sound_file)
@@ -1220,7 +1227,13 @@ class XASound(XAObject, XAClipboardCodable):
                 sound_file = XAPath("/System/Library/Sounds/" + sound_file + ".aiff")
         self.file = sound_file
         self.xa_elem = AppKit.NSSound.alloc()
-        self.xa_elem.initWithContentsOfURL_byReference_(sound_file.xa_elem, True)
+        self.xa_elem.initWithContentsOfURL_byReference_(sound_file.xa_elem, False)
+
+        self.duration: float #: The duration of the sound in seconds
+
+    @property
+    def duration(self) -> float:
+        return self.xa_elem.duration()
 
     def play(self) -> 'XASound':
         """Plays the sound from the beginning.
@@ -3408,6 +3421,10 @@ class XAImageList(XAList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XAImage, filter)
 
+    def show_in_preview(self):
+        for image in self:
+            image.show_in_preview()
+
 class XAImage(XAObject, XAClipboardCodable):
     """A wrapper around NSImage with specialized automation methods.
 
@@ -3416,23 +3433,29 @@ class XAImage(XAObject, XAClipboardCodable):
     def __init__(self, file: Union[str, AppKit.NSURL, AppKit.NSImage, None] = None, data: Union[AppKit.NSData, None] = None, name: Union[str, None] = None):
         self.size: Tuple[int, int] #: The dimensions of the image
         self.name: str #: The name of the image
+        self.data: str #: The TIFF representation of the image
 
-        if data is not None:
-            self.xa_elem = AppKit.NSImage.alloc().initWithData_(data)
+        if isinstance(file, dict):
+            # Image was created via XAList
+            self.xa_elem = file["element"]
         else:
-            if file is None:
-                self.xa_elem = AppKit.NSImage.alloc().init()
+            if data is not None:
+                self.xa_elem = AppKit.NSImage.alloc().initWithData_(data)
             else:
-                if isinstance(file, AppKit.NSImage):
-                    self.xa_elem = AppKit.NSImage.alloc().initWithData_(file.TIFFRepresentation())
+                if file is None:
+                    self.xa_elem = AppKit.NSImage.alloc().init()
                 else:
-                    if isinstance(file, str):
-                        if file.startswith("/"):
-                            file = XAPath(file)
-                        else:
-                            file = XAURL(file)
-                    self.xa_elem = AppKit.NSImage.alloc().initWithContentsOfURL_(file.xa_elem)
+                    if isinstance(file, AppKit.NSImage):
+                        self.xa_elem = AppKit.NSImage.alloc().initWithData_(file.TIFFRepresentation())
+                    else:
+                        if isinstance(file, str):
+                            if file.startswith("/"):
+                                file = XAPath(file)
+                            else:
+                                file = XAURL(file)
+                        self.xa_elem = AppKit.NSImage.alloc().initWithContentsOfURL_(file.xa_elem)
         self.name = name or "image"
+        self.data = self.xa_elem.TIFFRepresentation()
 
     @property
     def size(self):

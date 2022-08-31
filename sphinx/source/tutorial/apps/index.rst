@@ -30,6 +30,7 @@ First-Party Application Modules
    safari/index
    shortcuts/index
    stocks/index
+   systemevents/index
    systempreferences/index
    terminal/index
    textedit/index
@@ -45,5 +46,7 @@ Third-Party Application Modules
    drafts/index
    fantastical/index
    hammerspoon/index
+   iterm/index
    vlc/index
    omnioutliner/index
+   rstudio/index

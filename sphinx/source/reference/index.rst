@@ -45,6 +45,7 @@ First-Party Application Modules
    apps/safari
    apps/shortcuts
    apps/stocks
+   apps/systemevents
    apps/systempreferences
    apps/terminal
    apps/textedit
@@ -59,5 +60,7 @@ Third-Party Application Modules
    apps/fantastical
    apps/drafts
    apps/hammerspoon
+   apps/iterm
    apps/omnioutliner
    apps/vlc
+   apps/rstudio

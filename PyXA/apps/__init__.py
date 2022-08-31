@@ -26,6 +26,7 @@ application_classes = {
     "quicktime player": ("QuickTimePlayer", "XAQuickTimeApplication"),
     "numbers": ("Numbers", "XANumbersApplication"),
     "script editor": ("ScriptEditor", "XAScriptEditorApplication"),
+    "system events": ("SystemEvents", "XASystemEventsApplication"),
 
     ### First Party Non-scriptable Apps
     "calculator": ("Calculator", "XACalculatorApplication"),
@@ -47,6 +48,8 @@ application_classes = {
     "alfred": ("Alfred", "XAAlfredApplication"),
     "drafts": ("Drafts", "XADraftsApplication"),
     "hammerspoon": ("Hammerspoon", "XAHammerspoonApplication"),
+    "rstudio": ("RStudio", "XARStudioApplication"),
+    "iterm": ("iTerm", "XAiTermApplication"),
 
     "vlc": ("VLC", "XAVLCApplication"),
     "fantastical": ("Fantastical", "XAFantasticalApplication"),

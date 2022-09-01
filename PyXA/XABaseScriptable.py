@@ -109,7 +109,10 @@ class XASBApplication(XASBObject, XABase.XAApplication):
         return self._new_element(self.xa_scel.windows()[0], self.xa_wcls)
 
     def windows(self, filter: dict = None) -> 'XASBWindowList':
-        return self._new_element(self.xa_scel.windows(), XASBWindowList)
+        try:
+            return self._new_element(self.xa_scel.windows(), XASBWindowList)
+        except AttributeError:
+            return self._new_element([], XASBWindowList)
 
 
 

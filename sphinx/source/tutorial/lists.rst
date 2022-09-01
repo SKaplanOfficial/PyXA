@@ -114,7 +114,35 @@ Filter methods can be used to narrow down the list of objects, thereby making it
     # ['Hello', 'Chasing Pavements', 'Skyfall', ...]
     # 0:00:00.076569
 
-You can use :func:`~PyXA.XABase.XAList.by_property` to retrieve a single object from the list based on its property values. :func:`~PyXA.XABase.XAList.containing` will match the first object whose property value contains a given value, while :func:`~PyXA.XABase.XAList.by_property` will match the first object whose property value exactly matches the given value. The example below shows these methods at work.
+PyXA provides several convenience methods for retrieving lists matching simple filters. These methods include :func:`~PyXA.XABase.XAList.equalling`, :func:`~PyXA.XABase.XAList.not_equalling`, :func:`~PyXA.XABase.XAList.containing`, :func:`~PyXA.XABase.XAList.beginning_with`, :func:`~PyXA.XABase.XAList.ending_width`, :func:`~PyXA.XABase.XAList.greater_than`, :func:`~PyXA.XABase.XAList.less_than`, and :func:`~PyXA.XABase.XAList.between`. Each of these methods returns an :class:`~PyXA.XABase.XAList` object containing the items matching the corresponding filter. The code below shows how many of the methods can be used.
+
+.. code-block:: Python
+
+    import PyXA
+    app = PyXA.Application("Notes")
+    print(app.notes().containing("body", "Hello").name())
+    print(app.notes().containing("title", "Hello").name())
+    # ['Note 1', 'Example Note', 'Another Note']
+    # ['Hello, world!']
+
+    print(notes.notes().greater_than("creationDate", date(2022, 8, 30)).name())
+    print(notes.notes().not_equalling("shared", True).name())
+    # ["Aug. 31st Note"]
+    # ["Note 1", "Note 2", "Note 3", ...]
+
+    music = PyXA.Application("Music")
+    print(music.tracks().between("playedCount", 10, 20))
+    print(music.tracks().not_containing("name", "a"))
+    # <<class 'PyXA.apps.Music.XAMusicTrackList'>['Irresistible', 'Absent Minded (Piano Version)', "Say You Won't Let Go", ...]>
+    # <<class 'PyXA.apps.Music.XAMusicTrackList'>['Hello', 'Rolling in the Deep', ...]>
+
+    photos = PyXA.Application("Photos")
+    print(photos.media_items().equalling("favorite", True))
+    print(photos.media_items().beginning_with("name", "P"))
+    # <<class 'PyXA.apps.PhotosApp.XAPhotosMediaItemList'>['CB24FE9F-E9DC-4A5C-A0B0-CC779B1CEDCE/L0/001', ...]>
+    # <<class 'PyXA.apps.PhotosApp.XAPhotosMediaItemList'>['0BA38221-C569-4ACF-A3BD-967CB87EB7EB/L0/001']>
+
+You can also use :func:`~PyXA.XABase.XAList.by_property` to retrieve a single object from the list based on its property values. :func:`~PyXA.XABase.XAList.containing` will match the first object whose property value contains a given value, while :func:`~PyXA.XABase.XAList.by_property` will match the first object whose property value exactly matches the given value. The example below shows these methods at work.
 
 .. code-block:: Python
 

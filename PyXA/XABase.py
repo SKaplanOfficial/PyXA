@@ -754,30 +754,230 @@ class XAList(XAObject):
         """
         predicate = XAPredicate()
         predicate.add_eq_condition(property, value)
-        ls = predicate.evaluate(self.xa_elem)
+        ls = predicate.evaluate(self.xa_elem).get()
         obj = ls[0]
         return self._new_element(obj, self.xa_ocls)
 
-    def containing(self, property: str, value: str) -> XAObject:
-        """Retrieves the element whose property value contains the given value, if one exists.
+    def equalling(self, property: str, value: str) -> XAObject:
+        """Retrieves all elements whose property value equals the given value.
 
-        :param property: The property match
+        :param property: The property to match
         :type property: str
         :param value: The value to search for
         :type value: str
-        :return: The matching element, if one is found
-        :rtype: XAObject
+        :return: The list of matching elements
+        :rtype: XAList
 
-        .. deprecated:: 0.0.8
-           Use :func:`filter` instead.
+        :Example:
+
+        >>> import PyXA
+        >>> app = PyXA.Application("TV")
+        >>> print(app.tracks().equalling("playedCount", 0))
+        <<class 'PyXA.apps.TV.XATVTrackList'>['Frozen', 'Sunshine', 'The Hunger Games: Mockingjay - Part 2', ...]>
+
+        .. versionadded:: 0.1.0
+        """
+        predicate = XAPredicate()
+        predicate.add_eq_condition(property, value)
+        ls = predicate.evaluate(self.xa_elem)
+        return self._new_element(ls, self.__class__)
+
+    def not_equalling(self, property: str, value: str) -> XAObject:
+        """Retrieves all elements whose property value does not equal the given value.
+
+        :param property: The property to match
+        :type property: str
+        :param value: The value to search for
+        :type value: str
+        :return: The list of matching elements
+        :rtype: XAList
+
+        :Example:
+
+        >>> import PyXA
+        >>> app = PyXA.Application("TV")
+        >>> print(app.tracks().not_equalling("playedCount", 0))
+        <<class 'PyXA.apps.TV.XATVTrackList'>['The Avatar State', 'The Cave of Two Lovers', 'Return to Omashu', ...]>
+
+        .. versionadded:: 0.1.0
+        """
+        predicate = XAPredicate()
+        predicate.add_neq_condition(property, value)
+        ls = predicate.evaluate(self.xa_elem)
+        return self._new_element(ls, self.__class__)
+
+    def containing(self, property: str, value: str) -> XAObject:
+        """Retrieves all elements whose property value contains the given value.
+
+        :param property: The property to match
+        :type property: str
+        :param value: The value to search for
+        :type value: str
+        :return: The list of matching elements
+        :rtype: XAList
+
+        :Example:
+
+        >>> import PyXA
+        >>> app = PyXA.Application("Reminders")
+        >>> print(app.reminders().containing("name", "PyXA"))
+        <<class 'PyXA.apps.Reminders.XARemindersReminderList'>['PyXA v0.1.0 release']>
 
         .. versionadded:: 0.0.6
         """
         predicate = XAPredicate()
         predicate.add_contains_condition(property, value)
         ls = predicate.evaluate(self.xa_elem)
-        obj = ls[0]
-        return self._new_element(obj, self.xa_ocls)
+        return self._new_element(ls, self.__class__)
+
+    def not_containing(self, property: str, value: str) -> XAObject:
+        """Retrieves all elements whose property value does not contain the given value.
+
+        :param property: The property to match
+        :type property: str
+        :param value: The value to search for
+        :type value: str
+        :return: The list of matching elements
+        :rtype: XAList
+
+        :Example:
+
+        >>> import PyXA
+        >>> app = PyXA.Application("Reminders")
+        >>> print(app.reminders().not_containing("name", " "))
+        <<class 'PyXA.apps.Reminders.XARemindersReminderList'>['Trash', 'Thing', 'Reminder', ...]>
+
+        .. versionadded:: 0.1.0
+        """
+        ls = XAPredicate.evaluate_with_format(self.xa_elem, f"NOT {property} CONTAINS \"{value}\"")
+        return self._new_element(ls, self.__class__)
+
+    def beginning_with(self, property: str, value: str) -> XAObject:
+        """Retrieves all elements whose property value begins with the given value.
+
+        :param property: The property to match
+        :type property: str
+        :param value: The value to search for
+        :type value: str
+        :return: The list of matching elements
+        :rtype: XAList
+
+        :Example:
+
+        >>> import PyXA
+        >>> app = PyXA.Application("System Events")
+        >>> print(app.downloads_folder.files().beginning_with("name", "Example"))
+        <<class 'PyXA.apps.SystemEvents.XASystemEventsFileList'>['Example.png', 'ExampleImage.png', ...]>
+
+        .. versionadded:: 0.1.0
+        """
+        predicate = XAPredicate()
+        predicate.add_begins_with_condition(property, value)
+        ls = predicate.evaluate(self.xa_elem)
+        return self._new_element(ls, self.__class__)
+
+    def ending_with(self, property: str, value: str) -> XAObject:
+        """Retrieves all elements whose property value ends with the given value.
+
+        :param property: The property to match
+        :type property: str
+        :param value: The value to search for
+        :type value: str
+        :return: The list of matching elements
+        :rtype: XAList
+
+        :Example:
+
+        >>> import PyXA
+        >>> app = PyXA.Application("System Events")
+        >>> print(app.downloads_folder.files().ending_with("name", ".png"))
+        <<class 'PyXA.apps.SystemEvents.XASystemEventsFileList'>['Example.png', 'Image.png', ...]>
+
+        .. versionadded:: 0.1.0
+        """
+        predicate = XAPredicate()
+        predicate.add_ends_with_condition(property, value)
+        ls = predicate.evaluate(self.xa_elem)
+        return self._new_element(ls, self.__class__)
+
+    def greater_than(self, property: str, value: Union[int, float]) -> XAObject:
+        """Retrieves all elements whose property value is greater than the given value.
+
+        :param property: The property to match
+        :type property: str
+        :param value: The value to compare against
+        :type value: Union[int, float]
+        :return: The list of matching elements
+        :rtype: XAList
+
+        :Example:
+
+        >>> import PyXA
+        >>> app = PyXA.Application("Photos")
+        >>> print(app.media_items().greater_than("altitude", 10000)[0].spotlight())
+        <<class 'PyXA.apps.PhotosApp.XAPhotosMediaItem'>id=53B0F28E-0B39-446B-896C-484CD0DC2D3C/L0/001>
+
+        .. versionadded:: 0.1.0
+        """
+        predicate = XAPredicate()
+        predicate.add_gt_condition(property, value)
+        ls = predicate.evaluate(self.xa_elem)
+        return self._new_element(ls, self.__class__)
+
+    def less_than(self, property: str, value: Union[int, float]) -> XAObject:
+        """Retrieves all elements whose property value is less than the given value.
+
+        :param property: The property to match
+        :type property: str
+        :param value: The value to compare against
+        :type value: Union[int, float]
+        :return: The list of matching elements
+        :rtype: XAList
+
+        :Example:
+
+        >>> app = PyXA.Application("Music")
+        >>> tracks = app.tracks()
+        >>> print(tracks.less_than("playedCount", 5).name())
+        ['Outrunning Karma', 'Death of a Hero', '1994', 'Mind Is a Prison']
+
+        .. versionadded:: 0.1.0
+        """
+        predicate = XAPredicate()
+        predicate.add_lt_condition(property, value)
+        ls = predicate.evaluate(self.xa_elem)
+        return self._new_element(ls, self.__class__)
+
+    def between(self, property: str, value1: Union[int, float], value2: Union[int, float]) -> XAObject:
+        """Retrieves all elements whose property value is between the given values.
+
+        :param property: The property to match
+        :type property: str
+        :param value1: The lower-end of the range to match
+        :type value1: Union[int, float]
+        :param value2: The upper-end of the range to match
+        :type value2: Union[int, float]
+        :return: The list of matching elements
+        :rtype: XAList
+
+        :Example:
+
+        >>> import PyXA
+        >>> from datetime import datetime, timedelta
+        >>> 
+        >>> app = PyXA.Application("Calendar")
+        >>> events = app.calendars()[3].events()
+        >>> now = datetime.now()
+        >>> print(events.between("startDate", now, now + timedelta(days=1)))
+        <<class 'PyXA.apps.Calendar.XACalendarEventList'>['Capstone Meeting', 'Lunch with Dan']>
+
+        .. versionadded:: 0.1.0
+        """
+        predicate = XAPredicate()
+        predicate.add_gt_condition(property, value1)
+        predicate.add_lt_condition(property, value2)
+        ls = predicate.evaluate(self.xa_elem)
+        return self._new_element(ls, self.__class__)
 
     def filter(self, filter: str, comparison_operation: Union[str, None] = None, value1: Union[Any, None] = None, value2: Union[Any, None] = None) -> 'XAList':
         """Filters the list by the given parameters.
@@ -902,12 +1102,13 @@ class XAList(XAObject):
             random.shuffle(self.xa_elem)
         return self
 
-    def push(self, element: XAObject):
+    def push(self, *elements: List[XAObject]):
         """Appends the object referenced by the provided PyXA wrapper to the end of the list.
 
         .. versionadded:: 0.0.3
         """
-        self.xa_elem.addObject_(element.xa_elem)
+        for element in elements:
+            self.xa_elem.addObject_(element.xa_elem)
 
     def insert(self, element: XAObject, index: int):
         """Inserts the object referenced by the provided PyXA wrapper at the specified index.
@@ -929,7 +1130,7 @@ class XAList(XAObject):
         if isinstance(key, slice):
             arr = AppKit.NSMutableArray.alloc().initWithArray_([self.xa_elem[index] for index in range(key.start, key.stop, key.step or 1)])
             return self._new_element(arr, self.__class__)
-        return self._new_element(self.xa_elem[key], self.xa_ocls)
+        return self._new_element(self.xa_elem.objectAtIndex_(key), self.xa_ocls)
 
     def __len__(self):
         if hasattr(self.xa_elem, "count"):
@@ -1898,7 +2099,7 @@ class XAPredicate(XAObject, XAClipboardCodable):
                 self.values.append(args[index + 1])
         return self
 
-    def evaluate(self, target: AppKit.NSArray) -> AppKit.NSArray:
+    def evaluate(self, target: Union[AppKit.NSArray, XAList]) -> AppKit.NSArray:
         """Evaluates the predicate on the given array.
 
         :param target: The array to evaluate against the predicate
@@ -1908,13 +2109,29 @@ class XAPredicate(XAObject, XAClipboardCodable):
 
         .. versionadded:: 0.0.4
         """
+        target_list = target
+        if isinstance(target, XAList):
+            target_list = target.xa_elem
+
         placeholders = ["%@"] * len(self.values)
         expressions = [" ".join(expr) for expr in zip(self.keys, self.operators, placeholders)]
         format = "( " + " ) && ( ".join(expressions) + " )"
-        predicate = AppKit.NSPredicate.predicateWithFormat_(format, *self.values)
-        return target.filteredArrayUsingPredicate_(predicate)
 
-    def evaluate_with_format(target: AppKit.NSArray, fmt: str) -> AppKit.NSArray:
+        predicate = AppKit.NSPredicate.predicateWithFormat_(format, *self.values)
+        predicate = str(predicate) # Not sure why this is necessary sometimes, but it is.
+        ls = target_list.filteredArrayUsingPredicate_(AppKit.NSPredicate.predicateWithFormat_(predicate))
+
+        if isinstance(target, XAList):
+            return target.__class__({
+                "parent": target,
+                "appspace": AppKit.NSApplication.sharedApplication(),
+                "workspace": AppKit.NSWorkspace.sharedWorkspace(),
+                "element": ls,
+                "appref": AppKit.NSApplication.sharedApplication(),
+            })
+        return ls
+
+    def evaluate_with_format(target: Union[AppKit.NSArray, XAList], fmt: str) -> AppKit.NSArray:
         """Evaluates the specified array against a predicate with the given format.
 
         :param target: The array to filter
@@ -1926,10 +2143,24 @@ class XAPredicate(XAObject, XAClipboardCodable):
 
         .. versionadded:: 0.0.4
         """
-        predicate = AppKit.NSPredicate.predicateWithFormat_(fmt)
-        return target.filteredArrayUsingPredicate_(predicate)
+        target_list = target
+        if isinstance(target, XAList):
+            target_list = target.xa_elem
 
-    def evaluate_with_dict(target: AppKit.NSArray, properties_dict: dict) -> AppKit.NSArray:
+        predicate = AppKit.NSPredicate.predicateWithFormat_(fmt)
+        ls = target_list.filteredArrayUsingPredicate_(predicate)
+
+        if isinstance(target, XAList):
+            return target.__class__({
+                "parent": target,
+                "appspace": AppKit.NSApplication.sharedApplication(),
+                "workspace": AppKit.NSWorkspace.sharedWorkspace(),
+                "element": ls,
+                "appref": AppKit.NSApplication.sharedApplication(),
+            })
+        return ls
+
+    def evaluate_with_dict(target: Union[AppKit.NSArray, XAList], properties_dict: dict) -> AppKit.NSArray:
         """Evaluates the specified array against a predicate constructed from the supplied dictionary.
 
         The predicate will use == for all comparisons.
@@ -1943,13 +2174,28 @@ class XAPredicate(XAObject, XAClipboardCodable):
 
         .. versionadded:: 0.0.4
         """
+        target_list = target
+        if isinstance(target, XAList):
+            target_list = target.xa_elem
+
         fmt = ""
         for key, value in properties_dict.items():
             if isinstance(value, str):
                 value = "'" + value + "'"
             fmt += f"( {key} == {value} ) &&"
+
         predicate = AppKit.NSPredicate.predicateWithFormat_(fmt[:-3])
-        return target.filteredArrayUsingPredicate_(predicate)
+        ls = target_list.filteredArrayUsingPredicate_(predicate)
+
+        if isinstance(target, XAList):
+            return target.__class__({
+                "parent": target,
+                "appspace": AppKit.NSApplication.sharedApplication(),
+                "workspace": AppKit.NSWorkspace.sharedWorkspace(),
+                "element": ls,
+                "appref": AppKit.NSApplication.sharedApplication(),
+            })
+        return ls
 
     # EQUAL
     def add_eq_condition(self, property: str, value: Any):
@@ -2150,15 +2396,17 @@ class XAPredicate(XAObject, XAClipboardCodable):
         self.values.insert(index, value)
 
     # BETWEEN
-    def add_between_condition(self, property: str, value1: Any, value2: Any):
+    def add_between_condition(self, property: str, value1: Union[int, float], value2: Union[int, float]):
         """Appends a `BETWEEN` condition to the end of the predicate format.
 
         The added condition will have the form `property BETWEEN [value1, value2]`.
 
         :param property: A property of an object to check the condition against
         :type property: str
-        :param value: The target value of the condition
-        :type value: Any
+        :param value1: The lower target value of the condition
+        :type value1: Union[int, float]
+        :param value2: The upper target value of the condition
+        :type value2: Union[int, float]
 
         .. versionadded:: 0.0.4
         """
@@ -2166,15 +2414,17 @@ class XAPredicate(XAObject, XAClipboardCodable):
         self.operators.append("BETWEEN")
         self.values.append([value1, value2])
 
-    def insert_between_condition(self, index: int, property: str, value1: Any, value2: Any):
+    def insert_between_condition(self, index: int, property: str, value1: Union[int, float], value2: Union[int, float]):
         """Inserts a `BETWEEN` condition to the predicate format at the desired location, specified by index.
 
         The added condition will have the form `property BETWEEN [value1, value2]`.
 
         :param property: A property of an object to check the condition against
         :type property: str
-        :param value: The target value of the condition
-        :type value: Any
+        :param value1: The lower target value of the condition
+        :type value1: Union[int, float]
+        :param value2: The upper target value of the condition
+        :type valu2e: Union[int, float]
 
         .. versionadded:: 0.0.4
         """
@@ -3824,6 +4074,41 @@ class XAFolderPicker(XAObject):
                 return values
             else:
                 return XAPath(result.fileURLValue())
+
+
+
+
+class XAApplicationPicker(XAObject):
+    """An application selection window.
+
+    .. versionadded:: 0.1.0
+    """
+    def __init__(self, title: Union[str, None] = None, prompt: Union[str, None] = None, multiple_selections_allowed: bool = False):
+        super().__init__()
+        self.title: str = title #: The dialog window title
+        self.prompt: str = prompt #: The prompt to be displayed in the dialog box
+        self.multiple_selections_allowed: bool = multiple_selections_allowed #: Whether to allow multiple items to be selected
+
+    def display(self) -> str:
+        """Displays the application chooser, waits for the user to select an application or cancel, then returns the selected application's name or None if cancelled.
+
+        :return: The name of the selected application
+        :rtype: str
+
+        .. versionadded:: 0.0.8
+        """
+
+        script = AppleScript("tell application \"Terminal\"")
+        dialog_str = "choose application "
+        if self.title is not None:
+            dialog_str += f"with title \"{self.title}\" "
+        if self.prompt is not None:
+            dialog_str += f"with prompt \"{self.prompt}\""
+        dialog_str += f"multiple selections allowed {self.multiple_selections_allowed} "
+        script.add(dialog_str)
+        script.add("end tell")
+
+        return script.run()["string"]
 
 
 

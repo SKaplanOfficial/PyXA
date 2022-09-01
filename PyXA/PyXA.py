@@ -1,156 +1,134 @@
 from datetime import datetime
-from enum import Enum
-import os
 from time import sleep
 from typing import Any, Callable, List, Union
 import importlib
 
 import AppKit
-from AppKit import (
-    NSWorkspace,
-    NSApplication,
-    NSPasteboard,
-    NSArray,
-    NSPasteboardTypeString,
-    NSAppleScript,
-)
-from Foundation import NSURL, NSBundle
-
 from Quartz import CGWindowListCopyWindowInfo, kCGNullWindowID, kCGWindowListOptionAll
 
 from .XABase import *
-from .XABaseScriptable import *
-from .XAErrors import ApplicationNotFoundError
-from .apps import application_classes
 from PyXA import XABaseScriptable
+from .apps import application_classes
 
-VERSION = "0.0.9"
-DATE = str(datetime.now())
+from .XAErrors import ApplicationNotFoundError
 
-appspace = NSApplication.sharedApplication()
-workspace = NSWorkspace.sharedWorkspace()
-app_paths: List[str] = []
+VERSION = "0.1.0" #: The installed version of PyXA
 
 scriptable_applications: List[str] = list(application_classes.keys()) #: A list of names of scriptable applications
 
-# class _staticproperty(staticmethod):
-#     def __get__(self, *_):         
-#         return self.__func__()
+class Application(XAObject):
+    shared_app = AppKit.NSApplication.sharedApplication()
+    workspace = AppKit.NSWorkspace.sharedWorkspace()
+    app_paths: List[str] = [] #: A list containing the path to each application
 
-# class Application(XAObject):
-#     shared_app = NSApplication.sharedApplication()
-#     workspace = NSWorkspace.sharedWorkspace()
-#     app_paths: List[str] = [] #: A list containing the path to each application
-#     current_application: XAApplication #: The currently active application
+    def __init__(self, app_name: str):
+        """Creates a new application object.
 
-#     def __init__(self, app_identifier: str):
-#         """Creates an application object.
+        :param app_name: The name of the target application
+        :type app_name: str
 
-#         :param app_identifier: The name of an application
-#         :type app_identifier: str
+        .. versionadded:: 0.1.0
+        """
+        # Elevate to XAApplication
+        new_self = self.__get_application(app_name)
+        self.__class__ = new_self.__class__
+        self.__dict__.update(new_self.__dict__)
 
-#         .. versionadded:: 0.0.9
-#         """
-#         self.app = 
+    def __xa_get_path_to_app(self, app_identifier: str) -> str:
+        self.__xa_load_app_paths()
+        for path in self.app_paths:
+            if app_identifier in path:
+                return path
 
-#     def _get_path_to_app(app_identifier: str) -> str:
-#         Application._xa_load_app_paths()
-#         for path in app_paths:
-#             if app_identifier in path:
-#                 return path
+        raise ApplicationNotFoundError(app_identifier)
 
-#         raise ApplicationNotFoundError(app_identifier)
+    def __xa_load_app_paths(self):
+        if self.app_paths == []:
+            search = XASpotlight()
+            search.predicate = "kMDItemContentType == 'com.apple.application-bundle'"
+            search.run()
+            self.app_paths = [x.path for x in search.results]
 
-#     def _xa_load_app_paths():
-#         if Application.app_paths == []:
-#             search = XASpotlight()
-#             search.predicate = "kMDItemContentType == 'com.apple.application-bundle'"
-#             search.run()
-#             app_paths = [x.path for x in search.results]
+    def __get_application(self, app_identifier: str) -> XAApplication:
+        """Retrieves a PyXA application object representation of the target application without launching or activating the application.
 
-#     @_staticproperty
-#     def current_application() -> XAApplication:
-#         return application(workspace.frontmostApplication().localizedName())
+        :param app_identifier: The name of the application to get an object of.
+        :type app_identifier: str
+        :return: A PyXA application object referencing the target application.
+        :rtype: XAApplication
 
-#     def _xa_get_open_app(app_identifier: str):
-#         def _match_open_app(obj, index, stop):
-#             return (obj.localizedName() == app_identifier, stop)
+        .. versionadded:: 0.0.1
+        """
+        app_identifier_l = app_identifier.lower()
 
-#         idx_set = workspace.runningApplications().indexesOfObjectsPassingTest_(_match_open_app)
-#         if idx_set.count() == 1:
-#             index = idx_set.firstIndex()
-#             app = workspace.runningApplications()[index]
-#             return Application._xa_get_app_ref(app_identifier.lower(), app)
+        def _match_open_app(obj, index, stop):
+            return (obj.localizedName() == app_identifier, stop)
 
-#     def _xa_get_app_ref(app_identifier: str, app_object):
-#         properties = {
-#             "parent": None,
-#             "appspace": Application.shared_app,
-#             "workspace": Application.workspace,
-#             "element": app_object,
-#             "appref": app_object,
-#         }
+        idx_set = self.workspace.runningApplications().indexesOfObjectsPassingTest_(_match_open_app)
+        if idx_set.count() == 1:
+            index = idx_set.firstIndex()
+            app = self.workspace.runningApplications()[index]
+            properties = {
+                "parent": None,
+                "appspace": self.shared_app,
+                "workspace": self.workspace,
+                "element": app,
+                "appref": app,
+            }
 
-#         app_obj = application_classes.get(app_identifier, XAApplication)
-#         if isinstance(app_obj, tuple):
-#             module = importlib.import_module("PyXA.apps." + app_obj[0])
-#             app_class = getattr(module, app_obj[1], None)
-#             if app_class is not None:
-#                 application_classes[app_identifier] = app_class
-#                 app = app_class
-#             else:
-#                 raise NotImplementedError()
+            app_obj = application_classes.get(app_identifier_l, XAApplication)
+            if isinstance(app_obj, tuple):
+                module = importlib.import_module("PyXA.apps." + app_obj[0])
+                app_class = getattr(module, app_obj[1], None)
+                if app_class is not None:
+                    application_classes[app_identifier_l] = app_class
+                    app = app_class
+                else:
+                    raise NotImplementedError()
 
-#         return application_classes.get(app_identifier, XAApplication)(properties)
+            app_ref = application_classes.get(app_identifier_l, XAApplication)(properties)
+            return app_ref
 
-#     def _xa_get_application(app_identifier: str) -> XAApplication:
-#         """Retrieves a PyXA application object representation of the target application without launching or activating the application.
+        app_path = app_identifier
+        if not app_identifier.startswith("/"):
+            app_path = self.__xa_get_path_to_app(app_identifier)
+        bundle = AppKit.NSBundle.alloc().initWithPath_(app_path)
+        url = self.workspace.URLForApplicationWithBundleIdentifier_(bundle.bundleIdentifier())
 
-#         :param app_identifier: The name of the application to get an object of.
-#         :type app_identifier: str
-#         :return: A PyXA application object referencing the target application.
-#         :rtype: XAApplication
+        config = AppKit.NSWorkspaceOpenConfiguration.alloc().init()
+        config.setActivates_(False)
+        config.setHides_(True)
 
-#         .. versionadded:: 0.0.9
-#         """
-#         open_app = Application._xa_get_open_app(app_identifier)
-#         if open_app is not None:
-#             return open_app
+        app_ref = None
+        def _launch_completion_handler(app, _error):
+            nonlocal app_ref
+            properties = {
+                "parent": None,
+                "appspace": self.shared_app,
+                "workspace": self.workspace,
+                "element": app,
+                "appref": app,
+            }
 
-#         app_path = _get_path_to_app(app_identifier)
-#         bundle = NSBundle.alloc().initWithPath_(app_path)
-#         url = workspace.URLForApplicationWithBundleIdentifier_(bundle.bundleIdentifier())
+            app_obj = application_classes.get(app_identifier_l, None)
+            if isinstance(app_obj, tuple):
+                module = importlib.import_module("PyXA.apps." + app_obj[0])
+                app_class = getattr(module, app_obj[1], None)
+                if app_class is not None:
+                    application_classes[app_identifier_l] = app_class
+                    app = app_class
+                else:
+                    raise NotImplementedError()
 
-#         config = AppKit.NSWorkspaceOpenConfiguration.alloc().init()
-#         config.setActivates_(False)
-#         config.setHides_(True)
+            app_ref = application_classes.get(app_identifier_l, XAApplication)(properties)
 
-#         app_ref = None
-#         def _launch_completion_handler(app, _error):
-#             nonlocal app_ref
-#             app_ref = Application._xa_get_app_ref(app_identifier.lower(), app)
-
-#         workspace.openApplicationAtURL_configuration_completionHandler_(url, config, _launch_completion_handler)
-#         while app_ref is None:
-#             sleep(0.01)
-#         return app_ref
+        
+        self.workspace.openApplicationAtURL_configuration_completionHandler_(url, config, _launch_completion_handler)
+        while app_ref is None:
+            sleep(0.01)
+        return app_ref
 
 
-def _xa_get_path_to_app(app_identifier: str) -> str:
-    _xa_load_app_paths()
-    for path in app_paths:
-        if app_identifier in path:
-            return path
-
-    raise ApplicationNotFoundError(app_identifier)
-
-def _xa_load_app_paths():
-    global app_paths
-    if app_paths == []:
-        search = XASpotlight()
-        search.predicate = "kMDItemContentType == 'com.apple.application-bundle'"
-        search.run()
-        app_paths = [x.path for x in search.results]
 
 
 def running_applications() -> List[XAApplication]:
@@ -171,8 +149,8 @@ def running_applications() -> List[XAApplication]:
     windows = CGWindowListCopyWindowInfo(kCGWindowListOptionAll, kCGNullWindowID)
     ls = XAPredicate.evaluate_with_format(windows, "kCGWindowIsOnscreen == 1 && kCGWindowLayer == 0")
     properties = {
-        "appspace": appspace,
-        "workspace": workspace,
+        "appspace": AppKit.NSApplication.sharedApplication(),
+        "workspace": AppKit.NSWorkspace.sharedWorkspace(),
         "element": ls,
     }
     arr = XAApplicationList(properties)
@@ -218,7 +196,7 @@ class XAApplicationList(XAList):
         removed = self.xa_elem.lastObject()
         self.xa_elem.removeLastObject()
         app_name = removed["kCGWindowOwnerName"]
-        return application(app_name)
+        return Application(app_name)
 
     def __getitem__(self, key: Union[int, slice]):
         """Retrieves the wrapped application object(s) at the specified key."""
@@ -226,7 +204,7 @@ class XAApplicationList(XAList):
             arr = AppKit.NSArray.alloc().initWithArray_([self.xa_elem[index] for index in range(key.start, key.stop, key.step or 1)])
             return self._new_element(arr, self.__class__)
         app_name = self.xa_elem[key]["kCGWindowOwnerName"]
-        return application(app_name)
+        return Application(app_name)
 
     def bundle_identifier(self) -> List[str]:
         return [app.bundle_identifier for app in self]
@@ -325,7 +303,7 @@ class XAApplicationList(XAList):
         return window_list
 
     def __iter__(self):
-        return (application(object["kCGWindowOwnerName"]) for object in self.xa_elem.objectEnumerator())
+        return (Application(object["kCGWindowOwnerName"]) for object in self.xa_elem.objectEnumerator())
 
     def __repr__(self):
         return "<" + str(type(self)) + str(self.localized_name()) + ">"
@@ -361,6 +339,8 @@ class XACombinedWindowList(XAList):
             window.collapse()
 
 
+
+
 def current_application() -> XAApplication:
     """Retrieves a PyXA representation of the frontmost application.
 
@@ -369,7 +349,9 @@ def current_application() -> XAApplication:
 
     .. versionadded:: 0.0.1
     """
-    return application(workspace.frontmostApplication().localizedName())
+    return Application(AppKit.NSWorkspace.sharedWorkspace().frontmostApplication().localizedName())
+
+
 
 
 def application(app_identifier: str) -> XAApplication:
@@ -380,71 +362,10 @@ def application(app_identifier: str) -> XAApplication:
     :return: A PyXA application object referencing the target application.
     :rtype: XAApplication
 
+    .. deprecated:: 0.1.0
+    
+       Use :class:`Application` instead.
+
     .. versionadded:: 0.0.1
     """
-    app_identifier_l = app_identifier.lower()
-
-    def _match_open_app(obj, index, stop):
-        return (obj.localizedName() == app_identifier, stop)
-
-    idx_set = workspace.runningApplications().indexesOfObjectsPassingTest_(_match_open_app)
-    if idx_set.count() == 1:
-        index = idx_set.firstIndex()
-        app = workspace.runningApplications()[index]
-        properties = {
-            "parent": None,
-            "appspace": appspace,
-            "workspace": workspace,
-            "element": app,
-            "appref": app,
-        }
-
-        app_obj = application_classes.get(app_identifier_l, XAApplication)
-        if isinstance(app_obj, tuple):
-            module = importlib.import_module("PyXA.apps." + app_obj[0])
-            app_class = getattr(module, app_obj[1], None)
-            if app_class is not None:
-                application_classes[app_identifier_l] = app_class
-                app = app_class
-            else:
-                raise NotImplementedError()
-
-        app_ref = application_classes.get(app_identifier_l, XAApplication)(properties)
-        return app_ref
-
-    app_path = _xa_get_path_to_app(app_identifier)
-    bundle = NSBundle.alloc().initWithPath_(app_path)
-    url = workspace.URLForApplicationWithBundleIdentifier_(bundle.bundleIdentifier())
-
-    config = AppKit.NSWorkspaceOpenConfiguration.alloc().init()
-    config.setActivates_(False)
-    config.setHides_(True)
-
-    app_ref = None
-    def _launch_completion_handler(app, _error):
-        nonlocal app_ref
-        properties = {
-            "parent": None,
-            "appspace": appspace,
-            "workspace": workspace,
-            "element": app,
-            "appref": app,
-        }
-
-        app_obj = application_classes.get(app_identifier_l, None)
-        if isinstance(app_obj, tuple):
-            module = importlib.import_module("PyXA.apps." + app_obj[0])
-            app_class = getattr(module, app_obj[1], None)
-            if app_class is not None:
-                application_classes[app_identifier_l] = app_class
-                app = app_class
-            else:
-                raise NotImplementedError()
-
-        app_ref = application_classes.get(app_identifier_l, XAApplication)(properties)
-
-    
-    workspace.openApplicationAtURL_configuration_completionHandler_(url, config, _launch_completion_handler)
-    while app_ref is None:
-        sleep(0.01)
-    return app_ref
+    return Application(app_identifier)

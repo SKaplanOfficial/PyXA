@@ -630,13 +630,13 @@ class XASafariDocumentList(XABase.XAList, XAClipboardCodable):
         for _index in range(length):
             self[0].close()
 
-    def get_clipboard_representation(self) -> List[List[Union[NSURL, str]]]:
+    def get_clipboard_representation(self) -> List[List[Union[AppKit.NSURL, str]]]:
         """Gets a clipboard-codable representation of each document in the list.
 
         When the clipboard content is set to a list of Safari documents, each document's URL is added to the clipboard.
 
         :return: A list of document URLs
-        :rtype: List[List[Union[NSURL, str]]]
+        :rtype: List[List[Union[AppKit.NSURL, str]]]
 
         .. versionadded:: 0.0.8
         """
@@ -708,13 +708,13 @@ class XASafariDocument(XASafariGeneric, XAClipboardCodable, XABaseScriptable.XAS
         print_thread = threading.Thread(target=self.xa_elem.printWithProperties_printDialog_, args=(properties, show_dialog), name="Print Document")
         print_thread.start()
 
-    def get_clipboard_representation(self) -> List[Union[NSURL, str]]:
+    def get_clipboard_representation(self) -> List[Union[AppKit.NSURL, str]]:
         """Gets a clipboard-codable representation of the document.
 
         When the clipboard content is set to a Safari document, the document's URL and source code are added to the clipboard.
 
         :return: The document's URL and source code
-        :rtype: List[Union[NSURL, str]]
+        :rtype: List[Union[AppKit.NSURL, str]]
 
         .. versionadded:: 0.0.8
         """
@@ -958,13 +958,13 @@ class XASafariTabList(XABase.XAList, XAClipboardCodable):
         for _index in range(length):
             self[0].close()
 
-    def get_clipboard_representation(self) -> List[NSURL]:
+    def get_clipboard_representation(self) -> List[AppKit.NSURL]:
         """Gets a clipboard-codable representation of each tab in the list.
 
         When the clipboard content is set to a list of Safari tabs, each tabs's URL is added to the clipboard. Pasting the copied list into an app such as Numbers will place each URL in a separate cell of a column.
 
         :return: A list of tab URLs
-        :rtype: List[NSURL]
+        :rtype: List[AppKit.NSURL]
 
         .. versionadded:: 0.0.8
         """
@@ -1067,13 +1067,13 @@ class XASafariTab(XASafariGeneric, XAClipboardCodable):
         self.xa_elem.moveTo_(window.xa_elem)
         return self
 
-    def get_clipboard_representation(self) -> NSURL:
+    def get_clipboard_representation(self) -> AppKit.NSURL:
         """Gets a clipboard-codable representation of the tab.
 
         When the clipboard content is set to a Safari tab, the tab's URL is added to the clipboard.
 
         :return: The tabs's URL
-        :rtype: NSURL
+        :rtype: AppKit.NSURL
 
         .. versionadded:: 0.0.8
         """

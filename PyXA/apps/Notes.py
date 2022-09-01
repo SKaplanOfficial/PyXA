@@ -354,7 +354,7 @@ class XANoteList(XABase.XAList, XAClipboardCodable):
         return self.plaintext()
 
     def __repr__(self):
-        return "<" + str(type(self)) + str(list(zip(self.name(), self.id()))) + ">"
+        return "<" + str(type(self)) + str(self.id()) + ">"
 
 
 class XANotesDocumentList(XABase.XAList, XAClipboardCodable):
@@ -971,7 +971,7 @@ class XANote(XABase.XAObject, XAClipboardCodable, XAShowable, XADeletable):
         return self.plaintext
 
     def __repr__(self):
-        return "<" + str(type(self)) + self.name + ", " + self.id + ">"
+        return "<" + str(type(self)) + str(self.name) + ", " + str(self.id) + ">"
 
 
 class XANoteAttachment(XABase.XAObject, XAClipboardCodable):

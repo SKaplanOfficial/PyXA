@@ -180,7 +180,7 @@ class XAFinderApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         return self._new_element(self.xa_scel.selection().get(), XAFinderItemList)
 
     @selection.setter
-    def selection(self, selection: List['XAFinderItem', 'XAFinderItemList']):
+    def selection(self, selection: Union[List['XAFinderItem'], 'XAFinderItemList']):
         if isinstance(selection, list):
             selection = [x.xa_elem for x in selection]
             self.set_property("selection", selection)

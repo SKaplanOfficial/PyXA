@@ -3,11 +3,12 @@ from .PyXA import (
     application,
     running_applications,
     scriptable_applications,
+    Application,
 )
 
 from .XABase import (
     XAAlert, XAAlertStyle,
-    XAMenu, XAFilePicker, XAFolderPicker, XAFileNameDialog, XADialog,
+    XAMenu, XAFilePicker, XAFolderPicker, XAFileNameDialog, XADialog, XAApplicationPicker,
     XAColorPicker, XAColorPickerStyle,
     XAColor,
     XASound,
@@ -24,4 +25,8 @@ from .XABase import (
     XASpeechRecognizer,
     XASpeech,
     XAMenuBar,
+)
+
+from .extensions.XAWeb import (
+    RSSFeed,
 )

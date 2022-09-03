@@ -54,4 +54,7 @@ application_classes = {
     "vlc": ("VLC", "XAVLCApplication"),
     "fantastical": ("Fantastical", "XAFantasticalApplication"),
     "omnioutliner": ("OmniOutliner", "XAOmniOutlinerApplication"),
+    "spotify": ("Spotify", "XASpotifyApplication"),
+    "flow": ("Flow", "XAFlowApplication"),
+    "bike": ("Bike", "XABikeApplication"),
 }

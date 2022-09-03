@@ -56,11 +56,14 @@ Third-Party Application Modules
 .. toctree::
    :maxdepth: 2
 
+   apps/bike
    apps/chromium
    apps/fantastical
+   apps/flow
    apps/drafts
    apps/hammerspoon
    apps/iterm
    apps/omnioutliner
+   apps/spotify
    apps/vlc
    apps/rstudio

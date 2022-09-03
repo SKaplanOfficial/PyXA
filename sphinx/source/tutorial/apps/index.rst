@@ -45,8 +45,10 @@ Third-Party Application Modules
    chromium/index
    drafts/index
    fantastical/index
+   flow/index
    hammerspoon/index
    iterm/index
-   vlc/index
    omnioutliner/index
+   spotify/index
+   vlc/index
    rstudio/index

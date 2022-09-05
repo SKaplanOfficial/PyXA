@@ -109,7 +109,7 @@ class XATerminalApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
 
         .. versionadded:: 0.0.7
         """
-        return self._new_element(self.xa_elem.settingsSets(), XATerminalSettingsSetList, filter)
+        return self._new_element(self.xa_scel.settingsSets(), XATerminalSettingsSetList, filter)
 
 
 

@@ -12,6 +12,7 @@ from .XABase import (
     XAColorPicker, XAColorPickerStyle,
     XAColor,
     XASound,
+    XAText,
     XAURL,
     XAPath,
     AppleScript,

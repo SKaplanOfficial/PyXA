@@ -3355,31 +3355,99 @@ class XATextList(XAList):
             obj_class = XAText
         super().__init__(properties, obj_class, filter)
 
-    def paragraphs(self, filter: dict = None) -> List['XAParagraphList']:
-        ls = self.xa_elem.arrayByApplyingSelector_("paragraphs")
-        return [self._new_element(x, XAParagraphList) for x in ls]
+    def paragraphs(self, filter: dict = None) -> 'XAParagraphList':
+        """Gets the paragraphs of every text item in the list.
 
-    def sentences(self, filter: dict = None) -> List['XASentenceList']:
-        return [x.sentences() for x in self]
+        :return: The list of paragraphs
+        :rtype: XAParagraphList
 
-    def words(self, filter: dict = None) -> List['XAWordList']:
-        ls = self.xa_elem.arrayByApplyingSelector_("words")
-        return [self._new_element(x, XAWordList) for x in ls]
+        .. versionadded:: 0.0.1
+        """
+        ls = []
+        if hasattr(self.xa_elem, "get"):
+            ls = self.xa_elem.arrayByApplyingSelector_("paragraphs")
+        else:
+            ls = [x.xa_elem.split("\n") for x in self]
+        ls = [paragraph for paragraphlist in ls for paragraph in paragraphlist if paragraph.strip() != '']
+        return self._new_element(ls, XAParagraphList, filter)
 
-    def characters(self, filter: dict = None) -> List['XACharacterList']:
-        ls = self.xa_elem.arrayByApplyingSelector_("characters")
-        return [self._new_element(x, XACharacterList) for x in ls]
+    def sentences(self) -> 'XASentenceList':
+        """Gets the sentences of every text item in the list.
 
-    def attribute_runs(self, filter: dict = None) -> List['XAAttributeRunList']:
-        ls = self.xa_elem.arrayByApplyingSelector_("attributeRuns")
-        return [self._new_element(x, XAAttributeRunList) for x in ls]
+        :return: The list of sentences
+        :rtype: XASentenceList
 
-    def attachments(self, filter: dict = None) -> List['XAAttachmentList']:
-        ls = self.xa_elem.arrayByApplyingSelector_("attachments")
-        return [self._new_element(x, XAAttachmentList) for x in ls]
+        .. versionadded:: 0.1.0
+        """
+        ls = [x.sentences() for x in self]
+        ls = [sentence for sentencelist in ls for sentence in sentencelist]
+        return self._new_element(ls, XASentenceList)
+
+    def words(self, filter: dict = None) -> 'XAWordList':
+        """Gets the words of every text item in the list.
+
+        :return: The list of words
+        :rtype: XAWordList
+
+        .. versionadded:: 0.0.1
+        """
+        ls = []
+        if hasattr(self.xa_elem, "get"):
+            ls = self.xa_elem.arrayByApplyingSelector_("words")
+        else:
+            ls = [x.xa_elem.split() for x in self]
+        ls = [word for wordlist in ls for word in wordlist]
+        return self._new_element(ls, XAWordList, filter)
+
+    def characters(self, filter: dict = None) -> 'XACharacterList':
+        """Gets the characters of every text item in the list.
+
+        :return: The list of characters
+        :rtype: XACharacterList
+
+        .. versionadded:: 0.0.1
+        """
+        ls = []
+        if hasattr(self.xa_elem, "get"):
+            ls = self.xa_elem.arrayByApplyingSelector_("characters")
+        else:
+            ls = [list(x.xa_elem) for x in self]
+        ls = [character for characterlist in ls for character in characterlist]
+        return self._new_element(ls, XACharacterList, filter)
+
+    def attribute_runs(self, filter: dict = None) -> 'XAAttributeRunList':
+        """Gets the attribute runs of every text item in the list.
+
+        :return: The list of attribute runs
+        :rtype: XAAttributeRunList
+
+        .. versionadded:: 0.0.1
+        """
+        ls = []
+        if hasattr(self.xa_elem, "get"):
+            ls = self.xa_elem.arrayByApplyingSelector_("attributeRuns")
+        ls = [attribute_run for attribute_run_list in ls for attribute_run in attribute_run_list]
+        return self._new_element(ls, XAAttributeRunList, filter)
+
+    def attachments(self, filter: dict = None) -> 'XAAttachmentList':
+        """Gets the attachments of every text item in the list.
+
+        :return: The list of attachments
+        :rtype: XAAttachmentList
+
+        .. versionadded:: 0.0.1
+        """
+        ls = []
+        if hasattr(self.xa_elem, "get"):
+            ls = self.xa_elem.arrayByApplyingSelector_("attachments")
+        ls = [attachment for attachment_list in ls for attachment in attachment_list]
+        return self._new_element(ls, XAAttachmentList, filter)
 
     def __repr__(self):
-        return "<" + str(type(self)) + str(self.xa_elem.get()) + ">"
+        if hasattr(self.xa_elem, "get"):
+            return "<" + str(type(self)) + str(self.xa_elem.get()) + ">"
+        else:
+            return "<" + str(type(self)) + str(list(self.xa_elem)) + ">" 
 
 class XAText(XAObject):
     """A class for managing and interacting with the text of documents.
@@ -3387,50 +3455,128 @@ class XAText(XAObject):
     .. versionadded:: 0.0.1
     """
     def __init__(self, properties):
-        super().__init__(properties)
+        if isinstance(properties, dict):
+            super().__init__(properties)
+        elif isinstance(properties, str):
+            super().__init__({"element": properties})
 
-        self.text: str #: The plaint ext contents of the rich text
+        self.text: str #: The plaintext contents of the rich text
         self.color: XAColor #: The color of the first character
         self.font: str #: The name of the font of the first character
         self.size: int #: The size in points of the first character
 
     @property
     def text(self) -> str:
-        return self.xa_elem.text()
+        if isinstance(self.xa_elem, str):
+            return self.xa_elem
+        else:
+            return self.xa_elem.text()
 
     @text.setter
     def text(self, text: str):
-        self.set_property("text", text)
+        if isinstance(self.xa_elem, str):
+            self.xa_elem = text
+        else:
+            self.set_property("text", text)
 
     @property
     def color(self) -> 'XAColor':
-        return XAColor(self.xa_elem.color())
+        if isinstance(self.xa_elem, str):
+            return None
+        else:
+            return XAColor(self.xa_elem.color())
 
     @color.setter
     def color(self, color: 'XAColor'):
-        self.set_property("color", color.xa_elem)
+        if isinstance(self.xa_elem, str):
+            self.color = color.xa_elem
+        else:
+            self.set_property("color", color.xa_elem)
 
     @property
     def font(self) -> str:
-        return self.xa_elem.font()
+        if isinstance(self.xa_elem, str):
+            return None
+        else:
+            return self.xa_elem.font()
 
     @font.setter
     def font(self, font: str):
-        self.set_property("font", font)
+        if isinstance(self.xa_elem, str):
+            self.font = font
+        else:
+            self.set_property("font", font)
 
     @property
     def size(self) -> int:
-        return self.xa_elem.size()
+        if isinstance(self.xa_elem, str):
+            return 0
+        else:
+            return self.xa_elem.size()
 
     @size.setter
     def size(self, size: int):
-        self.set_property("size", size)
+        if isinstance(self.xa_elem, str):
+            self.size = size
+        else:
+            self.set_property("size", size)
 
     def paragraphs(self, filter: dict = None) -> 'XAParagraphList':
-        return self._new_element(self.xa_elem.paragraphs(), XAParagraphList, filter)
+        """Gets a list of paragraphs in the text.
 
-    def sentences(self, filter: dict = None) ->  List[str]:
-        raw_string = self.xa_elem.get()
+        :param filter: The properties and associated values to filter paragraphs by, defaults to None
+        :type filter: dict, optional
+        :return: The list of paragraphs
+        :rtype: XAParagraphList
+
+        :Example 1: Get paragraphs of a text string
+
+        >>> import PyXA
+        >>> string = \"\"\"This is the first paragraph.
+        >>> 
+        >>> This is the second paragraph.\"\"\"
+        >>> text = PyXA.XAText(string)
+        >>> print(text.paragraphs())
+        <<class 'PyXA.XABase.XAWordList'>['This is the first paragraph.', 'This is the second paragraph. Neat! Very cool.']>
+
+        :Example 2: Get paragraphs of a Note
+
+        >>> import PyXA
+        >>> app = PyXA.Application("Notes")
+        >>> note = app.notes()[0]
+        >>> text = PyXA.XAText(note.plaintext)
+        >>> print(text.paragraphs())
+        <<class 'PyXA.XABase.XAWordList'>['This is the first paragraph.', 'This is the second paragraph. Neat! Very cool.']>
+
+        .. versionadded:: 0.0.1
+        """
+        if isinstance(self.xa_elem, str):
+            ls = [x for x in self.xa_elem.split("\n") if x.strip() != '']
+            return self._new_element(ls, XAWordList, filter)
+        else:
+            return self._new_element(self.xa_elem.paragraphs(), XAParagraphList, filter)
+
+    def sentences(self) ->  'XASentenceList':
+        """Gets a list of sentences in the text.
+
+        :return: The list of sentencnes
+        :rtype: XASentenceList
+
+        :Example:
+
+        >>> import PyXA
+        >>> app = PyXA.Application("Notes")
+        >>> note = app.notes()[0]
+        >>> text = PyXA.XAText(note.plaintext)
+        >>> print(text.sentences())
+        <<class 'PyXA.XABase.XASentenceList'>['This is the first paragraph.\\n', '\\n', 'This is the second paragraph. ', 'Neat! ', 'Very cool.']>
+
+        .. versionadded:: 0.1.0
+        """
+        raw_string = self.xa_elem
+        if hasattr(self.xa_elem, "get"):
+            raw_string = self.xa_elem.get()
+
         sentences = []
         tokenizer = AppKit.NLTokenizer.alloc().initWithUnit_(AppKit.kCFStringTokenizerUnitSentence)
         tokenizer.setString_(raw_string)
@@ -3438,22 +3584,94 @@ class XAText(XAObject):
             start = char_range.rangeValue().location
             end = start + char_range.rangeValue().length
             sentences.append(raw_string[start:end])
-        # TODO: Only use Python/ObjC methods, not ScriptingBridge, to handle this -> 0.0.7
-        # ls = AppKit.NSArray.alloc().initWithArray_(sentences)
-        # return self._new_element(sentences, XASentenceList, filter) 
-        return sentences
+            
+        ls = AppKit.NSArray.alloc().initWithArray_(sentences)
+        return self._new_element(sentences, XASentenceList) 
 
     def words(self, filter: dict = None) -> 'XAWordList':
-        return self._new_element(self.xa_elem.words(), XAWordList, filter)
+        """Gets a list of words in the text.
+
+        :return: The list of words
+        :rtype: XAWordList
+
+        :Example:
+
+        >>> import PyXA
+        >>> app = PyXA.Application("Notes")
+        >>> note = app.notes()[0]
+        >>> text = PyXA.XAText(note.plaintext)
+        >>> print(text.words())
+        <<class 'PyXA.XABase.XAWordList'>['This', 'is', 'the', 'first', 'paragraph.', 'This', 'is', 'the', 'second', 'paragraph.', 'Neat!', 'Very', 'cool.']>
+
+        .. versionadded:: 0.0.1
+        """
+        if isinstance(self.xa_elem, str):
+            ls = self.xa_elem.split()
+            return self._new_element(ls, XAWordList, filter)
+        else:
+            return self._new_element(self.xa_elem.words(), XAWordList, filter)
 
     def characters(self, filter: dict = None) -> 'XACharacterList':
-        return self._new_element(self.xa_elem.characters().get(), XACharacterList, filter)
+        """Gets a list of characters in the text.
+
+        :return: The list of characters
+        :rtype: XACharacterList
+
+        :Example 1: Get all characters in a text
+
+        >>> import PyXA
+        >>> app = PyXA.Application("Notes")
+        >>> note = app.notes()[0]
+        >>> text = PyXA.XAText(note.plaintext)
+        >>> print(text.characters())
+        <<class 'PyXA.XABase.XACharacterList'>['T', 'h', 'i', 's', ' ', 'i', 's', ' ', 't', 'h', 'e', ' ', 'f', 'i', 'r', 's', 't', ' ', 'p', 'a', 'r', 'a', 'g', 'r', 'a', 'p', 'h', '.', '\n', '\n', 'T', 'h', 'i', 's', ' ', 'i', 's', ' ', 't', 'h', 'e', ' ', 's', 'e', 'c', 'o', 'n', 'd', ' ', 'p', 'a', 'r', 'a', 'g', 'r', 'a', 'p', 'h', '.', ' ', 'N', 'e', 'a', 't', '!', ' ', 'V', 'e', 'r', 'y', ' ', 'c', 'o', 'o', 'l', '.']>
+
+        :Example 2: Get the characters of the first word in a text
+
+        >>> import PyXA
+        >>> app = PyXA.Application("Notes")
+        >>> note = app.notes()[0]
+        >>> text = PyXA.XAText(note.plaintext)
+        >>> print(text.words()[0].characters())
+        <<class 'PyXA.XABase.XACharacterList'>['T', 'h', 'i', 's']>
+
+        .. versionadded:: 0.0.1
+        """
+        if isinstance(self.xa_elem, str):
+            ls = list(self.xa_elem)
+            return self._new_element(ls, XACharacterList, filter) 
+        else:
+            return self._new_element(self.xa_elem.characters().get(), XACharacterList, filter)
 
     def attribute_runs(self, filter: dict = None) -> 'XAAttributeRunList':
-        return self._new_element(self.xa_elem.attributeRuns(), XAAttributeRunList, filter)
+        """Gets a list of attribute runs in the text. For formatted text, this returns all sequences of characters sharing the same attributes.
+
+        :param filter: The properties and associated values to filter attribute runs by, defaults to None
+        :type filter: dict, optional
+        :return: The list of attribute runs
+        :rtype: XAAttributeRunList
+
+        .. versionadded:: 0.0.1
+        """
+        if isinstance(self.xa_elem, str):
+            return []
+        else:
+            return self._new_element(self.xa_elem.attributeRuns(), XAAttributeRunList, filter)
 
     def attachments(self, filter: dict = None) -> 'XAAttachmentList':
-        return self._new_element(self.xa_elem.attachments(), XAAttachmentList, filter)
+        """Gets a list of attachments of the text.
+
+        :param filter: The properties and associated values to filter attachments by, defaults to None
+        :type filter: dict, optional
+        :return: The list of attachments
+        :rtype: XAAttachmentList
+
+        .. versionadded:: 0.0.1
+        """
+        if isinstance(self.xa_elem, str):
+            return []
+        else:
+            return self._new_element(self.xa_elem.attachments(), XAAttachmentList, filter)
 
     def __len__(self):
         return len(self.xa_elem.get())
@@ -3489,25 +3707,21 @@ class XAParagraph(XAText):
 
 
 
-# class XASentenceList(XATextList):
-#     """A wrapper around lists of sentences that employs fast enumeration techniques.
+class XASentenceList(XATextList):
+    """A wrapper around lists of sentences that employs fast enumeration techniques.
 
-#     .. versionadded:: 0.0.5
-#     """
-#     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-#         super().__init__(properties, XASentence, filter)
+    .. versionadded:: 0.0.5
+    """
+    def __init__(self, properties: dict, filter: Union[dict, None] = None):
+        super().__init__(properties, filter, XASentence)
 
-# class XASentence(XAText):
-#     """A class for managing and interacting with sentences in text documents.
+class XASentence(XAText):
+    """A class for managing and interacting with sentences in text documents.
 
-#     .. versionadded:: 0.0.1
-#     """
-#     def __init__(self, properties):
-#         super().__init__(properties)
-
-#     def words(self, filter: dict = None) -> 'XAWordList':
-#         ls = AppKit.NSArray.alloc().initWithArray_(self.xa_elem.split(" "))
-#         return self._new_element(ls, XAWordList, filter)
+    .. versionadded:: 0.0.1
+    """
+    def __init__(self, properties):
+        super().__init__(properties)
 
 
 

@@ -9,6 +9,24 @@ System Events Examples
 Example 1 - Sorting the Desktop
 *******************************
 
+.. code-block:: python
+
+    import PyXA
+    app = PyXA.Application("System Events")
+
+    # Set the desktop picture
+    app.current_desktop.picture = "/Users/exampleUser/Desktop/Images/Background.png"
+
+    # Toggle darkmode
+    app.appearance_preferences.dark_mode = not app.appearance_preferences.dark_mode 
+
+    # # Add a login item -- This opens the Documents folder upon login
+    new_item = app.make("login item", {"path": "/Users/exampleUser/Documents"})
+    app.login_items().push(new_item)
+
+    # Start the current screensaver
+    app.current_screen_saver.start()
+
 This example uses PyXA to sort files on the desktop into appropriate category folders.
 
 .. code-block:: python
@@ -44,8 +62,8 @@ This example uses PyXA to sort files on the desktop into appropriate category fo
     # Sort remaining (documents)
     desktop_files.move_to(documents_folder)
 
-Terminal Resources
-##################
-- `Terminal User Guide - Apple Support <https://support.apple.com/guide/terminal/welcome/mac>`_
+System Events Resources
+#######################
+- `System Events - AppleScript: The Definitive Guide <https://www.oreilly.com/library/view/applescript-the-definitive/0596102119/ch23s02s03.html`_
 
 For all classes, methods, and inherited members of the System Events module, see the :ref:`System Events Module Reference`.

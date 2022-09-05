@@ -3,14 +3,13 @@ Fantastical Module Overview
 
 The Fantastical module provides access to Fantastical's features from within PyXA, making use of both the application's scripting dictionary as well as its URL scheme.
 
-Examples
-########
+Fantastical Examples
+####################
 
 Example 1 - Interacting with Currently Selected Calendar Items
 **************************************************************
 
 .. code-block:: python
-   :linenos:
 
     import PyXA
     app = PyXA.application("Fantastical")
@@ -23,7 +22,6 @@ Example 2 - Using Natural Language to Create Events
 ***************************************************
 
 .. code-block:: python
-   :linenos:
 
     import PyXA
     app = PyXA.application("Fantastical")

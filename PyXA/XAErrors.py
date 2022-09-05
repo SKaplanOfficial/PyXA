@@ -13,3 +13,11 @@ class InvalidPredicateError(Exception):
 
 	def __str__(self):
 		return f"Could not construct valid predicate format. {self.message}"
+
+class UnconstructableClassError(Exception):
+	def __init__(self, message: str):
+		self.message = message
+		Exception.__init__(self, message)
+
+	def __str__(self):
+		return f"Could not create new element. {self.message}"

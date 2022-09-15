@@ -7,14 +7,12 @@ from typing import Union
 
 from PyXA import XABase
 from PyXA import XABaseScriptable
-from ..XAProtocols import XACanOpenPath
 
-class XASpotifyApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
+class XASpotifyApplication(XABaseScriptable.XASBApplication):
     """A class for managing and interacting with Spotify.app.
 
     .. versionadded:: 0.1.0
     """
-    
     class PlayerState(Enum):
         """States of the Spotify track player.
         """
@@ -84,6 +82,37 @@ class XASpotifyApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
     @shuffling.setter
     def shuffling(self, shuffling: bool):
         self.set_property('shuffling', shuffling)
+        
+    def search(self, search_string: str = "", track: str = "", start_year: int = -1, end_year: int = -1, genre: str = "", artist: str = "", album: str = "", label: str = "", mood: str = ""):
+        """Opens the search tab and searches for content matching given parameters.
+        
+        .. versionadded:: 0.1.0
+        """
+        if track != "":
+            search_string += f" track:{track}"
+
+        if start_year != -1:
+            if end_year == -1:
+                search_string += f" year:{start_year}-{start_year}"
+            else:
+                search_string += f" year:{start_year}-{end_year}"
+
+        if genre != "":
+            search_string += f" genre:{genre}"
+
+        if artist != "":
+            search_string += f" artist:{artist}"
+
+        if album != "":
+            search_string += f" album:{album}"
+
+        if label != "":
+            search_string += f" label:{label}"
+
+        if mood != "":
+            search_string += f" mood:{mood}"
+
+        XABase.XAURL(f"spotify:search:{search_string}").open()
 
     def next_track(self):
         """Skips to the next track.

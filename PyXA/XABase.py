@@ -224,6 +224,24 @@ class XAObject():
         property_name = parts[0] + "".join(titled_parts)
         self.xa_elem.setValue_forKey_(value, property_name)
         return self
+
+    def set_scriptable_property(self, property_name: str, value: Any) -> 'XAObject':
+        """Updates the value of a single scriptable element property of the scripting element associated with this object.
+
+        :param property: The name of the property to assign a new value to.
+        :type property: str
+        :param value: The value to assign to the specified property.
+        :type value: Any
+        :return: A reference to this PyXA object.
+        :rtype: XAObject
+
+        .. versionadded:: 0.1.0
+        """
+        parts = property_name.split("_")
+        titled_parts = [part.title() for part in parts[1:]]
+        property_name = parts[0] + "".join(titled_parts)
+        self.xa_scel.setValue_forKey_(value, property_name)
+        return self
     
 
 
@@ -3949,6 +3967,8 @@ class XALocation(XAObject):
 
     .. versionadded:: 0.0.2
     """
+    current_location: 'XALocation' #: The current location of the device
+
     def __init__(self, raw_value: CoreLocation.CLLocation = None, title: str = None, latitude: float = 0, longitude: float = 0, altitude: float = None, radius: int = 0, address: str = None):
         self.raw_value = raw_value #: The raw CLLocation object
         self.title = title #: The name of the location
@@ -3957,7 +3977,6 @@ class XALocation(XAObject):
         self.altitude = altitude #: The altitude of the location
         self.radius = radius #: The horizontal accuracy of the location measurement
         self.address = address #: The addres of the location
-        self.current_location #: The current location of the device
 
     @property
     def raw_value(self) -> CoreLocation.CLLocation: 

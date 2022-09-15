@@ -4,7 +4,15 @@ class ApplicationNotFoundError(Exception):
 		Exception.__init__(self, name)
 	
 	def __str__(self):
-		return f'Application {self.name} not found.'
+		return f"Application {self.name} not found."
+
+class AuthenticationError(Exception):
+	def __init__(self, message: str):
+		self.message = message
+		Exception.__init__(self, message)
+
+	def __str__(self):
+		return f"Failed due to insufficient authorization. {self.message}"
 
 class InvalidPredicateError(Exception):
 	def __init__(self, message: str):

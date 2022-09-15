@@ -57,4 +57,5 @@ application_classes = {
     "spotify": ("Spotify", "XASpotifyApplication"),
     "flow": ("Flow", "XAFlowApplication"),
     "bike": ("Bike", "XABikeApplication"),
+    "cardhop": ("Cardhop", "XACardhopAppplication"),
 }

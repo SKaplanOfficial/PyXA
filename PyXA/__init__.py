@@ -1,31 +1,39 @@
 from .PyXA import (
+    application, Application,
     current_application,
-    application,
     running_applications,
-    scriptable_applications,
-    Application,
+    supported_applications,
 )
 
 from .XABase import (
-    XAAlert, XAAlertStyle,
-    XAMenu, XAFilePicker, XAFolderPicker, XAFileNameDialog, XADialog, XAApplicationPicker,
-    XAColorPicker, XAColorPickerStyle,
-    XAColor,
-    XASound,
+    # Base Types
+    XAPredicate,
     XAText,
     XAURL,
     XAPath,
-    AppleScript,
-    XAClipboard,
-    XANotification,
+    XAColor,
+    XASound,
     XAImage,
-    XAPredicate,
-    XACommandDetector,
     XALocation,
+
+    # Interoperability
+    AppleScript,
+    
+    # System Features
+    XAClipboard,
     XASpotlight,
+    XACommandDetector,
     XASpeechRecognizer,
     XASpeech,
-    XAMenuBar,
+    XALSM,
+
+    # Alerts, Dialogs, Menus, and Notifications
+    XAAlert, XAAlertStyle,
+    XAFilePicker, XAFolderPicker, XAApplicationPicker,
+    XADialog, XAFileNameDialog,
+    XAColorPicker, XAColorPickerStyle,
+    XANotification,
+    XAMenuBar, XAMenu,
 )
 
 from .extensions.XAWeb import (

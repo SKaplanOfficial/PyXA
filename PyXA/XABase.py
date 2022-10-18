@@ -23,6 +23,7 @@ from PyObjCTools import AppHelper
 import appscript
 
 import AppKit
+import NaturalLanguage
 from Quartz import CGImageSourceRef, CGImageSourceCreateWithData, CFDataRef, CGRectMake
 from CoreLocation import CLLocation
 from ScriptingBridge import SBApplication, SBElementArray
@@ -30,7 +31,6 @@ import ScriptingBridge
 import Speech
 import AVFoundation
 import CoreLocation
-import ScreenCaptureKit
 import Quartz
 import Vision
 
@@ -3594,6 +3594,235 @@ class XAText(XAObject):
             self.size = size
         else:
             self.set_property("size", size)
+
+    def tag_parts_of_speech(self, unit: Literal["word", "sentence", "paragraph", "document"] = "word") -> List[Tuple[str, str]]:
+        """Tags each word of the text with its associated part of speech.
+
+        :param unit: The grammatical unit to divide the text into for tagging, defaults to "word"
+        :type unit: Literal["word", "sentence", "paragraph", "document"]
+        :return: A list of tuples identifying each word of the text and its part of speech
+        :rtype: List[Tuple[str, str]]
+
+        :Example 1: Extract nouns from a text
+
+        >>> import PyXA
+        >>> text = PyXA.XAText("Here’s to the crazy ones. The misfits. The rebels.")
+        >>> nouns = [pos[0] for pos in text.tag_parts_of_speech() if pos[1] == "Noun"]
+        >>> print(nouns)
+        ['ones', 'misfits', 'rebels']
+
+        .. versionadded:: 0.1.0
+        """
+        tagger = NaturalLanguage.NLTagger.alloc().initWithTagSchemes_([NaturalLanguage.NLTagSchemeLexicalClass])
+        tagger.setString_(str(self.xa_elem))
+
+        if unit == "word":
+            unit = NaturalLanguage.NLTokenUnitWord
+        elif unit == "sentence":
+            unit = NaturalLanguage.NLTokenUnitSentence
+        elif unit == "paragraph":
+            unit = NaturalLanguage.NLTokenUnitParagraph
+        elif unit == "document":
+            unit = NaturalLanguage.NLTokenUnitDocument
+        
+        tagged_pos = []
+        def apply_tags(tag, token_range, error):
+            word_phrase = str(self.xa_elem)[token_range.location:token_range.location + token_range.length]
+            tagged_pos.append((word_phrase, tag))
+
+        tagger.enumerateTagsInRange_unit_scheme_options_usingBlock_((0, len(str(self.xa_elem))), unit, NaturalLanguage.NLTagSchemeLexicalClass, NaturalLanguage.NLTaggerOmitPunctuation | NaturalLanguage.NLTaggerOmitWhitespace, apply_tags)
+        return tagged_pos
+
+    def tag_languages(self, unit: Literal["word", "sentence", "paragraph", "document"] = "paragraph") -> List[Tuple[str, str]]:
+        """Tags each paragraph of the text with its language.
+
+        :param unit: The grammatical unit to divide the text into for tagging, defaults to "paragraph"
+        :type unit: Literal["word", "sentence", "paragraph", "document"]
+        :return: A list of tuples identifying each paragraph of the text and its language
+        :rtype: List[Tuple[str, str]]
+
+        :Example:
+
+        >>> import PyXA
+        >>> text = PyXA.XAText("This is English.\nQuesto è Italiano.\nDas ist deutsch.\nこれは日本語です。")
+        >>> print(text.tag_languages())
+        [('This is English.\n', 'en'), ('Questo è Italiano.\n', 'it'), ('Das ist deutsch.\n', 'de'), ('これは日本語です。', 'ja')]
+
+        .. versionadded:: 0.1.0
+        """
+        tagger = NaturalLanguage.NLTagger.alloc().initWithTagSchemes_([NaturalLanguage.NLTagSchemeLanguage])
+        tagger.setString_(str(self.xa_elem))
+
+        if unit == "word":
+            unit = NaturalLanguage.NLTokenUnitWord
+        elif unit == "sentence":
+            unit = NaturalLanguage.NLTokenUnitSentence
+        elif unit == "paragraph":
+            unit = NaturalLanguage.NLTokenUnitParagraph
+        elif unit == "document":
+            unit = NaturalLanguage.NLTokenUnitDocument
+        
+        tagged_languages = []
+        def apply_tags(tag, token_range, error):
+            paragraph = str(self.xa_elem)[token_range.location:token_range.location + token_range.length]
+            if paragraph.strip() != "":
+                tagged_languages.append((paragraph, tag))
+
+        tagger.enumerateTagsInRange_unit_scheme_options_usingBlock_((0, len(str(self.xa_elem))), unit, NaturalLanguage.NLTagSchemeLanguage, NaturalLanguage.NLTaggerOmitPunctuation | NaturalLanguage.NLTaggerOmitWhitespace, apply_tags)
+        return tagged_languages
+
+    def tag_entities(self, unit: Literal["word", "sentence", "paragraph", "document"] = "word") -> List[Tuple[str, str]]:
+        """Tags each word of the text with either the category of entity it represents (i.e. person, place, or organization) or its part of speech.
+
+        :param unit: The grammatical unit to divide the text into for tagging, defaults to "word"
+        :type unit: Literal["word", "sentence", "paragraph", "document"]
+        :return: A list of tuples identifying each word of the text and its entity category or part of speech
+        :rtype: List[Tuple[str, str]]
+
+        :Example:
+
+        >>> import PyXA
+        >>> text = PyXA.XAText("Tim Cook is the CEO of Apple.")
+        >>> print(text.tag_entities())
+        [('Tim', 'PersonalName'), ('Cook', 'PersonalName'), ('is', 'Verb'), ('the', 'Determiner'), ('CEO', 'Noun'), ('of', 'Preposition'), ('Apple', 'OrganizationName')]
+
+        .. versionadded:: 0.1.0
+        """
+        tagger = NaturalLanguage.NLTagger.alloc().initWithTagSchemes_([NaturalLanguage.NLTagSchemeNameTypeOrLexicalClass])
+        tagger.setString_(str(self.xa_elem))
+
+        if unit == "word":
+            unit = NaturalLanguage.NLTokenUnitWord
+        elif unit == "sentence":
+            unit = NaturalLanguage.NLTokenUnitSentence
+        elif unit == "paragraph":
+            unit = NaturalLanguage.NLTokenUnitParagraph
+        elif unit == "document":
+            unit = NaturalLanguage.NLTokenUnitDocument
+        
+        tagged_languages = []
+        def apply_tags(tag, token_range, error):
+            word_phrase = str(self.xa_elem)[token_range.location:token_range.location + token_range.length]
+            if word_phrase.strip() != "":
+                tagged_languages.append((word_phrase, tag))
+
+        tagger.enumerateTagsInRange_unit_scheme_options_usingBlock_((0, len(str(self.xa_elem))), unit, NaturalLanguage.NLTagSchemeNameTypeOrLexicalClass, NaturalLanguage.NLTaggerOmitPunctuation | NaturalLanguage.NLTaggerOmitWhitespace, apply_tags)
+        return tagged_languages
+
+    def tag_lemmas(self, unit: Literal["word", "sentence", "paragraph", "document"] = "word") -> List[Tuple[str, str]]:
+        """Tags each word of the text with its stem word.
+
+        :param unit: The grammatical unit to divide the text into for tagging, defaults to "word"
+        :type unit: Literal["word", "sentence", "paragraph", "document"]
+        :return: A list of tuples identifying each word of the text and its stem words
+        :rtype: List[Tuple[str, str]]
+
+        :Example 1: Lemmatize each word in a text
+
+        >>> import PyXA
+        >>> text = PyXA.XAText("Here’s to the crazy ones. The misfits. The rebels.")
+        >>> print(text.tag_lemmas())
+        [('Here’s', 'here'), ('to', 'to'), ('the', 'the'), ('crazy', 'crazy'), ('ones', 'one'), ('The', 'the'), ('misfits', 'misfit'), ('The', 'the'), ('rebels', 'rebel')]
+
+        :Example 2: Combine parts of speech tagging and lemmatization
+
+        >>> import PyXA
+        >>> text = PyXA.XAText("The quick brown fox tries to jump over the sleeping lazy dog.")
+        >>> verbs = [pos[0] for pos in text.tag_parts_of_speech() if pos[1] == "Verb"]
+        >>> for index, verb in enumerate(verbs):
+        >>>     print(index, PyXA.XAText(verb).tag_lemmas())
+        0 [('tries', 'try')]
+        1 [('jump', 'jump')]
+        2 [('sleeping', 'sleep')]
+
+        .. versionadded:: 0.1.0
+        """
+        tagger = NaturalLanguage.NLTagger.alloc().initWithTagSchemes_([NaturalLanguage.NLTagSchemeLemma])
+        tagger.setString_(str(self.xa_elem))
+
+        if unit == "word":
+            unit = NaturalLanguage.NLTokenUnitWord
+        elif unit == "sentence":
+            unit = NaturalLanguage.NLTokenUnitSentence
+        elif unit == "paragraph":
+            unit = NaturalLanguage.NLTokenUnitParagraph
+        elif unit == "document":
+            unit = NaturalLanguage.NLTokenUnitDocument
+        
+        tagged_languages = []
+        def apply_tags(tag, token_range, error):
+            word_phrase = str(self.xa_elem)[token_range.location:token_range.location + token_range.length]
+            if word_phrase.strip() != "":
+                tagged_languages.append((word_phrase, tag))
+
+        tagger.enumerateTagsInRange_unit_scheme_options_usingBlock_((0, len(str(self.xa_elem))), unit, NaturalLanguage.NLTagSchemeLemma, NaturalLanguage.NLTaggerOmitPunctuation | NaturalLanguage.NLTaggerOmitWhitespace | NaturalLanguage.NLTaggerJoinContractions, apply_tags)
+        return tagged_languages
+
+    def tag_sentiments(self, sentiment_scale: List[str] = None, unit: Literal["word", "sentence", "paragraph", "document"] = "paragraph") -> List[Tuple[str, str]]:
+        """Tags each paragraph of the text with a sentiment rating.
+
+        :param sentiment_scale: A list of terms establishing a range of sentiments from most negative to most postive
+        :type sentiment_scale: List[str]
+        :param unit: The grammatical unit to divide the text into for tagging, defaults to "paragraph"
+        :type unit: Literal["word", "sentence", "paragraph", "document"]
+        :return: A list of tuples identifying each paragraph of the text and its sentiment rating
+        :rtype: List[Tuple[str, str]]
+
+        :Example 1: Assess the sentiment of a string
+
+        >>> import PyXA
+        >>> text = PyXA.XAText("This sucks.\nBut this is great!")
+        >>> print(text.tag_sentiments())
+        [('This sucks.\n', 'Negative'), ('But this is great!', 'Positive')]
+
+        :Example 2: Use a custom sentiment scale
+
+        >>> import PyXA
+        >>> text = PyXA.XAText("This sucks.\nBut this is good!\nAnd this is great!")
+        >>> print(text.tag_sentiments(sentiment_scale=["Very Negative", "Negative", "Somewhat Negative", "Neutral", "Somewhat Positive", "Positive", "Very Positive"]))
+        [('This sucks.\n', 'Very Negative'), ('But this is good!\n', 'Neutral'), ('And this is great!', 'Very Positive')]
+
+        :Example 3: Use other tag units
+
+        >>> import PyXA
+        >>> text = PyXA.XAText("This sucks.\nBut this is good!\nAnd this is great!")
+        >>> print(1, text.tag_sentiments())
+        >>> print(2, text.tag_sentiments(unit="word"))
+        >>> print(3, text.tag_sentiments(unit="document"))
+        1 [('This sucks.\n', 'Negative'), ('But this is good!\n', 'Neutral'), ('And this is great!', 'Positive')]
+        2 [('This', 'Negative'), ('sucks', 'Negative'), ('.', 'Negative'), ('But', 'Neutral'), ('this', 'Neutral'), ('is', 'Neutral'), ('good', 'Neutral'), ('!', 'Neutral'), ('And', 'Positive'), ('this', 'Positive'), ('is', 'Positive'), ('great', 'Positive'), ('!', 'Positive')]
+        3 [('This sucks.\nBut this is good!\nAnd this is great!', 'Neutral')]
+
+        .. versionadded:: 0.1.0
+        """
+        if sentiment_scale is None or len(sentiment_scale) == 0:
+            sentiment_scale = ["Negative", "Neutral", "Positive"]
+
+        if unit == "word":
+            unit = NaturalLanguage.NLTokenUnitWord
+        elif unit == "sentence":
+            unit = NaturalLanguage.NLTokenUnitSentence
+        elif unit == "paragraph":
+            unit = NaturalLanguage.NLTokenUnitParagraph
+        elif unit == "document":
+            unit = NaturalLanguage.NLTokenUnitDocument
+
+        tagger = NaturalLanguage.NLTagger.alloc().initWithTagSchemes_([NaturalLanguage.NLTagSchemeSentimentScore])
+        tagger.setString_(str(self.xa_elem))
+        
+        tagged_sentiments = []
+        def apply_tags(tag, token_range, error):
+            paragraph = str(self.xa_elem)[token_range.location:token_range.location + token_range.length]
+            if paragraph.strip() != "":
+                # Map raw tag value to range length
+                raw_value = float(tag or 0)
+                scaled = (raw_value + 1.0) / 2.0 * (len(sentiment_scale) - 1)
+
+                label = sentiment_scale[int(scaled)]
+                tagged_sentiments.append((paragraph, label))
+
+        tagger.enumerateTagsInRange_unit_scheme_options_usingBlock_((0, len(self.xa_elem)), unit, NaturalLanguage.NLTagSchemeSentimentScore, 0, apply_tags)
+        return tagged_sentiments
 
     def paragraphs(self, filter: dict = None) -> 'XAParagraphList':
         """Gets a list of paragraphs in the text.

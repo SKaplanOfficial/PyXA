@@ -27,6 +27,7 @@ application_classes = {
     "numbers": ("Numbers", "XANumbersApplication"),
     "script editor": ("ScriptEditor", "XAScriptEditorApplication"),
     "system events": ("SystemEvents", "XASystemEventsApplication"),
+    "image events": ("ImageEvents", "XAImageEventsApplication"),
 
     ### First Party Non-scriptable Apps
     "calculator": ("Calculator", "XACalculatorApplication"),
@@ -57,5 +58,7 @@ application_classes = {
     "spotify": ("Spotify", "XASpotifyApplication"),
     "flow": ("Flow", "XAFlowApplication"),
     "bike": ("Bike", "XABikeApplication"),
+    "adobe acrobat reader": ("AcrobatReader", "XAAcrobatReaderApplication"),
     "cardhop": ("Cardhop", "XACardhopAppplication"),
+    "amphetamine": ("Amphetamine", "XAAmphetamineApplication"),
 }

@@ -20,6 +20,7 @@ import objc
 from PyXA.apps import application_classes
 
 from PyObjCTools import AppHelper
+import appscript
 
 import AppKit
 from Quartz import CGImageSourceRef, CGImageSourceCreateWithData, CFDataRef, CGRectMake
@@ -29,6 +30,9 @@ import ScriptingBridge
 import Speech
 import AVFoundation
 import CoreLocation
+import ScreenCaptureKit
+import Quartz
+import Vision
 
 import threading
 
@@ -1222,7 +1226,21 @@ class XAApplication(XAObject, XAClipboardCodable):
         self.launch_date: datetime #: The date and time that the application was launched
         self.localized_name: str #: The application's name
         self.owns_menu_bar: bool #: Whether the application owns the top menu bar
-        self.process_identifier: str #: The process identifier for the application instance
+        self.process_identifier: str #: The process identifier for the application instance 
+
+        self.xa_apsc: appscript.GenericApp
+
+    def __getattr__(self, attr):
+        if attr in self.__dict__:
+            # If possible, use PyXA attribute
+            return super().__getattribute__(attr)
+        else:
+            # Otherwise, fall back to appscript
+            return getattr(self.xa_apsc, attr)
+
+    @property
+    def xa_apsc(self) -> appscript.GenericApp:
+        return appscript.app(self.bundle_url.path())
 
     @property
     def bundle_identifier(self) -> str:
@@ -2854,6 +2872,12 @@ class XAWindowList(XAUIElementList):
     def collapse(self):
         """Collapses all windows in the list.
 
+        :Example:
+
+        >>> import PyXA
+        >>> app = PyXA.Application("Keychain Access")
+        >>> app.windows().collapse()
+
         .. versionadded:: 0.0.5
         """
         for window in self:
@@ -2862,6 +2886,12 @@ class XAWindowList(XAUIElementList):
     def uncollapse(self):
         """Uncollapses all windows in the list.
 
+        :Example:
+
+        >>> import PyXA
+        >>> app = PyXA.Application("Keychain Access")
+        >>> app.windows().uncollapse()
+
         .. versionadded:: 0.0.6
         """
         for window in self:
@@ -2869,16 +2899,23 @@ class XAWindowList(XAUIElementList):
 
     def close(self):
         """Closes all windows in the list.add()
+
+        :Example:
+
+        >>> import PyXA
+        >>> app = PyXA.Application("Keychain Access")
+        >>> app.windows().close()
         
         .. versionadded:: 0.0.6
         """
         for window in self:
             window.close()
 
+    def __repr__(self):
+        return "<" + str(type(self)) + str(self.title()) + ">"
+
 class XAWindow(XAUIElement):
     """A general window class for windows of both officially scriptable and non-scriptable applications.
-
-    .. seealso:: :class:`XAApplication`
 
     .. versionadded:: 0.0.1
     """
@@ -2891,9 +2928,14 @@ class XAWindow(XAUIElement):
         :return: A reference to the now-collapsed window object.
         :rtype: XAWindow
 
+        :Example:
+
+        >>> import PyXA
+        >>> PyXA.Application("App Store").front_window.close()
+
         .. versionadded:: 0.0.1
         """
-        close_button = self.button({"subrole": "AXCloseButton"})
+        close_button = self.buttons({"subrole": "AXCloseButton"})[0]
         close_button.click()
         return self
 
@@ -2902,6 +2944,11 @@ class XAWindow(XAUIElement):
 
         :return: A reference to the now-collapsed window object.
         :rtype: XAWindow
+
+        :Example:
+
+        >>> import PyXA
+        >>> PyXA.Application("App Store").front_window.collapse()
 
         .. versionadded:: 0.0.1
         """
@@ -2918,16 +2965,25 @@ class XAWindow(XAUIElement):
         :return: A reference to the uncollapsed window object.
         :rtype: XAWindow
 
+        :Example:
+
+        >>> import PyXA
+        >>> PyXA.Application("App Store").front_window.uncollapse()
+
         .. versionadded:: 0.0.1
         """
         ls = self.xa_sevt.applicationProcesses()
         dock_process = XAPredicate.evaluate_with_format(ls, "name == 'Dock'")[0]
 
         ls = dock_process.lists()[0].UIElements()
-        name = self.xa_prnt.xa_prnt.xa_elem.localizedName()
+        name = self.name
+
         app_icon = XAPredicate.evaluate_with_format(ls, f"name == '{name}'")[0]
         app_icon.actions()[0].perform()
         return self
+
+    def __repr__(self):
+        return "<" + str(type(self)) + str(self.title) + ">"
 
 
 
@@ -3915,6 +3971,7 @@ class XAImage(XAObject, XAClipboardCodable):
     def __init__(self, file: Union[str, AppKit.NSURL, AppKit.NSImage, None] = None, data: Union[AppKit.NSData, None] = None, name: Union[str, None] = None):
         self.size: Tuple[int, int] #: The dimensions of the image
         self.name: str #: The name of the image
+        self.file: XAPath #: The path to the image file, if one exists
         self.data: str #: The TIFF representation of the image
 
         if isinstance(file, dict):
@@ -3931,11 +3988,8 @@ class XAImage(XAObject, XAClipboardCodable):
                         self.xa_elem = AppKit.NSImage.alloc().initWithData_(file.TIFFRepresentation())
                     else:
                         if isinstance(file, str):
-                            if file.startswith("/"):
-                                file = XAPath(file)
-                            else:
-                                file = XAURL(file)
-                        self.xa_elem = AppKit.NSImage.alloc().initWithContentsOfURL_(file.xa_elem)
+                            self.file = XAPath(file)
+                        self.xa_elem = AppKit.NSImage.alloc().initWithContentsOfURL_(self.file.xa_elem)
         self.name = name or "image"
         self.data = self.xa_elem.TIFFRepresentation()
 
@@ -3954,6 +4008,40 @@ class XAImage(XAObject, XAClipboardCodable):
 
         AppKit.NSWorkspace.sharedWorkspace().openFile_withApplication_(tmp_file.name, "Preview")
         time.sleep(0.1)
+
+    def extract_text(self) -> List[str]:
+        """Extracts and returns all visible text in the image.
+
+        :return: The array of extracted text strings
+        :rtype: List[str]
+
+        :Example:
+
+        >>> import PyXA
+        >>> test = PyXA.XAImage("/Users/ExampleUser/Downloads/Example.jpg")
+        >>> print(test.extract_text())
+        ["HERE'S TO THE", 'CRAZY ONES', 'the MISFITS the REBELS', 'THE TROUBLEMAKERS', ...]
+
+        .. versionadded:: 0.1.0
+        """
+        # Prepare CGImage
+        ci_image = Quartz.CIImage.imageWithContentsOfURL_(self.file.xa_elem)
+        context = Quartz.CIContext.alloc().initWithOptions_(None)
+        img = context.createCGImage_fromRect_(ci_image, ci_image.extent())
+
+        # Handle request completion
+        extracted_strings = []
+        def recognize_text_handler(request, error):
+            observations = request.results()
+            for observation in observations:
+                recognized_strings = observation.topCandidates_(1)[0].string()
+                extracted_strings.append(recognized_strings)
+
+        # Perform request and return extracted text
+        request = Vision.VNRecognizeTextRequest.alloc().initWithCompletionHandler_(recognize_text_handler)
+        request_handler = Vision.VNImageRequestHandler.alloc().initWithCGImage_options_(img, None)
+        request_handler.performRequests_error_([request], None)
+        return extracted_strings
 
     def get_clipboard_representation(self) -> AppKit.NSImage:
         return self.xa_elem

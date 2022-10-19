@@ -778,7 +778,9 @@ class XAList(XAObject):
         """
         predicate = XAPredicate()
         predicate.add_eq_condition(property, value)
-        ls = predicate.evaluate(self.xa_elem).get()
+        ls = predicate.evaluate(self.xa_elem)
+        if hasattr(ls, "get"):
+            ls = predicate.evaluate(self.xa_elem).get()
         obj = ls[0]
         return self._new_element(obj, self.xa_ocls)
 
@@ -4139,7 +4141,7 @@ class XALSM(XAObject):
         :type from_file: bool, optional
         :raises ValueError: Either you must provide a dataset, or you must load an existing map from an external file
 
-        :Example: Classify emails based on subject line
+        :Example 1: Classify emails based on subject line
 
         >>> import PyXA
         >>> lsm = PyXA.XALSM({
@@ -4161,6 +4163,29 @@ class XALSM(XAObject):
         [(3, 0.9418474435806274)]
         [(4, 0.9366401433944702)]
         [(2, 0.9944692850112915)]
+
+        :Example 2: Use the Mail module to automate dataset construction
+
+        >>> import PyXA
+        >>> app = PyXA.Application("Mail")
+        >>> junk_subject_lines = app.accounts()[0].mailboxes().by_name("Junk").messages().subject()
+        >>> other_subject_lines = app.accounts()[0].mailboxes().by_name("INBOX").messages().subject()
+        >>> 
+        >>> dataset = {
+        >>>     "junk": junk_subject_lines,
+        >>>     "other": other_subject_lines
+        >>> }
+        >>> lsm = PyXA.XALSM(dataset)
+        >>> 
+        >>> query = "Amazon Web Services Billing Statement Available"
+        >>> category = list(dataset.keys())[lsm.categorize_query(query)[0][0] - 1]
+        >>> print(query, "- category:", category)
+        >>> 
+        >>> query = "Complete registration form asap receive your rewards"
+        >>> category = list(dataset.keys())[lsm.categorize_query(query)[0][0] - 1]
+        >>> print(query, "- category:", category)
+        Amazon Web Services Billing Statement Available - category: other
+        Complete registration form asap receive your rewards - category: junk
 
         .. versionadded:: 0.1.0
         """
@@ -4426,18 +4451,210 @@ class XAColorList(XATextList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XAColor, filter)
 
-class XAColor(XAObject):
+class XAColor(XAObject, XAClipboardCodable):
     def __init__(self, *args):
-        if len(args) == 1:
+        if len(args) == 0:
+            # No color specified -- default to white
+            self.xa_elem = XAColor.white_color().xa_elem
+        elif len(args) == 1 and isinstance(args[0], AppKit.NSColor):
+            # Initialize copy of non-mutable NSColor object
             self.copy_color(args[0])
+        elif len(args) == 1 and isinstance(args[0], XAColor):
+            # Initialize copy of another XAColor object
+            self.copy_color(args[0].xa_elem)
         else:
+            # Initialize from provided RGBA values
             red = args[0] if len(args) >= 0 else 255
             green = args[1] if len(args) >= 1 else 255
             blue = args[2] if len(args) >= 3 else 255
             alpha = args[3] if len(args) == 4 else 1.0
             self.xa_elem = AppKit.NSCalibratedRGBColor.alloc().initWithRed_green_blue_alpha_(red, green, blue, alpha)
 
+    def red() -> 'XAColor':
+        """Initializes and returns a pure red :class:`XAColor` object.
+
+        .. versionadded:: 0.1.0
+        """
+        return XAColor(65535, 0, 0)
+
+    def orange() -> 'XAColor':
+        """Initializes and returns an :class:`XAColor` object whose RGB values are (1.0, 0.5, 0.0).
+
+        .. versionadded:: 0.1.0
+        """
+        return XAColor(AppKit.NSColor.orangeColor())
+
+    def yellow() -> 'XAColor':
+        """Initializes and returns an :class:`XAColor` object whose RGB values are (1.0, 1.0, 0.0).
+
+        .. versionadded:: 0.1.0
+        """
+        return XAColor(AppKit.NSColor.yellowColor())
+
+    def green() -> 'XAColor':
+        """Initializes and returns a pure green :class:`XAColor` object.
+
+        .. versionadded:: 0.1.0
+        """
+        return XAColor(0, 65535, 0)
+
+    def cyan() -> 'XAColor':
+        """Initializes and returns an :class:`XAColor` object whose RGB values are (0.0, 1.0, 1.0).
+
+        .. versionadded:: 0.1.0
+        """
+        return XAColor(AppKit.NSColor.cyanColor())
+
+    def blue() -> 'XAColor':
+        """Initializes and returns a pure blue :class:`XAColor` object.
+
+        .. versionadded:: 0.1.0
+        """
+        return XAColor(0, 0, 65535)
+
+    def magenta() -> 'XAColor':
+        """Initializes and returns an :class:`XAColor` object whose RGB values are (1.0, 0.0, 1.0).
+
+        .. versionadded:: 0.1.0
+        """
+        return XAColor(AppKit.NSColor.magentaColor())
+
+    def purple() -> 'XAColor':
+        """Initializes and returns an :class:`XAColor` object whose RGB values are (0.5, 0.0, 0.5).
+
+        .. versionadded:: 0.1.0
+        """
+        return XAColor(AppKit.NSColor.purpleColor())
+
+    def brown() -> 'XAColor':
+        """Initializes and returns an :class:`XAColor` object whose RGB values are (0.6, 0.4, 0.2).
+
+        .. versionadded:: 0.1.0
+        """
+        return XAColor(AppKit.NSColor.brownColor())
+
+    def white() -> 'XAColor':
+        """Initializes and returns a pure white :class:`XAColor` object.
+
+        .. versionadded:: 0.1.0
+        """
+        return XAColor(65535, 65535, 65535)
+
+    def gray() -> 'XAColor':
+        """Initializes and returns an :class:`XAColor` object whose RGB values are (0.5, 0.5, 0.5).
+
+        .. versionadded:: 0.1.0
+        """
+        return XAColor(AppKit.NSColor.grayColor())
+
+    def black() -> 'XAColor':
+        """Initializes and returns a pure black :class:`XAColor` object.
+
+        .. versionadded:: 0.1.0
+        """
+        return XAColor(0, 0, 0)
+
+    def clear() -> 'XAColor':
+        """Initializes and returns a an :class:`XAColor` object whose alpha value is 0.0.
+
+        .. versionadded:: 0.1.0
+        """
+        return XAColor(AppKit.NSColor.clearColor())
+
+    @property
+    def red_value(self) -> float:
+        """The red value of the color on the scale of 0.0 to 1.0.
+
+        .. versionadded:: 0.1.0
+        """
+        return self.xa_elem.redComponent()
+
+    @red_value.setter
+    def red_value(self, red_value: float):
+        self.xa_elem = AppKit.NSCalibratedRGBColor.alloc().initWithRed_green_blue_alpha_(red_value, self.green_value, self.blue_value, self.alpha_value)
+
+    @property
+    def green_value(self) -> float:
+        """The green value of the color on the scale of 0.0 to 1.0.
+
+        .. versionadded:: 0.1.0
+        """
+        return self.xa_elem.greenComponent()
+
+    @green_value.setter
+    def green_value(self, green_value: float):
+        self.xa_elem = AppKit.NSCalibratedRGBColor.alloc().initWithRed_green_blue_alpha_(self.red_value, green_value, self.blue_value, self.alpha_value)
+
+    @property
+    def blue_value(self) -> float:
+        """The blue value of the color on the scale of 0.0 to 1.0.
+
+        .. versionadded:: 0.1.0
+        """
+        return self.xa_elem.blueComponent()
+
+    @blue_value.setter
+    def blue_value(self, blue_value: float):
+        self.xa_elem = AppKit.NSCalibratedRGBColor.alloc().initWithRed_green_blue_alpha_(self.red_value, self.green_value, blue_value, self.alpha_value)
+
+    @property
+    def alpha_value(self) -> float:
+        """The alpha value of the color on the scale of 0.0 to 1.0.
+
+        .. versionadded:: 0.1.0
+        """
+        return self.xa_elem.alphaComponent()
+
+    @alpha_value.setter
+    def alpha_value(self, alpha_value: float):
+        self.xa_elem = AppKit.NSCalibratedRGBColor.alloc().initWithRed_green_blue_alpha_(self.red_value, self.green_value, self.blue_value, alpha_value)
+
+    @property
+    def hue_value(self):
+        """The hue value of the color on the scale of 0.0 to 1.0.
+
+        .. versionadded:: 0.1.0
+        """
+        return self.xa_elem.hueComponent()
+
+    @hue_value.setter
+    def hue_value(self, hue_value: float):
+        self.xa_elem = AppKit.NSCalibratedRGBColor.initWithHue_saturation_brightness_alpha_(hue_value, self.saturation_value, self.brightness_value, self.alpha_value)
+
+    @property
+    def saturation_value(self):
+        """The staturation value of the color on the scale of 0.0 to 1.0.
+
+        .. versionadded:: 0.1.0
+        """
+        return self.xa_elem.saturationComponent()
+
+    @saturation_value.setter
+    def saturation_value(self, saturation_value: float):
+        self.xa_elem = AppKit.NSCalibratedRGBColor.initWithHue_saturation_brightness_alpha_(self.hue_value, saturation_value, self.brightness_value, self.alpha_value)
+
+    @property
+    def brightness_value(self):
+        """The brightness value of the color on the scale of 0.0 to 1.0.
+
+        .. versionadded:: 0.1.0
+        """
+        return self.xa_elem.brightnessComponent()
+
+    @brightness_value.setter
+    def brightness_value(self, brightness_value: float):
+        self.xa_elem = AppKit.NSCalibratedRGBColor.initWithHue_saturation_brightness_alpha_(self.hue_value, self.saturation_value, brightness_value, self.alpha_value)
+
     def copy_color(self, color: AppKit.NSColor) -> 'XAColor':
+        """Initializes a XAColor copy of an NSColor object.
+
+        :param color: The NSColor to copy
+        :type color: AppKit.NSColor
+        :return: The newly created XAColor object
+        :rtype: XAColor
+
+        .. versionadded:: 0.1.0
+        """
         self.xa_elem = AppKit.NSCalibratedRGBColor.alloc().initWithRed_green_blue_alpha_(
             color.redComponent(),
             color.greenComponent(),
@@ -4446,47 +4663,132 @@ class XAColor(XAObject):
         )
         return self
     
-    def set_rgba(self, red, green, blue, alpha):
+    def set_rgba(self, red: float, green: float, blue: float, alpha: float) -> 'XAColor':
+        """Sets the RGBA values of the color.
+
+        :param red: The red value of the color, from 0.0 to 1.0
+        :type red: float
+        :param green: The green value of the color, from 0.0 to 1.0
+        :type green: float
+        :param blue: The blue value of the color, from 0.0 to 1.0
+        :type blue: float
+        :param alpha: The opacity of the color, from 0.0 to 1.0
+        :type alpha: float
+        :return: The XAColor object
+        :rtype: XAColor
+
+        .. versionadded:: 0.1.0
+        """
         self.xa_elem = AppKit.NSCalibratedRGBColor.alloc().initWithRed_green_blue_alpha_(red, green, blue, alpha)
         return self
 
-    def red(self):
-        return self.xa_elem.redComponent()
+    def set_hsla(self, hue: float, saturation: float, brightness: float, alpha: float) -> 'XAColor':
+        """Sets the HSLA values of the color.
 
-    def green(self):
-        return self.xa_elem.greenComponent()
+        :param hue: The hue value of the color, from 0.0 to 1.0
+        :type hue: float
+        :param saturation: The saturation value of the color, from 0.0 to 1.0
+        :type saturation: float
+        :param brightness: The brightness value of the color, from 0.0 to 1.0
+        :type brightness: float
+        :param alpha: The opacity of the color, from 0.0 to 1.0
+        :type alpha: float
+        :return: The XAColor object
+        :rtype: XAColor
 
-    def blue(self):
-        return self.xa_elem.blueComponent()
-
-    def alpha(self):
-        return self.xa_elem.alphaComponent()
-
-    def set_hsla(self, hue, saturation, brightness, alpha):
-        # Alpha is 0.0 to 1.0
+        .. versionadded:: 0.1.0
+        """
         self.xa_elem = AppKit.NSCalibratedRGBColor.initWithHue_saturation_brightness_alpha_(hue, saturation, brightness, alpha)
         return self
 
-    def hue(self):
-        return self.xa_elem.hueComponent()
-
-    def saturation(self):
-        return self.xa_elem.saturationComponent()
-
-    def brightness(self):
-        return self.xa_elem.brightnessComponent()
-
     def mix_with(self, color: 'XAColor', fraction: int = 0.5) -> 'XAColor':
+        """Blends this color with the specified fraction of another.
+
+        :param color: The color to blend this color with
+        :type color: XAColor
+        :param fraction: The fraction of the other color to mix into this color, from 0.0 to 1.0, defaults to 0.5
+        :type fraction: int, optional
+        :return: The resulting color after mixing
+        :rtype: XAColor
+
+        .. versionadded:: 0.1.0
+        """
         new_color = self.xa_elem.blendedColorWithFraction_ofColor_(fraction, color.xa_elem)
         return XAColor(new_color.redComponent(), new_color.greenComponent(), new_color.blueComponent(), new_color.alphaComponent())
 
-    def brighten(self, amount: float = 0.5) -> 'XAColor':
-        self.xa_elem.highlightWithLevel_(amount)
+    def brighten(self, fraction: float = 0.5) -> 'XAColor':
+        """Brightens the color by mixing the specified fraction of the system white color into it.
+
+        :param fraction: The amount (fraction) of white to mix into the color, defaults to 0.5
+        :type fraction: float, optional
+        :return: The resulting color after brightening
+        :rtype: XAColor
+
+        .. versionadded:: 0.1.0
+        """
+        self.xa_elem = self.xa_elem.highlightWithLevel_(fraction)
         return self
 
-    def darken(self, amount: float = 0.5) -> 'XAColor':
-        self.xa_elem.shadowWithLevel_(amount)
+    def darken(self, fraction: float = 0.5) -> 'XAColor':
+        """Darkens the color by mixing the specified fraction of the system black color into it.
+
+        :param fraction: The amount (fraction) of black to mix into the color, defaults to 0.5
+        :type fraction: float, optional
+        :return: The resulting color after darkening
+        :rtype: XAColor
+
+        .. versionadded:: 0.1.0
+        """
+        self.xa_elem = self.xa_elem.shadowWithLevel_(fraction)
         return self
+
+    def make_swatch(self, width: int = 100, height: int = 100) -> 'XAImage':
+        """Creates an image swatch of the color with the specified dimensions.
+
+        :param width: The width of the swatch image, in pixels, defaults to 100
+        :type width: int, optional
+        :param height: The height of the swatch image, in pixels, defaults to 100
+        :type height: int, optional
+        :return: The image swatch as an XAImage object
+        :rtype: XAImage
+
+        :Example: View swatches in Preview
+
+        >>> import PyXA
+        >>> from time import sleep
+        >>> 
+        >>> blue = PyXA.XAColor.blue()
+        >>> red = PyXA.XAColor.red()
+        >>> 
+        >>> swatches = [
+        >>>     blue.make_swatch(),
+        >>>     blue.darken(0.5).make_swatch(),
+        >>>     blue.mix_with(red).make_swatch()
+        >>> ]
+        >>> 
+        >>> for swatch in swatches:
+        >>>     swatch.show_in_preview()
+        >>>     sleep(0.2)
+
+        .. versionadded:: 0.1.0
+        """
+        img = AppKit.NSImage.alloc().initWithSize_(AppKit.NSMakeSize(width, height))
+        img.lockFocus()
+        self.xa_elem.drawSwatchInRect_(AppKit.NSMakeRect(0, 0, width, height))
+        img.unlockFocus()
+        return XAImage(img)
+
+    def get_clipboard_representation(self) -> AppKit.NSColor:
+        """Gets a clipboard-codable representation of the color.
+
+        When the clipboard content is set to a color, the raw color data is added to the clipboard.
+
+        :return: The raw color data
+        :rtype: AppKit.NSColor
+
+        .. versionadded:: 0.1.0
+        """
+        return self.xa_elem
 
     def __repr__(self):
         return f"<{str(type(self))}r={str(self.red())}, g={self.green()}, b={self.blue()}, a={self.alpha()}>"
@@ -4494,7 +4796,7 @@ class XAColor(XAObject):
 
 
 
-class XAImageList(XAList):
+class XAImageList(XAList, XAClipboardCodable):
     """A wrapper around lists of images that employs fast enumeration techniques.
 
     .. versionadded:: 0.0.3
@@ -4502,24 +4804,74 @@ class XAImageList(XAList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XAImage, filter)
 
+    def file(self) -> List[XAPath]:
+        return [x.file for x in self]
+
+    def horizontal_stitch(self) -> 'XAImage':
+        """Horizontally stacks each image in the list.
+
+        The first image in the list is placed at the left side of the resulting image.
+
+        :return: The resulting image after stitching
+        :rtype: XAImage
+
+        .. versionadded:: 0.1.0
+        """
+        return XAImage.horizontal_stitch(self)
+
+    def vertical_stitch(self) -> 'XAImage':
+        """Vertically stacks each image in the list.
+
+        The first image in the list is placed at the bottom side of the resulting image.
+
+        :return: The resulting image after stitching
+        :rtype: XAImage
+
+        .. versionadded:: 0.1.0
+        """
+        return XAImage.vertical_stitch(self)
+
     def show_in_preview(self):
         for image in self:
             image.show_in_preview()
+
+    def get_clipboard_representation(self) -> List[AppKit.NSImage]:
+        images = [None] * self.xa_elem.count()
+        def get_nsimage_rep(obj, index, stop):
+            images[index] = AppKit.NSImage.alloc().initByReferencingFile_(obj)
+
+        self.xa_elem.enumerateObjectsUsingBlock_(get_nsimage_rep)
+        return images
 
 class XAImage(XAObject, XAClipboardCodable):
     """A wrapper around NSImage with specialized automation methods.
 
     .. versionadded:: 0.0.2
     """
-    def __init__(self, file: Union[str, AppKit.NSURL, AppKit.NSImage, None] = None, data: Union[AppKit.NSData, None] = None, name: Union[str, None] = None):
+    def __init__(self, file: Union[str, XAPath, AppKit.NSURL, AppKit.NSImage, None] = None, data: Union[AppKit.NSData, None] = None, name: Union[str, None] = None):
         self.size: Tuple[int, int] #: The dimensions of the image
         self.name: str #: The name of the image
         self.file: XAPath #: The path to the image file, if one exists
         self.data: str #: The TIFF representation of the image
+        self.name = name or "image" #: The title of the image
+        self.modified: bool = False #: Whether the image data has been modified since the object was originally created
+
+        self.xa_elem = None
+
+        self.__vibrance = None
+        self.__gamma = None
+        self.__tint = None
+        self.__temperature = None
+        self.__white_point = None
+        self.__highlight = None
+        self.__shadow = None
 
         if isinstance(file, dict):
             # Image was created via XAList
             self.xa_elem = file["element"]
+            if isinstance(self.xa_elem, str):
+                self.file = XAPath(self.xa_elem)
+                self.xa_elem = AppKit.NSImage.alloc().initWithContentsOfURL_(XAPath(self.xa_elem).xa_elem)
         else:
             if data is not None:
                 self.xa_elem = AppKit.NSImage.alloc().initWithData_(data)
@@ -4527,30 +4879,499 @@ class XAImage(XAObject, XAClipboardCodable):
                 if file is None:
                     self.xa_elem = AppKit.NSImage.alloc().init()
                 else:
+                    self.file = file
                     if isinstance(file, AppKit.NSImage):
                         self.xa_elem = AppKit.NSImage.alloc().initWithData_(file.TIFFRepresentation())
                     else:
                         if isinstance(file, str):
                             self.file = XAPath(file)
                         self.xa_elem = AppKit.NSImage.alloc().initWithContentsOfURL_(self.file.xa_elem)
-        self.name = name or "image"
+
         self.data = self.xa_elem.TIFFRepresentation()
 
     @property
-    def size(self):
-        return self.xa_elem.size()
+    def size(self) -> Tuple[int, int]:
+        """The dimensions of the image, in pixels.
 
-    def show_in_preview(self):
-        """Opens the image in preview.
-
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
-        tmp_file = tempfile.NamedTemporaryFile(suffix = self.name)
-        with open(tmp_file.name, 'wb') as f:
-            f.write(self.xa_elem.TIFFRepresentation())
+        return tuple(self.xa_elem.size())
 
-        AppKit.NSWorkspace.sharedWorkspace().openFile_withApplication_(tmp_file.name, "Preview")
-        time.sleep(0.1)
+    @property
+    def gamma(self) -> float:
+        """The gamma value for the image, once it has been manually set. Otherwise, the value is None.
+
+        .. versionadded:: 0.1.0
+        """
+        if self.__gamma is not None:
+            return self.__gamma
+        return -1
+
+    @gamma.setter
+    def gamma(self, gamma: float):
+        self.__gamma = gamma
+        image = Quartz.CIImage.imageWithData_(self.data)
+        filter = Quartz.CIFilter.filterWithName_("CIGammaAdjust")
+        filter.setDefaults()
+        filter.setValue_forKey_(image, "inputImage")
+        filter.setValue_forKey_(gamma, "inputPower")
+        uncropped = filter.valueForKey_(Quartz.kCIOutputImageKey)
+        self.__update_image(uncropped)
+
+    @property
+    def vibrance(self) -> Union[float, None]:
+        """The vibrance value for the image, once it has been manually set. Otherwise, the value is None.
+
+        .. versionadded:: 0.1.0
+        """
+        if self.__vibrance is not None:
+            return self.__vibrance
+        return -1
+
+    @vibrance.setter
+    def vibrance(self, vibrance: float = 1):
+        self.__vibrance = vibrance
+        image = Quartz.CIImage.imageWithData_(self.data)
+        filter = Quartz.CIFilter.filterWithName_("CIVibrance")
+        filter.setDefaults()
+        filter.setValue_forKey_(image, "inputImage")
+        filter.setValue_forKey_(vibrance, "inputAmount")
+        uncropped = filter.valueForKey_(Quartz.kCIOutputImageKey)
+        return self.__update_image(uncropped)
+
+    @property
+    def tint(self) -> Union[float, None]:
+        """The tint setting for the image, once it has been manually set. Otherwise, the value is None.
+
+        .. versionadded:: 0.1.0
+        """
+        if self.__tint is not None:
+            return self.__tint
+        return -1
+
+    @tint.setter
+    def tint(self, tint: float):
+        # -100 to 100
+        temp_and_tint = Quartz.CIVector.vectorWithX_Y_(6500, tint)
+        self.__tint = tint
+        image = Quartz.CIImage.imageWithData_(self.data)
+        filter = Quartz.CIFilter.filterWithName_("CITemperatureAndTint")
+        filter.setDefaults()
+        filter.setValue_forKey_(image, "inputImage")
+        filter.setValue_forKey_(temp_and_tint, "inputTargetNeutral")
+        uncropped = filter.valueForKey_(Quartz.kCIOutputImageKey)
+        self.__update_image(uncropped)
+
+    @property
+    def temperature(self) -> Union[float, None]:
+        """The temperature setting for the image, once it has been manually set. Otherwise, the value is None.
+
+        .. versionadded:: 0.1.0
+        """
+        if self.__temperature is not None:
+            return self.__temperature
+        return -1
+
+    @temperature.setter
+    def temperature(self, temperature: float):
+        # 2000 to inf
+        temp_and_tint = Quartz.CIVector.vectorWithX_Y_(temperature, 0)
+        self.__temperature = temperature
+        image = Quartz.CIImage.imageWithData_(self.data)
+        filter = Quartz.CIFilter.filterWithName_("CITemperatureAndTint")
+        filter.setDefaults()
+        filter.setValue_forKey_(image, "inputImage")
+        filter.setValue_forKey_(temp_and_tint, "inputTargetNeutral")
+        uncropped = filter.valueForKey_(Quartz.kCIOutputImageKey)
+        self.__update_image(uncropped)
+
+    @property
+    def white_point(self) -> Union['XAColor', None]:
+        """The white point setting for the image, once it has been manually set. Otherwise, the value is None.
+
+        .. versionadded:: 0.1.0
+        """
+        if self.__white_point is not None:
+            return self.__white_point
+        return -1
+
+    @white_point.setter
+    def white_point(self, white_point: XAColor):
+        self.__white_point = white_point
+        ci_white_point = Quartz.CIColor.alloc().initWithColor_(white_point.xa_elem)
+        image = Quartz.CIImage.imageWithData_(self.data)
+        filter = Quartz.CIFilter.filterWithName_("CIWhitePointAdjust")
+        filter.setDefaults()
+        filter.setValue_forKey_(image, "inputImage")
+        filter.setValue_forKey_(ci_white_point, "inputColor")
+        uncropped = filter.valueForKey_(Quartz.kCIOutputImageKey)
+        self.__update_image(uncropped)
+
+    @property
+    def highlight(self) -> float:
+        """The highlight setting for the image, once it has been manually set. Otherwise, the value is None.
+
+        .. versionadded:: 0.1.0
+        """
+        if self.__highlight is not None:
+            return self.__highlight
+        return -1
+
+    @highlight.setter
+    def highlight(self, highlight: float):
+        self.__highlight = highlight
+        image = Quartz.CIImage.imageWithData_(self.data)
+        filter = Quartz.CIFilter.filterWithName_("CIHighlightShadowAdjust")
+        filter.setDefaults()
+        filter.setValue_forKey_(image, "inputImage")
+        filter.setValue_forKey_(highlight, "inputHighlightAmount")
+        uncropped = filter.valueForKey_(Quartz.kCIOutputImageKey)
+        self.__update_image(uncropped)
+
+    @property
+    def shadow(self) -> float:
+        """The shadow setting for the image, once it has been manually set. Otherwise, the value is None.
+
+        .. versionadded:: 0.1.0
+        """
+        if self.__shadow is not None:
+            return self.__shadow
+        return -1
+
+    @shadow.setter
+    def shadow(self, shadow: float):
+        self.__shadow = shadow
+        image = Quartz.CIImage.imageWithData_(self.data)
+        filter = Quartz.CIFilter.filterWithName_("CIHighlightShadowAdjust")
+        filter.setDefaults()
+        filter.setValue_forKey_(image, "inputImage")
+        filter.setValue_forKey_(self.__highlight or 1, "inputHighlightAmount")
+        filter.setValue_forKey_(shadow, "inputShadowAmount")
+        uncropped = filter.valueForKey_(Quartz.kCIOutputImageKey)
+        self.__update_image(uncropped)
+
+    def open(images: Union[str, XAPath, List[Union[str, XAPath]]]) -> Union['XAImage', XAImageList]:
+        """Opens one or more images from files.
+
+        :param images: The image(s) to open
+        :type images: Union[str, XAPath, List[Union[str, XAPath]]]
+        :return: The newly created image object, or a list of image objects
+        :rtype: Union[XAImage, XAImageList]
+
+        .. versionadded:: 0.1.0
+        """
+        if isinstance(images, list):
+            return XAImageList({"element": images})
+        else:
+            return XAImage(images)
+
+    def horizontal_stitch(images: Union[List['XAImage'], XAImageList]) -> 'XAImage':
+        """Horizontally stacks two or more images.
+
+        The first image in the list is placed at the left side of the resulting image.
+
+        :param images: The list of images to stitch together
+        :type images: Union[List[XAImage], XAImageList]
+        :return: The resulting image after stitching
+        :rtype: XAImage
+
+        .. versionadded:: 0.1.0
+        """
+        widths = [image.size[0] for image in images]
+        heights = [image.size[1] for image in images]
+        total_width = sum(widths)
+        max_height = max(heights)
+
+        canvas = AppKit.NSImage.alloc().initWithSize_(AppKit.NSMakeSize(total_width, max_height))
+
+        canvas.lockFocus()
+        current_x = 0
+        for image in images:
+            image.xa_elem.drawInRect_(AppKit.NSMakeRect(current_x, 0, image.size[0], image.size[1]))
+            current_x += image.size[0]
+        canvas.unlockFocus()
+        return XAImage(canvas)
+
+    def vertical_stitch(images: Union[List['XAImage'], XAImageList]) -> 'XAImage':
+        """Vertically stacks two or more images.
+
+        The first image in the list is placed at the bottom of the resulting image.
+
+        :param images: The list of images to stitch together
+        :type images: Union[List[XAImage], XAImageList]
+        :return: The resulting image after stitching
+        :rtype: XAImage
+
+        .. versionadded:: 0.1.0
+        """
+        widths = [image.size[0] for image in images]
+        heights = [image.size[1] for image in images]
+        max_width = max(widths)
+        total_height = sum(heights)
+
+        canvas = AppKit.NSImage.alloc().initWithSize_(AppKit.NSMakeSize(max_width, total_height))
+
+        canvas.lockFocus()
+        current_y = 0
+        for image in images:
+            image.xa_elem.drawInRect_(AppKit.NSMakeRect(0, current_y, image.size[0], image.size[1]))
+            current_y += image.size[1]
+        canvas.unlockFocus()
+        return XAImage(canvas)
+
+    def additive_composition(images: List['XAImage']) -> 'XAImage':
+        """Creates a composition image by adding the color values of each image in the provided list.
+
+        :param images: The images to add together
+        :type images: List[XAImage]
+        :return: The resulting image composition
+        :rtype: XAImage
+
+        .. versionadded:: 0.1.0
+        """
+        image_data = [Quartz.CIImage.imageWithData_(image.data) for image in images]
+
+        current_composition = None
+        while len(image_data) > 1:
+            img1 = image_data.pop(0)
+            img2 = image_data.pop(0)
+            composition_filter = Quartz.CIFilter.filterWithName_("CIAdditionCompositing")
+            composition_filter.setDefaults()
+            composition_filter.setValue_forKey_(img1, "inputImage")
+            composition_filter.setValue_forKey_(img2, "inputBackgroundImage")
+            current_composition = composition_filter.outputImage()
+            image_data.insert(0, current_composition)
+            
+        composition_rep = AppKit.NSCIImageRep.imageRepWithCIImage_(current_composition)
+        composition = AppKit.NSImage.alloc().initWithSize_(composition_rep.size())
+        composition.addRepresentation_(composition_rep)
+        return XAImage(composition)
+
+    def subtractive_composition(images: List['XAImage']) -> 'XAImage':
+        """Creates a composition image by subtracting the color values of each image in the provided list successively.
+
+        :param images: The images to create the composition from
+        :type images: List[XAImage]
+        :return: The resulting image composition
+        :rtype: XAImage
+
+        .. versionadded:: 0.1.0
+        """
+        image_data = [Quartz.CIImage.imageWithData_(image.data) for image in images]
+
+        current_composition = None
+        while len(image_data) > 1:
+            img1 = image_data.pop(0)
+            img2 = image_data.pop(0)
+            composition_filter = Quartz.CIFilter.filterWithName_("CISubtractBlendMode")
+            composition_filter.setDefaults()
+            composition_filter.setValue_forKey_(img1, "inputImage")
+            composition_filter.setValue_forKey_(img2, "inputBackgroundImage")
+            current_composition = composition_filter.outputImage()
+            image_data.insert(0, current_composition)
+            
+        composition_rep = AppKit.NSCIImageRep.imageRepWithCIImage_(current_composition)
+        composition = AppKit.NSImage.alloc().initWithSize_(composition_rep.size())
+        composition.addRepresentation_(composition_rep)
+        return XAImage(composition)
+
+    def __update_image(self, modified_image: Quartz.CIImage):
+        # Crop the result to the original image size
+        cropped = modified_image.imageByCroppingToRect_(Quartz.CGRectMake(0, 0, self.size[0], self.size[1]))
+
+        # Convert back to NSImage
+        rep = AppKit.NSCIImageRep.imageRepWithCIImage_(cropped)
+        result = AppKit.NSImage.alloc().initWithSize_(rep.size())
+        result.addRepresentation_(rep)
+
+        # Update internal data
+        self.xa_elem = result
+        self.modified = True
+        return self
+    
+    def edges(self, intensity: float = 1.0) -> 'XAImage':
+        image = Quartz.CIImage.imageWithData_(self.data)
+        filter = Quartz.CIFilter.filterWithName_("CIEdges")
+        filter.setDefaults()
+        filter.setValue_forKey_(image, "inputImage")
+        filter.setValue_forKey_(intensity, "inputIntensity")
+        uncropped = filter.valueForKey_(Quartz.kCIOutputImageKey)
+        return self.__update_image(uncropped)
+
+    def gaussian_blur(self, intensity: float = 10) -> 'XAImage':
+        image = Quartz.CIImage.imageWithData_(self.data)
+        filter = Quartz.CIFilter.filterWithName_("CIGaussianBlur")
+        filter.setDefaults()
+        filter.setValue_forKey_(image, "inputImage")
+        filter.setValue_forKey_(intensity, "inputRadius")
+        uncropped = filter.valueForKey_(Quartz.kCIOutputImageKey)
+        return self.__update_image(uncropped)
+
+    def reduce_noise(self, noise_level: float = 0.02, sharpness: float = 0.4) -> 'XAImage':
+        image = Quartz.CIImage.imageWithData_(self.data)
+        filter = Quartz.CIFilter.filterWithName_("CINoiseReduction")
+        filter.setDefaults()
+        filter.setValue_forKey_(image, "inputImage")
+        filter.setValue_forKey_(noise_level, "inputNoiseLevel")
+        filter.setValue_forKey_(sharpness, "inputSharpness")
+        uncropped = filter.valueForKey_(Quartz.kCIOutputImageKey)
+        return self.__update_image(uncropped)
+
+    def pixellate(self, pixel_size: int = 8) -> 'XAImage':
+        image = Quartz.CIImage.imageWithData_(self.data)
+        filter = Quartz.CIFilter.filterWithName_("CIPixellate")
+        filter.setDefaults()
+        filter.setValue_forKey_(image, "inputImage")
+        filter.setValue_forKey_(pixel_size, "inputScale")
+        uncropped = filter.valueForKey_(Quartz.kCIOutputImageKey)
+        return self.__update_image(uncropped)
+
+    def outline(self, threshold: float = 0.1) -> 'XAImage':
+        image = Quartz.CIImage.imageWithData_(self.data)
+        filter = Quartz.CIFilter.filterWithName_("CILineOverlay")
+        filter.setDefaults()
+        filter.setValue_forKey_(image, "inputImage")
+        filter.setValue_forKey_(threshold, "inputThreshold")
+        uncropped = filter.valueForKey_(Quartz.kCIOutputImageKey)
+        return self.__update_image(uncropped)
+
+    def invert(self) -> 'XAImage':
+        image = Quartz.CIImage.imageWithData_(self.data)
+        filter = Quartz.CIFilter.filterWithName_("CIColorInvert")
+        filter.setDefaults()
+        filter.setValue_forKey_(image, "inputImage")
+        uncropped = filter.valueForKey_(Quartz.kCIOutputImageKey)
+        return self.__update_image(uncropped)
+    
+    def sepia(self, intensity: float = 1.0) -> 'XAImage':
+        image = Quartz.CIImage.imageWithData_(self.data)
+        filter = Quartz.CIFilter.filterWithName_("CISepiaTone")
+        filter.setDefaults()
+        filter.setValue_forKey_(image, "inputImage")
+        filter.setValue_forKey_(intensity, "inputIntensity")
+        uncropped = filter.valueForKey_(Quartz.kCIOutputImageKey)
+        return self.__update_image(uncropped)
+
+    def vignette(self, intensity: float = 0.0) -> 'XAImage':
+        image = Quartz.CIImage.imageWithData_(self.data)
+        filter = Quartz.CIFilter.filterWithName_("CIVignette")
+        filter.setDefaults()
+        filter.setValue_forKey_(image, "inputImage")
+        filter.setValue_forKey_(intensity, "inputIntensity")
+        uncropped = filter.valueForKey_(Quartz.kCIOutputImageKey)
+        return self.__update_image(uncropped)
+
+    def depth_of_filed(self, focal_region: Union[Tuple[Tuple[int, int], Tuple[int, int]], None] = None) -> 'XAImage':
+        if focal_region is None:
+            center_top = Quartz.CIVector.vectorWithX_Y_(self.size[0] / 2, self.size[1] / 4)
+            center_bottom = Quartz.CIVector.vectorWithX_Y_(self.size[0] / 2, self.size[1] / 4 * 3)
+            focal_region = (center_top, center_bottom)
+        else:
+            point1 = Quartz.CIVector.vectorWithX_Y_(focal_region[0])
+            point2 = Quartz.CIVector.vectorWithX_Y_(focal_region[1])
+            focal_region = (point1, point2)
+
+        image = Quartz.CIImage.imageWithData_(self.data)
+        filter = Quartz.CIFilter.filterWithName_("CIDepthOfField")
+        filter.setDefaults()
+        filter.setValue_forKey_(image, "inputImage")
+        filter.setValue_forKey_(focal_region[0], "inputPoint0")
+        filter.setValue_forKey_(focal_region[1], "inputPoint1")
+        uncropped = filter.valueForKey_(Quartz.kCIOutputImageKey)
+        return self.__update_image(uncropped)
+
+    def crystallize(self, crystal_size: float = 20.0) -> 'XAImage':
+        image = Quartz.CIImage.imageWithData_(self.data)
+        filter = Quartz.CIFilter.filterWithName_("CICrystallize")
+        filter.setDefaults()
+        filter.setValue_forKey_(image, "inputImage")
+        filter.setValue_forKey_(crystal_size, "inputRadius")
+        uncropped = filter.valueForKey_(Quartz.kCIOutputImageKey)
+        return self.__update_image(uncropped)
+
+    def comic(self) -> 'XAImage':
+        image = Quartz.CIImage.imageWithData_(self.data)
+        filter = Quartz.CIFilter.filterWithName_("CIComicEffect")
+        filter.setDefaults()
+        filter.setValue_forKey_(image, "inputImage")
+        uncropped = filter.valueForKey_(Quartz.kCIOutputImageKey)
+        return self.__update_image(uncropped)
+
+    def pointillize(self, point_size: float = 20.0) -> 'XAImage':
+        image = Quartz.CIImage.imageWithData_(self.data)
+        filter = Quartz.CIFilter.filterWithName_("CIPointillize")
+        filter.setDefaults()
+        filter.setValue_forKey_(image, "inputImage")
+        filter.setValue_forKey_(point_size, "inputRadius")
+        uncropped = filter.valueForKey_(Quartz.kCIOutputImageKey)
+        return self.__update_image(uncropped)
+
+    def bloom(self, intensity: float = 0.5) -> 'XAImage':
+        image = Quartz.CIImage.imageWithData_(self.data)
+        filter = Quartz.CIFilter.filterWithName_("CIBloom")
+        filter.setDefaults()
+        filter.setValue_forKey_(image, "inputImage")
+        filter.setValue_forKey_(intensity, "inputIntensity")
+        uncropped = filter.valueForKey_(Quartz.kCIOutputImageKey)
+        return self.__update_image(uncropped)
+
+    def monochrome(self, color: XAColor, intensity: float = 1.0) -> 'XAImage':
+        ci_color = Quartz.CIColor.alloc().initWithColor_(color.xa_elem)
+        image = Quartz.CIImage.imageWithData_(self.data)
+        filter = Quartz.CIFilter.filterWithName_("CIColorMonochrome")
+        filter.setDefaults()
+        filter.setValue_forKey_(image, "inputImage")
+        filter.setValue_forKey_(ci_color, "inputColor")
+        filter.setValue_forKey_(intensity, "inputIntensity")
+        uncropped = filter.valueForKey_(Quartz.kCIOutputImageKey)
+        return self.__update_image(uncropped)
+
+    def bump(self, center: Union[Tuple[int, int], None] = None, radius: float = 300.0, intensity: float = 0.5) -> 'XAImage':
+        if center is None:
+            center = Quartz.CIVector.vectorWithX_Y_(self.size[0] / 2, self.size[1] / 2)
+        else:
+            center = Quartz.CIVector.vectorWithX_Y_(center[0], center[1])
+
+        image = Quartz.CIImage.imageWithData_(self.data)
+        filter = Quartz.CIFilter.filterWithName_("CIBumpDistortion")
+        filter.setDefaults()
+        filter.setValue_forKey_(image, "inputImage")
+        filter.setValue_forKey_(center, "inputCenter")
+        filter.setValue_forKey_(radius, "inputRadius")
+        filter.setValue_forKey_(intensity, "inputScale")
+        uncropped = filter.valueForKey_(Quartz.kCIOutputImageKey)
+        return self.__update_image(uncropped)
+
+    def pinch(self, center: Union[Tuple[int, int], None] = None, scale: float = 0.5) -> 'XAImage':
+        if center is None:
+            center = Quartz.CIVector.vectorWithX_Y_(self.size[0] / 2, self.size[1] / 2)
+        else:
+            center = Quartz.CIVector.vectorWithX_Y_(center[0], center[1])
+
+        image = Quartz.CIImage.imageWithData_(self.data)
+        filter = Quartz.CIFilter.filterWithName_("CIPinchDistortion")
+        filter.setDefaults()
+        filter.setValue_forKey_(image, "inputImage")
+        filter.setValue_forKey_(center, "inputCenter")
+        filter.setValue_forKey_(scale, "inputScale")
+        uncropped = filter.valueForKey_(Quartz.kCIOutputImageKey)
+        return self.__update_image(uncropped)
+
+    def twirl(self, center: Union[Tuple[int, int], None] = None, radius: float = 300.0, angle: float = 3.14) -> 'XAImage':
+        if center is None:
+            center = Quartz.CIVector.vectorWithX_Y_(self.size[0] / 2, self.size[1] / 2)
+        else:
+            center = Quartz.CIVector.vectorWithX_Y_(center[0], center[1])
+
+        image = Quartz.CIImage.imageWithData_(self.data)
+        filter = Quartz.CIFilter.filterWithName_("CITwirlDistortion")
+        filter.setDefaults()
+        filter.setValue_forKey_(image, "inputImage")
+        filter.setValue_forKey_(center, "inputCenter")
+        filter.setValue_forKey_(radius, "inputRadius")
+        filter.setValue_forKey_(angle, "inputAngle")
+        uncropped = filter.valueForKey_(Quartz.kCIOutputImageKey)
+        return self.__update_image(uncropped)
 
     def extract_text(self) -> List[str]:
         """Extracts and returns all visible text in the image.
@@ -4568,7 +5389,7 @@ class XAImage(XAObject, XAClipboardCodable):
         .. versionadded:: 0.1.0
         """
         # Prepare CGImage
-        ci_image = Quartz.CIImage.imageWithContentsOfURL_(self.file.xa_elem)
+        ci_image = Quartz.CIImage.imageWithData_(self.data)
         context = Quartz.CIContext.alloc().initWithOptions_(None)
         img = context.createCGImage_fromRect_(ci_image, ci_image.extent())
 
@@ -4585,6 +5406,38 @@ class XAImage(XAObject, XAClipboardCodable):
         request_handler = Vision.VNImageRequestHandler.alloc().initWithCGImage_options_(img, None)
         request_handler.performRequests_error_([request], None)
         return extracted_strings
+
+    def show_in_preview(self):
+        """Opens the image in preview.
+
+        .. versionadded:: 0.0.8
+        """
+        if not self.modified and self.file is not None and isinstance(self.file, XAPath):
+            AppKit.NSWorkspace.sharedWorkspace().openFile_withApplication_(self.file.path, "Preview")
+        else:
+            tmp_file = tempfile.NamedTemporaryFile(suffix = self.name)
+            with open(tmp_file.name, 'wb') as f:
+                f.write(self.xa_elem.TIFFRepresentation())
+
+            img_url = XAPath(tmp_file.name).xa_elem
+            preview_url = XAPath("/System/Applications/Preview.app/").xa_elem
+            AppKit.NSWorkspace.sharedWorkspace().openURLs_withApplicationAtURL_configuration_completionHandler_([img_url], preview_url, None, None)
+            time.sleep(1)
+
+    def save(self, file_path: Union[XAPath, str, None] = None):
+        """Saves the image to a file of the disk. Saves to the original file (if there was one) by default.
+
+        :param file_path: The path at which to save the image file. Any existing file at that location will be overwritten, defaults to None
+        :type file_path: Union[XAPath, str, None]
+
+        .. versionadded:: 0.1.0
+        """
+        if file_path is None and self.file is not None:
+            file_path = self.file.path
+        elif isinstance(file_path, XAPath):
+            file_path = file_path.path
+        fm = AppKit.NSFileManager.defaultManager()
+        fm.createFileAtPath_contents_attributes_(file_path, self.data, None)
 
     def get_clipboard_representation(self) -> AppKit.NSImage:
         return self.xa_elem

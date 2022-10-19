@@ -1,14 +1,17 @@
 from datetime import datetime
 from enum import Enum
 from typing import Any, Callable, Tuple, Union, List, Dict
+from time import sleep, time
+from threading import Timer
 
 import AppKit
 import ScriptingBridge
+from PyObjCTools import AppHelper
 
 from PyXA import XABase
 from PyXA.XABase import OSType
 from PyXA import XABaseScriptable
-from ..XAEvents import event_from_int
+from ..XAEvents import event_from_int, event_from_str
 from ..XAProtocols import XACanOpenPath, XAClipboardCodable
 
 class XAImageEventsApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
@@ -88,7 +91,7 @@ class XAImageEventsApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         PHOTOSHOP   = XABase.OSType("8BPS")
         PICT        = XABase.OSType("PICT")
         PNG         = XABase.OSType("PNGf")
-        PSD         = XABase.OSType("pdf ")
+        PSD         = XABase.OSType("psd ")
         QUICKTIME   = XABase.OSType("qtif")
         SGI         = XABase.OSType(".SGI")
         TEXT        = XABase.OSType("TEXT")
@@ -165,428 +168,428 @@ class XAImageEventsApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         return self.xa_scel.version()
 
     @property
-    def application_support_folder(self) -> 'XAImageEventsFolder':
+    def application_support_folder(self) -> 'XABase.XAFolder':
         """The Application Support folder.
 
         .. versionadded:: 0.1.0
         """
-        return self.xa_scel.application_support_folder()
+        return self._new_element(self.xa_scel.applicationSupportFolder(), XABase.XAFolder)
 
     @property
-    def applications_folder(self) -> 'XAImageEventsFolder':
-        """The user's Applications folder
+    def applications_folder(self) -> 'XABase.XAFolder':
+        """The user's Applications folder.
 
         .. versionadded:: 0.1.0
         """
-        return self.xa_scel.applications_folder()
+        return self._new_element(self.xa_scel.applicationsFolder(), XABase.XAFolder)
 
     @property
-    def classic_domain(self) -> 'XAImageEventsClassicDomainObject':
-        """the collection of folders belonging to the Classic System
+    def classic_domain(self) -> 'XABase.XAClassicDomainObject':
+        """The collection of folders belonging to the Classic System.
 
         .. versionadded:: 0.1.0
         """
-        return self.xa_scel.classic_domain()
+        return self._new_element(self.xa_scel.classicDomain(), XABase.XAClassicDomainObject)
 
     @property
-    def desktop_folder(self) -> 'XAImageEventsFolder':
-        """The user's Desktop folder
+    def desktop_folder(self) -> 'XABase.XAFolder':
+        """The user's Desktop folder.
 
         .. versionadded:: 0.1.0
         """
-        return self.xa_scel.desktop_folder()
+        return self._new_element(self.xa_scel.desktopFolder(), XABase.XAFolder)
 
     @property
-    def desktop_pictures_folder(self) -> 'XAImageEventsFolder':
-        """The Desktop Pictures folder
+    def desktop_pictures_folder(self) -> 'XABase.XAFolder':
+        """The Desktop Pictures folder.
 
         .. versionadded:: 0.1.0
         """
-        return self.xa_scel.desktop_pictures_folder()
+        return self._new_element(self.xa_scel.desktopPicturesFolder(), XABase.XAFolder)
 
     @property
-    def documents_folder(self) -> 'XAImageEventsFolder':
-        """The user's Documents folder
+    def documents_folder(self) -> 'XABase.XAFolder':
+        """The user's Documents folder.
 
         .. versionadded:: 0.1.0
         """
-        return self.xa_scel.documents_folder()
+        return self._new_element(self.xa_scel.documentsFolder(), XABase.XAFolder)
 
     @property
-    def downloads_folder(self) -> 'XAImageEventsFolder':
-        """The user's Downloads folder
+    def downloads_folder(self) -> 'XABase.XAFolder':
+        """The user's Downloads folder.
 
         .. versionadded:: 0.1.0
         """
-        return self.xa_scel.downloads_folder()
+        return self._new_element(self.xa_scel.downloadsFolder(), XABase.XAFolder)
 
     @property
-    def favorites_folder(self) -> 'XAImageEventsFolder':
-        """The user's Favorites folder
+    def favorites_folder(self) -> 'XABase.XAFolder':
+        """The user's Favorites folder.
 
         .. versionadded:: 0.1.0
         """
-        return self.xa_scel.favorites_folder()
+        return self._new_element(self.xa_scel.favoritesFolder(), XABase.XAFolder)
 
     @property
-    def folder_action_scripts_folder(self) -> 'XAImageEventsFolder':
-        """The user's Folder Action Scripts folder
+    def folder_action_scripts_folder(self) -> 'XABase.XAFolder':
+        """The user's Folder Action Scripts folder.
 
         .. versionadded:: 0.1.0
         """
-        return self.xa_scel.folder_action_scripts_folder()
+        return self._new_element(self.xa_scel.folderActionScriptsFolder(), XABase.XAFolder)
 
     @property
-    def fonts_folder(self) -> 'XAImageEventsFolder':
-        """The Fonts folder
+    def fonts_folder(self) -> 'XABase.XAFolder':
+        """The Fonts folder.
 
         .. versionadded:: 0.1.0
         """
-        return self.xa_scel.fonts_folder()
+        return self._new_element(self.xa_scel.fontsFolder(), XABase.XAFolder)
 
     @property
-    def home_folder(self) -> 'XAImageEventsFolder':
-        """The Home folder of the currently logged in user
+    def home_folder(self) -> 'XABase.XAFolder':
+        """The Home folder of the currently logged in user.
 
         .. versionadded:: 0.1.0
         """
-        return self.xa_scel.home_folder()
+        return self._new_element(self.xa_scel.homeFolder(), XABase.XAFolder)
 
     @property
-    def library_folder(self) -> 'XAImageEventsFolder':
-        """The Library folder
+    def library_folder(self) -> 'XABase.XAFolder':
+        """The Library folder.
 
         .. versionadded:: 0.1.0
         """
-        return self.xa_scel.library_folder()
+        return self._new_element(self.xa_scel.libraryFolder(), XABase.XAFolder)
 
     @property
-    def local_domain(self) -> 'XAImageEventsLocalDomainObject':
-        """the collection of folders residing on the Local machine
+    def local_domain(self) -> 'XABase.XALocalDomainObject':
+        """The collection of folders residing on the Local machine.
 
         .. versionadded:: 0.1.0
         """
-        return self.xa_scel.local_domain()
+        return self._new_element(self.xa_scel.localDomain(), XABase.XALocalDomainObject)
 
     @property
-    def movies_folder(self) -> 'XAImageEventsFolder':
-        """The user's Movies folder
+    def movies_folder(self) -> 'XABase.XAFolder':
+        """The user's Movies folder.
 
         .. versionadded:: 0.1.0
         """
-        return self.xa_scel.movies_folder()
+        return self._new_element(self.xa_scel.moviesFolder(), XABase.XAFolder)
 
     @property
-    def music_folder(self) -> 'XAImageEventsFolder':
-        """The user's Music folder
+    def music_folder(self) -> 'XABase.XAFolder':
+        """The user's Music folder.
 
         .. versionadded:: 0.1.0
         """
-        return self.xa_scel.music_folder()
+        return self._new_element(self.xa_scel.musicFolder(), XABase.XAFolder)
 
     @property
-    def network_domain(self) -> 'XAImageEventsNetworkDomainObject':
-        """the collection of folders residing on the Network
+    def network_domain(self) -> 'XABase.XANetworkDomainObject':
+        """The collection of folders residing on the Network.
 
         .. versionadded:: 0.1.0
         """
-        return self.xa_scel.network_domain()
+        return self._new_element(self.xa_scel.networkDomain(), XABase.XANetworkDomainObject)
 
     @property
-    def pictures_folder(self) -> 'XAImageEventsFolder':
-        """The user's Pictures folder
+    def pictures_folder(self) -> 'XABase.XAFolder':
+        """The user's Pictures folder.
 
         .. versionadded:: 0.1.0
         """
-        return self.xa_scel.pictures_folder()
+        return self._new_element(self.xa_scel.picturesFolder(), XABase.XAFolder)
 
     @property
-    def preferences_folder(self) -> 'XAImageEventsFolder':
-        """The user's Preferences folder
+    def preferences_folder(self) -> 'XABase.XAFolder':
+        """The user's Preferences folder.
 
         .. versionadded:: 0.1.0
         """
-        return self.xa_scel.preferences_folder()
+        return self._new_element(self.xa_scel.preferencesFolder(), XABase.XAFolder)
 
     @property
-    def public_folder(self) -> 'XAImageEventsFolder':
-        """The user's Public folder
+    def public_folder(self) -> 'XABase.XAFolder':
+        """The user's Public folder.
 
         .. versionadded:: 0.1.0
         """
-        return self.xa_scel.public_folder()
+        return self._new_element(self.xa_scel.publicFolder(), XABase.XAFolder)
 
     @property
-    def scripting_additions_folder(self) -> 'XAImageEventsFolder':
-        """The Scripting Additions folder
+    def scripting_additions_folder(self) -> 'XABase.XAFolder':
+        """The Scripting Additions folder.
 
         .. versionadded:: 0.1.0
         """
-        return self.xa_scel.scripting_additions_folder()
+        return self._new_element(self.xa_scel.scriptingAdditionsFolder(), XABase.XAFolder)
 
     @property
-    def scripts_folder(self) -> 'XAImageEventsFolder':
-        """The user's Scripts folder
+    def scripts_folder(self) -> 'XABase.XAFolder':
+        """The user's Scripts folder.
 
         .. versionadded:: 0.1.0
         """
-        return self.xa_scel.scripts_folder()
+        return self._new_element(self.xa_scel.scriptsFolder(), XABase.XAFolder)
 
     @property
-    def shared_documents_folder(self) -> 'XAImageEventsFolder':
-        """The Shared Documents folder
+    def shared_documents_folder(self) -> 'XABase.XAFolder':
+        """The Shared Documents folder.
 
         .. versionadded:: 0.1.0
         """
-        return self.xa_scel.shared_documents_folder()
+        return self._new_element(self.xa_scel.sharedDocumentsFolder(), XABase.XAFolder)
 
     @property
-    def sites_folder(self) -> 'XAImageEventsFolder':
-        """The user's Sites folder
+    def sites_folder(self) -> 'XABase.XAFolder':
+        """The user's Sites folder.
 
         .. versionadded:: 0.1.0
         """
-        return self.xa_scel.sites_folder()
+        return self._new_element(self.xa_scel.sitesFolder(), XABase.XAFolder)
 
     @property
-    def speakable_items_folder(self) -> 'XAImageEventsFolder':
-        """The Speakable Items folder
+    def speakable_items_folder(self) -> 'XABase.XAFolder':
+        """The Speakable Items folder.
 
         .. versionadded:: 0.1.0
         """
-        return self.xa_scel.speakable_items_folder()
+        return self._new_element(self.xa_scel.speakableItemsFolder(), XABase.XAFolder)
 
     @property
-    def startup_disk(self) -> 'XAImageEventsDisk':
-        """the disk from which Mac OS X was loaded
+    def startup_disk(self) -> 'XABase.XADisk':
+        """The disk from which Mac OS X was loaded.
 
         .. versionadded:: 0.1.0
         """
-        return self.xa_scel.startup_disk()
+        return self._new_element(self.xa_scel.startupDisk(), XABase.XADisk)
 
     @property
-    def system_domain(self) -> 'XAImageEventsSystemDomainObject':
-        """the collection of folders belonging to the System
+    def system_domain(self) -> 'XABase.XASystemDomainObject':
+        """The collection of folders belonging to the System.
 
         .. versionadded:: 0.1.0
         """
-        return self.xa_scel.system_domain()
+        return self._new_element(self.xa_scel.systemDomain(), XABase.XASystemDomainObject)
 
     @property
-    def temporary_items_folder(self) -> 'XAImageEventsFolder':
-        """The Temporary Items folder
+    def temporary_items_folder(self) -> 'XABase.XAFolder':
+        """The Temporary Items folder.
 
         .. versionadded:: 0.1.0
         """
-        return self.xa_scel.temporary_items_folder()
+        return self._new_element(self.xa_scel.temporaryItemsFolder(), XABase.XAFolder)
 
     @property
-    def trash(self) -> 'XAImageEventsFolder':
-        """The user's Trash folder
+    def trash(self) -> 'XABase.XAFolder':
+        """The user's Trash folder.
 
         .. versionadded:: 0.1.0
         """
-        return self.xa_scel.trash()
+        return self._new_element(self.xa_scel.trash(), XABase.XAFolder)
 
     @property
-    def user_domain(self) -> 'XAImageEventsUserDomainObject':
-        """the collection of folders belonging to the User
+    def user_domain(self) -> 'XABase.XAUserDomainObject':
+        """The collection of folders belonging to the User.
 
         .. versionadded:: 0.1.0
         """
-        return self.xa_scel.user_domain()
+        return self._new_element(self.xa_scel.userDomain(), XABase.XAUserDomainObject)
 
     @property
-    def utilities_folder(self) -> 'XAImageEventsFolder':
-        """The Utilities folder
+    def utilities_folder(self) -> 'XABase.XAFolder':
+        """The Utilities folder.
 
         .. versionadded:: 0.1.0
         """
-        return self.xa_scel.utilities_folder()
+        return self._new_element(self.xa_scel.utilitiesFolder(), XABase.XAFolder)
 
     @property
-    def workflows_folder(self) -> 'XAImageEventsFolder':
-        """The Automator Workflows folder
+    def workflows_folder(self) -> 'XABase.XAFolder':
+        """The Automator Workflows folder.
 
         .. versionadded:: 0.1.0
         """
-        return self.xa_scel.workflows_folder()
+        return self._new_element(self.xa_scel.workflowsFolder(), XABase.XAFolder)
 
     @property
     def default_cmyk_profile(self) -> 'XAImageEventsProfile':
-        """the default CMYK profile
+        """The default CMYK profile.
 
         .. versionadded:: 0.1.0
         """
-        return self.xa_scel.default_cmyk_profile()
+        return self._new_element(self.xa_scel.defaultCMYKProfile(), XAImageEventsProfile)
 
     @property
-    def default_cmyk_profile_location(self) -> 'XAImageEventsFile':
-        """the default CMYK profile location
+    def default_cmyk_profile_location(self) -> 'XABase.XAFile':
+        """The default CMYK profile location.
 
         .. versionadded:: 0.1.0
         """
-        return self.xa_scel.default_cmyk_profile_location()
+        return self._new_element(self.xa_scel.defaultCMYKProfileLocation(), XABase.XAFile)
 
     @property
     def default_gray_profile(self) -> 'XAImageEventsProfile':
-        """the default Gray profile
+        """The default Gray profile.
 
         .. versionadded:: 0.1.0
         """
-        return self.xa_scel.default_gray_profile()
+        return self._new_element(self.xa_scel.defaultGrayProfile(), XAImageEventsProfile)
 
     @property
-    def default_gray_profile_location(self) -> 'XAImageEventsFile':
-        """the default Gray profile location
+    def default_gray_profile_location(self) -> 'XABase.XAFile':
+        """The default Gray profile location.
 
         .. versionadded:: 0.1.0
         """
-        return self.xa_scel.default_gray_profile_location()
+        return self._new_element(self.xa_scel.defaultGrayProfileLocation(), XABase.XAFile)
 
     @property
     def default_lab_profile(self) -> 'XAImageEventsProfile':
-        """the default Lab profile
+        """The default Lab profile.
 
         .. versionadded:: 0.1.0
         """
-        return self.xa_scel.default_lab_profile()
+        return self._new_element(self.xa_scel.defaultLabProfile(), XAImageEventsProfile)
 
     @property
-    def default_lab_profile_location(self) -> 'XAImageEventsFile':
-        """the default Lab profile location
+    def default_lab_profile_location(self) -> 'XABase.XAFile':
+        """The default Lab profile location.
 
         .. versionadded:: 0.1.0
         """
-        return self.xa_scel.default_lab_profile_location()
+        return self._new_element(self.xa_scel.defaultLabProfileLocation(), XABase.XAFile)
 
     @property
     def default_rgb_profile(self) -> 'XAImageEventsProfile':
-        """the default RGB profile
+        """The default RGB profile.
 
         .. versionadded:: 0.1.0
         """
-        return self.xa_scel.default_rgb_profile()
+        return self._new_element(self.xa_scel.defaultRGBProfile(), XAImageEventsProfile)
 
     @property
-    def default_rgb_profile_location(self) -> 'XAImageEventsFile':
-        """the default RGB profile location
+    def default_rgb_profile_location(self) -> 'XABase.XAFile':
+        """The default RGB profile location.
 
         .. versionadded:: 0.1.0
         """
-        return self.xa_scel.default_rgb_profile_location()
+        return self._new_element(self.xa_scel.defaultRGBProfileLocation(), XABase.XAFile)
 
     @property
     def default_xyz_profile(self) -> 'XAImageEventsProfile':
-        """the default XYZ profile
+        """The default XYZ profile.
 
         .. versionadded:: 0.1.0
         """
-        return self.xa_scel.default_xyz_profile()
+        return self._new_element(self.xa_scel.defaultXYZProfile(), XAImageEventsProfile)
 
     @property
-    def default_xyz_profile_location(self) -> 'XAImageEventsFile':
-        """the default XYZ profile location
+    def default_xyz_profile_location(self) -> 'XABase.XAFile':
+        """The default XYZ profile location.
 
         .. versionadded:: 0.1.0
         """
-        return self.xa_scel.default_xyz_profile_location()
+        return self._new_element(self.xa_scel.defaultXYZProfileLocation(), XABase.XAFile)
 
     @property
     def preferred_cmm(self) -> 'str':
-        """specifies preferred Color Management Module to use, or "automatic"
+        """Specifies preferred Color Management Module to use, or "automatic".
 
         .. versionadded:: 0.1.0
         """
-        return self.xa_scel.preferred_cmm()
+        return self.xa_scel.preferredCMM()
 
     @property
-    def profile_folder(self) -> 'XAImageEventsAlias':
-        """the ColorSync profile folder
+    def profile_folder(self) -> 'XABase.XAAlias':
+        """The ColorSync profile folder.
 
         .. versionadded:: 0.1.0
         """
-        return self.xa_scel.profile_folder()
+        return self._new_element(self.xa_scel.profileFolder(), XABase.XAAlias)
 
     @property
     def quit_delay(self) -> 'int':
-        """the time in seconds the application will idle before quitting; if set to zero, idle time will not cause the application to quit
+        """The time in seconds the application will idle before quitting; if set to zero, idle time will not cause the application to quit.
 
         .. versionadded:: 0.1.0
         """
-        return self.xa_scel.quit_delay()
+        return self.xa_scel.quitDelay()
 
     @property
     def system_profile(self) -> 'XAImageEventsProfile':
-        """the default system profile
+        """The default system profile.
 
         .. versionadded:: 0.1.0
         """
-        return self.xa_scel.system_profile()
+        return self._new_element(self.xa_scel.systemProfile(), XAImageEventsProfile)
 
     @property
-    def system_profile_location(self) -> 'XAImageEventsFile':
-        """the default system profile location
+    def system_profile_location(self) -> 'XABase.XAFile':
+        """The default system profile location.
 
         .. versionadded:: 0.1.0
         """
-        return self.xa_scel.system_profile_location()
+        return self._new_element(self.xa_scel.systemProfileLocation(), XABase.XAFile)
 
-    def aliases(self, filter: Union[dict, None] = None) -> 'XAImageEventsAliasList':
+    def aliases(self, filter: Union[dict, None] = None) -> 'XABase.XAAliasList':
         """Returns a list of aliases, as PyXA objects, matching the given filter.
 
         .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_scel.aliases(), XAImageEventsAliasList, filter)
+        return self._new_element(self.xa_scel.aliases(), XABase.XAAliasList, filter)
 
-    def disks(self, filter: Union[dict, None] = None) -> 'XAImageEventsDiskList':
+    def disks(self, filter: Union[dict, None] = None) -> 'XABase.XADiskList':
         """Returns a list of disks, as PyXA objects, matching the given filter.
 
         .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_scel.disks(), XAImageEventsDiskList, filter)
+        return self._new_element(self.xa_scel.disks(), XABase.XADiskList, filter)
 
-    def disk_items(self, filter: Union[dict, None] = None) -> 'XAImageEventsDiskItemList':
+    def disk_items(self, filter: Union[dict, None] = None) -> 'XABase.XADiskItemList':
         """Returns a list of disk items, as PyXA objects, matching the given filter.
 
         .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_scel.diskItems(), XAImageEventsDiskItemList, filter)
+        return self._new_element(self.xa_scel.diskItems(), XABase.XADiskItemList, filter)
 
-    def domains(self, filter: Union[dict, None] = None) -> 'XAImageEventsDomainList':
+    def domains(self, filter: Union[dict, None] = None) -> 'XABase.XADomainList':
         """Returns a list of domains, as PyXA objects, matching the given filter.
 
         .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_scel.domains(), XAImageEventsDomainList, filter)
+        return self._new_element(self.xa_scel.domains(), XABase.XADomainList, filter)
 
-    def files(self, filter: Union[dict, None] = None) -> 'XAImageEventsFileList':
+    def files(self, filter: Union[dict, None] = None) -> 'XABase.XAFileList':
         """Returns a list of files, as PyXA objects, matching the given filter.
 
         .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_scel.files(), XAImageEventsFileList, filter)
+        return self._new_element(self.xa_scel.files(), XABase.XAFileList, filter)
 
-    def file_packages(self, filter: Union[dict, None] = None) -> 'XAImageEventsFilePackageList':
+    def file_packages(self, filter: Union[dict, None] = None) -> 'XABase.XAFilePackageList':
         """Returns a list of file packages, as PyXA objects, matching the given filter.
 
         .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_scel.filePackages(), XAImageEventsFilePackageList, filter)
+        return self._new_element(self.xa_scel.filePackages(), XABase.XAFilePackageList, filter)
 
-    def folders(self, filter: Union[dict, None] = None) -> 'XAImageEventsFolderList':
+    def folders(self, filter: Union[dict, None] = None) -> 'XABase.XAFolderList':
         """Returns a list of folders, as PyXA objects, matching the given filter.
 
         .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_scel.folders(), XAImageEventsFolderList, filter)
+        return self._new_element(self.xa_scel.folders(), XABase.XAFolderList, filter)
 
-    def items(self, filter: Union[dict, None] = None) -> 'XAImageEventsDiskItemList':
+    def items(self, filter: Union[dict, None] = None) -> 'XABase.XADiskItemList':
         """Returns a list of items, as PyXA objects, matching the given filter.
 
         .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_scel.items(), XAImageEventsDiskItemList, filter)
+        return self._new_element(self.xa_scel.items(), XABase.XADiskItemList, filter)
 
     def displays(self, filter: Union[dict, None] = None) -> 'XAImageEventsDisplayList':
         """Returns a list of displays, as PyXA objects, matching the given filter.
@@ -631,1658 +634,10 @@ class XAImageEventsApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         # Open a single path
         if isinstance(paths[0], str):
             paths = XABase.XAPath(paths[0])
+        else:
+            paths = paths[0]
         file = self.xa_scel.open_(paths.xa_elem)
         return self._new_element(file, XAImageEventsImage)
-
-
-
-
-class XAImageEventsDiskItemList(XABase.XAList):
-    """A wrapper around lists of disk items that employs fast enumeration techniques.
-
-    All properties of disk items can be called as methods on the wrapped list, returning a list containing each item's value for the property.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None, object_class = None):
-        if object_class is None:
-            object_class = XAImageEventsDiskItem
-        super().__init__(properties, object_class, filter)
-
-    def busy_status(self) -> List['bool']:
-        """Retrieves the busy status of each disk item in the list.
-
-        .. versionadded:: 0.1.0
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("busyStatus"))
-
-    def container(self) -> 'XAImageEventsDiskItemList':
-        """Retrieves the containing folder or disk of each disk item in the list.
-
-        .. versionadded:: 0.1.0
-        """
-        ls = self.xa_elem.arrayByApplyingSelector_("container")
-        return self._new_element(ls, XAImageEventsDiskItemList)
-
-    def creation_date(self) -> List['datetime']:
-        """Retrieves the creation date of each disk item in the list.
-
-        .. versionadded:: 0.1.0
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("creationDate"))
-
-    def displayed_name(self) -> List['str']:
-        """Retrieves the displayed name of each disk item in the list.
-
-        .. versionadded:: 0.1.0
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("displayedName"))
-
-    def id(self) -> List['str']:
-        """Retrieves the unique ID of each disk item in the list.
-
-        .. versionadded:: 0.1.0
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("id"))
-
-    def modification_date(self) -> List['datetime']:
-        """Retrieves the last modified date of each disk item in the list.
-
-        .. versionadded:: 0.1.0
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("modificationDate"))
-
-    def name(self) -> List['str']:
-        """Retrieves the name of each disk item in the list.
-
-        .. versionadded:: 0.1.0
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("name"))
-
-    def name_extension(self) -> List['str']:
-        """Retrieves the name extension of each disk item in the list.
-
-        .. versionadded:: 0.1.0
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("nameExtension"))
-
-    def package_folder(self) -> List['bool']:
-        """Retrieves the package folder status of each disk item in the list.
-
-        .. versionadded:: 0.1.0
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("packageFolder"))
-
-    def path(self) -> List['XABase.XAPath']:
-        """Retrieves the file system path of each disk item in the list.
-
-        .. versionadded:: 0.1.0
-        """
-        ls = self.xa_elem.arrayByApplyingSelector_("path")
-        return [XABase.XAPath(x) for x in ls]
-
-    def physical_size(self) -> List['int']:
-        """Retrieves the actual disk space used by each disk item in the list.
-
-        .. versionadded:: 0.1.0
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("physicalSize"))
-
-    def posix_path(self) -> List['str']:
-        """Retrieves the POSIX file system path of each disk item in the list.
-
-        .. versionadded:: 0.1.0
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("posixPath"))
-
-    def size(self) -> List['int']:
-        """Retrieves the logical size of each disk item in the list.
-
-        .. versionadded:: 0.1.0
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("size"))
-
-    def url(self) -> List['XABase.XAURL']:
-        """Retrieves the URL of each disk item in the list.
-
-        .. versionadded:: 0.1.0
-        """
-        ls = self.xa_elem.arrayByApplyingSelector_("URL")
-        return [XABase.XAURL(x) for x in ls]
-
-    def visible(self) -> List['bool']:
-        """Retrieves the visible status of each item in the list.
-
-        .. versionadded:: 0.1.0
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("visible"))
-
-    def volume(self) -> List['str']:
-        """Retrieves the volume on which each item in the list resides.
-
-        .. versionadded:: 0.1.0
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("volume"))
-
-    def by_busy_status(self, busy_status: bool) -> 'XAImageEventsDiskItem':
-        """Retrieves item whose busy status matches the given boolean value.
-
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("busyStatus", busy_status)
-
-    def by_container(self, container: 'XAImageEventsDiskItem') -> 'XAImageEventsDiskItem':
-        """Retrieves item whose container matches the given disk item.
-
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("container", container.xa_elem)
-
-    def by_creation_date(self, creation_date: datetime) -> 'XAImageEventsDiskItem':
-        """Retrieves item whose creation date matches the given date.
-
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("creationDate", creation_date)
-
-    def by_displayed_name(self, displayed_name: str) -> 'XAImageEventsDiskItem':
-        """Retrieves item whose displayed name matches the given name.
-
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("displayedName", displayed_name)
-
-    def by_id(self, id: str) -> 'XAImageEventsDiskItem':
-        """Retrieves item whose ID matches the given ID.
-
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("id", id)
-
-    def by_modification_date(self, modification_date: datetime) -> 'XAImageEventsDiskItem':
-        """Retrieves item whose date matches the given date.
-
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("modificationDate", modification_date)
-
-    def by_name(self, name: str) -> 'XAImageEventsDiskItem':
-        """Retrieves item whose name matches the given name.
-
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("name", name)
-
-    def by_name_extension(self, name_extension: str) -> 'XAImageEventsDiskItem':
-        """Retrieves item whose name extension matches the given extension.
-
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("nameExtension", name_extension)
-
-    def by_package_folder(self, package_folder: bool) -> 'XAImageEventsDiskItem':
-        """Retrieves item whose package folder status matches the given boolean value.
-
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("packageFolder", package_folder)
-
-    def by_path(self, path: Union[XABase.XAPath, str]) -> 'XAImageEventsDiskItem':
-        """Retrieves item whose path matches the given path.
-
-        .. versionadded:: 0.1.0
-        """
-        if isinstance(path, XABase.XAPath):
-            path = path.path
-        return self.by_property("path", path)
-
-    def by_physical_size(self, physical_size: int) -> 'XAImageEventsDiskItem':
-        """Retrieves item whose physical size matches the given size.
-
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("physicalSize", physical_size)
-
-    def by_posix_path(self, posix_path: str) -> 'XAImageEventsDiskItem':
-        """Retrieves item whose POSIX path matches the given POSIX path.
-
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("posixPath", posix_path)
-
-    def by_size(self, size: int) -> 'XAImageEventsDiskItem':
-        """Retrieves item whose size matches the given size.
-
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("size", size)
-
-    def by_url(self, url: XABase.XAURL) -> 'XAImageEventsDiskItem':
-        """Retrieves the item whose URL matches the given URL.
-
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("URL", url.xa_elem)
-
-    def by_visible(self, visible: bool) -> 'XAImageEventsDiskItem':
-        """Retrieves the item whose visible status matches the given boolean value.
-
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("visible", visible)
-
-    def by_volume(self, volume: str) -> 'XAImageEventsDiskItem':
-        """Retrieves the item whose volume matches the given volume.
-
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("volume", volume)
-
-    def __repr__(self):
-        return "<" + str(type(self)) + str(self.name()) + ">"
-
-class XAImageEventsDiskItem(XABase.XAObject):
-    """An item stored in the file system.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties):
-        super().__init__(properties)
-
-    @property
-    def busy_status(self) -> 'bool':
-        """Whether the disk item is busy.
-
-        .. versionadded:: 0.1.0
-        """
-        return self.xa_elem.busyStatus()
-
-    @property
-    def container(self) -> 'XAImageEventsDiskItem':
-        """The folder or disk which has this disk item as an element.
-
-        .. versionadded:: 0.1.0
-        """
-        return self._new_element(self.xa_elem.container(), XAImageEventsDiskItem)
-
-    @property
-    def creation_date(self) -> 'datetime':
-        """The date on which the disk item was created.
-
-        .. versionadded:: 0.1.0
-        """
-        return self.xa_elem.creationDate()
-
-    @property
-    def displayed_name(self) -> 'str':
-        """The name of the disk item as displayed in the User Interface.
-
-        .. versionadded:: 0.1.0
-        """
-        return self.xa_elem.displayedName()
-
-    @property
-    def id(self) -> 'str':
-        """The unique ID of the disk item.
-
-        .. versionadded:: 0.1.0
-        """
-        return self.xa_elem.id()
-
-    @property
-    def modification_date(self) -> 'datetime':
-        """The date on which the disk item was last modified.
-
-        .. versionadded:: 0.1.0
-        """
-        return self.xa_elem.modificationDate()
-
-    @property
-    def name(self) -> 'str':
-        """The name of the disk item.
-
-        .. versionadded:: 0.1.0
-        """
-        return self.xa_elem.name()
-
-    @property
-    def name_extension(self) -> 'str':
-        """The extension portion of the name.
-
-        .. versionadded:: 0.1.0
-        """
-        return self.xa_elem.nameExtension()
-
-    @property
-    def package_folder(self) -> 'bool':
-        """Whether the disk item is a package.
-
-        .. versionadded:: 0.1.0
-        """
-        return self.xa_elem.packageFolder()
-
-    @property
-    def path(self) -> 'XABase.XAPath':
-        """The file system path of the disk item.
-
-        .. versionadded:: 0.1.0
-        """
-        return XABase.XAPath(self.xa_elem.path())
-
-    @property
-    def physical_size(self) -> 'int':
-        """The actual space used by the disk item on disk.
-
-        .. versionadded:: 0.1.0
-        """
-        return self.xa_elem.physicalSize()
-
-    @property
-    def posix_path(self) -> 'str':
-        """The POSIX file system path of the disk item.
-
-        .. versionadded:: 0.1.0
-        """
-        return self.xa_elem.posixPath()
-
-    @property
-    def size(self) -> 'int':
-        """The logical size of the disk item.
-
-        .. versionadded:: 0.1.0
-        """
-        return self.xa_elem.size()
-
-    @property
-    def url(self) -> 'XABase.XAURL':
-        """The URL of the disk item.
-
-        .. versionadded:: 0.1.0
-        """
-        return XABase.XAURL(self.xa_elem.URL())
-
-    @property
-    def visible(self) -> 'bool':
-        """Whether the disk item is visible.
-
-        .. versionadded:: 0.1.0
-        """
-        return self.xa_elem.visible()
-
-    @property
-    def volume(self) -> 'str':
-        """The volume on which the disk item resides.
-
-        .. versionadded:: 0.1.0
-        """
-        return self.xa_elem.volume()
-
-    def __repr__(self):
-        return "<" + str(type(self)) + str(self.name) + ">"
-
-
-
-
-class XAImageEventsAliasList(XAImageEventsDiskItemList):
-    """A wrapper around lists of aliases that employs fast enumeration techniques.
-
-    All properties of aliases can be called as methods on the wrapped list, returning a list containing each alias' value for the property.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, filter, XAImageEventsAlias)
-
-    def creator_type(self) -> List['str']:
-        """Retrieves the OSType identifying the application that created each alias in the list
-
-        .. versionadded:: 0.1.0
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("creatorType"))
-
-    def default_application(self) -> 'XAImageEventsDiskItemList':
-        """Retrieves the applications that will launch if each alias in the list is opened.
-
-        .. versionadded:: 0.1.0
-        """
-        ls = self.xa_elem.arrayByApplyingSelector_("defaultApplication")
-        return self._new_element(ls, XAImageEventsDiskItemList)
-
-    def file_type(self) -> List['str']:
-        """Retrieves the OSType identifying the type of data contained in each alias in the list.
-
-        .. versionadded:: 0.1.0
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("fileType"))
-
-    def kind(self) -> List['str']:
-        """Retrieves the kind of each alias in the list.
-
-        .. versionadded:: 0.1.0
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("kind"))
-
-    def product_version(self) -> List['str']:
-        """Retrieves the product version of each alias in the list.
-
-        .. versionadded:: 0.1.0
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("productVersion"))
-
-    def short_version(self) -> List['str']:
-        """Retrieves the short version of the application bundle referenced by each alias in the list.
-
-        .. versionadded:: 0.1.0
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("shortVersion"))
-
-    def stationery(self) -> List['bool']:
-        """Retrieves the stationery status of each alias in the list.
-
-        .. versionadded:: 0.1.0
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("stationery"))
-
-    def type_identifier(self) -> List['str']:
-        """Retrieves the type identifier of each alias in the list.
-
-        .. versionadded:: 0.1.0
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("typeIdentifier"))
-
-    def version(self) -> List['str']:
-        """Retrieves the version of the application bundle referenced by each alias in the list.
-
-        .. versionadded:: 0.1.0
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("version"))
-
-    def by_creator_type(self, creator_type: str) -> 'XAImageEventsAlias':
-        """Retrieves the alias whose creator type matches the given creator type.
-
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("creatorType", creator_type)
-
-    def by_default_application(self, default_application: 'XAImageEventsDiskItem') -> 'XAImageEventsAlias':
-        """Retrieves the alias whose default application matches the given application.
-
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("defaultApplication", default_application.xa_elem)
-
-    def by_file_type(self, file_type: str) -> 'XAImageEventsAlias':
-        """Retrieves the alias whose file type matches the given file type.
-
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("fileType", file_type)
-
-    def by_kind(self, kind: str) -> 'XAImageEventsAlias':
-        """Retrieves the alias whose kind matches the given kind.
-
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("kind", kind)
-
-    def by_product_version(self, product_version: str) -> 'XAImageEventsAlias':
-        """Retrieves the alias whose product version matches the given version.
-
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("productVersion", product_version)
-
-    def by_short_version(self, short_version: str) -> 'XAImageEventsAlias':
-        """Retrieves the alias whose short version matches the given text.
-
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("shortVersion", short_version)
-
-    def by_stationery(self, stationery: bool) -> 'XAImageEventsAlias':
-        """Retrieves the alias whose stationery status matches the given boolean value.
-
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("stationery", stationery)
-
-    def by_type_identifier(self, type_identifier: str) -> 'XAImageEventsAlias':
-        """Retrieves the alias whose type identifier matches the given type identifier.
-
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("typeIdentifier", type_identifier)
-
-    def by_version(self, version: str) -> 'XAImageEventsAlias':
-        """Retrieves the alias whose version matches the given version.
-
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("version", version)
-
-class XAImageEventsAlias(XAImageEventsDiskItem):
-    """An alias in the file system.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties):
-        super().__init__(properties)
-
-    @property
-    def creator_type(self) -> 'str':
-        """The OSType identifying the application that created the alias.
-
-        .. versionadded:: 0.1.0
-        """
-        return self.xa_elem.creatorType()
-
-    @property
-    def default_application(self) -> 'XAImageEventsDiskItem':
-        """The application that will launch if the alias is opened.
-
-        .. versionadded:: 0.1.0
-        """
-        return self._new_element(self.xa_elem.defaultApplication(), XAImageEventsDiskItem)
-
-    @property
-    def file_type(self) -> 'str':
-        """The OSType identifying the type of data contained in the alias.
-
-        .. versionadded:: 0.1.0
-        """
-        return self.xa_elem.fileType()
-
-    @property
-    def kind(self) -> 'str':
-        """The kind of alias, as shown in Finder.
-
-        .. versionadded:: 0.1.0
-        """
-        return self.xa_elem.kind()
-
-    @property
-    def product_version(self) -> 'str':
-        """The version of the product (visible at the top of the "Get Info" window).
-
-        .. versionadded:: 0.1.0
-        """
-        return self.xa_elem.productVersion()
-
-    @property
-    def short_version(self) -> 'str':
-        """The short version of the application bundle referenced by the alias.
-
-        .. versionadded:: 0.1.0
-        """
-        return self.xa_elem.shortVersion()
-
-    @property
-    def stationery(self) -> 'bool':
-        """Whether the alias is a stationery pad.
-
-        .. versionadded:: 0.1.0
-        """
-        return self.xa_elem.stationery()
-
-    @property
-    def type_identifier(self) -> 'str':
-        """The type identifier of the alias.
-
-        .. versionadded:: 0.1.0
-        """
-        return self.xa_elem.typeIdentifier()
-
-    @property
-    def version(self) -> 'str':
-        """The version of the application bundle referenced by the alias (visible at the bottom of the "Get Info" window).
-
-        .. versionadded:: 0.1.0
-        """
-        return self.xa_elem.version()
-
-    def aliases(self, filter: Union[dict, None] = None) -> 'XAImageEventsAliasList':
-        """Returns a list of aliases, as PyXA objects, matching the given filter.
-
-        .. versionadded:: 0.1.0
-        """
-        self._new_element(self.xa_elem.aliases(), XAImageEventsAliasList, filter)
-
-    def disk_items(self, filter: Union[dict, None] = None) -> 'XAImageEventsDiskItemList':
-        """Returns a list of disk items, as PyXA objects, matching the given filter.
-
-        .. versionadded:: 0.1.0
-        """
-        self._new_element(self.xa_elem.diskItems(), XAImageEventsDiskItemList, filter)
-
-    def files(self, filter: Union[dict, None] = None) -> 'XAImageEventsFileList':
-        """Returns a list of files, as PyXA objects, matching the given filter.
-
-        .. versionadded:: 0.1.0
-        """
-        self._new_element(self.xa_elem.files(), XAImageEventsFileList, filter)
-
-    def file_packages(self, filter: Union[dict, None] = None) -> 'XAImageEventsFilePackageList':
-        """Returns a list of file packages, as PyXA objects, matching the given filter.
-
-        .. versionadded:: 0.1.0
-        """
-        self._new_element(self.xa_elem.filePackages(), XAImageEventsFilePackageList, filter)
-
-    def folders(self, filter: Union[dict, None] = None) -> 'XAImageEventsFolderList':
-        """Returns a list of folders, as PyXA objects, matching the given filter.
-
-        .. versionadded:: 0.1.0
-        """
-        self._new_element(self.xa_elem.folders(), XAImageEventsFolderList, filter)
-
-
-
-
-class XAImageEventsDiskList(XAImageEventsDiskItemList):
-    """A wrapper around lists of disks that employs fast enumeration techniques.
-
-    All properties of disks can be called as methods on the wrapped list, returning a list containing each disk's value for the property.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, filter, XAImageEventsDisk)
-
-    def capacity(self) -> List['float']:
-        """Retrieves the total number of bytes (free or used) on each disk in the list.
-
-        .. versionadded:: 0.1.0
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("capacity"))
-
-    def ejectable(self) -> List['bool']:
-        """Retrieves the ejectable status of each disk in the list.
-
-        .. versionadded:: 0.1.0
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("ejectable"))
-
-    def format(self) -> List['XAImageEventsApplication.Format']:
-        """Retrieves the file system format of each disk in the list.
-
-        .. versionadded:: 0.1.0
-        """
-        ls = self.xa_elem.arrayByApplyingSelector_("format")
-        return [XAImageEventsApplication.Format(XABase.OSType(x.stringValue())) for x in ls]
-
-    def free_space(self) -> List['float']:
-        """Retrieves the number of free bytes left on each disk in the list.
-
-        .. versionadded:: 0.1.0
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("freeSpace"))
-
-    def ignore_privileges(self) -> List['bool']:
-        """Retrieves the ignore privileges status for each disk in the list.
-
-        .. versionadded:: 0.1.0
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("ignorePrivileges"))
-
-    def local_volume(self) -> List['bool']:
-        """Retrieves the local volume status for each disk in the list.
-
-        .. versionadded:: 0.1.0
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("localVolume"))
-
-    def server(self) -> List['str']:
-        """Retrieves the server on which each disk in the list resides, AFP volumes only.
-
-        .. versionadded:: 0.1.0
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("server"))
-
-    def startup(self) -> List['bool']:
-        """Retrieves the startup disk status of each disk in the list.
-
-        .. versionadded:: 0.1.0
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("startup"))
-
-    def zone(self) -> List['str']:
-        """Retrieves the zone in which each disk's server resides, AFP volumes only.
-
-        .. versionadded:: 0.1.0
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("zone"))
-
-    def by_capacity(self, capacity: float) -> 'XAImageEventsDisk':
-        """Retrieves the disk whose capacity matches the given capacity.
-
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("capacity", capacity)
-
-    def by_ejectable(self, ejectable: bool) -> 'XAImageEventsDisk':
-        """Retrieves the disk whose ejectable status matches the given boolean value.
-
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("ejectable", ejectable)
-
-    def by_format(self, format: XAImageEventsApplication.Format) -> 'XAImageEventsDisk':
-        """Retrieves the disk whose format matches the given format.
-
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("format", format.value)
-
-    def by_free_space(self, free_space: float) -> 'XAImageEventsDisk':
-        """Retrieves the disk whose free space matches the given amount.
-
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("freeSpace", free_space)
-
-    def by_ignore_privileges(self, ignore_privileges: bool) -> 'XAImageEventsDisk':
-        """Retrieves the disk whose ignore privileges status matches the given boolean value.
-
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("ignorePrivileges", ignore_privileges)
-
-    def by_local_volume(self, local_volume: bool) -> 'XAImageEventsDisk':
-        """Retrieves the disk whose local volume status matches the given boolean value.
-
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("localVolume", local_volume)
-
-    def by_server(self, server: str) -> 'XAImageEventsDisk':
-        """Retrieves the disk whose server matches the given server.
-
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("server", server)
-
-    def by_startup(self, startup: bool) -> 'XAImageEventsDisk':
-        """Retrieves the disk whose startup status matches the given boolean value.
-
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("startup", startup)
-
-    def by_zone(self, zone: str) -> 'XAImageEventsDisk':
-        """Retrieves the disk whose zone matches the given zone.
-
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("zone", zone)
-
-class XAImageEventsDisk(XAImageEventsDiskItem):
-    """A disk in the file system.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties):
-        super().__init__(properties)
-
-    @property
-    def capacity(self) -> 'float':
-        """The total number of bytes (free or used) on the disk.
-
-        .. versionadded:: 0.1.0
-        """
-        return self.xa_elem.capacity()
-
-    @property
-    def ejectable(self) -> 'bool':
-        """Whether the media can be ejected (floppies, CD's, and so on).
-
-        .. versionadded:: 0.1.0
-        """
-        return self.xa_elem.ejectable()
-
-    @property
-    def format(self) -> 'XAImageEventsApplication.Format':
-        """The file system format of the disk.
-
-        .. versionadded:: 0.1.0
-        """
-        return XAImageEventsApplication.Format(self.xa_elem.format())
-
-    @property
-    def free_space(self) -> 'float':
-        """The number of free bytes left on the disk.
-
-        .. versionadded:: 0.1.0
-        """
-        return self.xa_elem.freeSpace()
-
-    @property
-    def ignore_privileges(self) -> 'bool':
-        """Whether to ignore permissions on this disk.
-
-        .. versionadded:: 0.1.0
-        """
-        return self.xa_elem.ignorePrivileges()
-
-    @property
-    def local_volume(self) -> 'bool':
-        """Whether the media is a local volume (as opposed to a file server).
-
-        .. versionadded:: 0.1.0
-        """
-        return self.xa_elem.localVolume()
-
-    @property
-    def server(self) -> 'str':
-        """The server on which the disk resides, AFP volumes only.
-
-        .. versionadded:: 0.1.0
-        """
-        return self.xa_elem.server()
-
-    @property
-    def startup(self) -> 'bool':
-        """Whether this disk is the boot disk.
-
-        .. versionadded:: 0.1.0
-        """
-        return self.xa_elem.startup()
-
-    @property
-    def zone(self) -> 'str':
-        """The zone in which the disk's server resides, AFP volumes only.
-
-        .. versionadded:: 0.1.0
-        """
-        return self.xa_elem.zone()
-
-    def aliases(self, filter: Union[dict, None] = None) -> 'XAImageEventsAliasList':
-        """Returns a list of aliases, as PyXA objects, matching the given filter.
-
-        .. versionadded:: 0.1.0
-        """
-        self._new_element(self.xa_elem.aliases(), XAImageEventsAliasList, filter)
-
-    def disk_items(self, filter: Union[dict, None] = None) -> 'XAImageEventsDiskItemList':
-        """Returns a list of disk items, as PyXA objects, matching the given filter.
-
-        .. versionadded:: 0.1.0
-        """
-        self._new_element(self.xa_elem.diskItems(), XAImageEventsDiskItemList, filter)
-
-    def files(self, filter: Union[dict, None] = None) -> 'XAImageEventsFileList':
-        """Returns a list of files, as PyXA objects, matching the given filter.
-
-        .. versionadded:: 0.1.0
-        """
-        self._new_element(self.xa_elem.files(), XAImageEventsFileList, filter)
-
-    def file_packages(self, filter: Union[dict, None] = None) -> 'XAImageEventsFilePackageList':
-        """Returns a list of file packages, as PyXA objects, matching the given filter.
-
-        .. versionadded:: 0.1.0
-        """
-        self._new_element(self.xa_elem.fileOackages(), XAImageEventsFilePackageList, filter)
-
-    def folders(self, filter: Union[dict, None] = None) -> 'XAImageEventsFolderList':
-        """Returns a list of folders, as PyXA objects, matching the given filter.
-
-        .. versionadded:: 0.1.0
-        """
-        self._new_element(self.xa_elem.folders(), XAImageEventsFolderList, filter)
-
-
-
-
-class XAImageEventsDomainList(XABase.XAList):
-    """A wrapper around lists of domains that employs fast enumeration techniques.
-
-    All properties of domains can be called as methods on the wrapped list, returning a list containing each domain's value for the property.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAImageEventsDomain, filter)
-
-    def id(self) -> List['str']:
-        """Retrieves the unique identifier of each domain in the list
-
-        .. versionadded:: 0.1.0
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("id"))
-
-    def name(self) -> List['str']:
-        """Retrieves the name of each domain in the list.
-
-        .. versionadded:: 0.1.0
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("name"))
-
-    def by_id(self, id: str) -> 'XAImageEventsDomain':
-        """Retrieves the domain whose ID matches the given ID.
-
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("id", id)
-
-    def by_name(self, name: str) -> 'XAImageEventsDomain':
-        """Retrieves the domain whose name matches the given name.
-
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("name", name)
-
-    def __repr__(self):
-        return "<" + str(type(self)) + str(self.name()) + ">"
-
-class XAImageEventsDomain(XABase.XAObject):
-    """A domain in the file system.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties):
-        super().__init__(properties)
-
-    @property
-    def application_support_folder(self) -> 'XAImageEventsFolder':
-        """The Application Support folder.
-
-        .. versionadded:: 0.1.0
-        """
-        return self._new_element(self.xa_elem.applicationSupportFolder(), XAImageEventsFolder)
-
-    @property
-    def applications_folder(self) -> 'XAImageEventsFolder':
-        """The Applications folder.
-
-        .. versionadded:: 0.1.0
-        """
-        return self._new_element(self.xa_elem.applicationsFolder(), XAImageEventsFolder)
-
-    @property
-    def desktop_pictures_folder(self) -> 'XAImageEventsFolder':
-        """The Desktop Pictures folder.
-
-        .. versionadded:: 0.1.0
-        """
-        return self._new_element(self.xa_elem.desktopPicturesFolder(), XAImageEventsFolder)
-
-    @property
-    def folder_action_scripts_folder(self) -> 'XAImageEventsFolder':
-        """The Folder Action Scripts folder.
-
-        .. versionadded:: 0.1.0
-        """
-        return self._new_element(self.xa_elem.folderActionScriptsFolder(), XAImageEventsFolder)
-
-    @property
-    def fonts_folder(self) -> 'XAImageEventsFolder':
-        """The Fonts folder.
-
-        .. versionadded:: 0.1.0
-        """
-        return self._new_element(self.xa_elem.fontsFolder(), XAImageEventsFolder)
-
-    @property
-    def id(self) -> 'str':
-        """The unique identifier of the domain.
-
-        .. versionadded:: 0.1.0
-        """
-        return self.xa_elem.id()
-
-    @property
-    def library_folder(self) -> 'XAImageEventsFolder':
-        """The Library folder.
-
-        .. versionadded:: 0.1.0
-        """
-        return self._new_element(self.xa_elem.libraryFolder(), XAImageEventsFolder)
-
-    @property
-    def name(self) -> 'str':
-        """The name of the domain.
-
-        .. versionadded:: 0.1.0
-        """
-        return self.xa_elem.name()
-
-    @property
-    def preferences_folder(self) -> 'XAImageEventsFolder':
-        """The Preferences folder.
-
-        .. versionadded:: 0.1.0
-        """
-        return self._new_element(self.xa_elem.preferencesFolder(), XAImageEventsFolder)
-
-    @property
-    def scripting_additions_folder(self) -> 'XAImageEventsFolder':
-        """The Scripting Additions folder.
-
-        .. versionadded:: 0.1.0
-        """
-        return self._new_element(self.xa_elem.scriptingAdditionsFolder(), XAImageEventsFolder)
-
-    @property
-    def scripts_folder(self) -> 'XAImageEventsFolder':
-        """The Scripts folder.
-
-        .. versionadded:: 0.1.0
-        """
-        return self._new_element(self.xa_elem.scriptsFolder(), XAImageEventsFolder)
-
-    @property
-    def shared_documents_folder(self) -> 'XAImageEventsFolder':
-        """The Shared Documents folder.
-
-        .. versionadded:: 0.1.0
-        """
-        return self._new_element(self.xa_elem.sharedDocumentsFolder(), XAImageEventsFolder)
-
-    @property
-    def speakable_items_folder(self) -> 'XAImageEventsFolder':
-        """The Speakable Items folder.
-
-        .. versionadded:: 0.1.0
-        """
-        return self._new_element(self.xa_elem.speakableItemsFolder(), XAImageEventsFolder)
-
-    @property
-    def utilities_folder(self) -> 'XAImageEventsFolder':
-        """The Utilities folder.
-
-        .. versionadded:: 0.1.0
-        """
-        return self._new_element(self.xa_elem.utilitiesFolder(), XAImageEventsFolder)
-
-    @property
-    def workflows_folder(self) -> 'XAImageEventsFolder':
-        """The Automator Workflows folder.
-
-        .. versionadded:: 0.1.0
-        """
-        return self._new_element(self.xa_elem.workflowsFolder(), XAImageEventsFolder)
-
-    def folders(self, filter: Union[dict, None] = None) -> 'XAImageEventsFolderList':
-        """Returns a list of folders, as PyXA objects, matching the given filter.
-
-        .. versionadded:: 0.1.0
-        """
-        self._new_element(self.xa_elem.folders(), XAImageEventsFolderList, filter)
-
-    def __repr__(self):
-        return "<" + str(type(self)) + str(self.name) + ">"
-
-
-
-
-class XAImageEventsClassicDomainObject(XAImageEventsDomain):
-    """The Classic domain in the file system.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties):
-        super().__init__(properties)
-
-    @property
-    def apple_menu_folder(self) -> 'XAImageEventsFolder':
-        """The Apple Menu Items folder.
-
-        .. versionadded:: 0.1.0
-        """
-        return self._new_element(self.xa_elem.appleMenuFolder(), XAImageEventsFolder)
-
-    @property
-    def control_panels_folder(self) -> 'XAImageEventsFolder':
-        """The Control Panels folder.
-
-        .. versionadded:: 0.1.0
-        """
-        return self._new_element(self.xa_elem.controlPanelsFolder(), XAImageEventsFolder)
-
-    @property
-    def control_strip_modules_folder(self) -> 'XAImageEventsFolder':
-        """The Control Strip Modules folder.
-
-        .. versionadded:: 0.1.0
-        """
-        return self._new_element(self.xa_elem.controlStripModulesFolder(), XAImageEventsFolder)
-
-    @property
-    def desktop_folder(self) -> 'XAImageEventsFolder':
-        """The Classic Desktop folder.
-
-        .. versionadded:: 0.1.0
-        """
-        return self._new_element(self.xa_elem.desktopFolder(), XAImageEventsFolder)
-
-    @property
-    def extensions_folder(self) -> 'XAImageEventsFolder':
-        """The Extensions folder.
-
-        .. versionadded:: 0.1.0
-        """
-        return self._new_element(self.xa_elem.extensionsFolder(), XAImageEventsFolder)
-
-    @property
-    def fonts_folder(self) -> 'XAImageEventsFolder':
-        """The Fonts folder.
-
-        .. versionadded:: 0.1.0
-        """
-        return self._new_element(self.xa_elem.fontsFolder(), XAImageEventsFolder)
-
-    @property
-    def launcher_items_folder(self) -> 'XAImageEventsFolder':
-        """The Launcher Items folder.
-
-        .. versionadded:: 0.1.0
-        """
-        return self._new_element(self.xa_elem.launcherItemsFolder(), XAImageEventsFolder)
-
-    @property
-    def preferences_folder(self) -> 'XAImageEventsFolder':
-        """The Classic Preferences folder.
-
-        .. versionadded:: 0.1.0
-        """
-        return self._new_element(self.xa_elem.preferencesFolder(), XAImageEventsFolder)
-
-    @property
-    def shutdown_folder(self) -> 'XAImageEventsFolder':
-        """The Shutdown Items folder.
-
-        .. versionadded:: 0.1.0
-        """
-        return self._new_element(self.xa_elem.shutdownFolder(), XAImageEventsFolder)
-
-    @property
-    def startup_items_folder(self) -> 'XAImageEventsFolder':
-        """The StartupItems folder.
-
-        .. versionadded:: 0.1.0
-        """
-        return self._new_element(self.xa_elem.startupItemsFolder(), XAImageEventsFolder)
-
-    @property
-    def system_folder(self) -> 'XAImageEventsFolder':
-        """The System folder.
-
-        .. versionadded:: 0.1.0
-        """
-        return self._new_element(self.xa_elem.systemFolder(), XAImageEventsFolder)
-
-    def folders(self, filter: Union[dict, None] = None) -> 'XAImageEventsFolderList':
-        """Returns a list of folders, as PyXA objects, matching the given filter.
-
-        .. versionadded:: 0.1.0
-        """
-        self._new_element(self.xa_elem.folders(), XAImageEventsFolderList, filter)
-
-
-
-
-class XAImageEventsFileList(XAImageEventsDiskItemList):
-    """A wrapper around lists of files that employs fast enumeration techniques.
-
-    All properties of files can be called as methods on the wrapped list, returning a list containing each file's value for the property.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None, object_class = None):
-        if object_class is None:
-            object_class = XAImageEventsFile
-        super().__init__(properties, filter, object_class)
-
-    def creator_type(self) -> List['str']:
-        """Retrieves the OSType identifying the application that created each file in the list.
-
-        .. versionadded:: 0.1.0
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("creatorType"))
-
-    def default_application(self) -> 'XAImageEventsDiskItemList':
-        """Retrieves the applications that will launch if each file in the list is opened.
-
-        .. versionadded:: 0.1.0
-        """
-        ls = self.xa_elem.arrayByApplyingSelector_("defaultApplication")
-        return self._new_element(ls, XAImageEventsDiskItemList)
-
-    def file_type(self) -> List['str']:
-        """Retrieves the OSType identifying the type of data contained in each file in the list.
-
-        .. versionadded:: 0.1.0
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("fileType"))
-
-    def kind(self) -> List['str']:
-        """Retrieves the kind of each file in the list.
-
-        .. versionadded:: 0.1.0
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("kind"))
-
-    def product_version(self) -> List['str']:
-        """Retrieves the product version of each file in the list.
-
-        .. versionadded:: 0.1.0
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("productVersion"))
-
-    def short_version(self) -> List['str']:
-        """Retrieves the short version of each file in the list.
-
-        .. versionadded:: 0.1.0
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("shortVersion"))
-
-    def stationery(self) -> List['bool']:
-        """Retrieves the stationery status of each file in the list.
-
-        .. versionadded:: 0.1.0
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("stationery"))
-
-    def type_identifier(self) -> List['str']:
-        """Retrieves the type identifier of each file in the list.
-
-        .. versionadded:: 0.1.0
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("typeIdentifier"))
-
-    def version(self) -> List['str']:
-        """Retrieves the version of each file in the list.
-
-        .. versionadded:: 0.1.0
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("version"))
-
-    def by_creator_type(self, creator_type: str) -> 'XAImageEventsFile':
-        """Retrieves the file whose creator type matches the given creator type.
-
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("creatorType", creator_type)
-
-    def by_default_application(self, default_application: 'XAImageEventsDiskItem') -> 'XAImageEventsFile':
-        """Retrieves the file whose default application matches the given application.
-
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("defaultApplication", default_application.xa_elem)
-
-    def by_file_type(self, file_type: str) -> 'XAImageEventsFile':
-        """Retrieves the file whose file type matches the given file type.
-
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("fileType", file_type)
-
-    def by_kind(self, kind: str) -> 'XAImageEventsFile':
-        """Retrieves the file whose kind matches the given kind.
-
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("kind", kind)
-
-    def by_product_version(self, product_version: str) -> 'XAImageEventsFile':
-        """Retrieves the file whose product version matches the given version.
-
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("productVersion", product_version)
-
-    def by_short_version(self, short_version: str) -> 'XAImageEventsFile':
-        """Retrieves the file whose short version matches the given text.
-
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("shortVersion", short_version)
-
-    def by_stationery(self, stationery: bool) -> 'XAImageEventsFile':
-        """Retrieves the file whose stationery status matches the given boolean value.
-
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("stationery", stationery)
-
-    def by_type_identifier(self, type_identifier: str) -> 'XAImageEventsFile':
-        """Retrieves the file whose type identifier matches the given type identifier.
-
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("typeIdentifier", type_identifier)
-
-    def by_version(self, version: str) -> 'XAImageEventsFile':
-        """Retrieves the file whose version matches the given version.
-
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("version", version)
-
-class XAImageEventsFile(XAImageEventsDiskItem):
-    """A file in the file system.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties):
-        super().__init__(properties)
-
-    @property
-    def creator_type(self) -> 'str':
-        """The OSType identifying the application that created the file.
-
-        .. versionadded:: 0.1.0
-        """
-        return self.xa_elem.creatorType()
-
-    @property
-    def default_application(self) -> 'XAImageEventsDiskItem':
-        """The application that will launch if the file is opened.
-
-        .. versionadded:: 0.1.0
-        """
-        return self._new_element(self.xa_elem.defaultApplication(), XAImageEventsDiskItem)
-
-    @property
-    def file_type(self) -> 'str':
-        """The OSType identifying the type of data contained in the file.
-
-        .. versionadded:: 0.1.0
-        """
-        return self.xa_elem.fileType()
-
-    @property
-    def kind(self) -> 'str':
-        """The kind of file, as shown in Finder.
-
-        .. versionadded:: 0.1.0
-        """
-        return self.xa_elem.kind()
-
-    @property
-    def product_version(self) -> 'str':
-        """The version of the product (visible at the top of the "Get Info" window).
-
-        .. versionadded:: 0.1.0
-        """
-        return self.xa_elem.productVersion()
-
-    @property
-    def short_version(self) -> 'str':
-        """The short version of the file.
-
-        .. versionadded:: 0.1.0
-        """
-        return self.xa_elem.shortVersion()
-
-    @property
-    def stationery(self) -> 'bool':
-        """Whether the file is a stationery pad.
-
-        .. versionadded:: 0.1.0
-        """
-        return self.xa_elem.stationery()
-
-    @property
-    def type_identifier(self) -> 'str':
-        """The type identifier of the file.
-
-        .. versionadded:: 0.1.0
-        """
-        return self.xa_elem.typeIdentifier()
-
-    @property
-    def version(self) -> 'str':
-        """The version of the file (visible at the bottom of the "Get Info" window).
-
-        .. versionadded:: 0.1.0
-        """
-        return self.xa_elem.version()
-
-
-
-
-class XAImageEventsFilePackageList(XAImageEventsFileList):
-    """A wrapper around lists of file packages that employs fast enumeration techniques.
-
-    All properties of file packages can be called as methods on the wrapped list, returning a list containing each package's value for the property.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, filter, XAImageEventsFilePackage)
-
-class XAImageEventsFilePackage(XAImageEventsFile):
-    """A file package in the file system.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties):
-        super().__init__(properties)
-
-    def aliases(self, filter: Union[dict, None] = None) -> 'XAImageEventsAliasList':
-        """Returns a list of aliases, as PyXA objects, matching the given filter.
-
-        .. versionadded:: 0.1.0
-        """
-        self._new_element(self.xa_elem.aliases(), XAImageEventsAliasList, filter)
-
-    def disk_items(self, filter: Union[dict, None] = None) -> 'XAImageEventsDiskItemList':
-        """Returns a list of disk items, as PyXA objects, matching the given filter.
-
-        .. versionadded:: 0.1.0
-        """
-        self._new_element(self.xa_elem.diskItems(), XAImageEventsDiskItemList, filter)
-
-    def files(self, filter: Union[dict, None] = None) -> 'XAImageEventsFileList':
-        """Returns a list of files, as PyXA objects, matching the given filter.
-
-        .. versionadded:: 0.1.0
-        """
-        self._new_element(self.xa_elem.files(), XAImageEventsFileList, filter)
-
-    def file_packages(self, filter: Union[dict, None] = None) -> 'XAImageEventsFilePackageList':
-        """Returns a list of file packages, as PyXA objects, matching the given filter.
-
-        .. versionadded:: 0.1.0
-        """
-        self._new_element(self.xa_elem.filePackages(), XAImageEventsFilePackageList, filter)
-
-    def folders(self, filter: Union[dict, None] = None) -> 'XAImageEventsFolderList':
-        """Returns a list of folders, as PyXA objects, matching the given filter.
-
-        .. versionadded:: 0.1.0
-        """
-        self._new_element(self.xa_elem.folders(), XAImageEventsFolderList, filter)
-
-
-
-
-class XAImageEventsFolderList(XAImageEventsDiskItemList):
-    """A wrapper around lists of folders that employs fast enumeration techniques.
-
-    All properties of folders can be called as methods on the wrapped list, returning a list containing each folder's value for the property.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, filter, XAImageEventsFolder)
-
-class XAImageEventsFolder(XAImageEventsDiskItem):
-    """A folder in the file system.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties):
-        super().__init__(properties)
-
-    def aliases(self, filter: Union[dict, None] = None) -> 'XAImageEventsAliasList':
-        """Returns a list of aliases, as PyXA objects, matching the given filter.
-
-        .. versionadded:: 0.1.0
-        """
-        self._new_element(self.xa_elem.aliases(), XAImageEventsAliasList, filter)
-
-    def disk_items(self, filter: Union[dict, None] = None) -> 'XAImageEventsDiskItemList':
-        """Returns a list of disk items, as PyXA objects, matching the given filter.
-
-        .. versionadded:: 0.1.0
-        """
-        self._new_element(self.xa_elem.diskItems(), XAImageEventsDiskItemList, filter)
-
-    def files(self, filter: Union[dict, None] = None) -> 'XAImageEventsFileList':
-        """Returns a list of files, as PyXA objects, matching the given filter.
-
-        .. versionadded:: 0.1.0
-        """
-        self._new_element(self.xa_elem.files(), XAImageEventsFileList, filter)
-
-    def file_packages(self, filter: Union[dict, None] = None) -> 'XAImageEventsFilePackageList':
-        """Returns a list of file packages, as PyXA objects, matching the given filter.
-
-        .. versionadded:: 0.1.0
-        """
-        self._new_element(self.xa_elem.filePackages(), XAImageEventsFilePackageList, filter)
-
-    def folders(self, filter: Union[dict, None] = None) -> 'XAImageEventsFolderList':
-        """Returns a list of folders, as PyXA objects, matching the given filter.
-
-        .. versionadded:: 0.1.0
-        """
-        self._new_element(self.xa_elem.folders(), XAImageEventsFolderList, filter)
-
-
-
-
-class XAImageEventsLocalDomainObject(XAImageEventsDomain):
-    """The local domain in the file system.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties):
-        super().__init__(properties)
-
-
-
-
-class XAImageEventsNetworkDomainObject(XAImageEventsDomain):
-    """The network domain in the file system.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties):
-        super().__init__(properties)
-
-
-
-
-class XAImageEventsSystemDomainObject(XAImageEventsDomain):
-    """The system domain in the file system.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties):
-        super().__init__(properties)
-
-
-
-
-class XAImageEventsUserDomainObject(XAImageEventsDomain):
-    """The user domain in the file system.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties):
-        super().__init__(properties)
-
-    @property
-    def desktop_folder(self) -> 'XAImageEventsFolder':
-        """The user's Desktop folder
-
-        .. versionadded:: 0.1.0
-        """
-        return self._new_element(self.xa_elem.desktopFolder(), XAImageEventsFolder)
-
-    @property
-    def documents_folder(self) -> 'XAImageEventsFolder':
-        """The user's Documents folder
-
-        .. versionadded:: 0.1.0
-        """
-        return self._new_element(self.xa_elem.documentsFolder(), XAImageEventsFolder)
-
-    @property
-    def downloads_folder(self) -> 'XAImageEventsFolder':
-        """The user's Downloads folder
-
-        .. versionadded:: 0.1.0
-        """
-        return self._new_element(self.xa_elem.downloadsFolder(), XAImageEventsFolder)
-
-    @property
-    def favorites_folder(self) -> 'XAImageEventsFolder':
-        """The user's Favorites folder
-
-        .. versionadded:: 0.1.0
-        """
-        return self._new_element(self.xa_elem.favoritesFolder(), XAImageEventsFolder)
-
-    @property
-    def home_folder(self) -> 'XAImageEventsFolder':
-        """The user's Home folder
-
-        .. versionadded:: 0.1.0
-        """
-        return self._new_element(self.xa_elem.homeFolder(), XAImageEventsFolder)
-
-    @property
-    def movies_folder(self) -> 'XAImageEventsFolder':
-        """The user's Movies folder
-
-        .. versionadded:: 0.1.0
-        """
-        return self._new_element(self.xa_elem.moviesFolder(), XAImageEventsFolder)
-
-    @property
-    def music_folder(self) -> 'XAImageEventsFolder':
-        """The user's Music folder
-
-        .. versionadded:: 0.1.0
-        """
-        return self._new_element(self.xa_elem.musicFolder(), XAImageEventsFolder)
-
-    @property
-    def pictures_folder(self) -> 'XAImageEventsFolder':
-        """The user's Pictures folder
-
-        .. versionadded:: 0.1.0
-        """
-        return self._new_element(self.xa_elem.picturesFolder(), XAImageEventsFolder)
-
-    @property
-    def public_folder(self) -> 'XAImageEventsFolder':
-        """The user's Public folder
-
-        .. versionadded:: 0.1.0
-        """
-        return self._new_element(self.xa_elem.publicFolder(), XAImageEventsFolder)
-
-    @property
-    def sites_folder(self) -> 'XAImageEventsFolder':
-        """The user's Sites folder
-
-        .. versionadded:: 0.1.0
-        """
-        return self._new_element(self.xa_elem.sitesFolder(), XAImageEventsFolder)
-
-    @property
-    def temporary_items_folder(self) -> 'XAImageEventsFolder':
-        """The Temporary Items folder
-
-        .. versionadded:: 0.1.0
-        """
-        return self._new_element(self.xa_elem.temporaryItemsFolder(), XAImageEventsFolder)
 
 
 
@@ -2391,28 +746,85 @@ class XAImageEventsImageList(XABase.XAList, XAClipboardCodable):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XAImageEventsImage, filter)
 
+    def properties(self) -> List[Dict]:
+        pyxa_dicts = []
+        ls = self.xa_elem.arrayByApplyingSelector_("properties")
+        for raw_dict in ls:
+            pyxa_dict = {
+                "color_space": XAImageEventsApplication.ColorSpace(XABase.OSType(raw_dict["colorSpace"].stringValue())),
+                "image_file": self._new_element(raw_dict["imageFile"], XABase.XAFile),
+                "bit_depth": XAImageEventsApplication.BitDepth(XABase.OSType(raw_dict["bitDepth"].stringValue())),
+                "dimensions": tuple(raw_dict["dimensions"]),
+                "location": self._new_element(raw_dict["location"], XABase.XAFolder),
+                "embedded_profile": self._new_element(raw_dict["embeddedProfile"], XAImageEventsProfile),
+                "file_type": XAImageEventsApplication.FileType(XABase.OSType(raw_dict["fileType"].stringValue())),
+                "class": "image",
+                "name": raw_dict["name"],
+                "resolution": tuple(raw_dict["resolution"])
+            }
+            pyxa_dicts.append(pyxa_dict)
+        return pyxa_dicts
+
+    def original_image_objects(self) -> XABase.XAImageList:
+        """Retrieves the raw image contained in each image file, without modifications.
+
+        :return: The images stored in each image file of the list
+        :rtype: XABase.XAImage
+
+        .. versionadded:: 0.1.0
+        """
+        image_paths = [None] * self.xa_elem.count()
+        for index, image in enumerate(self.xa_elem):
+            image_paths[index] = image.imageFile().POSIXPath()
+
+        images = self._new_element(image_paths, XABase.XAImageList)
+        return images
+
+    def modified_image_objects(self) -> XABase.XAImageList:
+        """Retrieves each image of the list as stored in active memory, including modifications.
+
+        :return: The images in the list as stored in active memory
+        :rtype: XABase.XAImage
+
+        .. versionadded:: 0.1.0
+        """
+        image_paths = [None] * self.xa_elem.count()
+        for index, image in enumerate(self.xa_elem):
+            image_paths[index] =  image.imageFile().POSIXPath() + "-tmp." + image.imageFile().nameExtension()
+            file_type = XABase.OSType(image.fileType().get().stringValue())
+            image.saveAs_icon_in_PackBits_withCompressionLevel_(file_type, False, image_paths[index], False, XAImageEventsApplication.CompressionLevel.LOW.value)
+        
+        images = self._new_element(image_paths, XABase.XAImageList)
+
+        def cleanup():
+            for path in image_paths:
+                AppKit.NSFileManager.defaultManager().removeItemAtPath_error_(path, None) 
+        
+        t = Timer(1, cleanup)
+        t.start()
+        return images
+
     def bit_depth(self) -> List['XAImageEventsApplication.BitDepth']:
         """Retrieves the bit depth of each image in the list.
 
         .. versionadded:: 0.1.0
         """
-        ls = self.xa_elem.arrayByApplyingSelector_("bitDepth")
-        return [XAImageEventsApplication.BitDepth(XABase.OSType(x.stringValue())) for x in ls]
+        return [x.bit_depth for x in self]
 
     def color_space(self) -> List['XAImageEventsApplication.ColorSpace']:
         """Retrieves the color space of each image in the list.
 
         .. versionadded:: 0.1.0
         """
-        ls = self.xa_elem.arrayByApplyingSelector_("colorSpace")
-        return [XAImageEventsApplication.ColorSpace(XABase.OSType(x.stringValue())) for x in ls]
+        return [x.color_space for x in self]
 
     def dimensions(self) -> List[List[int]]:
         """Retrieves the width and height of each image in the list.
 
         .. versionadded:: 0.1.0
         """
-        return list(self.xa_elem.arrayByApplyingSelector_("dimensions"))
+        ls = self.xa_elem.arrayByApplyingSelector_("dimensions")
+        return [tuple(x) for x in ls]
 
     def embedded_profile(self) -> 'XAImageEventsProfileList':
         """Retrieves the profile, if any, embedded in each image in the list.
@@ -2428,23 +840,23 @@ class XAImageEventsImageList(XABase.XAList, XAClipboardCodable):
         .. versionadded:: 0.1.0
         """
         ls = self.xa_elem.arrayByApplyingSelector_("fileType")
-        return [XAImageEventsApplication.FileType(XABase.OSType(x.stringValue())) for x in ls]
+        return [XAImageEventsApplication.FileType(XABase.OSType(x.get().stringValue())) for x in ls]
 
-    def image_file(self) -> 'XAImageEventsFileList':
+    def image_file(self) -> 'XABase.XAFileList':
         """Retrieves the file of each image in the list.
 
         .. versionadded:: 0.1.0
         """
         ls = self.xa_elem.arrayByApplyingSelector_("imageFile")
-        return self._new_element(ls, XAImageEventsFileList)
+        return self._new_element(ls, XABase.XAFileList)
 
-    def location(self) -> List['XAImageEventsDiskItem']:
+    def location(self) -> List['XABase.XADiskItem']:
         """Retrieves the folder or disk that encloses the file that contains each image in the list.
 
         .. versionadded:: 0.1.0
         """
         ls = self.xa_elem.arrayByApplyingSelector_("location")
-        return self._new_element(ls, XAImageEventsDiskItemList)
+        return self._new_element(ls, XABase.XADiskItemList)
 
     def name(self) -> List['str']:
         """Retrieves the name of each image in the list.
@@ -2458,21 +870,26 @@ class XAImageEventsImageList(XABase.XAList, XAClipboardCodable):
 
         .. versionadded:: 0.1.0
         """
-        return list(self.xa_elem.arrayByApplyingSelector_("resolution"))
+        ls = self.xa_elem.arrayByApplyingSelector_("resolution")
+        return [tuple(x) for x in ls]
 
     def by_bit_depth(self, bit_depth) -> 'XAImageEventsApplication.BitDepth':
         """Retrieves the image whose bit depth matches the given bit depth.
 
         .. versionadded:: 0.1.0
         """
-        return self.by_property("bitDepth", event_from_int(bit_depth.value))
+        for x in self.xa_elem:
+            if x.bitDepth() == bit_depth.value:
+                return x
 
     def by_color_space(self, color_space: 'XAImageEventsApplication.ColorSpace') -> 'XAImageEventsImage':
         """Retrieves the image whose color space matches the given color space.
 
         .. versionadded:: 0.1.0
         """
-        return self.by_property("colorSpace", event_from_int(color_space.value))
+        for x in self.xa_elem:
+            if x.colorSpace() == color_space.value:
+                return x
 
     def by_dimensions(self, dimensions: List[int]) -> 'XAImageEventsImage':
         """Retrieves the image whose dimensions matches the given dimensions.
@@ -2489,20 +906,22 @@ class XAImageEventsImageList(XABase.XAList, XAClipboardCodable):
         return self.by_property("embeddedProfile", embedded_profile.xa_elem)
 
     def by_file_type(self, file_type: 'XAImageEventsApplication.FileType') -> 'XAImageEventsImage':
-        """Retrieves the image whose file type matches the given file type.
+        """Retrieves the first image whose file type matches the given file type.
 
         .. versionadded:: 0.1.0
         """
-        return self.by_property("fileType", event_from_int(file_type.value))
+        for x in self.xa_elem:
+            if x.fileType().get().stringValue() == XABase.unOSType(file_type.value):
+                return x
 
-    def by_image_file(self, image_file: 'XAImageEventsFile') -> 'XAImageEventsImage':
+    def by_image_file(self, image_file: 'XABase.XAFile') -> 'XAImageEventsImage':
         """Retrieves the image whose image file matches the given image file.
 
         .. versionadded:: 0.1.0
         """
         return self.by_property("imageFile", image_file.xa_elem)
 
-    def by_location(self, location: 'XAImageEventsDiskItem') -> 'XAImageEventsImage':
+    def by_location(self, location: 'XABase.XADiskItem') -> 'XAImageEventsImage':
         """Retrieves the image whose location matches the given location.
 
         .. versionadded:: 0.1.0
@@ -2594,11 +1013,13 @@ class XAImageEventsImageList(XABase.XAList, XAClipboardCodable):
         if color is None:
                 color = [65535, 65535, 65535]
         elif isinstance(color, XABase.XAColor):
-            color = [color.red() * 65535, color.green() * 65535, color.blue() * 65535]
+            color = [color.red_value * 65535, color.green_value * 65535, color.blue_value * 65535]
 
-        for x in self.xa_elem:
-            dimensions = [x.dimensions()[0] + horizontal_padding, x.dimensions()[1] + vertical_padding]
-            x.padToDimensions_withPadColor_(dimensions, color)
+        def pad_img(image, index, stop):
+            dimensions = [image.dimensions()[0] + horizontal_padding, image.dimensions()[1] + vertical_padding]
+            image.padToDimensions_withPadColor_(dimensions, color)
+
+        self.xa_elem.enumerateObjectsUsingBlock_(pad_img)
         return self
 
     def rotate(self, angle: float) -> 'XAImageEventsImageList':
@@ -2611,8 +1032,10 @@ class XAImageEventsImageList(XABase.XAList, XAClipboardCodable):
 
         .. versionadded:: 0.1.0
         """
-        for x in self.xa_elem:
-            x.rotateToAngle_(angle)
+        def rotate_img(image, index, stop):
+            image.rotateToAngle_(angle)
+
+        self.xa_elem.enumerateObjectsUsingBlock_(rotate_img)
         return self
 
     def save(self, file_type: Union[XAImageEventsApplication.FileType, None] = None, add_icons: bool = False, file_paths: Union[List[Union[XABase.XAPath, str, None]], None] = None, pack_bits: bool = False, compression_level: XAImageEventsApplication.CompressionLevel = XAImageEventsApplication.CompressionLevel.LOW):
@@ -2639,10 +1062,18 @@ class XAImageEventsImageList(XABase.XAList, XAClipboardCodable):
         if file_type is not None:
             file_type = file_type.value
 
-        for x in self.xa_elem:
+        files = []
+        def save_img(index, image):
+            nonlocal file_type
             if file_type is None:
-                file_type = XABase.OSType(x.fileType().get().stringValue())
-            x.saveAs_icon_in_PackBits_withCompressionLevel_(file_type, add_icons, file_paths, pack_bits, compression_level.value)
+                file_type = XABase.OSType(image.fileType().get().stringValue())
+            files.append(image.saveAs_icon_in_PackBits_withCompressionLevel_(file_type, add_icons, file_paths[index], pack_bits, compression_level.value))
+
+        for index, image in enumerate(self.xa_elem):
+            self._spawn_thread(save_img, [index, image])
+
+        while len(files) != len(self.xa_elem):
+            sleep(0.01)
 
     def scale(self, scale_factor: Union[float, None] = None, width: Union[int, None] = None) -> 'XAImageEventsImageList':
         """Scales each image in the list by the specified factor or to the specified width.
@@ -2657,15 +1088,18 @@ class XAImageEventsImageList(XABase.XAList, XAClipboardCodable):
         .. versionadded:: 0.1.0
         """
         if scale_factor == None and width == None:
-                raise ValueError("Either scale factor or width must be positive.")
+            raise ValueError("Either scale factor or width must be positive.")
 
-        for x in self.xa_elem:
+        def scale_img(image, index, stop):
+            nonlocal scale_factor
             if scale_factor != None:
-                width = x.dimensions()[0] * scale_factor
+                width = image.dimensions()[0] * scale_factor
             elif width != None:
-                scale_factor = width / x.dimensions()[0]
+                scale_factor = width / image.dimensions()[0]
                 
-            x.scaleByFactor_toSize_(scale_factor, width)
+            image.scaleByFactor_toSize_(scale_factor, width)
+
+        self.xa_elem.enumerateObjectsUsingBlock_(scale_img)
         return self
 
     def unembed(self) -> 'XAImageEventsImageList':
@@ -2690,7 +1124,18 @@ class XAImageEventsImageList(XABase.XAList, XAClipboardCodable):
 
         .. versionadded:: 0.1.0
         """
-        return [x.xa_elem for x in self.image_file().url()]
+        tmp_paths = [image.imageFile().POSIXPath() + "-tmp." + image.imageFile().nameExtension() for image in self.xa_elem]
+        self.save(file_paths=tmp_paths)
+        clipboard_reps = self._new_element(tmp_paths, XABase.XAImageList).get_clipboard_representation()
+
+        def cleanup():
+            nonlocal tmp_paths
+            for path in tmp_paths:
+                AppKit.NSFileManager.defaultManager().removeItemAtPath_error_(path, None) 
+
+        t = Timer(1, cleanup)
+        t.start()
+        return clipboard_reps
 
     def __repr__(self):
         return "<" + str(type(self)) + str(self.name()) + ">"
@@ -2702,6 +1147,71 @@ class XAImageEventsImage(XABase.XAObject, XAClipboardCodable):
     """
     def __init__(self, properties):
         super().__init__(properties)
+
+    def __temp_save(self):
+        path =  self.image_file.posix_path + "-tmp." + self.image_file.name_extension
+        self.save(file_path=path)
+
+        def cleanup(path):
+            AppKit.NSFileManager.defaultManager().removeItemAtPath_error_(path, None) 
+        
+        t = Timer(1, cleanup, [path])
+        t.start()
+
+    @property
+    def properties(self) -> Dict:
+        """All properties of the image.
+
+        .. versionadded:: 0.1.0
+        """
+        raw_dict = self.xa_elem.properties()
+        pyxa_dict = {
+            "color_space": XAImageEventsApplication.ColorSpace(XABase.OSType(raw_dict["colorSpace"].stringValue())),
+            "image_file": self._new_element(raw_dict["imageFile"], XABase.XAFile),
+            "bit_depth": XAImageEventsApplication.BitDepth(XABase.OSType(raw_dict["bitDepth"].stringValue())),
+            "dimensions": tuple(raw_dict["dimensions"]),
+            "location": self._new_element(raw_dict["location"], XABase.XAFolder),
+            "embedded_profile": self._new_element(raw_dict["embeddedProfile"], XAImageEventsProfile),
+            "file_type": XAImageEventsApplication.FileType(XABase.OSType(raw_dict["fileType"].stringValue())),
+            "class": "image",
+            "name": raw_dict["name"],
+            "resolution": tuple(raw_dict["resolution"])
+        }
+        return pyxa_dict
+
+    @property
+    def original_image_object(self) -> XABase.XAImage:
+        """The original image contained in the file, without any modification.
+
+        :return: The image object stored in the file
+        :rtype: XABase.XAImage
+
+        .. versionadded:: 0.1.0
+        """
+        path = self.image_file.posix_path
+        img = XABase.XAImage(path)
+        return img
+
+    @property
+    def modified_image_object(self) -> XABase.XAImage:
+        """The image stored in active memory, including modifications.
+
+        :return: The image object stored in active memory
+        :rtype: XABase.XAImage
+
+        .. versionadded:: 0.1.0
+        """
+        path =  self.image_file.posix_path + "-tmp." + self.image_file.name_extension
+        self.save(file_path=path)
+        img = XABase.XAImage(path)
+
+        def cleanup(path):
+            AppKit.NSFileManager.defaultManager().removeItemAtPath_error_(path, None) 
+        
+        t = Timer(1, cleanup, [path])
+        t.start()
+
+        return img
 
     @property
     def bit_depth(self) -> 'XAImageEventsApplication.BitDepth':
@@ -2720,12 +1230,14 @@ class XAImageEventsImage(XABase.XAObject, XAClipboardCodable):
         return XAImageEventsApplication.ColorSpace(self.xa_elem.colorSpace())
 
     @property
-    def dimensions(self) -> 'List[int]':
+    def dimensions(self) -> 'Tuple[int, int]':
         """The width and height of the image, respectively, in pixels.
 
         .. versionadded:: 0.1.0
         """
-        return self.xa_elem.dimensions()
+        if hasattr(self, "_dimensions"):
+            return getattr(self, "_dimensions")
+        return tuple(self.xa_elem.dimensions())
 
     @property
     def embedded_profile(self) -> 'XAImageEventsProfile':
@@ -2744,20 +1256,20 @@ class XAImageEventsImage(XABase.XAObject, XAClipboardCodable):
         return XAImageEventsApplication.FileType(OSType(self.xa_elem.fileType().get().stringValue()))
 
     @property
-    def image_file(self) -> 'XAImageEventsFile':
+    def image_file(self) -> 'XABase.XAFile':
         """The file that contains the image.
 
         .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_elem.imageFile(), XAImageEventsFile)
+        return self._new_element(self.xa_elem.imageFile(), XABase.XAFile)
 
     @property
-    def location(self) -> 'XAImageEventsDiskItem':
+    def location(self) -> 'XABase.XADiskItem':
         """The folder or disk that encloses the file that contains the image.
 
         .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_elem.location(), XAImageEventsDiskItem)
+        return self._new_element(self.xa_elem.location(), XABase.XADiskItem)
 
     @property
     def name(self) -> 'str':
@@ -2768,15 +1280,15 @@ class XAImageEventsImage(XABase.XAObject, XAClipboardCodable):
         return self.xa_elem.name()
 
     @property
-    def resolution(self) -> 'List[float]':
+    def resolution(self) -> 'Tuple[float, float]':
         """The horizontal and vertical pixel density of the image, respectively, in dots per inch.
 
         .. versionadded:: 0.1.0
         """
-        return self.xa_elem.resolution()
+        return tuple(self.xa_elem.resolution())
 
     def crop(self, width: int, height: int) -> 'XAImageEventsImage':
-        """Crops the image to the specified with and height.
+        """Crops the image to the specified width and height, originating at the center of the image.
 
         :param width: The width of the new image, in pixels
         :type width: int
@@ -2788,6 +1300,8 @@ class XAImageEventsImage(XABase.XAObject, XAClipboardCodable):
         .. versionadded:: 0.1.0
         """
         self.xa_elem.cropToDimensions_([width, height])
+        self._dimensions = (width, height)
+        self.__temp_save()
         return self
 
     def embed_profile(self, profile: 'XAImageEventsProfile') -> 'XAImageEventsImage':
@@ -2801,6 +1315,7 @@ class XAImageEventsImage(XABase.XAObject, XAClipboardCodable):
         .. versionadded:: 0.1.0
         """
         self.xa_elem.embedWithSource_(profile.xa_elem)
+        self.__temp_save()
         return self
 
     def flip_horizontally(self) -> 'XAImageEventsImage':
@@ -2812,6 +1327,7 @@ class XAImageEventsImage(XABase.XAObject, XAClipboardCodable):
         .. versionadded:: 0.1.0
         """
         self.xa_elem.flipHorizontal_vertical_(True, False)
+        self.__temp_save()
         return self
 
     def flip_vertically(self) -> 'XAImageEventsImage':
@@ -2823,10 +1339,13 @@ class XAImageEventsImage(XABase.XAObject, XAClipboardCodable):
         .. versionadded:: 0.1.0
         """
         self.xa_elem.flipHorizontal_vertical_(False, True)
+        self.__temp_save()
         return self
 
     def pad(self, horizontal_padding: int = 10, vertical_padding: int = 10, color: Union[XABase.XAColor, List[int], None] = None) -> 'XAImageEventsImage':
         """Pads the image with a border of the specified color, or white by default.
+        
+        This will always replace transparent pixels, even when the padding in a given axis is set to 0.
 
         :param horizontal_padding: The width of padding in the horizontal direction, defaults to 10
         :type horizontal_padding: int, optional
@@ -2834,7 +1353,7 @@ class XAImageEventsImage(XABase.XAObject, XAClipboardCodable):
         :type vertical_padding: int, optional
         :param color: The color to pad the image with, defaults to None
         :type color: Union[XABase.XAColor, List[int], None], optional
-         :return: The image object
+        :return: The image object
         :rtype: XAImageEventsImage
 
         .. versionadded:: 0.1.0
@@ -2844,9 +1363,11 @@ class XAImageEventsImage(XABase.XAObject, XAClipboardCodable):
         if color is None:
             color = [65535, 65535, 65535]
         elif isinstance(color, XABase.XAColor):
-            color = [color.red() * 65535, color.green() * 65535, color.blue() * 65535]
+            color = [color.red_value * 65535, color.green_value * 65535, color.blue_value * 65535]
 
         self.xa_elem.padToDimensions_withPadColor_(dimensions, color)
+        self._dimensions = tuple(dimensions)
+        self.__temp_save()
         return self
 
     def rotate(self, angle: float) -> 'XAImageEventsImage':
@@ -2862,7 +1383,7 @@ class XAImageEventsImage(XABase.XAObject, XAClipboardCodable):
         self.xa_elem.rotateToAngle_(angle)
         return self
 
-    def save(self, file_type: Union[XAImageEventsApplication.FileType, None] = None, add_icon: bool = False, file_path: Union[XABase.XAPath, str, None] = None, pack_bits: bool = False, compression_level: XAImageEventsApplication.CompressionLevel = XAImageEventsApplication.CompressionLevel.LOW):
+    def save(self, file_type: Union[XAImageEventsApplication.FileType, None] = None, add_icon: bool = False, file_path: Union[XABase.XAPath, str, None] = None, pack_bits: bool = False, compression_level: XAImageEventsApplication.CompressionLevel = XAImageEventsApplication.CompressionLevel.LOW) -> bool:
         """Saves the image to a file.
 
         :param file_type: The file type to save the image as, or None to save as the current file type (usually the type of the original image file), defaults to None
@@ -2875,6 +1396,8 @@ class XAImageEventsImage(XABase.XAObject, XAClipboardCodable):
         :type pack_bits: bool, optional
         :param compression_level: Specifies the compression level of the resultant file (applies only to JPEG files), defaults to XAImageEventsApplication.CompressionLevel.LOW
         :type compression_level: XAImageEventsApplication.CompressionLevel, optional
+        :return: True if the image is successfully saved to the desired file location
+        :rtype: bool
 
         .. versionadded:: 0.1.0
         """
@@ -2883,10 +1406,16 @@ class XAImageEventsImage(XABase.XAObject, XAClipboardCodable):
 
         if file_type is not None:
             file_type = file_type.value
+            file_path = "".join(self.image_file.posix_path.split(".")[:-1]) + "." + XABase.unOSType(file_type).lower().strip()
         else:
             file_type = self.file_type.value
 
-        self.xa_elem.saveAs_icon_in_PackBits_withCompressionLevel_(file_type, add_icon, file_path, pack_bits, compression_level.value)
+        save_file = self.xa_elem.saveAs_icon_in_PackBits_withCompressionLevel_(file_type, add_icon, file_path, pack_bits, compression_level.value)
+        if save_file is None:
+            return False
+
+        self.xa_elem = self.xa_elem.open_(save_file)
+        return True
 
     def scale(self, scale_factor: Union[float, None] = None, width: Union[int, None] = None) -> 'XAImageEventsImage':
         """Scales the image by the specified factor or to the specified width.
@@ -2908,6 +1437,8 @@ class XAImageEventsImage(XABase.XAObject, XAClipboardCodable):
             scale_factor = width / self.dimensions[0]
 
         self.xa_elem.scaleByFactor_toSize_(scale_factor, width)
+        self._dimensions = (self.dimensions[0] * scale_factor, self.dimensions[1] * scale_factor)
+        # self.__temp_save()
         return self
 
     def unembed(self) -> 'XAImageEventsImage':
@@ -2919,6 +1450,7 @@ class XAImageEventsImage(XABase.XAObject, XAClipboardCodable):
         .. versionadded:: 0.1.0
         """
         self.xa_elem.unembed()
+        self.__temp_save()
         return self
 
     def metadata_tags(self, filter: Union[dict, None] = None) -> 'XAImageEventsMetadataTagList':
@@ -2935,17 +1467,22 @@ class XAImageEventsImage(XABase.XAObject, XAClipboardCodable):
         """
         self._new_element(self.xa_elem.profiles(), XAImageEventsProfileList, filter)
 
-    def get_clipboard_representation(self) -> List[AppKit.NSURL]:
+    def get_clipboard_representation(self) -> AppKit.NSImage:
         """Gets a clipboard-codable representation of the image.
 
-        When the clipboard content is set an image, the image's file URL is added to the clipboard.
+        When the clipboard content is set to an image, the image's raw data is added to the clipboard, including all current modifications.
 
-        :return: The URL of the image file
-        :rtype: List[AppKit.NSURL]
+        :return: The raw data of the image
+        :rtype: AppKit.NSImage
 
         .. versionadded:: 0.1.0
         """
-        return [self.image_file.url.xa_elem]
+        file_path = "".join(self.image_file.posix_path.split(".")[:-1]) + "-tmp." + self.image_file.name_extension
+        status = self.save(file_path=file_path)
+        if (status):
+            clipboard_rep = XABase.XAImage(file_path).get_clipboard_representation()
+            AppKit.NSFileManager.defaultManager().removeFileAtPath_handler_(file_path, None)
+            return clipboard_rep
 
     def __repr__(self):
         return "<" + str(type(self)) + str(self.name) + ">"
@@ -3117,13 +1654,13 @@ class XAImageEventsProfileList(XABase.XAList):
         """
         return list(self.xa_elem.arrayByApplyingSelector_("deviceModel"))
 
-    def location(self) -> 'XAImageEventsAliasList':
+    def location(self) -> 'XABase.XAAliasList':
         """Retrieves the file location of each profile in the list.
 
         .. versionadded:: 0.1.0
         """
         ls = self.xa_elem.arrayByApplyingSelector_("location")
-        return self._new_element(ls, XAImageEventsAliasList)
+        return self._new_element(ls, XABase.XAAliasList)
 
     def name(self) -> List['str']:
         """Retrieves the description text of each profile in the list.
@@ -3225,7 +1762,7 @@ class XAImageEventsProfileList(XABase.XAList):
         """
         return self.by_property("deviceModel", device_model)
 
-    def by_location(self, location: 'XAImageEventsAlias') -> 'XAImageEventsProfile':
+    def by_location(self, location: 'XABase.XAAlias') -> 'XAImageEventsProfile':
         """Retrieves profile whose location matches the given location.
 
         .. versionadded:: 0.1.0
@@ -3349,12 +1886,12 @@ class XAImageEventsProfile(XABase.XAObject):
         return self.xa_elem.deviceModel()
 
     @property
-    def location(self) -> 'XAImageEventsAlias':
+    def location(self) -> 'XABase.XAAlias':
         """The file location of the profile.
 
         .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_elem.location(), XAImageEventsAlias)
+        return self._new_element(self.xa_elem.location(), XABase.XAAlias)
 
     @property
     def name(self) -> 'str':

@@ -1,4 +1,4 @@
-""".. versionadded:: 0.0.8
+""".. versionadded:: 0.1.0
 
 Control the macOS System Events application using JXA-like syntax.
 """
@@ -156,37 +156,37 @@ class XASystemEventsApplication(XABaseScriptable.XASBApplication, XACanPrintPath
         self.current_screen_saver: XASystemEventsScreenSaver #: the currently selected screen saver
         self.screen_saver_preferences: XASystemEventsScreenSaverPreferencesObject #: the preferences common to all screen savers
         self.security_preferences: XASystemEventsSecurityPreferencesObject #: a collection of security preferences
-        self.application_support_folder: XASystemEventsFolder #: The Application Support folder
-        self.applications_folder: XASystemEventsFolder #: The user's Applications folder
-        self.classic_domain: XASystemEventsClassicDomainObject #: the collection of folders belonging to the Classic System
-        self.desktop_folder: XASystemEventsFolder #: The user's Desktop folder
-        self.desktop_pictures_folder: XASystemEventsFolder #: The Desktop Pictures folder
-        self.documents_folder: XASystemEventsFolder #: The user's Documents folder
-        self.downloads_folder: XASystemEventsFolder #: The user's Downloads folder
-        self.favorites_folder: XASystemEventsFolder #: The user's Favorites folder
-        self.folder_action_scripts_folder: XASystemEventsFolder #: The user's Folder Action Scripts folder
-        self.fonts_folder: XASystemEventsFolder #: The Fonts folder
-        self.home_folder: XASystemEventsFolder #: The Home folder of the currently logged in user
-        self.library_folder: XASystemEventsFolder #: The Library folder
-        self.local_domain: XASystemEventsLocalDomainObject #: the collection of folders residing on the Local machine
-        self.movies_folder: XASystemEventsFolder #: The user's Movies folder
-        self.music_folder: XASystemEventsFolder #: The user's Music folder
-        self.network_domain: XASystemEventsNetworkDomainObject #: the collection of folders residing on the Network
-        self.pictures_folder: XASystemEventsFolder #: The user's Pictures folder
-        self.preferences_folder: XASystemEventsFolder #: The user's Preferences folder
-        self.public_folder: XASystemEventsFolder #: The user's Public folder
-        self.scripting_additions_folder: XASystemEventsFolder #: The Scripting Additions folder
-        self.scripts_folder: XASystemEventsFolder #: The user's Scripts folder
-        self.shared_documents_folder: XASystemEventsFolder #: The Shared Documents folder
-        self.sites_folder: XASystemEventsFolder #: The user's Sites folder
-        self.speakable_items_folder: XASystemEventsFolder #: The Speakable Items folder
-        self.startup_disk: XASystemEventsDisk #: the disk from which Mac OS X was loaded
-        self.system_domain: XASystemEventsSystemDomainObject #: the collection of folders belonging to the System
-        self.temporary_items_folder: XASystemEventsFolder #: The Temporary Items folder
-        self.trash: XASystemEventsFolder #: The user's Trash folder
-        self.user_domain: XASystemEventsUserDomainObject #: the collection of folders belonging to the User
-        self.utilities_folder: XASystemEventsFolder #: The Utilities folder
-        self.workflows_folder: XASystemEventsFolder #: The Automator Workflows folder
+        self.application_support_folder: XABase.XAFolder #: The Application Support folder
+        self.applications_folder: XABase.XAFolder #: The user's Applications folder
+        self.classic_domain: XABase.XAClassicDomainObject #: the collection of folders belonging to the Classic System
+        self.desktop_folder: XABase.XAFolder #: The user's Desktop folder
+        self.desktop_pictures_folder: XABase.XAFolder #: The Desktop Pictures folder
+        self.documents_folder: XABase.XAFolder #: The user's Documents folder
+        self.downloads_folder: XABase.XAFolder #: The user's Downloads folder
+        self.favorites_folder: XABase.XAFolder #: The user's Favorites folder
+        self.folder_action_scripts_folder: XABase.XAFolder #: The user's Folder Action Scripts folder
+        self.fonts_folder: XABase.XAFolder #: The Fonts folder
+        self.home_folder: XABase.XAFolder #: The Home folder of the currently logged in user
+        self.library_folder: XABase.XAFolder #: The Library folder
+        self.local_domain: XABase.XALocalDomainObject #: the collection of folders residing on the Local machine
+        self.movies_folder: XABase.XAFolder #: The user's Movies folder
+        self.music_folder: XABase.XAFolder #: The user's Music folder
+        self.network_domain: XABase.XANetworkDomainObject #: the collection of folders residing on the Network
+        self.pictures_folder: XABase.XAFolder #: The user's Pictures folder
+        self.preferences_folder: XABase.XAFolder #: The user's Preferences folder
+        self.public_folder: XABase.XAFolder #: The user's Public folder
+        self.scripting_additions_folder: XABase.XAFolder #: The Scripting Additions folder
+        self.scripts_folder: XABase.XAFolder #: The user's Scripts folder
+        self.shared_documents_folder: XABase.XAFolder #: The Shared Documents folder
+        self.sites_folder: XABase.XAFolder #: The user's Sites folder
+        self.speakable_items_folder: XABase.XAFolder #: The Speakable Items folder
+        self.startup_disk: XABase.XADisk #: the disk from which Mac OS X was loaded
+        self.system_domain: XABase.XASystemDomainObject #: the collection of folders belonging to the System
+        self.temporary_items_folder: XABase.XAFolder #: The Temporary Items folder
+        self.trash: XABase.XAFolder #: The user's Trash folder
+        self.user_domain: XABase.XAUserDomainObject #: the collection of folders belonging to the User
+        self.utilities_folder: XABase.XAFolder #: The Utilities folder
+        self.workflows_folder: XABase.XAFolder #: The Automator Workflows folder
         self.folder_actions_enabled: bool #: Are Folder Actions currently being processed?
         self.ui_elements_enabled: bool #: Are UI element events currently being processed?
         self.scripting_definition: XASystemEventsScriptingDefinitionObject #: The scripting definition of the System Events application
@@ -280,128 +280,128 @@ class XASystemEventsApplication(XABaseScriptable.XASBApplication, XACanPrintPath
         self.set_property('securityPreferences', security_preferences.xa_elem)
 
     @property
-    def application_support_folder(self) -> 'XASystemEventsFolder':
-        return self._new_element(self.xa_scel.applicationSupportFolder(), XASystemEventsFolder)
+    def application_support_folder(self) -> 'XABase.XAFolder':
+        return self._new_element(self.xa_scel.applicationSupportFolder(), XABase.XAFolder)
 
     @property
-    def applications_folder(self) -> 'XASystemEventsFolder':
-        return self._new_element(self.xa_scel.applicationsFolder(), XASystemEventsFolder)
+    def applications_folder(self) -> 'XABase.XAFolder':
+        return self._new_element(self.xa_scel.applicationsFolder(), XABase.XAFolder)
 
     @property
-    def classic_domain(self) -> 'XASystemEventsClassicDomainObject':
-        return self._new_element(self.xa_scel.ClassicDomain(), XASystemEventsClassicDomainObject)
+    def classic_domain(self) -> 'XABase.XAClassicDomainObject':
+        return self._new_element(self.xa_scel.ClassicDomain(), XABase.XAClassicDomainObject)
 
     @property
-    def desktop_folder(self) -> 'XASystemEventsFolder':
-        return self._new_element(self.xa_scel.desktopFolder(), XASystemEventsFolder)
+    def desktop_folder(self) -> 'XABase.XAFolder':
+        return self._new_element(self.xa_scel.desktopFolder(), XABase.XAFolder)
 
     @property
-    def desktop_pictures_folder(self) -> 'XASystemEventsFolder':
-        return self._new_element(self.xa_scel.desktopPicturesFolder(), XASystemEventsFolder)
+    def desktop_pictures_folder(self) -> 'XABase.XAFolder':
+        return self._new_element(self.xa_scel.desktopPicturesFolder(), XABase.XAFolder)
 
     @property
-    def documents_folder(self) -> 'XASystemEventsFolder':
-        return self._new_element(self.xa_scel.documentsFolder(), XASystemEventsFolder)
+    def documents_folder(self) -> 'XABase.XAFolder':
+        return self._new_element(self.xa_scel.documentsFolder(), XABase.XAFolder)
 
     @property
-    def downloads_folder(self) -> 'XASystemEventsFolder':
-        return self._new_element(self.xa_scel.downloadsFolder(), XASystemEventsFolder)
+    def downloads_folder(self) -> 'XABase.XAFolder':
+        return self._new_element(self.xa_scel.downloadsFolder(), XABase.XAFolder)
 
     @property
-    def favorites_folder(self) -> 'XASystemEventsFolder':
-        return self._new_element(self.xa_scel.favoritesFolder(), XASystemEventsFolder)
+    def favorites_folder(self) -> 'XABase.XAFolder':
+        return self._new_element(self.xa_scel.favoritesFolder(), XABase.XAFolder)
 
     @property
-    def folder_action_scripts_folder(self) -> 'XASystemEventsFolder':
-        return self._new_element(self.xa_scel.FolderActionScriptsFolder(), XASystemEventsFolder)
+    def folder_action_scripts_folder(self) -> 'XABase.XAFolder':
+        return self._new_element(self.xa_scel.FolderActionScriptsFolder(), XABase.XAFolder)
 
     @property
-    def fonts_folder(self) -> 'XASystemEventsFolder':
-        return self._new_element(self.xa_scel.fontsFolder(), XASystemEventsFolder)
+    def fonts_folder(self) -> 'XABase.XAFolder':
+        return self._new_element(self.xa_scel.fontsFolder(), XABase.XAFolder)
 
     @property
-    def home_folder(self) -> 'XASystemEventsFolder':
-        return self._new_element(self.xa_scel.homeFolder(), XASystemEventsFolder)
+    def home_folder(self) -> 'XABase.XAFolder':
+        return self._new_element(self.xa_scel.homeFolder(), XABase.XAFolder)
 
     @property
-    def library_folder(self) -> 'XASystemEventsFolder':
-        return self._new_element(self.xa_scel.libraryFolder(), XASystemEventsFolder)
+    def library_folder(self) -> 'XABase.XAFolder':
+        return self._new_element(self.xa_scel.libraryFolder(), XABase.XAFolder)
 
     @property
-    def local_domain(self) -> 'XASystemEventsLocalDomainObject':
-        return self._new_element(self.xa_scel.localDomain(), XASystemEventsLocalDomainObject)
+    def local_domain(self) -> 'XABase.XALocalDomainObject':
+        return self._new_element(self.xa_scel.localDomain(), XABase.XALocalDomainObject)
 
     @property
-    def movies_folder(self) -> 'XASystemEventsFolder':
-        return self._new_element(self.xa_scel.moviesFolder(), XASystemEventsLocalDomainObject)
+    def movies_folder(self) -> 'XABase.XAFolder':
+        return self._new_element(self.xa_scel.moviesFolder(), XABase.XALocalDomainObject)
 
     @property
-    def music_folder(self) -> 'XASystemEventsFolder':
-        return self._new_element(self.xa_scel.musicFolder(), XASystemEventsFolder)
+    def music_folder(self) -> 'XABase.XAFolder':
+        return self._new_element(self.xa_scel.musicFolder(), XABase.XAFolder)
 
     @property
-    def network_domain(self) -> 'XASystemEventsNetworkDomainObject':
-        return self._new_element(self.xa_scel.networkDomain(), XASystemEventsNetworkDomainObject)
+    def network_domain(self) -> 'XABase.XANetworkDomainObject':
+        return self._new_element(self.xa_scel.networkDomain(), XABase.XANetworkDomainObject)
 
     @property
-    def pictures_folder(self) -> 'XASystemEventsFolder':
-        return self._new_element(self.xa_scel.picturesFolder(), XASystemEventsFolder)
+    def pictures_folder(self) -> 'XABase.XAFolder':
+        return self._new_element(self.xa_scel.picturesFolder(), XABase.XAFolder)
 
     @property
-    def preferences_folder(self) -> 'XASystemEventsFolder':
-        return self._new_element(self.xa_scel.preferencesFolder(), XASystemEventsFolder)
+    def preferences_folder(self) -> 'XABase.XAFolder':
+        return self._new_element(self.xa_scel.preferencesFolder(), XABase.XAFolder)
 
     @property
-    def public_folder(self) -> 'XASystemEventsFolder':
-        return self._new_element(self.xa_scel.publicFolder(), XASystemEventsFolder)
+    def public_folder(self) -> 'XABase.XAFolder':
+        return self._new_element(self.xa_scel.publicFolder(), XABase.XAFolder)
 
     @property
-    def scripting_additions_folder(self) -> 'XASystemEventsFolder':
-        return self._new_element(self.xa_scel.scriptingAdditionsFolder(), XASystemEventsFolder)
+    def scripting_additions_folder(self) -> 'XABase.XAFolder':
+        return self._new_element(self.xa_scel.scriptingAdditionsFolder(), XABase.XAFolder)
 
     @property
-    def scripts_folder(self) -> 'XASystemEventsFolder':
-        return self._new_element(self.xa_scel.scriptsFolder(), XASystemEventsFolder)
+    def scripts_folder(self) -> 'XABase.XAFolder':
+        return self._new_element(self.xa_scel.scriptsFolder(), XABase.XAFolder)
 
     @property
-    def shared_documents_folder(self) -> 'XASystemEventsFolder':
-        return self._new_element(self.xa_scel.sharedDocumentsFolder(), XASystemEventsFolder)
+    def shared_documents_folder(self) -> 'XABase.XAFolder':
+        return self._new_element(self.xa_scel.sharedDocumentsFolder(), XABase.XAFolder)
 
     @property
-    def sites_folder(self) -> 'XASystemEventsFolder':
-        return self._new_element(self.xa_scel.sitesFolder(), XASystemEventsFolder)
+    def sites_folder(self) -> 'XABase.XAFolder':
+        return self._new_element(self.xa_scel.sitesFolder(), XABase.XAFolder)
 
     @property
-    def speakable_items_folder(self) -> 'XASystemEventsFolder':
-        return self._new_element(self.xa_scel.speakableItemsFolder(), XASystemEventsFolder)
+    def speakable_items_folder(self) -> 'XABase.XAFolder':
+        return self._new_element(self.xa_scel.speakableItemsFolder(), XABase.XAFolder)
 
     @property
-    def startup_disk(self) -> 'XASystemEventsDisk':
-        return self._new_element(self.xa_scel.startupDisk(), XASystemEventsDisk)
+    def startup_disk(self) -> 'XABase.XADisk':
+        return self._new_element(self.xa_scel.startupDisk(), XABase.XADisk)
 
     @property
-    def system_domain(self) -> 'XASystemEventsSystemDomainObject':
-        return self._new_element(self.xa_scel.systemDomain(), XASystemEventsSystemDomainObject)
+    def system_domain(self) -> 'XABase.XASystemDomainObject':
+        return self._new_element(self.xa_scel.systemDomain(), XABase.XASystemDomainObject)
 
     @property
-    def temporary_items_folder(self) -> 'XASystemEventsFolder':
-        return self._new_element(self.xa_scel.temporaryItemsFolder(), XASystemEventsFolder)
+    def temporary_items_folder(self) -> 'XABase.XAFolder':
+        return self._new_element(self.xa_scel.temporaryItemsFolder(), XABase.XAFolder)
 
     @property
-    def trash(self) -> 'XASystemEventsFolder':
-        return self._new_element(self.xa_scel.trash(), XASystemEventsFolder)
+    def trash(self) -> 'XABase.XAFolder':
+        return self._new_element(self.xa_scel.trash(), XABase.XAFolder)
 
     @property
-    def user_domain(self) -> 'XASystemEventsUserDomainObject':
-        return self._new_element(self.xa_scel.userDomain(), XASystemEventsUserDomainObject)
+    def user_domain(self) -> 'XABase.XAUserDomainObject':
+        return self._new_element(self.xa_scel.userDomain(), XABase.XAUserDomainObject)
 
     @property
-    def utilities_folder(self) -> 'XASystemEventsFolder':
-        return self._new_element(self.xa_scel.utilitiesFolder(), XASystemEventsFolder)
+    def utilities_folder(self) -> 'XABase.XAFolder':
+        return self._new_element(self.xa_scel.utilitiesFolder(), XABase.XAFolder)
 
     @property
-    def workflows_folder(self) -> 'XASystemEventsFolder':
-        return self._new_element(self.xa_scel.workflowsFolder(), XASystemEventsFolder)
+    def workflows_folder(self) -> 'XABase.XAFolder':
+        return self._new_element(self.xa_scel.workflowsFolder(), XABase.XAFolder)
 
     @property
     def folder_actions_enabled(self) -> bool:
@@ -422,7 +422,7 @@ class XASystemEventsApplication(XABaseScriptable.XASBApplication, XACanPrintPath
     def log_out(self):
         """Logs out the current user.
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         self.xa_scel.logOut()
 
@@ -432,7 +432,7 @@ class XASystemEventsApplication(XABaseScriptable.XASBApplication, XACanPrintPath
         :param state_saving_preference: Whether the user defined state saving preference is followed, defaults to False (always saved)
         :type state_saving_preference: bool, optional
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         self.xa_scel.restartStateSavingPreference_(state_saving_preference)
 
@@ -442,14 +442,14 @@ class XASystemEventsApplication(XABaseScriptable.XASBApplication, XACanPrintPath
         :param state_saving_preference: Whether the user defined state saving preference is followed, defaults to False (always saved)
         :type state_saving_preference: bool, optional
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         self.xa_scel.shutDownStateSavingPreference_(state_saving_preference)
 
     def sleep(self):
         """Puts the computer to sleep.
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         self.xa_scel.sleep()
 
@@ -482,6 +482,23 @@ class XASystemEventsApplication(XABaseScriptable.XASBApplication, XACanPrintPath
         """
         self.xa_scel.click()
 
+    def key_code(self, key_code: Union[int, List[int]], modifier: Union['XASystemEventsApplication.Key', List['XASystemEventsApplication.Key'], None] = None):
+        if isinstance(modifier, list):
+            modifier = [x.value for x in modifier]
+            self.xa_scel.keyCode_using_(key_code, modifier)
+        else:
+            self.xa_scel.keyCode_using_(key_code, modifier.value if modifier is not None else None)
+
+    def key_stroke(self, key: Union[int, List[int]], modifier: Union['XASystemEventsApplication.Key', List['XASystemEventsApplication.Key'], None] = None):
+        def four_char_code(s):
+            (ord(s[0]) << 24) + (ord(s[1]) << 16) + (ord(s[2]) << 8) + ord(s[3])
+
+        if isinstance(modifier, list):
+            modifier = [x.value for x in modifier]
+            self.xa_scel.keystroke_using_(key, modifier)
+        else:
+            self.xa_scel.keystroke_using_(key, modifier.value if modifier is not None else None)
+
     def documents(self, filter: dict = None) -> Union['XASystemEventsDocumentList', None]:
         """Returns a list of documents, as PyXA-wrapped objects, matching the given filter.
 
@@ -490,7 +507,7 @@ class XASystemEventsApplication(XABaseScriptable.XASBApplication, XACanPrintPath
         :return: The list of documents
         :rtype: XASystemEventsDocumentList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_scel.documents(), XASystemEventsDocumentList, filter)
 
@@ -502,7 +519,7 @@ class XASystemEventsApplication(XABaseScriptable.XASBApplication, XACanPrintPath
         :return: The list of users
         :rtype: XASystemEventsUserList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_scel.users(), XASystemEventsUserList, filter)
 
@@ -514,7 +531,7 @@ class XASystemEventsApplication(XABaseScriptable.XASBApplication, XACanPrintPath
         :return: The list of desktops
         :rtype: XASystemEventsDesktopList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_scel.desktops(), XASystemEventsDesktopList, filter)
 
@@ -526,7 +543,7 @@ class XASystemEventsApplication(XABaseScriptable.XASBApplication, XACanPrintPath
         :return: The list of login items
         :rtype: XASystemEventsLoginItemList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_scel.loginItems(), XASystemEventsLoginItemList, filter)
 
@@ -538,105 +555,105 @@ class XASystemEventsApplication(XABaseScriptable.XASBApplication, XACanPrintPath
         :return: The list of screen savers
         :rtype: XASystemEventsScreenSaverList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_scel.screenSavers(), XASystemEventsScreenSaverList, filter)
 
-    def aliases(self, filter: dict = None) -> Union['XASystemEventsAliasList', None]:
+    def aliases(self, filter: dict = None) -> Union['XABase.XAAliasList', None]:
         """Returns a list of aliases, as PyXA-wrapped objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned aliases will have, or None
         :type filter: Union[dict, None]
         :return: The list of aliases
-        :rtype: XASystemEventsAliasList
+        :rtype: XABase.XAAliasList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_scel.aliases(), XASystemEventsAliasList, filter)
+        return self._new_element(self.xa_scel.aliases(), XABase.XAAliasList, filter)
 
-    def disks(self, filter: dict = None) -> Union['XASystemEventsDiskList', None]:
+    def disks(self, filter: dict = None) -> Union['XABase.XADiskList', None]:
         """Returns a list of disks, as PyXA-wrapped objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned disks will have, or None
         :type filter: Union[dict, None]
         :return: The list of disks
-        :rtype: XASystemEventsDiskList
+        :rtype: XABase.XADiskList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_scel.disks(), XASystemEventsDiskList, filter)
+        return self._new_element(self.xa_scel.disks(), XABase.XADiskList, filter)
 
-    def disk_items(self, filter: dict = None) -> Union['XASystemEventsDiskItemList', None]:
+    def disk_items(self, filter: dict = None) -> Union['XABase.XADiskItemList', None]:
         """Returns a list of disk items, as PyXA-wrapped objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned disk items will have, or None
         :type filter: Union[dict, None]
         :return: The list of disk items
-        :rtype: XASystemEventsDiskItemList
+        :rtype: XABase.XADiskItemList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_scel.diskItems(), XASystemEventsDiskItemList, filter)
+        return self._new_element(self.xa_scel.diskItems(), XABase.XADiskItemList, filter)
 
-    def domains(self, filter: dict = None) -> Union['XASystemEventsDomainList', None]:
+    def domains(self, filter: dict = None) -> Union['XABase.XADomainList', None]:
         """Returns a list of domains, as PyXA-wrapped objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned domains will have, or None
         :type filter: Union[dict, None]
         :return: The list of domains
-        :rtype: XASystemEventsDomainList
+        :rtype: XABase.XADomainList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_scel.domains(), XASystemEventsDomainList, filter)
+        return self._new_element(self.xa_scel.domains(), XABase.XADomainList, filter)
 
-    def files(self, filter: dict = None) -> Union['XASystemEventsFileList', None]:
+    def files(self, filter: dict = None) -> Union['XABase.XAFileList', None]:
         """Returns a list of files, as PyXA-wrapped objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned files will have, or None
         :type filter: Union[dict, None]
         :return: The list of files
-        :rtype: XASystemEventsFileList
+        :rtype: XABase.XAFileList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_scel.files(), XASystemEventsFileList, filter)
+        return self._new_element(self.xa_scel.files(), XABase.XAFileList, filter)
 
-    def file_packages(self, filter: dict = None) -> Union['XASystemEventsFilePackageList', None]:
+    def file_packages(self, filter: dict = None) -> Union['XABase.XAFilePackageList', None]:
         """Returns a list of file packages, as PyXA-wrapped objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned file packages will have, or None
         :type filter: Union[dict, None]
         :return: The list of file packages
-        :rtype: XASystemEventsFilePackageList
+        :rtype: XABase.XAFilePackageList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_scel.filePackages(), XASystemEventsFilePackageList, filter)
+        return self._new_element(self.xa_scel.filePackages(), XABase.XAFilePackageList, filter)
 
-    def folders(self, filter: dict = None) -> Union['XASystemEventsFolderList', None]:
+    def folders(self, filter: dict = None) -> Union['XABase.XAFolderList', None]:
         """Returns a list of folders, as PyXA-wrapped objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned folders will have, or None
         :type filter: Union[dict, None]
         :return: The list of folders
-        :rtype: XASystemEventsFolderList
+        :rtype: XABase.XAFolderList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_scel.folders(), XASystemEventsFolderList, filter)
+        return self._new_element(self.xa_scel.folders(), XABase.XAFolderList, filter)
 
-    def folder_actions(self, filter: dict = None) -> Union['XASystemEventsFolderActionList', None]:
+    def folder_actions(self, filter: dict = None) -> Union['XABase.XAFolderActionList', None]:
         """Returns a list of folder actions, as PyXA-wrapped objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned folder actions will have, or None
         :type filter: Union[dict, None]
         :return: The list of folder actions
-        :rtype: XASystemEventsFolderActionList
+        :rtype: XABase.XAFolderActionList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_scel.folderActions(), XASystemEventsFolderActionList, filter)
+        return self._new_element(self.xa_scel.folderActions(), XABase.XAFolderActionList, filter)
 
     def application_processes(self, filter: dict = None) -> Union['XASystemEventsApplicationProcessList', None]:
         """Returns a list of application processes, as PyXA-wrapped objects, matching the given filter.
@@ -646,7 +663,7 @@ class XASystemEventsApplication(XABaseScriptable.XASBApplication, XACanPrintPath
         :return: The list of processes
         :rtype: XASystemEventsApplicationProcessList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_scel.applicationProcesses(), XASystemEventsApplicationProcessList, filter)
 
@@ -658,7 +675,7 @@ class XASystemEventsApplication(XABaseScriptable.XASBApplication, XACanPrintPath
         :return: The list of processes
         :rtype: XASystemEventsDeskAccessoryProcessList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_scel.deskAccessoryProcesses(), XASystemEventsDeskAccessoryProcessList, filter)
 
@@ -670,7 +687,7 @@ class XASystemEventsApplication(XABaseScriptable.XASBApplication, XACanPrintPath
         :return: The list of processes
         :rtype: XASystemEventsProcessList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_scel.processes(), XASystemEventsProcessList, filter)
 
@@ -682,7 +699,7 @@ class XASystemEventsApplication(XABaseScriptable.XASBApplication, XACanPrintPath
         :return: The list of UI elements
         :rtype: XASystemEventsUIElementList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_scel.uiElements(), XASystemEventsUIElementList, filter)
 
@@ -694,7 +711,7 @@ class XASystemEventsApplication(XABaseScriptable.XASBApplication, XACanPrintPath
         :return: The list of property list files
         :rtype: XASystemEventsPropertyListFileList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_scel.propertyListFiles(), XASystemEventsPropertyListFileList, filter)
 
@@ -706,7 +723,7 @@ class XASystemEventsApplication(XABaseScriptable.XASBApplication, XACanPrintPath
         :return: The list of property list items
         :rtype: XASystemEventsPropertyListItemList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_scel.propertyListItems(), XASystemEventsPropertyListItemList, filter)
 
@@ -718,7 +735,7 @@ class XASystemEventsApplication(XABaseScriptable.XASBApplication, XACanPrintPath
         :return: The list of XML datas
         :rtype: XASystemEventsXMLDataList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_scel.xmlDatas(), XASystemEventsXMLDataList, filter)
 
@@ -730,7 +747,7 @@ class XASystemEventsApplication(XABaseScriptable.XASBApplication, XACanPrintPath
         :return: The list of XML files
         :rtype: XASystemEventsXMLFileList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_scel.xmlFiles(), XASystemEventsXMLFileList, filter)
 
@@ -746,7 +763,7 @@ class XASystemEventsApplication(XABaseScriptable.XASBApplication, XACanPrintPath
         :return: A PyXA wrapped form of the object
         :rtype: XABase.XAObject
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         specifier_map = {
             "login item": "login item"
@@ -758,9 +775,9 @@ class XASystemEventsApplication(XABaseScriptable.XASBApplication, XACanPrintPath
         if specifier == "login item":
             return self._new_element(obj, XASystemEventsLoginItem)
         elif specifier == "file":
-            return self._new_element(obj, XASystemEventsFile)
+            return self._new_element(obj, XABase.XAFile)
         elif specifier == "folder":
-            return self._new_element(obj, XASystemEventsFolder)
+            return self._new_element(obj, XABase.XAFolder)
 
 
 
@@ -795,16 +812,16 @@ class XASystemEventsDocumentList(XABase.XAList):
         """
         return list(self.xa_elem.arrayByApplyingSelector_("modified"))
 
-    def file(self) -> 'XASystemEventsFileList':
+    def file(self) -> 'XABase.XAFileList':
         """Gets the file of each document in the list.
 
         :return: A list of document files
-        :rtype: XASystemEventsFileList
+        :rtype: XABase.XAFileList
         
         .. versionadded:: 0.1.0
         """
         ls = self.xa_elem.arrayByApplyingSelector_("file")
-        return self._new_element(ls, XASystemEventsFileList)
+        return self._new_element(ls, XABase.XAFileList)
 
     def by_name(self, name: str) -> Union['XASystemEventsDocument', None]:
         """Retrieves the document whose name matches the given name, if one exists.
@@ -826,7 +843,7 @@ class XASystemEventsDocumentList(XABase.XAList):
         """
         return self.by_property("modified", modified)
 
-    def by_file(self, file: 'XASystemEventsFile') -> Union['XASystemEventsDocument', None]:
+    def by_file(self, file: 'XABase.XAFile') -> Union['XASystemEventsDocument', None]:
         """Retrieves the document whose file matches the given file, if one exists.
 
         :return: The desired document, if it is found
@@ -849,7 +866,7 @@ class XASystemEventsDocument(XABase.XAObject, XACloseable, XAPrintable):
         
         self.name: str #: Its name.
         self.modified: bool #: Has it been modified since the last save?
-        self.file: XASystemEventsFile #: Its location on disk, if it has one.
+        self.file: XABase.XAFile #: Its location on disk, if it has one.
 
     @property
     def name(self) -> str:
@@ -860,8 +877,8 @@ class XASystemEventsDocument(XABase.XAObject, XACloseable, XAPrintable):
         return self.xa_elem.modified()
 
     @property
-    def file(self) -> 'XASystemEventsFile':
-        return self._new_element(self.xa_elem.file(), XASystemEventsFile)
+    def file(self) -> 'XABase.XAFile':
+        return self._new_element(self.xa_elem.file(), XABase.XAFile)
 
     def save(self, path: Union[str, XABase.XAPath, None] = None):
         """Saves the document at the specified file path.
@@ -1089,7 +1106,7 @@ class XASystemEventsWindow(XABaseScriptable.XASBWindow, XASelectable):
         :return: The list of actions
         :rtype: XASystemEventsActionList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_elem.actions(), XASystemEventsActionList)
 
@@ -1101,7 +1118,7 @@ class XASystemEventsWindow(XABaseScriptable.XASBWindow, XASelectable):
         :return: The list of attributes
         :rtype: XASystemEventsAttributeList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_elem.attributes(), XASystemEventsAttributeList)
 
@@ -1113,7 +1130,7 @@ class XASystemEventsWindow(XABaseScriptable.XASBWindow, XASelectable):
         :return: The list of browsers
         :rtype: XASystemEventsBrowserList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_elem.browsers(), XASystemEventsBrowserList)
 
@@ -1125,7 +1142,7 @@ class XASystemEventsWindow(XABaseScriptable.XASBWindow, XASelectable):
         :return: The list of busy indicators
         :rtype: XASystemEventsBusyIndicatorList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_elem.busyIndicators(), XASystemEventsBusyIndicatorList)
 
@@ -1137,7 +1154,7 @@ class XASystemEventsWindow(XABaseScriptable.XASBWindow, XASelectable):
         :return: The list of buttons
         :rtype: XASystemEventsButtonList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_elem.buttons(), XASystemEventsCheckboxList)
 
@@ -1149,7 +1166,7 @@ class XASystemEventsWindow(XABaseScriptable.XASBWindow, XASelectable):
         :return: The list of checkboxes
         :rtype: XASystemEventsCheckboxList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_elem.checkboxes(), XASystemEventsCheckboxList)
 
@@ -1161,7 +1178,7 @@ class XASystemEventsWindow(XABaseScriptable.XASBWindow, XASelectable):
         :return: The list of color wells
         :rtype: XASystemEventsColorWellList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_elem.colorWells(), XASystemEventsColorWellList)
 
@@ -1173,7 +1190,7 @@ class XASystemEventsWindow(XABaseScriptable.XASBWindow, XASelectable):
         :return: The list of combo boxes
         :rtype: XASystemEventsComboBoxList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_elem.comboBoxes(), XASystemEventsComboBoxList)
 
@@ -1185,7 +1202,7 @@ class XASystemEventsWindow(XABaseScriptable.XASBWindow, XASelectable):
         :return: The list of drawers
         :rtype: XASystemEventsDrawerList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_elem.drawers(), XASystemEventsDrawerList)
 
@@ -1197,7 +1214,7 @@ class XASystemEventsWindow(XABaseScriptable.XASBWindow, XASelectable):
         :return: The list of groups
         :rtype: XASystemEventsGroupList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_elem.groups(), XASystemEventsGroupList)
 
@@ -1209,7 +1226,7 @@ class XASystemEventsWindow(XABaseScriptable.XASBWindow, XASelectable):
         :return: The list of grow areas
         :rtype: XASystemEventsGrowAreaList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_elem.growAreas(), XASystemEventsGrowAreaList)
 
@@ -1221,7 +1238,7 @@ class XASystemEventsWindow(XABaseScriptable.XASBWindow, XASelectable):
         :return: The list of images
         :rtype: XASystemEventsImageList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_elem.images(), XASystemEventsImageList)
 
@@ -1233,7 +1250,7 @@ class XASystemEventsWindow(XABaseScriptable.XASBWindow, XASelectable):
         :return: The list of incrementors
         :rtype: XASystemEventsIncrementorList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_elem.incrementors(), XASystemEventsIncrementorList)
 
@@ -1245,7 +1262,7 @@ class XASystemEventsWindow(XABaseScriptable.XASBWindow, XASelectable):
         :return: The list of lists
         :rtype: XASystemEventsListList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_elem.lists(), XASystemEventsListList)
 
@@ -1257,7 +1274,7 @@ class XASystemEventsWindow(XABaseScriptable.XASBWindow, XASelectable):
         :return: The list of menu buttons
         :rtype: XASystemEventsMenuButtonList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_elem.menuButtons(), XASystemEventsMenuButtonList)
 
@@ -1269,7 +1286,7 @@ class XASystemEventsWindow(XABaseScriptable.XASBWindow, XASelectable):
         :return: The list of outlines
         :rtype: XASystemEventsOutlineList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_elem.outlines(), XASystemEventsOutlineList)
 
@@ -1281,7 +1298,7 @@ class XASystemEventsWindow(XABaseScriptable.XASBWindow, XASelectable):
         :return: The list of pop-overs
         :rtype: XASystemEventsPopOverList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_elem.popOvers(), XASystemEventsPopOverList)
 
@@ -1293,7 +1310,7 @@ class XASystemEventsWindow(XABaseScriptable.XASBWindow, XASelectable):
         :return: The list of pop-up buttons
         :rtype: XASystemEventsPopUpButtonList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_elem.popUpButtons(), XASystemEventsPopUpButtonList)
 
@@ -1305,7 +1322,7 @@ class XASystemEventsWindow(XABaseScriptable.XASBWindow, XASelectable):
         :return: The list of progress indicators
         :rtype: XASystemEventsProgressIndicatorList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_elem.progressIndicators(), XASystemEventsProgressIndicatorList)
 
@@ -1317,7 +1334,7 @@ class XASystemEventsWindow(XABaseScriptable.XASBWindow, XASelectable):
         :return: The list of radio buttons
         :rtype: XASystemEventsRadioButtonList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_elem.radioButtons(), XASystemEventsRadioButtonList)
 
@@ -1329,7 +1346,7 @@ class XASystemEventsWindow(XABaseScriptable.XASBWindow, XASelectable):
         :return: The list of radio groups
         :rtype: XASystemEventsRadioGroupList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_elem.radioGroups(), XASystemEventsRadioGroupList)
 
@@ -1341,7 +1358,7 @@ class XASystemEventsWindow(XABaseScriptable.XASBWindow, XASelectable):
         :return: The list of relevance indicators
         :rtype: XASystemEventsRelevanceIndicatorList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_elem.relevanceIndicators(), XASystemEventsRelevanceIndicatorList)
 
@@ -1353,7 +1370,7 @@ class XASystemEventsWindow(XABaseScriptable.XASBWindow, XASelectable):
         :return: The list of scroll areas
         :rtype: XASystemEventsScrollAreaList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_elem.scrollAreas(), XASystemEventsScrollAreaList)
 
@@ -1365,7 +1382,7 @@ class XASystemEventsWindow(XABaseScriptable.XASBWindow, XASelectable):
         :return: The list of scroll bars
         :rtype: XASystemEventsScrollBarList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_elem.scrollBars(), XASystemEventsScrollBarList)
 
@@ -1377,7 +1394,7 @@ class XASystemEventsWindow(XABaseScriptable.XASBWindow, XASelectable):
         :return: The list of sheets
         :rtype: XASystemEventsSheetList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_elem.sheets(), XASystemEventsSheetList)
 
@@ -1389,7 +1406,7 @@ class XASystemEventsWindow(XABaseScriptable.XASBWindow, XASelectable):
         :return: The list of sliders
         :rtype: XASystemEventsSliderList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_elem.sliders(), XASystemEventsSliderList)
 
@@ -1401,7 +1418,7 @@ class XASystemEventsWindow(XABaseScriptable.XASBWindow, XASelectable):
         :return: The list of splitters
         :rtype: XASystemEventsSplitterList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_elem.splitters(), XASystemEventsSplitterList)
 
@@ -1413,7 +1430,7 @@ class XASystemEventsWindow(XABaseScriptable.XASBWindow, XASelectable):
         :return: The list of splitter groups
         :rtype: XASystemEventsSplitterGroupList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_elem.splitterGroups(), XASystemEventsSplitterGroupList)
 
@@ -1425,7 +1442,7 @@ class XASystemEventsWindow(XABaseScriptable.XASBWindow, XASelectable):
         :return: The list of static texts
         :rtype: XASystemEventsStaticTextList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_elem.staticTexts(), XASystemEventsStaticTextList)
 
@@ -1437,7 +1454,7 @@ class XASystemEventsWindow(XABaseScriptable.XASBWindow, XASelectable):
         :return: The list of tab groups
         :rtype: XASystemEventsTabGroupList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_elem.tabGroups(), XASystemEventsTabGroupList)
 
@@ -1449,7 +1466,7 @@ class XASystemEventsWindow(XABaseScriptable.XASBWindow, XASelectable):
         :return: The list of tables
         :rtype: XASystemEventsTableList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_elem.tables(), XASystemEventsTableList)
 
@@ -1461,7 +1478,7 @@ class XASystemEventsWindow(XABaseScriptable.XASBWindow, XASelectable):
         :return: The list of text areas
         :rtype: XASystemEventsTextAreaList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_elem.textAreas(), XASystemEventsTextAreaList)
 
@@ -1473,7 +1490,7 @@ class XASystemEventsWindow(XABaseScriptable.XASBWindow, XASelectable):
         :return: The list of text fields
         :rtype: XASystemEventsTextFieldList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_elem.textFields(), XASystemEventsTextFieldList)
 
@@ -1485,7 +1502,7 @@ class XASystemEventsWindow(XABaseScriptable.XASBWindow, XASelectable):
         :return: The list of outlines
         :rtype: XASystemEventsToolbarList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_elem.toolbars(), XASystemEventsToolbarList)
 
@@ -1497,7 +1514,7 @@ class XASystemEventsWindow(XABaseScriptable.XASBWindow, XASelectable):
         :return: The list of UI elements
         :rtype: XASystemEventsUIElementList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_elem.toolbars(), XASystemEventsUIElementList)
 
@@ -2137,7 +2154,7 @@ class XASystemEventsDesktop(XABase.XAObject):
 
     @property
     def picture(self) -> XABase.XAPath:
-        return XABase.XAPath(self.xa_elem.picture())
+        return XABase.XAPath(self.xa_elem.picture().get())
 
     @picture.setter
     def picture(self, picture: Union[XABase.XAPath, str]):
@@ -2194,7 +2211,7 @@ class XASystemEventsDesktop(XABase.XAObject):
 class XASystemEventsDockPreferencesObject(XABase.XAObject):
     """The current user's dock preferences.
 
-    .. versionadded:: 0.0.8
+    .. versionadded:: 0.1.0
     """
     def __init__(self, properties):
         super().__init__(properties)
@@ -2319,7 +2336,7 @@ class XASystemEventsLoginItemList(XABase.XAList):
 
     All properties of property login items can be called as methods on the wrapped list, returning a list containing each login item's value for the property.
 
-    .. versionadded:: 0.0.8
+    .. versionadded:: 0.1.0
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XASystemEventsLoginItem, filter)
@@ -2330,7 +2347,7 @@ class XASystemEventsLoginItemList(XABase.XAList):
         :return: A list of property list hidden statuses
         :rtype: List[bool]
         
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("contents"))
 
@@ -2340,7 +2357,7 @@ class XASystemEventsLoginItemList(XABase.XAList):
         :return: A list of property list kinds
         :rtype: List[str]
         
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("kind"))
 
@@ -2350,7 +2367,7 @@ class XASystemEventsLoginItemList(XABase.XAList):
         :return: A list of property list names
         :rtype: List[str]
         
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
@@ -2360,7 +2377,7 @@ class XASystemEventsLoginItemList(XABase.XAList):
         :return: A list of property list paths
         :rtype: List[XABase.XAPath]
         
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         ls = self.xa_elem.arrayByApplyingSelector_("path")
         return [XABase.XAPath(x) for x in ls]
@@ -2371,7 +2388,7 @@ class XASystemEventsLoginItemList(XABase.XAList):
         :return: The desired login item, if it is found
         :rtype: Union[XASystemEventsLoginItem, None]
         
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self.by_property("hidden", hidden)
 
@@ -2381,7 +2398,7 @@ class XASystemEventsLoginItemList(XABase.XAList):
         :return: The desired login item, if it is found
         :rtype: Union[XASystemEventsLoginItem, None]
         
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self.by_property("kind", kind)
 
@@ -2391,7 +2408,7 @@ class XASystemEventsLoginItemList(XABase.XAList):
         :return: The desired login item, if it is found
         :rtype: Union[XASystemEventsLoginItem, None]
         
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self.by_property("name", name)
 
@@ -2401,7 +2418,7 @@ class XASystemEventsLoginItemList(XABase.XAList):
         :return: The desired login item, if it is found
         :rtype: Union[XASystemEventsLoginItem, None]
         
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         if isinstance(path, XABase.XAPath):
             path = path.path
@@ -2413,7 +2430,7 @@ class XASystemEventsLoginItemList(XABase.XAList):
 class XASystemEventsLoginItem(XABase.XAObject):
     """An item to be launched or opened at login.add()
     
-    .. versionadded:: 0.0.8
+    .. versionadded:: 0.1.0
     """
     def __init__(self, properties):
         super().__init__(properties)
@@ -2446,7 +2463,7 @@ class XASystemEventsLoginItem(XABase.XAObject):
     def delete(self):
         """Deletes the login item.
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self.xa_elem.delete()
 
@@ -2948,7 +2965,7 @@ class XASystemEventsNetworkPreferencesObject(XABase.XAObject):
         :return: The list of interfaces
         :rtype: XASystemEventsInterfaceList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_elem.interfaces(), XASystemEventsInterfaceList, filter)
 
@@ -2960,7 +2977,7 @@ class XASystemEventsNetworkPreferencesObject(XABase.XAObject):
         :return: The list of locations
         :rtype: XASystemEventsLocationList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_elem.locations(), XASystemEventsLocationList, filter)
 
@@ -2972,7 +2989,7 @@ class XASystemEventsNetworkPreferencesObject(XABase.XAObject):
         :return: The list of services
         :rtype: XASystemEventsServiceList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_elem.services(), XASystemEventsServiceList, filter)
     
@@ -3294,7 +3311,7 @@ class XASystemEventsScreenSaver(XABase.XAObject):
         
         self.displayed_name: str #: name of the screen saver module as displayed to the user
         self.name: str #: name of the screen saver module to be displayed
-        self.path: XASystemEventsAlias #: path to the screen saver module
+        self.path: XABase.XAAlias #: path to the screen saver module
         self.picture_display_style: str #: effect to use when displaying picture-based screen savers (slideshow, collage, or mosaic)
 
     @property
@@ -3306,8 +3323,8 @@ class XASystemEventsScreenSaver(XABase.XAObject):
         return self.xa_elem.name()
 
     @property
-    def path(self) -> 'XASystemEventsAlias':
-        return self._new_element(self.xa_elem.path(), XASystemEventsAlias)
+    def path(self) -> 'XABase.XAAlias':
+        return self._new_element(self.xa_elem.path(), XABase.XAAlias)
 
     @property
     def picture_display_style(self) -> str:
@@ -3454,2150 +3471,6 @@ class XASystemEventsSecurityPreferencesObject(XABase.XAObject):
     @secure_virtual_memory.setter
     def secure_virtual_memory(self, secure_virtual_memory: bool):
         self.set_property('secureVirtualMemory', secure_virtual_memory)
-    
-
-
-
-class XASystemEventsDiskItemList(XABase.XAList):
-    """A wrapper around lists of disk items that employs fast enumeration techniques.
-
-    All properties of disk items can be called as methods on the wrapped list, returning a list containing each disk items's value for the property.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None, obj_class = None):
-        if obj_class is None:
-            obj_class = XASystemEventsDiskItem
-        super().__init__(properties, obj_class, filter)
-
-    def busy_status(self) -> List[bool]:
-        """Gets the busy status of each disk item in the list.
-
-        :return: A list of disk item busy status booleans
-        :rtype: List[bool]
-        
-        .. versionadded:: 0.1.0
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("busyStatus") or [])
-
-    def container(self) -> 'XASystemEventsDiskItemList':
-        """Gets the container of each disk item in the list.
-
-        :return: A list of disk item containers
-        :rtype: XASystemEventsDiskItemList
-        
-        .. versionadded:: 0.1.0
-        """
-        ls = self.xa_elem.arrayByApplyingSelector_("container") or []
-        return self._new_element(ls, XASystemEventsDiskItemList)
-
-    def creation_date(self) -> List[datetime]:
-        """Gets the creation date of each disk item in the list.
-
-        :return: A list of disk item creation dates
-        :rtype: List[datetime]
-        
-        .. versionadded:: 0.1.0
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("creationDate") or [])
-
-    def displayed_name(self) -> List[str]:
-        """Gets the displayed name of each disk item in the list.
-
-        :return: A list of disk item displayed names
-        :rtype: List[str]
-        
-        .. versionadded:: 0.1.0
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("displayedName") or [])
-
-    def id(self) -> List[str]:
-        """Gets the ID of each disk item in the list.
-
-        :return: A list of disk item IDs
-        :rtype: List[str]
-        
-        .. versionadded:: 0.1.0
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("id") or [])
-
-    def modification_date(self) -> List[datetime]:
-        """Gets the modification date of each disk item in the list.
-
-        :return: A list of disk item modification dates
-        :rtype: List[datetime]
-        
-        .. versionadded:: 0.1.0
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("modificationDate") or [])
-    
-    def name(self) -> List[str]:
-        """Gets the name of each disk item in the list.
-
-        :return: A list of disk item names
-        :rtype: List[str]
-        
-        .. versionadded:: 0.1.0
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
-
-    def name_extension(self) -> List[str]:
-        """Gets the name extension of each disk item in the list.
-
-        :return: A list of disk item name extensions
-        :rtype: List[str]
-        
-        .. versionadded:: 0.1.0
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("nameExtension") or [])
-
-    def package_folder(self) -> List[bool]:
-        """Gets the package folder status of each disk item in the list.
-
-        :return: A list of disk item package folder status booleans
-        :rtype: List[bool]
-        
-        .. versionadded:: 0.1.0
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("packageFolder") or [])
-
-    def path(self) -> List[XABase.XAPath]:
-        """Gets the path of each disk item in the list.
-
-        :return: A list of disk item paths
-        :rtype: List[XABase.XAPath]
-        
-        .. versionadded:: 0.1.0
-        """
-        ls = self.xa_elem.arrayByApplyingSelector_("path") or []
-        return [XABase.XAPath(x) for x in ls]
-
-    def physical_size(self) -> List[int]:
-        """Gets the physical size of each disk item in the list.
-
-        :return: A list of disk item physical sizes
-        :rtype: List[int]
-        
-        .. versionadded:: 0.1.0
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("physicalSize") or [])
-
-    def posix_path(self) -> List[str]:
-        """Gets the POSIX path of each disk item in the list.
-
-        :return: A list of disk item POSIX paths
-        :rtype: List[str]
-        
-        .. versionadded:: 0.1.0
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("posixPath") or [])
-
-    def size(self) -> List[int]:
-        """Gets the size of each disk item in the list.
-
-        :return: A list of disk item sizes
-        :rtype: List[int]
-        
-        .. versionadded:: 0.1.0
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("size") or [])
-
-    def url(self) -> List[XABase.XAURL]:
-        """Gets the URL of each disk item in the list.
-
-        :return: A list of disk item URLs
-        :rtype: List[XABase.XAURL]
-        
-        .. versionadded:: 0.1.0
-        """
-        ls = self.xa_elem.arrayByApplyingSelector_("URL") or []
-        return [XABase.XAURL(x) for x in ls]
-
-    def visible(self) -> List[bool]:
-        """Gets the visible status of each disk item in the list.
-
-        :return: A list of disk item visible status booleans
-        :rtype: List[bool]
-        
-        .. versionadded:: 0.1.0
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("visible") or [])
-
-    def volume(self) -> List[str]:
-        """Gets the volume of each disk item in the list.
-
-        :return: A list of disk item volumes
-        :rtype: List[str]
-        
-        .. versionadded:: 0.1.0
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("volume") or [])
-
-    def by_busy_status(self, busy_status: bool) -> Union['XASystemEventsDiskItem', None]:
-        """Retrieves the first disk item whose busy status matches the given boolean value, if one exists.
-
-        :return: The desired disk item, if it is found
-        :rtype: Union[XASystemEventsDiskItem, None]
-        
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("busyStatus", busy_status)
-
-    def by_container(self, container: 'XASystemEventsDiskItem') -> Union['XASystemEventsDiskItem', None]:
-        """Retrieves the first disk item whose container matches the given container, if one exists.
-
-        :return: The desired disk item, if it is found
-        :rtype: Union[XASystemEventsDiskItem, None]
-        
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("container", container.xa_elem)
-
-    def by_creation_date(self, creation_date: datetime) -> Union['XASystemEventsDiskItem', None]:
-        """Retrieves the first disk item whose creation date matches the given date, if one exists.
-
-        :return: The desired disk item, if it is found
-        :rtype: Union[XASystemEventsDiskItem, None]
-        
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("creationDate", creation_date)
-
-    def by_displayed_name(self, displayed_name: str) -> Union['XASystemEventsDiskItem', None]:
-        """Retrieves the first disk item whose displayed name matches the given name, if one exists.
-
-        :return: The desired disk item, if it is found
-        :rtype: Union[XASystemEventsDiskItem, None]
-        
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("displayedName", displayed_name)
-
-    def by_id(self, id: str) -> Union['XASystemEventsDiskItem', None]:
-        """Retrieves the disk item whose ID matches the given ID, if one exists.
-
-        :return: The desired disk item, if it is found
-        :rtype: Union[XASystemEventsDiskItem, None]
-        
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("id", id)
-
-    def by_modification_date(self, modification_date: datetime) -> Union['XASystemEventsDiskItem', None]:
-        """Retrieves the first disk item whose modification date matches the given date, if one exists.
-
-        :return: The desired disk item, if it is found
-        :rtype: Union[XASystemEventsDiskItem, None]
-        
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("modificationDate", modification_date)
-    
-    def by_name(self, name: str) -> Union['XASystemEventsDiskItem', None]:
-        """Retrieves the first disk item whose name matches the given name, if one exists.
-
-        :return: The desired disk item, if it is found
-        :rtype: Union[XASystemEventsDiskItem, None]
-        
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("name", name)
-
-    def by_name_extension(self, name_extension: str) -> Union['XASystemEventsDiskItem', None]:
-        """Retrieves the first disk item whose name extension matches the given extension, if one exists.
-
-        :return: The desired disk item, if it is found
-        :rtype: Union[XASystemEventsDiskItem, None]
-        
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("nameExtension", name_extension)
-
-    def by_package_folder(self, package_folder: bool) -> Union['XASystemEventsDiskItem', None]:
-        """Retrieves the first disk item whose package folder status matches the given boolean value, if one exists.
-
-        :return: The desired disk item, if it is found
-        :rtype: Union[XASystemEventsDiskItem, None]
-        
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("packageFolder", package_folder)
-
-    def by_path(self, path: Union[XABase.XAPath, str]) -> Union['XASystemEventsDiskItem', None]:
-        """Retrieves the disk item whose path matches the given path, if one exists.
-
-        :return: The desired disk item, if it is found
-        :rtype: Union[XASystemEventsDiskItem, None]
-        
-        .. versionadded:: 0.1.0
-        """
-        if isinstance(path, XABase.XAPath):
-            path = path.path
-        return self.by_property("path", path)
-
-    def by_physical_size(self, physical_size: int) -> Union['XASystemEventsDiskItem', None]:
-        """Retrieves the first disk item whose physical size matches the given size, if one exists.
-
-        :return: The desired disk item, if it is found
-        :rtype: Union[XASystemEventsDiskItem, None]
-        
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("physicalSize", physical_size)
-
-    def by_posix_path(self, posix_path: str) -> Union['XASystemEventsDiskItem', None]:
-        """Retrieves the disk item whose POSIX path matches the given POSIX path, if one exists.
-
-        :return: The desired disk item, if it is found
-        :rtype: Union[XASystemEventsDiskItem, None]
-        
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("posixPath", posix_path)
-
-    def by_size(self, size: int) -> Union['XASystemEventsDiskItem', None]:
-        """Retrieves the first disk item whose size matches the given size, if one exists.
-
-        :return: The desired disk item, if it is found
-        :rtype: Union[XASystemEventsDiskItem, None]
-        
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("size", size)
-
-    def by_url(self, url: Union[XABase.XAURL, str]) -> Union['XASystemEventsDiskItem', None]:
-        """Retrieves the disk item whose URL matches the given URL, if one exists.
-
-        :return: The desired disk item, if it is found
-        :rtype: Union[XASystemEventsDiskItem, None]
-        
-        .. versionadded:: 0.1.0
-        """
-        if isinstance(url, XABase.XAURL):
-            url = url.url
-        return self.by_property("URL", url)
-
-    def by_visible(self, visible: bool) -> Union['XASystemEventsDiskItem', None]:
-        """Retrieves the first disk item whose visible status matches the given boolean value, if one exists.
-
-        :return: The desired disk item, if it is found
-        :rtype: Union[XASystemEventsDiskItem, None]
-        
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("visible", visible)
-
-    def by_volume(self, volume: str) -> Union['XASystemEventsDiskItem', None]:
-        """Retrieves the first disk item whose volume matches the given volume, if one exists.
-
-        :return: The desired disk item, if it is found
-        :rtype: Union[XASystemEventsDiskItem, None]
-        
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("volume", volume)
-
-    def move_to(self, location: 'XASystemEventsDiskItem'):
-        """Moves all disk items in the list to the specified location.
-
-        :param location: The path to move the items to
-        :type location: XASystemEventsDiskItem
-
-        .. versionadded:: 0.1.0
-        """
-        for item in self.xa_elem.get():
-            item.moveTo_(location.xa_elem)
-
-    def open(self):
-        """Opens all disk items in the list.
-        
-        .. versionadded:: 0.1.0
-        """
-        for item in self.xa_elem.get():
-            item.open()
-
-    def __repr__(self):
-        return "<" + str(type(self)) + str(self.name()) + ">"
-
-class XASystemEventsDiskItem(XABase.XAObject):
-    """An item stored in the file system.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties):
-        super().__init__(properties)
-        
-        self.busy_status: bool #: Is the disk item busy?
-        self.container: XASystemEventsDiskItem #: the folder or disk which has this disk item as an element
-        self.creation_date: datetime #: the date on which the disk item was created
-        self.displayed_name: str #: the name of the disk item as displayed in the User Interface
-        self.id: str #: the unique ID of the disk item
-        self.modification_date: datetime #: the date on which the disk item was last modified
-        self.name: str #: the name of the disk item
-        self.name_extension: str #: the extension portion of the name
-        self.package_folder: bool #: Is the disk item a package?
-        self.path: str #: the file system path of the disk item
-        self.physical_size: int #: the actual space used by the disk item on disk
-        self.posix_path: str #: the POSIX file system path of the disk item
-        self.size: int #: the logical size of the disk item
-        self.url: str #: the URL of the disk item
-        self.visible: bool #: Is the disk item visible?
-        self.volume: str #: the volume on which the disk item resides
-
-    @property
-    def busy_status(self) -> bool:
-        return self.xa_elem.busyStatus()
-
-    @property
-    def container(self) -> 'XASystemEventsDiskItem':
-        return self._new_element(self.xa_elem.container(), XASystemEventsDiskItem)
-
-    @property
-    def creation_date(self) -> datetime:
-        return self.xa_elem.creationDate()
-
-    @property
-    def displayed_name(self) -> str:
-        return self.xa_elem.displayedName()
-
-    @property
-    def id(self) -> str:
-        return self.xa_elem.id()
-
-    @property
-    def modification_date(self) -> datetime:
-        return self.xa_elem.modificationDate()
-
-    @modification_date.setter
-    def modification_date(self, modification_date: datetime):
-        self.set_property('modificationDate', modification_date)
-
-    @property
-    def name(self) -> str:
-        return self.xa_elem.name()
-
-    @name.setter
-    def name(self, name: str):
-        self.set_property('name', name)
-
-    @property
-    def name_extension(self) -> str:
-        return self.xa_elem.nameExtension()
-
-    @property
-    def package_folder(self) -> bool:
-        return self.xa_elem.packageFolder()
-
-    @property
-    def path(self) -> str:
-        return self.xa_elem.path()
-
-    @property
-    def physical_size(self) -> int:
-        return self.xa_elem.physicalSize()
-
-    @property
-    def posix_path(self) -> str:
-        return self.xa_elem.POSIXPath()
-
-    @property
-    def size(self) -> int:
-        return self.xa_elem.size()
-
-    @property
-    def url(self) -> str:
-        return self.xa_elem.URL()
-
-    @property
-    def visible(self) -> bool:
-        return self.xa_elem.visible()
-
-    @visible.setter
-    def visible(self, visible: bool):
-        self.set_property('visible', visible)
-
-    @property
-    def volume(self) -> str:
-        return self.xa_elem.volume()
-
-    def move_to(self, location: XABase.XAPath):
-        """Moves the disk item to the specified location.
-
-        :param location: The path to move the item to
-        :type location: XABase.XAObject
-
-        .. versionadded:: 0.1.0
-        """
-        self.xa_elem.moveTo_(location.xa_elem)
-
-    def open(self):
-        """Opens the disk item.
-
-        .. versionadded:: 0.1.0
-        """
-        self.xa_elem.open()
-
-
-
-
-class XASystemEventsAliasList(XASystemEventsDiskItemList):
-    """A wrapper around lists of aliases that employs fast enumeration techniques.
-
-    All properties of aliases can be called as methods on the wrapped list, returning a list containing each alias's value for the property.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, filter, XASystemEventsAlias)
-
-    def creator_type(self) -> List[str]:
-        """Gets the creator type of each alias in the list.
-
-        :return: A list of alias creator types
-        :rtype: List[str]
-        
-        .. versionadded:: 0.1.0
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("creatorType") or [])
-
-    def default_application(self) -> XASystemEventsDiskItemList:
-        """Gets the default application of each alias in the list.
-
-        :return: A list of alias default applications
-        :rtype: XASystemEventsDiskItemList
-        
-        .. versionadded:: 0.1.0
-        """
-        ls = self.xa_elem.arrayByApplyingSelector_("defaultApplication") or []
-        return self._new_element(ls, XASystemEventsDiskItemList)
-
-    def file_type(self) -> List[str]:
-        """Gets the file type of each alias in the list.
-
-        :return: A list of alias file types
-        :rtype: List[str]
-        
-        .. versionadded:: 0.1.0
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("fileType") or [])
-
-    def kind(self) -> List[str]:
-        """Gets the kind of each alias in the list.
-
-        :return: A list of alias kinds
-        :rtype: List[str]
-        
-        .. versionadded:: 0.1.0
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("kind") or [])
-
-    def product_version(self) -> List[str]:
-        """Gets the product version of each alias in the list.
-
-        :return: A list of alias product versions
-        :rtype: List[str]
-        
-        .. versionadded:: 0.1.0
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("productVersion") or [])
-
-    def short_version(self) -> List[str]:
-        """Gets the short version of each alias in the list.
-
-        :return: A list of alias short versions
-        :rtype: List[str]
-        
-        .. versionadded:: 0.1.0
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("shortVersion") or [])
-
-    def stationery(self) -> List[bool]:
-        """Gets the stationery status of each alias in the list.
-
-        :return: A list of alias stationery status booleans
-        :rtype: List[bool]
-        
-        .. versionadded:: 0.1.0
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("stationery") or [])
-
-    def type_identifier(self) -> List[str]:
-        """Gets the type identifier of each alias in the list.
-
-        :return: A list of alias type identifiers
-        :rtype: List[str]
-        
-        .. versionadded:: 0.1.0
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("typeIdentifier") or [])
-
-    def version(self) -> List[str]:
-        """Gets the version of each alias in the list.
-
-        :return: A list of alias versions
-        :rtype: List[str]
-        
-        .. versionadded:: 0.1.0
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("version") or [])
-
-    def by_creator_type(self, creator_type: str) -> Union['XASystemEventsAlias', None]:
-        """Retrieves the first alias whose creator type matches the given creator type, if one exists.
-
-        :return: The desired alias, if it is found
-        :rtype: Union[XASystemEventsAlias, None]
-        
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("creatorType", creator_type)
-
-    def by_default_application(self, default_application: XASystemEventsDiskItem) -> Union['XASystemEventsAlias', None]:
-        """Retrieves the first alias whose default application matches the given application, if one exists.
-
-        :return: The desired alias, if it is found
-        :rtype: Union[XASystemEventsAlias, None]
-        
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("defaultApplication", default_application.xa_elem)
-
-    def by_file_type(self, file_type: str) -> Union['XASystemEventsAlias', None]:
-        """Retrieves the first alias whose file type matches the given file type, if one exists.
-
-        :return: The desired alias, if it is found
-        :rtype: Union[XASystemEventsAlias, None]
-        
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("fileType", file_type)
-
-    def by_kind(self, kind: str) -> Union['XASystemEventsAlias', None]:
-        """Retrieves the first alias whose kind matches the given kind, if one exists.
-
-        :return: The desired alias, if it is found
-        :rtype: Union[XASystemEventsAlias, None]
-        
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("kind", kind)
-
-    def by_product_version(self, product_version: str) -> Union['XASystemEventsAlias', None]:
-        """Retrieves the first alias whose product version matches the given product version, if one exists.
-
-        :return: The desired alias, if it is found
-        :rtype: Union[XASystemEventsAlias, None]
-        
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("productVersion", product_version)
-
-    def by_short_version(self, short_version: str) -> Union['XASystemEventsAlias', None]:
-        """Retrieves the alias whose short version matches the given short version, if one exists.
-
-        :return: The desired alias, if it is found
-        :rtype: Union[XASystemEventsAlias, None]
-        
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("shortVersion", short_version)
-
-    def by_stationery(self, stationery: bool) -> Union['XASystemEventsAlias', None]:
-        """Retrieves the first alias whose stationery status matches the given boolean value, if one exists.
-
-        :return: The desired alias, if it is found
-        :rtype: Union[XASystemEventsAlias, None]
-        
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("stationery", stationery)
-
-    def by_type_identifier(self, type_identifier: str) -> Union['XASystemEventsAlias', None]:
-        """Retrieves the first alias whose type identifier matches the given type identifier, if one exists.
-
-        :return: The desired alias, if it is found
-        :rtype: Union[XASystemEventsAlias, None]
-        
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("typeIdentifier", type_identifier)
-
-    def by_version(self, version: str) -> Union['XASystemEventsAlias', None]:
-        """Retrieves the first alias whose version matches the given version, if one exists.
-
-        :return: The desired alias, if it is found
-        :rtype: Union[XASystemEventsAlias, None]
-        
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("version", version)
-
-class XASystemEventsAlias(XASystemEventsDiskItem, XADeletable):
-    """An alias in the file system.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties):
-        super().__init__(properties)
-        
-        self.creator_type: str #: the OSType identifying the application that created the alias
-        self.default_application: str #: the application that will launch if the alias is opened
-        self.file_type: str #: the OSType identifying the type of data contained in the alias
-        self.kind: str #: The kind of alias, as shown in Finder
-        self.product_version: str #: the version of the product (visible at the top of the "Get Info" window)
-        self.shortVersion: str #: the short version of the application bundle referenced by the alias
-        self.stationery: bool #: Is the alias a stationery pad?
-        self.type_identifier: str #: The type identifier of the alias
-        self.version: str #: the version of the application bundle referenced by the alias (visible at the bottom of the "Get Info" window)
-
-    @property
-    def creator_type(self) -> str:
-        return self.xa_elem.creatorType()
-
-    @creator_type.setter
-    def creator_type(self, creator_type: str):
-        self.set_property('creatorType', creator_type)
-
-    @property
-    def default_application(self) -> XASystemEventsDiskItem:
-        return self._new_element(self.xa_elem.defaultApplication(), XASystemEventsDiskItem)
-
-    @default_application.setter
-    def default_application(self, default_application: XASystemEventsDiskItem):
-        self.set_property('defaultApplication', default_application.xa_elem)
-
-    @property
-    def file_type(self) -> str:
-        return self.xa_elem.fileType()
-
-    @file_type.setter
-    def file_type(self, file_type: str):
-        self.set_property('fileType', file_type)
-
-    @property
-    def kind(self) -> str:
-        return self.xa_elem.kind()
-
-    @property
-    def product_version(self) -> str:
-        return self.xa_elem.productVersion()
-
-    @property
-    def short_version(self) -> str:
-        return self.xa_elem.shortVersion()
-
-    @property
-    def stationery(self) -> bool:
-        return self.xa_elem.stationery()
-
-    @stationery.setter
-    def stationery(self, stationery: bool):
-        self.set_property('stationery', stationery)
-
-    @property
-    def type_identifier(self) -> str:
-        return self.xa_elem.typeIdentifier()
-
-    @property
-    def version(self) -> str:
-        return self.xa_elem.version()
-
-    def aliases(self, filter: dict = None) -> Union['XASystemEventsAliasList', None]:
-            """Returns a list of aliases, as PyXA-wrapped objects, matching the given filter.
-
-            :param filter: A dictionary specifying property-value pairs that all returned aliases will have, or None
-            :type filter: Union[dict, None]
-            :return: The list of aliases
-            :rtype: XASystemEventsAliasList
-
-            .. versionadded:: 0.0.8
-            """
-            return self._new_element(self.xa_elem.aliases(), XASystemEventsAliasList)
-
-    def disk_items(self, filter: dict = None) -> Union['XASystemEventsDiskItemList', None]:
-            """Returns a list of disk items, as PyXA-wrapped objects, matching the given filter.
-
-            :param filter: A dictionary specifying property-value pairs that all returned disk items will have, or None
-            :type filter: Union[dict, None]
-            :return: The list of disk items
-            :rtype: XASystemEventsDiskItemList
-
-            .. versionadded:: 0.0.8
-            """
-            return self._new_element(self.xa_elem.diskItems(), XASystemEventsDiskItemList)
-
-    def files(self, filter: dict = None) -> Union['XASystemEventsFileList', None]:
-            """Returns a list of files, as PyXA-wrapped objects, matching the given filter.
-
-            :param filter: A dictionary specifying property-value pairs that all returned files will have, or None
-            :type filter: Union[dict, None]
-            :return: The list of files
-            :rtype: XASystemEventsFileList
-
-            .. versionadded:: 0.0.8
-            """
-            return self._new_element(self.xa_elem.files(), XASystemEventsFileList)
-
-    def file_packages(self, filter: dict = None) -> Union['XASystemEventsFilePackageList', None]:
-            """Returns a list of file packages, as PyXA-wrapped objects, matching the given filter.
-
-            :param filter: A dictionary specifying property-value pairs that all returned file packages will have, or None
-            :type filter: Union[dict, None]
-            :return: The list of file packages
-            :rtype: XASystemEventsFilePackageList
-
-            .. versionadded:: 0.0.8
-            """
-            return self._new_element(self.xa_elem.filePackages(), XASystemEventsFilePackageList)
-
-    def folders(self, filter: dict = None) -> Union['XASystemEventsFolderList', None]:
-            """Returns a list of folders, as PyXA-wrapped objects, matching the given filter.
-
-            :param filter: A dictionary specifying property-value pairs that all returned folders will have, or None
-            :type filter: Union[dict, None]
-            :return: The list of folders
-            :rtype: XASystemEventsFolderList
-
-            .. versionadded:: 0.0.8
-            """
-            return self._new_element(self.xa_elem.folders(), XASystemEventsFolderList)
-
-
-
-
-class XASystemEventsDiskList(XASystemEventsDiskItemList):
-    """A wrapper around lists of disks that employs fast enumeration techniques.
-
-    All properties of disks can be called as methods on the wrapped list, returning a list containing each disk's value for the property.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, filter, XASystemEventsDisk)
-
-    def capacity(self) -> List[Union[int, float]]:
-        """Gets the capacity of each disk in the list.
-
-        :return: A list of disk capacities
-        :rtype: List[Union[int, float]]
-        
-        .. versionadded:: 0.1.0
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("capacity") or [])
-
-    def ejectable(self) -> List[bool]:
-        """Gets the ejectable status of each disk in the list.
-
-        :return: A list of disk ejectable status booleans
-        :rtype: List[bool]
-        
-        .. versionadded:: 0.1.0
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("ejectable") or [])
-
-    def format(self) -> List[XASystemEventsApplication.Format]:
-        """Gets the format of each disk in the list.
-
-        :return: A list of disk formats
-        :rtype: List[XASystemEventsApplication.Format]
-        
-        .. versionadded:: 0.1.0
-        """
-        ls = self.xa_elem.arrayByApplyingSelector_("format") or []
-        return [XASystemEventsApplication.Format(x) for x in ls]
-
-    def free_space(self) -> List[Union[int, float]]:
-        """Gets the free space of each disk in the list.
-
-        :return: A list of disk free space amounts
-        :rtype: List[Union[int, float]]
-        
-        .. versionadded:: 0.1.0
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("freeSpace") or [])
-
-    def ignore_privileges(self) -> List[bool]:
-        """Gets the ignore privileges status of each disk in the list.
-
-        :return: A list of disk ignore privileges status booleans
-        :rtype: List[bool]
-        
-        .. versionadded:: 0.1.0
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("ignorePrivileges") or [])
-
-    def local_volume(self) -> List[bool]:
-        """Gets the local volume status of each disk in the list.
-
-        :return: A list of disk local volume status booleans
-        :rtype: List[bool]
-        
-        .. versionadded:: 0.1.0
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("localVolume") or [])
-
-    def server(self) -> List[str]:
-        """Gets the server name of each disk in the list.
-
-        :return: A list of disk server names
-        :rtype: List[str]
-        
-        .. versionadded:: 0.1.0
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("server") or [])
-
-    def startup(self) -> List[bool]:
-        """Gets the startup status of each disk in the list.
-
-        :return: A list of disk startup status booleans
-        :rtype: List[bool]
-        
-        .. versionadded:: 0.1.0
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("startup") or [])
-
-    def zone(self) -> List[str]:
-        """Gets the server zone of each disk in the list.
-
-        :return: A list of disk server zones
-        :rtype: List[str]
-        
-        .. versionadded:: 0.1.0
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("zone") or [])
-
-    def by_capacity(self, capacity: Union[int, float]) -> Union['XASystemEventsDisk', None]:
-        """Retrieves the first disk whose capacity matches the given capacity, if one exists.
-
-        :return: The desired user, if it is found
-        :rtype: Union[XASystemEventsDisk, None]
-        
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("capacity", capacity)
-
-    def by_ejectable(self, ejectable: bool) -> Union['XASystemEventsDisk', None]:
-        """Retrieves the first disk whose ejectable status matches the given boolean value, if one exists.
-
-        :return: The desired user, if it is found
-        :rtype: Union[XASystemEventsDisk, None]
-        
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("ejectable", ejectable)
-
-    def by_format(self, format: XASystemEventsApplication.Format) -> Union['XASystemEventsDisk', None]:
-        """Retrieves the first disk whose format matches the given format, if one exists.
-
-        :return: The desired user, if it is found
-        :rtype: Union[XASystemEventsDisk, None]
-        
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("format", format.value)
-
-    def by_free_space(self, free_space: Union[int, float]) -> Union['XASystemEventsDisk', None]:
-        """Retrieves the first disk whose free space matches the given amount, if one exists.
-
-        :return: The desired user, if it is found
-        :rtype: Union[XASystemEventsDisk, None]
-        
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("freeSpace", free_space)
-
-    def by_ignore_privileges(self, ignore_privileges: bool) -> Union['XASystemEventsDisk', None]:
-        """Retrieves the first disk whose ignore privileges status matches the given boolean value, if one exists.
-
-        :return: The desired user, if it is found
-        :rtype: Union[XASystemEventsDisk, None]
-        
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("ignorePrivileges", ignore_privileges)
-
-    def by_local_volume(self, local_volume: bool) -> Union['XASystemEventsDisk', None]:
-        """Retrieves the first disk whose local volume status matches the given boolean value, if one exists.
-
-        :return: The desired user, if it is found
-        :rtype: Union[XASystemEventsDisk, None]
-        
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("localVolume", local_volume)
-
-    def by_server(self, server: str) -> Union['XASystemEventsDisk', None]:
-        """Retrieves the first disk whose server matches the given server, if one exists.
-
-        :return: The desired user, if it is found
-        :rtype: Union[XASystemEventsDisk, None]
-        
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("server", server)
-
-    def by_startup(self, startup: bool) -> Union['XASystemEventsDisk', None]:
-        """Retrieves the first disk whose startup status matches the given boolean value, if one exists.
-
-        :return: The desired user, if it is found
-        :rtype: Union[XASystemEventsDisk, None]
-        
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("startup", startup)
-
-    def by_zone(self, zone: str) -> Union['XASystemEventsDisk', None]:
-        """Retrieves the first disk whose server zone matches the given zone, if one exists.
-
-        :return: The desired user, if it is found
-        :rtype: Union[XASystemEventsDisk, None]
-        
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("zone", zone)
-
-class XASystemEventsDisk(XASystemEventsDiskItem, XADeletable):
-    """A disk in the file system.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties):
-        super().__init__(properties)
-        
-        self.capacity: Union[int, float] #: the total number of bytes (free or used) on the disk
-        self.ejectable: bool #: Can the media be ejected (floppies, CD's, and so on)?
-        self.format: XASystemEventsApplication.Format #: the file system format of this disk
-        self.free_space: Union[int, float] #: the number of free bytes left on the disk
-        self.ignore_privileges: bool #: Ignore permissions on this disk?
-        self.local_volume: bool #: Is the media a local volume (as opposed to a file server)?
-        self.server: str #: the server on which the disk resides, AFP volumes only
-        self.startup: bool #: Is this disk the boot disk?
-        self.zone: str #: the zone in which the disk's server resides, AFP volumes only
-
-    @property
-    def capacity(self) -> Union[int, float]:
-        return self.xa_elem.capacity()
-
-    @property
-    def ejectable(self) -> bool:
-        return self.xa_elem.ejectable()
-
-    @property
-    def format(self) -> XASystemEventsApplication.Format:
-        return XASystemEventsApplication.Format(self.xa_elem.format())
-
-    @property
-    def free_space(self) -> Union[int, float]:
-        return self.xa_elem.freeSpace()
-
-    @property
-    def ignore_privileges(self) -> bool:
-        return self.xa_elem.ignorePrivileges()
-
-    @ignore_privileges.setter
-    def ignore_privileges(self, ignore_privileges: bool):
-        self.set_property('ignorePrivileges', ignore_privileges)
-
-    @property
-    def local_volume(self) -> bool:
-        return self.xa_elem.localVolume()
-
-    @property
-    def server(self) -> str:
-        return self.xa_elem.server()
-
-    @property
-    def startup(self) -> bool:
-        return self.xa_elem.startup()
-
-    @property
-    def zone(self) -> str:
-        return self.xa_elem.zone()
-
-    def aliases(self, filter: dict = None) -> Union['XASystemEventsAliasList', None]:
-            """Returns a list of aliases, as PyXA-wrapped objects, matching the given filter.
-
-            :param filter: A dictionary specifying property-value pairs that all returned aliases will have, or None
-            :type filter: Union[dict, None]
-            :return: The list of aliases
-            :rtype: XASystemEventsAliasList
-
-            .. versionadded:: 0.0.8
-            """
-            return self._new_element(self.xa_elem.aliases(), XASystemEventsAliasList)
-
-    def disk_items(self, filter: dict = None) -> Union['XASystemEventsDiskItemList', None]:
-            """Returns a list of disk items, as PyXA-wrapped objects, matching the given filter.
-
-            :param filter: A dictionary specifying property-value pairs that all returned disk items will have, or None
-            :type filter: Union[dict, None]
-            :return: The list of disk items
-            :rtype: XASystemEventsDiskItemList
-
-            .. versionadded:: 0.0.8
-            """
-            return self._new_element(self.xa_elem.diskItems(), XASystemEventsDiskItemList)
-
-    def files(self, filter: dict = None) -> Union['XASystemEventsFileList', None]:
-            """Returns a list of files, as PyXA-wrapped objects, matching the given filter.
-
-            :param filter: A dictionary specifying property-value pairs that all returned files will have, or None
-            :type filter: Union[dict, None]
-            :return: The list of files
-            :rtype: XASystemEventsFileList
-
-            .. versionadded:: 0.0.8
-            """
-            return self._new_element(self.xa_elem.files(), XASystemEventsFileList)
-
-    def file_packages(self, filter: dict = None) -> Union['XASystemEventsFilePackageList', None]:
-            """Returns a list of file packages, as PyXA-wrapped objects, matching the given filter.
-
-            :param filter: A dictionary specifying property-value pairs that all returned file packages will have, or None
-            :type filter: Union[dict, None]
-            :return: The list of file packages
-            :rtype: XASystemEventsFilePackageList
-
-            .. versionadded:: 0.0.8
-            """
-            return self._new_element(self.xa_elem.filePackages(), XASystemEventsFilePackageList)
-
-    def folders(self, filter: dict = None) -> Union['XASystemEventsFolderList', None]:
-            """Returns a list of folders, as PyXA-wrapped objects, matching the given filter.
-
-            :param filter: A dictionary specifying property-value pairs that all returned folders will have, or None
-            :type filter: Union[dict, None]
-            :return: The list of folders
-            :rtype: XASystemEventsFolderList
-
-            .. versionadded:: 0.0.8
-            """
-            return self._new_element(self.xa_elem.folders(), XASystemEventsFolderList)
-
-
-
-
-class XASystemEventsDomainList(XABase.XAList):
-    """A wrapper around lists of domains that employs fast enumeration techniques.
-
-    All properties of domains can be called as methods on the wrapped list, returning a list containing each domain's value for the property.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XASystemEventsDomain, filter)
-
-    def application_support_folder(self) -> 'XASystemEventsFolderList':
-        """Gets the application support folder of each domain in the list.
-
-        :return: A list of domain application support folders
-        :rtype: XASystemEventsFolderList
-        
-        .. versionadded:: 0.1.0
-        """
-        ls = self.xa_elem.arrayByApplyingSelector_("applicationSupportFolder") or []
-        return self._new_element(ls, XASystemEventsFolderList)
-
-    def applications_folder(self) -> 'XASystemEventsFolderList':
-        """Gets the applications folder of each domain in the list.
-
-        :return: A list of domain applications folders
-        :rtype: XASystemEventsFolderList
-        
-        .. versionadded:: 0.1.0
-        """
-        ls = self.xa_elem.arrayByApplyingSelector_("applicationsFolder") or []
-        return self._new_element(ls, XASystemEventsFolderList)
-
-    def desktop_pictures_folder(self) -> 'XASystemEventsFolderList':
-        """Gets the desktop pictures folder of each domain in the list.
-
-        :return: A list of domain desktop pictures folders
-        :rtype: XASystemEventsFolderList
-        
-        .. versionadded:: 0.1.0
-        """
-        ls = self.xa_elem.arrayByApplyingSelector_("desktopPicturesFolder") or []
-        return self._new_element(ls, XASystemEventsFolderList)
-
-    def folder_action_scripts_folder(self) -> 'XASystemEventsFolderList':
-        """Gets the folder action scripts folder of each domain in the list.
-
-        :return: A list of domain folder action scripts folders
-        :rtype: XASystemEventsFolderList
-        
-        .. versionadded:: 0.1.0
-        """
-        ls = self.xa_elem.arrayByApplyingSelector_("folderActionScriptsFolder") or []
-        return self._new_element(ls, XASystemEventsFolderList)
-
-    def fonts_folder(self) -> 'XASystemEventsFolderList':
-        """Gets the fonts folder of each domain in the list.
-
-        :return: A list of domain fonts folders
-        :rtype: XASystemEventsFolderList
-        
-        .. versionadded:: 0.1.0
-        """
-        ls = self.xa_elem.arrayByApplyingSelector_("fontsFolder") or []
-        return self._new_element(ls, XASystemEventsFolderList)
-
-    def id(self) -> List[str]:
-        """Gets the ID of each domain in the list.
-
-        :return: A list of domain IDs
-        :rtype: List[str]
-        
-        .. versionadded:: 0.1.0
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("id") or [])
-
-    def library_folder(self) -> 'XASystemEventsFolderList':
-        """Gets the library folder of each domain in the list.
-
-        :return: A list of domain library folders
-        :rtype: XASystemEventsFolderList
-        
-        .. versionadded:: 0.1.0
-        """
-        ls = self.xa_elem.arrayByApplyingSelector_("libraryFolder") or []
-        return self._new_element(ls, XASystemEventsFolderList)
-
-    def name(self) -> List[str]:
-        """Gets the name of each domain in the list.
-
-        :return: A list of domain names
-        :rtype: List[str]
-        
-        .. versionadded:: 0.1.0
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
-
-    def preferences_folder(self) -> 'XASystemEventsFolderList':
-        """Gets the preferences folder of each domain in the list.
-
-        :return: A list of domain preferences folders
-        :rtype: XASystemEventsFolderList
-        
-        .. versionadded:: 0.1.0
-        """
-        ls = self.xa_elem.arrayByApplyingSelector_("preferencesFolder") or []
-        return self._new_element(ls, XASystemEventsFolderList)
-
-    def scripting_additions_folder(self) -> 'XASystemEventsFolderList':
-        """Gets the scripting additions folder of each domain in the list.
-
-        :return: A list of domain scripting additions folders
-        :rtype: XASystemEventsFolderList
-        
-        .. versionadded:: 0.1.0
-        """
-        ls = self.xa_elem.arrayByApplyingSelector_("scriptingAdditionsFolder") or []
-        return self._new_element(ls, XASystemEventsFolderList)
-
-    def scripts_folder(self) -> 'XASystemEventsFolderList':
-        """Gets the scripts folder of each domain in the list.
-
-        :return: A list of domain scripts folders
-        :rtype: XASystemEventsFolderList
-        
-        .. versionadded:: 0.1.0
-        """
-        ls = self.xa_elem.arrayByApplyingSelector_("scriptsFolder") or []
-        return self._new_element(ls, XASystemEventsFolderList)
-
-    def shared_documents_folder(self) -> 'XASystemEventsFolderList':
-        """Gets the shared documents folder of each domain in the list.
-
-        :return: A list of domain shared documents folders
-        :rtype: XASystemEventsFolderList
-        
-        .. versionadded:: 0.1.0
-        """
-        ls = self.xa_elem.arrayByApplyingSelector_("sharedDocumentsFolder") or []
-        return self._new_element(ls, XASystemEventsFolderList)
-
-    def speakable_items_folder(self) -> 'XASystemEventsFolderList':
-        """Gets the speakable items folder of each domain in the list.
-
-        :return: A list of domain speakable items folders
-        :rtype: XASystemEventsFolderList
-        
-        .. versionadded:: 0.1.0
-        """
-        ls = self.xa_elem.arrayByApplyingSelector_("speakableItemsFolder") or []
-        return self._new_element(ls, XASystemEventsFolderList)
-
-    def utilities_folder(self) -> 'XASystemEventsFolderList':
-        """Gets the utilities folder of each domain in the list.
-
-        :return: A list of domain utilities folders
-        :rtype: XASystemEventsFolderList
-        
-        .. versionadded:: 0.1.0
-        """
-        ls = self.xa_elem.arrayByApplyingSelector_("utilitiesFolder") or []
-        return self._new_element(ls, XASystemEventsFolderList)
-
-    def workflows_folder(self) -> 'XASystemEventsFolderList':
-        """Gets the workflows folder of each domain in the list.
-
-        :return: A list of domain workflows folders
-        :rtype: XASystemEventsFolderList
-        
-        .. versionadded:: 0.1.0
-        """
-        ls = self.xa_elem.arrayByApplyingSelector_("workflowsFolder") or []
-        return self._new_element(ls, XASystemEventsFolderList)
-
-    def by_application_support_folder(self, application_support_folder: 'XASystemEventsFolder') -> Union['XASystemEventsDomain', None]:
-        """Retrieves the first domain whose application support folder matches the given folder, if one exists.
-
-        :return: The desired domain, if it is found
-        :rtype: Union[XASystemEventsDomain, None]
-        
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("applicationSupportFolder", application_support_folder.xa_elem)
-
-    def by_applications_folder(self, applications_folder: 'XASystemEventsFolder') -> Union['XASystemEventsDomain', None]:
-        """Retrieves the first domain whose applications folder matches the given folder, if one exists.
-
-        :return: The desired domain, if it is found
-        :rtype: Union[XASystemEventsDomain, None]
-        
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("applicationsFolder", applications_folder.xa_elem)
-
-    def by_desktop_pictures_folder(self, desktop_pictures_folder: 'XASystemEventsFolder') -> Union['XASystemEventsDomain', None]:
-        """Retrieves the first domain whose desktop pictures folder matches the given folder, if one exists.
-
-        :return: The desired domain, if it is found
-        :rtype: Union[XASystemEventsDomain, None]
-        
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("desktopPicturesFolder", desktop_pictures_folder.xa_elem)
-
-    def by_folder_action_scripts_folder(self, folder_action_scripts_folder: 'XASystemEventsFolder') -> Union['XASystemEventsDomain', None]:
-        """Retrieves the first domain whose folder action scripts folder matches the given folder, if one exists.
-
-        :return: The desired domain, if it is found
-        :rtype: Union[XASystemEventsDomain, None]
-        
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("folderActionScriptsFolder", folder_action_scripts_folder.xa_elem)
-
-    def by_fonts_folder(self, fonts_folder: 'XASystemEventsFolder') -> Union['XASystemEventsDomain', None]:
-        """Retrieves the first domain whose fonts folder matches the given folder, if one exists.
-
-        :return: The desired domain, if it is found
-        :rtype: Union[XASystemEventsDomain, None]
-        
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("fontsFolder", fonts_folder.xa_elem)
-
-    def by_id(self, id: str) -> Union['XASystemEventsDomain', None]:
-        """Retrieves the domain whose ID matches the given ID, if one exists.
-
-        :return: The desired domain, if it is found
-        :rtype: Union[XASystemEventsDomain, None]
-        
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("id", id)
-
-    def by_library_folder(self, library_folder: 'XASystemEventsFolder') -> Union['XASystemEventsDomain', None]:
-        """Retrieves the first domain whose library folder matches the given folder, if one exists.
-
-        :return: The desired domain, if it is found
-        :rtype: Union[XASystemEventsDomain, None]
-        
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("libraryFolder", library_folder.xa_elem)
-
-    def by_name(self, name: str) -> Union['XASystemEventsDomain', None]:
-        """Retrieves the domain whose name matches the given name, if one exists.
-
-        :return: The desired domain, if it is found
-        :rtype: Union[XASystemEventsDomain, None]
-        
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("name", name)
-
-    def by_preferences_folder(self, preferences_folder: 'XASystemEventsFolder') -> Union['XASystemEventsDomain', None]:
-        """Retrieves the first domain whose preferences folder matches the given folder, if one exists.
-
-        :return: The desired domain, if it is found
-        :rtype: Union[XASystemEventsDomain, None]
-        
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("preferencesFolder", preferences_folder.xa_elem)
-
-    def by_scripting_additions_folder(self, scripting_additions_folder: 'XASystemEventsFolder') -> Union['XASystemEventsDomain', None]:
-        """Retrieves the first domain whose scripting additions folder matches the given folder, if one exists.
-
-        :return: The desired domain, if it is found
-        :rtype: Union[XASystemEventsDomain, None]
-        
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("scriptingAdditionsFolder", scripting_additions_folder.xa_elem)
-
-    def by_scripts_folder(self, scripts_folder: 'XASystemEventsFolder') -> Union['XASystemEventsDomain', None]:
-        """Retrieves the first domain whose scripts folder matches the given folder, if one exists.
-
-        :return: The desired domain, if it is found
-        :rtype: Union[XASystemEventsDomain, None]
-        
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("scriptsFolder", scripts_folder.xa_elem)
-
-    def by_shared_documents_folder(self, shared_documents_folder: 'XASystemEventsFolder') -> Union['XASystemEventsDomain', None]:
-        """Retrieves the first domain whose shared documents folder matches the given folder, if one exists.
-
-        :return: The desired domain, if it is found
-        :rtype: Union[XASystemEventsDomain, None]
-        
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("sharedDocumentsFolder", shared_documents_folder.xa_elem)
-
-    def by_speakable_items_folder(self, speakable_items_folder: 'XASystemEventsFolder') -> Union['XASystemEventsDomain', None]:
-        """Retrieves the first domain whose speakable items folder matches the given folder, if one exists.
-
-        :return: The desired domain, if it is found
-        :rtype: Union[XASystemEventsDomain, None]
-        
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("speakableItemsFolder", speakable_items_folder.xa_elem)
-
-    def by_utilities_folder(self, utilities_folder: 'XASystemEventsFolder') -> Union['XASystemEventsDomain', None]:
-        """Retrieves the first domain whose utilities folder matches the given folder, if one exists.
-
-        :return: The desired domain, if it is found
-        :rtype: Union[XASystemEventsDomain, None]
-        
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("utilitiesFolder", utilities_folder.xa_elem)
-
-    def by_workflows_folder(self, workflows_folder: 'XASystemEventsFolder') -> Union['XASystemEventsDomain', None]:
-        """Retrieves the first domain whose workflows folder matches the given folder, if one exists.
-
-        :return: The desired domain, if it is found
-        :rtype: Union[XASystemEventsDomain, None]
-        
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("workflowsFolder", workflows_folder.xa_elem)
-
-    def __repr__(self):
-        return "<" + str(type(self)) + str(self.name()) + ">"
-
-class XASystemEventsDomain(XABase.XAObject):
-    """A domain in the file system.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties):
-        super().__init__(properties)
-        
-        self.application_support_folder: XASystemEventsFolder #: The Application Support folder
-        self.applications_folder: XASystemEventsFolder #: The Applications folder
-        self.desktop_pictures_folder: XASystemEventsFolder #: The Desktop Pictures folder
-        self.folder_action_scripts_folder: XASystemEventsFolder #: The Folder Action Scripts folder
-        self.fonts_folder: XASystemEventsFolder #: The Fonts folder
-        self.id: str #: the unique identifier of the domain
-        self.library_folder: XASystemEventsFolder #: The Library folder
-        self.name: str #: the name of the domain
-        self.preferences_folder: XASystemEventsFolder #: The Preferences folder
-        self.scripting_additions_folder: XASystemEventsFolder #: The Scripting Additions folder
-        self.scripts_folder: XASystemEventsFolder #: The Scripts folder
-        self.shared_documents_folder: XASystemEventsFolder #: The Shared Documents folder
-        self.speakable_items_folder: XASystemEventsFolder #: The Speakable Items folder
-        self.utilities_folder: XASystemEventsFolder #: The Utilities folder
-        self.workflows_folder: XASystemEventsFolder #: The Automator Workflows folder
-
-    @property
-    def application_support_folder(self) -> 'XASystemEventsFolder':
-        return self._new_element(self.xa_elem.applicationSupportFolder(), XASystemEventsFolder)
-
-    @property
-    def applications_folder(self) -> 'XASystemEventsFolder':
-        return self._new_element(self.xa_elem.applicationsFolder(), XASystemEventsFolder)
-
-    @property
-    def desktop_pictures_folder(self) -> 'XASystemEventsFolder':
-        return self._new_element(self.xa_elem.desktopPicturesFolder(), XASystemEventsFolder)
-
-    @property
-    def Folder_action_scripts_folder(self) -> 'XASystemEventsFolder':
-        return self._new_element(self.xa_elem.FolderActionScriptsFolder(), XASystemEventsFolder)
-
-    @property
-    def fonts_folder(self) -> 'XASystemEventsFolder':
-        return self._new_element(self.xa_elem.fontsFolder(), XASystemEventsFolder)
-
-    @property
-    def id(self) -> str:
-        return self.xa_elem.id()
-
-    @property
-    def library_folder(self) -> 'XASystemEventsFolder':
-        return self._new_element(self.xa_elem.libraryFolder(), XASystemEventsFolder)
-
-    @property
-    def name(self) -> str:
-        return self.xa_elem.name()
-
-    @property
-    def preferences_folder(self) -> 'XASystemEventsFolder':
-        return self._new_element(self.xa_elem.preferencesFolder(), XASystemEventsFolder)
-
-    @property
-    def scripting_additions_folder(self) -> 'XASystemEventsFolder':
-        return self._new_element(self.xa_elem.scriptingAdditionsFolder(), XASystemEventsFolder)
-
-    @property
-    def scripts_folder(self) -> 'XASystemEventsFolder':
-        return self._new_element(self.xa_elem.scriptsFolder(), XASystemEventsFolder)
-
-    @property
-    def shared_documents_folder(self) -> 'XASystemEventsFolder':
-        return self._new_element(self.xa_elem.sharedDocumentsFolder(), XASystemEventsFolder)
-
-    @property
-    def speakable_items_folder(self) -> 'XASystemEventsFolder':
-        return self._new_element(self.xa_elem.speakableItemsFolder(), XASystemEventsFolder)
-
-    @property
-    def utilities_folder(self) -> 'XASystemEventsFolder':
-        return self._new_element(self.xa_elem.utilitiesFolder(), XASystemEventsFolder)
-
-    @property
-    def workflows_folder(self) -> 'XASystemEventsFolder':
-        return self._new_element(self.xa_elem.workflowsFolder(), XASystemEventsFolder)
-
-    def folders(self, filter: dict = None) -> Union['XASystemEventsFolderList', None]:
-            """Returns a list of folders, as PyXA-wrapped objects, matching the given filter.
-
-            :param filter: A dictionary specifying property-value pairs that all returned folders will have, or None
-            :type filter: Union[dict, None]
-            :return: The list of folders
-            :rtype: XASystemEventsFolderList
-
-            .. versionadded:: 0.0.8
-            """
-            return self._new_element(self.xa_elem.folders(), XASystemEventsFolderList)
-    
-
-
-
-class XASystemEventsClassicDomainObject(XASystemEventsDomain):
-    """The classic domain in the file system.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties):
-        super().__init__(properties)
-        
-        self.apple_menu_folder: XASystemEventsFolder #: The Apple Menu Items folder
-        self.control_panels_folder: XASystemEventsFolder #: The Control Panels folder
-        self.control_strip_modules_folder: XASystemEventsFolder #: The Control Strip Modules folder
-        self.desktop_folder: XASystemEventsFolder #: The Classic Desktop folder
-        self.extensions_folder: XASystemEventsFolder #: The Extensions folder
-        self.fonts_folder: XASystemEventsFolder #: The Fonts folder
-        self.launcher_items_folder: XASystemEventsFolder #: The Launcher Items folder
-        self.preferences_folder: XASystemEventsFolder #: The Classic Preferences folder
-        self.shutdown_folder: XASystemEventsFolder #: The Shutdown Items folder
-        self.startup_items_folder: XASystemEventsFolder #: The StartupItems folder
-        self.system_folder: XASystemEventsFolder #: The System folder
-
-    @property
-    def appleMenuFolder(self) -> 'XASystemEventsFolder':
-        return self._new_element(self.xa_elem.appleMenuFolder(), XASystemEventsFolder)
-
-    @property
-    def controlPanelsFolder(self) -> 'XASystemEventsFolder':
-        return self._new_element(self.xa_elem.controlPanelsFolder(), XASystemEventsFolder)
-
-    @property
-    def controlStripModulesFolder(self) -> 'XASystemEventsFolder':
-        return self._new_element(self.xa_elem.controlStripModulesFolder(), XASystemEventsFolder)
-
-    @property
-    def desktopFolder(self) -> 'XASystemEventsFolder':
-        return self._new_element(self.xa_elem.desktopFolder(), XASystemEventsFolder)
-
-    @property
-    def extensionsFolder(self) -> 'XASystemEventsFolder':
-        return self._new_element(self.xa_elem.extensionsFolder(), XASystemEventsFolder)
-
-    @property
-    def fontsFolder(self) -> 'XASystemEventsFolder':
-        return self._new_element(self.xa_elem.fontsFolder(), XASystemEventsFolder)
-
-    @property
-    def launcherItemsFolder(self) -> 'XASystemEventsFolder':
-        return self._new_element(self.xa_elem.launcherItemsFolder(), XASystemEventsFolder)
-
-    @property
-    def preferencesFolder(self) -> 'XASystemEventsFolder':
-        return self._new_element(self.xa_elem.preferencesFolder(), XASystemEventsFolder)
-
-    @property
-    def shutdownFolder(self) -> 'XASystemEventsFolder':
-        return self._new_element(self.xa_elem.shutdownFolder(), XASystemEventsFolder)
-
-    @property
-    def startupItemsFolder(self) -> 'XASystemEventsFolder':
-        return self._new_element(self.xa_elem.startupItemsFolder(), XASystemEventsFolder)
-
-    @property
-    def systemFolder(self) -> 'XASystemEventsFolder':
-        return self._new_element(self.xa_elem.systemFolder(), XASystemEventsFolder)
-
-
-
-
-class XASystemEventsFileList(XASystemEventsDiskItemList):
-    """A wrapper around lists of files that employs fast enumeration techniques.
-
-    All properties of files can be called as methods on the wrapped list, returning a list containing each file's value for the property.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None, obj_class = None):
-        if obj_class is None:
-            obj_class = XASystemEventsFile
-        super().__init__(properties, filter, obj_class)
-
-    def creator_type(self) -> List[str]:
-        """Gets the creator type of each file in the list.
-
-        :return: A list of file creator types
-        :rtype: List[str]
-        
-        .. versionadded:: 0.1.0
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("creatorType") or [])
-
-    def default_application(self) -> XASystemEventsDiskItemList:
-        """Gets the default application of each file in the list.
-
-        :return: A list of file default applications
-        :rtype: XASystemEventsDiskItemList
-        
-        .. versionadded:: 0.1.0
-        """
-        ls = self.xa_elem.arrayByApplyingSelector_("defaultApplication") or []
-        return self._new_element(ls, XASystemEventsDiskItemList)
-    
-    def file_type(self) -> List[str]:
-        """Gets the file type of each file in the list.
-
-        :return: A list of file types
-        :rtype: List[str]
-        
-        .. versionadded:: 0.1.0
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("fileType") or [])
-
-    def kind(self) -> List[str]:
-        """Gets the kind of each file in the list.
-
-        :return: A list of file kinds
-        :rtype: List[str]
-        
-        .. versionadded:: 0.1.0
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("kind") or [])
-
-    def product_version(self) -> List[str]:
-        """Gets the product version of each file in the list.
-
-        :return: A list of file product versions
-        :rtype: List[str]
-        
-        .. versionadded:: 0.1.0
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("productVersion") or [])
-
-    def short_version(self) -> List[str]:
-        """Gets the short version of each file in the list.
-
-        :return: A list of file short versions
-        :rtype: List[str]
-        
-        .. versionadded:: 0.1.0
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("shortVersion") or [])
-
-    def stationery(self) -> List[bool]:
-        """Gets the stationery status of each file in the list.
-
-        :return: A list of file stationery status booleans
-        :rtype: List[bool]
-        
-        .. versionadded:: 0.1.0
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("stationery") or [])
-
-    def type_identifier(self) -> List[str]:
-        """Gets the type identifier of each file in the list.
-
-        :return: A list of file type identifiers
-        :rtype: List[str]
-        
-        .. versionadded:: 0.1.0
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("typeIdentifier") or [])
-
-    def version(self) -> List[str]:
-        """Gets the version of each file in the list.
-
-        :return: A list of file versions
-        :rtype: List[str]
-        
-        .. versionadded:: 0.1.0
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("version") or [])
-
-    def by_creator_type(self, creator_type: str) -> Union['XASystemEventsFile', None]:
-        """Retrieves the first file whose creator type matches the given creator type, if one exists.
-
-        :return: The desired file, if it is found
-        :rtype: Union[XASystemEventsFile, None]
-        
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("creatorType", creator_type)
-
-    def by_default_application(self, default_application: XASystemEventsDiskItem) -> Union['XASystemEventsFile', None]:
-        """Retrieves the first file whose default application matches the given application, if one exists.
-
-        :return: The desired file, if it is found
-        :rtype: Union[XASystemEventsFile, None]
-        
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("defaultApplication", default_application.xa_elem)
-
-    def by_file_type(self, file_type: str) -> Union['XASystemEventsFile', None]:
-        """Retrieves the first file whose file type matches the given fle type, if one exists.
-
-        :return: The desired file, if it is found
-        :rtype: Union[XASystemEventsFile, None]
-        
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("fileType", file_type)
-
-    def by_kind(self, kind: str) -> Union['XASystemEventsFile', None]:
-        """Retrieves the first file whose kind matches the given kind, if one exists.
-
-        :return: The desired file, if it is found
-        :rtype: Union[XASystemEventsFile, None]
-        
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("kind", kind)
-
-    def by_product_version(self, product_version: str) -> Union['XASystemEventsFile', None]:
-        """Retrieves the first file whose product version matches the given product version, if one exists.
-
-        :return: The desired file, if it is found
-        :rtype: Union[XASystemEventsFile, None]
-        
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("productVersion", product_version)
-
-    def by_short_version(self, short_version: str) -> Union['XASystemEventsFile', None]:
-        """Retrieves the first file whose short version matches the given short version, if one exists.
-
-        :return: The desired file, if it is found
-        :rtype: Union[XASystemEventsFile, None]
-        
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("shortVersion", short_version)
-
-    def by_stationery(self, stationery: bool) -> Union['XASystemEventsFile', None]:
-        """Retrieves the first file whose stationery status matches the given boolean value, if one exists.
-
-        :return: The desired file, if it is found
-        :rtype: Union[XASystemEventsFile, None]
-        
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("stationery", stationery)
-
-    def by_type_identifier(self, type_identifier: str) -> Union['XASystemEventsFile', None]:
-        """Retrieves the first file whose type identifier matches the given type identifier, if one exists.
-
-        :return: The desired file, if it is found
-        :rtype: Union[XASystemEventsFile, None]
-        
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("typeIdentifier", type_identifier)
-
-    def by_version(self, version: str) -> Union['XASystemEventsFile', None]:
-        """Retrieves the first file whose version matches the given version, if one exists.
-
-        :return: The desired file, if it is found
-        :rtype: Union[XASystemEventsFile, None]
-        
-        .. versionadded:: 0.1.0
-        """
-        return self.by_property("version", version)
-
-class XASystemEventsFile(XASystemEventsDiskItem):
-    """A file in the file system.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties):
-        super().__init__(properties)
-        
-        self.creatorType: str #: the OSType identifying the application that created the file
-        self.default_application: XASystemEventsDiskItem #: the application that will launch if the file is opened
-        self.file_type: str #: the OSType identifying the type of data contained in the file
-        self.kind: str #: The kind of file, as shown in Finder
-        self.product_version: str #: the version of the product (visible at the top of the "Get Info" window)
-        self.short_version: str #: the short version of the file
-        self.stationery: bool #: Is the file a stationery pad?
-        self.type_identifier: str #: The type identifier of the file
-        self.version: str #: the version of the file (visible at the bottom of the "Get Info" window)
-
-    @property
-    def creator_type(self) -> str:
-        return self.xa_elem.creatorType()
-
-    @creator_type.setter
-    def creator_type(self, creator_type: str):
-        self.set_property('creatorType', creator_type)
-
-    @property
-    def default_application(self) -> XASystemEventsDiskItem:
-        return self._new_element(self.xa_elem.defaultApplication(), XASystemEventsDiskItem)
-
-    @default_application.setter
-    def default_application(self, default_application: XASystemEventsDiskItem):
-        self.set_property('defaultApplication', default_application.xa_elem)
-
-    @property
-    def file_type(self) -> str:
-        return self.xa_elem.fileType()
-
-    @file_type.setter
-    def file_type(self, file_type: str):
-        self.set_property('fileType', file_type)
-
-    @property
-    def kind(self) -> str:
-        return self.xa_elem.kind()
-
-    @property
-    def product_version(self) -> str:
-        return self.xa_elem.productVersion()
-
-    @property
-    def short_version(self) -> str:
-        return self.xa_elem.shortVersion()
-
-    @property
-    def stationery(self) -> bool:
-        return self.xa_elem.stationery()
-
-    @stationery.setter
-    def stationery(self, stationery: bool):
-        self.set_property('stationery', stationery)
-
-    @property
-    def type_identifier(self) -> str:
-        return self.xa_elem.typeIdentifier()
-
-    @property
-    def version(self) -> str:
-        return self.xa_elem.version()
-
-    def __repr__(self):
-        return "<" + str(type(self)) + str(self.name) + ">"
-
-
-
-
-class XASystemEventsFilePackageList(XASystemEventsDiskItem):
-    """A wrapper around lists of file packages that employs fast enumeration techniques.
-
-    All properties of file packages can be called as methods on the wrapped list, returning a list containing each packages's value for the property.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, filter, XASystemEventsFilePackage)
-
-class XASystemEventsFilePackage(XASystemEventsFile, XADeletable):
-    """A file package in the file system.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties):
-        super().__init__(properties)
-
-    def aliases(self, filter: dict = None) -> Union['XASystemEventsAliasList', None]:
-            """Returns a list of aliases, as PyXA-wrapped objects, matching the given filter.
-
-            :param filter: A dictionary specifying property-value pairs that all returned aliases will have, or None
-            :type filter: Union[dict, None]
-            :return: The list of aliases
-            :rtype: XASystemEventsAliasList
-
-            .. versionadded:: 0.0.8
-            """
-            return self._new_element(self.xa_elem.aliases(), XASystemEventsAliasList)
-
-    def disk_items(self, filter: dict = None) -> Union['XASystemEventsDiskItemList', None]:
-            """Returns a list of disk items, as PyXA-wrapped objects, matching the given filter.
-
-            :param filter: A dictionary specifying property-value pairs that all returned disk items will have, or None
-            :type filter: Union[dict, None]
-            :return: The list of disk items
-            :rtype: XASystemEventsDiskItemList
-
-            .. versionadded:: 0.0.8
-            """
-            return self._new_element(self.xa_elem.diskItems(), XASystemEventsDiskItemList)
-
-    def files(self, filter: dict = None) -> Union['XASystemEventsFileList', None]:
-            """Returns a list of files, as PyXA-wrapped objects, matching the given filter.
-
-            :param filter: A dictionary specifying property-value pairs that all returned files will have, or None
-            :type filter: Union[dict, None]
-            :return: The list of files
-            :rtype: XASystemEventsFileList
-
-            .. versionadded:: 0.0.8
-            """
-            return self._new_element(self.xa_elem.files(), XASystemEventsFileList)
-
-    def file_packages(self, filter: dict = None) -> Union['XASystemEventsFilePackageList', None]:
-            """Returns a list of file packages, as PyXA-wrapped objects, matching the given filter.
-
-            :param filter: A dictionary specifying property-value pairs that all returned file packages will have, or None
-            :type filter: Union[dict, None]
-            :return: The list of file packages
-            :rtype: XASystemEventsFilePackageList
-
-            .. versionadded:: 0.0.8
-            """
-            return self._new_element(self.xa_elem.filePackages(), XASystemEventsFilePackageList)
-
-    def folders(self, filter: dict = None) -> Union['XASystemEventsFolderList', None]:
-            """Returns a list of folders, as PyXA-wrapped objects, matching the given filter.
-
-            :param filter: A dictionary specifying property-value pairs that all returned folders will have, or None
-            :type filter: Union[dict, None]
-            :return: The list of folders
-            :rtype: XASystemEventsFolderList
-
-            .. versionadded:: 0.0.8
-            """
-            return self._new_element(self.xa_elem.folders(), XASystemEventsFolderList)
-        
-
-
-
-class XASystemEventsFolderList(XASystemEventsDiskItemList):
-    """A wrapper around lists of folders that employs fast enumeration techniques.
-
-    All properties of folders can be called as methods on the wrapped list, returning a list containing each folder's value for the property.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, filter, XASystemEventsFolder)
-
-class XASystemEventsFolder(XASystemEventsDiskItem, XADeletable):
-    """A folder in the file system.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties):
-        super().__init__(properties)
-
-    def aliases(self, filter: dict = None) -> Union['XASystemEventsAliasList', None]:
-            """Returns a list of aliases, as PyXA-wrapped objects, matching the given filter.
-
-            :param filter: A dictionary specifying property-value pairs that all returned aliases will have, or None
-            :type filter: Union[dict, None]
-            :return: The list of aliases
-            :rtype: XASystemEventsAliasList
-
-            .. versionadded:: 0.0.8
-            """
-            return self._new_element(self.xa_elem.aliases(), XASystemEventsAliasList)
-
-    def disk_items(self, filter: dict = None) -> Union['XASystemEventsDiskItemList', None]:
-            """Returns a list of disk items, as PyXA-wrapped objects, matching the given filter.
-
-            :param filter: A dictionary specifying property-value pairs that all returned disk items will have, or None
-            :type filter: Union[dict, None]
-            :return: The list of disk items
-            :rtype: XASystemEventsDiskItemList
-
-            .. versionadded:: 0.0.8
-            """
-            return self._new_element(self.xa_elem.diskItems(), XASystemEventsDiskItemList)
-
-    def files(self, filter: dict = None) -> Union['XASystemEventsFileList', None]:
-            """Returns a list of files, as PyXA-wrapped objects, matching the given filter.
-
-            :param filter: A dictionary specifying property-value pairs that all returned files will have, or None
-            :type filter: Union[dict, None]
-            :return: The list of files
-            :rtype: XASystemEventsFileList
-
-            .. versionadded:: 0.0.8
-            """
-            return self._new_element(self.xa_elem.files(), XASystemEventsFileList)
-
-    def file_packages(self, filter: dict = None) -> Union['XASystemEventsFilePackageList', None]:
-            """Returns a list of file packages, as PyXA-wrapped objects, matching the given filter.
-
-            :param filter: A dictionary specifying property-value pairs that all returned file packages will have, or None
-            :type filter: Union[dict, None]
-            :return: The list of file packages
-            :rtype: XASystemEventsFilePackageList
-
-            .. versionadded:: 0.0.8
-            """
-            return self._new_element(self.xa_elem.filePackages(), XASystemEventsFilePackageList)
-
-    def folders(self, filter: dict = None) -> Union['XASystemEventsFolderList', None]:
-            """Returns a list of folders, as PyXA-wrapped objects, matching the given filter.
-
-            :param filter: A dictionary specifying property-value pairs that all returned folders will have, or None
-            :type filter: Union[dict, None]
-            :return: The list of folders
-            :rtype: XASystemEventsFolderList
-
-            .. versionadded:: 0.0.8
-            """
-            return self._new_element(self.xa_elem.folders(), XASystemEventsFolderList)
-
-    def __repr__(self):
-        return "<" + str(type(self)) + str(self.name) + ">"
-        
-
-
-
-class XASystemEventsLocalDomainObject(XASystemEventsDomain):
-    """The local domain in the file system.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties):
-        super().__init__(properties)
-        
-
-
-
-class XASystemEventsNetworkDomainObject(XASystemEventsDomain):
-    """The network domain in the file system.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties):
-        super().__init__(properties)
-        
-
-
-
-class XASystemEventsSystemDomainObject(XASystemEventsDomain):
-    """The system domain in the file system.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties):
-        super().__init__(properties)
-        
-
-
-
-class XASystemEventsUserDomainObject(XASystemEventsDomain):
-    """The user domain in the file system.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties):
-        super().__init__(properties)
-        
-        self.desktop_folder: XASystemEventsFolder #: The user's Desktop folder
-        self.documents_folder: XASystemEventsFolder #: The user's Documents folder
-        self.downloads_folder: XASystemEventsFolder #: The user's Downloads folder
-        self.favorites_folder: XASystemEventsFolder #: The user's Favorites folder
-        self.home_folder: XASystemEventsFolder #: The user's Home folder
-        self.movies_folder: XASystemEventsFolder #: The user's Movies folder
-        self.music_folder: XASystemEventsFolder #: The user's Music folder
-        self.pictures_folder: XASystemEventsFolder #: The user's Pictures folder
-        self.public_folder: XASystemEventsFolder #: The user's Public folder
-        self.sites_folder: XASystemEventsFolder #: The user's Sites folder
-        self.temporary_items_folder: XASystemEventsFolder #: The Temporary Items folder
-
-    @property
-    def desktop_folder(self) -> XASystemEventsFolder:
-        return self._new_element(self.xa_elem.desktopFolder(), XASystemEventsFolder)
-
-    @property
-    def documents_folder(self) -> XASystemEventsFolder:
-        return self._new_element(self.xa_elem.documentsFolder(), XASystemEventsFolder)
-
-    @property
-    def downloads_folder(self) -> XASystemEventsFolder:
-        return self._new_element(self.xa_elem.downloadsFolder(), XASystemEventsFolder)
-
-    @property
-    def favorites_folder(self) -> XASystemEventsFolder:
-        return self._new_element(self.xa_elem.favoritesFolder(), XASystemEventsFolder)
-
-    @property
-    def home_folder(self) -> XASystemEventsFolder:
-        return self._new_element(self.xa_elem.homeFolder(), XASystemEventsFolder)
-
-    @property
-    def movies_folder(self) -> XASystemEventsFolder:
-        return self._new_element(self.xa_elem.moviesFolder(), XASystemEventsFolder)
-
-    @property
-    def music_folder(self) -> XASystemEventsFolder:
-        return self._new_element(self.xa_elem.musicFolder(), XASystemEventsFolder)
-
-    @property
-    def pictures_folder(self) -> XASystemEventsFolder:
-        return self._new_element(self.xa_elem.picturesFolder(), XASystemEventsFolder)
-
-    @property
-    def public_folder(self) -> XASystemEventsFolder:
-        return self._new_element(self.xa_elem.publicFolder(), XASystemEventsFolder)
-
-    @property
-    def sites_folder(self) -> XASystemEventsFolder:
-        return self._new_element(self.xa_elem.sitesFolder(), XASystemEventsFolder)
-
-    @property
-    def temporary_items_folder(self) -> XASystemEventsFolder:
-        return self._new_element(self.xa_elem.temporaryItemsFolder(), XASystemEventsFolder)
 
 
 
@@ -5610,7 +3483,7 @@ class XASystemEventsFolderActionList(XABase.XAList):
     .. versionadded:: 0.1.0
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XASystemEventsFolderAction, filter)
+        super().__init__(properties, XABase.XAFolderAction, filter)
 
     def enabled(self) -> List[bool]:
         """Gets the enabled status of each folder action in the list.
@@ -5653,31 +3526,31 @@ class XASystemEventsFolderActionList(XABase.XAList):
         """
         return list(self.xa_elem.arrayByApplyingSelector_("volume") or [])
 
-    def by_enabled(self, enabled: bool) -> Union['XASystemEventsFolderAction', None]:
+    def by_enabled(self, enabled: bool) -> Union['XABase.XAFolderAction', None]:
         """Retrieves the first folder action whose enabled status matches the given boolean value, if one exists.
 
         :return: The desired folder action, if it is found
-        :rtype: Union[XASystemEventsFolderAction, None]
+        :rtype: Union[XABase.XAFolderAction, None]
         
         .. versionadded:: 0.1.0
         """
         return self.by_property("enabled", enabled)
 
-    def by_name(self, name: str) -> Union['XASystemEventsFolderAction', None]:
+    def by_name(self, name: str) -> Union['XABase.XAFolderAction', None]:
         """Retrieves the folder action whose name matches the given name, if one exists.
 
         :return: The desired folder action, if it is found
-        :rtype: Union[XASystemEventsFolderAction, None]
+        :rtype: Union[XABase.XAFolderAction, None]
         
         .. versionadded:: 0.1.0
         """
         return self.by_property("name", name)
 
-    def by_path(self, path: Union[XABase.XAPath, str]) -> Union['XASystemEventsFolderAction', None]:
+    def by_path(self, path: Union[XABase.XAPath, str]) -> Union['XABase.XAFolderAction', None]:
         """Retrieves the folder action whose path matches the given path, if one exists.
 
         :return: The desired folder action, if it is found
-        :rtype: Union[XASystemEventsFolderAction, None]
+        :rtype: Union[XABase.XAFolderAction, None]
         
         .. versionadded:: 0.1.0
         """
@@ -5685,11 +3558,11 @@ class XASystemEventsFolderActionList(XABase.XAList):
             path = path.path
         return self.by_property("path", path)
 
-    def by_volume(self, volume: str) -> Union['XASystemEventsFolderAction', None]:
+    def by_volume(self, volume: str) -> Union['XABase.XAFolderAction', None]:
         """Retrieves the first folder action whose volume matches the given volume, if one exists.
 
         :return: The desired folder action, if it is found
-        :rtype: Union[XASystemEventsFolderAction, None]
+        :rtype: Union[XABase.XAFolderAction, None]
         
         .. versionadded:: 0.1.0
         """
@@ -5750,7 +3623,7 @@ class XASystemEventsFolderAction(XABase.XAObject):
         :return: The list of scripts
         :rtype: XASystemEventsScriptList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_elem.scripts(), XASystemEventsScriptList)
 
@@ -5927,7 +3800,7 @@ class XASystemEventsActionList(XABase.XAList):
         
         .. versionadded:: 0.1.0
         """
-        return self.by_property("objectDescription", name)
+        return self.by_property("objectDescription", object_description)
 
     def by_name(self, name: str) -> Union['XASystemEventsAction', None]:
         """Retrieves the action whose name matches the given name, if one exists.
@@ -6623,7 +4496,7 @@ class XASystemEventsUIElement(XABase.XAObject, XASelectable):
         :return: The list of actions
         :rtype: XASystemEventsActionList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_elem.actions(), XASystemEventsActionList)
 
@@ -6635,7 +4508,7 @@ class XASystemEventsUIElement(XABase.XAObject, XASelectable):
         :return: The list of attributes
         :rtype: XASystemEventsAttributeList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_elem.attributes(), XASystemEventsAttributeList)
 
@@ -6647,7 +4520,7 @@ class XASystemEventsUIElement(XABase.XAObject, XASelectable):
         :return: The list of browsers
         :rtype: XASystemEventsBrowserList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_elem.browsers(), XASystemEventsBrowserList)
 
@@ -6659,7 +4532,7 @@ class XASystemEventsUIElement(XABase.XAObject, XASelectable):
         :return: The list of busy indicators
         :rtype: XASystemEventsBusyIndicatorList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_elem.busyIndicators(), XASystemEventsBusyIndicatorList)
 
@@ -6671,7 +4544,7 @@ class XASystemEventsUIElement(XABase.XAObject, XASelectable):
         :return: The list of buttons
         :rtype: XASystemEventsButtonList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_elem.buttons(), XASystemEventsCheckboxList)
 
@@ -6683,7 +4556,7 @@ class XASystemEventsUIElement(XABase.XAObject, XASelectable):
         :return: The list of checkboxes
         :rtype: XASystemEventsCheckboxList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_elem.checkboxes(), XASystemEventsCheckboxList)
 
@@ -6695,7 +4568,7 @@ class XASystemEventsUIElement(XABase.XAObject, XASelectable):
         :return: The list of color wells
         :rtype: XASystemEventsColorWellList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_elem.colorWells(), XASystemEventsColorWellList)
 
@@ -6707,7 +4580,7 @@ class XASystemEventsUIElement(XABase.XAObject, XASelectable):
         :return: The list of columns
         :rtype: XASystemEventsColumnList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_elem.columns(), XASystemEventsColumnList)
 
@@ -6719,7 +4592,7 @@ class XASystemEventsUIElement(XABase.XAObject, XASelectable):
         :return: The list of combo boxes
         :rtype: XASystemEventsComboBoxList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_elem.comboBoxes(), XASystemEventsComboBoxList)
 
@@ -6731,7 +4604,7 @@ class XASystemEventsUIElement(XABase.XAObject, XASelectable):
         :return: The list of drawers
         :rtype: XASystemEventsDrawerList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_elem.drawers(), XASystemEventsDrawerList)
 
@@ -6743,7 +4616,7 @@ class XASystemEventsUIElement(XABase.XAObject, XASelectable):
         :return: The list of groups
         :rtype: XASystemEventsGroupList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_elem.groups(), XASystemEventsGroupList)
 
@@ -6755,7 +4628,7 @@ class XASystemEventsUIElement(XABase.XAObject, XASelectable):
         :return: The list of grow areas
         :rtype: XASystemEventsGrowAreaList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_elem.growAreas(), XASystemEventsGrowAreaList)
 
@@ -6767,7 +4640,7 @@ class XASystemEventsUIElement(XABase.XAObject, XASelectable):
         :return: The list of images
         :rtype: XASystemEventsImageList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_elem.images(), XASystemEventsImageList)
 
@@ -6779,7 +4652,7 @@ class XASystemEventsUIElement(XABase.XAObject, XASelectable):
         :return: The list of incrementors
         :rtype: XASystemEventsIncrementorList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_elem.incrementors(), XASystemEventsIncrementorList)
 
@@ -6791,7 +4664,7 @@ class XASystemEventsUIElement(XABase.XAObject, XASelectable):
         :return: The list of lists
         :rtype: XASystemEventsListList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_elem.lists(), XASystemEventsListList)
 
@@ -6803,7 +4676,7 @@ class XASystemEventsUIElement(XABase.XAObject, XASelectable):
         :return: The list of menus
         :rtype: XASystemEventsMenuList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_elem.menus(), XASystemEventsMenuList)
 
@@ -6815,7 +4688,7 @@ class XASystemEventsUIElement(XABase.XAObject, XASelectable):
         :return: The list of menu bars
         :rtype: XASystemEventsMenuBarList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_elem.menuBars(), XASystemEventsMenuBarList)
 
@@ -6827,7 +4700,7 @@ class XASystemEventsUIElement(XABase.XAObject, XASelectable):
         :return: The list of menu bar items
         :rtype: XASystemEventsMenuBarItemList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_elem.menuBarItems(), XASystemEventsMenuBarItemList)
 
@@ -6839,7 +4712,7 @@ class XASystemEventsUIElement(XABase.XAObject, XASelectable):
         :return: The list of menu buttons
         :rtype: XASystemEventsMenuButtonList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_elem.menuButtons(), XASystemEventsMenuButtonList)
 
@@ -6851,7 +4724,7 @@ class XASystemEventsUIElement(XABase.XAObject, XASelectable):
         :return: The list of menu items
         :rtype: XASystemEventsMenuItemList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_elem.menuItems(), XASystemEventsMenuItemList)
 
@@ -6863,7 +4736,7 @@ class XASystemEventsUIElement(XABase.XAObject, XASelectable):
         :return: The list of outlines
         :rtype: XASystemEventsOutlineList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_elem.outlines(), XASystemEventsOutlineList)
 
@@ -6875,7 +4748,7 @@ class XASystemEventsUIElement(XABase.XAObject, XASelectable):
         :return: The list of pop-overs
         :rtype: XASystemEventsPopOverList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_elem.popOvers(), XASystemEventsPopOverList)
 
@@ -6887,7 +4760,7 @@ class XASystemEventsUIElement(XABase.XAObject, XASelectable):
         :return: The list of pop-up buttons
         :rtype: XASystemEventsPopUpButtonList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_elem.popUpButtons(), XASystemEventsPopUpButtonList)
 
@@ -6899,7 +4772,7 @@ class XASystemEventsUIElement(XABase.XAObject, XASelectable):
         :return: The list of progress indicators
         :rtype: XASystemEventsProgressIndicatorList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_elem.progressIndicators(), XASystemEventsProgressIndicatorList)
 
@@ -6911,7 +4784,7 @@ class XASystemEventsUIElement(XABase.XAObject, XASelectable):
         :return: The list of radio buttons
         :rtype: XASystemEventsRadioButtonList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_elem.radioButtons(), XASystemEventsRadioButtonList)
 
@@ -6923,7 +4796,7 @@ class XASystemEventsUIElement(XABase.XAObject, XASelectable):
         :return: The list of radio groups
         :rtype: XASystemEventsRadioGroupList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_elem.radioGroups(), XASystemEventsRadioGroupList)
 
@@ -6935,7 +4808,7 @@ class XASystemEventsUIElement(XABase.XAObject, XASelectable):
         :return: The list of relevance indicators
         :rtype: XASystemEventsRelevanceIndicatorList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_elem.relevanceIndicators(), XASystemEventsRelevanceIndicatorList)
 
@@ -6947,7 +4820,7 @@ class XASystemEventsUIElement(XABase.XAObject, XASelectable):
         :return: The list of rows
         :rtype: XASystemEventsRowList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_elem.rows(), XASystemEventsRowList)
 
@@ -6959,7 +4832,7 @@ class XASystemEventsUIElement(XABase.XAObject, XASelectable):
         :return: The list of scroll areas
         :rtype: XASystemEventsScrollAreaList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_elem.scrollAreas(), XASystemEventsScrollAreaList)
 
@@ -6971,7 +4844,7 @@ class XASystemEventsUIElement(XABase.XAObject, XASelectable):
         :return: The list of scroll bars
         :rtype: XASystemEventsScrollBarList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_elem.scrollBars(), XASystemEventsScrollBarList)
 
@@ -6983,7 +4856,7 @@ class XASystemEventsUIElement(XABase.XAObject, XASelectable):
         :return: The list of sheets
         :rtype: XASystemEventsSheetList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_elem.sheets(), XASystemEventsSheetList)
 
@@ -6995,7 +4868,7 @@ class XASystemEventsUIElement(XABase.XAObject, XASelectable):
         :return: The list of sliders
         :rtype: XASystemEventsSliderList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_elem.sliders(), XASystemEventsSliderList)
 
@@ -7007,7 +4880,7 @@ class XASystemEventsUIElement(XABase.XAObject, XASelectable):
         :return: The list of splitters
         :rtype: XASystemEventsSplitterList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_elem.splitters(), XASystemEventsSplitterList)
 
@@ -7019,7 +4892,7 @@ class XASystemEventsUIElement(XABase.XAObject, XASelectable):
         :return: The list of splitter groups
         :rtype: XASystemEventsSplitterGroupList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_elem.splitterGroups(), XASystemEventsSplitterGroupList)
 
@@ -7031,7 +4904,7 @@ class XASystemEventsUIElement(XABase.XAObject, XASelectable):
         :return: The list of static texts
         :rtype: XASystemEventsStaticTextList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_elem.staticTexts(), XASystemEventsStaticTextList)
 
@@ -7043,7 +4916,7 @@ class XASystemEventsUIElement(XABase.XAObject, XASelectable):
         :return: The list of tab groups
         :rtype: XASystemEventsTabGroupList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_elem.tabGroups(), XASystemEventsTabGroupList)
 
@@ -7055,7 +4928,7 @@ class XASystemEventsUIElement(XABase.XAObject, XASelectable):
         :return: The list of tables
         :rtype: XASystemEventsTableList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_elem.tables(), XASystemEventsTableList)
 
@@ -7067,7 +4940,7 @@ class XASystemEventsUIElement(XABase.XAObject, XASelectable):
         :return: The list of text areas
         :rtype: XASystemEventsTextAreaList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_elem.textAreas(), XASystemEventsTextAreaList)
 
@@ -7079,7 +4952,7 @@ class XASystemEventsUIElement(XABase.XAObject, XASelectable):
         :return: The list of text fields
         :rtype: XASystemEventsTextFieldList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_elem.textFields(), XASystemEventsTextFieldList)
 
@@ -7091,7 +4964,7 @@ class XASystemEventsUIElement(XABase.XAObject, XASelectable):
         :return: The list of outlines
         :rtype: XASystemEventsToolbarList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_elem.toolbars(), XASystemEventsToolbarList)
 
@@ -7103,7 +4976,7 @@ class XASystemEventsUIElement(XABase.XAObject, XASelectable):
         :return: The list of UI elements
         :rtype: XASystemEventsUIElementList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_elem.toolbars(), XASystemEventsUIElementList)
 
@@ -7115,7 +4988,7 @@ class XASystemEventsUIElement(XABase.XAObject, XASelectable):
         :return: The list of value indicators
         :rtype: XASystemEventsValueIndicatorList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_elem.valueIndicators(), XASystemEventsValueIndicatorList)
 
@@ -7127,7 +5000,7 @@ class XASystemEventsUIElement(XABase.XAObject, XASelectable):
         :return: The list of windows
         :rtype: XASystemEventsToolbarList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         self.xa_wcls = XASystemEventsWindow
         return self._new_element(self.xa_elem.windows(), XABaseScriptable.XASBWindowList)
@@ -7668,16 +5541,16 @@ class XASystemEventsProcessList(XASystemEventsUIElementList):
         """
         return list(self.xa_elem.arrayByApplyingSelector_("displayedName") or [])
 
-    def file(self) -> XASystemEventsFileList:
+    def file(self) -> XABase.XAFileList:
         """Gets the file of each process in the list.
 
         :return: A list of process files
-        :rtype: XASystemEventsFileList
+        :rtype: XABase.XAFileList
         
         .. versionadded:: 0.1.0
         """
         ls = self.xa_elem.arrayByApplyingSelector_("file") or []
-        return self._new_element(ls, XASystemEventsFileList)
+        return self._new_element(ls, XABase.XAFileList)
 
     def file_type(self) -> List[str]:
         """Gets the file type of each process in the list.
@@ -7839,7 +5712,7 @@ class XASystemEventsProcessList(XASystemEventsUIElementList):
         """
         return self.by_property("creatorType", creator_type)
 
-    def by_file(self, file: XASystemEventsFile) -> Union['XASystemEventsProcess', None]:
+    def by_file(self, file: XABase.XAFile) -> Union['XASystemEventsProcess', None]:
         """Retrieves the process whose file matches the given file, if one exists.
 
         :return: The desired process, if it is found
@@ -7965,7 +5838,7 @@ class XASystemEventsProcess(XASystemEventsUIElement):
         self.classic: bool #: Is the process running in the Classic environment?
         self.creator_type: str #: the OSType of the creator of the process (the signature)
         self.displayed_name: str #: the name of the file from which the process was launched, as displayed in the User Interface
-        self.file: XASystemEventsFile #: the file from which the process was launched
+        self.file: XABase.XAFile #: the file from which the process was launched
         self.file_type: str #: the OSType of the file type of the process
         self.frontmost: bool #: Is the process the frontmost process
         self.has_scripting_terminology: bool #: Does the process have a scripting terminology, i.e., can it be scripted?
@@ -8010,8 +5883,8 @@ class XASystemEventsProcess(XASystemEventsUIElement):
         return self.xa_elem.displayedName()
 
     @property
-    def file(self) -> XASystemEventsFile:
-        return self._new_element(self.xa_elem.file(), XASystemEventsFile)
+    def file(self) -> XABase.XAFile:
+        return self._new_element(self.xa_elem.file(), XABase.XAFile)
 
     @property
     def file_type(self) -> str:
@@ -8074,18 +5947,18 @@ class XASystemEventsApplicationProcessList(XASystemEventsProcessList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, filter, XASystemEventsApplicationProcess)
 
-    def application_file(self) -> XASystemEventsFileList:
+    def application_file(self) -> XABase.XAFileList:
         """Gets the application file of each application process in the list.
 
         :return: A list of application process files
-        :rtype: XASystemEventsFileList
+        :rtype: XABase.XAFileList
         
         .. versionadded:: 0.1.0
         """
         ls = self.xa_elem.arrayByApplyingSelector_("applicationFile") or []
-        return self._new_element(ls, XASystemEventsFileList)
+        return self._new_element(ls, XABase.XAFileList)
 
-    def by_application_file(self, application_file: XASystemEventsFile) -> Union['XASystemEventsApplicationProcess', None]:
+    def by_application_file(self, application_file: XABase.XAFile) -> Union['XASystemEventsApplicationProcess', None]:
         """Retrieves the application process whose file matches the given file, if one exists.
 
         :return: The desired application process, if it is found
@@ -8103,11 +5976,11 @@ class XASystemEventsApplicationProcess(XASystemEventsProcess):
     def __init__(self, properties):
         super().__init__(properties)
         
-        self.application_file: XASystemEventsFile #: a reference to the application file from which this process was launched
+        self.application_file: XABase.XAFile #: a reference to the application file from which this process was launched
 
     @property
-    def application_file(self) -> XASystemEventsFile:
-        return self._new_element(self.xa_elem.applicationFile(), XASystemEventsFile)
+    def application_file(self) -> XABase.XAFile:
+        return self._new_element(self.xa_elem.applicationFile(), XABase.XAFile)
 
 
 
@@ -8122,18 +5995,18 @@ class XASystemEventsDeskAccessoryProcessList(XASystemEventsProcessList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, filter, XASystemEventsDeskAccessoryProcess)
 
-    def desk_accessory_file(self) -> XASystemEventsFileList:
+    def desk_accessory_file(self) -> XABase.XAFileList:
         """Gets the desk accessory file of each desk accessory process in the list.
 
         :return: A list of desk accessory process files
-        :rtype: XASystemEventsFileList
+        :rtype: XABase.XAFileList
         
         .. versionadded:: 0.1.0
         """
         ls = self.xa_elem.arrayByApplyingSelector_("deskAccessoryFile") or []
-        return self._new_element(ls, XASystemEventsFileList)
+        return self._new_element(ls, XABase.XAFileList)
 
-    def by_desk_accessory_file(self, desk_accessory_file: XASystemEventsFile) -> Union['XASystemEventsDeskAccessoryProcess', None]:
+    def by_desk_accessory_file(self, desk_accessory_file: XABase.XAFile) -> Union['XASystemEventsDeskAccessoryProcess', None]:
         """Retrieves the desk accessory process whose file matches the given file, if one exists.
 
         :return: The desired desk accessory process, if it is found
@@ -8151,11 +6024,11 @@ class XASystemEventsDeskAccessoryProcess(XASystemEventsProcess):
     def __init__(self, properties):
         super().__init__(properties)
         
-        self.desk_accessory_file: XASystemEventsAlias #: A reference to the desk accessory file from which this process was launched
+        self.desk_accessory_file: XABase.XAAlias #: A reference to the desk accessory file from which this process was launched
 
     @property
-    def desk_accessory_file(self) -> XASystemEventsAlias:
-        return self._new_element(self.xa_elem.deskAccessoryFile(), XASystemEventsAlias)
+    def desk_accessory_file(self) -> XABase.XAAlias:
+        return self._new_element(self.xa_elem.deskAccessoryFile(), XABase.XAAlias)
 
 
 
@@ -8543,7 +6416,7 @@ class XASystemEventsPropertyListFileList(XABase.XAList):
 
     All properties of property list files can be called as methods on the wrapped list, returning a list containing each file's value for the property.
 
-    .. versionadded:: 0.0.8
+    .. versionadded:: 0.1.0
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XASystemEventsPropertyListFile, filter)
@@ -8554,7 +6427,7 @@ class XASystemEventsPropertyListFileList(XABase.XAList):
         :return: A list of property list items
         :rtype: XASystemEventsPropertyListItemList
         
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         ls = self.xa_elem.arrayByApplyingSelector_("contents")
         return self._new_element(ls, XASystemEventsPropertyListItemList)
@@ -8565,7 +6438,7 @@ class XASystemEventsPropertyListFileList(XABase.XAList):
         :return: The desired property list item, if it is found
         :rtype: Union[XASystemEventsPropertyListFile, None]
         
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self.by_property("contents", contents.xa_elem)
 
@@ -8598,7 +6471,7 @@ class XASystemEventsPropertyListItemList(XABase.XAList):
 
     All properties of property list items can be called as methods on the wrapped list, returning a list containing each item's value for the property.
 
-    .. versionadded:: 0.0.8
+    .. versionadded:: 0.1.0
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XASystemEventsPropertyListItem, filter)
@@ -8609,7 +6482,7 @@ class XASystemEventsPropertyListItemList(XABase.XAList):
         :return: A list of property list item kinds
         :rtype: List[str]
         
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         # TODO
         return list(self.xa_elem.arrayByApplyingSelector_("kind"))
@@ -8620,7 +6493,7 @@ class XASystemEventsPropertyListItemList(XABase.XAList):
         :return: A list of property list item names
         :rtype: List[str]
         
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
@@ -8630,7 +6503,7 @@ class XASystemEventsPropertyListItemList(XABase.XAList):
         :return: A list of property list item texts
         :rtype: List[str]
         
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("text"))
 
@@ -8640,7 +6513,7 @@ class XASystemEventsPropertyListItemList(XABase.XAList):
         :return: A list of property list item values
         :rtype: List[Union[int, bool, datetime, XASystemEventsList, dict, str, XASystemEventsData]]
         
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         # TODO: SPECIALIZE TYPE
         return list(self.xa_elem.arrayByApplyingSelector_("value"))
@@ -8651,7 +6524,7 @@ class XASystemEventsPropertyListItemList(XABase.XAList):
         :return: The desired property list item, if it is found
         :rtype: Union[XASystemEventsPropertyListItem, None]
         
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         # TODO
         return self.by_property("kind", kind)
@@ -8662,7 +6535,7 @@ class XASystemEventsPropertyListItemList(XABase.XAList):
         :return: The desired property list item, if it is found
         :rtype: Union[XASystemEventsPropertyListItem, None]
         
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self.by_property("name", name)
 
@@ -8672,7 +6545,7 @@ class XASystemEventsPropertyListItemList(XABase.XAList):
         :return: The desired property list item, if it is found
         :rtype: Union[XASystemEventsPropertyListItem, None]
         
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self.by_property("text", text)
 
@@ -8682,7 +6555,7 @@ class XASystemEventsPropertyListItemList(XABase.XAList):
         :return: The desired property list item, if it is found
         :rtype: Union[XASystemEventsPropertyListItem, None]
         
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         # TODO
         return self.by_property("value", value)
@@ -8737,7 +6610,7 @@ class XASystemEventsPropertyListItem(XABase.XAObject):
         :return: The list of property list items
         :rtype: XASystemEventsPropertyListItemList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_elem.propertyListItems(), XASystemEventsPropertyListItemList)
 
@@ -8936,7 +6809,7 @@ class XASystemEventsXMLData(XABase.XAObject):
         :return: The list of XML elements
         :rtype: XASystemEventsXMLElementList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_elem.xmlElements(), XASystemEventsXMLElementList)
     
@@ -9052,7 +6925,7 @@ class XASystemEventsXMLElement(XABase.XAObject):
         :return: The list of XML attributes
         :rtype: XASystemEventsXMLAttributeList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_elem.xmlAttributes(), XASystemEventsXMLAttributeList)
 
@@ -9064,14 +6937,14 @@ class XASystemEventsXMLElement(XABase.XAObject):
         :return: The list of XML elements
         :rtype: XASystemEventsXMLElementList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_elem.xmlElements(), XASystemEventsXMLElementList)
     
 
 
 
-class XASystemEventsXMLFileList(XASystemEventsFileList):
+class XASystemEventsXMLFileList(XABase.XAFileList):
     """A wrapper around lists of XML files that employs fast enumeration techniques.
 
     All properties of XML files can be called as methods on the wrapped list, returning a list containing each file's value for the property.
@@ -9431,7 +7304,7 @@ class XASystemEventsScriptingClass(XABase.XAObject):
         :return: The list of scripting elements
         :rtype: XASystemEventsScriptingElementList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_elem.scriptingElements(), XASystemEventsScriptingElementList)
 
@@ -9443,7 +7316,7 @@ class XASystemEventsScriptingClass(XABase.XAObject):
         :return: The list of scripting properties
         :rtype: XASystemEventsScriptingPropertyList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_elem.scriptingProperties(), XASystemEventsScriptingPropertyList)
     
@@ -9657,7 +7530,7 @@ class XASystemEventsScriptingCommand(XABase.XAObject):
         :return: The list of scripting parameters
         :rtype: XASystemEventsScriptingParameterList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_elem.scriptingParameters(), XASystemEventsScriptingParameterList)
     
@@ -9667,7 +7540,7 @@ class XASystemEventsScriptingCommand(XABase.XAObject):
 class XASystemEventsScriptingDefinitionObject(XABase.XAObject):
     """The scripting definition of the System Events application.
 
-    .. versionadded:: 0.0.8
+    .. versionadded:: 0.1.0
     """
     def __init__(self, properties):
         super().__init__(properties)
@@ -9680,7 +7553,7 @@ class XASystemEventsScriptingDefinitionObject(XABase.XAObject):
         :return: The list of scripting suites
         :rtype: XASystemEventsScriptingSuiteList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_elem.scriptingSuites(), XASystemEventsScriptingSuiteList, filter)
     
@@ -9813,7 +7686,7 @@ class XASystemEventsScriptingEnumeration(XABase.XAObject):
         :return: The list of scripting enumerators
         :rtype: XASystemEventsScriptingEnumeratorList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_elem.scriptingEnumerators(), XASystemEventsScriptingEnumeratorList)
 
@@ -10476,7 +8349,7 @@ class XASystemEventsScriptingSuiteList(XABase.XAList):
 
     All properties of scripting suites can be called as methods on the wrapped list, returning a list containing each suite's value for the property.
 
-    .. versionadded:: 0.0.8
+    .. versionadded:: 0.1.0
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XASystemEventsScriptingSuite, filter)
@@ -10487,7 +8360,7 @@ class XASystemEventsScriptingSuiteList(XABase.XAList):
         :return: A list of scripting suite names
         :rtype: List[str]
         
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
@@ -10497,7 +8370,7 @@ class XASystemEventsScriptingSuiteList(XABase.XAList):
         :return: A list of scripting suite IDs
         :rtype: List[str]
         
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("id"))
 
@@ -10507,7 +8380,7 @@ class XASystemEventsScriptingSuiteList(XABase.XAList):
         :return: A list of scripting suite object descriptions
         :rtype: List[str]
         
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("objectDescription"))
 
@@ -10517,7 +8390,7 @@ class XASystemEventsScriptingSuiteList(XABase.XAList):
         :return: A list of scripting suite hidden statuses
         :rtype: List[bool]
         
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("hidden"))
 
@@ -10527,7 +8400,7 @@ class XASystemEventsScriptingSuiteList(XABase.XAList):
         :return: The desired scripting suite, if it is found
         :rtype: Union[XASystemEventsScriptingSuite, None]
         
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self.by_property("name", name)
 
@@ -10537,7 +8410,7 @@ class XASystemEventsScriptingSuiteList(XABase.XAList):
         :return: The desired scripting suite, if it is found
         :rtype: Union[XASystemEventsScriptingSuite, None]
         
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self.by_property("id", id)
 
@@ -10547,7 +8420,7 @@ class XASystemEventsScriptingSuiteList(XABase.XAList):
         :return: The desired scripting suite, if it is found
         :rtype: Union[XASystemEventsScriptingSuite, None]
         
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self.by_property("objectDescription", object_description)
 
@@ -10557,7 +8430,7 @@ class XASystemEventsScriptingSuiteList(XABase.XAList):
         :return: The desired scripting suite, if it is found
         :rtype: Union[XASystemEventsScriptingSuite, None]
         
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self.by_property("hidden", hidden)
 
@@ -10601,7 +8474,7 @@ class XASystemEventsScriptingSuite(XABase.XAObject):
         :return: The list of scripting commands
         :rtype: XASystemEventsScriptingCommandList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_elem.scriptingCommands(), XASystemEventsScriptingCommandList)
 
@@ -10613,7 +8486,7 @@ class XASystemEventsScriptingSuite(XABase.XAObject):
         :return: The list of scripting classes
         :rtype: XASystemEventsScriptingClassList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_elem.scriptingClasses(), XASystemEventsScriptingClassList)
 
@@ -10625,6 +8498,6 @@ class XASystemEventsScriptingSuite(XABase.XAObject):
         :return: The list of scripting enumerations
         :rtype: XASystemEventsScriptingEnumerationList
 
-        .. versionadded:: 0.0.8
+        .. versionadded:: 0.1.0
         """
         return self._new_element(self.xa_elem.scriptingEnumerations(), XASystemEventsScriptingEnumerationList)

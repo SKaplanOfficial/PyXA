@@ -12,32 +12,13 @@ from PyXA import XABase
 from PyXA.XABase import OSType
 from PyXA import XABaseScriptable
 from ..XAEvents import event_from_int, event_from_str
-from ..XAProtocols import XACanOpenPath, XAClipboardCodable
+from ..XAProtocols import XACanOpenPath, XAClipboardCodable, XAImageLike
 
-class XAImageEventsApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
+class XAImageEventsApplication(XABase.XAEventsApplication, XABaseScriptable.XASBApplication, XACanOpenPath):
     """A class for interacting with Image Events.app.
 
     .. versionadded:: 0.1.0
     """
-    class Format(Enum):
-        """Disk format options.
-        """
-        APPLE_PHOTO     = XABase.OSType("dfph")
-        APPLESHARE      = XABase.OSType("dfas")
-        AUDIO           = XABase.OSType("dfau")
-        HIGH_SIERRA     = XABase.OSType("dfhs")
-        ISO_9660        = XABase.OSType("fd96")
-        MACOS_EXTENDED  = XABase.OSType("dfh+")
-        MACOS           = XABase.OSType("dfhf")
-        MSDOS           = XABase.OSType("dfms")
-        NFS             = XABase.OSType("dfnf")
-        PRODOS          = XABase.OSType("dfpr")
-        QUICKTAKE       = XABase.OSType("dfqt")
-        UDF             = XABase.OSType("dfud")
-        UFS             = XABase.OSType("dfuf")
-        UNKNOWN         = XABase.OSType("df$$")
-        WEBDAV          = XABase.OSType("dfwd")
-
     class BitDepth(Enum):
         """Bit depth options.
         """
@@ -1140,7 +1121,7 @@ class XAImageEventsImageList(XABase.XAList, XAClipboardCodable):
     def __repr__(self):
         return "<" + str(type(self)) + str(self.name()) + ">"
 
-class XAImageEventsImage(XABase.XAObject, XAClipboardCodable):
+class XAImageEventsImage(XABase.XAObject, XAClipboardCodable, XAImageLike):
     """An image contained in a file.
 
     .. versionadded:: 0.1.0
@@ -1483,6 +1464,14 @@ class XAImageEventsImage(XABase.XAObject, XAClipboardCodable):
             clipboard_rep = XABase.XAImage(file_path).get_clipboard_representation()
             AppKit.NSFileManager.defaultManager().removeFileAtPath_handler_(file_path, None)
             return clipboard_rep
+
+    def get_image_representation(self) -> AppKit.NSImage:
+        """Gets a representation of the object that can be used to initialize an :class:`~PyXA.XABase.XAImage` object.
+
+        :return: The XAImage-compatible form of this object
+        :rtype: AppKit.NSImage
+        """
+        return self.get_clipboard_representation()
 
     def __repr__(self):
         return "<" + str(type(self)) + str(self.name) + ">"

@@ -136,6 +136,21 @@ class XAClipboardCodable(XAProtocol):
         """
         return str(self)
 
+class XAImageLike(XAProtocol):
+    """A protocol for classes that can be treated the same as :class:`~PyXA.XABase.XAImage`.
+
+    .. versionadded:: 0.1.0
+    """
+    def get_image_representation(self) -> Union['XABase.XAImage', None]:
+        """Gets a representation of the object that can be used to initialize an :class:`~PyXA.XABase.XAImage` object.
+
+        This method must be overriden in child classes of XAImageLike.
+
+        :return: The XAImage-compatible form of the object, or None if no such form exists
+        :rtype: Any
+        """
+        return None
+
 
 class XACanOpenPath(XAProtocol):
     """A protocol for classes that can open an item at a given path (either in its default application or in an application whose PyXA object extends this class).

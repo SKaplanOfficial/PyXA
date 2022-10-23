@@ -431,8 +431,9 @@ class XAPagesDocumentList(XABase.XAList):
         ls = self.xa_elem.arrayByApplyingSelector_("documentTemplate")
         return self._new_element(ls, XAPagesTemplateList)
 
-    def body_text(self) -> List[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("bodyText"))
+    def body_text(self) -> XABase.XATextList:
+        ls = self.xa_elem.arrayByApplyingSelector_("bodyText")
+        return self._new_element(ls, XABase.XATextList)
 
     def document_body(self) -> List[bool]:
         return list(self.xa_elem.arrayByApplyingSelector_("documentBody"))
@@ -469,8 +470,11 @@ class XAPagesDocumentList(XABase.XAList):
     def by_document_template(self, document_template: 'XAPagesTemplate') -> 'XAPagesDocument':
         return self.by_property("documentTemplate", document_template.xa_elem)
 
-    def by_body_text(self, body_text: str) -> 'XAPagesDocument':
-        return self.by_property("bodyText", body_text)
+    def by_body_text(self, body_text: Union[str, XABase.XAText]) -> 'XAPagesDocument':
+        if isinstance(body_text, str):
+            self.by_property('bodyText', body_text)
+        else:
+            self.by_property('bodyText', body_text.xa_elem)
 
     def by_document_body(self, document_body: bool) -> 'XAPagesDocument':
         return self.by_property("documentBody", document_body)
@@ -505,7 +509,7 @@ class XAPagesDocument(XABaseScriptable.XASBPrintable, XACloseable):
         self.file: str #: The location of the document on the disk, if one exists
         self.id: str #: The unique identifier for the document
         self.document_template: XAPagesTemplate #: The template assigned to the document
-        self.body_text: str #: The document body text
+        self.body_text: XABase.XAText #: The document body text
         self.document_body: bool #: Whether the document has body text
         self.facing_pages: bool #: Whether the document has facing pages
         self.current_page: XAPagesPage #: The current page of the document
@@ -825,11 +829,15 @@ class XAPagesSectionList(XABase.XAList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XAPagesSection, filter)
 
-    def body_text(self) -> List[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("bodyText"))
+    def body_text(self) -> XABase.XATextList:
+        ls = self.xa_elem.arrayByApplyingSelector_("bodyText")
+        return self._new_element(ls, XABase.XATextList)
 
-    def by_body_text(self, body_text: str) -> 'XAPagesSection':
-        return self.by_property("bodyText", body_text)
+    def by_body_text(self, body_text: Union[str, XABase.XAText]) -> 'XAPagesSection':
+        if isinstance(body_text, str):
+            self.by_property('bodyText', body_text)
+        else:
+            self.by_property('bodyText', body_text.xa_elem)
 
 class XAPagesSection(XABase.XAObject):
     """A class for managing and interacting with sections in Pages.
@@ -840,7 +848,7 @@ class XAPagesSection(XABase.XAObject):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.body_text: str #: The section body text
+        self.body_text: XABase.XAText #: The section body text
 
     @property
     def body_text(self) -> XABase.XAText:
@@ -1012,14 +1020,18 @@ class XAPagesPageList(XAPagesContainerList):
     def properties(self) -> List[dict]:
         return list(self.xa_elem.arrayByApplyingSelector_("properties"))
 
-    def body_text(self) -> List[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("bodyText"))
+    def body_text(self) -> XABase.XATextList:
+        ls = self.xa_elem.arrayByApplyingSelector_("bodyText")
+        return self._new_element(ls, XABase.XATextList)
 
     def by_properties(self, properties: dict) -> 'XAPagesPage':
         return self.by_property("properties", properties)
 
-    def by_body_text(self, body_text: str) -> 'XAPagesPage':
-        return self.by_property("bodyText", body_text)
+    def by_body_text(self, body_text: Union[str, XABase.XAText]) -> 'XAPagesPage':
+        if isinstance(body_text, str):
+            self.by_property('bodyText', body_text)
+        else:
+            self.by_property('bodyText', body_text.xa_elem)
 
 class XAPagesPage(XAPagesContainer):
     """A class for managing and interacting with pages in Pages documents.
@@ -1031,7 +1043,7 @@ class XAPagesPage(XAPagesContainer):
     def __init__(self, properties):
         super().__init__(properties)
         self.properties: dict #: All properties of the slide
-        self.body_text: str #: The page body text
+        self.body_text: XABase.XAText #: The page body text
 
     @property
     def properties(self) -> dict:
@@ -2134,7 +2146,7 @@ class XAPagesTextItem(XAPagesiWorkItem):
 
     @property
     def text(self) -> XABase.XAText:
-        return self._new_element(self.xa_elem.text())
+        return self._new_element(self.xa_elem.text(), XABase.XAText)
 
     @text.setter
     def text(self, text: Union[XABase.XAText, str]):

@@ -14,10 +14,10 @@ from PyXA import XABase
 from PyXA.XABase import OSType
 from PyXA import XABaseScriptable
 
-from ..XAProtocols import XACanOpenPath, XACanPrintPath, XACloseable, XADeletable, XAPrintable, XASelectable
+from ..XAProtocols import XACanPrintPath, XACloseable, XAPrintable, XASelectable
         
 
-class XASystemEventsApplication(XABaseScriptable.XASBApplication, XACanPrintPath, XACanOpenPath):
+class XASystemEventsApplication(XABase.XAEventsApplication, XABaseScriptable.XASBApplication, XACanPrintPath):
     """A class for managing and interacting with System Events.app.
 
     .. versionadded:: 0.1.0
@@ -91,25 +91,6 @@ class XASystemEventsApplication(XABaseScriptable.XASBApplication, XACanPrintPath
         IGNORE              = OSType('dhig')
         OPEN_APPLICATION    = OSType('dhap')
         RUN_A_SCRIPT        = OSType('dhrs')
-
-    class Format(Enum):
-        """Disk and document formats.
-        """
-        APPLE_PHOTO     = OSType('dfph')
-        APPLE_SHARE     = OSType('dfas')
-        AUDIO           = OSType('dfau')
-        HIGH_SIERRA     = OSType('dfhs')
-        ISO_9660        = OSType('df96')
-        MAC_OS_EXTENDED = OSType('dfh+')
-        MAC_OS          = OSType('dfhf')
-        MSDOS           = OSType('dfms')
-        NFS             = OSType('dfnf')
-        PRO_DOS         = OSType('dfpr')
-        QUICK_TAKE      = OSType('dfqt')
-        UDF             = OSType('dfud')
-        UFS             = OSType('dhdfufas')
-        UNKNOWN         = OSType('df$$')
-        WEB_DAV         = OSType('dfwd')
 
     class Key(Enum):
         """Keys and key actions.

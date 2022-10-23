@@ -908,14 +908,18 @@ class XANumbersSheetList(XANumbersContainerList):
     def properties(self) -> List[dict]:
         return list(self.xa_elem.arrayByApplyingSelector_("properties"))
 
-    def body_text(self) -> List[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("bodyText"))
+    def body_text(self) -> XABase.XATextList:
+        ls = self.xa_elem.arrayByApplyingSelector_("bodyText")
+        return self._new_element(ls, XABase.XATextList)
 
     def by_properties(self, properties: dict) -> 'XANumbersSheet':
         return self.by_property("properties", properties)
 
-    def by_body_text(self, body_text: str) -> 'XANumbersSheet':
-        return self.by_property("bodyText", body_text)
+    def by_body_text(self, body_text: Union[str, XABase.XAText]) -> 'XANumbersSheet':
+        if isinstance(body_text, str):
+            self.by_property('bodyText', body_text)
+        else:
+            self.by_property('bodyText', body_text.xa_elem)
 
 class XANumbersSheet(XANumbersContainer):
     """A class for managing and interacting with Numbers in Numbers documents.
@@ -1553,7 +1557,7 @@ class XANumbersShapeList(XANumbersiWorkItemList):
         return [XANumbersApplication.FillOption(x) for x in ls]
 
     def object_text(self) -> XABase.XATextList:
-        ls = self.xa_elem.arrayByApplyingSelector_("clipVolume")
+        ls = self.xa_elem.arrayByApplyingSelector_("objectText")
         return self._new_element(ls, XABase.XATextList)
 
     def opacity(self) -> List[int]:
@@ -1574,8 +1578,11 @@ class XANumbersShapeList(XANumbersiWorkItemList):
     def by_background_fill_type(self, background_fill_type: XANumbersApplication.FillOption) -> 'XANumbersShape':
         return self.by_property("backgroundFillType", background_fill_type.value)
 
-    def by_object_text(self, object_text: XABase.XAText) -> 'XANumbersShape':
-        return self.by_property("objectText", object_text.xa_elem)
+    def by_object_text(self, object_text: Union[str, XABase.XAText]) -> 'XANumbersShape':
+        if isinstance(object_text, str):
+            self.by_property('objectText', object_text)
+        else:
+            self.by_property('objectText', object_text.xa_elem)
 
     def by_opacity(self, opacity: int) -> 'XANumbersShape':
         return self.by_property("opacity", opacity)
@@ -1598,7 +1605,7 @@ class XANumbersShape(XANumbersiWorkItem):
         super().__init__(properties)
         self.properties: dict #: All properties of the shape
         self.background_fill_type: XANumbersApplication.FillOption #: The background, if any, for the shape
-        self.object_text: str #: The text contained within the shape
+        self.object_text: XABase.XAText #: The text contained within the shape
         self.opacity: int #: The percent opacity of the object
         self.reflection_showing: bool #: Whether the iWork item displays a reflection
         self.reflection_value: int #: The percentage of relfection that the iWork item displays, from 0 to 100
@@ -1613,12 +1620,15 @@ class XANumbersShape(XANumbersiWorkItem):
         return XANumbersApplication.FillOption(self.xa_elem.backgroundFillType())
 
     @property
-    def object_text(self) -> str:
-        return self.xa_elem.objectText()
+    def object_text(self) -> XABase.XAText:
+        return self._new_element(self.xa_elem.objectText(), XABase.XAText)
 
     @object_text.setter
-    def object_text(self, object_text: str):
-        self.set_property('objectText', object_text)
+    def object_text(self, object_text: Union[str, XABase.XAText]):
+        if isinstance(object_text, str):
+            self.set_property('objectText', object_text)
+        else:
+            self.set_property('objectText', object_text.xa_elem)
 
     @property
     def opacity(self) -> int:
@@ -1992,8 +2002,11 @@ class XANumbersTextItemList(XANumbersiWorkItemList):
     def by_background_fill_type(self, background_fill_type: XANumbersApplication.FillOption) -> 'XANumbersTextItem':
         return self.by_property("backgroundFillType", background_fill_type.value)
 
-    def by_text(self, text: XABase.XAText) -> 'XANumbersTextItem':
-        return self.by_property("text", text.xa_elem)
+    def by_text(self, text: Union[str, XABase.XAText]) -> 'XANumbersTextItem':
+        if isinstance(text, str):
+            self.by_property('text', text)
+        else:
+            self.by_property('text', text.xa_elem)
 
     def by_opacity(self, opacity: int) -> 'XANumbersTextItem':
         return self.by_property("opacity", opacity)
@@ -2027,7 +2040,7 @@ class XANumbersTextItem(XANumbersiWorkItem):
 
     @property
     def text(self) -> XABase.XAText:
-        return self._new_element(self.xa_elem.text())
+        return self._new_element(self.xa_elem.text(), XABase.XAText)
 
     @text.setter
     def text(self, text: Union[XABase.XAText, str]):

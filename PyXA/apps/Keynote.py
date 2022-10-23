@@ -1110,7 +1110,7 @@ class XAKeynoteSlideList(XAKeynoteContainerList):
         return self._new_element(ls, XAKeynoteShapeList)
 
     def presenter_notes(self) -> XABase.XATextList:
-        ls = self.xa_elem.arrayByApplyingSelector_("bodyShowing")
+        ls = self.xa_elem.arrayByApplyingSelector_("presenterNotes")
         return self._new_element(ls, XABase.XATextList)
 
     def by_properties(self, properties: dict) -> 'XAKeynoteSlide':
@@ -1140,11 +1140,14 @@ class XAKeynoteSlideList(XAKeynoteContainerList):
     def by_default_text_item(self, default_text_item: 'XAKeynoteShape') -> 'XAKeynoteSlide':
         return self.by_property("defaultTextItem", default_text_item.xa_elem)
 
-    def by_presenter_notes(self, presenter_notes: XABase.XAText) -> 'XAKeynoteSlide':
-        return self.by_property("presenterNotes", presenter_notes.xa_elem)
+    def by_presenter_notes(self, presenter_notes: Union[str, XABase.XAText]) -> 'XAKeynoteSlide':
+        if isinstance(presenter_notes, str):
+            self.by_property('presenterNotes', presenter_notes)
+        else:
+            self.by_property('presenterNotes', presenter_notes.xa_elem)
 
 class XAKeynoteSlide(XAKeynoteContainer):
-    """A class for managing and interacting with TextEdit documents.
+    """A class for managing and interacting with Keynote slides.
 
     .. seealso:: :class:`XAKeynoteApplication`, :class:`XAKeynoteiWorkItem`
 
@@ -1328,7 +1331,7 @@ class XAKeynoteSlideLayoutList(XABase.XAList):
         return self.by_property("name", name)
 
 class XAKeynoteSlideLayout(XAKeynoteSlide):
-    """A class for managing and interacting with TextEdit documents.
+    """A class for managing and interacting with Keynote slide layouts.
 
     .. seealso:: :class:`XAKeynoteSlide`
 
@@ -1829,7 +1832,7 @@ class XAKeynoteShapeList(XAKeynoteiWorkItemList):
         return [XAKeynoteApplication.FillOption(x) for x in ls]
 
     def object_text(self) -> XABase.XATextList:
-        ls = self.xa_elem.arrayByApplyingSelector_("clipVolume")
+        ls = self.xa_elem.arrayByApplyingSelector_("objectText")
         return self._new_element(ls, XABase.XATextList)
 
     def opacity(self) -> List[int]:
@@ -1850,8 +1853,11 @@ class XAKeynoteShapeList(XAKeynoteiWorkItemList):
     def by_background_fill_type(self, background_fill_type: XAKeynoteApplication.FillOption) -> 'XAKeynoteShape':
         return self.by_property("backgroundFillType", background_fill_type.value)
 
-    def by_object_text(self, object_text: XABase.XAText) -> 'XAKeynoteShape':
-        return self.by_property("objectText", object_text.xa_elem)
+    def by_object_text(self, object_text: Union[str, XABase.XAText]) -> 'XAKeynoteShape':
+        if isinstance(object_text, str):
+            self.by_property('objectText', object_text)
+        else:
+            self.by_property('objectText', object_text.xa_elem)
 
     def by_opacity(self, opacity: int) -> 'XAKeynoteShape':
         return self.by_property("opacity", opacity)
@@ -1874,7 +1880,7 @@ class XAKeynoteShape(XAKeynoteiWorkItem):
         super().__init__(properties)
         self.properties: dict #: All properties of the shape
         self.background_fill_type: XAKeynoteApplication.FillOption #: The background, if any, for the shape
-        self.object_text: str #: The text contained within the shape
+        self.object_text: XABase.XAText #: The text contained within the shape
         self.opacity: int #: The percent opacity of the object
         self.reflection_showing: bool #: Whether the iWork item displays a reflection
         self.reflection_value: int #: The percentage of relfection that the iWork item displays, from 0 to 100
@@ -1889,12 +1895,15 @@ class XAKeynoteShape(XAKeynoteiWorkItem):
         return XAKeynoteApplication.FillOption(self.xa_elem.backgroundFillType())
 
     @property
-    def object_text(self) -> str:
-        return self.xa_elem.objectText()
+    def object_text(self) -> XABase.XAtext:
+        return self._new_element(self.xa_elem.objectText(), XABase.XAText)
 
     @object_text.setter
-    def object_text(self, object_text: str):
-        self.set_property('objectText', object_text)
+    def object_text(self, object_text: Union[str, XABase.XAText]):
+        if isinstance(object_text, str):
+            self.set_property('objectText', object_text)
+        else:
+            self.set_property('objectText', object_text.xa_elem)
 
     @property
     def opacity(self) -> int:
@@ -2228,8 +2237,11 @@ class XAKeynoteTextItemList(XAKeynoteiWorkItemList):
     def by_background_fill_type(self, background_fill_type: XAKeynoteApplication.FillOption) -> 'XAKeynoteTextItem':
         return self.by_property("backgroundFillType", background_fill_type.value)
 
-    def by_text(self, text: XABase.XAText) -> 'XAKeynoteTextItem':
-        return self.by_property("text", text.xa_elem)
+    def by_text(self, text: Union[str, XABase.XAText]) -> 'XAKeynoteTextItem':
+        if isinstance(text, str):
+            self.by_property('text', text)
+        else:
+            self.by_property('text', text.xa_elem)
 
     def by_opacity(self, opacity: int) -> 'XAKeynoteTextItem':
         return self.by_property("opacity", opacity)
@@ -2263,11 +2275,14 @@ class XAKeynoteTextItem(XAKeynoteiWorkItem):
 
     @property
     def text(self) -> XABase.XAText:
-        return self._new_element(self.xa_elem.text())
+        return self._new_element(self.xa_elem.text(), XABase.XAText)
 
     @text.setter
-    def text(self, text: str):
-        self.set_property('text', text)
+    def text(self, text: Union[str, XABase.XAText]):
+        if isinstance(text, str):
+            self.set_property('text', text)
+        else:
+            self.set_property('text', text.xa_elem)
 
     @property
     def opacity(self) -> int:

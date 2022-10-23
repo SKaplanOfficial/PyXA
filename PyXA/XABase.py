@@ -6,6 +6,7 @@ General classes and methods applicable to any PyXA object.
 from datetime import datetime, timedelta
 from enum import Enum
 import importlib
+import math
 from pprint import pprint
 import random
 import tempfile
@@ -16,6 +17,7 @@ from bs4 import BeautifulSoup, element
 import requests
 import subprocess
 import objc
+from collections import namedtuple
 
 from PyXA.apps import application_classes
 
@@ -49,7 +51,10 @@ def unOSType(i: int):
 
 
 
-
+###############
+### General ###
+###############
+# XAObject, XAApplication
 class XAObject():
     """A general class for PyXA scripting objects.
 
@@ -252,481 +257,267 @@ class XAObject():
 
 
 
-class AppleScript(XAObject):
-    """A class for constructing and executing AppleScript scripts.
+class XAApplication(XAObject, XAClipboardCodable):
+    """A general application class for both officially scriptable and non-scriptable applications.
 
-    .. versionadded:: 0.0.5
+    .. seealso:: :class:`XASBApplication`, :class:`XAWindow`
+
+    .. versionadded:: 0.0.1
     """
-    def __init__(self, script: Union[str, List[str], None] = None):
-        """Creates a new AppleScript object.
+    def __init__(self, properties):
+        super().__init__(properties)
+        self.xa_wcls = XAWindow
 
-        :param script: A string or list of strings representing lines of AppleScript code, or the path to a script plaintext file, defaults to None
-        :type script: Union[str, List[str], None], optional
+        predicate = AppKit.NSPredicate.predicateWithFormat_("displayedName == %@", self.xa_elem.localizedName())
+        process = self.xa_sevt.processes().filteredArrayUsingPredicate_(predicate)[0]
 
-        .. versionadded:: 0.0.5
-        """
-        self.script: List[str] #: The lines of AppleScript code contained in the script
-        self.last_result: Any #: The return value of the last execution of the script
-        self.file_path: XAPath #: The file path of this script, if one exists
-
-        if isinstance(script, str):
-            if script.startswith("/"):
-                with open(script, 'r') as f:
-                    script = f.readlines()
-            else:
-                self.script = [script]
-        elif isinstance(script, list):
-            self.script = script
-        elif script == None:
-            self.script = []
-
-    @property
-    def last_result(self) -> Any:
-        return self.__last_result
-
-    @property
-    def file_path(self) -> 'XAPath':
-        return self.__file_path
-
-    def add(self, script: Union[str, List[str], 'AppleScript']):
-        """Adds the supplied string, list of strings, or script as a new line entry in the script.
-
-        :param script: The script to append to the current script string.
-        :type script: Union[str, List[str], AppleScript]
-
-        :Example:
-
-        >>> import PyXA
-        >>> script = PyXA.AppleScript("tell application \"Safari\"")
-        >>> script.add("print the document of window 1")
-        >>> script.add("end tell")
-        >>> script.run()
-
-        .. versionadded:: 0.0.5
-        """
-        if isinstance(script, str):
-            self.script.append(script)
-        elif isinstance(script, list):
-            self.script.extend(script)
-        elif isinstance(script, AppleScript):
-            self.script.extend(script.script)
-
-    def insert(self, index: int, script: Union[str, List[str], 'AppleScript']):
-        """Inserts the supplied string, list of strings, or script as a line entry in the script starting at the given line index.
-
-        :param index: The line index to begin insertion at
-        :type index: int
-        :param script: The script to insert into the current script
-        :type script: Union[str, List[str], AppleScript]
-
-        :Example:
-
-        >>> import PyXA
-        >>> script = PyXA.AppleScript.load("/Users/exampleUser/Downloads/Test.scpt")
-        >>> script.insert(1, "activate")
-        >>> script.run()
-
-        .. versionadded:: 0.0.9
-        """
-        if isinstance(script, str):
-            self.script.insert(index, script)
-        elif isinstance(script, list):
-            for line in script:
-                self.script.insert(index, line)
-                index += 1
-        elif isinstance(script, AppleScript):
-            for line in script.script:
-                self.script.insert(index, line)
-                index += 1
-
-    def pop(self, index: int = -1) -> str:
-        """Removes the line at the given index from the script.
-
-        :param index: The index of the line to remove
-        :type index: int
-        :return: The text of the removed line
-        :rtype: str
-
-        :Example:
-
-        >>> import PyXA
-        >>> script = PyXA.AppleScript.load("/Users/exampleUser/Downloads/Test.scpt")
-        >>> print(script.pop(1))
-            get chats
-
-        .. versionadded:: 0.0.9
-        """
-        return self.script.pop(index)
-
-    def load(path: Union['XAPath', str]) -> 'AppleScript':
-        """Loads an AppleScript (.scpt) file as a runnable AppleScript object.
-
-        :param path: The path of the .scpt file to load
-        :type path: Union[XAPath, str]
-        :return: The newly loaded AppleScript object
-        :rtype: AppleScript
-
-        :Example 1: Load and run a script
-
-        >>> import PyXA
-        >>> script = PyXA.AppleScript.load("/Users/exampleUser/Downloads/Test.scpt")
-        >>> print(script.run())
-        {
-            'string': None,
-            'int': 0, 
-            'bool': False,
-            'float': 0.0,
-            'date': None,
-            'file_url': None,
-            'type_code': 845507684,
-            'data': {length = 8962, bytes = 0x646c6532 00000000 6c697374 000022f2 ... 6e756c6c 00000000 },
-            'event': <NSAppleEventDescriptor: [ 'obj '{ ... } ]>
+        properties = {
+            "parent": self,
+            "appspace": self.xa_apsp,
+            "workspace": self.xa_wksp,
+            "element": process,
+            "appref": self.xa_aref,
+            "system_events": self.xa_sevt,
+            "window_class": self.xa_wcls
         }
+        self.xa_prcs = XAProcess(properties)
 
-        :Example 2: Load, modify, and run a script
+        self.bundle_identifier: str #: The bundle identifier for the application
+        self.bundle_url: str #: The file URL of the application bundle
+        self.executable_url: str #: The file URL of the application's executable
+        self.frontmost: bool #: Whether the application is the active application
+        self.launch_date: datetime #: The date and time that the application was launched
+        self.localized_name: str #: The application's name
+        self.owns_menu_bar: bool #: Whether the application owns the top menu bar
+        self.process_identifier: str #: The process identifier for the application instance 
 
-        >>> import PyXA
-        >>> script = PyXA.AppleScript.load("/Users/exampleUser/Downloads/Test.scpt")
-        >>> script.pop(1)
-        >>> script.insert(1, "activate")
-        >>> script.run()
+        self.xa_apsc: appscript.GenericApp
 
-        .. versionadded:: 0.0.8
-        """
-        if isinstance(path, str):
-            path = XAPath(path)
-        script = AppKit.NSAppleScript.alloc().initWithContentsOfURL_error_(path.xa_elem, None)[0]
-
-        attributed_string = script.richTextSource()
-        attributed_string = str(attributed_string).split("}")
-        parts = []
-        for x in attributed_string:
-            parts.extend(x.split("{"))
-
-        for x in parts:
-            if "=" in x:
-                parts.remove(x)
-
-        script = AppleScript("".join(parts).split("\n"))
-        script.__file_path = path
-        return script
-
-    def save(self, path: Union['XAPath', str, None] = None):
-        """Saves the script to the specified file path, or to the path from which the script was loaded.
-
-        :param path: The path to save the script at, defaults to None
-        :type path: Union[XAPath, str, None], optional
-
-        :Example 1: Save the script to a specified path
-
-        >>> import PyXA
-        >>> script = PyXA.AppleScript(f\"\"\"
-        >>>     tell application "Safari"
-        >>>         activate
-        >>>     end tell
-        >>> \"\"\")
-        >>> script.save("/Users/exampleUser/Downloads/Example.scpt")
-
-        :Example 2: Load a script, modify it, then save it
-
-        >>> import PyXA
-        >>> script = PyXA.AppleScript.load("/Users/steven/Downloads/Example.scpt")
-        >>> script.insert(2, "delay 2")
-        >>> script.insert(3, "set the miniaturized of window 1 to true")
-        >>> script.save()
-
-        .. versionadded:: 0.0.9
-        """
-        if path is None and self.file_path is None:
-            print("No path to save script to!")
-            return
-        
-        if isinstance(path, str):
-            path = XAPath(path)
-
-        script = ""
-        for line in self.script:
-            script += line + "\n"
-        script = AppKit.NSAppleScript.alloc().initWithSource_(script)
-        script.compileAndReturnError_(None)
-        source = (script.richTextSource().string())
-
-        if path is not None:
-            self.__file_path = path
-
-        with open(self.file_path.xa_elem.path(), "w") as f:
-            f.write(source)
-
-    def parse_result_data(result: dict) -> List[Tuple[str, str]]:
-        """Extracts string data from an AppleScript execution result dictionary.
-
-        :param result: The execution result dictionary to extract data from
-        :type result: dict
-        :return: A list of responses contained in the result structured as tuples
-        :rtype: List[Tuple[str, str]]
-
-        :Example:
-
-        >>> import PyXA
-        >>> script = PyXA.AppleScript.load("/Users/exampleUser/Downloads/Test.scpt")
-        >>> print(script.script)
-        >>> result = script.run()
-        >>> print(PyXA.AppleScript.parse_result_data(result))
-        ['tell application "Messages"', '\\tget chats', 'end tell']
-        [('ID', 'iMessage;-;+12345678910'), ('ID', 'iMessage;-;+12345678911'), ('ID', 'iMessage;-;example@icloud.com'), ...]
-
-        .. versionadded:: 0.0.9
-        """
-        result = result["event"]
-        response_objects = []
-        num_responses = result.numberOfItems()
-        for response_index in range(1, num_responses + 1):
-            response = result.descriptorAtIndex_(response_index)
-
-            data = ()
-            num_params = response.numberOfItems()
-            if num_params == 0:
-                data = response.stringValue().strip()
-
-            else:
-                for param_index in range(1, num_params + 1):
-                    param = response.descriptorAtIndex_(param_index).stringValue()
-                    if param is not None:
-                        data += (param.strip(), )
-            response_objects.append(data)
-
-        return response_objects
-
-    def run(self) -> Any:
-        """Compiles and runs the script, returning the result.
-
-        :return: The return value of the script.
-        :rtype: Any
-
-        :Example:
-
-        import PyXA
-        script = PyXA.AppleScript(f\"\"\"tell application "System Events"
-            return 1 + 2
-        end tell
-        \"\"\")
-        print(script.run())
-        {
-            'string': '3',
-            'int': 3,
-            'bool': False,
-            'float': 3.0,
-            'date': None,
-            'file_url': None,
-            'type_code': 3,
-            'data': {length = 4, bytes = 0x03000000},
-            'event': <NSAppleEventDescriptor: 3>
-        }
-        
-        .. versionadded:: 0.0.5
-        """
-        script = ""
-        for line in self.script:
-            script += line + "\n"
-        script = AppKit.NSAppleScript.alloc().initWithSource_(script)
-        
-        result = script.executeAndReturnError_(None)[0]
-        if result is not None:
-            self.__last_result = {
-                "string": result.stringValue(),
-                "int": result.int32Value(),
-                "bool": result.booleanValue(),
-                "float": result.doubleValue(),
-                "date": result.dateValue(),
-                "file_url": result.fileURLValue(),
-                "type_code": result.typeCodeValue(),
-                "data": result.data(),
-                "event": result,
-            }
-            return self.last_result
-
-    def __repr__(self):
-        return "<" + str(type(self)) + str(self.script) + ">"
-
-
-
-
-class XAClipboard(XAObject):
-    """A wrapper class for managing and interacting with the system clipboard.
-
-    .. versionadded:: 0.0.5
-    """
-    def __init__(self):
-        self.xa_elem = AppKit.NSPasteboard.generalPasteboard()
-        self.content #: The content of the clipboard
+    def __getattr__(self, attr):
+        if attr in self.__dict__:
+            # If possible, use PyXA attribute
+            return super().__getattribute__(attr)
+        else:
+            # Otherwise, fall back to appscript
+            return getattr(self.xa_apsc, attr)
 
     @property
-    def content(self) -> Dict[str, List[Any]]:
-        info_by_type = {}
-        for item in self.xa_elem.pasteboardItems():
-            for item_type in item.types():
-                info_by_type[item_type] = {
-                    "data": item.dataForType_(item_type),
-                    "properties": item.propertyListForType_(item_type),
-                    "strings": item.stringForType_(item_type),
-                }
-        return info_by_type
+    def xa_apsc(self) -> appscript.GenericApp:
+        return appscript.app(self.bundle_url.path())
 
-    @content.setter
-    def content(self, value: List[Any]):
-        if not isinstance(value, list):
-            value = [value]
-        self.xa_elem.clearContents()
-        for index, item in enumerate(value):
-            if item == None:
-                value[index] = ""
-            elif isinstance(item, XAObject):
-                if not isinstance(item, XAClipboardCodable):
-                    print(item, "is not a clipboard-codable object.")
-                    continue
-                if isinstance(item.xa_elem, ScriptingBridge.SBElementArray) and item.xa_elem.get() is None:
-                    value[index] = ""
-                else:
-                    content = item.get_clipboard_representation()
-                    if isinstance(content, list):
-                        value.pop(index)
-                        value += content
-                    else:
-                        value[index] = content
-            elif isinstance(item, int) or isinstance(item, float):
-                value[index] = str(item)
-        self.xa_elem.writeObjects_(value)
+    @property
+    def bundle_identifier(self) -> str:
+        return self.xa_elem.bundleIdentifier()
 
-    def clear(self):
-        """Clears the system clipboard.
-        
-        .. versionadded:: 0.0.5
+    @property
+    def bundle_url(self) -> str:
+        return self.xa_elem.bundleURL()
+
+    @property
+    def executable_url(self) -> str:
+        return self.xa_elem.executableURL()
+
+    @property
+    def frontmost(self) -> bool:
+        return self.xa_elem.isActive()
+
+    @frontmost.setter
+    def frontmost(self, frontmost: bool):
+        if frontmost is True:
+            self.xa_elem.activateWithOptions_(AppKit.NSApplicationActivateIgnoringOtherApps)
+
+    @property
+    def launch_date(self) -> datetime:
+        return self.xa_elem.launchDate()
+
+    @property
+    def localized_name(self) -> str:
+        return self.xa_elem.localizedName()
+
+    @property
+    def owns_menu_bar(self) -> bool:
+        return self.xa_elem.ownsMenuBar()
+
+    @property
+    def process_identifier(self) -> str:
+        return self.xa_elem.processIdentifier()
+
+    def activate(self) -> 'XAApplication':
+        """Activates the application, bringing its window(s) to the front and launching the application beforehand if necessary.
+
+        :return: A reference to the PyXA application object.
+        :rtype: XAApplication
+
+        .. seealso:: :func:`terminate`, :func:`unhide`, :func:`focus`
+
+        .. versionadded:: 0.0.1
         """
-        self.xa_elem.clearContents()
+        self.xa_elem.activateWithOptions_(AppKit.NSApplicationActivateIgnoringOtherApps)
+        return self
 
-    def get_strings(self) -> List[str]:
-        """Retrieves string type data from the clipboard, if any such data exists.
+    def terminate(self) -> 'XAApplication':
+        """Quits the application. Synonymous with quit().
 
-        :return: The list of strings currently copied to the clipboard
-        :rtype: List[str]
+        :return: A reference to the PyXA application object.
+        :rtype: XAApplication
 
-        .. versionadded:: 0.0.8
+        :Example:
+
+        >>> import PyXA
+        >>> safari = PyXA.application("Safari")
+        >>> safari.terminate()
+
+        .. seealso:: :func:`quit`, :func:`activate`
+
+        .. versionadded:: 0.0.1
         """
-        items = []
-        for item in self.xa_elem.pasteboardItems():
-            string = item.stringForType_(AppKit.NSPasteboardTypeString)
-            if string is not None:
-                items.append(string)
-        return items
+        self.xa_elem.terminate()
+        return self
 
-    def get_urls(self) -> List['XAURL']:
-        """Retrieves URL type data from the clipboard, as instances of :class:`XAURL` and :class:`XAPath`, if any such data exists.
+    def quit(self) -> 'XAApplication':
+        """Quits the application. Synonymous with terminate().
 
-        :return: The list of file URLs and web URLs currently copied to the clipboard
-        :rtype: List[XAURL]
+        :return: A reference to the PyXA application object.
+        :rtype: XAApplication
 
-        .. versionadded:: 0.0.8
+        :Example:
+
+        >>> import PyXA
+        >>> safari = PyXA.application("Safari")
+        >>> safari.quit()
+
+        .. seealso:: :func:`terminate`, :func:`activate`
+
+        .. versionadded:: 0.0.1
         """
-        items = []
-        for item in self.xa_elem.pasteboardItems():
-            url = None
-            string = item.stringForType_(AppKit.NSPasteboardTypeURL)
-            if string is None:
-                string = item.stringForType_(AppKit.NSPasteboardTypeFileURL)
-                if string is not None:
-                    url = XAPath(XAURL(string).xa_elem)
+        self.xa_elem.terminate()
+        return self
+
+    def hide(self) -> 'XAApplication':
+        """Hides all windows of the application.
+
+        :return: A reference to the PyXA application object.
+        :rtype: XAApplication
+
+        :Example:
+
+        >>> import PyXA
+        >>> safari = PyXA.application("Safari")
+        >>> safari.hide()
+
+        .. seealso:: :func:`unhide`
+
+        .. versionadded:: 0.0.1
+        """
+        self.xa_elem.hide()
+        return self
+
+    def unhide(self) -> 'XAApplication':
+        """Unhides (reveals) all windows of the application, but does not does not activate them.
+
+        :return: A reference to the PyXA application object.
+        :rtype: XAApplication
+
+        :Example:
+
+        >>> import PyXA
+        >>> safari = PyXA.application("Safari")
+        >>> safari.unhide()
+
+        .. seealso:: :func:`hide`
+
+        .. versionadded:: 0.0.1
+        """
+        self.xa_elem.unhide()
+        return self
+
+    def focus(self) -> 'XAApplication':
+        """Hides the windows of all applications except this one.
+
+        :return: A reference to the PyXA application object.
+        :rtype: XAApplication
+
+        :Example:
+
+        >>> import PyXA
+        >>> safari = PyXA.application("Safari")
+        >>> safari.focus()
+
+        .. seealso:: :func:`unfocus`
+
+        .. versionadded:: 0.0.1
+        """
+        for app in self.xa_wksp.runningApplications():
+            if app.localizedName() != self.xa_elem.localizedName():
+                app.hide()
             else:
-                url = XAURL(string)
-                
-            if url is not None:
-                items.append(url)
-        return items
+                app.unhide()
+        return self
 
-    def get_images(self) -> List['XAImage']:
-        """Retrieves image type data from the clipboard, as instances of :class:`XAImage`, if any such data exists.
+    def unfocus(self) -> 'XAApplication':
+        """Unhides (reveals) the windows of all other applications, but does not activate them.
 
-        :return: The list of images currently copied to the clipboard
-        :rtype: List[XAImage]
+        :return: A reference to the PyXA application object.
+        :rtype: XAApplication
+
+        :Example:
+
+        >>> import PyXA
+        >>> safari = PyXA.application("Safari")
+        >>> safari.unfocus()
+
+        .. seealso:: :func:`focus`
+
+        .. versionadded:: 0.0.1
+        """
+        for app in self.xa_wksp.runningApplications():
+                app.unhide()
+        return self
+
+    def _get_processes(self, processes):
+        for process in self.xa_sevt.processes():
+            processes.append(process)
+
+    def windows(self, filter: dict = None) -> List['XAWindow']:
+        return self.xa_prcs.windows(filter)
+
+    @property
+    def front_window(self) -> 'XAWindow':
+        return self.xa_prcs.front_window
+
+    def menu_bars(self, filter: dict = None) -> 'XAUIMenuBarList':
+        return self._new_element(self.xa_prcs.xa_elem.menuBars(), XAUIMenuBarList, filter)
+
+    def get_clipboard_representation(self) -> List[Union[str, AppKit.NSURL, AppKit.NSImage]]:
+        """Gets a clipboard-codable representation of the application.
+
+        When the clipboard content is set to an application, three items are placed on the clipboard:
+        1. The application's name
+        2. The URL to the application bundle
+        3. The application icon
+
+        After copying an application to the clipboard, pasting will have the following effects:
+        - In Finder: Paste a copy of the application bundle in the current directory
+        - In Terminal: Paste the name of the application followed by the path to the application
+        - In iWork: Paste the application name
+        - In Safari: Paste the application name
+        - In Notes: Attach a copy of the application bundle to the active note
+        The pasted content may different for other applications.
+
+        :return: The clipboard-codable representation
+        :rtype: List[Union[str, AppKit.NSURL, AppKit.NSImage]]
 
         .. versionadded:: 0.0.8
         """
-        image_types = [AppKit.NSPasteboardTypePNG, AppKit.NSPasteboardTypeTIFF, 'public.jpeg', 'com.apple.icns']
-        items = []
-        for item in self.xa_elem.pasteboardItems():
-            for image_type in image_types:
-                if image_type in item.types():
-                    img = XAImage(data = item.dataForType_(image_type))
-                    items.append(img)
-        return items
-
-    def set_contents(self, content: List[Any]):
-        """Sets the content of the clipboard
-
-        :param content: A list of the content to add fill the clipboard with.
-        :type content: List[Any]
-
-        .. deprecated:: 0.0.8
-           Set the :ivar:`content` property directly instead.
-        
-        .. versionadded:: 0.0.5
-        """
-        self.xa_elem.clearContents()
-        self.xa_elem.writeObjects_(content)
+        return [self.xa_elem.localizedName(), self.xa_elem.bundleURL(), self.xa_elem.icon()]
 
 
 
 
-class XANotification(XAObject):
-    """A class for managing and interacting with notifications.
-
-    .. versionadded:: 0.0.9
-    """
-    def __init__(self, text: str, title: Union[str, None] = None, subtitle: Union[str, None] = None, sound_name: Union[str, None] = None):
-        """Initializes a notification object.
-
-        :param text: The main text of the notification
-        :type text: str
-        :param title: The title of the notification, defaults to None
-        :type title: Union[str, None], optional
-        :param subtitle: The subtitle of the notification, defaults to None
-        :type subtitle: Union[str, None], optional
-        :param sound_name: The sound to play when the notification is displayed, defaults to None
-        :type sound_name: Union[str, None], optional
-
-        .. versionadded:: 0.0.9
-        """
-        self.text = text
-        self.title = title
-        self.subtitle = subtitle
-        self.sound_name = sound_name
-
-    def display(self):
-        """Displays the notification.
-
-        .. todo::
-        
-           Currently uses :func:`subprocess.Popen`. Should use UserNotifications in the future.
-
-        .. versionadded:: 0.0.9
-        """
-        script = AppleScript()
-        script.add(f"display notification \\\"{self.text}\\\"")
-
-        if self.title is not None:
-            script.add(f"with title \\\"{self.title}\\\"")
-        
-        if self.subtitle is not None:
-            script.add(f"subtitle \\\"{self.subtitle}\\\"")
-
-        if self.sound_name is not None:
-            script.add(f"sound name \\\"{self.sound_name}\\\"")
-
-        cmd = "osascript -e \"" + " ".join(script.script) + "\""
-        subprocess.Popen([cmd], shell=True)
-
-
-
-
+######################
+### PyXA Utilities ###
+######################
+# XAList, XAPredicate, XAURL, XAPath
 class XAList(XAObject):
     """A wrapper around NSArray and NSMutableArray objects enabling fast enumeration and lazy evaluation of Objective-C objects.
 
@@ -1169,742 +960,6 @@ class XAList(XAObject):
 
     def __iter__(self):
         return (self._new_element(object, self.xa_ocls) for object in self.xa_elem.objectEnumerator())
-
-    def __repr__(self):
-        return "<" + str(type(self)) + str(self.xa_elem) + ">"
-
-
-
-
-class XAProcess(XAObject):
-    def __init__(self, properties):
-        super().__init__(properties)
-        self.xa_wcls = properties["window_class"]
-        self.id = self.xa_elem.id()
-        self.unix_id = self.xa_elem.unixId()
-
-        self.front_window: XAWindow #: The front window of the application process
-
-    @property
-    def front_window(self) -> 'XAWindow':
-        return self._new_element(self.xa_elem.windows()[0], XAWindow)
-
-    def windows(self, filter: dict = None) -> 'XAWindowList':
-        return self._new_element(self.xa_elem.windows(), XAWindowList, filter)
-
-    def menu_bars(self, filter: dict = None) -> 'XAUIMenuBarList':
-        return self._new_element(self.xa_elem.menuBars(), XAUIMenuBarList, filter)
-
-
-
-
-class XAApplication(XAObject, XAClipboardCodable):
-    """A general application class for both officially scriptable and non-scriptable applications.
-
-    .. seealso:: :class:`XASBApplication`, :class:`XAWindow`
-
-    .. versionadded:: 0.0.1
-    """
-    def __init__(self, properties):
-        super().__init__(properties)
-        self.xa_wcls = XAWindow
-
-        predicate = AppKit.NSPredicate.predicateWithFormat_("displayedName == %@", self.xa_elem.localizedName())
-        process = self.xa_sevt.processes().filteredArrayUsingPredicate_(predicate)[0]
-
-        properties = {
-            "parent": self,
-            "appspace": self.xa_apsp,
-            "workspace": self.xa_wksp,
-            "element": process,
-            "appref": self.xa_aref,
-            "system_events": self.xa_sevt,
-            "window_class": self.xa_wcls
-        }
-        self.xa_prcs = XAProcess(properties)
-
-        self.bundle_identifier: str #: The bundle identifier for the application
-        self.bundle_url: str #: The file URL of the application bundle
-        self.executable_url: str #: The file URL of the application's executable
-        self.frontmost: bool #: Whether the application is the active application
-        self.launch_date: datetime #: The date and time that the application was launched
-        self.localized_name: str #: The application's name
-        self.owns_menu_bar: bool #: Whether the application owns the top menu bar
-        self.process_identifier: str #: The process identifier for the application instance 
-
-        self.xa_apsc: appscript.GenericApp
-
-    def __getattr__(self, attr):
-        if attr in self.__dict__:
-            # If possible, use PyXA attribute
-            return super().__getattribute__(attr)
-        else:
-            # Otherwise, fall back to appscript
-            return getattr(self.xa_apsc, attr)
-
-    @property
-    def xa_apsc(self) -> appscript.GenericApp:
-        return appscript.app(self.bundle_url.path())
-
-    @property
-    def bundle_identifier(self) -> str:
-        return self.xa_elem.bundleIdentifier()
-
-    @property
-    def bundle_url(self) -> str:
-        return self.xa_elem.bundleURL()
-
-    @property
-    def executable_url(self) -> str:
-        return self.xa_elem.executableURL()
-
-    @property
-    def frontmost(self) -> bool:
-        return self.xa_elem.isActive()
-
-    @frontmost.setter
-    def frontmost(self, frontmost: bool):
-        if frontmost is True:
-            self.xa_elem.activateWithOptions_(AppKit.NSApplicationActivateIgnoringOtherApps)
-
-    @property
-    def launch_date(self) -> datetime:
-        return self.xa_elem.launchDate()
-
-    @property
-    def localized_name(self) -> str:
-        return self.xa_elem.localizedName()
-
-    @property
-    def owns_menu_bar(self) -> bool:
-        return self.xa_elem.ownsMenuBar()
-
-    @property
-    def process_identifier(self) -> str:
-        return self.xa_elem.processIdentifier()
-
-    def activate(self) -> 'XAApplication':
-        """Activates the application, bringing its window(s) to the front and launching the application beforehand if necessary.
-
-        :return: A reference to the PyXA application object.
-        :rtype: XAApplication
-
-        .. seealso:: :func:`terminate`, :func:`unhide`, :func:`focus`
-
-        .. versionadded:: 0.0.1
-        """
-        self.xa_elem.activateWithOptions_(AppKit.NSApplicationActivateIgnoringOtherApps)
-        return self
-
-    def terminate(self) -> 'XAApplication':
-        """Quits the application. Synonymous with quit().
-
-        :return: A reference to the PyXA application object.
-        :rtype: XAApplication
-
-        :Example:
-
-        >>> import PyXA
-        >>> safari = PyXA.application("Safari")
-        >>> safari.terminate()
-
-        .. seealso:: :func:`quit`, :func:`activate`
-
-        .. versionadded:: 0.0.1
-        """
-        self.xa_elem.terminate()
-        return self
-
-    def quit(self) -> 'XAApplication':
-        """Quits the application. Synonymous with terminate().
-
-        :return: A reference to the PyXA application object.
-        :rtype: XAApplication
-
-        :Example:
-
-        >>> import PyXA
-        >>> safari = PyXA.application("Safari")
-        >>> safari.quit()
-
-        .. seealso:: :func:`terminate`, :func:`activate`
-
-        .. versionadded:: 0.0.1
-        """
-        self.xa_elem.terminate()
-        return self
-
-    def hide(self) -> 'XAApplication':
-        """Hides all windows of the application.
-
-        :return: A reference to the PyXA application object.
-        :rtype: XAApplication
-
-        :Example:
-
-        >>> import PyXA
-        >>> safari = PyXA.application("Safari")
-        >>> safari.hide()
-
-        .. seealso:: :func:`unhide`
-
-        .. versionadded:: 0.0.1
-        """
-        self.xa_elem.hide()
-        return self
-
-    def unhide(self) -> 'XAApplication':
-        """Unhides (reveals) all windows of the application, but does not does not activate them.
-
-        :return: A reference to the PyXA application object.
-        :rtype: XAApplication
-
-        :Example:
-
-        >>> import PyXA
-        >>> safari = PyXA.application("Safari")
-        >>> safari.unhide()
-
-        .. seealso:: :func:`hide`
-
-        .. versionadded:: 0.0.1
-        """
-        self.xa_elem.unhide()
-        return self
-
-    def focus(self) -> 'XAApplication':
-        """Hides the windows of all applications except this one.
-
-        :return: A reference to the PyXA application object.
-        :rtype: XAApplication
-
-        :Example:
-
-        >>> import PyXA
-        >>> safari = PyXA.application("Safari")
-        >>> safari.focus()
-
-        .. seealso:: :func:`unfocus`
-
-        .. versionadded:: 0.0.1
-        """
-        for app in self.xa_wksp.runningApplications():
-            if app.localizedName() != self.xa_elem.localizedName():
-                app.hide()
-            else:
-                app.unhide()
-        return self
-
-    def unfocus(self) -> 'XAApplication':
-        """Unhides (reveals) the windows of all other applications, but does not activate them.
-
-        :return: A reference to the PyXA application object.
-        :rtype: XAApplication
-
-        :Example:
-
-        >>> import PyXA
-        >>> safari = PyXA.application("Safari")
-        >>> safari.unfocus()
-
-        .. seealso:: :func:`focus`
-
-        .. versionadded:: 0.0.1
-        """
-        for app in self.xa_wksp.runningApplications():
-                app.unhide()
-        return self
-
-    def _get_processes(self, processes):
-        for process in self.xa_sevt.processes():
-            processes.append(process)
-
-    def windows(self, filter: dict = None) -> List['XAWindow']:
-        return self.xa_prcs.windows(filter)
-
-    @property
-    def front_window(self) -> 'XAWindow':
-        return self.xa_prcs.front_window
-
-    def menu_bars(self, filter: dict = None) -> 'XAUIMenuBarList':
-        return self._new_element(self.xa_prcs.xa_elem.menuBars(), XAUIMenuBarList, filter)
-
-    def get_clipboard_representation(self) -> List[Union[str, AppKit.NSURL, AppKit.NSImage]]:
-        """Gets a clipboard-codable representation of the application.
-
-        When the clipboard content is set to an application, three items are placed on the clipboard:
-        1. The application's name
-        2. The URL to the application bundle
-        3. The application icon
-
-        After copying an application to the clipboard, pasting will have the following effects:
-        - In Finder: Paste a copy of the application bundle in the current directory
-        - In Terminal: Paste the name of the application followed by the path to the application
-        - In iWork: Paste the application name
-        - In Safari: Paste the application name
-        - In Notes: Attach a copy of the application bundle to the active note
-        The pasted content may different for other applications.
-
-        :return: The clipboard-codable representation
-        :rtype: List[Union[str, AppKit.NSURL, AppKit.NSImage]]
-
-        .. versionadded:: 0.0.8
-        """
-        return [self.xa_elem.localizedName(), self.xa_elem.bundleURL(), self.xa_elem.icon()]
-
-
-
-
-class XACommandDetector(XAObject):
-    """A command-based query detector.
-
-    .. versionadded:: 0.0.9
-    """
-    def __init__(self, command_function_map: Union[Dict[str, Callable[[], Any]], None] = None):
-        """Creates a command detector object.
-
-        :param command_function_map: A dictionary mapping command strings to function objects
-        :type command_function_map: Dict[str, Callable[[], Any]]
-
-        .. versionadded:: 0.0.9
-        """
-        self.command_function_map = command_function_map or {} #: The dictionary of commands and corresponding functions to run upon detection
-
-    def on_detect(self, command: str, function: Callable[[], Any]):
-        """Adds or replaces a command to listen for upon calling :func:`listen`, and associates the given function with that command.
-
-        :param command: The command to listen for
-        :type command: str
-        :param function: The function to call when the command is heard
-        :type function: Callable[[], Any]
-
-        :Example:
-
-        >>> detector = PyXA.XACommandDetector()
-        >>> detector.on_detect("go to google", PyXA.XAURL("http://google.com").open)
-        >>> detector.listen()
-
-        .. versionadded:: 0.0.9
-        """
-        self.command_function_map[command] = function
-
-    def listen(self) -> Any:
-        """Begins listening for the specified commands.
-
-        :return: The execution return value of the corresponding command function
-        :rtype: Any
-
-        :Example:
-
-        >>> import PyXA
-        >>> PyXA.speak("What app do you want to open?")
-        >>> PyXA.XACommandDetector({
-        >>>     "safari": PyXA.application("Safari").activate,
-        >>>     "messages": PyXA.application("Messages").activate,
-        >>>     "shortcuts": PyXA.application("Shortcuts").activate,
-        >>>     "mail": PyXA.application("Mail").activate,
-        >>>     "calendar": PyXA.application("Calendar").activate,
-        >>>     "notes": PyXA.application("Notes").activate,
-        >>>     "music": PyXA.application("Music").activate,
-        >>>     "tv": PyXA.application("TV").activate,
-        >>>     "pages": PyXA.application("Pages").activate,
-        >>>     "numbers": PyXA.application("Numbers").activate,
-        >>>     "keynote": PyXA.application("Keynote").activate,
-        >>> }).listen()
-
-        .. versionadded:: 0.0.9
-        """
-        command_function_map = self.command_function_map
-        return_value = None
-        class NSSpeechRecognizerDelegate(AppKit.NSObject):
-            def speechRecognizer_didRecognizeCommand_(self, recognizer, cmd):
-                return_value = command_function_map[cmd]()
-                AppHelper.stopEventLoop()
-
-        recognizer = AppKit.NSSpeechRecognizer.alloc().init()
-        recognizer.setCommands_(list(command_function_map.keys()))
-        recognizer.setBlocksOtherRecognizers_(True)
-        recognizer.setDelegate_(NSSpeechRecognizerDelegate.alloc().init().retain())
-        recognizer.startListening()
-        AppHelper.runConsoleEventLoop()
-
-        return return_value
-
-
-
-
-class XASpeechRecognizer(XAObject):
-    """A rule-based query detector.
-
-    .. versionadded:: 0.0.9
-    """
-    def __init__(self, finish_conditions: Union[None, Dict[Callable[[str], bool], Callable[[str], bool]]] = None):
-        """Creates a speech recognizer object.
-
-        By default, with no other rules specified, the Speech Recognizer will timeout after 10 seconds once :func:`listen` is called.
-
-        :param finish_conditions: A dictionary of rules and associated methods to call when a rule evaluates to true, defaults to None
-        :type finish_conditions: Union[None, Dict[Callable[[str], bool], Callable[[str], bool]]], optional
-
-        .. versionadded:: 0.0.9
-        """
-        default_conditions = {
-            lambda x: self.time_elapsed > timedelta(seconds = 10): lambda x: self.spoken_query,
-        }
-        self.finish_conditions: Callable[[str], bool] = finish_conditions or default_conditions #: A dictionary of rules and associated methods to call when a rule evaluates to true
-        self.spoken_query: str = "" #: The recognized spoken input
-        self.start_time: datetime #: The time that the Speech Recognizer begins listening
-        self.time_elapsed: timedelta #: The amount of time passed since the start time
-
-    def __prepare(self):
-        # Request microphone access if we don't already have it
-        Speech.SFSpeechRecognizer.requestAuthorization_(None)
-
-        # Set up audio session
-        self.audio_session = AVFoundation.AVAudioSession.sharedInstance()
-        self.audio_session.setCategory_mode_options_error_(AVFoundation.AVAudioSessionCategoryRecord, AVFoundation.AVAudioSessionModeMeasurement, AVFoundation.AVAudioSessionCategoryOptionDuckOthers, None)
-        self.audio_session.setActive_withOptions_error_(True, AVFoundation.AVAudioSessionSetActiveOptionNotifyOthersOnDeactivation, None)
-
-        # Set up recognition request
-        self.recognizer = Speech.SFSpeechRecognizer.alloc().init()
-        self.recognition_request = Speech.SFSpeechAudioBufferRecognitionRequest.alloc().init()
-        self.recognition_request.setShouldReportPartialResults_(True)
-
-        # Set up audio engine
-        self.audio_engine = AVFoundation.AVAudioEngine.alloc().init()
-        self.input_node = self.audio_engine.inputNode()
-        recording_format = self.input_node.outputFormatForBus_(0)
-        self.input_node.installTapOnBus_bufferSize_format_block_(0, 1024, recording_format,
-            lambda buffer, _when: self.recognition_request.appendAudioPCMBuffer_(buffer))
-        self.audio_engine.prepare()
-        self.audio_engine.startAndReturnError_(None)
-
-    def on_detect(self, rule: Callable[[str], bool], method: Callable[[str], bool]):
-        """Sets the given rule to call the specified method if a spoken query passes the rule.
-
-        :param rule: A function that takes the spoken query as a parameter and returns a boolean value depending on whether the query passes a desired rule
-        :type rule: Callable[[str], bool]
-        :param method: A function that takes the spoken query as a parameter and acts on it
-        :type method: Callable[[str], bool]
-
-        .. versionadded:: 0.0.9
-        """
-        self.finish_conditions[rule] = method
-
-    def listen(self) -> Any:
-        """Begins listening for a query until a rule returns True.
-
-        :return: The value returned by the method invoked upon matching some rule
-        :rtype: Any
-
-        .. versionadded:: 0.0.9
-        """
-        self.start_time = datetime.now()
-        self.time_elapsed = None
-        self.__prepare()
-
-        old_self = self
-        def detect_speech(transcription, error):
-            if error is not None:
-                print("Failed to detect speech. Error: ", error)
-            else:
-                old_self.spoken_query = transcription.bestTranscription().formattedString()
-                print(old_self.spoken_query)
-
-        recognition_task = self.recognizer.recognitionTaskWithRequest_resultHandler_(self.recognition_request, detect_speech)
-        while self.spoken_query == "" or not any(x(self.spoken_query) for x in self.finish_conditions):
-            self.time_elapsed = datetime.now() - self.start_time
-            AppKit.NSRunLoop.currentRunLoop().runUntilDate_(datetime.now() + timedelta(seconds = 0.5))
-
-        self.audio_engine.stop()
-        for rule, method in self.finish_conditions.items():
-            if rule(self.spoken_query):
-                return method(self.spoken_query)
-
-
-
-
-class XASpotlight(XAObject):
-    """A Spotlight query for files on the disk.
-
-    .. versionadded:: 0.0.9
-    """
-    def __init__(self, *query: List[Any]):
-        self.query: List[Any] = query #: The query terms to search
-        self.timeout: int = 10 #: The amount of time in seconds to timeout the search after
-        self.predicate: Union[str, XAPredicate] = None #: The predicate to filter search results by
-        self.results: List[XAPath] #: The results of the search
-        self.__results = None
-
-        self.query_object = AppKit.NSMetadataQuery.alloc().init()
-        nc = AppKit.NSNotificationCenter.defaultCenter()
-        nc.addObserver_selector_name_object_(self, '_queryNotification:', None, self.query_object)
-
-    @property
-    def results(self) -> List['XAPath']:
-        if len(self.query) == 0 and self.predicate is None:
-            return []
-        self.run()
-        total_time = 0
-        while self.__results is None and total_time < self.timeout:
-            AppKit.NSRunLoop.currentRunLoop().runUntilDate_(datetime.now() + timedelta(seconds = 0.01))
-            total_time += 0.01
-        if self.__results is None:
-            return []
-        return self.__results
-
-    def run(self):
-        """Runs the search.
-
-        :Example:
-
-        >>> import PyXA
-        >>> from datetime import date, datetime, time
-        >>> date1 = datetime.combine(date(2022, 5, 17), time(0, 0, 0))
-        >>> date2 = datetime.combine(date(2022, 5, 18), time(0, 0, 0))
-        >>> search = PyXA.XASpotlight(date1, date2)
-        >>> print(search.results)
-        [<<class 'PyXA.XAPath'>file:///Users/exampleUser/Downloads/>, <<class 'PyXA.XAPath'>file:///Users/exampleUser/Downloads/Example.txt>, ...]
-
-        .. versionadded:: 0.0.9
-        """
-        if self.predicate is not None:
-            # Search with custom predicate
-            if isinstance(self.predicate, XAPredicate):
-                self.predicate = self.predicate.get_clipboard_representation()
-            self.__search_with_predicate(self.predicate)
-        elif len(self.query) == 1 and isinstance(self.query[0], datetime):
-            # Search date + or - 24 hours
-            self.__search_by_date(self.query)
-        elif len(self.query) == 2 and isinstance(self.query[0], datetime) and isinstance(self.query[1], datetime):
-            # Search date range
-            self.__search_by_date_range(self.query[0], self.query[1])
-        elif all(isinstance(x, str) or isinstance(x, int) or isinstance(x, float) for x in self.query):
-            # Search matching multiple strings
-            self.__search_by_strs(self.query)
-        elif isinstance(self.query[0], datetime) and all(isinstance(x, str) or isinstance(x, int) or isinstance(x, float) for x in self.query[1:]):
-            # Search by date and string
-            self.__search_by_date_strings(self.query[0], self.query[1:])
-        elif isinstance(self.query[0], datetime) and isinstance(self.query[1], datetime) and all(isinstance(x, str) or isinstance(x, int) or isinstance(x, float) for x in self.query[2:]):
-            # Search by date range and string
-            self.__search_by_date_range_strings(self.query[0], self.query[1], self.query[2:])
-
-        AppKit.NSRunLoop.currentRunLoop().runUntilDate_(datetime.now() + timedelta(seconds = 0.01))
-
-    def show_in_finder(self):
-        """Shows the search in Finder. This might not reveal the same search results.
-
-        .. versionadded:: 0.0.9
-        """
-        AppKit.NSWorkspace.sharedWorkspace().showSearchResultsForQueryString_(str(self.query))
-
-    def __search_by_strs(self, terms: Tuple[str]):
-        expanded_terms = [[x]*3 for x in terms]
-        expanded_terms = [x for sublist in expanded_terms for x in sublist]
-        format = "((kMDItemDisplayName CONTAINS %@) OR (kMDItemTextContent CONTAINS %@) OR (kMDItemFSName CONTAINS %@)) AND " * len(terms)
-        self.__search_with_predicate(format[:-5], *expanded_terms)
-
-    def __search_by_date(self, date: datetime):
-        self.__search_with_predicate(f"((kMDItemContentCreationDate > %@) AND (kMDItemContentCreationDate < %@)) OR ((kMDItemContentModificationDate > %@) AND (kMDItemContentModificationDate < %@)) OR ((kMDItemFSCreationDate > %@) AND (kMDItemFSCreationDate < %@)) OR ((kMDItemFSContentChangeDate > %@) AND (kMDItemFSContentChangeDate < %@)) OR ((kMDItemDateAdded > %@) AND (kMDItemDateAdded < %@))", *[date - timedelta(hours=12), date + timedelta(hours=12)]*5)
-
-    def __search_by_date_range(self, date1: datetime, date2: datetime):
-        self.__search_with_predicate(f"((kMDItemContentCreationDate > %@) AND (kMDItemContentCreationDate < %@)) OR ((kMDItemContentModificationDate > %@) AND (kMDItemContentModificationDate < %@)) OR ((kMDItemFSCreationDate > %@) AND (kMDItemFSCreationDate < %@)) OR ((kMDItemFSContentChangeDate > %@) AND (kMDItemFSContentChangeDate < %@)) OR ((kMDItemDateAdded > %@) AND (kMDItemDateAdded < %@))", *[date1, date2]*5)
-
-    def __search_by_date_strings(self, date: datetime, terms: Tuple[str]):
-        expanded_terms = [[x]*3 for x in terms]
-        expanded_terms = [x for sublist in expanded_terms for x in sublist]
-        format = "((kMDItemDisplayName CONTAINS %@) OR (kMDItemTextContent CONTAINS %@) OR (kMDItemFSName CONTAINS %@)) AND " * len(terms)
-        format += "(((kMDItemContentCreationDate > %@) AND (kMDItemContentCreationDate < %@)) OR ((kMDItemContentModificationDate > %@) AND (kMDItemContentModificationDate < %@)) OR ((kMDItemFSCreationDate > %@) AND (kMDItemFSCreationDate < %@)) OR ((kMDItemFSContentChangeDate > %@) AND (kMDItemFSContentChangeDate < %@)) OR ((kMDItemDateAdded > %@) AND (kMDItemDateAdded < %@)))"
-        self.__search_with_predicate(format, *expanded_terms, *[date - timedelta(hours=12), date + timedelta(hours=12)]*5)
-
-    def __search_by_date_range_strings(self, date1: datetime, date2: datetime, terms: Tuple[str]):
-        expanded_terms = [[x]*3 for x in terms]
-        expanded_terms = [x for sublist in expanded_terms for x in sublist]
-        format = "((kMDItemDisplayName CONTAINS %@) OR (kMDItemTextContent CONTAINS %@) OR (kMDItemFSName CONTAINS %@)) AND " * len(terms)
-        format += "(((kMDItemContentCreationDate > %@) AND (kMDItemContentCreationDate < %@)) OR ((kMDItemContentModificationDate > %@) AND (kMDItemContentModificationDate < %@)) OR ((kMDItemFSCreationDate > %@) AND (kMDItemFSCreationDate < %@)) OR ((kMDItemFSContentChangeDate > %@) AND (kMDItemFSContentChangeDate < %@)) OR ((kMDItemDateAdded > %@) AND (kMDItemDateAdded < %@)))"
-        self.__search_with_predicate(format, *expanded_terms, *[date1, date2]*5)
-
-    def __search_with_predicate(self, predicate_format: str, *args: List[Any]):
-        predicate = AppKit.NSPredicate.predicateWithFormat_(predicate_format, *args)
-        self.query_object.setPredicate_(predicate)
-        self.query_object.startQuery()
-
-    def _queryNotification_(self, notification):
-        if notification.name() == AppKit.NSMetadataQueryDidFinishGatheringNotification:
-            self.query_object.stopQuery()
-            results = notification.object().results()
-            self.__results = [XAPath(x.valueForAttribute_(AppKit.NSMetadataItemPathKey)) for x in results]
-
-
-
-
-class XAURL(XAObject, XAClipboardCodable):
-    """A URL using any scheme recognized by the system. This can be a file URL.
-
-    .. versionadded:: 0.0.5
-    """
-    def __init__(self, url: Union[str, AppKit.NSURL]):
-        super().__init__()
-        self.parameters: str #: The query parameters of the URL
-        self.scheme: str #: The URI scheme of the URL
-        self.fragment: str #: The fragment identifier following a # symbol in the URL
-        self.port: int #: The port that the URL points to
-        self.html: element.tag #: The html of the URL
-        self.title: str #: The title of the URL
-        self.soup: BeautifulSoup = None #: The bs4 object for the URL, starts as None until a bs4-related action is made
-        self.url: str = url #: The string form of the URL
-        if isinstance(url, str):
-            url = url.replace(" ", "%20")
-            url = AppKit.NSURL.alloc().initWithString_(url)
-        self.xa_elem = url
-
-    @property
-    def base_url(self) -> str:
-        return self.xa_elem.host()
-
-    @property
-    def parameters(self) -> str:
-        return self.xa_elem.query()
-
-    @property
-    def scheme(self) -> str:
-        return self.xa_elem.scheme()
-
-    @property
-    def fragment(self) -> str:
-        return self.xa_elem.fragment()
-
-    @property
-    def html(self) -> element.Tag:
-        if self.soup is None:
-            self.__get_soup()
-        return self.soup.html
-
-    @property
-    def title(self) -> str:
-        if self.soup is None:
-            self.__get_soup()
-        return self.soup.title.text
-
-    def __get_soup(self):
-        req = requests.get(str(self.xa_elem))
-        self.soup = BeautifulSoup(req.text, "html.parser")
-
-    def open(self):
-        """Opens the URL in the appropriate default application.
-
-        .. versionadded:: 0.0.5
-        """
-        AppKit.NSWorkspace.sharedWorkspace().openURL_(self.xa_elem)
-
-    def extract_text(self) -> List[str]:
-        """Extracts the visible text from the webpage that the URL points to.
-
-        :return: The list of extracted lines of text
-        :rtype: List[str]
-
-        .. versionadded:: 0.0.8
-        """
-        if self.soup is None:
-            self.__get_soup()
-        return self.soup.get_text().splitlines()
-
-    def extract_images(self) -> List['XAImage']:
-        """Extracts all images from HTML of the webpage that the URL points to.
-
-        :return: The list of extracted images
-        :rtype: List[XAImage]
-
-        .. versionadded:: 0.0.8
-        """
-        data = AppKit.NSData.alloc().initWithContentsOfURL_(AppKit.NSURL.URLWithString_(str(self.xa_elem)))
-        image = AppKit.NSImage.alloc().initWithData_(data)
-
-        if image is not None:
-            image_object = XAImage(image, name = self.xa_elem.pathComponents()[-1])
-            return [image_object]
-        else:
-            if self.soup is None:
-                self.__get_soup()
-
-            images = self.soup.findAll("img")
-            image_objects = []
-            for image in images:
-                image_src = image["src"]
-                if image_src.startswith("/"):
-                    image_src = str(self) + str(image["src"])
-
-                data = AppKit.NSData.alloc().initWithContentsOfURL_(AppKit.NSURL.URLWithString_(image_src))
-                image = AppKit.NSImage.alloc().initWithData_(data)
-                if image is not None:
-                    image_object = XAImage(image, name = XAURL(image_src).xa_elem.pathComponents()[-1])
-                    image_objects.append(image_object)
-
-            return image_objects
-
-    def get_clipboard_representation(self) -> List[Union[AppKit.NSURL, str]]:
-        """Gets a clipboard-codable representation of the URL.
-
-        When the clipboard content is set to a URL, the raw URL data and the string representation of the URL are added to the clipboard.
-
-        :return: The clipboard-codable form of the URL
-        :rtype: Any
-
-        .. versionadded:: 0.0.8
-        """
-        return [self.xa_elem, str(self.xa_elem)]
-
-    def __repr__(self):
-        return "<" + str(type(self)) + str(self.xa_elem) + ">"
-
-
-
-
-class XAPath(XAObject, XAClipboardCodable):
-    """A path to a file on the disk.
-
-    .. versionadded:: 0.0.5
-    """
-    def __init__(self, path: Union[str, AppKit.NSURL]):
-        super().__init__()
-        if isinstance(path, str):
-            path = AppKit.NSURL.alloc().initFileURLWithPath_(path)
-        self.xa_elem = path
-        self.path = path.path() #: The path string without the file:// prefix
-        self.xa_wksp = AppKit.NSWorkspace.sharedWorkspace()
-
-    def open(self):
-        """Opens the file in its default application.
-
-        .. versionadded: 0.0.5
-        """
-        self.xa_wksp.openURL_(self.xa_elem)
-
-    def show_in_finder(self):
-        """Opens a Finder window showing the folder containing this path, with the associated file selected. Synonymous with :func:`select`.
-
-        .. versionadded: 0.0.9
-        """
-        self.select()
-
-    def select(self):
-        """Opens a Finder window showing the folder containing this path, with the associated file selected. Synonymous with :func:`show_in_finder`.
-
-        .. versionadded: 0.0.5
-        """
-        self.xa_wksp.activateFileViewerSelectingURLs_([self.xa_elem])
-
-    def get_clipboard_representation(self) -> List[Union[AppKit.NSURL, str]]:
-        """Gets a clipboard-codable representation of the path.
-
-        When the clipboard content is set to a path, the raw file URL data and the string representation of the path are added to the clipboard.
-
-        :return: The clipboard-codable form of the path
-        :rtype: Any
-
-        .. versionadded:: 0.0.8
-        """
-        return [self.xa_elem, self.xa_elem.path()]
 
     def __repr__(self):
         return "<" + str(type(self)) + str(self.xa_elem) + ">"
@@ -2442,6 +1497,1049 @@ class XAPredicate(XAObject, XAClipboardCodable):
         format = "( " + " ) && ( ".join(expressions) + " )"
         predicate = AppKit.NSPredicate.predicateWithFormat_(format, *self.values)
         return predicate.predicateFormat()
+
+
+
+
+class XAURL(XAObject, XAClipboardCodable):
+    """A URL using any scheme recognized by the system. This can be a file URL.
+
+    .. versionadded:: 0.0.5
+    """
+    def __init__(self, url: Union[str, AppKit.NSURL]):
+        super().__init__()
+        self.parameters: str #: The query parameters of the URL
+        self.scheme: str #: The URI scheme of the URL
+        self.fragment: str #: The fragment identifier following a # symbol in the URL
+        self.port: int #: The port that the URL points to
+        self.html: element.tag #: The html of the URL
+        self.title: str #: The title of the URL
+        self.soup: BeautifulSoup = None #: The bs4 object for the URL, starts as None until a bs4-related action is made
+        self.url: str = url #: The string form of the URL
+        if isinstance(url, str):
+            url = url.replace(" ", "%20")
+            url = AppKit.NSURL.alloc().initWithString_(url)
+        self.xa_elem = url
+
+    @property
+    def base_url(self) -> str:
+        return self.xa_elem.host()
+
+    @property
+    def parameters(self) -> str:
+        return self.xa_elem.query()
+
+    @property
+    def scheme(self) -> str:
+        return self.xa_elem.scheme()
+
+    @property
+    def fragment(self) -> str:
+        return self.xa_elem.fragment()
+
+    @property
+    def html(self) -> element.Tag:
+        if self.soup is None:
+            self.__get_soup()
+        return self.soup.html
+
+    @property
+    def title(self) -> str:
+        if self.soup is None:
+            self.__get_soup()
+        return self.soup.title.text
+
+    def __get_soup(self):
+        req = requests.get(str(self.xa_elem))
+        self.soup = BeautifulSoup(req.text, "html.parser")
+
+    def open(self):
+        """Opens the URL in the appropriate default application.
+
+        .. versionadded:: 0.0.5
+        """
+        AppKit.NSWorkspace.sharedWorkspace().openURL_(self.xa_elem)
+
+    def extract_text(self) -> List[str]:
+        """Extracts the visible text from the webpage that the URL points to.
+
+        :return: The list of extracted lines of text
+        :rtype: List[str]
+
+        .. versionadded:: 0.0.8
+        """
+        if self.soup is None:
+            self.__get_soup()
+        return self.soup.get_text().splitlines()
+
+    def extract_images(self) -> List['XAImage']:
+        """Extracts all images from HTML of the webpage that the URL points to.
+
+        :return: The list of extracted images
+        :rtype: List[XAImage]
+
+        .. versionadded:: 0.0.8
+        """
+        data = AppKit.NSData.alloc().initWithContentsOfURL_(AppKit.NSURL.URLWithString_(str(self.xa_elem)))
+        image = AppKit.NSImage.alloc().initWithData_(data)
+
+        if image is not None:
+            image_object = XAImage(image, name = self.xa_elem.pathComponents()[-1])
+            return [image_object]
+        else:
+            if self.soup is None:
+                self.__get_soup()
+
+            images = self.soup.findAll("img")
+            image_objects = []
+            for image in images:
+                image_src = image["src"]
+                if image_src.startswith("/"):
+                    image_src = str(self) + str(image["src"])
+
+                data = AppKit.NSData.alloc().initWithContentsOfURL_(AppKit.NSURL.URLWithString_(image_src))
+                image = AppKit.NSImage.alloc().initWithData_(data)
+                if image is not None:
+                    image_object = XAImage(image, name = XAURL(image_src).xa_elem.pathComponents()[-1])
+                    image_objects.append(image_object)
+
+            return image_objects
+
+    def get_clipboard_representation(self) -> List[Union[AppKit.NSURL, str]]:
+        """Gets a clipboard-codable representation of the URL.
+
+        When the clipboard content is set to a URL, the raw URL data and the string representation of the URL are added to the clipboard.
+
+        :return: The clipboard-codable form of the URL
+        :rtype: Any
+
+        .. versionadded:: 0.0.8
+        """
+        return [self.xa_elem, str(self.xa_elem)]
+
+    def __repr__(self):
+        return "<" + str(type(self)) + str(self.xa_elem) + ">"
+
+
+
+
+class XAPath(XAObject, XAClipboardCodable):
+    """A path to a file on the disk.
+
+    .. versionadded:: 0.0.5
+    """
+    def __init__(self, path: Union[str, AppKit.NSURL]):
+        super().__init__()
+        if isinstance(path, str):
+            path = AppKit.NSURL.alloc().initFileURLWithPath_(path)
+        self.xa_elem = path
+        self.path = path.path() #: The path string without the file:// prefix
+        self.xa_wksp = AppKit.NSWorkspace.sharedWorkspace()
+
+    def open(self):
+        """Opens the file in its default application.
+
+        .. versionadded: 0.0.5
+        """
+        self.xa_wksp.openURL_(self.xa_elem)
+
+    def show_in_finder(self):
+        """Opens a Finder window showing the folder containing this path, with the associated file selected. Synonymous with :func:`select`.
+
+        .. versionadded: 0.0.9
+        """
+        self.select()
+
+    def select(self):
+        """Opens a Finder window showing the folder containing this path, with the associated file selected. Synonymous with :func:`show_in_finder`.
+
+        .. versionadded: 0.0.5
+        """
+        self.xa_wksp.activateFileViewerSelectingURLs_([self.xa_elem])
+
+    def get_clipboard_representation(self) -> List[Union[AppKit.NSURL, str]]:
+        """Gets a clipboard-codable representation of the path.
+
+        When the clipboard content is set to a path, the raw file URL data and the string representation of the path are added to the clipboard.
+
+        :return: The clipboard-codable form of the path
+        :rtype: Any
+
+        .. versionadded:: 0.0.8
+        """
+        return [self.xa_elem, self.xa_elem.path()]
+
+    def __repr__(self):
+        return "<" + str(type(self)) + str(self.xa_elem) + ">"
+
+
+
+
+########################
+### Interoperability ###
+########################
+# AppleScript
+class AppleScript(XAObject):
+    """A class for constructing and executing AppleScript scripts.
+
+    .. versionadded:: 0.0.5
+    """
+    def __init__(self, script: Union[str, List[str], None] = None):
+        """Creates a new AppleScript object.
+
+        :param script: A string or list of strings representing lines of AppleScript code, or the path to a script plaintext file, defaults to None
+        :type script: Union[str, List[str], None], optional
+
+        .. versionadded:: 0.0.5
+        """
+        self.script: List[str] #: The lines of AppleScript code contained in the script
+        self.last_result: Any #: The return value of the last execution of the script
+        self.file_path: XAPath #: The file path of this script, if one exists
+
+        if isinstance(script, str):
+            if script.startswith("/"):
+                with open(script, 'r') as f:
+                    script = f.readlines()
+            else:
+                self.script = [script]
+        elif isinstance(script, list):
+            self.script = script
+        elif script == None:
+            self.script = []
+
+    @property
+    def last_result(self) -> Any:
+        return self.__last_result
+
+    @property
+    def file_path(self) -> 'XAPath':
+        return self.__file_path
+
+    def add(self, script: Union[str, List[str], 'AppleScript']):
+        """Adds the supplied string, list of strings, or script as a new line entry in the script.
+
+        :param script: The script to append to the current script string.
+        :type script: Union[str, List[str], AppleScript]
+
+        :Example:
+
+        >>> import PyXA
+        >>> script = PyXA.AppleScript("tell application \"Safari\"")
+        >>> script.add("print the document of window 1")
+        >>> script.add("end tell")
+        >>> script.run()
+
+        .. versionadded:: 0.0.5
+        """
+        if isinstance(script, str):
+            self.script.append(script)
+        elif isinstance(script, list):
+            self.script.extend(script)
+        elif isinstance(script, AppleScript):
+            self.script.extend(script.script)
+
+    def insert(self, index: int, script: Union[str, List[str], 'AppleScript']):
+        """Inserts the supplied string, list of strings, or script as a line entry in the script starting at the given line index.
+
+        :param index: The line index to begin insertion at
+        :type index: int
+        :param script: The script to insert into the current script
+        :type script: Union[str, List[str], AppleScript]
+
+        :Example:
+
+        >>> import PyXA
+        >>> script = PyXA.AppleScript.load("/Users/exampleUser/Downloads/Test.scpt")
+        >>> script.insert(1, "activate")
+        >>> script.run()
+
+        .. versionadded:: 0.0.9
+        """
+        if isinstance(script, str):
+            self.script.insert(index, script)
+        elif isinstance(script, list):
+            for line in script:
+                self.script.insert(index, line)
+                index += 1
+        elif isinstance(script, AppleScript):
+            for line in script.script:
+                self.script.insert(index, line)
+                index += 1
+
+    def pop(self, index: int = -1) -> str:
+        """Removes the line at the given index from the script.
+
+        :param index: The index of the line to remove
+        :type index: int
+        :return: The text of the removed line
+        :rtype: str
+
+        :Example:
+
+        >>> import PyXA
+        >>> script = PyXA.AppleScript.load("/Users/exampleUser/Downloads/Test.scpt")
+        >>> print(script.pop(1))
+            get chats
+
+        .. versionadded:: 0.0.9
+        """
+        return self.script.pop(index)
+
+    def load(path: Union['XAPath', str]) -> 'AppleScript':
+        """Loads an AppleScript (.scpt) file as a runnable AppleScript object.
+
+        :param path: The path of the .scpt file to load
+        :type path: Union[XAPath, str]
+        :return: The newly loaded AppleScript object
+        :rtype: AppleScript
+
+        :Example 1: Load and run a script
+
+        >>> import PyXA
+        >>> script = PyXA.AppleScript.load("/Users/exampleUser/Downloads/Test.scpt")
+        >>> print(script.run())
+        {
+            'string': None,
+            'int': 0, 
+            'bool': False,
+            'float': 0.0,
+            'date': None,
+            'file_url': None,
+            'type_code': 845507684,
+            'data': {length = 8962, bytes = 0x646c6532 00000000 6c697374 000022f2 ... 6e756c6c 00000000 },
+            'event': <NSAppleEventDescriptor: [ 'obj '{ ... } ]>
+        }
+
+        :Example 2: Load, modify, and run a script
+
+        >>> import PyXA
+        >>> script = PyXA.AppleScript.load("/Users/exampleUser/Downloads/Test.scpt")
+        >>> script.pop(1)
+        >>> script.insert(1, "activate")
+        >>> script.run()
+
+        .. versionadded:: 0.0.8
+        """
+        if isinstance(path, str):
+            path = XAPath(path)
+        script = AppKit.NSAppleScript.alloc().initWithContentsOfURL_error_(path.xa_elem, None)[0]
+
+        attributed_string = script.richTextSource()
+        attributed_string = str(attributed_string).split("}")
+        parts = []
+        for x in attributed_string:
+            parts.extend(x.split("{"))
+
+        for x in parts:
+            if "=" in x:
+                parts.remove(x)
+
+        script = AppleScript("".join(parts).split("\n"))
+        script.__file_path = path
+        return script
+
+    def save(self, path: Union['XAPath', str, None] = None):
+        """Saves the script to the specified file path, or to the path from which the script was loaded.
+
+        :param path: The path to save the script at, defaults to None
+        :type path: Union[XAPath, str, None], optional
+
+        :Example 1: Save the script to a specified path
+
+        >>> import PyXA
+        >>> script = PyXA.AppleScript(f\"\"\"
+        >>>     tell application "Safari"
+        >>>         activate
+        >>>     end tell
+        >>> \"\"\")
+        >>> script.save("/Users/exampleUser/Downloads/Example.scpt")
+
+        :Example 2: Load a script, modify it, then save it
+
+        >>> import PyXA
+        >>> script = PyXA.AppleScript.load("/Users/steven/Downloads/Example.scpt")
+        >>> script.insert(2, "delay 2")
+        >>> script.insert(3, "set the miniaturized of window 1 to true")
+        >>> script.save()
+
+        .. versionadded:: 0.0.9
+        """
+        if path is None and self.file_path is None:
+            print("No path to save script to!")
+            return
+        
+        if isinstance(path, str):
+            path = XAPath(path)
+
+        script = ""
+        for line in self.script:
+            script += line + "\n"
+        script = AppKit.NSAppleScript.alloc().initWithSource_(script)
+        script.compileAndReturnError_(None)
+        source = (script.richTextSource().string())
+
+        if path is not None:
+            self.__file_path = path
+
+        with open(self.file_path.xa_elem.path(), "w") as f:
+            f.write(source)
+
+    def parse_result_data(result: dict) -> List[Tuple[str, str]]:
+        """Extracts string data from an AppleScript execution result dictionary.
+
+        :param result: The execution result dictionary to extract data from
+        :type result: dict
+        :return: A list of responses contained in the result structured as tuples
+        :rtype: List[Tuple[str, str]]
+
+        :Example:
+
+        >>> import PyXA
+        >>> script = PyXA.AppleScript.load("/Users/exampleUser/Downloads/Test.scpt")
+        >>> print(script.script)
+        >>> result = script.run()
+        >>> print(PyXA.AppleScript.parse_result_data(result))
+        ['tell application "Messages"', '\\tget chats', 'end tell']
+        [('ID', 'iMessage;-;+12345678910'), ('ID', 'iMessage;-;+12345678911'), ('ID', 'iMessage;-;example@icloud.com'), ...]
+
+        .. versionadded:: 0.0.9
+        """
+        result = result["event"]
+        response_objects = []
+        num_responses = result.numberOfItems()
+        for response_index in range(1, num_responses + 1):
+            response = result.descriptorAtIndex_(response_index)
+
+            data = ()
+            num_params = response.numberOfItems()
+            if num_params == 0:
+                data = response.stringValue().strip()
+
+            else:
+                for param_index in range(1, num_params + 1):
+                    param = response.descriptorAtIndex_(param_index).stringValue()
+                    if param is not None:
+                        data += (param.strip(), )
+            response_objects.append(data)
+
+        return response_objects
+
+    def run(self) -> Any:
+        """Compiles and runs the script, returning the result.
+
+        :return: The return value of the script.
+        :rtype: Any
+
+        :Example:
+
+        import PyXA
+        script = PyXA.AppleScript(f\"\"\"tell application "System Events"
+            return 1 + 2
+        end tell
+        \"\"\")
+        print(script.run())
+        {
+            'string': '3',
+            'int': 3,
+            'bool': False,
+            'float': 3.0,
+            'date': None,
+            'file_url': None,
+            'type_code': 3,
+            'data': {length = 4, bytes = 0x03000000},
+            'event': <NSAppleEventDescriptor: 3>
+        }
+        
+        .. versionadded:: 0.0.5
+        """
+        script = ""
+        for line in self.script:
+            script += line + "\n"
+        script = AppKit.NSAppleScript.alloc().initWithSource_(script)
+        
+        result = script.executeAndReturnError_(None)[0]
+        if result is not None:
+            self.__last_result = {
+                "string": result.stringValue(),
+                "int": result.int32Value(),
+                "bool": result.booleanValue(),
+                "float": result.doubleValue(),
+                "date": result.dateValue(),
+                "file_url": result.fileURLValue(),
+                "type_code": result.typeCodeValue(),
+                "data": result.data(),
+                "event": result,
+            }
+            return self.last_result
+
+    def __repr__(self):
+        return "<" + str(type(self)) + str(self.script) + ">"
+
+
+
+
+########################
+### System Utilities ###
+########################
+# XAClipboard, XANotification, XAProcess, XACommandDetector, XASpeechRecognizer, XASpeech, XASpotlight
+class XAClipboard(XAObject):
+    """A wrapper class for managing and interacting with the system clipboard.
+
+    .. versionadded:: 0.0.5
+    """
+    def __init__(self):
+        self.xa_elem = AppKit.NSPasteboard.generalPasteboard()
+        self.content #: The content of the clipboard
+
+    @property
+    def content(self) -> Dict[str, List[Any]]:
+        info_by_type = {}
+        for item in self.xa_elem.pasteboardItems():
+            for item_type in item.types():
+                info_by_type[item_type] = {
+                    "data": item.dataForType_(item_type),
+                    "properties": item.propertyListForType_(item_type),
+                    "strings": item.stringForType_(item_type),
+                }
+        return info_by_type
+
+    @content.setter
+    def content(self, value: List[Any]):
+        if not isinstance(value, list):
+            value = [value]
+        self.xa_elem.clearContents()
+        for index, item in enumerate(value):
+            if item == None:
+                value[index] = ""
+            elif isinstance(item, XAObject):
+                if not isinstance(item, XAClipboardCodable):
+                    print(item, "is not a clipboard-codable object.")
+                    continue
+                if isinstance(item.xa_elem, ScriptingBridge.SBElementArray) and item.xa_elem.get() is None:
+                    value[index] = ""
+                else:
+                    content = item.get_clipboard_representation()
+                    if isinstance(content, list):
+                        value.pop(index)
+                        value += content
+                    else:
+                        value[index] = content
+            elif isinstance(item, int) or isinstance(item, float):
+                value[index] = str(item)
+        self.xa_elem.writeObjects_(value)
+
+    def clear(self):
+        """Clears the system clipboard.
+        
+        .. versionadded:: 0.0.5
+        """
+        self.xa_elem.clearContents()
+
+    def get_strings(self) -> List[str]:
+        """Retrieves string type data from the clipboard, if any such data exists.
+
+        :return: The list of strings currently copied to the clipboard
+        :rtype: List[str]
+
+        .. versionadded:: 0.0.8
+        """
+        items = []
+        for item in self.xa_elem.pasteboardItems():
+            string = item.stringForType_(AppKit.NSPasteboardTypeString)
+            if string is not None:
+                items.append(string)
+        return items
+
+    def get_urls(self) -> List['XAURL']:
+        """Retrieves URL type data from the clipboard, as instances of :class:`XAURL` and :class:`XAPath`, if any such data exists.
+
+        :return: The list of file URLs and web URLs currently copied to the clipboard
+        :rtype: List[XAURL]
+
+        .. versionadded:: 0.0.8
+        """
+        items = []
+        for item in self.xa_elem.pasteboardItems():
+            url = None
+            string = item.stringForType_(AppKit.NSPasteboardTypeURL)
+            if string is None:
+                string = item.stringForType_(AppKit.NSPasteboardTypeFileURL)
+                if string is not None:
+                    url = XAPath(XAURL(string).xa_elem)
+            else:
+                url = XAURL(string)
+                
+            if url is not None:
+                items.append(url)
+        return items
+
+    def get_images(self) -> List['XAImage']:
+        """Retrieves image type data from the clipboard, as instances of :class:`XAImage`, if any such data exists.
+
+        :return: The list of images currently copied to the clipboard
+        :rtype: List[XAImage]
+
+        .. versionadded:: 0.0.8
+        """
+        image_types = [AppKit.NSPasteboardTypePNG, AppKit.NSPasteboardTypeTIFF, 'public.jpeg', 'com.apple.icns']
+        items = []
+        for item in self.xa_elem.pasteboardItems():
+            for image_type in image_types:
+                if image_type in item.types():
+                    img = XAImage(data = item.dataForType_(image_type))
+                    items.append(img)
+        return items
+
+    def set_contents(self, content: List[Any]):
+        """Sets the content of the clipboard
+
+        :param content: A list of the content to add fill the clipboard with.
+        :type content: List[Any]
+
+        .. deprecated:: 0.0.8
+           Set the :ivar:`content` property directly instead.
+        
+        .. versionadded:: 0.0.5
+        """
+        self.xa_elem.clearContents()
+        self.xa_elem.writeObjects_(content)
+
+
+
+
+class XANotification(XAObject):
+    """A class for managing and interacting with notifications.
+
+    .. versionadded:: 0.0.9
+    """
+    def __init__(self, text: str, title: Union[str, None] = None, subtitle: Union[str, None] = None, sound_name: Union[str, None] = None):
+        """Initializes a notification object.
+
+        :param text: The main text of the notification
+        :type text: str
+        :param title: The title of the notification, defaults to None
+        :type title: Union[str, None], optional
+        :param subtitle: The subtitle of the notification, defaults to None
+        :type subtitle: Union[str, None], optional
+        :param sound_name: The sound to play when the notification is displayed, defaults to None
+        :type sound_name: Union[str, None], optional
+
+        .. versionadded:: 0.0.9
+        """
+        self.text = text
+        self.title = title
+        self.subtitle = subtitle
+        self.sound_name = sound_name
+
+    def display(self):
+        """Displays the notification.
+
+        .. todo::
+        
+           Currently uses :func:`subprocess.Popen`. Should use UserNotifications in the future.
+
+        .. versionadded:: 0.0.9
+        """
+        script = AppleScript()
+        script.add(f"display notification \\\"{self.text}\\\"")
+
+        if self.title is not None:
+            script.add(f"with title \\\"{self.title}\\\"")
+        
+        if self.subtitle is not None:
+            script.add(f"subtitle \\\"{self.subtitle}\\\"")
+
+        if self.sound_name is not None:
+            script.add(f"sound name \\\"{self.sound_name}\\\"")
+
+        cmd = "osascript -e \"" + " ".join(script.script) + "\""
+        subprocess.Popen([cmd], shell=True)
+
+
+
+
+class XAProcess(XAObject):
+    def __init__(self, properties):
+        super().__init__(properties)
+        self.xa_wcls = properties["window_class"]
+        self.id = self.xa_elem.id()
+        self.unix_id = self.xa_elem.unixId()
+
+        self.front_window: XAWindow #: The front window of the application process
+
+    @property
+    def front_window(self) -> 'XAWindow':
+        return self._new_element(self.xa_elem.windows()[0], XAWindow)
+
+    def windows(self, filter: dict = None) -> 'XAWindowList':
+        return self._new_element(self.xa_elem.windows(), XAWindowList, filter)
+
+    def menu_bars(self, filter: dict = None) -> 'XAUIMenuBarList':
+        return self._new_element(self.xa_elem.menuBars(), XAUIMenuBarList, filter)
+
+
+
+
+class XACommandDetector(XAObject):
+    """A command-based query detector.
+
+    .. versionadded:: 0.0.9
+    """
+    def __init__(self, command_function_map: Union[Dict[str, Callable[[], Any]], None] = None):
+        """Creates a command detector object.
+
+        :param command_function_map: A dictionary mapping command strings to function objects
+        :type command_function_map: Dict[str, Callable[[], Any]]
+
+        .. versionadded:: 0.0.9
+        """
+        self.command_function_map = command_function_map or {} #: The dictionary of commands and corresponding functions to run upon detection
+
+    def on_detect(self, command: str, function: Callable[[], Any]):
+        """Adds or replaces a command to listen for upon calling :func:`listen`, and associates the given function with that command.
+
+        :param command: The command to listen for
+        :type command: str
+        :param function: The function to call when the command is heard
+        :type function: Callable[[], Any]
+
+        :Example:
+
+        >>> detector = PyXA.XACommandDetector()
+        >>> detector.on_detect("go to google", PyXA.XAURL("http://google.com").open)
+        >>> detector.listen()
+
+        .. versionadded:: 0.0.9
+        """
+        self.command_function_map[command] = function
+
+    def listen(self) -> Any:
+        """Begins listening for the specified commands.
+
+        :return: The execution return value of the corresponding command function
+        :rtype: Any
+
+        :Example:
+
+        >>> import PyXA
+        >>> PyXA.speak("What app do you want to open?")
+        >>> PyXA.XACommandDetector({
+        >>>     "safari": PyXA.application("Safari").activate,
+        >>>     "messages": PyXA.application("Messages").activate,
+        >>>     "shortcuts": PyXA.application("Shortcuts").activate,
+        >>>     "mail": PyXA.application("Mail").activate,
+        >>>     "calendar": PyXA.application("Calendar").activate,
+        >>>     "notes": PyXA.application("Notes").activate,
+        >>>     "music": PyXA.application("Music").activate,
+        >>>     "tv": PyXA.application("TV").activate,
+        >>>     "pages": PyXA.application("Pages").activate,
+        >>>     "numbers": PyXA.application("Numbers").activate,
+        >>>     "keynote": PyXA.application("Keynote").activate,
+        >>> }).listen()
+
+        .. versionadded:: 0.0.9
+        """
+        command_function_map = self.command_function_map
+        return_value = None
+        class NSSpeechRecognizerDelegate(AppKit.NSObject):
+            def speechRecognizer_didRecognizeCommand_(self, recognizer, cmd):
+                return_value = command_function_map[cmd]()
+                AppHelper.stopEventLoop()
+
+        recognizer = AppKit.NSSpeechRecognizer.alloc().init()
+        recognizer.setCommands_(list(command_function_map.keys()))
+        recognizer.setBlocksOtherRecognizers_(True)
+        recognizer.setDelegate_(NSSpeechRecognizerDelegate.alloc().init().retain())
+        recognizer.startListening()
+        AppHelper.runConsoleEventLoop()
+
+        return return_value
+
+
+
+
+class XASpeechRecognizer(XAObject):
+    """A rule-based query detector.
+
+    .. versionadded:: 0.0.9
+    """
+    def __init__(self, finish_conditions: Union[None, Dict[Callable[[str], bool], Callable[[str], bool]]] = None):
+        """Creates a speech recognizer object.
+
+        By default, with no other rules specified, the Speech Recognizer will timeout after 10 seconds once :func:`listen` is called.
+
+        :param finish_conditions: A dictionary of rules and associated methods to call when a rule evaluates to true, defaults to None
+        :type finish_conditions: Union[None, Dict[Callable[[str], bool], Callable[[str], bool]]], optional
+
+        .. versionadded:: 0.0.9
+        """
+        default_conditions = {
+            lambda x: self.time_elapsed > timedelta(seconds = 10): lambda x: self.spoken_query,
+        }
+        self.finish_conditions: Callable[[str], bool] = finish_conditions or default_conditions #: A dictionary of rules and associated methods to call when a rule evaluates to true
+        self.spoken_query: str = "" #: The recognized spoken input
+        self.start_time: datetime #: The time that the Speech Recognizer begins listening
+        self.time_elapsed: timedelta #: The amount of time passed since the start time
+
+    def __prepare(self):
+        # Request microphone access if we don't already have it
+        Speech.SFSpeechRecognizer.requestAuthorization_(None)
+
+        # Set up audio session
+        self.audio_session = AVFoundation.AVAudioSession.sharedInstance()
+        self.audio_session.setCategory_mode_options_error_(AVFoundation.AVAudioSessionCategoryRecord, AVFoundation.AVAudioSessionModeMeasurement, AVFoundation.AVAudioSessionCategoryOptionDuckOthers, None)
+        self.audio_session.setActive_withOptions_error_(True, AVFoundation.AVAudioSessionSetActiveOptionNotifyOthersOnDeactivation, None)
+
+        # Set up recognition request
+        self.recognizer = Speech.SFSpeechRecognizer.alloc().init()
+        self.recognition_request = Speech.SFSpeechAudioBufferRecognitionRequest.alloc().init()
+        self.recognition_request.setShouldReportPartialResults_(True)
+
+        # Set up audio engine
+        self.audio_engine = AVFoundation.AVAudioEngine.alloc().init()
+        self.input_node = self.audio_engine.inputNode()
+        recording_format = self.input_node.outputFormatForBus_(0)
+        self.input_node.installTapOnBus_bufferSize_format_block_(0, 1024, recording_format,
+            lambda buffer, _when: self.recognition_request.appendAudioPCMBuffer_(buffer))
+        self.audio_engine.prepare()
+        self.audio_engine.startAndReturnError_(None)
+
+    def on_detect(self, rule: Callable[[str], bool], method: Callable[[str], bool]):
+        """Sets the given rule to call the specified method if a spoken query passes the rule.
+
+        :param rule: A function that takes the spoken query as a parameter and returns a boolean value depending on whether the query passes a desired rule
+        :type rule: Callable[[str], bool]
+        :param method: A function that takes the spoken query as a parameter and acts on it
+        :type method: Callable[[str], bool]
+
+        .. versionadded:: 0.0.9
+        """
+        self.finish_conditions[rule] = method
+
+    def listen(self) -> Any:
+        """Begins listening for a query until a rule returns True.
+
+        :return: The value returned by the method invoked upon matching some rule
+        :rtype: Any
+
+        .. versionadded:: 0.0.9
+        """
+        self.start_time = datetime.now()
+        self.time_elapsed = None
+        self.__prepare()
+
+        old_self = self
+        def detect_speech(transcription, error):
+            if error is not None:
+                print("Failed to detect speech. Error: ", error)
+            else:
+                old_self.spoken_query = transcription.bestTranscription().formattedString()
+                print(old_self.spoken_query)
+
+        recognition_task = self.recognizer.recognitionTaskWithRequest_resultHandler_(self.recognition_request, detect_speech)
+        while self.spoken_query == "" or not any(x(self.spoken_query) for x in self.finish_conditions):
+            self.time_elapsed = datetime.now() - self.start_time
+            AppKit.NSRunLoop.currentRunLoop().runUntilDate_(datetime.now() + timedelta(seconds = 0.5))
+
+        self.audio_engine.stop()
+        for rule, method in self.finish_conditions.items():
+            if rule(self.spoken_query):
+                return method(self.spoken_query)
+
+
+
+
+class XASpeech(XAObject):
+    def __init__(self, message: str = "", voice: Union[str, None] = None, volume: float = 0.5, rate: int = 200):
+        self.message: str = message #: The message to speak
+        self.voice: Union[str, None] = voice #: The voice that the message is spoken in
+        self.volume: float = volume #: The speaking volume
+        self.rate: int = rate #: The speaking rate
+
+    def voices(self) -> List[str]:
+        """Gets the list of voice names available on the system.
+
+        :return: The list of voice names
+        :rtype: List[str]
+
+        :Example:
+
+        >>> import PyXA
+        >>> speaker = PyXA.XASpeech()
+        >>> print(speaker.voices())
+        ['Agnes', 'Alex', 'Alice', 'Allison',
+
+        .. versionadded:: 0.0.9
+        """
+        ls = AppKit.NSSpeechSynthesizer.availableVoices()
+        return [x.replace("com.apple.speech.synthesis.voice.", "").replace(".premium", "").title() for x in ls]
+    
+    def speak(self, path: Union[str, XAPath, None] = None):
+        """Speaks the provided message using the desired voice, volume, and speaking rate. 
+
+        :param path: The path to a .AIFF file to output sound to, defaults to None
+        :type path: Union[str, XAPath, None], optional
+
+        :Example 1: Speak a message aloud
+
+        >>> import PyXA
+        >>> PyXA.XASpeech("This is a test").speak()
+
+        :Example 2: Output spoken message to an AIFF file
+
+        >>> import PyXA
+        >>> speaker = PyXA.XASpeech("Hello, world!")
+        >>> speaker.speak("/Users/steven/Downloads/Hello.AIFF")
+
+        :Example 3: Control the voice, volume, and speaking rate
+
+        >>> import PyXA
+        >>> speaker = PyXA.XASpeech(
+        >>>     message = "Hello, world!",
+        >>>     voice = "Alex",
+        >>>     volume = 1,
+        >>>     rate = 500
+        >>> )
+        >>> speaker.speak()
+
+        .. versionadded:: 0.0.9
+        """
+        # Get the selected voice by name
+        voice = None
+        for v in AppKit.NSSpeechSynthesizer.availableVoices():
+            if self.voice.lower() in v.lower():
+                voice = v
+
+        # Set up speech synthesis object
+        synthesizer = AppKit.NSSpeechSynthesizer.alloc().initWithVoice_(voice)
+        synthesizer.setVolume_(self.volume)
+        synthesizer.setRate_(self.rate)
+
+        # Start speaking
+        if path is None:
+            synthesizer.startSpeakingString_(self.message)
+        else:
+            if isinstance(path, str):
+                path = XAPath(path)
+            synthesizer.startSpeakingString_toURL_(self.message, path.xa_elem)
+
+        # Wait for speech to complete
+        while synthesizer.isSpeaking():
+            time.sleep(0.01)
+
+
+
+
+class XASpotlight(XAObject):
+    """A Spotlight query for files on the disk.
+
+    .. versionadded:: 0.0.9
+    """
+    def __init__(self, *query: List[Any]):
+        self.query: List[Any] = query #: The query terms to search
+        self.timeout: int = 10 #: The amount of time in seconds to timeout the search after
+        self.predicate: Union[str, XAPredicate] = None #: The predicate to filter search results by
+        self.results: List[XAPath] #: The results of the search
+        self.__results = None
+
+        self.query_object = AppKit.NSMetadataQuery.alloc().init()
+        nc = AppKit.NSNotificationCenter.defaultCenter()
+        nc.addObserver_selector_name_object_(self, '_queryNotification:', None, self.query_object)
+
+    @property
+    def results(self) -> List['XAPath']:
+        if len(self.query) == 0 and self.predicate is None:
+            return []
+        self.run()
+        total_time = 0
+        while self.__results is None and total_time < self.timeout:
+            AppKit.NSRunLoop.currentRunLoop().runUntilDate_(datetime.now() + timedelta(seconds = 0.01))
+            total_time += 0.01
+        if self.__results is None:
+            return []
+        return self.__results
+
+    def run(self):
+        """Runs the search.
+
+        :Example:
+
+        >>> import PyXA
+        >>> from datetime import date, datetime, time
+        >>> date1 = datetime.combine(date(2022, 5, 17), time(0, 0, 0))
+        >>> date2 = datetime.combine(date(2022, 5, 18), time(0, 0, 0))
+        >>> search = PyXA.XASpotlight(date1, date2)
+        >>> print(search.results)
+        [<<class 'PyXA.XAPath'>file:///Users/exampleUser/Downloads/>, <<class 'PyXA.XAPath'>file:///Users/exampleUser/Downloads/Example.txt>, ...]
+
+        .. versionadded:: 0.0.9
+        """
+        if self.predicate is not None:
+            # Search with custom predicate
+            if isinstance(self.predicate, XAPredicate):
+                self.predicate = self.predicate.get_clipboard_representation()
+            self.__search_with_predicate(self.predicate)
+        elif len(self.query) == 1 and isinstance(self.query[0], datetime):
+            # Search date + or - 24 hours
+            self.__search_by_date(self.query)
+        elif len(self.query) == 2 and isinstance(self.query[0], datetime) and isinstance(self.query[1], datetime):
+            # Search date range
+            self.__search_by_date_range(self.query[0], self.query[1])
+        elif all(isinstance(x, str) or isinstance(x, int) or isinstance(x, float) for x in self.query):
+            # Search matching multiple strings
+            self.__search_by_strs(self.query)
+        elif isinstance(self.query[0], datetime) and all(isinstance(x, str) or isinstance(x, int) or isinstance(x, float) for x in self.query[1:]):
+            # Search by date and string
+            self.__search_by_date_strings(self.query[0], self.query[1:])
+        elif isinstance(self.query[0], datetime) and isinstance(self.query[1], datetime) and all(isinstance(x, str) or isinstance(x, int) or isinstance(x, float) for x in self.query[2:]):
+            # Search by date range and string
+            self.__search_by_date_range_strings(self.query[0], self.query[1], self.query[2:])
+
+        AppKit.NSRunLoop.currentRunLoop().runUntilDate_(datetime.now() + timedelta(seconds = 0.01))
+
+    def show_in_finder(self):
+        """Shows the search in Finder. This might not reveal the same search results.
+
+        .. versionadded:: 0.0.9
+        """
+        AppKit.NSWorkspace.sharedWorkspace().showSearchResultsForQueryString_(str(self.query))
+
+    def __search_by_strs(self, terms: Tuple[str]):
+        expanded_terms = [[x]*3 for x in terms]
+        expanded_terms = [x for sublist in expanded_terms for x in sublist]
+        format = "((kMDItemDisplayName CONTAINS %@) OR (kMDItemTextContent CONTAINS %@) OR (kMDItemFSName CONTAINS %@)) AND " * len(terms)
+        self.__search_with_predicate(format[:-5], *expanded_terms)
+
+    def __search_by_date(self, date: datetime):
+        self.__search_with_predicate(f"((kMDItemContentCreationDate > %@) AND (kMDItemContentCreationDate < %@)) OR ((kMDItemContentModificationDate > %@) AND (kMDItemContentModificationDate < %@)) OR ((kMDItemFSCreationDate > %@) AND (kMDItemFSCreationDate < %@)) OR ((kMDItemFSContentChangeDate > %@) AND (kMDItemFSContentChangeDate < %@)) OR ((kMDItemDateAdded > %@) AND (kMDItemDateAdded < %@))", *[date - timedelta(hours=12), date + timedelta(hours=12)]*5)
+
+    def __search_by_date_range(self, date1: datetime, date2: datetime):
+        self.__search_with_predicate(f"((kMDItemContentCreationDate > %@) AND (kMDItemContentCreationDate < %@)) OR ((kMDItemContentModificationDate > %@) AND (kMDItemContentModificationDate < %@)) OR ((kMDItemFSCreationDate > %@) AND (kMDItemFSCreationDate < %@)) OR ((kMDItemFSContentChangeDate > %@) AND (kMDItemFSContentChangeDate < %@)) OR ((kMDItemDateAdded > %@) AND (kMDItemDateAdded < %@))", *[date1, date2]*5)
+
+    def __search_by_date_strings(self, date: datetime, terms: Tuple[str]):
+        expanded_terms = [[x]*3 for x in terms]
+        expanded_terms = [x for sublist in expanded_terms for x in sublist]
+        format = "((kMDItemDisplayName CONTAINS %@) OR (kMDItemTextContent CONTAINS %@) OR (kMDItemFSName CONTAINS %@)) AND " * len(terms)
+        format += "(((kMDItemContentCreationDate > %@) AND (kMDItemContentCreationDate < %@)) OR ((kMDItemContentModificationDate > %@) AND (kMDItemContentModificationDate < %@)) OR ((kMDItemFSCreationDate > %@) AND (kMDItemFSCreationDate < %@)) OR ((kMDItemFSContentChangeDate > %@) AND (kMDItemFSContentChangeDate < %@)) OR ((kMDItemDateAdded > %@) AND (kMDItemDateAdded < %@)))"
+        self.__search_with_predicate(format, *expanded_terms, *[date - timedelta(hours=12), date + timedelta(hours=12)]*5)
+
+    def __search_by_date_range_strings(self, date1: datetime, date2: datetime, terms: Tuple[str]):
+        expanded_terms = [[x]*3 for x in terms]
+        expanded_terms = [x for sublist in expanded_terms for x in sublist]
+        format = "((kMDItemDisplayName CONTAINS %@) OR (kMDItemTextContent CONTAINS %@) OR (kMDItemFSName CONTAINS %@)) AND " * len(terms)
+        format += "(((kMDItemContentCreationDate > %@) AND (kMDItemContentCreationDate < %@)) OR ((kMDItemContentModificationDate > %@) AND (kMDItemContentModificationDate < %@)) OR ((kMDItemFSCreationDate > %@) AND (kMDItemFSCreationDate < %@)) OR ((kMDItemFSContentChangeDate > %@) AND (kMDItemFSContentChangeDate < %@)) OR ((kMDItemDateAdded > %@) AND (kMDItemDateAdded < %@)))"
+        self.__search_with_predicate(format, *expanded_terms, *[date1, date2]*5)
+
+    def __search_with_predicate(self, predicate_format: str, *args: List[Any]):
+        predicate = AppKit.NSPredicate.predicateWithFormat_(predicate_format, *args)
+        self.query_object.setPredicate_(predicate)
+        self.query_object.startQuery()
+
+    def _queryNotification_(self, notification):
+        if notification.name() == AppKit.NSMetadataQueryDidFinishGatheringNotification:
+            self.query_object.stopQuery()
+            results = notification.object().results()
+            self.__results = [XAPath(x.valueForAttribute_(AppKit.NSMetadataItemPathKey)) for x in results]
 
 
 
@@ -3158,6 +3256,128 @@ class XAUIStaticText(XAUIElement):
 ############
 ### Text ###
 ############
+class XATextDocumentList(XAList, XAClipboardCodable):
+    """A wrapper around lists of text documents that employs fast enumeration techniques.
+
+    .. versionadded:: 0.1.0
+    """
+    def __init__(self, properties: dict, filter: Union[dict, None] = None, obj_class = None):
+        if obj_class is None:
+            obj_class = XATextDocument
+        super().__init__(properties, obj_class, filter)
+
+    def properties(self) -> List[dict]:
+        """Gets the properties of each document in the list.
+
+        :return: A list of document properties dictionaries
+        :rtype: List[dict]
+        
+        .. versionadded:: 0.0.3
+        """
+        ls = self.xa_elem.arrayByApplyingSelector_("properties")
+        return [dict(x) for x in ls]
+
+    def text(self) -> 'XATextList':
+        """Gets the text of each document in the list.
+
+        :return: A list of document texts
+        :rtype: XATextList
+        
+        .. versionadded:: 0.1.0
+        """
+        ls = self.xa_elem.arrayByApplyingSelector_("text")
+        return self._new_element(ls, XATextList)
+
+    def by_properties(self, properties: dict) -> Union['XATextDocument', None]:
+        """Retrieves the document whose properties match the given properties dictionary, if one exists.
+
+        :return: The desired document, if it is found
+        :rtype: Union[XATextDocument, None]
+        
+        .. versionadded:: 0.1.0
+        """
+        return self.by_property("properties", properties)
+
+    def by_text(self, text: str) -> Union['XATextDocument', None]:
+        """Retrieves the first documents whose text matches the given text.
+
+        :return: The desired document, if it is found
+        :rtype: Union[XATextDocument, None]
+        
+        .. versionadded:: 0.1.0
+        """
+        return self.by_property("text", text)
+
+    def paragraphs(self) -> 'XAParagraphList':
+        """Gets the paragraphs of each document in the list.
+
+        :return: A combined list of all paragraphs in each document of the list
+        :rtype: XAParagraphList
+        
+        .. versionadded:: 0.0.3
+        """
+        ls = self.xa_elem.arrayByApplyingSelector_("paragraphs")
+        return self._new_element([plist for plist in ls], XAParagraphList)
+
+    def words(self) -> 'XAWordList':
+        """Gets the words of each document in the list.
+
+        :return: A combined list of all words in each document of the list
+        :rtype: XAWordList
+        
+        .. versionadded:: 0.0.3
+        """
+        ls = self.xa_elem.arrayByApplyingSelector_("words")
+        return [self._new_element([plist for plist in ls], XAWordList)]
+
+    def characters(self) -> 'XACharacterList':
+        """Gets the characters of each document in the list.
+
+        :return: A combined list of all characters in each document of the list
+        :rtype: XACharacterList
+        
+        .. versionadded:: 0.0.3
+        """
+        ls = self.xa_elem.arrayByApplyingSelector_("characters")
+        return [self._new_element([plist for plist in ls], XACharacterList)]
+
+    def attribute_runs(self) -> 'XAAttributeRunList':
+        """Gets the attribute runs of each document in the list.
+
+        :return: A combined list of all attribute runs in each document of the list
+        :rtype: XAAttributeRunList
+        
+        .. versionadded:: 0.0.3
+        """
+        ls = self.xa_elem.arrayByApplyingSelector_("attributeRuns")
+        return [self._new_element([plist for plist in ls], XAAttributeRunList)]
+
+    def attachments(self) -> 'XAAttachmentList':
+        """Gets the attachments of each document in the list.
+
+        :return: A combined list of all attachments in each document of the list
+        :rtype: XAAttachmentList
+        
+        .. versionadded:: 0.0.3
+        """
+        ls = self.xa_elem.arrayByApplyingSelector_("attachments")
+        return [self._new_element([plist for plist in ls], XAAttachmentList)]
+
+    def get_clipboard_representation(self) -> List[Union[str, AppKit.NSURL]]:
+        """Gets a clipboard-codable representation of each document in the list.
+
+        When the clipboard content is set to a list of documents, each documents's file URL and name are added to the clipboard.
+
+        :return: A list of each document's file URL and name
+        :rtype: List[Union[str, AppKit.NSURL]]
+
+        .. versionadded:: 0.0.8
+        """
+        return [str(x) for x in self.text()]
+
+    def __repr__(self):
+        return "<" + str(type(self)) + str(self.text()) + ">"
+
 class XATextDocument(XAObject):
     """A class for managing and interacting with text documents.
 
@@ -3171,6 +3391,10 @@ class XATextDocument(XAObject):
     def text(self) -> 'XAText':
         return self._new_element(self.xa_elem.text(), XAText)
 
+    @text.setter
+    def text(self, text: str):
+        self.set_property("text", text)
+
     def set_text(self, new_text: str) -> 'XATextDocument':
         """Sets the text of the document.
 
@@ -3180,6 +3404,9 @@ class XATextDocument(XAObject):
         :rtype: XATextDocument
 
         .. seealso:: :func:`prepend`, :func:`append`
+
+        .. deprecated:: 0.1.0
+           Directly set the text attribute instead.
 
         .. versionadded:: 0.0.1
         """
@@ -3349,9 +3576,18 @@ class XATextList(XAList):
         return self._new_element(ls, XAAttachmentList, filter)
 
     def __repr__(self):
-        if hasattr(self.xa_elem, "get"):
+        try:
+            if isinstance(self.xa_elem[0], ScriptingBridge.SBObject):
+                # List items will not resolved to text upon dereferencing the list; need to resolve items individually
+                count = self.xa_elem.count()
+                if count <= 500:
+                    # Too many unresolved pointers, save time by just reporting the length
+                    return "<" + str(type(self)) + str([x.get() for x in self.xa_elem]) + ">"
+                return "<" + str(type(self)) + "length: " + str(self.xa_elem.count()) + ">"
+
+            # List items will resolve to text upon dereferencing the list
             return "<" + str(type(self)) + str(self.xa_elem.get()) + ">"
-        else:
+        except:
             return "<" + str(type(self)) + str(list(self.xa_elem)) + ">" 
 
 class XAText(XAObject):
@@ -5042,87 +5278,6 @@ class XAFileNameDialog(XAObject):
 
 
 
-class XASpeech(XAObject):
-    def __init__(self, message: str = "", voice: Union[str, None] = None, volume: float = 0.5, rate: int = 200):
-        self.message: str = message #: The message to speak
-        self.voice: Union[str, None] = voice #: The voice that the message is spoken in
-        self.volume: float = volume #: The speaking volume
-        self.rate: int = rate #: The speaking rate
-
-    def voices(self) -> List[str]:
-        """Gets the list of voice names available on the system.
-
-        :return: The list of voice names
-        :rtype: List[str]
-
-        :Example:
-
-        >>> import PyXA
-        >>> speaker = PyXA.XASpeech()
-        >>> print(speaker.voices())
-        ['Agnes', 'Alex', 'Alice', 'Allison',
-
-        .. versionadded:: 0.0.9
-        """
-        ls = AppKit.NSSpeechSynthesizer.availableVoices()
-        return [x.replace("com.apple.speech.synthesis.voice.", "").replace(".premium", "").title() for x in ls]
-    
-    def speak(self, path: Union[str, XAPath, None] = None):
-        """Speaks the provided message using the desired voice, volume, and speaking rate. 
-
-        :param path: The path to a .AIFF file to output sound to, defaults to None
-        :type path: Union[str, XAPath, None], optional
-
-        :Example 1: Speak a message aloud
-
-        >>> import PyXA
-        >>> PyXA.XASpeech("This is a test").speak()
-
-        :Example 2: Output spoken message to an AIFF file
-
-        >>> import PyXA
-        >>> speaker = PyXA.XASpeech("Hello, world!")
-        >>> speaker.speak("/Users/steven/Downloads/Hello.AIFF")
-
-        :Example 3: Control the voice, volume, and speaking rate
-
-        >>> import PyXA
-        >>> speaker = PyXA.XASpeech(
-        >>>     message = "Hello, world!",
-        >>>     voice = "Alex",
-        >>>     volume = 1,
-        >>>     rate = 500
-        >>> )
-        >>> speaker.speak()
-
-        .. versionadded:: 0.0.9
-        """
-        # Get the selected voice by name
-        voice = None
-        for v in AppKit.NSSpeechSynthesizer.availableVoices():
-            if self.voice.lower() in v.lower():
-                voice = v
-
-        # Set up speech synthesis object
-        synthesizer = AppKit.NSSpeechSynthesizer.alloc().initWithVoice_(voice)
-        synthesizer.setVolume_(self.volume)
-        synthesizer.setRate_(self.rate)
-
-        # Start speaking
-        if path is None:
-            synthesizer.startSpeakingString_(self.message)
-        else:
-            if isinstance(path, str):
-                path = XAPath(path)
-            synthesizer.startSpeakingString_toURL_(self.message, path.xa_elem)
-
-        # Wait for speech to complete
-        while synthesizer.isSpeaking():
-            time.sleep(0.01)
-
-
-
-
 class XAMenuBar(XAObject):
     def __init__(self):
         """Creates a new menu bar object for interacting with the system menu bar.
@@ -5352,6 +5507,30 @@ class XAMenuBar(XAObject):
 ### System / Image Events ###
 #############################
 # ? Move into separate XAFileSystemBase.py file?
+class XAEventsApplication(XACanOpenPath):
+    """A base class for the System and Image events applications.
+
+    .. versionadded:: 0.1.0
+    """
+    class Format(Enum):
+        """Disk format options.
+        """
+        APPLE_PHOTO     = OSType("dfph")
+        APPLESHARE      = OSType("dfas")
+        AUDIO           = OSType("dfau")
+        HIGH_SIERRA     = OSType("dfhs")
+        ISO_9660        = OSType("fd96")
+        MACOS_EXTENDED  = OSType("dfh+")
+        MACOS           = OSType("dfhf")
+        MSDOS           = OSType("dfms")
+        NFS             = OSType("dfnf")
+        PRODOS          = OSType("dfpr")
+        QUICKTAKE       = OSType("dfqt")
+        UDF             = OSType("dfud")
+        UFS             = OSType("dfuf")
+        UNKNOWN         = OSType("df$$")
+        WEBDAV          = OSType("dfwd")
+
 class XADiskItemList(XAList):
     """A wrapper around lists of disk items that employs fast enumeration techniques.
 
@@ -6017,13 +6196,13 @@ class XADiskList(XADiskItemList):
         """
         return list(self.xa_elem.arrayByApplyingSelector_("ejectable"))
 
-    def format(self) -> List['XAApplication.Format']:
+    def format(self) -> List['XAEventsApplication.Format']:
         """Retrieves the file system format of each disk in the list.
 
         .. versionadded:: 0.1.0
         """
         ls = self.xa_elem.arrayByApplyingSelector_("format")
-        return [XAApplication.Format(OSType(x.stringValue())) for x in ls]
+        return [XAEventsApplication.Format(OSType(x.stringValue())) for x in ls]
 
     def free_space(self) -> List['float']:
         """Retrieves the number of free bytes left on each disk in the list.
@@ -6081,7 +6260,7 @@ class XADiskList(XADiskItemList):
         """
         return self.by_property("ejectable", ejectable)
 
-    def by_format(self, format: 'XAMediaApplication.Format') -> 'XADisk':
+    def by_format(self, format: 'XAEventsApplication.Format') -> 'XADisk':
         """Retrieves the disk whose format matches the given format.
 
         .. versionadded:: 0.1.0
@@ -6155,12 +6334,12 @@ class XADisk(XADiskItem):
         return self.xa_elem.ejectable()
 
     @property
-    def format(self) -> 'XAApplication.Format':
+    def format(self) -> 'XAEventsApplication.Format':
         """The file system format of the disk.
 
         .. versionadded:: 0.1.0
         """
-        return XAApplication.Format(self.xa_elem.format())
+        return XAEventsApplication.Format(self.xa_elem.format())
 
     @property
     def free_space(self) -> 'float':
@@ -7049,27 +7228,172 @@ class XAImageList(XAList, XAClipboardCodable):
         """
         return XAImage.vertical_stitch(self)
 
+    def auto_enhance(self, correct_red_eye: bool = False, crop_to_features: bool = False, correct_rotation: bool = False) -> List['XAImage.XAImageModification']:
+        """Attempts to enhance each image in the list by applying suggested filters.
+
+        :param correct_red_eye: Whether to attempt red eye removal, defaults to False
+        :type correct_red_eye: bool, optional
+        :param crop_to_features: Whether to crop the images to focus on their main features, defaults to False
+        :type crop_to_features: bool, optional
+        :param correct_rotation: Whether attempt perspective correction by rotating the images, defaults to False
+        :type correct_rotation: bool, optional
+        :return: A tuple containing a list old images (before enhancement) and the list of new ones
+        :rtype: List.XAImage.XAImageModification
+
+        .. versionadded:: 0.1.0
+        """
+        return [image.auto_enhance() for image in self]
+
+    def flip_horizontally(self) -> List['List.XAImage.XAImageModification']:
+        """Flips each image in the list horizontally.
+
+        :return: A list of ImageModification objects containing the original images and the flipped images
+        :rtype: List[XAImage.XAImageModification]
+
+        .. versionadded:: 0.1.0
+        """
+        return [image.flip_horizontally() for image in self]
+
+    def flip_vertically(self) -> List['List.XAImage.XAImageModification']:
+        """Flips each image in the list vertically.
+
+        :return: A list of ImageModification objects containing the original images and the flipped images
+        :rtype: List[XAImage.XAImageModification]
+
+        .. versionadded:: 0.1.0
+        """
+        return [image.flip_horizontally() for image in self]
+
+    def rotate(self, degrees: float) -> List['List.XAImage.XAImageModification']:
+        """Rotates each image in the list by the specified amount of degrees.
+
+        :param degrees: The number of degrees to rotate the images by
+        :type degrees: float
+        :return: A list of ImageModification objects containing the original images and the flipped images
+        :rtype: List[XAImage.XAImageModification]
+
+        .. versionadded:: 0.1.0
+        """
+        return [image.rotate(degrees) for image in self]
+
+    def scale(self, scale_factor_x: float, scale_factor_y: float) -> List['List.XAImage.XAImageModification']:
+        """Scales each image in the list by the specified horizontal and vertical factors.
+
+        :param scale_factor_x: The factor by which to scale each image in the X dimension
+        :type scale_factor_x: float
+        :param scale_factor_y: The factor by which to scale each image in the Y dimension
+        :type scale_factor_y: float
+        :return: A list of ImageModification objects containing the original images and the flipped images
+        :rtype: List[XAImage.XAImageModification]
+
+        .. versionadded:: 0.1.0
+        """
+        return [image.scale(scale_factor_x, scale_factor_y) for image in self]
+
+    def pad(self, horizontal_border_width: int = 50, vertical_border_width: int = 50, pad_color: Union[XAColor, None] = None) -> List['List.XAImage.XAImageModification']:
+        """Pads each image in the list with the specified color; add a border around each image in the list with the specified vertical and horizontal width.
+
+        :param horizontal_border_width: The border width, in pixels, in the x-dimension, defaults to 50
+        :type horizontal_border_width: int
+        :param vertical_border_width: The border width, in pixels, in the y-dimension, defaults to 50
+        :type vertical_border_width: int
+        :param pad_color: The color of the border, or None for a white border, defaults to None
+        :type pad_color: Union[XAColor, None]
+        :return: A list of ImageModification objects containing the original images and the flipped images
+        :rtype: List[XAImage.XAImageModification]
+
+        .. versionadded:: 0.1.0
+        """
+        return [image.pad(horizontal_border_width, vertical_border_width, pad_color) for image in self]
+
+    def overlay(self, image: 'XAImage', location: Union[Tuple[int, int], None] = None, size: Union[Tuple[int, int], None] = None) -> List['List.XAImage.XAImageModification']:
+        """Overlays an image on top of each image in the list, at the specified location, with the specified size.
+
+        :param image: The image to overlay on top of each image in the list
+        :type image: XAImage
+        :param location: The bottom-left point of the overlaid image in the results, or None to use the bottom-left point of each background image, defaults to None
+        :type location: Union[Tuple[int, int], None]
+        :param size: The width and height of the overlaid image, or None to use the overlaid's images existing width and height, or (-1, -1) to use the dimensions of each background images, defaults to None
+        :type size: Union[Tuple[int, int], None]
+        :return: A list of ImageModification objects containing the original images and the flipped images
+        :rtype: List[XAImage.XAImageModification]
+
+        .. versionadded:: 0.1.0
+        """
+        return [img.overlay(image, location, size) for img in self]
+
+    def overlay_text(self, text: str, location: Union[Tuple[int, int], None] = None, font_size: float = 12, font_color: Union[XAColor, None] = None) -> List['List.XAImage.XAImageModification']:
+        """Overlays text of the specified size and color at the provided location within each image of the list.
+
+        :param text: The text to overlay onto each image of the list
+        :type text: str
+        :param location: The bottom-left point of the start of the text, or None to use (5, 5), defaults to None
+        :type location: Union[Tuple[int, int], None]
+        :param font_size: The font size, in pixels, of the text, defaults to 12
+        :type font_size: float
+        :param font_color: The color of the text, or None to use black, defaults to None
+        :type font_color: XAColor
+        :return: A list of ImageModification objects containing the original images and the flipped images
+        :rtype: List[XAImage.XAImageModification]
+
+        .. versionadded:: 0.1.0
+        """
+        return [image.overlay_text(text, location, font_size, font_color) for image in self]
+
+    def extract_text(self) -> List[str]:
+        """Extracts and returns a list of all visible text in each image of the list.
+
+        :return: The array of extracted text strings
+        :rtype: List[str]
+
+        :Example:
+
+        >>> import PyXA
+        >>> test = PyXA.XAImage("/Users/ExampleUser/Downloads/Example.jpg")
+        >>> print(test.extract_text())
+        ["HERE'S TO THE", 'CRAZY ONES', 'the MISFITS the REBELS', 'THE TROUBLEMAKERS', ...]
+
+        .. versionadded:: 0.1.0
+        """
+        extracted_text = []
+        for image in self:
+            extracted_text.append(image.extract_text())
+        return extracted_text
+
     def show_in_preview(self):
+        """Opens each image in the list in Preview.
+
+        .. versionadded:: 0.1.0
+        """
         for image in self:
             image.show_in_preview()
 
     def get_clipboard_representation(self) -> List[AppKit.NSImage]:
-        images = [None] * self.xa_elem.count()
-        def get_nsimage_rep(obj, index, stop):
-            images[index] = AppKit.NSImage.alloc().initByReferencingFile_(obj)
+        """Gets a clipboard-codable representation of each image in the list.
 
-        self.xa_elem.enumerateObjectsUsingBlock_(get_nsimage_rep)
-        return images
+        When the clipboard content is set to a list of image, the raw data of each image is added to the clipboard. You can then 
+
+        :return: A list of media item file URLs
+        :rtype: List[NSURL]
+
+        .. versionadded:: 0.0.8
+        """
+        data = []
+        for image in self:
+            data.append(image.xa_elem)
+        return data
 
 class XAImage(XAObject, XAClipboardCodable):
     """A wrapper around NSImage with specialized automation methods.
 
     .. versionadded:: 0.0.2
     """
-    def __init__(self, file: Union[str, XAPath, AppKit.NSURL, AppKit.NSImage, None] = None, data: Union[AppKit.NSData, None] = None, name: Union[str, None] = None):
+    XAImageModification = namedtuple('ImageModification', ['original_image', 'result']) #: A named tuple returned by image manipulation operations such as :func:`pixellate` containing the original image and the result after applying modifications.
+
+    def __init__(self, image_reference: Union[str, XAPath, AppKit.NSURL, AppKit.NSImage, None] = None, data: Union[AppKit.NSData, None] = None, name: Union[str, None] = None):
         self.size: Tuple[int, int] #: The dimensions of the image
         self.name: str #: The name of the image
-        self.file: XAPath #: The path to the image file, if one exists
+        self.file: Union[XAPath, None] = None #: The path to the image file, if one exists
         self.data: str #: The TIFF representation of the image
         self.name = name or "image" #: The title of the image
         self.modified: bool = False #: Whether the image data has been modified since the object was originally created
@@ -7084,28 +7408,71 @@ class XAImage(XAObject, XAClipboardCodable):
         self.__highlight = None
         self.__shadow = None
 
-        if isinstance(file, dict):
-            # Image was created via XAList
-            self.xa_elem = file["element"]
-            if isinstance(self.xa_elem, str):
-                self.file = XAPath(self.xa_elem)
-                self.xa_elem = AppKit.NSImage.alloc().initWithContentsOfURL_(XAPath(self.xa_elem).xa_elem)
+        if data is not None:
+            # Deprecated as of 0.1.0 -- Pass data as the image_reference instead
+            self.xa_elem = AppKit.NSImage.alloc().initWithData_(data)
         else:
-            if data is not None:
-                self.xa_elem = AppKit.NSImage.alloc().initWithData_(data)
+            if image_reference is None:
+                # No reference provided, just initialize a blank image
+                self.xa_elem = AppKit.NSImage.alloc().init()
             else:
-                if file is None:
-                    self.xa_elem = AppKit.NSImage.alloc().init()
-                else:
-                    self.file = file
-                    if isinstance(file, AppKit.NSImage):
-                        self.xa_elem = AppKit.NSImage.alloc().initWithData_(file.TIFFRepresentation())
+                self.file = image_reference
+                if isinstance(image_reference, dict):
+                    # Image reference is provided by an XAList
+                    self.xa_elem = image_reference["element"]
+                    if isinstance(self.xa_elem, str):
+                        # The reference is a string -- reinitialize using it
+                        self.xa_elem = XAImage(self.xa_elem).xa_elem
+                    elif isinstance(self.xa_elem, XAImage):
+                        # The reference is another XAImage object
+                        self.xa_elem = self.xa_elem.xa_elem
+
+                elif isinstance(image_reference, AppKit.NSImage):
+                    # The reference is an Objective-C image object
+                    self.xa_elem = AppKit.NSImage.alloc().initWithData_(image_reference.TIFFRepresentation())
+
+                elif isinstance(image_reference, AppKit.NSData):
+                    # The reference is raw image data
+                    self.xa_elem = AppKit.NSImage.alloc().initWithData_(data)
+
+                elif isinstance(image_reference, XAPath) or isinstance(image_reference, XAURL):
+                    # The reference is a compatible XAObject
+                    self.xa_elem = AppKit.NSImage.alloc().initWithContentsOfURL_(self.file.xa_elem)
+
+                elif isinstance(image_reference, XAImage):
+                    # The reference is another XAImage
+                    self.xa_elem = image_reference.xa_elem
+
+                elif isinstance(image_reference, str):
+                    # The reference is to a file or a none-file URL
+                    if "://" in image_reference:
+                        # The reference is to a non-file URL
+                        image_reference = XAURL(image_reference).xa_elem
                     else:
-                        if isinstance(file, str):
-                            self.file = XAPath(file)
-                        self.xa_elem = AppKit.NSImage.alloc().initWithContentsOfURL_(self.file.xa_elem)
+                        # The reference is to a file
+                        image_reference = XAPath(image_reference).xa_elem
+                    self.xa_elem = AppKit.NSImage.alloc().initWithContentsOfURL_(image_reference)
+
+                elif isinstance(image_reference, XAObject):
+                    # Must obtain the image representation using the XAImageLike protocol
+                    self.xa_elem = XAImage(image_reference.get_image_representation()).xa_elem
 
         self.data = self.xa_elem.TIFFRepresentation()
+
+    def __update_image(self, modified_image: Quartz.CIImage) -> XAImageModification:
+        # Crop the result to the original image size
+        cropped = modified_image.imageByCroppingToRect_(Quartz.CGRectMake(0, 0, self.size[0], self.size[1]))
+
+        # Convert back to NSImage
+        rep = AppKit.NSCIImageRep.imageRepWithCIImage_(cropped)
+        result = AppKit.NSImage.alloc().initWithSize_(rep.size())
+        result.addRepresentation_(rep)
+
+        # Update internal data
+        old_image = XAImage(self.xa_elem)
+        self.xa_elem = result
+        self.modified = True
+        return XAImage.XAImageModification(old_image, self)
 
     @property
     def size(self) -> Tuple[int, int]:
@@ -7114,6 +7481,42 @@ class XAImage(XAObject, XAClipboardCodable):
         .. versionadded:: 0.1.0
         """
         return tuple(self.xa_elem.size())
+
+    @property
+    def has_alpha_channel(self) -> bool:
+        """Whether the image has an alpha channel or not.
+
+        .. versionadded:: 0.1.0
+        """
+        reps = self.xa_elem.representations()
+        if len(reps) > 0:
+            return reps[0].hasAlpha()
+        # TODO: Make sure this is never a false negative
+        return False
+
+    @property
+    def is_opaque(self) -> bool:
+        """Whether the image contains transparent pixels or not.
+
+        .. versionadded:: 0.1.0
+        """
+        reps = self.xa_elem.representations()
+        if len(reps) > 0:
+            return reps[0].isOpaque()
+        # TODO: Make sure this is never a false negative
+        return False
+
+    @property
+    def color_space_name(self) -> Union[str, None]:
+        """The name of the color space that the image currently uses.
+
+        .. versionadded:: 0.1.0
+        """
+        reps = self.xa_elem.representations()
+        if len(reps) > 0:
+            return reps[0].colorSpaceName()
+        # TODO: Make sure this is never a false negative
+        return None
 
     @property
     def gamma(self) -> float:
@@ -7268,8 +7671,8 @@ class XAImage(XAObject, XAClipboardCodable):
         uncropped = filter.valueForKey_(Quartz.kCIOutputImageKey)
         self.__update_image(uncropped)
 
-    def open(images: Union[str, XAPath, List[Union[str, XAPath]]]) -> Union['XAImage', XAImageList]:
-        """Opens one or more images from files.
+    def open(*images: Union[str, XAPath, List[Union[str, XAPath]]]) -> Union['XAImage', XAImageList]:
+        """Initializes one or more images from files.
 
         :param images: The image(s) to open
         :type images: Union[str, XAPath, List[Union[str, XAPath]]]
@@ -7278,7 +7681,10 @@ class XAImage(XAObject, XAClipboardCodable):
 
         .. versionadded:: 0.1.0
         """
-        if isinstance(images, list):
+        if len(images) == 1:
+            images = images[0]
+
+        if isinstance(images, list) or isinstance(images, tuple):
             return XAImageList({"element": images})
         else:
             return XAImage(images)
@@ -7392,22 +7798,17 @@ class XAImage(XAObject, XAClipboardCodable):
         composition = AppKit.NSImage.alloc().initWithSize_(composition_rep.size())
         composition.addRepresentation_(composition_rep)
         return XAImage(composition)
-
-    def __update_image(self, modified_image: Quartz.CIImage):
-        # Crop the result to the original image size
-        cropped = modified_image.imageByCroppingToRect_(Quartz.CGRectMake(0, 0, self.size[0], self.size[1]))
-
-        # Convert back to NSImage
-        rep = AppKit.NSCIImageRep.imageRepWithCIImage_(cropped)
-        result = AppKit.NSImage.alloc().initWithSize_(rep.size())
-        result.addRepresentation_(rep)
-
-        # Update internal data
-        self.xa_elem = result
-        self.modified = True
-        return self
     
-    def edges(self, intensity: float = 1.0) -> 'XAImage':
+    def edges(self, intensity: float = 1.0) -> XAImageModification:
+        """Detects the edges in the image and highlights them colorfully, blackening other areas of the image.
+
+        :param intensity: The degree to which edges are highlighted. Higher is brighter. Defaults to 1.0
+        :type intensity: float
+        :return: A tuple containing the old image (before edge detection) and the modified one
+        :rtype: XAImageModification
+
+        .. versionadded:: 0.1.0
+        """
         image = Quartz.CIImage.imageWithData_(self.data)
         filter = Quartz.CIFilter.filterWithName_("CIEdges")
         filter.setDefaults()
@@ -7416,7 +7817,16 @@ class XAImage(XAObject, XAClipboardCodable):
         uncropped = filter.valueForKey_(Quartz.kCIOutputImageKey)
         return self.__update_image(uncropped)
 
-    def gaussian_blur(self, intensity: float = 10) -> 'XAImage':
+    def gaussian_blur(self, intensity: float = 10) -> XAImageModification:
+        """Blurs the image using a Gaussian filter.
+
+        :param intensity: The strength of the blur effect, defaults to 10
+        :type intensity: float
+        :return: A tuple containing the old image (before edge detection) and the modified one
+        :rtype: XAImageModification
+
+        .. versionadded:: 0.1.0
+        """
         image = Quartz.CIImage.imageWithData_(self.data)
         filter = Quartz.CIFilter.filterWithName_("CIGaussianBlur")
         filter.setDefaults()
@@ -7425,7 +7835,18 @@ class XAImage(XAObject, XAClipboardCodable):
         uncropped = filter.valueForKey_(Quartz.kCIOutputImageKey)
         return self.__update_image(uncropped)
 
-    def reduce_noise(self, noise_level: float = 0.02, sharpness: float = 0.4) -> 'XAImage':
+    def reduce_noise(self, noise_level: float = 0.02, sharpness: float = 0.4) -> XAImageModification:
+        """Reduces noise in the image by sharpening areas with a luminance delta below the specified noise level threshold.
+
+        :param noise_level: The threshold for luminance changes in an area below which will be considered noise, defaults to 0.02
+        :type noise_level: float
+        :param sharpness: The sharpness of the resulting image, defaults to 0.4
+        :type sharpness: float
+        :return: A tuple containing the old image (before edge detection) and the modified one
+        :rtype: XAImageModification
+
+        .. versionadded:: 0.1.0
+        """
         image = Quartz.CIImage.imageWithData_(self.data)
         filter = Quartz.CIFilter.filterWithName_("CINoiseReduction")
         filter.setDefaults()
@@ -7435,7 +7856,16 @@ class XAImage(XAObject, XAClipboardCodable):
         uncropped = filter.valueForKey_(Quartz.kCIOutputImageKey)
         return self.__update_image(uncropped)
 
-    def pixellate(self, pixel_size: int = 8) -> 'XAImage':
+    def pixellate(self, pixel_size: float = 8.0) -> XAImageModification:
+        """Pixellates the image.
+
+        :param pixel_size: The size of the pixels, defaults to 8.0
+        :type pixel_size: float
+        :return: A tuple containing the old image (before edge detection) and the modified one
+        :rtype: XAImageModification
+
+        .. versionadded:: 0.1.0
+        """
         image = Quartz.CIImage.imageWithData_(self.data)
         filter = Quartz.CIFilter.filterWithName_("CIPixellate")
         filter.setDefaults()
@@ -7444,7 +7874,16 @@ class XAImage(XAObject, XAClipboardCodable):
         uncropped = filter.valueForKey_(Quartz.kCIOutputImageKey)
         return self.__update_image(uncropped)
 
-    def outline(self, threshold: float = 0.1) -> 'XAImage':
+    def outline(self, threshold: float = 0.1) -> XAImageModification:
+        """Outlines detected edges within the image in black, leaving the rest transparent.
+
+        :param threshold: The threshold to use when separating edge and non-edge pixels. Larger values produce thinner edge lines. Defaults to 0.1
+        :type threshold: float
+        :return: A tuple containing the old image (before edge detection) and the modified one
+        :rtype: XAImageModification
+
+        .. versionadded:: 0.1.0
+        """
         image = Quartz.CIImage.imageWithData_(self.data)
         filter = Quartz.CIFilter.filterWithName_("CILineOverlay")
         filter.setDefaults()
@@ -7453,7 +7892,14 @@ class XAImage(XAObject, XAClipboardCodable):
         uncropped = filter.valueForKey_(Quartz.kCIOutputImageKey)
         return self.__update_image(uncropped)
 
-    def invert(self) -> 'XAImage':
+    def invert(self) -> XAImageModification:
+        """Inverts the color of the image.
+
+        :return: A tuple containing the old image (before edge detection) and the modified one
+        :rtype: XAImageModification
+
+        .. versionadded:: 0.1.0
+        """
         image = Quartz.CIImage.imageWithData_(self.data)
         filter = Quartz.CIFilter.filterWithName_("CIColorInvert")
         filter.setDefaults()
@@ -7461,7 +7907,16 @@ class XAImage(XAObject, XAClipboardCodable):
         uncropped = filter.valueForKey_(Quartz.kCIOutputImageKey)
         return self.__update_image(uncropped)
     
-    def sepia(self, intensity: float = 1.0) -> 'XAImage':
+    def sepia(self, intensity: float = 1.0) -> XAImageModification:
+        """Applies a sepia filter to the image; maps all colors of the image to shades of brown.
+
+        :param intensity: The opacity of the sepia effect. A value of 0 will have no impact on the image. Defaults to 1.0
+        :type intensity: float
+        :return: A tuple containing the old image (before edge detection) and the modified one
+        :rtype: XAImageModification
+
+        .. versionadded:: 0.1.0
+        """
         image = Quartz.CIImage.imageWithData_(self.data)
         filter = Quartz.CIFilter.filterWithName_("CISepiaTone")
         filter.setDefaults()
@@ -7470,7 +7925,16 @@ class XAImage(XAObject, XAClipboardCodable):
         uncropped = filter.valueForKey_(Quartz.kCIOutputImageKey)
         return self.__update_image(uncropped)
 
-    def vignette(self, intensity: float = 0.0) -> 'XAImage':
+    def vignette(self, intensity: float = 1.0) -> XAImageModification:
+        """Applies vignette shading to the corners of the image.
+
+        :param intensity: The intensity of the vignette effect, defaults to 1.0
+        :type intensity: float
+        :return: A tuple containing the old image (before edge detection) and the modified one
+        :rtype: XAImageModification
+
+        .. versionadded:: 0.1.0
+        """
         image = Quartz.CIImage.imageWithData_(self.data)
         filter = Quartz.CIFilter.filterWithName_("CIVignette")
         filter.setDefaults()
@@ -7479,10 +7943,23 @@ class XAImage(XAObject, XAClipboardCodable):
         uncropped = filter.valueForKey_(Quartz.kCIOutputImageKey)
         return self.__update_image(uncropped)
 
-    def depth_of_filed(self, focal_region: Union[Tuple[Tuple[int, int], Tuple[int, int]], None] = None) -> 'XAImage':
+    def depth_of_filed(self, focal_region: Union[Tuple[Tuple[int, int], Tuple[int, int]], None] = None, intensity: float = 10.0, focal_region_saturation: float = 1.5) -> XAImageModification:
+        """Applies a depth of field filter to the image, simulating a tilt & shift effect.
+
+        :param focal_region: Two points defining a line within the image to focus the effect around (pixels around the line will be in focus), or None to use the center third of the image, defaults to None
+        :type focal_region: Union[Tuple[Tuple[int, int], Tuple[int, int]], None]
+        :param intensity: Controls the amount of distance around the focal region to keep in focus. Higher values decrease the distance before the out-of-focus effect starts. Defaults to 10.0
+        :type intensity: float
+        :param focal_region_saturation: Adjusts the saturation of the focial region. Higher values increase saturation. Defaults to 1.5 (1.5x default saturation)
+        :type focal_region_saturation: float
+        :return: A tuple containing the old image (before edge detection) and the modified one
+        :rtype: XAImageModification
+
+        .. versionadded:: 0.1.0
+        """
         if focal_region is None:
-            center_top = Quartz.CIVector.vectorWithX_Y_(self.size[0] / 2, self.size[1] / 4)
-            center_bottom = Quartz.CIVector.vectorWithX_Y_(self.size[0] / 2, self.size[1] / 4 * 3)
+            center_top = Quartz.CIVector.vectorWithX_Y_(self.size[0] / 2, self.size[1] / 3)
+            center_bottom = Quartz.CIVector.vectorWithX_Y_(self.size[0] / 2, self.size[1] / 3 * 2)
             focal_region = (center_top, center_bottom)
         else:
             point1 = Quartz.CIVector.vectorWithX_Y_(focal_region[0])
@@ -7495,10 +7972,21 @@ class XAImage(XAObject, XAClipboardCodable):
         filter.setValue_forKey_(image, "inputImage")
         filter.setValue_forKey_(focal_region[0], "inputPoint0")
         filter.setValue_forKey_(focal_region[1], "inputPoint1")
+        filter.setValue_forKey_(intensity, "inputRadius")
+        filter.setValue_forKey_(focal_region_saturation, "inputSaturation")
         uncropped = filter.valueForKey_(Quartz.kCIOutputImageKey)
         return self.__update_image(uncropped)
 
-    def crystallize(self, crystal_size: float = 20.0) -> 'XAImage':
+    def crystallize(self, crystal_size: float = 20.0) -> XAImageModification:
+        """Applies a crystallization filter to the image. Creates polygon-shaped color blocks by aggregating pixel values.
+
+        :param crystal_size: The radius of the crystals, defaults to 20.0
+        :type crystal_size: float
+        :return: A tuple containing the old image (before edge detection) and the modified one
+        :rtype: XAImageModification
+
+        .. versionadded:: 0.1.0
+        """
         image = Quartz.CIImage.imageWithData_(self.data)
         filter = Quartz.CIFilter.filterWithName_("CICrystallize")
         filter.setDefaults()
@@ -7507,7 +7995,14 @@ class XAImage(XAObject, XAClipboardCodable):
         uncropped = filter.valueForKey_(Quartz.kCIOutputImageKey)
         return self.__update_image(uncropped)
 
-    def comic(self) -> 'XAImage':
+    def comic(self) -> XAImageModification:
+        """Applies a comic filter to the image. Outlines edges and applies a color halftone effect.
+
+        :return: A tuple containing the old image (before edge detection) and the modified one
+        :rtype: XAImageModification
+
+        .. versionadded:: 0.1.0
+        """
         image = Quartz.CIImage.imageWithData_(self.data)
         filter = Quartz.CIFilter.filterWithName_("CIComicEffect")
         filter.setDefaults()
@@ -7515,7 +8010,16 @@ class XAImage(XAObject, XAClipboardCodable):
         uncropped = filter.valueForKey_(Quartz.kCIOutputImageKey)
         return self.__update_image(uncropped)
 
-    def pointillize(self, point_size: float = 20.0) -> 'XAImage':
+    def pointillize(self, point_size: float = 20.0) -> XAImageModification:
+        """Applies a pointillization filter to the image.
+
+        :param crystal_size: The radius of the points, defaults to 20.0
+        :type crystal_size: float
+        :return: A tuple containing the old image (before edge detection) and the modified one
+        :rtype: XAImageModification
+
+        .. versionadded:: 0.1.0
+        """
         image = Quartz.CIImage.imageWithData_(self.data)
         filter = Quartz.CIFilter.filterWithName_("CIPointillize")
         filter.setDefaults()
@@ -7524,7 +8028,16 @@ class XAImage(XAObject, XAClipboardCodable):
         uncropped = filter.valueForKey_(Quartz.kCIOutputImageKey)
         return self.__update_image(uncropped)
 
-    def bloom(self, intensity: float = 0.5) -> 'XAImage':
+    def bloom(self, intensity: float = 0.5) -> XAImageModification:
+        """Applies a bloom effect to the image. Softens edges and adds a glow.
+
+        :param intensity: The strength of the softening and glow effects, defaults to 0.5
+        :type intensity: float
+        :return: A tuple containing the old image (before edge detection) and the modified one
+        :rtype: XAImageModification
+
+        .. versionadded:: 0.1.0
+        """
         image = Quartz.CIImage.imageWithData_(self.data)
         filter = Quartz.CIFilter.filterWithName_("CIBloom")
         filter.setDefaults()
@@ -7533,7 +8046,18 @@ class XAImage(XAObject, XAClipboardCodable):
         uncropped = filter.valueForKey_(Quartz.kCIOutputImageKey)
         return self.__update_image(uncropped)
 
-    def monochrome(self, color: XAColor, intensity: float = 1.0) -> 'XAImage':
+    def monochrome(self, color: XAColor, intensity: float = 1.0) -> XAImageModification:
+        """Remaps the colors of the image to shades of the specified color.
+
+        :param color: The color of map the image's colors to
+        :type color: XAColor
+        :param intensity: The strength of recoloring effect. Higher values map colors to darker shades of the provided color. Defaults to 1.0
+        :type intensity: float
+        :return: A tuple containing the old image (before edge detection) and the modified one
+        :rtype: XAImageModification
+
+        .. versionadded:: 0.1.0
+        """
         ci_color = Quartz.CIColor.alloc().initWithColor_(color.xa_elem)
         image = Quartz.CIImage.imageWithData_(self.data)
         filter = Quartz.CIFilter.filterWithName_("CIColorMonochrome")
@@ -7544,7 +8068,20 @@ class XAImage(XAObject, XAClipboardCodable):
         uncropped = filter.valueForKey_(Quartz.kCIOutputImageKey)
         return self.__update_image(uncropped)
 
-    def bump(self, center: Union[Tuple[int, int], None] = None, radius: float = 300.0, intensity: float = 0.5) -> 'XAImage':
+    def bump(self, center: Union[Tuple[int, int], None] = None, radius: float = 300.0, curvature: float = 0.5) -> XAImageModification:
+        """Creates a concave (inward) or convex (outward) bump at the specified location within the image.
+
+        :param center: The center point of the effect, or None to use the center of the image, defaults to None
+        :type center: Union[Tuple[int, int], None]
+        :param radius: The radius of the bump in pixels, defaults to 300.0
+        :type radius: float
+        :param curvature: Controls the direction and intensity of the bump's curvature. Positive values create convex bumps while negative values create concave bumps. Defaults to 0.5
+        :type curvature: float
+        :return: A tuple containing the old image (before edge detection) and the modified one
+        :rtype: XAImageModification
+
+        .. versionadded:: 0.1.0
+        """
         if center is None:
             center = Quartz.CIVector.vectorWithX_Y_(self.size[0] / 2, self.size[1] / 2)
         else:
@@ -7556,11 +8093,22 @@ class XAImage(XAObject, XAClipboardCodable):
         filter.setValue_forKey_(image, "inputImage")
         filter.setValue_forKey_(center, "inputCenter")
         filter.setValue_forKey_(radius, "inputRadius")
-        filter.setValue_forKey_(intensity, "inputScale")
+        filter.setValue_forKey_(curvature, "inputScale")
         uncropped = filter.valueForKey_(Quartz.kCIOutputImageKey)
         return self.__update_image(uncropped)
 
-    def pinch(self, center: Union[Tuple[int, int], None] = None, scale: float = 0.5) -> 'XAImage':
+    def pinch(self, center: Union[Tuple[int, int], None] = None, intensity: float = 0.5) -> XAImageModification:
+        """Creates an inward pinch distortion at the specified location within the image.
+
+        :param center: The center point of the effect, or None to use the center of the image, defaults to None
+        :type center: Union[Tuple[int, int], None]
+        :param intensity: Controls the scale of the pinch effect. Higher values stretch pixels away from the specified center to a greater degree. Defaults to 0.5
+        :type intensity: float
+        :return: A tuple containing the old image (before edge detection) and the modified one
+        :rtype: XAImageModification
+
+        .. versionadded:: 0.1.0
+        """
         if center is None:
             center = Quartz.CIVector.vectorWithX_Y_(self.size[0] / 2, self.size[1] / 2)
         else:
@@ -7571,11 +8119,24 @@ class XAImage(XAObject, XAClipboardCodable):
         filter.setDefaults()
         filter.setValue_forKey_(image, "inputImage")
         filter.setValue_forKey_(center, "inputCenter")
-        filter.setValue_forKey_(scale, "inputScale")
+        filter.setValue_forKey_(intensity, "inputScale")
         uncropped = filter.valueForKey_(Quartz.kCIOutputImageKey)
         return self.__update_image(uncropped)
 
-    def twirl(self, center: Union[Tuple[int, int], None] = None, radius: float = 300.0, angle: float = 3.14) -> 'XAImage':
+    def twirl(self, center: Union[Tuple[int, int], None] = None, radius: float = 300.0, angle: float = 3.14) -> XAImageModification:
+        """Creates a twirl distortion by rotating pixels around the specified location within the image.
+
+        :param center: The center point of the effect, or None to use the center of the image, defaults to None
+        :type center: Union[Tuple[int, int], None]
+        :param radius: The pixel radius around the centerpoint that defines the area to apply the effect to, defaults to 300.0
+        :type radius: float
+        :param angle: The angle of the twirl in radians, defaults to 3.14
+        :type angle: float
+        :return: A tuple containing the old image (before edge detection) and the modified one
+        :rtype: XAImageModification
+
+        .. versionadded:: 0.1.0
+        """
         if center is None:
             center = Quartz.CIVector.vectorWithX_Y_(self.size[0] / 2, self.size[1] / 2)
         else:
@@ -7590,6 +8151,253 @@ class XAImage(XAObject, XAClipboardCodable):
         filter.setValue_forKey_(angle, "inputAngle")
         uncropped = filter.valueForKey_(Quartz.kCIOutputImageKey)
         return self.__update_image(uncropped)
+
+    def auto_enhance(self, correct_red_eye: bool = False, crop_to_features: bool = False, correct_rotation: bool = False) -> XAImageModification:
+        """Attempts to enhance the image by applying suggested filters.
+
+        :param correct_red_eye: Whether to attempt red eye removal, defaults to False
+        :type correct_red_eye: bool, optional
+        :param crop_to_features: Whether to crop the image to focus on the main features with it, defaults to False
+        :type crop_to_features: bool, optional
+        :param correct_rotation: Whether attempt perspective correction by rotating the image, defaults to False
+        :type correct_rotation: bool, optional
+        :return: A tuple containing the old image (before enhancement) and the new one
+        :rtype: XAImageModification
+
+        .. versionadded:: 0.1.0
+        """
+        ci_image = Quartz.CIImage.imageWithData_(self.data)
+        options = {
+            Quartz.kCIImageAutoAdjustRedEye: correct_red_eye,
+            Quartz.kCIImageAutoAdjustCrop: crop_to_features,
+            Quartz.kCIImageAutoAdjustLevel: correct_rotation
+        }
+        enhancements = ci_image.autoAdjustmentFiltersWithOptions_(options)
+        print(enhancements)
+        for filter in enhancements:
+            filter.setValue_forKey_(ci_image, "inputImage")
+            ci_image = filter.outputImage()
+        return self.__update_image(ci_image)
+
+    def flip_horizontally(self) -> XAImageModification:
+        """Flips the image horizontally.
+
+        :return: A tuple containing the old image (before flipping) and the new one
+        :rtype: XAImageModification
+
+        .. versionadded:: 0.1.0
+        """
+        # Backup the original image
+        old_image = XAImage(self.xa_elem)
+
+        flipped_image = AppKit.NSImage.alloc().initWithSize_(self.xa_elem.size())
+        imageBounds = AppKit.NSMakeRect(0, 0, self.size[0], self.size[1])
+
+        transform = AppKit.NSAffineTransform.alloc().init()
+        transform.translateXBy_yBy_(self.size[0], 0)
+        transform.scaleXBy_yBy_(-1, 1)
+
+        flipped_image.lockFocus()
+        transform.concat()
+        self.xa_elem.drawInRect_fromRect_operation_fraction_(imageBounds, Quartz.CGRectZero, AppKit.NSCompositingOperationCopy, 1.0)
+        flipped_image.unlockFocus()
+        return XAImage.XAImageModification(old_image, self)
+
+    def flip_vertically(self) -> XAImageModification:
+        """Flips the image vertically.
+
+        :return: A tuple containing the old image (before flipping) and the new one
+        :rtype: XAImageModification
+
+        .. versionadded:: 0.1.0
+        """
+        # Backup the original image
+        old_image = XAImage(self.xa_elem)
+
+        flipped_image = AppKit.NSImage.alloc().initWithSize_(self.xa_elem.size())
+        imageBounds = AppKit.NSMakeRect(0, 0, self.size[0], self.size[1])
+
+        transform = AppKit.NSAffineTransform.alloc().init()
+        transform.translateXBy_yBy_(0, self.size[1])
+        transform.scaleXBy_yBy_(1, -1)
+
+        flipped_image.lockFocus()
+        transform.concat()
+        self.xa_elem.drawInRect_fromRect_operation_fraction_(imageBounds, Quartz.CGRectZero, AppKit.NSCompositingOperationCopy, 1.0)
+        flipped_image.unlockFocus()
+        self.xa_elem = flipped_image
+        return XAImage.XAImageModification(old_image, self)
+
+    def rotate(self, degrees: float) -> XAImageModification:
+        """Rotates the image clockwise by the specified number of degrees.
+
+        :param degrees: The number of degrees to rotate the image by
+        :type degrees: float
+        :return: A tuple containing the old image (before rotating) and the new one
+        :rtype: XAImageModification
+
+        .. versionadded:: 0.1.0
+        """
+        # Backup the original image
+        old_image = XAImage(self.xa_elem)
+
+        sinDegrees = abs(math.sin(degrees * math.pi / 180.0))
+        cosDegrees = abs(math.cos(degrees * math.pi / 180.0))
+        newSize = Quartz.CGSizeMake(self.size[1] * sinDegrees + self.size[0] * cosDegrees, self.size[0] * sinDegrees + self.size[1] * cosDegrees)
+        rotated_image = AppKit.NSImage.alloc().initWithSize_(newSize)
+
+        imageBounds = Quartz.CGRectMake((newSize.width - self.size[0]) / 2, (newSize.height - self.size[1]) / 2, self.size[0], self.size[1])
+
+        transform = AppKit.NSAffineTransform.alloc().init()
+        transform.translateXBy_yBy_(newSize.width / 2, newSize.height / 2)
+        transform.rotateByDegrees_(degrees)
+        transform.translateXBy_yBy_(-newSize.width / 2, -newSize.height / 2)
+
+        rotated_image.lockFocus()
+        transform.concat()
+        self.xa_elem.drawInRect_fromRect_operation_fraction_(imageBounds, Quartz.CGRectZero, AppKit.NSCompositingOperationCopy, 1.0)
+        rotated_image.unlockFocus()
+        self.xa_elem = rotated_image
+        return XAImage.XAImageModification(old_image, self)
+
+    def scale(self, scale_factor_x: float, scale_factor_y: float) -> XAImageModification:
+        """Scales the image by the specified horizontal and vertical factors.
+
+        :param scale_factor_x: The factor by which to scale the image in the X dimension
+        :type scale_factor_x: float
+        :param scale_factor_y: The factor by which to scale the image in the Y dimension
+        :type scale_factor_y: float
+        :return: A tuple containing the old image (before scaling) and the new one
+        :rtype: XAImageModification
+
+        .. versionadded:: 0.1.0
+        """
+        # Backup the original image
+        old_image = XAImage(self.xa_elem)
+
+        scaled_image = AppKit.NSImage.alloc().initWithSize_(AppKit.NSMakeSize(self.size[0] * scale_factor_x, self.size[1] * scale_factor_y))
+        imageBounds = AppKit.NSMakeRect(0, 0, self.size[0], self.size[1])
+
+        transform = AppKit.NSAffineTransform.alloc().init()
+        transform.scaleXBy_yBy_(scale_factor_x, scale_factor_y)
+
+        scaled_image.lockFocus()
+        transform.concat()
+        self.xa_elem.drawInRect_fromRect_operation_fraction_(imageBounds, Quartz.CGRectZero, AppKit.NSCompositingOperationCopy, 1.0)
+        scaled_image.unlockFocus()
+        self.xa_elem = scaled_image
+        return XAImage.XAImageModification(old_image, self)
+
+    def pad(self, horizontal_border_width: int = 50, vertical_border_width: int = 50, pad_color: Union[XAColor, None] = None) -> XAImageModification:
+        """Pads the images with the specified color; adds a border around the image with the specified vertical and horizontal width.
+
+        :param horizontal_border_width: The border width, in pixels, in the x-dimension, defaults to 50
+        :type horizontal_border_width: int
+        :param vertical_border_width: The border width, in pixels, in the y-dimension, defaults to 50
+        :type vertical_border_width: int
+        :param pad_color: The color of the border, or None for a white border, defaults to None
+        :type pad_color: Union[XAColor, None]
+        :return: A tuple containing the old image (before padding) and the new one
+        :rtype: XAImageModification
+
+        .. versionadded:: 0.1.0
+        """
+        # Backup the original image
+        old_image = XAImage(self.xa_elem)
+
+        if pad_color is None:
+            # No color provided -- use white by default
+            pad_color = XAColor.white()
+
+        new_width = self.size[0] + horizontal_border_width * 2
+        new_height = self.size[1] + vertical_border_width * 2
+        color_swatch = pad_color.make_swatch(new_width, new_height)
+
+        color_swatch.xa_elem.lockFocus()
+        bounds = AppKit.NSMakeRect(horizontal_border_width, vertical_border_width, self.size[0], self.size[1])
+        self.xa_elem.drawInRect_(bounds)
+        color_swatch.xa_elem.unlockFocus()
+        self.xa_elem = color_swatch.xa_elem
+        return XAImage.XAImageModification(old_image, self)
+
+    def overlay(self, image: 'XAImage', location: Union[Tuple[int, int], None] = None, size: Union[Tuple[int, int], None] = None) -> XAImageModification:
+        """Overlays an image on top of this image, at the specified location, with the specified size.
+
+        :param image: The image to overlay on top of this image
+        :type image: XAImage
+        :param location: The bottom-left point of the overlaid image in the result, or None to use the bottom-left point of the background image, defaults to None
+        :type location: Union[Tuple[int, int], None]
+        :param size: The width and height of the overlaid image, or None to use the overlaid's images existing width and height, or (-1, -1) to use the dimensions of the background image, defaults to None
+        :type size: Union[Tuple[int, int], None]
+        :return: A tuple containing the old image (before adding an overlay) and the new one
+        :rtype: XAImageModification
+
+        .. versionadded:: 0.1.0
+        """
+        # Backup the original background image
+        old_image = XAImage(self.xa_elem)
+
+        if location is None:
+            # No location provided -- use the bottom-left point of the background image by default
+            location = (0, 0)
+
+        if size is None:
+            # No dimensions provided -- use size of overlay image by default
+            size = image.size
+        elif size == (-1, -1):
+            # Use remaining width/height of background image
+            size = (self.size[0] - location[0], self.size[1] - location[1])
+        elif size[0] == -1:
+            # Use remaining width of background image + provided height
+            size = (self.size[0] - location[0], size[1])
+        elif size[1] == -1:
+            # Use remaining height of background image + provided width
+            size = (size[1], self.size[1] - location[1])
+
+        self.xa_elem.lockFocus()
+        bounds = AppKit.NSMakeRect(location[0], location[1], size[0], size[1])
+        image.xa_elem.drawInRect_(bounds)
+        self.xa_elem.unlockFocus()
+        return XAImage.XAImageModification(old_image, self)
+
+    def overlay_text(self, text: str, location: Union[Tuple[int, int], None] = None, font_size: float = 12, font_color: Union[XAColor, None] = None):
+        """Overlays text of the specified size and color at the provided location within the image.
+
+        :param text: The text to overlay onto the image
+        :type text: str
+        :param location: The bottom-left point of the start of the text, or None to use (5, 5), defaults to None
+        :type location: Union[Tuple[int, int], None]
+        :param font_size: The font size, in pixels, of the text, defaults to 12
+        :type font_size: float
+        :param font_color: The color of the text, or None to use black, defaults to None
+        :type font_color: XAColor
+        :return: A tuple containing the old image (after overlaying text) and the new one
+        :rtype: XAImageModification
+
+        .. versionadded:: 0.1.0
+        """
+        # Backup the original background image
+        old_image = XAImage(self.xa_elem)
+
+        if location is None:
+            # No location provided -- use (5, 5) by default
+            location = (5, 5)
+
+        if font_color is None:
+            # No color provided -- use black by default
+            font_color = XAColor.black()
+
+        font = AppKit.NSFont.userFontOfSize_(font_size)
+        textRect = Quartz.CGRectMake(location[0], 0, self.size[0] - location[0], location[1])
+        attributes = {
+            AppKit.NSFontAttributeName: font,
+            AppKit.NSForegroundColorAttributeName: font_color.xa_elem
+        }
+
+        self.xa_elem.lockFocus()
+        AppKit.NSString.alloc().initWithString_(text).drawInRect_withAttributes_(textRect, attributes)
+        self.xa_elem.unlockFocus()
+        return XAImage.XAImageModification(old_image, self)
 
     def extract_text(self) -> List[str]:
         """Extracts and returns all visible text in the image.
@@ -7658,6 +8466,15 @@ class XAImage(XAObject, XAClipboardCodable):
         fm.createFileAtPath_contents_attributes_(file_path, self.data, None)
 
     def get_clipboard_representation(self) -> AppKit.NSImage:
+        """Gets a clipboard-codable representation of the iimage.
+
+        When the clipboard content is set to an image, the image itself, including any modifications, is added to the clipboard. Pasting will then insert the image into the active document.
+
+        :return: The raw NSImage object for this XAIMage
+        :rtype: AppKit.NSImage
+
+        .. versionadded:: 0.1.0
+        """
         return self.xa_elem
 
 
@@ -7836,3495 +8653,3 @@ class XASound(XAObject, XAClipboardCodable):
         .. versionadded:: 0.0.8
         """
         return [self.xa_elem, self.file.xa_elem, self.file.xa_elem.path()]
-
-
-
-
-class XAMediaApplication(XAApplication, XACanOpenPath):
-    """A class for managing and interacting with media apps.
-
-    .. seealso:: :class:`XAMediaWindow`, class:`XAMediaSource`, :class:`XAMediaPlaylist`, :class:`XAMediaTrack`
-
-    .. versionadded:: 0.0.1
-    """
-    class PlayerState(Enum):
-        """States of the music player.
-        """
-        STOPPED         = OSType('kPSS') #: The player is stopped
-        PLAYING         = OSType('kPSP') #: The player is playing
-        PAUSED          = OSType('kPSp') #: The player is paused
-        FAST_FORWARDING = OSType('kPSF') #: The player is fast forwarding
-        REWINDING       = OSType('kPSR') #: The player is rewinding
-
-    class SourceKind(Enum):
-        """Types of sources for media items.
-        """
-        LIBRARY         = OSType('kLib') #: A library source
-        AUDIO_CD        = OSType('kACD') #: A CD source
-        MP3_CD          = OSType('kMCD') #: An MP3 file source
-        RADIO_TUNER     = OSType('kTun') #: A radio source
-        SHARED_LIBRARY  = OSType('kShd') #: A shared library source
-        ITUNES_STORE    = OSType('kITS') #: The iTunes Store source
-        UNKNOWN         = OSType('kUnk') #: An unknown source
-
-    class SearchFilter(Enum):
-        """Filter restrictions on search results.
-        """
-        ALBUMS      = OSType('kSrL') #: Search albums
-        ALL         = OSType('kAll') #: Search all
-        ARTISTS     = OSType('kSrR') #: Search artists
-        COMPOSERS   = OSType('kSrC') #: Search composers
-        DISPLAYED   = OSType('kSrV') #: Search the currently displayed playlist
-        NAMES       = OSType('kSrS') #: Search track names only
-    
-    class PlaylistKind(Enum):
-        """Types of special playlists.
-        """
-        NONE            = OSType('kNon') #: An unknown playlist kind
-        FOLDER          = OSType('kSpF') #: A folder
-        GENIUS          = OSType('kSpG') #: A smart playlist
-        LIBRARY         = OSType('kSpL') #: The system library playlist
-        MUSIC           = OSType('kSpZ') #: A playlist containing music items
-        PURCHASED_MUSIC = OSType('kSpM') #: The purchased music playlist
-        USER            = OSType('cUsP') #: A user-created playlist
-        USER_LIBRARY    = OSType('cLiP') #: The user's library
-
-    class MediaKind(Enum):
-        """Types of media items.
-        """
-        SONG        = OSType('kMdS') #: A song media item
-        MUSIC_VIDEO = OSType('kVdV') #: A music video media item
-        UNKNOWN     = OSType('kUnk') #: An unknown media item kind
-
-    class RatingKind(Enum):
-        """Types of ratings for media items.
-        """
-        USER        = OSType('kRtU') #: A user-inputted rating
-        COMPUTED    = OSType('kRtC') #: A computer generated rating
-
-    def __init__(self, properties):
-        super().__init__(properties)
-        self.xa_wcls = XAMediaWindow
-
-        self.current_playlist: XAMediaPlaylist #: The playlist containing the currently targeted track
-        self.current_stream_title: str #: The name of the current streaming track
-        self.current_stream_url: str #: The URL of the current streaming 
-        self.current_track: XAMediaTrack #: The currently targeted track
-        self.fixed_indexing: bool #: Whether the track indices are independent of the order of the current playlist or not
-        self.frontmost: bool #: Whether the application is active or not
-        self.full_screen: bool #: Whether the app is fullscreen or not
-        self.name: str #: The name of the application
-        self.mute: bool #: Whether sound output is muted or not
-        self.player_position: float #: The time elapsed in the current track
-        self.player_state: str #: Whether the player is playing, paused, stopped, fast forwarding, or rewinding
-        self.selection: str #: The selected ..............
-        self.sound_volume: int #: The sound output volume
-        self.version: str #: The version of the application
-
-    @property
-    def current_playlist(self) -> 'XAMediaPlaylist':
-        return self._new_element(self.xa_scel.currentPlaylist(), XAMediaPlaylist)
-
-    @property
-    def current_stream_title(self) -> str:
-        return self.xa_scel.currentStreamTitle()
-
-    @property
-    def current_stream_url(self) -> str:
-        return self.xa_scel.currentStreamURL()
-
-    @property
-    def current_track(self) -> 'XAMediaTrack':
-        return self._new_element(self.xa_scel.currentTrack(), XAMediaTrack)
-
-    @property
-    def fixed_indexing(self) -> bool:
-        return self.xa_scel.fixedIndexing()
-
-    @fixed_indexing.setter
-    def fixed_indexing(self, fixed_indexing: bool):
-        self.set_property('fixedIndexing', fixed_indexing)
-
-    @property
-    def frontmost(self) -> bool:
-        return self.xa_scel.frontmost()
-
-    @frontmost.setter
-    def frontmost(self, frontmost: bool):
-        self.set_property('frontmost', frontmost)
-
-    @property
-    def full_screen(self) -> bool:
-        return self.xa_scel.fullScreen()
-
-    @full_screen.setter
-    def full_screen(self, full_screen: bool):
-        self.set_property('fullScreen', full_screen)
-
-    @property
-    def name(self) -> str:
-        return self.xa_scel.name()
-
-    @property
-    def mute(self) -> bool:
-        return self.xa_scel.mute()
-
-    @mute.setter
-    def mute(self, mute: bool):
-        self.set_property('mute', mute)
-
-    @property
-    def player_position(self) -> float:
-        return self.xa_scel.playerPosition()
-
-    @player_position.setter
-    def player_position(self, player_position: float):
-        self.set_property('playerPosition', player_position)
-
-    @property
-    def player_state(self) -> 'XAMediaApplication.PlayerState':
-        return XAMediaApplication.PlayerState(self.xa_scel.playerState())
-
-    @property
-    def selection(self) -> 'XAMediaItemList':
-        return self._new_element(self.xa_scel.selection().get(), XAMediaTrackList)
-
-    @property
-    def sound_volume(self) -> int:
-        return self.xa_scel.soundVolume()
-
-    @sound_volume.setter
-    def sound_volume(self, sound_volume: int):
-        self.set_property('soundVolume', sound_volume)
-
-    @property
-    def version(self) -> str:
-        return self.xa_scel.version()
-
-    def play(self, item: 'XAMediaItem' = None) -> 'XAMediaApplication':
-        """Plays the specified TV item (e.g. track, playlist, etc.). If no item is provided, this plays the current track from its current player position.
-
-        :param item: The track, playlist, or video to play, defaults to None
-        :type item: _XAMediaItem, optional
-        :return: A reference to the TV application object.
-        :rtype: XAMediaApplication
-
-        .. seealso:: :func:`playpause`, :func:`pause`, :func:`stop`
-
-        .. versionadded:: 0.0.1
-        """
-        self.xa_scel.playOnce_(item)
-        return self
-
-    def playpause(self) -> 'XAMediaApplication':
-        """Toggles the playing/paused state of the current track.
-
-        :return: A reference to the TV application object.
-        :rtype: XAMediaApplication
-
-        .. seealso:: :func:`play`, :func:`pause`, :func:`stop`
-
-        .. versionadded:: 0.0.1
-        """
-        self.xa_scel.playpause()
-        return self
-
-    def pause(self) -> 'XAMediaApplication':
-        """Pauses the current track.
-
-        :return: A reference to the TV application object.
-        :rtype: XAMediaApplication
-
-        .. seealso:: :func:`play`, :func:`playpause`, :func:`stop`
-
-        .. versionadded:: 0.0.1
-        """
-        self.xa_scel.pause()
-        return self
-
-    def stop(self) -> 'XAMediaApplication':
-        """Stops playback of the current track. Subsequent playback will start from the beginning of the track.
-
-        :return: A reference to the TV application object.
-        :rtype: XAMediaApplication
-
-        .. seealso:: :func:`play`, :func:`playpause`, :func:`pause`
-
-        .. versionadded:: 0.0.1
-        """
-        self.xa_scel.stop()
-        return self
-
-    def next_track(self) -> 'XAMediaApplication':
-        """Advances to the next track in the current playlist.
-
-        :return: A reference to the TV application object.
-        :rtype: XAMediaApplication
-
-        .. seealso:: :func:`back_track`, :func:`previous_track`
-
-        .. versionadded:: 0.0.1
-        """
-        self.xa_scel.nextTrack()
-        return self
-
-    def back_track(self) -> 'XAMediaApplication':
-        """Restarts the current track or returns to the previous track if playback is currently at the start.
-
-        :return: A reference to the TV application object.
-        :rtype: XAMediaApplication
-
-        .. seealso:: :func:`next_track`, :func:`previous_track`
-
-        .. versionadded:: 0.0.1
-        """
-        self.xa_scel.backTrack()
-        return self
-
-    def previous_track(self) -> 'XAMediaApplication':
-        """Returns to the previous track in the current playlist.
-
-        :return: A reference to the TV application object.
-        :rtype: XAMediaApplication
-
-        .. seealso:: :func:`next_track`, :func:`back_track`
-
-        .. versionadded:: 0.0.1
-        """
-        self.xa_scel.previousTrack()
-        return self
-
-    def fast_forward(self) -> 'XAMediaApplication':
-        """Repeated skip forward in the track until resume() is called.
-
-        :return: A reference to the TV application object.
-        :rtype: XAMediaApplication
-
-        .. seealso:: :func:`rewind`, :func:`resume`
-
-        .. versionadded:: 0.0.1
-        """
-        self.xa_scel.fastForward()
-        return self
-
-    def rewind(self) -> 'XAMediaApplication':
-        """Repeatedly skip backward in the track until resume() is called.
-
-        :return: A reference to the TV application object.
-        :rtype: XAMediaApplication
-
-        .. seealso:: :func:`fast_forward`, :func:`resume`
-
-        .. versionadded:: 0.0.1
-        """
-        self.xa_scel.rewind()
-        return self
-
-    def resume(self) -> 'XAMediaApplication':
-        """Returns to normal playback after calls to fast_forward() or rewind().
-
-        :return: A reference to the TV application object.
-        :rtype: XAMediaApplication
-
-        .. seealso:: :func:`fast_forward`, :func:`rewind`
-
-        .. versionadded:: 0.0.1
-        """
-        self.xa_scel.resume()
-        return self
-
-    def open_location(self, video_url: str) -> 'XAMediaApplication':
-        """Opens and plays an video stream URL or iTunes Store URL.
-
-        :param audio_url: The URL of an audio stream (e.g. a web address to an MP3 file) or an item in the iTunes Store.
-        :type audio_url: str
-        :return: _description_
-        :rtype: XAMediaApplication
-
-        .. versionadded:: 0.0.1
-        """
-        self.xa_scel.openLocation_(video_url)
-        return self
-
-    def set_volume(self, new_volume: float) -> 'XAMediaApplication':
-        """Sets the volume of playback.
-
-        :param new_volume: The desired volume of playback.
-        :type new_volume: float
-        :return: A reference to the TV application object.
-        :rtype: XAMediaApplication
-
-        .. versionadded:: 0.0.1
-        """
-        self.set_property("soundVolume", new_volume)
-        return self
-
-    def current_track(self) -> 'XAMediaTrack':
-        """Returns the currently playing (or paused but not stopped) track.
-
-        .. versionadded:: 0.0.1
-        """
-        properties = {
-            "parent": self,
-            "appspace": self.xa_apsp,
-            "workspace": self.xa_wksp,
-            "element": self.xa_scel.currentTrack(),
-            "appref": self.xa_aref,
-            "system_events": self.xa_sevt,
-        }
-        return XAMediaTrack(properties)
-
-    # def convert(self, items):
-    #     self.xa_scel.convert_([item.xa_elem for item in items])
-
-    def browser_windows(self, filter: Union[dict, None] = None) -> 'XAMediaBrowserWindowList':
-        """Returns a list of browser windows, as PyXA objects, matching the given filter.
-
-        :param filter: A dictionary specifying property-value pairs that all returned browser windows will have, or None
-        :type filter: Union[dict, None]
-        :return: The list of windows
-        :rtype: XAMediaBrowserWindowList
-
-        .. versionadded:: 0.0.1
-        """
-        return self._new_element(self.xa_scel.browserWindows(), XAMediaBrowserWindowList, filter)
-
-    def playlists(self, filter: Union[dict, None] = None) -> 'XAMediaPlaylistList':
-        """Returns a list of playlists, as PyXA objects, matching the given filter.
-
-        :param filter: A dictionary specifying property-value pairs that all returned playlists will have, or None
-        :type filter: Union[dict, None]
-        :return: The list of playlists
-        :rtype: XAMediaPlaylistList
-
-        .. versionadded:: 0.0.1
-        """
-        return self._new_element(self.xa_scel.playlists(), XAMediaPlaylistList, filter)
-
-    def playlist_windows(self, filter: Union[dict, None] = None) -> 'XAMediaPlaylistWindowList':
-        """Returns a list of playlist windows, as PyXA objects, matching the given filter.
-
-        :param filter: A dictionary specifying property-value pairs that all returned playlist windows will have, or None
-        :type filter: Union[dict, None]
-        :return: The list of windows
-        :rtype: XAMediaPlaylistWindowList
-
-        .. versionadded:: 0.0.1
-        """
-        return self._new_element(self.xa_scel.playlistWindows(), XAMediaPlaylistWindowList, filter)
-
-    def sources(self, filter: Union[dict, None] = None) -> 'XAMediaSourceList':
-        """Returns a list of sources, as PyXA objects, matching the given filter.
-
-        :param filter: A dictionary specifying property-value pairs that all returned sources will have, or None
-        :type filter: Union[dict, None]
-        :return: The list of sources
-        :rtype: XAMediaSourceList
-
-        .. versionadded:: 0.0.1
-        """
-        return self._new_element(self.xa_scel.sources(), XAMediaSourceList, filter)
-
-    def tracks(self, filter: Union[dict, None] = None) -> 'XAMediaTrackList':
-        """Returns a list of tracks, as PyXA objects, matching the given filter.
-
-        :param filter: A dictionary specifying property-value pairs that all returned tracks will have, or None
-        :type filter: Union[dict, None]
-        :return: The list of tracks
-        :rtype: XAMediaTrackList
-
-        .. versionadded:: 0.0.1
-        """
-        return self._new_element(self.xa_scel.tracks(), XAMediaTrackList, filter)
-
-    def video_windows(self, filter: Union[dict, None] = None) -> 'XAMediaVideoWindowList':
-        """Returns a list of video windows, as PyXA objects, matching the given filter.
-
-        :param filter: A dictionary specifying property-value pairs that all returned video windows will have, or None
-        :type filter: Union[dict, None]
-        :return: The list of windows
-        :rtype: XAMediaVideoWindowList
-
-        .. versionadded:: 0.0.1
-        """
-        return self._new_element(self.xa_scel.videoWindows(), XAMediaVideoWindowList, filter)
-
-
-
-
-class XAMediaItemList(XAList):
-    """A wrapper around lists of music items that employs fast enumeration techniques.
-
-    All properties of music items can be called as methods on the wrapped list, returning a list containing each item's value for the property.
-
-    .. versionadded:: 0.0.7
-    """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None, obj_class = None):
-        if obj_class is None:
-            obj_class = XAMediaItem
-        super().__init__(properties, obj_class, filter)
-
-    def container(self) -> List[XAObject]:
-        """Gets the container of each music item in the list.
-
-        :return: A list of music item containers
-        :rtype: List[XAObject]
-        
-        .. versionadded:: 0.0.7
-        """
-        ls = self.xa_elem.arrayByApplyingSelector_("container")
-        return self._new_element(ls, XAList)
-
-    def id(self) -> List[int]:
-        """Gets the ID of each music item in the list.
-
-        :return: A list of music item IDs
-        :rtype: List[int]
-        
-        .. versionadded:: 0.0.7
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("id"))
-
-    def index(self) -> List[int]:
-        """Gets the index of each music item in the list.
-
-        :return: A list of music item indices
-        :rtype: List[nt]
-        
-        .. versionadded:: 0.0.7
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("index"))
-
-    def name(self) -> List[str]:
-        """Gets the name of each music item in the list.
-
-        :return: A list of music item names
-        :rtype: List[str]
-        
-        .. versionadded:: 0.0.7
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("name"))
-
-    def persistent_id(self) -> List[str]:
-        """Gets the persistent ID of each music item in the list.
-
-        :return: A list of music item persistent IDs
-        :rtype: List[str]
-        
-        .. versionadded:: 0.0.7
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("persistentID"))
-    
-    def properties(self) -> List[dict]:
-        """Gets the properties of each music item in the list.
-
-        :return: A list of music item properties dictionaries
-        :rtype: List[dict]
-        
-        .. versionadded:: 0.0.7
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("properties"))
-
-    def by_container(self, container: XAObject) -> Union['XAMediaItem', None]:
-        """Retrieves the first music item whose container matches the given container object, if one exists.
-
-        :return: The desired music item, if it is found
-        :rtype: Union[XAMediaItem, None]
-        
-        .. versionadded:: 0.0.7
-        """
-        return self.by_property("container", container.xa_elem)
-
-    def by_id(self, id: int) -> Union['XAMediaItem', None]:
-        """Retrieves the music item whose ID matches the given ID, if one exists.
-
-        :return: The desired music item, if it is found
-        :rtype: Union[XAMediaItem, None]
-        
-        .. versionadded:: 0.0.7
-        """
-        return self.by_property("id", id)
-
-    def by_index(self, index: int) -> Union['XAMediaItem', None]:
-        """Retrieves the music item whose index matches the given index, if one exists.
-
-        :return: The desired music item, if it is found
-        :rtype: Union[XAMediaItem, None]
-        
-        .. versionadded:: 0.0.7
-        """
-        return self.by_property("index", index)
-
-    def by_name(self, name: str) -> Union['XAMediaItem', None]:
-        """Retrieves the music item whose name matches the given name, if one exists.
-
-        :return: The desired music item, if it is found
-        :rtype: Union[XAMediaItem, None]
-        
-        .. versionadded:: 0.0.7
-        """
-        return self.by_property("name", name)
-
-    def by_persistent_id(self, persistent_id: str) -> Union['XAMediaItem', None]:
-        """Retrieves the music item whose persistent ID matches the given ID, if one exists.
-
-        :return: The desired music item, if it is found
-        :rtype: Union[XAMediaItem, None]
-        
-        .. versionadded:: 0.0.7
-        """
-        return self.by_property("persistentID", persistent_id)
-
-    def by_properties(self, properties: dict) -> Union['XAMediaItem', None]:
-        """Retrieves the music item whose properties dictionary matches the given dictionary, if one exists.
-
-        :return: The desired music item, if it is found
-        :rtype: Union[XAMediaItem, None]
-        
-        .. versionadded:: 0.0.7
-        """
-        return self.by_property("properties", properties)
-
-    def get_clipboard_representation(self) -> List[str]:
-        """Gets a clipboard-codable representation of each music item in the list.
-
-        When a list of music items is copied to the clipboard, the name of each item is added to the clipboard.
-
-        :return: A list of track names
-        :rtype: List[str]
-
-        .. versionadded:: 0.0.8
-        """
-        return self.name()
-
-    def __repr__(self):
-        return "<" + str(type(self)) + str(self.name()) + ">"
-
-class XAMediaItem(XAObject):
-    """A generic class with methods common to the various playable media classes in media apps.
-
-    .. seealso:: :class:`XAMediaSource`, :class:`XAMediaPlaylist`, :class:`XAMediaTrack`
-
-    .. versionadded:: 0.0.1
-    """
-    def __init__(self, properties):
-        super().__init__(properties)
-        self.container: XAObject #: The container of the item
-        self.id: int #: The ID of the item
-        self.index: int #: The index of the item in the internal application order
-        self.name: str #: The name of the item
-        self.persistent_id: str #: The constant unique identifier for the item
-        self.properties: dict #: Every property of the item
-
-    @property
-    def container(self) -> XAObject:
-        return self._new_element(self.xa_elem.container(), XAObject)
-
-    @property
-    def id(self) -> int:
-        return self.xa_elem.id()
-
-    @property
-    def index(self) -> int:
-        return self.xa_elem.index()
-
-    @property
-    def name(self) -> str:
-        return self.xa_elem.name()
-
-    @name.setter
-    def name(self, name: str):
-        self.set_property('name', name)
-
-    @property
-    def persistent_id(self) -> str:
-        return self.xa_elem.persistentID()
-
-    @property
-    def properties(self) -> dict:
-        return self.xa_elem.properties()
-
-    def download(self) -> 'XAMediaItem':
-        """Downloads the item into the local library.
-
-        :return: A reference to the TV item object.
-        :rtype: XAMediaItem
-
-        .. versionadded:: 0.0.1
-        """
-        self.xa_elem.download()
-        return self
-
-    def reveal(self) -> 'XAMediaItem':
-        """Reveals the item in the media apps window.
-
-        :return: A reference to the TV item object.
-        :rtype: XAMediaItem
-
-        .. seealso:: :func:`select`
-        
-        .. versionadded:: 0.0.1
-        """
-        self.xa_elem.reveal()
-        return self
-
-    def get_clipboard_representation(self) -> str:
-        """Gets a clipboard-codable representation of the music item.
-
-        When a music item is copied to the clipboard, the name of the music item is added to the clipboard.
-
-        :return: The name of the music item
-        :rtype: str
-
-        .. versionadded:: 0.0.8
-        """
-        return self.name
-
-
-
-
-class XAMediaArtworkList(XAMediaItemList):
-    """A wrapper around lists of music artworks that employs fast enumeration techniques.
-
-    All properties of music artworks can be called as methods on the wrapped list, returning a list containing each artworks's value for the property.
-
-    .. versionadded:: 0.0.7
-    """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, filter, XAMediaArtwork)
-
-    def data(self) -> List[XAImage]:
-        """Gets the data image of each artwork in the list.
-
-        :return: A list of artwork images
-        :rtype: List[XAImage]
-        
-        .. versionadded:: 0.0.7
-        """
-        ls = self.xa_elem.arrayByApplyingSelector_("data")
-        return [XAImage(x) for x in ls]
-
-    def object_description(self) -> List[str]:
-        """Gets the description of each artwork in the list.
-
-        :return: A list of artwork descriptions
-        :rtype: List[str]
-        
-        .. versionadded:: 0.0.7
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("objectDescription"))
-
-    def downloaded(self) -> List[bool]:
-        """Gets the download status of each artwork in the list.
-
-        :return: A list of artwork download statuses
-        :rtype: List[bool]
-        
-        .. versionadded:: 0.0.7
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("downloaded"))
-
-    def format(self) -> List[int]:
-        """Gets the format of each artwork in the list.
-
-        :return: A list of artwork formats
-        :rtype: List[int]
-        
-        .. versionadded:: 0.0.7
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("format"))
-
-    def kind(self) -> List[int]:
-        """Gets the kind of each artwork in the list.
-
-        :return: A list of artwork kinds
-        :rtype: List[int]
-        
-        .. versionadded:: 0.0.7
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("kind"))
-
-    def raw_data(self) -> List[bytes]:
-        """Gets the raw data of each artwork in the list.
-
-        :return: A list of artwork raw data
-        :rtype: List[bytes]
-        
-        .. versionadded:: 0.0.7
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("rawData"))
-
-    def by_data(self, data: XAImage) -> Union['XAMediaArtwork', None]:
-        """Retrieves the artwork whose data matches the given image, if one exists.
-
-        :return: The desired artwork, if it is found
-        :rtype: Union[XAMediaArtwork, None]
-        
-        .. versionadded:: 0.0.7
-        """
-        return self.by_property("data", data.xa_elem)
-
-    def by_object_description(self, object_description: str) -> Union['XAMediaArtwork', None]:
-        """Retrieves the artwork whose description matches the given description, if one exists.
-
-        :return: The desired artwork, if it is found
-        :rtype: Union[XAMediaArtwork, None]
-        
-        .. versionadded:: 0.0.7
-        """
-        return self.by_property("objectDescription", object_description)
-
-    def by_downloaded(self, downloaded: bool) -> Union['XAMediaArtwork', None]:
-        """Retrieves the first artwork whose downloaded status matches the given boolean value, if one exists.
-
-        :return: The desired artwork, if it is found
-        :rtype: Union[XAMediaArtwork, None]
-        
-        .. versionadded:: 0.0.7
-        """
-        return self.by_property("downloaded", downloaded)
-
-    def by_format(self, format: int) -> Union['XAMediaArtwork', None]:
-        """Retrieves the first artwork whose format matches the format, if one exists.
-
-        :return: The desired artwork, if it is found
-        :rtype: Union[XAMediaArtwork, None]
-        
-        .. versionadded:: 0.0.7
-        """
-        return self.by_property("format", format)
-
-    def by_kind(self, kind: int) -> Union['XAMediaArtwork', None]:
-        """Retrieves the first artwork whose kind matches the given kind, if one exists.
-
-        :return: The desired artwork, if it is found
-        :rtype: Union[XAMediaArtwork, None]
-        
-        .. versionadded:: 0.0.7
-        """
-        return self.by_property("kind", kind)
-
-    def by_raw_data(self, raw_data: bytes) -> Union['XAMediaArtwork', None]:
-        """Retrieves the artwork whose raw data matches the given byte data, if one exists.
-
-        :return: The desired artwork, if it is found
-        :rtype: Union[XAMediaArtwork, None]
-        
-        .. versionadded:: 0.0.7
-        """
-        return self.by_property("rawData", raw_data)
-
-class XAMediaArtwork(XAMediaItem):
-    """An artwork in media apps.
-
-    .. versionadded:: 0.0.1
-    """
-    def __init__(self, properties):
-        super().__init__(properties)
-        self.data: XAImage #: The data for the artwork in the form of a picture
-        self.object_description: str #: The string description of the artwork
-        self.downloaded: bool #: Whether the artwork was downloaded by media apps
-        self.format: int #: The data format for the artwork
-        self.kind: int #: The kind/purpose of the artwork
-        self.raw_data: bytes #: The data for the artwork in original format
-
-    @property
-    def data(self) -> XAImage:
-        return XAImage(self.xa_elem.data())
-
-    @data.setter
-    def data(self, data: XAImage):
-        self.set_property('data', data.xa_elem)
-
-    @property
-    def object_description(self) -> str:
-        return self.xa_elem.objectDescription()
-
-    @object_description.setter
-    def object_description(self, object_description: str):
-        self.set_property('objectDescription', object_description)
-
-    @property
-    def downloaded(self) -> bool:
-        return self.xa_elem.downloaded()
-
-    @property
-    def format(self) -> int:
-        return self.xa_elem.format()
-
-    @property
-    def kind(self) -> int:
-        return self.xa_elem.kind()
-
-    @kind.setter
-    def kind(self, kind: int):
-        self.set_property('kind', kind)
-
-    @property
-    def raw_data(self) -> bytes:
-        return self.xa_elem.rawData()
-
-    @raw_data.setter
-    def raw_data(self, raw_data: str):
-        self.set_property('rawData', raw_data)
-
-
-
-
-class XAMediaPlaylistList(XAMediaItemList):
-    """A wrapper around lists of playlists that employs fast enumeration techniques.
-
-    All properties of playlists can be called as methods on the wrapped list, returning a list containing each playlist's value for the property.
-
-    .. versionadded:: 0.0.7
-    """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None, obj_class = None):
-        if obj_class is None:
-            obj_class = XAMediaPlaylist
-        super().__init__(properties, filter, obj_class)
-
-    def object_description(self) -> List[str]:
-        """Gets the description of each playlist in the list.
-
-        :return: A list of playlist descriptions
-        :rtype: List[str]
-        
-        .. versionadded:: 0.0.7
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("objectDescription"))
-
-    def duration(self) -> List[int]:
-        """Gets the duration of each playlist in the list.
-
-        :return: A list of playlist durations
-        :rtype: List[int]
-        
-        .. versionadded:: 0.0.7
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("duration"))
-
-    def name(self) -> List[str]:
-        """Gets the name of each playlist in the list.
-
-        :return: A list of playlist names
-        :rtype: List[str]
-        
-        .. versionadded:: 0.0.7
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("name"))
-
-    def parent(self) -> 'XAMediaPlaylistList':
-        """Gets the parent playlist of each playlist in the list.
-
-        :return: A list of playlist parent playlists
-        :rtype: XAMediaPlaylistList
-        
-        .. versionadded:: 0.0.7
-        """
-        ls = self.xa_elem.arrayByApplyingSelector_("parent")
-        return self._new_element(ls, XAMediaPlaylistList)
-
-    def size(self) -> List[int]:
-        """Gets the size of each playlist in the list.
-
-        :return: A list of playlist sizes
-        :rtype: List[int]
-        
-        .. versionadded:: 0.0.7
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("size"))
-
-    def special_kind(self) -> List[XAMediaApplication.PlaylistKind]:
-        """Gets the special kind of each playlist in the list.
-
-        :return: A list of playlist kinds
-        :rtype: List[str]
-        
-        .. versionadded:: 0.0.7
-        """
-        ls = self.xa_elem.arrayByApplyingSelector_("specialKind")
-        return [XAMediaApplication.PlaylistKind(OSType(x.stringValue())) for x in ls]
-
-    def time(self) -> List[str]:
-        """Gets the time, in HH:MM:SS format, of each playlist in the list.
-
-        :return: A list of playlist times
-        :rtype: List[str]
-        
-        .. versionadded:: 0.0.7
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("time"))
-
-    def visible(self) -> List[bool]:
-        """Gets the visible status of each playlist in the list.
-
-        :return: A list of playlist visible statuses
-        :rtype: List[bool]
-        
-        .. versionadded:: 0.0.7
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("visible"))
-
-    def by_object_description(self, object_description: str) -> Union['XAMediaPlaylist', None]:
-        """Retrieves the playlist whose closeable description matches the given description, if one exists.
-
-        :return: The desired playlist, if it is found
-        :rtype: Union[XAMediaPlaylist, None]
-        
-        .. versionadded:: 0.0.7
-        """
-        return self.by_property("objectDescription", object_description)
-
-    def by_duration(self, duration: int) -> Union['XAMediaPlaylist', None]:
-        """Retrieves the first playlist whose duration matches the given duration, if one exists.
-
-        :return: The desired playlist, if it is found
-        :rtype: Union[XAMediaPlaylist, None]
-        
-        .. versionadded:: 0.0.7
-        """
-        return self.by_property("duration", duration)
-
-    def by_name(self, name: str) -> Union['XAMediaPlaylist', None]:
-        """Retrieves the playlist whose name matches the given name, if one exists.
-
-        :return: The desired playlist, if it is found
-        :rtype: Union[XAMediaPlaylist, None]
-        
-        .. versionadded:: 0.0.7
-        """
-        return self.by_property("name", name)
-
-    def by_parent(self, parent: 'XAMediaPlaylist') -> Union['XAMediaPlaylist', None]:
-        """Retrieves the playlist whose parent matches the given playlist, if one exists.
-
-        :return: The desired playlist, if it is found
-        :rtype: Union[XAMediaPlaylist, None]
-        
-        .. versionadded:: 0.0.7
-        """
-        return self.by_property("parent", parent.xa_elem)
-
-    def by_size(self, size: int) -> Union['XAMediaPlaylist', None]:
-        """Retrieves the playlist whose size matches the given size, if one exists.
-
-        :return: The desired playlist, if it is found
-        :rtype: Union[XAMediaPlaylist, None]
-        
-        .. versionadded:: 0.0.7
-        """
-        return self.by_property("size", size)
-
-    def by_special_kind(self, special_kind: XAMediaApplication.PlaylistKind) -> Union['XAMediaPlaylist', None]:
-        """Retrieves the playlist whose kind matches the given kind, if one exists.
-
-        :return: The desired playlist, if it is found
-        :rtype: Union[XAMediaPlaylist, None]
-        
-        .. versionadded:: 0.0.7
-        """
-        return self.by_property("specialKind", special_kind.value)
-
-    def by_time(self, time: str) -> Union['XAMediaPlaylist', None]:
-        """Retrieves the playlist whose time string matches the given string, if one exists.
-
-        :return: The desired playlist, if it is found
-        :rtype: Union[XAMediaPlaylist, None]
-        
-        .. versionadded:: 0.0.7
-        """
-        return self.by_property("time", time)
-
-    def by_visible(self, visible: bool) -> Union['XAMediaPlaylist', None]:
-        """Retrieves the playlist whose visible status matches the given boolean value, if one exists.
-
-        :return: The desired playlist, if it is found
-        :rtype: Union[XAMediaPlaylist, None]
-        
-        .. versionadded:: 0.0.7
-        """
-        return self.by_property("visible", visible)
-
-class XAMediaPlaylist(XAMediaItem):
-    """A playlist in media apps.
-
-    .. seealso:: :class:`XAMediaLibraryPlaylist`, :class:`XAMediaUserPlaylist`
-
-    .. versionadded:: 0.0.1
-    """
-    def __init__(self, properties):
-        super().__init__(properties)
-        self.object_description: str #: The string description of the playlist
-        self.disliked: bool #: Whether the playlist is disliked
-        self.duration: int #: The total length of all tracks in seconds
-        self.name: str #: The name of the playlist
-        self.loved: bool #: Whether the playlist is loved
-        self.parent: XAMediaPlaylist #: The folder containing the playlist, if any
-        self.size: int #: The total size of all tracks in the playlist in bytes
-        self.special_kind: XAMediaApplication.PlaylistKind #: The special playlist kind
-        self.time: str #: The length of all tracks in the playlist in MM:SS format
-        self.visible: bool #: Whether the playlist is visible in the source list
-
-        if not hasattr(self, "xa_specialized"):
-            print(self.xa_elem.objectClass())
-            if self.special_kind == XAMediaApplication.PlaylistKind.LIBRARY or self.special_kind == XAMediaApplication.PlaylistKind.USER_LIBRARY:
-                self.__class__ = XAMediaLibraryPlaylist
-
-            elif self.special_kind == XAMediaApplication.PlaylistKind.FOLDER:
-                self.__class__ = XAMediaFolderPlaylist
-
-            elif self.special_kind == XAMediaApplication.PlaylistKind.USER or self.special_kind == XAMediaApplication.PlaylistKind.NONE:
-                self.__class__ = XAMediaUserPlaylist
-
-            self.xa_specialized = True
-            self.__init__(properties)
-
-    @property
-    def object_description(self) -> str:
-        return self.xa_elem.objectDescription()
-
-    @object_description.setter
-    def object_description(self, object_description: str):
-        self.set_property('objectDescription', object_description)
-
-    @property
-    def duration(self) -> int:
-        return self.xa_elem.duration()
-
-    @property
-    def name(self) -> str:
-        return self.xa_elem.name()
-
-    @name.setter
-    def name(self, name: str):
-        self.set_property('name', name)
-
-    @property
-    def parent(self) -> 'XAMediaPlaylist':
-        return self._new_element(self.xa_elem.parent(), XAMediaPlaylist)
-
-    @property
-    def size(self) -> int:
-        return self.xa_elem.size()
-
-    @property
-    def special_kind(self) -> XAMediaApplication.PlaylistKind:
-        return XAMediaApplication.PlaylistKind(self.xa_elem.specialKind())
-
-    @property
-    def time(self) -> str:
-        return self.xa_elem.time()
-
-    @property
-    def visible(self) -> bool:
-        return self.xa_elem.visible()
-
-    def move_to(self, parent_playlist):
-        self.xa_elem.moveTo_(parent_playlist.xa_elem)
-
-    def search(self, query: str, type: Literal["all", "artists", "albums", "displayed", "tracks"] = "displayed"):
-        search_ids = {
-            "all": XAMediaApplication.SearchFilter.ALL,
-            "artists": XAMediaApplication.SearchFilter.ARTISTS,
-            "albums": XAMediaApplication.SearchFilter.ALBUMS,
-            "displayed": XAMediaApplication.SearchFilter.DISPLAYED,
-            "tracks": XAMediaApplication.SearchFilter.NAMES,
-        }
-        
-        items = []
-        results = self.xa_elem.searchFor_only_(query, search_ids[type])
-        for result in results:
-            properties = {
-                "parent": self,
-                "appspace": self.xa_apsp,
-                "workspace": self.xa_wksp,
-                "element": result,
-                "appref": self.xa_aref,
-                "system_events": self.xa_sevt,
-            }
-            items.append(XAMediaTrack(properties))
-        return items
-
-    def tracks(self, filter: Union[dict, None] = None) -> 'XAMediaTrackList':
-        """Returns a list of tracks, as PyXA objects, matching the given filter.
-
-        :param filter: A dictionary specifying property-value pairs that all returned tracks will have, or None
-        :type filter: Union[dict, None]
-        :return: The list of tracks
-        :rtype: XAMediaTrackList
-
-        .. versionadded:: 0.0.7
-        """
-        return self._new_element(self.xa_scel.tracks(), XAMediaTrackList, filter)
-
-    def artworks(self, filter: Union[dict, None] = None) -> 'XAMediaArtworkList':
-        """Returns a list of artworks, as PyXA objects, matching the given filter.
-
-        :param filter: A dictionary specifying property-value pairs that all returned artworks will have, or None
-        :type filter: Union[dict, None]
-        :return: The list of artworks
-        :rtype: XAMediaArtworkList
-
-        .. versionadded:: 0.0.7
-        """
-        return self._new_element(self.xa_scel.artworks(), XAMediaArtworkList, filter)
-
-
-
-class XAMediaLibraryPlaylistList(XAMediaPlaylistList):
-    """A wrapper around lists of library playlists that employs fast enumeration techniques.
-
-    All properties of library playlists can be called as methods on the wrapped list, returning a list containing each playlist's value for the property.
-
-    .. versionadded:: 0.0.7
-    """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, filter, XAMediaLibraryPlaylist)
-
-class XAMediaLibraryPlaylist(XAMediaPlaylist):
-    """The library playlist in media apps.
-
-    .. versionadded:: 0.0.1
-    """
-    def __init__(self, properties):
-        super().__init__(properties)
-
-    def file_tracks(self, filter: Union[dict, None] = None) -> 'XAMediaFileTrackList':
-        """Returns a list of file tracks, as PyXA objects, matching the given filter.
-
-        :param filter: A dictionary specifying property-value pairs that all returned file tracks will have, or None
-        :type filter: Union[dict, None]
-        :return: The list of file tracks
-        :rtype: XAMediaFileTrackList
-
-        .. versionadded:: 0.0.7
-        """
-        return self._new_element(self.xa_scel.fileTracks(), XAMediaFileTrackList, filter)
-
-    def url_tracks(self, filter: Union[dict, None] = None) -> 'XAMediaURLTrackList':
-        """Returns a list of URL tracks, as PyXA objects, matching the given filter.
-
-        :param filter: A dictionary specifying property-value pairs that all returned URL tracks will have, or None
-        :type filter: Union[dict, None]
-        :return: The list of URL tracks
-        :rtype: XAMediaURLTrackList
-
-        .. versionadded:: 0.0.7
-        """
-        return self._new_element(self.xa_scel.URLTracks(), XAMediaURLTrackList, filter)
-
-    def shared_tracks(self, filter: Union[dict, None] = None) -> 'XAMediaSharedTrackList':
-        """Returns a list of shared tracks, as PyXA objects, matching the given filter.
-
-        :param filter: A dictionary specifying property-value pairs that all returned shared tracks will have, or None
-        :type filter: Union[dict, None]
-        :return: The list of shared tracks
-        :rtype: XAMediaSharedTrackList
-
-        .. versionadded:: 0.0.7
-        """
-        return self._new_element(self.xa_scel.sharedTracks(), XAMediaSharedTrackList, filter)
-
-
-
-
-class XAMediaSourceList(XAMediaItemList):
-    """A wrapper around lists of sources that employs fast enumeration techniques.
-
-    All properties of sources can be called as methods on the wrapped list, returning a list containing each source's value for the property.
-
-    .. versionadded:: 0.0.7
-    """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None, obj_class = None):
-        if obj_class is None:
-            obj_class = XAMediaSource
-        super().__init__(properties, filter, obj_class)
-
-    def capacity(self) -> List[int]:
-        """Gets the capacity of each source in the list.
-
-        :return: A list of source capacity amounts
-        :rtype: List[int]
-        
-        .. versionadded:: 0.0.7
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("capacity"))
-
-    def free_space(self) -> List[int]:
-        """Gets the free space of each source in the list.
-
-        :return: A list of source free space amounts
-        :rtype: List[int]
-        
-        .. versionadded:: 0.0.7
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("freeSpace"))
-
-    def kind(self) -> List[XAMediaApplication.SourceKind]:
-        """Gets the kind of each source in the list.
-
-        :return: A list of source kinds
-        :rtype: List[XAMediaApplication.SourceKind]
-        
-        .. versionadded:: 0.0.7
-        """
-        ls = self.xa_elem.arrayByApplyingSelector_("kind")
-        return [XAMediaApplication.SourceKind(OSType(x.stringValue())) for x in ls]
-
-    def by_capacity(self, capacity: int) -> Union['XAMediaSource', None]:
-        """Retrieves the source whose capacity matches the given capacity, if one exists.
-
-        :return: The desired source, if it is found
-        :rtype: Union[XAMediaSource, None]
-        
-        .. versionadded:: 0.0.7
-        """
-        return self.by_property("capacity", capacity)
-
-    def by_free_space(self, free_space: int) -> Union['XAMediaSource', None]:
-        """Retrieves the source whose free space matches the given value, if one exists.
-
-        :return: The desired source, if it is found
-        :rtype: Union[XAMediaSource, None]
-        
-        .. versionadded:: 0.0.7
-        """
-        return self.by_property("freeSpace", free_space)
-
-    def by_kind(self, kind: XAMediaApplication.SourceKind) -> Union['XAMediaSource', None]:
-        """Retrieves the source whose kind matches the given kind, if one exists.
-
-        :return: The desired source, if it is found
-        :rtype: Union[XAMediaSource, None]
-        
-        .. versionadded:: 0.0.7
-        """
-        # TODO
-        return self.by_property("kind", kind.value)
-
-class XAMediaSource(XAMediaItem):
-    """A media source in media apps.
-
-    .. versionadded:: 0.0.1
-    """
-    def __init__(self, properties):
-        super().__init__(properties)
-        self.capacity: int #: The total size of the source, if it has a fixed size
-        self.free_space: int #: The free space on the source, if it has a fixed size
-        self.kind: XAMediaApplication.SourceKind #: The source kind
-
-    @property
-    def capacity(self) -> int:
-        return self.xa_elem.capacity()
-
-    @property
-    def free_space(self) -> int:
-        return self.xa_elem.freeSpace()
-
-    @property
-    def kind(self) -> XAMediaApplication.SourceKind:
-        return XAMediaApplication.SourceKind(self.xa_elem.kind())
-
-    def library_playlists(self, filter: Union[dict, None] = None) -> 'XAMediaLibraryPlaylistList':
-        """Returns a list of library playlists, as PyXA objects, matching the given filter.
-
-        :param filter: A dictionary specifying property-value pairs that all returned library playlists will have, or None
-        :type filter: Union[dict, None]
-        :return: The list of library playlists
-        :rtype: XAMediaLibraryPlaylistList
-
-        .. versionadded:: 0.0.7
-        """
-        return self._new_element(self.xa_scel.libraryPlaylists(), XAMediaLibraryPlaylistList, filter)
-
-    def playlists(self, filter: Union[dict, None] = None) -> 'XAMediaPlaylistList':
-        """Returns a list of playlists, as PyXA objects, matching the given filter.
-
-        :param filter: A dictionary specifying property-value pairs that all returned playlists will have, or None
-        :type filter: Union[dict, None]
-        :return: The list of playlists
-        :rtype: XAMediaPlaylistList
-
-        .. versionadded:: 0.0.7
-        """
-        return self._new_element(self.xa_scel.playlists(), XAMediaPlaylistList, filter)
-
-    def user_playlists(self, filter: Union[dict, None] = None) -> 'XAMediaUserPlaylistList':
-        """Returns a list of user playlists, as PyXA objects, matching the given filter.
-
-        :param filter: A dictionary specifying property-value pairs that all returned user playlists will have, or None
-        :type filter: Union[dict, None]
-        :return: The list of user playlists
-        :rtype: XAMediaUserPlaylistList
-
-        .. versionadded:: 0.0.7
-        """
-        return self._new_element(self.xa_scel.userPlaylists(), XAMediaUserPlaylistList, filter)
-
-
-
-
-class XAMediaTrackList(XAMediaItemList):
-    """A wrapper around lists of music tracks that employs fast enumeration techniques.
-
-    All properties of music tracks can be called as methods on the wrapped list, returning a list containing each track's value for the property.
-
-    .. versionadded:: 0.0.7
-    """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None, obj_class = None):
-        if obj_class is None:
-            obj_class = XAMediaTrack
-        super().__init__(properties, filter, obj_class)
-
-    def album(self) -> List[str]:
-        """Gets the album name of each track in the list.
-
-        :return: A list of track album names
-        :rtype: List[str]
-        
-        .. versionadded:: 0.0.7
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("album"))
-
-    def album_rating(self) -> List[int]:
-        """Gets the album rating of each track in the list.
-
-        :return: A list of track album ratings
-        :rtype: List[int]
-        
-        .. versionadded:: 0.0.7
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("albumRating"))
-
-    def album_rating_kind(self) -> List[XAMediaApplication.RatingKind]:
-        """Gets the album rating kind of each track in the list.
-
-        :return: A list of track album rating kinds
-        :rtype: List[str]
-        
-        .. versionadded:: 0.0.7
-        """
-        ls = self.xa_elem.arrayByApplyingSelector_("albumRatingKind")
-        return [XAMediaApplication.RatingKind(OSType(x.stringValue())) for x in ls]
-
-    def bit_rate(self) -> List[int]:
-        """Gets the bit rate of each track in the list.
-
-        :return: A list of track bit rates
-        :rtype: List[int]
-        
-        .. versionadded:: 0.0.7
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("bitRate"))
-
-    def bookmark(self) -> List[float]:
-        """Gets the bookmark time of each track in the list.
-
-        :return: A list of track bookmark times
-        :rtype: List[float]
-        
-        .. versionadded:: 0.0.7
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("bookmark"))
-
-    def bookmarkable(self) -> List[bool]:
-        """Gets the bookmarkable status of each track in the list.
-
-        :return: A list of track bookmarkable statuses
-        :rtype: List[bool]
-        
-        .. versionadded:: 0.0.7
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("bookmarkable"))
-
-    def category(self) -> List[str]:
-        """Gets the category of each track in the list.
-
-        :return: A list of track categories
-        :rtype: List[str]
-        
-        .. versionadded:: 0.0.7
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("category"))
-
-    def comment(self) -> List[str]:
-        """Gets the comment of each track in the list.
-
-        :return: A list of track comments
-        :rtype: List[str]
-        
-        .. versionadded:: 0.0.7
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("comment"))
-
-    def database_id(self) -> List[int]:
-        """Gets the database ID of each track in the list.
-
-        :return: A list of track database IDs
-        :rtype: List[int]
-        
-        .. versionadded:: 0.0.7
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("databaseID"))
-
-    def date_added(self) -> List[datetime]:
-        """Gets the date added of each track in the list.
-
-        :return: A list of track dates added
-        :rtype: List[datetime]
-        
-        .. versionadded:: 0.0.7
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("dateAdded"))
-
-    def object_description(self) -> List[str]:
-        """Gets the description of each track in the list.
-
-        :return: A list of track descriptions
-        :rtype: List[str]
-        
-        .. versionadded:: 0.0.7
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("objectDescription"))
-
-    def disc_count(self) -> List[int]:
-        """Gets the disc count of each track in the list.
-
-        :return: A list of track disc counts
-        :rtype: List[int]
-        
-        .. versionadded:: 0.0.7
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("discCount"))
-
-    def disc_number(self) -> List[int]:
-        """Gets the disc number of each track in the list.
-
-        :return: A list of track disc numbers
-        :rtype: List[int]
-        
-        .. versionadded:: 0.0.7
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("discNumber"))
-
-    def downloader_apple_id(self) -> List[str]:
-        """Gets the downloader Apple ID of each track in the list.
-
-        :return: A list of track downloader Apple IDs
-        :rtype: List[str]
-        
-        .. versionadded:: 0.0.7
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("downloaderAppleID"))
-
-    def downloader_name(self) -> List[str]:
-        """Gets the downloader name of each track in the list.
-
-        :return: A list of track downloader names
-        :rtype: List[str]
-        
-        .. versionadded:: 0.0.7
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("downloaderName"))
-
-    def duration(self) -> List[float]:
-        """Gets the duration of each track in the list.
-
-        :return: A list of track durations
-        :rtype: List[float]
-        
-        .. versionadded:: 0.0.7
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("duration"))
-
-    def enabled(self) -> List[bool]:
-        """Gets the enabled status of each track in the list.
-
-        :return: A list of track enabled statuses
-        :rtype: List[bool]
-        
-        .. versionadded:: 0.0.7
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("enabled"))
-
-    def episode_id(self) -> List[str]:
-        """Gets the episode ID of each track in the list.
-
-        :return: A list of track episode IDs
-        :rtype: List[str]
-        
-        .. versionadded:: 0.0.7
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("episodeID"))
-
-    def episode_number(self) -> List[int]:
-        """Gets the episode number of each track in the list.
-
-        :return: A list of track episode numbers
-        :rtype: List[int]
-        
-        .. versionadded:: 0.0.7
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("episodeNumber"))
-
-    def finish(self) -> List[float]:
-        """Gets the stop time of each track in the list.
-
-        :return: A list of track stop times
-        :rtype: List[float]
-        
-        .. versionadded:: 0.0.7
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("finish"))
-
-    def genre(self) -> List[str]:
-        """Gets the genre of each track in the list.
-
-        :return: A list of track genres
-        :rtype: List[str]
-        
-        .. versionadded:: 0.0.7
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("genre"))
-
-    def grouping(self) -> List[str]:
-        """Gets the grouping of each track in the list.
-
-        :return: A list of track groupings
-        :rtype: List[str]
-        
-        .. versionadded:: 0.0.7
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("grouping"))
-
-    def kind(self) -> List[str]:
-        """Gets the kind of each track in the list.
-
-        :return: A list of track kinds
-        :rtype: List[str]
-        
-        .. versionadded:: 0.0.7
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("kind"))
-
-    def long_description(self) -> List[str]:
-        """Gets the long description of each track in the list.
-
-        :return: A list of track long descriptions
-        :rtype: List[str]
-        
-        .. versionadded:: 0.0.7
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("longDescription"))
-
-    def media_kind(self) -> List[XAMediaApplication.MediaKind]:
-        """Gets the media kind of each track in the list.
-
-        :return: A list of track media kinds
-        :rtype: List[str]
-        
-        .. versionadded:: 0.0.7
-        """
-        ls = self.xa_elem.arrayByApplyingSelector_("mediaKind")
-        return [XAMediaApplication.MediaKind(OSType(x.stringValue())) for x in ls]
-
-    def modification_date(self) -> List[datetime]:
-        """Gets the modification date of each track in the list.
-
-        :return: A list of track modification dates
-        :rtype: List[datetime]
-        
-        .. versionadded:: 0.0.7
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("modificationDate"))
-
-    def played_count(self) -> List[int]:
-        """Gets the played count of each track in the list.
-
-        :return: A list of track played counts
-        :rtype: List[int]
-        
-        .. versionadded:: 0.0.7
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("playedCount"))
-
-    def played_date(self) -> List[datetime]:
-        """Gets the played date of each track in the list.
-
-        :return: A list of track played dates
-        :rtype: List[datetime]
-        
-        .. versionadded:: 0.0.7
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("playedDate"))
-
-    def purchaser_apple_id(self) -> List[str]:
-        """Gets the purchaser Apple ID of each track in the list.
-
-        :return: A list of track purchaser Apple IDs
-        :rtype: List[str]
-        
-        .. versionadded:: 0.0.7
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("purchaserAppleID"))
-
-    def purchaser_name(self) -> List[str]:
-        """Gets the purchaser name of each track in the list.
-
-        :return: A list of track purchaser names
-        :rtype: List[str]
-        
-        .. versionadded:: 0.0.7
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("purchaserName"))
-
-    def rating(self) -> List[int]:
-        """Gets the rating of each track in the list.
-
-        :return: A list of track ratings
-        :rtype: List[int]
-        
-        .. versionadded:: 0.0.7
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("rating"))
-
-    def rating_kind(self) -> List[XAMediaApplication.RatingKind]:
-        """Gets the rating kind of each track in the list.
-
-        :return: A list of track rating kinds
-        :rtype: List[XAMediaApplication.RatingKind]
-        
-        .. versionadded:: 0.0.7
-        """
-        ls = self.xa_elem.arrayByApplyingSelector_("ratingKind")
-        return [XAMediaApplication.RatingKind(OSType(x.stringValue())) for x in ls]
-
-    def release_date(self) -> List[datetime]:
-        """Gets the release date of each track in the list.
-
-        :return: A list of track release dates
-        :rtype: List[datetime]
-        
-        .. versionadded:: 0.0.7
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("releaseDate"))
-
-    def sample_rate(self) -> List[int]:
-        """Gets the sample rate of each track in the list.
-
-        :return: A list of track sample rates
-        :rtype: List[int]
-        
-        .. versionadded:: 0.0.7
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("sampleRate"))
-
-    def season_number(self) -> List[int]:
-        """Gets the season number of each track in the list.
-
-        :return: A list of track season numbers
-        :rtype: List[int]
-        
-        .. versionadded:: 0.0.7
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("seasonNumber"))
-
-    def skipped_count(self) -> List[int]:
-        """Gets the skipped count of each track in the list.
-
-        :return: A list of track skipped count
-        :rtype: List[int]
-        
-        .. versionadded:: 0.0.7
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("skippedCount"))
-
-    def skipped_date(self) -> List[datetime]:
-        """Gets the skipped date of each track in the list.
-
-        :return: A list of track skipped dates
-        :rtype: List[datetime]
-        
-        .. versionadded:: 0.0.7
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("skippedDate"))
-
-    def show(self) -> List[str]:
-        """Gets the show of each track in the list.
-
-        :return: A list of track shows
-        :rtype: List[str]
-        
-        .. versionadded:: 0.0.7
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("show"))
-
-    def sort_album(self) -> List[str]:
-        """Gets the album sort string of each track in the list.
-
-        :return: A list of track album sort strings
-        :rtype: List[str]
-        
-        .. versionadded:: 0.0.7
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("sortAlbum"))
-
-    def sort_name(self) -> List[str]:
-        """Gets the name sort string of each track in the list.
-
-        :return: A list of track name sort strings
-        :rtype: List[str]
-        
-        .. versionadded:: 0.0.7
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("sortName"))
-
-    def sort_show(self) -> List[str]:
-        """Gets the show sort strings of each track in the list.
-
-        :return: A list of track show sort strings
-        :rtype: List[str]
-        
-        .. versionadded:: 0.0.7
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("sortShow"))
-
-    def size(self) -> List[int]:
-        """Gets the size of each track in the list.
-
-        :return: A list of track sizes
-        :rtype: List[int]
-        
-        .. versionadded:: 0.0.7
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("size"))
-
-    def start(self) -> List[float]:
-        """Gets the start time of each track in the list.
-
-        :return: A list of track start times
-        :rtype: List[float]
-        
-        .. versionadded:: 0.0.7
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("start"))
-
-    def time(self) -> List[str]:
-        """Gets the time string of each track in the list.
-
-        :return: A list of track time strings
-        :rtype: List[str]
-        
-        .. versionadded:: 0.0.7
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("time"))
-
-    def track_count(self) -> List[int]:
-        """Gets the track count of each track in the list.
-
-        :return: A list of track counts
-        :rtype: List[int]
-        
-        .. versionadded:: 0.0.7
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("trackCount"))
-
-    def track_number(self) -> List[int]:
-        """Gets the track number of each track in the list.
-
-        :return: A list of track numbers
-        :rtype: List[int]
-        
-        .. versionadded:: 0.0.7
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("trackNumber"))
-
-    def unplayed(self) -> List[bool]:
-        """Gets the unplayed status of each track in the list.
-
-        :return: A list of track unplayed statuses
-        :rtype: List[bool]
-        
-        .. versionadded:: 0.0.7
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("unplayed"))
-
-    def volume_adjustment(self) -> List[int]:
-        """Gets the volume adjustment of each track in the list.
-
-        :return: A list of track volume adjustments
-        :rtype: List[int]
-        
-        .. versionadded:: 0.0.7
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("volumeAdjustment"))
-
-    def year(self) -> List[int]:
-        """Gets the year of each track in the list.
-
-        :return: A list of track years
-        :rtype: List[int]
-        
-        .. versionadded:: 0.0.7
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("year"))
-
-    def by_album(self, album: str) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose album matches the given album, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
-        return self.by_property("album", album)
-
-    def by_album_rating(self, album_rating: int) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose album rating matches the given rating, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
-        return self.by_property("albumRating", album_rating)
-
-    def by_album_rating_kind(self, album_rating_kind: XAMediaApplication.RatingKind) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose album rating kind matches the given kind, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
-        # TODO
-        return self.by_property("albumRatingKind", album_rating_kind.value)
-
-    def by_bit_rate(self, bit_rate: int) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose bit rate matches the given bit rate, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
-        return self.by_property("bitRate", bit_rate)
-
-    def by_bookmark(self, bookmark: float) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose bookmark matches the given bookmark, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
-        return self.by_property("bookmark", bookmark)
-
-    def by_bookmarkable(self, bookmarkable: bool) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose bookmarkable status matches the given boolean value, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
-        return self.by_property("bookmarkable", bookmarkable)
-
-    def by_category(self, category: str) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose category matches the given category, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
-        return self.by_property("category", category)
-
-    def by_comment(self, comment: str) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose comment matches the given comment, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
-        return self.by_property("comment", comment)
-
-    def by_database_id(self, database_id: int) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose database ID matches the given ID, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
-        return self.by_property("databaseID", database_id)
-
-    def by_date_added(self, date_added: datetime) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose date added matches the given date, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
-        return self.by_property("dateAdded", date_added)
-
-    def by_object_description(self, object_description: str) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose description matches the given description, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
-        return self.by_property("objectDescription", object_description)
-
-    def by_disc_count(self, disc_count: int) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose disc count matches the given disc count, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
-        return self.by_property("discCount", disc_count)
-
-    def by_disc_number(self, disc_number: int) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose disc number matches the given disc number, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
-        return self.by_property("discNumber", disc_number)
-
-    def by_downloader_apple_id(self, downloader_apple_id: str) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose downloader Apple ID matches the given ID, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
-        return self.by_property("downloaderAppleID", downloader_apple_id)
-
-    def by_downloader_name(self, downloader_name: str) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose downloader name matches the given name, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
-        return self.by_property("downloaderName", downloader_name)
-
-    def by_duration(self, duration: float) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose duration matches the given duration, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
-        return self.by_property("duration", duration)
-
-    def by_enabled(self, enabled: bool) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose enabled status matches the given boolean value, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
-        return self.by_property("enabled", enabled)
-
-    def by_episode_id(self, episode_id: str) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose episode ID matches the given ID, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
-        return self.by_property("episodeID", episode_id)
-
-    def by_episode_number(self, episode_number: int) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose episode number matches the given episode number, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
-        return self.by_property("episodeNumber", episode_number)
-
-    def by_finish(self, finish: float) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose stop time matches the given stop time, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
-        return self.by_property("finish", finish)
-
-    def by_genre(self, genre: str) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose genre matches the given genre, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
-        return self.by_property("genre", genre)
-
-    def by_grouping(self, grouping: str) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose grouping matches the given grouping, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
-        return self.by_property("grouping", grouping)
-
-    def by_kind(self, kind: str) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose kind matches the given kind, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
-        return self.by_property("kind", kind)
-
-    def by_long_description(self, long_description: str) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose long description matches the given long description, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
-        return self.by_property("longDescription", long_description)
-
-    def by_media_kind(self, media_kind: XAMediaApplication.MediaKind) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose media kind matches the given media kind, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
-        # TODO
-        return self.by_property("mediaKind", media_kind.value)
-
-    def by_modification_date(self, modification_date: datetime) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose modification date matches the given date, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
-        return self.by_property("modificationDate", modification_date)
-
-    def by_played_count(self, played_count: int) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose played count matches the given played count, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
-        return self.by_property("playedCount", played_count)
-
-    def by_played_date(self, played_date: datetime) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose last played date matches the given date, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
-        return self.by_property("playedDate", played_date)
-
-    def by_purchaser_apple_id(self, purchaser_apple_id: str) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose purchaser Apple ID matches the given ID, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
-        return self.by_property("purchaserAppleID", purchaser_apple_id)
-
-    def by_purchaser_name(self, purchaser_name: str) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose purchaser name matches the given name, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
-        return self.by_property("purchaserName", purchaser_name)
-
-    def by_rating(self, rating: int) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose rating matches the given rating, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
-        return self.by_property("rating", rating)
-
-    def by_rating_kind(self, rating_kind: XAMediaApplication.RatingKind) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose rating kind matches the given rating kind, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
-        # TODO
-        return self.by_property("ratingKind", rating_kind.value)
-
-    def by_release_date(self, release_date: datetime) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose release date matches the given date, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
-        return self.by_property("releaseDate", release_date)
-
-    def by_sample_rate(self, sample_rate: int) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose sample rate matches the given rate, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
-        return self.by_property("sampleRate", sample_rate)
-
-    def by_season_number(self, season_number: int) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose season number matches the given season number, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
-        return self.by_property("seasonNumber", season_number)
-
-    def by_skipped_count(self, skipped_count: int) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose skipped count matches the given skipped count, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
-        return self.by_property("skippedCount", skipped_count)
-
-    def by_skipped_date(self, skipped_date: datetime) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose last skipped date matches the given date, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
-        return self.by_property("skippedDate", skipped_date)
-
-    def by_show(self, show: str) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose show matches the given show, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
-        return self.by_property("show", show)
-
-    def by_sort_album(self, sort_album: str) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose album sort string matches the given string, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
-        return self.by_property("sortAlbum", sort_album)
-
-    def by_sort_name(self, sort_name: str) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose name sort string matches the given string, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
-        return self.by_property("sortName", sort_name)
-
-    def by_sort_show(self, sort_show: str) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose show sort string matches the given string, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
-        return self.by_property("sortShow", sort_show)
-
-    def by_size(self, size: int) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose size matches the given size, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
-        return self.by_property("size", size)
-
-    def by_start(self, start: float) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose start time matches the given start time, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
-        return self.by_property("start", start)
-
-    def by_time(self, time: str) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose time string matches the given string, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
-        return self.by_property("time", time)
-
-    def by_track_count(self, track_count: int) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose track count matches the given track count, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
-        return self.by_property("trackCount", track_count)
-
-    def by_track_number(self, track_number: int) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose track number matches the given track number, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
-        return self.by_property("trackNumber", track_number)
-
-    def by_unplayed(self, unplayed: bool) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose unplayed status matches the given boolean value, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
-        return self.by_property("unplayed", unplayed)
-
-    def by_volume_adjustment(self, volume_adjustment: int) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose volume adjustment matches the given volume adjustment, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
-        return self.by_property("volumeAdjustment", volume_adjustment)
-
-    def by_year(self, year: int) -> Union['XAMediaTrack', None]:
-        """Retrieves the first track whose year matches the given year, if one exists.
-
-        :return: The desired track, if it is found
-        :rtype: Union[XAMediaTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
-        return self.by_property("year", year)
-
-class XAMediaTrack(XAMediaItem):
-    """A class for managing and interacting with tracks in media apps.
-
-    .. seealso:: :class:`XAMediaSharedTrack`, :class:`XAMediaFileTrack`, :class:`XAMediaRemoteURLTrack`
-
-    .. versionadded:: 0.0.1
-    """
-    def __init__(self, properties):
-        super().__init__(properties)
-        self.album: str #: The name of the album the track's album
-        self.album_rating: int #: The rating of the track's album
-        self.album_rating_kind: str #: The album's rating kind
-        self.bit_rate: int #: The track's bitrate in kbps
-        self.bookmark: float #: The bookmark time of the track in seconds
-        self.bookmarkable: bool #: Whether the playback position is kept in memory after stopping the track
-        self.category: str #: The category of the track
-        self.comment: str #: User-provided notes on the track
-        self.database_id: int #: A unique ID for the track
-        self.date_added: datetime #: The date the track was added to the current playlist
-        self.object_description: str #: A string description of the track
-        self.disc_count: int #: The number of discs in the source album
-        self.disc_number: int #: The index of the disc containing the track
-        self.downloader_apple_id: str #: The Apple ID of the person who downloaded the track
-        self.downloader_name: str #: The full name of the person who downloaded the track
-        self.duration: float #: Length of the track in seconds
-        self.enabled: bool #: Whether the track is able to be played
-        self.episode_id: str #: A unique ID for the episode of the track
-        self.episode_number: int #: The episode number of the track
-        self.finish: float #: The time in seconds from the start at which the track stops playing.
-        self.genre: str #: The music/audio genre category of the track.
-        self.grouping: str #: The current section/chapter/movement of the track
-        self.kind: str #: A text description of the track
-        self.long_description: str #: A long description for the track
-        self.media_kind: XAMediaApplication.MediaKind #: A description of the track's media type
-        self.modification_date: datetime #: The last modification date of the track's content
-        self.played_count: int #: The number of the times the track has been played
-        self.played_date: datetime #: The date the track was last played
-        self.purchaser_apple_id: str #: The Apple ID of the person who bought the track
-        self.purchaser_name: str #: The full name of the person who bought the track
-        self.rating: int #: The rating of the track from 0 to 100
-        self.rating_kind: XAMediaApplication.RatingKind #: Whether the rating is user-provided or computed
-        self.release_date: datetime #: The date the track was released
-        self.sample_rate: int #: The sample rate of the track in Hz
-        self.season_number: int #: The number of the season the track belongs to
-        self.skipped_count: int #: The number of times the track has been skipped
-        self.skipped_date: datetime #: The date the track was last skipped
-        self.show: str #: The name of the show the track belongs to
-        self.sort_album: str #: The string used for this track when sorting by album
-        self.sort_name: str #: The string used for this track when sorting by name
-        self.sort_show: str #: The string used for this track when sorting by show
-        self.size: int #: The size of the track in bytes
-        self.start: float #: The start time of the track in seconds
-        self.time: str #: HH:MM:SS representation for the duration of the track
-        self.track_count: int #: The number of tracks in the track's album
-        self.track_number: int #: The index of the track within its album
-        self.unplayed: bool #: Whether the track has been played before
-        self.volume_adjustment: int #: Volume adjustment setting for this track from -100 to +100
-        self.work: str #: The work name of the track
-
-        # print("Track type", self.objectClass.data())
-        # if self.objectClass.data() == _SHARED_TRACK:
-        #     self.__class__ = XAMediaSharedTrack
-        #     self.__init__()
-        # elif self.objectClass.data() == _FILE_TRACK:
-        #     self.__class__ = XAMediaFileTrack
-        #     self.__init__()
-        # elif self.objectClass.data() == _URL_TRACK:
-        #     self.__class__ = XAMediaURLTrack
-        #     self.__init__()
-
-    @property
-    def album(self) -> str:
-        return self.xa_elem.album()
-
-    @album.setter
-    def album(self, album: str):
-        self.set_property('album', album)
-
-    @property
-    def album_rating(self) -> int:
-        return self.xa_elem.albumRating()
-
-    @album_rating.setter
-    def album_rating(self, album_rating: int):
-        self.set_property('albumRating', album_rating)
-
-    @property
-    def album_rating_kind(self) -> XAMediaApplication.RatingKind:
-        return XAMediaApplication.RatingKind(self.xa_elem.albumRatingKind())
-
-    @property
-    def bit_rate(self) -> int:
-        return self.xa_elem.bitRate()
-
-    @property
-    def bookmark(self) -> float:
-        return self.xa_elem.bookmark()
-
-    @bookmark.setter
-    def bookmark(self, bookmark: float):
-        self.set_property('bookmark', bookmark)
-
-    @property
-    def bookmarkable(self) -> bool:
-        return self.xa_elem.bookmarkable()
-
-    @bookmarkable.setter
-    def bookmarkable(self, bookmarkable: bool):
-        self.set_property('bookmarkable', bookmarkable)
-
-    @property
-    def category(self) -> str:
-        return self.xa_elem.category()
-
-    @category.setter
-    def category(self, category: str):
-        self.set_property('category', category)
-
-    @property
-    def comment(self) -> str:
-        return self.xa_elem.comment()
-
-    @comment.setter
-    def comment(self, comment: str):
-        self.set_property('comment', comment)
-
-    @property
-    def database_id(self) -> int:
-        return self.xa_elem.databaseID()
-
-    @property
-    def date_added(self) -> datetime:
-        return self.xa_elem.dateAdded()
-
-    @property
-    def object_description(self) -> str:
-        return self.xa_elem.objectDescription()
-
-    @object_description.setter
-    def object_description(self, object_description: str):
-        self.set_property('objectDescription', object_description)
-
-    @property
-    def disc_count(self) -> int:
-        return self.xa_elem.discCount()
-
-    @disc_count.setter
-    def disc_count(self, disc_count: int):
-        self.set_property('discCount', disc_count)
-
-    @property
-    def disc_number(self) -> int:
-        return self.xa_elem.discNumber()
-
-    @disc_number.setter
-    def disc_number(self, disc_number: int):
-        self.set_property('discNumber', disc_number)
-
-    @property
-    def downloader_apple_id(self) -> str:
-        return self.xa_elem.downloaderAppleID()
-
-    @property
-    def downloader_name(self) -> str:
-        return self.xa_elem.downloaderName()
-
-    @property
-    def duration(self) -> float:
-        return self.xa_elem.duration()
-
-    @property
-    def enabled(self) -> bool:
-        return self.xa_elem.enabled()
-
-    @enabled.setter
-    def enabled(self, enabled: bool):
-        self.set_property('enabled', enabled)
-
-    @property
-    def episode_id(self) -> str:
-        return self.xa_elem.episodeID()
-
-    @episode_id.setter
-    def episode_id(self, episode_id: str):
-        self.set_property('episodeId', episode_id)
-
-    @property
-    def episode_number(self) -> int:
-        return self.xa_elem.episodeNumber()
-
-    @episode_number.setter
-    def episode_number(self, episode_number: int):
-        self.set_property('episodeNumber', episode_number)
-
-    @property
-    def finish(self) -> float:
-        return self.xa_elem.finish()
-
-    @finish.setter
-    def finish(self, finish: float):
-        self.set_property('finish', finish)
-
-    @property
-    def genre(self) -> str:
-        return self.xa_elem.genre()
-
-    @genre.setter
-    def genre(self, genre: str):
-        self.set_property('genre', genre)
-
-    @property
-    def grouping(self) -> str:
-        return self.xa_elem.grouping()
-
-    @grouping.setter
-    def grouping(self, grouping: str):
-        self.set_property('grouping', grouping)
-
-    @property
-    def kind(self) -> str:
-        return self.xa_elem.kind()
-
-    @property
-    def long_description(self) -> str:
-        return self.xa_elem.longDescription()
-
-    @long_description.setter
-    def long_description(self, long_description: str):
-        self.set_property('longDescription', long_description)
-
-    @property
-    def media_kind(self) -> XAMediaApplication.MediaKind:
-        return XAMediaApplication.MediaKind(self.xa_elem.mediaKind())
-
-    @media_kind.setter
-    def media_kind(self, media_kind: XAMediaApplication.MediaKind):
-        self.set_property('mediaKind', media_kind.value)
-
-    @property
-    def modification_date(self) -> datetime:
-        return self.xa_elem.modificationDate()
-
-    @property
-    def played_count(self) -> int:
-        return self.xa_elem.playedCount()
-
-    @played_count.setter
-    def played_count(self, played_count: int):
-        self.set_property('playedCount', played_count)
-
-    @property
-    def played_date(self) -> datetime:
-        return self.xa_elem.playedDate()
-
-    @played_date.setter
-    def played_date(self, played_date: datetime):
-        self.set_property('playedDate', played_date)
-
-    @property
-    def purchaser_apple_id(self) -> str:
-        return self.xa_elem.purchaserAppleID()
-
-    @property
-    def purchaser_name(self) -> str:
-        return self.xa_elem.purchaserName()
-
-    @property
-    def rating(self) -> int:
-        return self.xa_elem.rating()
-
-    @rating.setter
-    def rating(self, rating: int):
-        self.set_property('rating', rating)
-
-    @property
-    def rating_kind(self) -> XAMediaApplication.RatingKind:
-        return XAMediaApplication.RatingKind(self.xa_elem.ratingKind())
-
-    @property
-    def release_date(self) -> datetime:
-        return self.xa_elem.releaseDate()
-
-    @property
-    def sample_rate(self) -> int:
-        return self.xa_elem.sampleRate()
-
-    @property
-    def season_number(self) -> int:
-        return self.xa_elem.seasonNumber()
-
-    @season_number.setter
-    def season_number(self, season_number: int):
-        self.set_property('seasonNumber', season_number)
-
-    @property
-    def skipped_count(self) -> int:
-        return self.xa_elem.skippedCount()
-
-    @skipped_count.setter
-    def skipped_count(self, skipped_count: int):
-        self.set_property('skippedCount', skipped_count)
-
-    @property
-    def skipped_date(self) -> datetime:
-        return self.xa_elem.skippedDate()
-
-    @skipped_date.setter
-    def skipped_date(self, skipped_date: datetime):
-        self.set_property('skippedDate', skipped_date)
-
-    @property
-    def show(self) -> str:
-        return self.xa_elem.show()
-
-    @show.setter
-    def show(self, show: str):
-        self.set_property('show', show)
-
-    @property
-    def sort_album(self) -> str:
-        return self.xa_elem.sortAlbum()
-
-    @sort_album.setter
-    def sort_album(self, sort_album: str):
-        self.set_property('sortAlbum', sort_album)
-
-    @property
-    def sort_name(self) -> str:
-        return self.xa_elem.sortName()
-
-    @sort_name.setter
-    def sort_name(self, sort_name: str):
-        self.set_property('sortName', sort_name)
-
-    @property
-    def sort_show(self) -> str:
-        return self.xa_elem.sortShow()
-
-    @sort_show.setter
-    def sort_show(self, sort_show: str):
-        self.set_property('sortShow', sort_show)
-
-    @property
-    def size(self) -> int:
-        return self.xa_elem.size()
-
-    @property
-    def start(self) -> float:
-        return self.xa_elem.start()
-
-    @start.setter
-    def start(self, start: float):
-        self.set_property('start', start)
-
-    @property
-    def time(self) -> str:
-        return self.xa_elem.time()
-
-    @property
-    def track_count(self) -> int:
-        return self.xa_elem.trackCount()
-
-    @track_count.setter
-    def track_count(self, track_count: int):
-        self.set_property('trackCount', track_count)
-
-    @property
-    def track_number(self) -> int:
-        return self.xa_elem.trackNumber()
-
-    @track_number.setter
-    def track_number(self, track_number: int):
-        self.set_property('trackNumber', track_number)
-
-    @property
-    def unplayed(self) -> bool:
-        return self.xa_elem.unplayed()
-
-    @unplayed.setter
-    def unplayed(self, unplayed: bool):
-        self.set_property('unplayed', unplayed)
-
-    @property
-    def volume_adjustment(self) -> int:
-        return self.xa_elem.volumeAdjustment()
-
-    @volume_adjustment.setter
-    def volume_adjustment(self, volume_adjustment: int):
-        self.set_property('volumeAdjustment', volume_adjustment)
-
-    @property
-    def year(self) -> int:
-        return self.xa_elem.year()
-
-    @year.setter
-    def year(self, year: int):
-        self.set_property('year', year)
-
-    def select(self) -> 'XAMediaItem':
-        """Selects the item.
-
-        :return: A reference to the media item object.
-        :rtype: XAMediaTrack
-
-        .. seealso:: :func:`reveal`
-
-        .. versionadded:: 0.0.1
-        """
-        self.xa_elem.select()
-        return self
-
-    def play(self) -> 'XAMediaItem':
-        """Plays the item.
-
-        :return: A reference to the media item object.
-        :rtype: _XAMediaItem
-
-        .. versionadded:: 0.0.1
-        """
-        self.xa_elem.playOnce_(True)
-        return self
-
-    def artworks(self, filter: Union[dict, None] = None) -> 'XAMediaArtworkList':
-        """Returns a list of artworks, as PyXA objects, matching the given filter.
-
-        :param filter: A dictionary specifying property-value pairs that all returned artworks will have, or None
-        :type filter: Union[dict, None]
-        :return: The list of artworks
-        :rtype: XAMediaArtworkList
-
-        .. versionadded:: 0.0.7
-        """
-        return self._new_element(self.xa_scel.artworks(), XAMediaArtworkList, filter)
-
-
-
-
-class XAMediaFileTrackList(XAMediaTrackList):
-    """A wrapper around lists of music file tracks that employs fast enumeration techniques.
-
-    All properties of music file tracks can be called as methods on the wrapped list, returning a list containing each track's value for the property.
-
-    .. versionadded:: 0.0.7
-    """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, filter, XAMediaFileTrack)
-
-    def location(self) -> List[XAURL]:
-        """Gets the location of each track in the list.
-
-        :return: A list of track locations
-        :rtype: List[XAURL]
-        
-        .. versionadded:: 0.0.7
-        """
-        ls = self.xa_elem.arrayByApplyingSelector_("location")
-        return [XAURL(x) for x in ls]
-
-    def by_location(self, location: XAURL) -> Union['XAMediaFileTrack', None]:
-        """Retrieves the file track whose location matches the given location, if one exists.
-
-        :return: The desired file track, if it is found
-        :rtype: Union[XAMediaFileTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
-        return self.by_property("location", location.xa_elem)
-
-class XAMediaFileTrack(XAMediaTrack):
-    """A file track in media apps.
-
-    .. versionadded:: 0.0.1
-    """
-    def __init__(self, properties):
-        super().__init__(properties)
-        self.location: XAURL #: The location of the file represented by the track
-
-    @property
-    def location(self) -> XAPath:
-        return XAPath(self.xa_elem.location())
-
-    @location.setter
-    def location(self, location: Union[XAPath, str]):
-        if isinstance(location, str):
-            location = XAPath(location)
-        self.set_property('location', location.xa_elem)
-
-
-
-
-class XAMediaSharedTrackList(XAMediaTrackList):
-    """A wrapper around lists of music shared tracks that employs fast enumeration techniques.
-
-    All properties of music shared tracks can be called as methods on the wrapped list, returning a list containing each track's value for the property.
-
-    .. versionadded:: 0.0.7
-    """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, filter, XAMediaSharedTrack)
-
-class XAMediaSharedTrack(XAMediaTrack):
-    """A shared track in media apps.
-
-    .. versionadded:: 0.0.1
-    """
-    def __init__(self, properties):
-        super().__init__(properties)
-
-
-
-
-class XAMediaURLTrackList(XAMediaTrackList):
-    """A wrapper around lists of music URL tracks that employs fast enumeration techniques.
-
-    All properties of music URL tracks can be called as methods on the wrapped list, returning a list containing each track's value for the property.
-
-    .. versionadded:: 0.0.7
-    """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, filter, XAMediaURLTrack)
-
-    def address(self) -> List[str]:
-        """Gets the address of each track in the list.
-
-        :return: A list of track addresses
-        :rtype: List[str]
-        
-        .. versionadded:: 0.0.7
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("address"))
-
-    def by_address(self, address: str) -> Union['XAMediaURLTrack', None]:
-        """Retrieves the URL track whose address matches the given address, if one exists.
-
-        :return: The desired URL track, if it is found
-        :rtype: Union[XAMediaURLTrack, None]
-        
-        .. versionadded:: 0.0.7
-        """
-        return self.by_property("address", address)
-
-class XAMediaURLTrack(XAMediaTrack):
-    """A URL track in media apps.
-
-    .. versionadded:: 0.0.1
-    """
-    def __init__(self, properties):
-        super().__init__(properties)
-        self.address: str #: The URL for the track
-
-    @property
-    def address(self) -> XAURL:
-        return XAURL(self.xa_elem.address())
-
-    @address.setter
-    def address(self, address: Union[XAURL, str]):
-        if isinstance(address, str):
-            address = XAURL(address)
-        self.set_property('address', address.xa_elem)
-
-
-
-
-class XAMediaUserPlaylistList(XAMediaPlaylistList):
-    """A wrapper around lists of music user playlists that employs fast enumeration techniques.
-
-    All properties of music user playlists can be called as methods on the wrapped list, returning a list containing each playlist's value for the property.
-
-    .. versionadded:: 0.0.7
-    """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, filter, XAMediaUserPlaylist)
-
-    def shared(self) -> List[bool]:
-        """Gets the shared status of each user playlist in the list.
-
-        :return: A list of playlist shared status boolean values
-        :rtype: List[bool]
-        
-        .. versionadded:: 0.0.7
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("shared"))
-
-    def smart(self) -> List[bool]:
-        """Gets the smart status of each user playlist in the list.
-
-        :return: A list of playlist smart status boolean values
-        :rtype: List[bool]
-        
-        .. versionadded:: 0.0.7
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("smart"))
-
-    def by_shared(self, shared: bool) -> Union['XAMediaUserPlaylist', None]:
-        """Retrieves the user playlist whose shared status matches the given value, if one exists.
-
-        :return: The desired user playlist, if it is found
-        :rtype: Union[XAMediaUserPlaylist, None]
-        
-        .. versionadded:: 0.0.7
-        """
-        return self.by_property("shared", shared)
-
-    def by_smart(self, smart: bool) -> Union['XAMediaUserPlaylist', None]:
-        """Retrieves the user playlist whose smart status matches the given value, if one exists.
-
-        :return: The desired user playlist, if it is found
-        :rtype: Union[XAMediaUserPlaylist, None]
-        
-        .. versionadded:: 0.0.7
-        """
-        return self.by_property("smart", smart)
-
-class XAMediaUserPlaylist(XAMediaPlaylist):
-    """A user-created playlist in media apps.
-
-    .. versionadded:: 0.0.1
-    """
-    def __init__(self, properties):
-        super().__init__(properties)
-        self.shared: bool #: Whether the playlist is shared
-        self.smart: bool #: Whether the playlist is a smart playlist
-
-    @property
-    def shared(self) -> bool:
-        return self.xa_elem.shared()
-
-    @shared.setter
-    def shared(self, shared: bool):
-        self.set_property('shared', shared)
-
-    @property
-    def smart(self) -> bool:
-        return self.xa_elem.smart()
-
-    def file_tracks(self, filter: Union[dict, None] = None) -> 'XAMediaFileTrackList':
-        """Returns a list of file tracks, as PyXA objects, matching the given filter.
-
-        :param filter: A dictionary specifying property-value pairs that all returned file tracks will have, or None
-        :type filter: Union[dict, None]
-        :return: The list of file tracks
-        :rtype: XAMediaFileTrackList
-
-        .. versionadded:: 0.0.7
-        """
-        return self._new_element(self.xa_scel.fileTracks(), XAMediaFileTrackList, filter)
-
-    def url_tracks(self, filter: Union[dict, None] = None) -> 'XAMediaURLTrackList':
-        """Returns a list of URL tracks, as PyXA objects, matching the given filter.
-
-        :param filter: A dictionary specifying property-value pairs that all returned URL tracks will have, or None
-        :type filter: Union[dict, None]
-        :return: The list of URL tracks
-        :rtype: XAMediaURLTrackList
-
-        .. versionadded:: 0.0.7
-        """
-        return self._new_element(self.xa_scel.URLTracks(), XAMediaURLTrackList, filter)
-
-    def shared_tracks(self, filter: Union[dict, None] = None) -> 'XAMediaSharedTrackList':
-        """Returns a list of shared tracks, as PyXA objects, matching the given filter.
-
-        :param filter: A dictionary specifying property-value pairs that all returned shared tracks will have, or None
-        :type filter: Union[dict, None]
-        :return: The list of shared tracks
-        :rtype: XAMediaSharedTrackList
-
-        .. versionadded:: 0.0.7
-        """
-        return self._new_element(self.xa_scel.sharedTracks(), XAMediaSharedTrackList, filter)
-
-
-
-
-class XAMediaFolderPlaylistList(XAMediaUserPlaylistList):
-    """A wrapper around lists of music folder playlists that employs fast enumeration techniques.
-
-    All properties of music folder playlists can be called as methods on the wrapped list, returning a list containing each playlist's value for the property.
-
-    .. versionadded:: 0.0.7
-    """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, filter, XAMediaFolderPlaylist)
-
-class XAMediaFolderPlaylist(XAMediaUserPlaylist):
-    """A folder playlist in media apps.
-
-    .. versionadded:: 0.0.7
-    """
-    def __init__(self, properties):
-        super().__init__(properties)
-
-
-
-
-class XAMediaWindowList(XAMediaItemList):
-    """A wrapper around lists of windows that employs fast enumeration techniques.
-
-    All properties of windows can be called as methods on the wrapped list, returning a list containing each windows's value for the property.
-
-    .. versionadded:: 0.0.7
-    """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None, obj_class = None):
-        if obj_class is None:
-            obj_class = XAMediaWindow
-        super().__init__(properties, filter, obj_class)
-
-    def bounds(self) -> List[Tuple[Tuple[int, int], Tuple[int, int]]]:
-        """Gets the bounds of each window in the list.
-
-        :return: A list of window bounds
-        :rtype: List[Tuple[Tuple[int, int], Tuple[int, int]]]
-        
-        .. versionadded:: 0.0.7
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("bounds"))
-
-    def closeable(self) -> List[bool]:
-        """Gets the closeable status of each window in the list.
-
-        :return: A list of window closeable statuses
-        :rtype: List[bool]
-        
-        .. versionadded:: 0.0.7
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("closeable"))
-
-    def collapseable(self) -> List[bool]:
-        """Gets the collapseable status of each window in the list.
-
-        :return: A list of window collapseable statuses
-        :rtype: List[bool]
-        
-        .. versionadded:: 0.0.7
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("collapseable"))
-
-    def collapsed(self) -> List[bool]:
-        """Gets the collapsed status of each window in the list.
-
-        :return: A list of window collapsed statuses
-        :rtype: List[bool]
-        
-        .. versionadded:: 0.0.7
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("collapsed"))
-
-    def full_screen(self) -> List[bool]:
-        """Gets the full screen status of each window in the list.
-
-        :return: A list of window full screen statuses
-        :rtype: List[bool]
-        
-        .. versionadded:: 0.0.7
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("fullScreen"))
-
-    def position(self) -> List[Tuple[int, int]]:
-        """Gets the position of each window in the list.
-
-        :return: A list of window positions
-        :rtype: List[Tuple[int, int]]
-        
-        .. versionadded:: 0.0.7
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("position"))
-
-    def resizable(self) -> List[bool]:
-        """Gets the resizable status of each window in the list.
-
-        :return: A list of window resizable statuses
-        :rtype: List[bool]
-        
-        .. versionadded:: 0.0.7
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("resizable"))
-
-    def visible(self) -> List[bool]:
-        """Gets the visible status of each window in the list.
-
-        :return: A list of window visible statuses
-        :rtype: List[bool]
-        
-        .. versionadded:: 0.0.7
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("visible"))
-
-    def zoomable(self) -> List[bool]:
-        """Gets the zoomable status of each window in the list.
-
-        :return: A list of window zoomable statuses
-        :rtype: List[bool]
-        
-        .. versionadded:: 0.0.7
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("zoomable"))
-
-    def zoomed(self) -> List[bool]:
-        """Gets the zoomed status of each window in the list.
-
-        :return: A list of window zoomed statuses
-        :rtype: List[bool]
-        
-        .. versionadded:: 0.0.7
-        """
-        return list(self.xa_elem.arrayByApplyingSelector_("zoomed"))
-
-    def by_bounds(self, bounds: Tuple[Tuple[int, int], Tuple[int, int]]) -> Union['XAMediaWindow', None]:
-        """Retrieves the window whose bounds matches the given bounds, if one exists.
-
-        :return: The desired window, if it is found
-        :rtype: Union[XAMediaWindow, None]
-        
-        .. versionadded:: 0.0.7
-        """
-        # TODO
-        return self.by_property("bounds", bounds)
-
-    def by_closeable(self, closeable: bool) -> Union['XAMediaWindow', None]:
-        """Retrieves the first window whose closeable status matches the given boolean value, if one exists.
-
-        :return: The desired window, if it is found
-        :rtype: Union[XAMediaWindow, None]
-        
-        .. versionadded:: 0.0.7
-        """
-        return self.by_property("closeable", closeable)
-
-    def by_collapseable(self, collapseable: bool) -> Union['XAMediaWindow', None]:
-        """Retrieves the first window whose collapseable status matches the given boolean value, if one exists.
-
-        :return: The desired window, if it is found
-        :rtype: Union[XAMediaWindow, None]
-        
-        .. versionadded:: 0.0.7
-        """
-        return self.by_property("collapseable", collapseable)
-
-    def by_collapsed(self, collapsed: bool) -> Union['XAMediaWindow', None]:
-        """Retrieves the first window whose collapsed status matches the given boolean value, if one exists.
-
-        :return: The desired window, if it is found
-        :rtype: Union[XAMediaWindow, None]
-        
-        .. versionadded:: 0.0.7
-        """
-        return self.by_property("collapsed", collapsed)
-
-    def by_full_screen(self, full_screen: bool) -> Union['XAMediaWindow', None]:
-        """Retrieves the first window whose full screen status matches the given boolean value, if one exists.
-
-        :return: The desired window, if it is found
-        :rtype: Union[XAMediaWindow, None]
-        
-        .. versionadded:: 0.0.7
-        """
-        return self.by_property("fullScreen", full_screen)
-
-    def by_position(self, position: Tuple[int, int]) -> Union['XAMediaWindow', None]:
-        """Retrieves the first window whose position matches the given position, if one exists.
-
-        :return: The desired window, if it is found
-        :rtype: Union[XAMediaWindow, None]
-        
-        .. versionadded:: 0.0.7
-        """
-        # TODO
-        return self.by_property("position", position)
-
-    def by_resizable(self, resizable: bool) -> Union['XAMediaWindow', None]:
-        """Retrieves the first window whose resizable status matches the given boolean value, if one exists.
-
-        :return: The desired window, if it is found
-        :rtype: Union[XAMediaWindow, None]
-        
-        .. versionadded:: 0.0.7
-        """
-        return self.by_property("resizable", resizable)
-
-    def by_visible(self, visible: bool) -> Union['XAMediaWindow', None]:
-        """Retrieves the first window whose visible status matches the given boolean value, if one exists.
-
-        :return: The desired window, if it is found
-        :rtype: Union[XAMediaWindow, None]
-        
-        .. versionadded:: 0.0.7
-        """
-        return self.by_property("visible", visible)
-
-    def by_zoomable(self, zoomable: bool) -> Union['XAMediaWindow', None]:
-        """Retrieves the first window whose zoomable status matches the given boolean value, if one exists.
-
-        :return: The desired window, if it is found
-        :rtype: Union[XAMediaWindow, None]
-        
-        .. versionadded:: 0.0.7
-        """
-        return self.by_property("zoomable", zoomable)
-
-    def by_zoomed(self, zoomed: bool) -> Union['XAMediaWindow', None]:
-        """Retrieves the first window whose zoomed status matches the given boolean value, if one exists.
-
-        :return: The desired window, if it is found
-        :rtype: Union[XAMediaWindow, None]
-        
-        .. versionadded:: 0.0.7
-        """
-        return self.by_property("zoomed", zoomed)
-
-class XAMediaWindow(XAWindow, XAMediaItem):
-    """A windows of media apps.
-
-    .. seealso:: :class:`XAMediaBrowserWindow`, :class:`XAMediaPlaylistWindow`, :class:`XAMediaVideoWindow`
-
-    .. versionadded:: 0.0.1
-    """
-    def __init__(self, properties):
-        super().__init__(properties)
-        self.bounds: Tuple[int, int, int, int] #: The bounding rectangle for the window
-        self.closeable: bool #: Whether the window has a close button
-        self.collapseable: bool #: Whether the window can be minimized
-        self.collapsed: bool #: Whether the window is currently minimized
-        self.full_screen: bool #: Whether the window is currently full screen
-        self.position: Tuple[int, int] #: The upper left position of the window
-        self.resizable: bool #: Whether the window can be resized
-        self.visible: bool #: Whether the window is currently visible
-        self.zoomable: bool #: Whether the window can be zoomed
-        self.zoomed: bool #: Whether the window is currently zoomed
-
-    @property
-    def bounds(self) -> Tuple[int, int, int, int]:
-        rect = self.xa_elem.bounds()
-        origin = rect.origin
-        size = rect.size
-        return (origin.x, origin.y, size.width, size.height)
-
-    @bounds.setter
-    def bounds(self, bounds: Tuple[int, int, int, int]):
-        x = bounds[0]
-        y = bounds[1]
-        w = bounds[2]
-        h = bounds[3]
-        value = AppKit.NSValue.valueWithRect_(AppKit.NSMakeRect(x, y, w, h))
-        self.set_property("bounds", value)
-
-    @property
-    def closeable(self) -> bool:
-        return self.xa_elem.closeable()
-
-    @property
-    def collapseable(self) -> bool:
-        return self.xa_elem.miniaturizable()
-
-    @property
-    def collapsed(self) -> bool:
-        return self.xa_elem.miniaturized()
-
-    @collapsed.setter
-    def collapsed(self, collapsed: bool):
-        self.set_property('collapsed', collapsed)
-
-    @property
-    def full_screen(self) -> bool:
-        return self.xa_elem.fullScreen()
-
-    @full_screen.setter
-    def full_screen(self, full_screen: bool):
-        self.set_property('fullScreen', full_screen)
-
-    @property
-    def position(self) -> Tuple[int, int]:
-        return self.xa_elem.position()
-
-    @position.setter
-    def position(self, position: Tuple[int, int]):
-        self.set_property('position', position)
-
-    @property
-    def resizable(self) -> bool:
-        return self.xa_elem.resizable()
-
-    @property
-    def visible(self) -> bool:
-        return self.xa_elem.visible()
-
-    @visible.setter
-    def visible(self, visible: bool):
-        self.set_property('visible', visible)
-
-    @property
-    def zoomable(self) -> bool:
-        return self.xa_elem.zoomable()
-
-    @property
-    def zoomed(self) -> bool:
-        return self.xa_elem.zoomed()
-
-    @zoomed.setter
-    def zoomed(self, zoomed: bool):
-        self.set_property('zoomed', zoomed)
-
-
-
-
-class XAMediaBrowserWindowList(XAMediaWindowList):
-    """A wrapper around lists of music browser windows that employs fast enumeration techniques.
-
-    All properties of music browser windows can be called as methods on the wrapped list, returning a list containing each windows's value for the property.
-
-    .. versionadded:: 0.0.7
-    """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, filter, XAMediaBrowserWindow)
-
-    def selection(self) -> XAMediaTrackList:
-        """Gets the selection of each window in the list.
-
-        :return: A list of selected tracks
-        :rtype: XAMediaTrackList
-        
-        .. versionadded:: 0.0.7
-        """
-        ls = self.xa_elem.arrayByApplyingSelector_("selection")
-        return self._new_element(ls, XAMediaTrackList)
-
-    def view(self) -> XAMediaPlaylistList:
-        """Gets the current playlist view of each user window in the list.
-
-        :return: A list of currently viewed playlists
-        :rtype: XAMediaPlaylistList
-        
-        .. versionadded:: 0.0.7
-        """
-        ls = self.xa_elem.arrayByApplyingSelector_("view")
-        return self._new_element(ls, XAMediaPlaylistList)
-
-    def by_selection(self, selection: XAMediaTrackList) -> Union['XAMediaPlaylistWindow', None]:
-        """Retrieves the playlist window whose selection matches the given list of tracks, if one exists.
-
-        :return: The desired playlist window, if it is found
-        :rtype: Union[XAMediaPlaylistWindow, None]
-        
-        .. versionadded:: 0.0.7
-        """
-        return self.by_property("selection", selection.xa_elem)
-
-    def by_view(self, view: XAMediaPlaylist) -> Union['XAMediaPlaylistWindow', None]:
-        """Retrieves the playlist window whose view matches the given view, if one exists.
-
-        :return: The desired playlist window, if it is found
-        :rtype: Union[XAMediaPlaylistWindow, None]
-        
-        .. versionadded:: 0.0.7
-        """
-        return self.by_property("view", view.xa_elem)
-
-class XAMediaBrowserWindow(XAMediaWindow):
-    """A browser window of media apps.
-
-    .. versionadded:: 0.0.1
-    """
-    def __init__(self, properties):
-        super().__init__(properties)
-        self.selection: XAMediaTrackList #: The selected tracks
-        self.view: XAMediaPlaylist #: The playlist currently displayed in the window
-
-    @property
-    def selection(self) -> XAMediaTrackList:
-        return self._new_element(self.xa_elem.selection(), XAMediaTrackList)
-
-    @property
-    def view(self) -> XAMediaPlaylist:
-        return self._new_element(self.xa_elem.view(), XAMediaPlaylist)
-
-
-
-class XAMediaPlaylistWindowList(XAMediaWindowList):
-    """A wrapper around lists of music playlist windows that employs fast enumeration techniques.
-
-    All properties of music playlist windows can be called as methods on the wrapped list, returning a list containing each windows's value for the property.
-
-    .. versionadded:: 0.0.7
-    """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, filter, XAMediaPlaylistWindow)
-
-    def selection(self) -> XAMediaTrackList:
-        """Gets the selection of each window in the list.
-
-        :return: A list of selected tracks
-        :rtype: XAMediaTrackList
-        
-        .. versionadded:: 0.0.7
-        """
-        ls = self.xa_elem.arrayByApplyingSelector_("selection")
-        return self._new_element(ls, XAMediaTrackList)
-
-    def view(self) -> XAMediaPlaylistList:
-        """Gets the current playlist view of each user window in the list.
-
-        :return: A list of currently viewed playlists
-        :rtype: XAMediaPlaylistList
-        
-        .. versionadded:: 0.0.7
-        """
-        ls = self.xa_elem.arrayByApplyingSelector_("view")
-        return self._new_element(ls, XAMediaPlaylistList)
-
-    def by_selection(self, selection: XAMediaTrackList) -> Union['XAMediaPlaylistWindow', None]:
-        """Retrieves the playlist window whose selection matches the given list of tracks, if one exists.
-
-        :return: The desired playlist window, if it is found
-        :rtype: Union[XAMediaPlaylistWindow, None]
-        
-        .. versionadded:: 0.0.7
-        """
-        return self.by_property("selection", selection.xa_elem)
-
-    def by_view(self, view: XAMediaPlaylist) -> Union['XAMediaPlaylistWindow', None]:
-        """Retrieves the playlist window whose view matches the given view, if one exists.
-
-        :return: The desired playlist window, if it is found
-        :rtype: Union[XAMediaPlaylistWindow, None]
-        
-        .. versionadded:: 0.0.7
-        """
-        return self.by_property("view", view.xa_elem)
-
-class XAMediaPlaylistWindow(XAMediaWindow):
-    """A playlist window in media apps.
-
-    .. versionadded:: 0.0.1
-    """
-    def __init__(self, properties):
-        super().__init__(properties)
-        self.selection: XAMediaTrackList #: The selected tracks
-        self.view: XAMediaPlaylist #: The playlist currently displayed in the window
-
-    @property
-    def selection(self) -> XAMediaTrackList:
-        return self._new_element(self.xa_elem.selection(), XAMediaTrackList)
-
-    @property
-    def view(self) -> XAMediaPlaylist:
-        return self._new_element(self.xa_elem.view(), XAMediaPlaylist)
-
-
-
-
-class XAMediaVideoWindowList(XAMediaWindowList):
-    """A wrapper around lists of music video windows that employs fast enumeration techniques.
-
-    All properties of music video windows can be called as methods on the wrapped list, returning a list containing each windows's value for the property.
-
-    .. versionadded:: 0.0.7
-    """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, filter, XAMediaVideoWindow)
-
-class XAMediaVideoWindow(XAMediaWindow):
-    """A video window in media apps.
-
-    .. versionadded:: 0.0.1
-    """
-    def __init__(self, properties):
-        super().__init__(properties)

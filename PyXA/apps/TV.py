@@ -3,16 +3,14 @@
 Control the macOS TV application using JXA-like syntax.
 """
 
-from datetime import datetime
-from enum import Enum
-from typing import List, Literal, Tuple, Union
+from typing import List, Union
 
-import AppKit
+from PyXA import XABase, XABaseScriptable
 
-from PyXA import XABase
-from PyXA import XABaseScriptable
+from . import MediaApplicationBase
 
-class XATVApplication(XABase.XAMediaApplication, XABaseScriptable.XASBApplication):
+
+class XATVApplication(MediaApplicationBase.XAMediaApplication, XABaseScriptable.XASBApplication):
     """A class for managing and interacting with TV.app.
 
     .. seealso:: :class:`XATVWindow`, class:`XATVSource`, :class:`XATVPlaylist`, :class:`XATVTrack`
@@ -26,7 +24,7 @@ class XATVApplication(XABase.XAMediaApplication, XABaseScriptable.XASBApplicatio
 
 
 
-class XATVTrackList(XABase.XAMediaItemList):
+class XATVTrackList(MediaApplicationBase.XAMediaItemList):
     """A wrapper around lists of TV tracks that employs fast enumeration techniques.
 
     All properties of TV tracks can be called as methods on the wrapped list, returning a list containing each track's value for the property.
@@ -58,7 +56,7 @@ class XATVTrackList(XABase.XAMediaItemList):
         """
         return self.by_property("sortDirector", sort_director)
 
-class XATVTrack(XABase.XAMediaItem):
+class XATVTrack(MediaApplicationBase.XAMediaItem):
     """A class for managing and interacting with tracks in TV.app.
 
     .. seealso:: :class:`XATVSharedTrack`, :class:`XATVFileTrack`, :class:`XATVRemoteURLTrack`
@@ -80,7 +78,7 @@ class XATVTrack(XABase.XAMediaItem):
 
 
 
-class XATVWindow(XABase.XAMediaWindow, XABaseScriptable.XASBWindow):
+class XATVWindow(MediaApplicationBase.XAMediaWindow, XABaseScriptable.XASBWindow):
     """A windows of TV.app.
 
     .. seealso:: :class:`XATVBrowserWindow`, :class:`XATVPlaylistWindow`, :class:`XATVVideoWindow`
@@ -93,10 +91,10 @@ class XATVWindow(XABase.XAMediaWindow, XABaseScriptable.XASBWindow):
         obj_class = self.xa_elem.objectClass().data()
         if not hasattr(self, "xa_specialized"):
             if obj_class == b'WrBc':
-                self.__class__ = XABase.XAMediaBrowserWindow
+                self.__class__ = MediaApplicationBase.XAMediaBrowserWindow
             elif obj_class == b'WlPc':
-                self.__class__ = XABase.XAMediaPlaylistWindow
+                self.__class__ = MediaApplicationBase.XAMediaPlaylistWindow
             elif obj_class == b'niwc':
-                self.__class__ = XABase.XAMediaVideoWindow
+                self.__class__ = MediaApplicationBase.XAMediaVideoWindow
             self.xa_specialized = True
             self.__init__(properties)

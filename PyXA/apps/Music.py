@@ -6,13 +6,14 @@ Control the macOS Music application using JXA-like syntax.
 from datetime import datetime
 from enum import Enum
 from typing import List, Literal, Tuple, Union
-from AppKit import NSURL, NSValue, NSMakeRect
 
-from PyXA import XABase
-from PyXA import XABaseScriptable
-from ..XAProtocols import XACanOpenPath
+import AppKit
+from PyXA import XABase, XABaseScriptable
 
-class XAMusicApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
+from . import MediaApplicationBase
+
+
+class XAMusicApplication(MediaApplicationBase.XAMediaApplication):
     """A class for managing and interacting with Music.app.
 
     .. seealso:: :class:`XAMusicWindow`, class:`XAMusicSource`, :class:`XAMusicPlaylist`, :class:`XAMusicTrack`
@@ -187,11 +188,11 @@ class XAMusicApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
     # def convert(self, items):
     #     self.xa_scel.convert_([item.xa_elem for item in items])
 
-    def add_to_playlist(self, urls: List[Union[str, NSURL]], playlist):
+    def add_to_playlist(self, urls: List[Union[str, AppKit.NSURL]], playlist):
         items = []
         for url in urls:
             if isinstance(url, str):
-                url = NSURL.alloc().initFileURLWithPath_(url)
+                url = AppKit.NSURL.alloc().initFileURLWithPath_(url)
             items.append(url)
         print(items)
         self.xa_scel.add_to_(items, playlist.xa_elem)
@@ -289,7 +290,7 @@ class XAMusicApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
 
 
 
-class XAMusicAirPlayDeviceList(XABase.XAMediaItemList):
+class XAMusicAirPlayDeviceList(MediaApplicationBase.XAMediaItemList):
     """A wrapper around lists of AirPlay devices that employs fast enumeration techniques.
 
     All properties of AirPlay devices can be called as methods on the wrapped list, returning a list containing each devices's value for the property.
@@ -481,7 +482,7 @@ class XAMusicAirPlayDeviceList(XABase.XAMediaItemList):
         """
         return self.by_property("soundVolume", sound_volume)
 
-class XAMusicAirPlayDevice(XABase.XAMediaItem):
+class XAMusicAirPlayDevice(MediaApplicationBase.XAMediaItem):
     """An AirPlay device.
 
     .. versionadded:: 0.0.7
@@ -545,7 +546,7 @@ class XAMusicAirPlayDevice(XABase.XAMediaItem):
 
 
 
-class XAMusicEncoderList(XABase.XAMediaItemList):
+class XAMusicEncoderList(MediaApplicationBase.XAMediaItemList):
     """A wrapper around lists of encoders that employs fast enumeration techniques.
 
     All properties of encoders can be called as methods on the wrapped list, returning a list containing each encoders's value for the property.
@@ -575,7 +576,7 @@ class XAMusicEncoderList(XABase.XAMediaItemList):
         """
         return self.by_property("format", format)
 
-class XAMusicEncoder(XABase.XAMediaItem):
+class XAMusicEncoder(MediaApplicationBase.XAMediaItem):
     """An encoder in Music.app.
 
     .. versionadded:: 0.0.7
@@ -591,7 +592,7 @@ class XAMusicEncoder(XABase.XAMediaItem):
 
 
 
-class XAMusicEQPresetList(XABase.XAMediaItemList):
+class XAMusicEQPresetList(MediaApplicationBase.XAMediaItemList):
     """A wrapper around lists of equalizer presets that employs fast enumeration techniques.
 
     All properties of equalizer presets can be called as methods on the wrapped list, returning a list containing each preset's value for the property.
@@ -861,7 +862,7 @@ class XAMusicEQPresetList(XABase.XAMediaItemList):
         """
         return self.by_property("updateTracks", update_tracks)
 
-class XAMusicEQPreset(XABase.XAMediaItem):
+class XAMusicEQPreset(MediaApplicationBase.XAMediaItem):
     """An equalizer preset in Music.app.
 
     .. versionadded:: 0.0.7
@@ -985,7 +986,7 @@ class XAMusicEQPreset(XABase.XAMediaItem):
 
 
 
-class XAMusicPlaylistList(XABase.XAMediaPlaylistList):
+class XAMusicPlaylistList(MediaApplicationBase.XAMediaPlaylistList):
     """A wrapper around lists of playlists that employs fast enumeration techniques.
 
     All properties of playlists can be called as methods on the wrapped list, returning a list containing each playlist's value for the property.
@@ -1037,7 +1038,7 @@ class XAMusicPlaylistList(XABase.XAMediaPlaylistList):
         """
         return self.by_property("loved", loved)
 
-class XAMusicPlaylist(XABase.XAMediaPlaylist):
+class XAMusicPlaylist(MediaApplicationBase.XAMediaPlaylist):
     """A playlist in Music.app.
 
     .. seealso:: :class:`XAMusicLibraryPlaylist`, :class:`XAMusicUserPlaylist`
@@ -1366,22 +1367,22 @@ class XAMusicRadioTunerPlaylist(XAMusicPlaylist):
     def __init__(self, properties):
         super().__init__(properties)
 
-    def url_tracks(self, filter: Union[dict, None] = None) -> 'XABase.XAMediaURLTrackList':
+    def url_tracks(self, filter: Union[dict, None] = None) -> 'MediaApplicationBase.XAMediaURLTrackList':
         """Returns a list of URL tracks, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned URL tracks will have, or None
         :type filter: Union[dict, None]
         :return: The list of URL tracks
-        :rtype: XABase.XAMediaURLTrackList
+        :rtype: MediaApplicationBase.XAMediaURLTrackList
 
         .. versionadded:: 0.0.7
         """
-        return self._new_element(self.xa_scel.URLTracks(), XABase.XAMediaURLTrackList, filter)
+        return self._new_element(self.xa_scel.URLTracks(), MediaApplicationBase.XAMediaURLTrackList, filter)
 
 
 
 
-class XAMusicSourceList(XABase.XAMediaSourceList):
+class XAMusicSourceList(MediaApplicationBase.XAMediaSourceList):
     """A wrapper around lists of sources that employs fast enumeration techniques.
 
     All properties of sources can be called as methods on the wrapped list, returning a list containing each source's value for the property.
@@ -1391,7 +1392,7 @@ class XAMusicSourceList(XABase.XAMediaSourceList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, filter, XAMusicSource)
 
-class XAMusicSource(XABase.XAMediaSource):
+class XAMusicSource(MediaApplicationBase.XAMediaSource):
     """A media source in Music.app.
 
     .. versionadded:: 0.0.1
@@ -1456,34 +1457,34 @@ class XAMusicSubscriptionPlaylist(XAMusicPlaylist):
     def __init__(self, properties):
         super().__init__(properties)
 
-    def file_tracks(self, filter: Union[dict, None] = None) -> 'XABase.XAMediaFileTrackList':
+    def file_tracks(self, filter: Union[dict, None] = None) -> 'MediaApplicationBase.XAMediaFileTrackList':
         """Returns a list of file tracks, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned file tracks will have, or None
         :type filter: Union[dict, None]
         :return: The list of file tracks
-        :rtype: XABase.XAMediaFileTrackList
+        :rtype: MediaApplicationBase.XAMediaFileTrackList
 
         .. versionadded:: 0.0.7
         """
-        return self._new_element(self.xa_scel.fileTracks(), XABase.XAMediaFileTrackList, filter)
+        return self._new_element(self.xa_scel.fileTracks(), MediaApplicationBase.XAMediaFileTrackList, filter)
 
-    def url_tracks(self, filter: Union[dict, None] = None) -> 'XABase.XAMediaURLTrackList':
+    def url_tracks(self, filter: Union[dict, None] = None) -> 'MediaApplicationBase.XAMediaURLTrackList':
         """Returns a list of URL tracks, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned URL tracks will have, or None
         :type filter: Union[dict, None]
         :return: The list of URL tracks
-        :rtype: XABase.XAMediaURLTrackList
+        :rtype: MediaApplicationBase.XAMediaURLTrackList
 
         .. versionadded:: 0.0.7
         """
-        return self._new_element(self.xa_scel.URLTracks(), XABase.XAMediaURLTrackList, filter)
+        return self._new_element(self.xa_scel.URLTracks(), MediaApplicationBase.XAMediaURLTrackList, filter)
 
 
 
 
-class XAMusicTrackList(XABase.XAMediaTrackList):
+class XAMusicTrackList(MediaApplicationBase.XAMediaTrackList):
     """A wrapper around lists of music tracks that employs fast enumeration techniques.
 
     All properties of music tracks can be called as methods on the wrapped list, returning a list containing each track's value for the property.
@@ -1927,10 +1928,10 @@ class XAMusicTrackList(XABase.XAMediaTrackList):
         """
         return self.by_property("work", work)
 
-class XAMusicTrack(XABase.XAMediaTrack):
+class XAMusicTrack(MediaApplicationBase.XAMediaTrack):
     """A class for managing and interacting with tracks in Music.app.
 
-    .. seealso:: :class:`XAMusicSharedTrack`, :class:`XABase.XAMediaFileTrack`, :class:`XAMusicRemoteURLTrack`
+    .. seealso:: :class:`XAMusicSharedTrack`, :class:`MediaApplicationBase.XAMediaFileTrack`, :class:`XAMusicRemoteURLTrack`
 
     .. versionadded:: 0.0.1
     """
@@ -1963,10 +1964,10 @@ class XAMusicTrack(XABase.XAMediaTrack):
         #     self.__class__ = XAMusicSharedTrack
         #     self.__init__()
         # elif self.objectClass.data() == _FILE_TRACK:
-        #     self.__class__ = XABase.XAMediaFileTrack
+        #     self.__class__ = MediaApplicationBase.XAMediaFileTrack
         #     self.__init__()
         # elif self.objectClass.data() == _URL_TRACK:
-        #     self.__class__ = XABase.XAMediaURLTrack
+        #     self.__class__ = MediaApplicationBase.XAMediaURLTrack
         #     self.__init__()
 
     @property
@@ -2231,7 +2232,7 @@ class XAMusicUserPlaylist(XAMusicPlaylist):
 
 
 
-class XAMusicVisualList(XABase.XAMediaItemList):
+class XAMusicVisualList(MediaApplicationBase.XAMediaItemList):
     """A wrapper around lists of music visuals that employs fast enumeration techniques.
 
     All properties of music visuals can be called as methods on the wrapped list, returning a list containing each visual's value for the property.
@@ -2251,7 +2252,7 @@ class XAMusicVisual(XAMusicPlaylist):
 
 
 
-class XAMusicWindowList(XABase.XAMediaWindowList):
+class XAMusicWindowList(MediaApplicationBase.XAMediaWindowList):
     """A wrapper around lists of music windows that employs fast enumeration techniques.
 
     All properties of music windows can be called as methods on the wrapped list, returning a list containing each windows's value for the property.
@@ -2263,7 +2264,7 @@ class XAMusicWindowList(XABase.XAMediaWindowList):
             obj_class = XAMusicWindow
         super().__init__(properties, filter, obj_class)
 
-class XAMusicWindow(XABase.XAMediaWindow, XABaseScriptable.XASBWindow):
+class XAMusicWindow(MediaApplicationBase.XAMediaWindow, XABaseScriptable.XASBWindow):
     """A windows of Music.app.
 
     .. seealso:: :class:`XAMusicBrowserWindow`, :class:`XAMusicPlaylistWindow`, :class:`XAMusicVideoWindow`
@@ -2276,11 +2277,11 @@ class XAMusicWindow(XABase.XAMediaWindow, XABaseScriptable.XASBWindow):
         obj_class = self.xa_elem.objectClass().data()
         if not hasattr(self, "xa_specialized"):
             if obj_class == b'WrBc':
-                self.__class__ = XABase.XAMediaBrowserWindow
+                self.__class__ = MediaApplicationBase.XAMediaBrowserWindow
             elif obj_class == b'WlPc':
-                self.__class__ = XABase.XAMediaPlaylistWindow
+                self.__class__ = MediaApplicationBase.XAMediaPlaylistWindow
             elif obj_class == b'niwc':
-                self.__class__ = XABase.XAMediaVideoWindow
+                self.__class__ = MediaApplicationBase.XAMediaVideoWindow
             elif obj_class == b'WPMc':
                 self.__class__ = XAMusicMiniplayerWindow
             elif obj_class == b'WQEc':

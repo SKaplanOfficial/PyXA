@@ -9,22 +9,49 @@ Control the macOS Photos application using JXA-like syntax.
    - Add ability to add new albums
    - Add ability to move photos to albums/folders
 """
+from curses import meta
 from datetime import datetime
-from typing import Union, List
+from pprint import pprint
+from typing import Any, Tuple, Union, List
 from AppKit import NSImage, NSURL, NSFileManager
+
+import AppKit
+import Photos
+import PhotosUI
+import Quartz
+
+from PyObjCTools import AppHelper
 
 from PyXA import XABase
 from PyXA import XABaseScriptable
-from ..XAProtocols import XACanOpenPath, XAClipboardCodable
-        
+from ..XAProtocols import XACanOpenPath, XAClipboardCodable, XAImageLike
+from ..XAErrors import AuthenticationError
 
 class XAPhotosApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
     """A class for managing and interacting with Photos.app.
 
     .. versionadded:: 0.0.2
     """
+    def __check_authorization(self):
+        # Check current authorization status
+        auth_status = Photos.PHPhotoLibrary.authorizationStatusForAccessLevel_(Photos.PHAccessLevelReadWrite)
+
+        # Request authorization if necessary
+        if auth_status != Photos.PHAuthorizationStatusAuthorized:
+            auth_status = Photos.PHPhotoLibrary.requestAuthorizationForAccessLevel_handler_(Photos.PHAccessLevelReadWrite, None)
+
+        # Raise error on insufficient authorization status
+        if auth_status != Photos.PHAuthorizationStatusAuthorized:
+            raise AuthenticationError("You must grant PyXA access to the Photos library in order to use this module.")
+
     def __init__(self, properties):
         super().__init__(properties)
+
+        # Ensure authorization to Photos library
+        self.__check_authorization()
+
+        self.__photos_library = Photos.PHPhotoLibrary.sharedPhotoLibrary()
+        self.__image_manager = Photos.PHCachingImageManager.defaultManager()
         
         self.properties: dict #: All properties of the application
         self.name: str #: The name of the application
@@ -34,6 +61,7 @@ class XAPhotosApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         self.favorites_album: XAPhotosAlbum #: Favorited media items album.
         self.slideshow_running: bool #: Returns true if a slideshow is currently running.
         self.recently_deleted_album: XAPhotosAlbum #: The set of recently deleted media items
+        self.library_path: XABase.XAPath #: The path to the Photos library container
 
     @property
     def properties(self) -> dict:
@@ -67,16 +95,29 @@ class XAPhotosApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
     def recently_deleted_album(self) -> 'XAPhotosAlbum':
         return self._new_element(self.xa_scel.recentlyDeletedAlbum(), XAPhotosAlbum)
 
-    def open(self, path: Union[str, NSURL]) -> 'XAPhotosApplication':
+    @property
+    def library_path(self) -> XABase.XAPath:
+        return XABase.XAPath(self.__photos_library.photoLibraryURL())
+
+    def open(self, path: Union[str, XABase.XAPath, List[Union[str, XABase.XAPath]]]) -> 'XAPhotosApplication':
         """Imports the file at the given filepath without adding it to any particular album.
 
         :param target: The path to a file to import into photos.
-        :type target: Union[str, NSURL]
+        :type target: Union[str, XABase.XAPath, List[str, List[XABase.XAPath]]]
         :return: The Photos application object
         :rtype: XAPhotosApplication
 
         .. versionadded:: 0.0.1
         """
+        if isinstance(path, list):
+            for index, item in enumerate(path):
+                if isinstance(item, str):
+                    path[index] = XABase.XAPath(item)
+            return self.import_files(path)
+
+        if isinstance(path, str):
+            return self.import_files([XABase.XAPath(path)])
+
         return self.import_files([path])
 
     def import_files(self, files: List[Union[str, NSURL]], destination_album: Union['XAPhotosAlbum', None] = None, skip_duplicate_checking: bool = False) -> 'XAPhotosMediaItemList':
@@ -95,9 +136,9 @@ class XAPhotosApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         """
         urls = []
         for file in files:
-            if not isinstance(file, NSURL):
-                file = XABase.XAPath(file).xa_elem
-            urls.append(file)
+            if not isinstance(file, XABase.XAPath):
+                file = XABase.XAPath(file)
+            urls.append(file.xa_elem)
 
         ls = None
         if destination_album is None:
@@ -128,7 +169,6 @@ class XAPhotosApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
             self.xa_scel.export_to_usingOriginals_(media_items, destination_path, use_originals)
         return self
 
-
     def search(self, query: str) -> 'XAPhotosMediaItemList':
         """Searches for items matching the given search string.
 
@@ -140,7 +180,6 @@ class XAPhotosApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         .. versionadded:: 0.0.6
         """
         ls = self.xa_scel.searchFor_(query)
-        print(ls)
         return self._new_element(ls, XAPhotosMediaItemList)
 
     def add(self, media_items: Union['XAPhotosMediaItemList', List['XAPhotosMediaItem']], album: 'XAPhotosAlbum') -> 'XAPhotosApplication':
@@ -275,7 +314,13 @@ class XAPhotosApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
 
         .. versionadded:: 0.0.6
         """
-        return self._new_element(self.xa_scel.mediaItems(), XAPhotosMediaItemList, filter)
+        fetch_options = Photos.PHFetchOptions.alloc().init()
+        all_photos = Photos.PHAsset.fetchAssetsWithOptions_(fetch_options)
+        all_photos_list = all_photos.objectsAtIndexes_(AppKit.NSIndexSet.alloc().initWithIndexesInRange_((0, all_photos.count())))
+
+        list_obj = self._new_element(all_photos_list, XAPhotosMediaItemList, filter)
+        list_obj.xa_scel = self.xa_scel.mediaItems()
+        return list_obj
 
     def make(self, specifier: str, properties: dict = None):
         """Creates a new element of the given specifier class without adding it to any list.
@@ -323,6 +368,32 @@ class XAPhotosMediaItemList(XABase.XAList, XAClipboardCodable):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XAPhotosMediaItem, filter)
 
+        self.__resource_manager = Photos.PHAssetResourceManager.defaultManager()
+        self.__image_manager = Photos.PHCachingImageManager.defaultManager()
+        self.__metadata_storage = []
+
+    def __get_metadata(self, asset, storage):
+        def result_handler(img_data, img_uti, img_orientation, img_info):
+            source = Quartz.CGImageSourceCreateWithData(img_data, {Quartz.kCGImageSourceShouldCache: True})
+            metadata = Quartz.CGImageSourceCopyPropertiesAtIndex(source, 0, {Quartz.kCGImageSourceShouldCache: True})
+            if metadata is not None:
+                storage.append(metadata)
+                print(metadata)
+
+        options = Photos.PHImageRequestOptions.alloc().init()
+        options.setSynchronous_(True)
+        options.setDeliveryMode_(Photos.PHImageRequestOptionsDeliveryModeHighQualityFormat)
+
+        self.__image_manager.requestImageDataAndOrientationForAsset_options_resultHandler_(asset, options, result_handler)
+
+    def _new_element(self, obj: AppKit.NSObject, obj_class: type = XABase.XAObject, *args: List[Any]) -> 'XABase.XAObject':
+        element = super()._new_element(obj, obj_class, *args)
+        predicate = XABase.XAPredicate()
+        predicate.add_eq_condition("id", obj.localIdentifier())
+        ls = predicate.evaluate(self.xa_scel)
+        element.xa_scel = ls[0]
+        return element
+
     def properties(self) -> List[dict]:
         """Gets the properties of each media item in the list.
 
@@ -331,7 +402,7 @@ class XAPhotosMediaItemList(XABase.XAList, XAClipboardCodable):
         
         .. versionadded:: 0.0.6
         """
-        return list(self.xa_elem.arrayByApplyingSelector_("properties"))
+        return list(self.xa_scel.arrayByApplyingSelector_("properties"))
 
     def keywords(self) -> List[List[str]]:
         """Gets the keywords of each media item in the list.
@@ -341,17 +412,39 @@ class XAPhotosMediaItemList(XABase.XAList, XAClipboardCodable):
         
         .. versionadded:: 0.0.6
         """
-        return list(self.xa_elem.arrayByApplyingSelector_("keywords"))
+        ls = self.xa_scel.arrayByApplyingSelector_("keywords")
+        return [keyword for keywordlist in ls for keyword in keywordlist]
 
-    def name(self) -> List[str]:
-        """Gets the name of each media item in the list.
+    def duration(self) -> List[float]:
+        """Gets the duration of each media item in the list.
 
-        :return: A list of media item names
+        :return: A list of media item durations
+        :rtype: List[float]
+        
+        .. versionadded:: 0.0.6
+        """
+        return [x.duration() for x in self.xa_elem]
+
+    def title(self) -> List[str]:
+        """Gets the title of each media item in the list.
+
+        :return: A list of media item titles
         :rtype: List[str]
         
         .. versionadded:: 0.0.6
         """
-        return list(self.xa_elem.arrayByApplyingSelector_("name"))
+        return list(self.xa_elem.arrayByApplyingSelector_("title"))
+
+    def file_path(self) -> List[XABase.XAPath]:
+        """Gets the file path of each media item in the list.
+
+        :return: A list of media item original file paths
+        :rtype: List[XABase.XAPath]
+        
+        .. versionadded:: 0.0.6
+        """
+        ls = self.xa_elem.arrayByApplyingSelector_("mainFileURL")
+        return [XABase.XAPath(x) for x in ls]
 
     def object_description(self) -> List[str]:
         """Gets the object description of each media item in the list.
@@ -361,7 +454,7 @@ class XAPhotosMediaItemList(XABase.XAList, XAClipboardCodable):
         
         .. versionadded:: 0.0.6
         """
-        return list(self.xa_elem.arrayByApplyingSelector_("objectDescription"))
+        return list(self.xa_scel.arrayByApplyingSelector_("objectDescription"))
 
     def favorite(self) -> List[bool]:
         """Gets the favorited status of each media item in the list.
@@ -371,17 +464,67 @@ class XAPhotosMediaItemList(XABase.XAList, XAClipboardCodable):
         
         .. versionadded:: 0.0.6
         """
-        return list(self.xa_elem.arrayByApplyingSelector_("favorite"))
+        return [x.isFavorite() for x in self.xa_elem]
 
-    def date(self) -> List[datetime]:
-        """Gets the date of each media item in the list.
+    def creation_date(self) -> List[datetime]:
+        """Gets the creation date of each media item in the list.
 
-        :return: A list of media item dates
+        :return: A list of media item creation dates
         :rtype: List[datetime]
         
         .. versionadded:: 0.0.6
         """
-        return list(self.xa_elem.arrayByApplyingSelector_("date"))
+        return list(self.xa_elem.arrayByApplyingSelector_("creationDate"))
+
+    def modification_date(self) -> List[datetime]:
+        """Gets the last modification date of each media item in the list.
+
+        :return: A list of media item modification dates
+        :rtype: List[datetime]
+        
+        .. versionadded:: 0.0.6
+        """
+        return list(self.xa_elem.arrayByApplyingSelector_("modificationDate"))
+
+    def is_burst(self) -> List[bool]:
+        """Gets the is burst status of each media item in the list.
+
+        :return: A list of media item is burst status booleans
+        :rtype: List[bool]
+        
+        .. versionadded:: 0.1.0
+        """
+        return [x.representsBurst() for x in self.xa_elem]
+
+    def is_video(self) -> List[bool]:
+        """Gets the is video status of each media item in the list.
+
+        :return: A list of media item is video status booleans
+        :rtype: List[bool]
+        
+        .. versionadded:: 0.1.0
+        """
+        return [x.isVideo() for x in self.xa_elem]
+
+    def is_hidden(self) -> List[bool]:
+        """Gets the is hidden status of each media item in the list.
+
+        :return: A list of media item is hidden status booleans
+        :rtype: List[bool]
+        
+        .. versionadded:: 0.1.0
+        """
+        return [x.isHidden() for x in self.xa_elem]
+
+    def is_photo(self) -> List[bool]:
+        """Gets the is photo status of each media item in the list.
+
+        :return: A list of media item is photo status booleans
+        :rtype: List[bool]
+        
+        .. versionadded:: 0.1.0
+        """
+        return [x.isPhoto() for x in self.xa_elem]
 
     def id(self) -> List[str]:
         """Gets the ID of each media item in the list.
@@ -391,7 +534,7 @@ class XAPhotosMediaItemList(XABase.XAList, XAClipboardCodable):
         
         .. versionadded:: 0.0.6
         """
-        return list(self.xa_elem.arrayByApplyingSelector_("id"))
+        return list(self.xa_elem.arrayByApplyingSelector_("localIdentifier"))
 
     def height(self) -> List[int]:
         """Gets the height of each media item in the list.
@@ -401,7 +544,7 @@ class XAPhotosMediaItemList(XABase.XAList, XAClipboardCodable):
         
         .. versionadded:: 0.0.6
         """
-        return list(self.xa_elem.arrayByApplyingSelector_("height"))
+        return [x.pixelHeight() for x in self.xa_elem]
 
     def width(self) -> List[int]:
         """Gets the width of each media item in the list.
@@ -411,7 +554,7 @@ class XAPhotosMediaItemList(XABase.XAList, XAClipboardCodable):
         
         .. versionadded:: 0.0.6
         """
-        return list(self.xa_elem.arrayByApplyingSelector_("width"))
+        return [x.pixelWidth() for x in self.xa_elem]
 
     def filename(self) -> List[str]:
         """Gets the filename of each media item in the list.
@@ -431,17 +574,21 @@ class XAPhotosMediaItemList(XABase.XAList, XAClipboardCodable):
         
         .. versionadded:: 0.0.6
         """
-        return list(self.xa_elem.arrayByApplyingSelector_("altitude"))
+        locations = self.xa_elem.arrayByApplyingSelector_("location")
+        return [x.altitude() for x in locations]
 
-    def size(self) -> List[int]:
-        """Gets the file size of each media item in the list.
+    def size(self) -> List[Tuple[float, float]]:
+        """Gets the file size, in bytes, of each media item in the list.
 
         :return: A list of media item file sizes
-        :rtype: List[int]
+        :rtype: List[Tuple[float, float]]
         
         .. versionadded:: 0.0.6
         """
-        return list(self.xa_elem.arrayByApplyingSelector_("size"))
+        paths = self.file_path()
+        file_manager = AppKit.NSFileManager.defaultManager()
+        attributes = [file_manager.attributesOfItemAtPath_error_(x.path, None) for x in paths]
+        return [x[0][AppKit.NSFileSize] for x in attributes if x is not None and x[0] is not None]
 
     def location(self) -> List[List[Union[float, None]]]:
         """Gets the location of each media item in the list.
@@ -453,8 +600,10 @@ class XAPhotosMediaItemList(XABase.XAList, XAClipboardCodable):
         """
         ls = self.xa_elem.arrayByApplyingSelector_("location")
         return [XABase.XALocation(
-            latitude = x.get()[0],
-            longitude = x.get()[1],
+            latitude = x.coordinate()[0],
+            longitude = x.coordinate()[1],
+            altitude = x.altitude(),
+            radius = x.horizontalAccuracy()
         ) for x in ls]
 
     def by_properties(self, properties: dict) -> Union['XAPhotosMediaItem', None]:
@@ -465,7 +614,11 @@ class XAPhotosMediaItemList(XABase.XAList, XAClipboardCodable):
         
         .. versionadded:: 0.0.6
         """
-        return self.by_property("properties", properties)
+        predicate = XABase.XAPredicate()
+        predicate.add_eq_condition("properties", properties)
+        ls = predicate.evaluate(self.xa_scel).get()
+        obj = ls[0]
+        return self._new_element(obj, self.xa_ocls)
 
     def by_keywords(self, keywords: List[str]) -> Union['XAPhotosMediaItem', None]:
         """Retrieves the media item whose keywords list matches the given keywords, if one exists.
@@ -477,15 +630,15 @@ class XAPhotosMediaItemList(XABase.XAList, XAClipboardCodable):
         """
         return self.by_property("keywords", keywords)
 
-    def by_name(self, name: str) -> Union['XAPhotosMediaItem', None]:
-        """Retrieves the media item whose name matches the given name string, if one exists.
+    def by_title(self, title: str) -> Union['XAPhotosMediaItem', None]:
+        """Retrieves the media item whose title matches the given title string, if one exists.
 
         :return: The desired media item, if it is found
         :rtype: Union[XAPhotosMediaItem, None]
         
         .. versionadded:: 0.0.6
         """
-        return self.by_property("name", name)
+        return self.by_property("title", title)
 
     def by_object_description(self, object_description: str) -> Union['XAPhotosMediaItem', None]:
         """Retrieves the media item whose object description matches the given description, if one exists.
@@ -603,7 +756,7 @@ class XAPhotosMediaItemList(XABase.XAList, XAClipboardCodable):
     def __repr__(self):
         return "<" + str(type(self)) + str(self.id()) + ">"
 
-class XAPhotosMediaItem(XABase.XAObject, XAClipboardCodable):
+class XAPhotosMediaItem(XABase.XAObject, XAClipboardCodable, XAImageLike):
     """A photo or video in Photos.app.
 
     .. versionadded:: 0.0.2
@@ -616,7 +769,8 @@ class XAPhotosMediaItem(XABase.XAObject, XAClipboardCodable):
         self.name: str #: The name (title) of the media item.
         self.object_description: str #: A description of the media item.
         self.favorite: bool #: Whether the media item has been favorited.
-        self.date: datetime #: The date of the media item
+        self.creation_date: datetime #: The creation date of the media item
+        self.modification_date: datetime #: The last modification date of the media item
         self.id: str #: The unique ID of the media item
         self.height: int #: The height of the media item in pixels.
         self.width: int #: The width of the media item in pixels.
@@ -624,34 +778,64 @@ class XAPhotosMediaItem(XABase.XAObject, XAClipboardCodable):
         self.altitude: float #: The GPS altitude in meters.
         self.size: int #: The selected media item file size.
         self.location: XABase.XALocation #: The GPS latitude and longitude, in an ordered list of 2 numbers or missing values. Latitude in range -90.0 to 90.0, longitude in range -180.0 to 180.0.
+        self.duration: float #: The duration of the media item
+        self.is_video: bool #: Whether the media item is a video
+        self.is_photo: bool #: Whether the media item is a photo
+        self.is_burst: bool #: Whether the media item is a burst photo
+        self.file_path: XABase.XAPath #: The path to the main file for the media item
+        self.is_hidden: bool #: Whether the media item is hidden
+
+        self.__photos_library = Photos.PHPhotoLibrary.sharedPhotoLibrary()
+        self.__image_manager = Photos.PHCachingImageManager.defaultManager()
+        self.__metadata_storage = []
+
+        fetch_options = Photos.PHFetchOptions.alloc().init()
+        all_photos = Photos.PHAsset.fetchAssetsWithOptions_(fetch_options)
+
+    def __get_metadata(self, force: bool = True):
+        if self.__metadata_storage != [] and force is False:
+            return
+
+        def result_handler(img_data, img_uti, img_orientation, img_info):
+            source = Quartz.CGImageSourceCreateWithData(img_data, {Quartz.kCGImageSourceShouldCache: True})
+            metadata = Quartz.CGImageSourceCopyPropertiesAtIndex(source, 0, {Quartz.kCGImageSourceShouldCache: True})
+            if metadata is not None:
+                self.__metadata_storage.append(metadata)
+
+        options = Photos.PHImageRequestOptions.alloc().init()
+        options.setSynchronous_(True)
+        options.setDeliveryMode_(Photos.PHImageRequestOptionsDeliveryModeHighQualityFormat)
+
+        self.__image_manager.requestImageDataAndOrientationForAsset_options_resultHandler_(self.xa_elem, options, result_handler)
 
     @property
     def properties(self) -> dict:
-        return self.xa_elem.properties()
+        return self.xa_scel.properties()
 
     @property
     def keywords(self) -> List[str]:
-        return self.xa_elem.keywords()
+        self.xa_scel = self.xa_scel.get()
+        return list(self.xa_scel.keywords())
 
     @keywords.setter
     def keywords(self, keywords: List[str]):
-        self.set_property('keywords', keywords)
+        self.set_scriptable_property('keywords', keywords)
 
     @property
     def name(self) -> str:
-        return self.xa_elem.name()
+        return self.xa_elem.title()
 
     @name.setter
     def name(self, name: str):
-        self.set_property('name', name)
+        self.set_scriptable_property("name", name)
 
     @property
     def object_description(self) -> str:
-        return self.xa_elem.objectDescription()
+        return self.xa_scel.objectDescription()
 
     @object_description.setter
     def object_description(self, object_description: str):
-        self.set_property('objectDescription', object_description)
+        self.set_scriptable_property('objectDescription', object_description)
 
     @property
     def favorite(self) -> bool:
@@ -662,24 +846,52 @@ class XAPhotosMediaItem(XABase.XAObject, XAClipboardCodable):
         self.set_property('favorite', favorite)
 
     @property
-    def date(self) -> datetime:
-        return self.xa_elem.date()
+    def creation_date(self) -> datetime:
+        return self.xa_elem.creationDate()
 
-    @date.setter
-    def date(self, date: datetime):
-        self.set_property('date', date)
+    @creation_date.setter
+    def creation_date(self, creation_date: datetime):
+        self.set_scriptable_property('date', creation_date)
+
+    @property
+    def modification_date(self) -> datetime:
+        return self.xa_elem.modificationDate()
+
+    @property
+    def is_photo(self) -> bool:
+        return self.xa_elem.isPhoto()
+
+    @property
+    def duration(self) -> float:
+        return self.xa_elem.duration()
+
+    @property
+    def file_path(self) -> XABase.XAPath:
+        return XABase.XAPath(self.xa_elem.mainFileURL())
+
+    @property
+    def is_video(self) -> bool:
+        return self.xa_elem.isVideo()
+
+    @property
+    def is_hidden(self) -> bool:
+        return self.xa_elem.isHidden()
+
+    @property
+    def is_burst(self) -> bool:
+        return self.xa_elem.representsBurst()
 
     @property
     def id(self) -> str:
-        return self.xa_elem.id()
+        return self.xa_elem.localIdentifier()
 
     @property
     def height(self) -> int:
-        return self.xa_elem.height()
+        return self.xa_elem.pixelHeight()
 
     @property
     def width(self) -> int:
-        return self.xa_elem.width()
+        return self.xa_elem.pixelWidth()
 
     @property
     def filename(self) -> str:
@@ -687,19 +899,20 @@ class XAPhotosMediaItem(XABase.XAObject, XAClipboardCodable):
 
     @property
     def altitude(self) -> float:
-        return self.xa_elem.altitude()
+        return self.xa_scel.altitude()
 
     @property
     def size(self) -> int:
-        return self.xa_elem.size()
+        return self.xa_scel.size()
 
     @property
     def location(self) -> XABase.XALocation:
-        loc = self.xa_elem.location().get()
+        loc = self.xa_elem.location()
         return XABase.XALocation(
-            latitude = loc[0],
-            longitude = loc[1],
-            altitude = self.altitude,
+            latitude = loc.coordinate()[0],
+            longitude = loc.coordinate()[1],
+            altitude = loc.altitude(),
+            radius = loc.horizontalAccuracy()
         )
 
     @location.setter
@@ -709,13 +922,6 @@ class XAPhotosMediaItem(XABase.XAObject, XAClipboardCodable):
         else:
             self.set_property('location', [location.latitude, location.longitude])
 
-    def _get_url(self) -> NSURL:
-        home = NSFileManager.defaultManager().homeDirectoryForCurrentUser()
-        url = home.URLByAppendingPathComponent_("Pictures/Photos Library.photoslibrary/originals/")
-        url = url.URLByAppendingPathComponent_(self.id[0])
-        url = url.URLByAppendingPathComponent_(self.id[:-7] + self.filename[self.filename.index("."):].lower())
-        return url
-
     def spotlight(self) -> 'XAPhotosMediaItem':
         """Shows the media item in the front window of Photos.app.
 
@@ -724,7 +930,7 @@ class XAPhotosMediaItem(XABase.XAObject, XAClipboardCodable):
 
         .. versionadded:: 0.0.6
         """
-        self.xa_elem.spotlight()
+        self.xa_scel.spotlight()
         return self
 
     def duplicate(self) -> 'XAPhotosMediaItem':
@@ -735,35 +941,21 @@ class XAPhotosMediaItem(XABase.XAObject, XAClipboardCodable):
 
         .. versionadded:: 0.0.2
         """
-        return self.xa_elem.duplicate()
+        return self.xa_scel.duplicate()
 
     def show_in_preview(self):
         """Opens the media item in Preview.app.
 
         .. versionadded:: 0.0.2
         """
-        url = self._get_url()
-        self.xa_wksp.openURL_(url)
+        self.xa_wksp.openURL_(self.file_path.xa_elem)
 
     def reveal_in_finder(self):
         """Opens a Finder window or tab focused on the media item's containing folder with the media item selected.
 
         .. versionadded:: 0.0.2
         """
-        url = self._get_url()
-        self.xa_wksp.activateFileViewerSelectingURLs_([url])
-
-    def copy_to_clipboard(self):
-        """Copies the media file and its data to the clipboard.
-
-        .. versionadded:: 0.0.2
-        """
-        home = NSFileManager.defaultManager().homeDirectoryForCurrentUser()
-        url = home.URLByAppendingPathComponent_("Pictures/Photos Library.photoslibrary/originals/")
-        url = url.URLByAppendingPathComponent_(self.id[0])
-        url = url.URLByAppendingPathComponent_(self.id[:-7] + self.filename[self.filename.index("."):].lower())
-        img = NSImage.alloc().initWithContentsOfFile_(url.path())
-        self.set_clipboard([url])
+        self.xa_wksp.activateFileViewerSelectingURLs_([self.file_path.xa_elem])
 
     def get_clipboard_representation(self) -> NSURL:
         """Gets a clipboard-codable representation of the media item.
@@ -775,7 +967,15 @@ class XAPhotosMediaItem(XABase.XAObject, XAClipboardCodable):
 
         .. versionadded:: 0.0.8
         """
-        return self._get_url()
+        return self.file_path.xa_elem
+
+    def get_image_representation(self) -> XABase.XAPath:
+        """Gets a representation of the object that can be used to initialize an :class:`~PyXA.XABase.XAImage` object.
+
+        :return: The XAImage-compatible form of this object
+        :rtype: XABase.XAPath
+        """
+        return self.file_path
 
     def __repr__(self):
         if self.name is None:

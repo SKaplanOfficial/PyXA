@@ -622,6 +622,9 @@ class XAMailWindow(XABaseScriptable.XASBWindow):
         doc_obj = self.xa_elem.document()
         return self._new_element(doc_obj, XAMailDocument)
 
+    def __repr__(self):
+        return "<" + str(type(self)) + str(self.name) + ">"
+
 
 
 
@@ -742,6 +745,9 @@ class XAMailMessageViewerList(XABase.XAList):
 
     def by_window(self, window: XAMailWindow) -> 'XAMailMessageViewer':
         return self.by_property("window", window.xa_scel)
+
+    def __repr__(self):
+        return "<" + str(type(self)) + str(self.id()) + ">"
 
 class XAMailMessageViewer(XABase.XAObject):
     """A class for managing and interacting with the message viewer window in Mail.app.
@@ -878,6 +884,9 @@ class XAMailMessageViewer(XABase.XAObject):
         """
         return self._new_element(self.xa_elem.messages(), XAMailMessageList, filter)
 
+    def __repr__(self):
+        return "<" + str(type(self)) + str(self.id) + ">"
+
 
 
 
@@ -903,6 +912,9 @@ class XAMailSignatureList(XABase.XAList):
 
     def by_content(self, content: XABase.XAText) -> 'XAMailSignature':
         return self.by_property("content", content.xa_elem)
+
+    def __repr__(self):
+        return "<" + str(type(self)) + str(self.name()) + ">"
 
 class XAMailSignature(XABase.XAObject):
     """A class for managing and interacting with email signatures in Mail.app.
@@ -936,6 +948,9 @@ class XAMailSignature(XABase.XAObject):
         .. versionadded:: 0.0.4
         """
         self.xa_elem.delete()
+
+    def __repr__(self):
+        return "<" + str(type(self)) + str(self.name) + ">"
 
 
 
@@ -1063,6 +1078,9 @@ class XAMailAccountList(XABase.XAList):
     def by_uses_ssl(self, uses_ssl: bool) -> 'XAMailAccount':
         return self.by_property("usesSsl", uses_ssl)
 
+    def __repr__(self):
+        return "<" + str(type(self)) + str(self.name()) + ">"
+
 class XAMailAccount(XABase.XAObject):
     """A class for managing and interacting with accounts in Mail.app.
 
@@ -1109,6 +1127,10 @@ class XAMailAccount(XABase.XAObject):
     @property
     def id(self) -> str:
         return self.xa_elem.id()
+
+    @property
+    def password(self) -> None:
+        return
 
     @password.setter
     def password(self, password: str):
@@ -1232,6 +1254,9 @@ class XAMailAccount(XABase.XAObject):
         .. versionadded:: 0.0.4
         """
         return self._new_element(self.xa_elem.mailboxes(), XAMailboxList, filter)
+
+    def __repr__(self):
+        return "<" + str(type(self)) + str(self.name) + ">"
 
 
 
@@ -1510,7 +1535,10 @@ class XAMailSMTPServerList(XABase.XAList):
     def by_uses_ssl(self, uses_ssl: bool) -> 'XAMailAccount':
         return self.by_property("usesSsl", uses_ssl)
 
-class XAMailSMTPServer(XAMailAccount):
+    def __repr__(self):
+        return "<" + str(type(self)) + str(self.name()) + ">"
+
+class XAMailSMTPServer(XABase.XAObject):
     """A class for managing and interacting with SMTP servers in Mail.app.
 
     .. versionadded:: 0.0.4
@@ -1530,6 +1558,10 @@ class XAMailSMTPServer(XAMailAccount):
     @property
     def name(self) -> str:
         return self.xa_elem.name()
+
+    @property
+    def password(self) -> None:
+        return
 
     @password.setter
     def password(self, password: str):
@@ -1587,6 +1619,9 @@ class XAMailSMTPServer(XAMailAccount):
     def uses_ssl(self, uses_ssl: bool):
         self.set_property('usesSsl', uses_ssl)
 
+    def __repr__(self):
+        return "<" + str(type(self)) + str(self.name) + ">"
+
 
 
 
@@ -1618,6 +1653,9 @@ class XAMailDocumentList(XABase.XAList):
     def by_file(self, file: str) -> 'XAMailDocument':
         return self.by_property("file", file)
 
+    def __repr__(self):
+        return "<" + str(type(self)) + str(self.name()) + ">"
+
 class XAMailDocument(XABase.XAObject):
     """A class for managing and interacting with Mail documents.
 
@@ -1648,6 +1686,9 @@ class XAMailDocument(XABase.XAObject):
         """
         self.xa_elem.delete()
 
+    def __repr__(self):
+        return "<" + str(type(self)) + str(self.name) + ">"
+
 
 
 
@@ -1658,8 +1699,10 @@ class XAMailboxList(XABase.XAList):
 
     .. versionadded:: 0.0.4
     """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAMailbox, filter)
+    def __init__(self, properties: dict, filter: Union[dict, None] = None, obj_class = None):
+        if obj_class is None:
+            obj_class = XAMailbox
+        super().__init__(properties, obj_class, filter)
 
     def name(self) -> List[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
@@ -1686,6 +1729,9 @@ class XAMailboxList(XABase.XAList):
 
     def by_container(self, container: 'XAMailContainer') -> 'XAMailbox':
         return self.by_property("container", container.xa_elem)
+
+    def __repr__(self):
+        return "<" + str(type(self)) + str(self.name()) + ">"
 
 class XAMailbox(XABase.XAObject):
     """A class for managing and interacting with mailboxes in Mail.app.
@@ -1726,6 +1772,23 @@ class XAMailbox(XABase.XAObject):
         """
         self.xa_elem.delete()
 
+    def mailboxes(self, filter: dict = None) -> 'XAMailboxList':
+        """Returns a list of mailboxes matching the filter.
+
+        .. versionadded:: 0.1.0
+        """
+        return self._new_element(self.xa_elem.mailboxes(), XAMailboxList, filter)
+
+    def messages(self, filter: dict = None) -> 'XAMailMessageList':
+        """Returns a list of messages matching the filter.
+
+        .. versionadded:: 0.1.0
+        """
+        return self._new_element(self.xa_elem.messages(), XAMailMessageList, filter)
+
+    def __repr__(self):
+        return "<" + str(type(self)) + str(self.name) + ">"
+
 
 
 
@@ -1737,7 +1800,7 @@ class XAMailContainerList(XAMailboxList):
     .. versionadded:: 0.0.4
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAMailContainer, filter)
+        super().__init__(properties, filter, XAMailContainer)
 
 class XAMailContainer(XAMailbox):
     """A class for managing and interacting with containers in Mail.app. Containers are mailboxes that contain other mailboxes.
@@ -1889,6 +1952,9 @@ class XAMailMessageList(XABase.XAList):
 
     def by_was_replied_to(self, was_replied_to: bool) -> 'XAMailMessage':
         return self.by_property("wasRepliedTo", was_replied_to)
+
+    def __repr__(self):
+        return "<" + str(type(self)) + str(self.subject()) + ">"
 
 class XAMailMessage(XABase.XAObject):
     """A class for managing and interacting with messages in Mail.app.
@@ -2110,6 +2176,9 @@ class XAMailMessage(XABase.XAObject):
         """
         return self._new_element(self.xa_elem.mailAttachments(), XAMailAttachmentList, filter)
 
+    def __repr__(self):
+        return "<" + str(type(self)) + str(self.subject) + ">"
+
 
 
 
@@ -2160,6 +2229,9 @@ class XAMailOutgoingMessageList(XABase.XAList):
 
     def by_id(self, id: int) -> 'XAMailOutgoingMessage':
         return self.by_property("id", id)
+
+    def __repr__(self):
+        return "<" + str(type(self)) + str(self.subject()) + ">"
 
 class XAMailOutgoingMessage(XABase.XAObject):
     """A class for managing and interacting with outgoing messages in Mail.app.
@@ -2239,6 +2311,9 @@ class XAMailOutgoingMessage(XABase.XAObject):
         """
         self.xa_elem.delete()
 
+    def __repr__(self):
+        return "<" + str(type(self)) + str(self.subject) + ">"
+
 
 
 
@@ -2266,6 +2341,9 @@ class XAMailRecipientList(XABase.XAList):
     def by_name(self, name: str) -> 'XAMailRecipient':
         return self.by_property("name", name)
 
+    def __repr__(self):
+        return "<" + str(type(self)) + str(self.name()) + ">"
+
 class XAMailRecipient(XABase.XAObject):
     """A class for managing and interacting with recipients in Mail.app.
 
@@ -2291,6 +2369,9 @@ class XAMailRecipient(XABase.XAObject):
     @name.setter
     def name(self, name: str):
         self.set_property('name', name)
+
+    def __repr__(self):
+        return "<" + str(type(self)) + str(self.name) + ">"
 
 
 
@@ -2380,6 +2461,9 @@ class XAMailHeaderList(XABase.XAList):
     def by_name(self, name: str) -> 'XAMailHeader':
         return self.by_property("name", name)
 
+    def __repr__(self):
+        return "<" + str(type(self)) + str(self.name()) + ">"
+
 class XAMailHeader(XABase.XAObject):
     """A class for managing and interacting with message headers in Mail.app.
 
@@ -2405,6 +2489,9 @@ class XAMailHeader(XABase.XAObject):
     @name.setter
     def name(self, name: str):
         self.set_property('name', name)
+
+    def __repr__(self):
+        return "<" + str(type(self)) + str(self.name) + ">"
 
 
 
@@ -2449,6 +2536,9 @@ class XAMailAttachmentList(XABase.XAList):
     def by_id(self, id: str) -> 'XAMailAttachment':
         return self.by_property("id", id)
 
+    def __repr__(self):
+        return "<" + str(type(self)) + str(self.name()) + ">"
+
 class XAMailAttachment(XABase.XAObject):
     """A class for managing and interacting with message attachments in Mail.app.
 
@@ -2488,6 +2578,9 @@ class XAMailAttachment(XABase.XAObject):
         .. versionadded:: 0.0.4
         """
         self.xa_elem.delete()
+
+    def __repr__(self):
+        return "<" + str(type(self)) + str(self.name) + ">"
 
 
 
@@ -2624,6 +2717,9 @@ class XAMailRuleList(XABase.XAList):
 
     def by_stop_evaluating_rules(self, stop_evaluating_rules: bool) -> 'XAMailRule':
         return self.by_property("stopEvaluatingRules", stop_evaluating_rules)
+
+    def __repr__(self):
+        return "<" + str(type(self)) + str(self.name()) + ">"
 
 class XAMailRule(XABase.XAObject):
     """A class for managing and interacting with rules in Mail.app.
@@ -2767,7 +2863,7 @@ class XAMailRule(XABase.XAObject):
         self.set_property('moveMessage', move_message.xa_elem)
 
     @property
-    def hightlight_text_using_color(self) -> bool:
+    def highlight_text_using_color(self) -> bool:
         return self.xa_elem.highlightTextUsingColor()
 
     @highlight_text_using_color.setter
@@ -2827,6 +2923,9 @@ class XAMailRule(XABase.XAObject):
         .. versionadded:: 0.0.4
         """
         return self._new_element(self.xa_elem.ruleConditions(), XAMailRuleConditionList, filter)
+
+    def __repr__(self):
+        return "<" + str(type(self)) + str(self.name) + ">"
 
 
 

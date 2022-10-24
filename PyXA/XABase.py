@@ -17,7 +17,7 @@ from bs4 import BeautifulSoup, element
 import requests
 import subprocess
 import objc
-from collections import namedtuple
+import xml.etree.ElementTree as ET
 
 from PyXA.apps import application_classes
 
@@ -42,7 +42,7 @@ import Vision
 import threading
 
 from PyXA.XAErrors import InvalidPredicateError
-from .XAProtocols import XACanOpenPath, XAClipboardCodable
+from .XAProtocols import XACanOpenPath, XAClipboardCodable, XAPathLike
 
 def OSType(s: str):
     return int.from_bytes(s.encode("UTF-8"), "big")
@@ -50,6 +50,8 @@ def OSType(s: str):
 def unOSType(i: int):
     return i.to_bytes((i.bit_length() + 7) // 8, 'big').decode()
 
+
+PYXA_VERSION = "0.1.0"
 
 
 ###############
@@ -128,11 +130,11 @@ class XAObject():
         """
         properties = {
             "parent": self,
-            "appspace": self.xa_apsp,
-            "workspace": self.xa_wksp,
+            "appspace": getattr(self, "xa_apsp", None),
+            "workspace": getattr(self, "xa_wksp", None),
             "element": obj,
-            "appref": self.xa_aref,
-            "system_events": self.xa_sevt,
+            "appref": getattr(self, "xa_aref", None),
+            "system_events": getattr(self, "xa_sevt", None),
         }
         return obj_class(properties, *args)
 
@@ -518,7 +520,291 @@ class XAApplication(XAObject, XAClipboardCodable):
 ######################
 ### PyXA Utilities ###
 ######################
-# XAList, XAPredicate, XAURL, XAPath
+# SDEFParser, XAList, XAPredicate, XAURL, XAPath
+class SDEFParser(XAObject):
+    def __init__(self, sdef_file: Union['XAPath', str]):
+        if isinstance(sdef_file, str):
+            sdef_file = XAPath(sdef_file)
+        self.file = sdef_file #: The full path to the SDEF file to parse
+
+        self.app_name = ""
+        self.scripting_suites = []
+
+    def parse(self):
+        app_name = self.file.path.split("/")[-1][:-5].title()
+        xa_prefix = "XA" + app_name
+
+        tree = ET.parse(self.file.path)
+
+        suites = []
+
+        scripting_suites = tree.findall("suite")
+        for suite in scripting_suites:
+            classes = []
+            commands = {}
+
+            ### Class Extensions
+            class_extensions = suite.findall("class-extension")
+            for extension in class_extensions:
+                properties = []
+                elements = []
+                responds_to_commands = []
+
+                class_name = xa_prefix + extension.attrib.get("extends", "").title()
+                class_comment = extension.attrib.get("description", "")
+
+                ## Class Extension Properties
+                class_properties = extension.findall("property")
+                for property in class_properties:
+                    property_type = property.attrib.get("type", "")
+                    if property_type == "text":
+                        property_type = "str"
+                    elif property_type == "boolean":
+                        property_type = "bool"
+                    elif property_type == "number":
+                        property_type = "float"
+                    elif property_type == "integer":
+                        property_type = "int"
+                    elif property_type == "rectangle":
+                        property_type = "Tuple[int, int, int, int]"
+                    else:
+                        property_type = "XA" + app_name + property_type.title()
+
+                    property_name = property.attrib.get("name", "").replace(" ", "_").lower()
+                    property_comment = property.attrib.get("description", "")
+
+                    properties.append({
+                        "type": property_type,
+                        "name": property_name,
+                        "comment": property_comment
+                    })
+
+                ## Class Extension Elements
+                class_elements = extension.findall("element")
+                for element in class_elements:
+                    element_name = (element.attrib.get("type", "") + "s").replace(" ", "_").lower()
+                    element_type = "XA" + app_name + element.attrib.get("type", "").title()
+
+                    elements.append({
+                        "name": element_name,
+                        "type": element_type
+                    })
+
+                ## Class Extension Responds-To Commands
+                class_responds_to_commands = extension.findall("responds-to")
+                for command in class_responds_to_commands:
+                    command_name = command.attrib.get("command", "").replace(" ", "_").lower()
+                    responds_to_commands.append(command_name)
+
+                classes.append({
+                    "name": class_name,
+                    "comment": class_comment,
+                    "properties": properties,
+                    "elements": elements,
+                    "responds-to": responds_to_commands
+                })
+
+            ### Classes
+            scripting_classes = suite.findall("class")
+            for scripting_class in scripting_classes:
+                properties = []
+                elements = []
+                responds_to_commands = []
+
+                class_name = xa_prefix + scripting_class.attrib.get("name", "").title()
+                class_comment = scripting_class.attrib.get("description", "")
+
+                ## Class Properties
+                class_properties = scripting_class.findall("property")
+                for property in class_properties:
+                    property_type = property.attrib.get("type", "")
+                    if property_type == "text":
+                        property_type = "str"
+                    elif property_type == "boolean":
+                        property_type = "bool"
+                    elif property_type == "number":
+                        property_type = "float"
+                    elif property_type == "integer":
+                        property_type = "int"
+                    elif property_type == "rectangle":
+                        property_type = "Tuple[int, int, int, int]"
+                    else:
+                        property_type = "XA" + app_name + property_type.title()
+
+                    property_name = property.attrib.get("name", "").replace(" ", "_").lower()
+                    property_comment = property.attrib.get("description", "")
+
+                    properties.append({
+                        "type": property_type,
+                        "name": property_name,
+                        "comment": property_comment
+                    })
+
+                ## Class Elements
+                class_elements = scripting_class.findall("element")
+                for element in class_elements:
+                    element_name = (element.attrib.get("type", "") + "s").replace(" ", "_").lower()
+                    element_type = "XA" + app_name + element.attrib.get("type", "").title()
+
+                    elements.append({
+                        "name": element_name,
+                        "type": element_type
+                    })
+
+                ## Class Responds-To Commands
+                class_responds_to_commands = scripting_class.findall("responds-to")
+                for command in class_responds_to_commands:
+                    command_name = command.attrib.get("command", "").replace(" ", "_").lower()
+                    responds_to_commands.append(command_name)
+
+                classes.append({
+                    "name": class_name,
+                    "comment": class_comment,
+                    "properties": properties,
+                    "elements": elements,
+                    "responds-to": responds_to_commands
+                })
+
+
+            ### Commands
+            script_commands = suite.findall("command")
+            for command in script_commands:
+                command_name = command.attrib.get("name", "").lower().replace(" ", "_")
+                command_comment = command.attrib.get("description", "")
+
+                parameters = []
+                direct_param = command.find("direct-parameter")
+                if direct_param is not None:
+                    direct_parameter_type = direct_param.attrib.get("type", "")
+                    if direct_parameter_type == "specifier":
+                        direct_parameter_type = "XABase.XAObject"
+
+                    direct_parameter_comment = direct_param.attrib.get("description")
+
+                    parameters.append({
+                        "name": "direct_param",
+                        "type": direct_parameter_type,
+                        "comment": direct_parameter_comment
+                    })
+
+                if not "_" in command_name and len(parameters) > 0:
+                    command_name += "_"
+
+                command_parameters = command.findall("parameter")
+                for parameter in command_parameters:
+                    parameter_type = parameter.attrib.get("type", "")
+                    if parameter_type == "specifier":
+                        parameter_type = "XAObject"
+
+                    parameter_name = parameter.attrib.get("name", "").lower().replace(" ", "_")
+                    parameter_comment = parameter.attrib.get("description", "")
+
+                    parameters.append({
+                        "name": parameter_name,
+                        "type": parameter_type,
+                        "comment": parameter_comment,
+                    })
+
+                commands[command_name] = {
+                    "name": command_name,
+                    "comment": command_comment,
+                    "parameters": parameters
+                }
+
+            suites.append({
+                "classes": classes,
+                "commands": commands
+            })
+
+        self.scripting_suites = suites
+        return suites
+
+    def export(self, output_file: Union['XAPath', str]):
+        if isinstance(output_file, XAPath):
+            output_file = output_file.path
+
+        lines = []
+
+        lines.append("from typing import Any, Callable, Tuple, Union, List, Dict")
+        lines.append("\nfrom PyXA import XABase")
+        lines.append("from PyXA.XABase import OSType")
+        lines.append("from PyXA import XABaseScriptable")
+
+        for suite in self.scripting_suites:
+            for scripting_class in suite["classes"]:
+                lines.append("\n\n")
+                lines.append("class " + scripting_class["name"].replace(" ", "") + "List:")
+                lines.append("\t\"\"\"A wrapper around lists of " + scripting_class["name"].lower() + "s that employs fast enumeration techniques.")
+                lines.append("\n\tAll properties of tabs can be called as methods on the wrapped list, returning a list containing each tab's value for the property.")
+                lines.append("\n\t.. versionadded:: " + PYXA_VERSION)
+                lines.append("\t\"\"\"")
+
+                lines.append("\tdef __init__(self, properties: dict, filter: Union[dict, None] = None):")
+                lines.append("\t\tsuper().__init__(properties, " + scripting_class["name"].replace(" ", "") + ", filter)")
+
+                for property in scripting_class["properties"]:
+                    lines.append("")
+                    lines.append("\tdef " + property["name"] + "(self) -> List['" + property["type"].replace(" ", "") + "']:")
+                    lines.append("\t\t\"\"\"" + property["comment"] + "\n\n\t\t.. versionadded:: " + PYXA_VERSION + "\n\t\t\"\"\"")
+                    lines.append("\t\treturn list(self.xa_elem.arrayByApplyingSelector_(\"" + property["name"] + "\"))")
+
+                for property in scripting_class["properties"]:
+                    lines.append("")
+                    lines.append("\tdef by_" + property["name"] + "(self, " + property["name"] + ") -> '" + scripting_class["name"].replace(" ", "") + "':")
+                    lines.append("\t\t\"\"\"Retrieves the " + scripting_class["comment"] + "whose " + property["name"] + " matches the given " + property["name"] + ".\n\n\t\t.. versionadded:: " + PYXA_VERSION + "\n\t\t\"\"\"")
+                    lines.append("\t\treturn self.by_property(\"" + property["name"] + "\", " + property["name"] + ")")
+
+
+                lines.append("")
+                lines.append("class " + scripting_class["name"].replace(" ", "") + ":")
+                lines.append("\t\"\"\"" + scripting_class["comment"] + "\n\n\t.. versionadded:: " + PYXA_VERSION + "\n\t\"\"\"")
+
+                for property in scripting_class["properties"]:
+                    lines.append("")
+                    lines.append("\t@property")
+                    lines.append("\tdef " + property["name"] + "(self) -> '" + property["type"].replace(" ", "") + "':")
+                    lines.append("\t\t\"\"\"" + property["comment"] + "\n\n\t\t.. versionadded:: " + PYXA_VERSION + "\n\t\t\"\"\"")
+                    lines.append("\t\treturn self.xa_elem." + property["name"] + "()")
+
+                for element in scripting_class["elements"]:
+                    lines.append("")
+                    lines.append("\tdef " + element["name"].replace(" ", "") + "(self, filter: Union[dict, None] = None) -> '" + element["type"].replace(" ", "") + "':")
+                    lines.append("\t\t\"\"\"Returns a list of " + element["name"] + ", as PyXA objects, matching the given filter.")
+                    lines.append("\n\t\t.. versionadded:: " + PYXA_VERSION)
+                    lines.append("\t\t\"\"\"")
+                    lines.append("\t\tself._new_element(self.xa_elem." + element["name"] + "(), " + element["type"].replace(" ", "") + "List, filter)")
+
+                for command in scripting_class["responds-to"]:
+                    if command in suite["commands"]:
+                        lines.append("")
+                        command_str = "\tdef " + suite["commands"][command]["name"] + "(self, "
+
+                        for parameter in suite["commands"][command]["parameters"]:
+                            command_str += parameter["name"] + ": '" + parameter["type"] + "', "
+
+                        command_str = command_str[:-2] + "):"
+                        lines.append(command_str)
+
+                        lines.append("\t\t\"\"\"" + suite["commands"][command]["comment"])
+                        lines.append("\n\t\t.. versionadded:: " + PYXA_VERSION)
+                        lines.append("\t\t\"\"\"")
+
+                        cmd_call_str = "self.xa_elem." + suite["commands"][command]["name"] + "("
+
+                        if len(suite["commands"][command]["parameters"]) > 0:
+                            for parameter in suite["commands"][command]["parameters"]:
+                                cmd_call_str += parameter["name"] + ", "
+                            
+                            cmd_call_str = cmd_call_str[:-2] + ")"
+                        else:
+                            cmd_call_str += ")"
+
+                        lines.append("\t\t" + cmd_call_str)
+
+        data = "\n".join(lines)
+        with open(output_file, "w") as f:
+            f.write(data)
+
 class XAList(XAObject):
     """A wrapper around NSArray and NSMutableArray objects enabling fast enumeration and lazy evaluation of Objective-C objects.
 
@@ -3839,14 +4125,14 @@ class XAText(XAObject):
         elif unit == "document":
             unit = NaturalLanguage.NLTokenUnitDocument
         
-        tagged_languages = []
+        tagged_lemmas = []
         def apply_tags(tag, token_range, error):
             word_phrase = str(self.xa_elem)[token_range.location:token_range.location + token_range.length]
             if word_phrase.strip() != "":
-                tagged_languages.append((word_phrase, tag))
+                tagged_lemmas.append((word_phrase, tag))
 
         tagger.enumerateTagsInRange_unit_scheme_options_usingBlock_((0, len(str(self.xa_elem))), unit, NaturalLanguage.NLTagSchemeLemma, NaturalLanguage.NLTaggerOmitPunctuation | NaturalLanguage.NLTaggerOmitWhitespace | NaturalLanguage.NLTaggerJoinContractions, apply_tags)
-        return tagged_languages
+        return tagged_lemmas
 
     def tag_sentiments(self, sentiment_scale: List[str] = None, unit: Literal["word", "sentence", "paragraph", "document"] = "paragraph") -> List[Tuple[str, str]]:
         """Tags each paragraph of the text with a sentiment rating.
@@ -5623,12 +5909,13 @@ class XADiskItemList(XAList):
         """
         return list(self.xa_elem.arrayByApplyingSelector_("physicalSize"))
 
-    def posix_path(self) -> List['str']:
+    def posix_path(self) -> List[XAPath]:
         """Retrieves the POSIX file system path of each disk item in the list.
 
         .. versionadded:: 0.1.0
         """
-        return list(self.xa_elem.arrayByApplyingSelector_("POSIXPath"))
+        ls = self.xa_elem.arrayByApplyingSelector_("POSIXPath")
+        return [XAPath(x) for x in ls]
 
     def size(self) -> List['int']:
         """Retrieves the logical size of each disk item in the list.
@@ -5738,11 +6025,13 @@ class XADiskItemList(XAList):
         """
         return self.by_property("physicalSize", physical_size)
 
-    def by_posix_path(self, posix_path: str) -> 'XADiskItem':
+    def by_posix_path(self, posix_path: Union[XAPath, str]) -> 'XADiskItem':
         """Retrieves item whose POSIX path matches the given POSIX path.
 
         .. versionadded:: 0.1.0
         """
+        if isinstance(posix_path, XAPath):
+            posix_path = posix_path.path
         return self.by_property("POSIXPath", posix_path)
 
     def by_size(self, size: int) -> 'XADiskItem':
@@ -5776,7 +6065,7 @@ class XADiskItemList(XAList):
     def __repr__(self):
         return "<" + str(type(self)) + str(self.name()) + ">"
 
-class XADiskItem(XAObject):
+class XADiskItem(XAObject, XAPathLike):
     """An item stored in the file system.
 
     .. versionadded:: 0.1.0
@@ -5873,12 +6162,12 @@ class XADiskItem(XAObject):
         return self.xa_elem.physicalSize()
 
     @property
-    def posix_path(self) -> 'str':
+    def posix_path(self) -> XAPath:
         """The POSIX file system path of the disk item.
 
         .. versionadded:: 0.1.0
         """
-        return self.xa_elem.POSIXPath()
+        return XAPath(self.xa_elem.POSIXPath())
 
     @property
     def size(self) -> 'int':
@@ -5911,6 +6200,9 @@ class XADiskItem(XAObject):
         .. versionadded:: 0.1.0
         """
         return self.xa_elem.volume()
+
+    def get_path_representation(self) -> XAPath:
+        return self.posix_path
 
     def __repr__(self):
         return "<" + str(type(self)) + str(self.name) + ">"
@@ -7229,6 +7521,360 @@ class XAImageList(XAList, XAClipboardCodable):
         """
         return XAImage.vertical_stitch(self)
 
+    def edges(self, intensity: float = 1.0) -> List['XAImage']:
+        """Detects the edges in each image of the list and highlights them colorfully, blackening other areas of the images.
+
+        :param intensity: The degree to which edges are highlighted. Higher is brighter. Defaults to 1.0
+        :type intensity: float
+        :return: The resulting images after applying the filter
+        :rtype: List[XAImage]
+
+        .. versionadded:: 0.1.0
+        """
+        filtered_images = [None] * self.xa_elem.count()
+        threads = [None] * self.xa_elem.count()
+        for index, image in enumerate(self):
+            threads[index] = self._spawn_thread(lambda: filtered_images.__setitem__(index, image.edges(intensity)))
+
+        while any([x.is_alive() for x in threads]):
+            time.sleep(0.01)
+
+        return filtered_images
+
+    def gaussian_blur(self, intensity: float = 10) -> List['XAImage']:
+        """Blurs each image in the list using a Gaussian filter.
+
+        :param intensity: The strength of the blur effect, defaults to 10
+        :type intensity: float
+        :return: The resulting images after applying the filter
+        :rtype: List[XAImage]
+
+        .. versionadded:: 0.1.0
+        """
+        filtered_images = [None] * self.xa_elem.count()
+        threads = [None] * self.xa_elem.count()
+        for index, image in enumerate(self):
+            threads[index] = self._spawn_thread(lambda: filtered_images.__setitem__(index, image.gaussian_blur(intensity)))
+
+        while any([x.is_alive() for x in threads]):
+            time.sleep(0.01)
+
+        return filtered_images
+
+    def reduce_noise(self, noise_level: float = 0.02, sharpness: float = 0.4) -> List['XAImage']:
+        """Reduces noise in each image of the list by sharpening areas with a luminance delta below the specified noise level threshold.
+
+        :param noise_level: The threshold for luminance changes in an area below which will be considered noise, defaults to 0.02
+        :type noise_level: float
+        :param sharpness: The sharpness of the resulting images, defaults to 0.4
+        :type sharpness: float
+        :return: The resulting images after applying the filter
+        :rtype: List[XAImage]
+
+        .. versionadded:: 0.1.0
+        """
+        filtered_images = [None] * self.xa_elem.count()
+        threads = [None] * self.xa_elem.count()
+        for index, image in enumerate(self):
+            threads[index] = self._spawn_thread(lambda: filtered_images.__setitem__(index, image.reduce_noise(noise_level, sharpness)))
+
+        while any([x.is_alive() for x in threads]):
+            time.sleep(0.01)
+
+        return filtered_images
+
+    def pixellate(self, pixel_size: float = 8.0) -> List['XAImage']:
+        """Pixellates each image in the list.
+
+        :param pixel_size: The size of the pixels, defaults to 8.0
+        :type pixel_size: float
+        :return: The resulting images after applying the filter
+        :rtype: List[XAImage]
+
+        .. versionadded:: 0.1.0
+        """
+        filtered_images = [None] * self.xa_elem.count()
+        threads = [None] * self.xa_elem.count()
+        for index, image in enumerate(self):
+            threads[index] = self._spawn_thread(lambda: filtered_images.__setitem__(index, image.pixellate(pixel_size)))
+
+        while any([x.is_alive() for x in threads]):
+            time.sleep(0.01)
+
+        return filtered_images
+
+    def outline(self, threshold: float = 0.1) -> List['XAImage']:
+        """Outlines detected edges within each image of the list in black, leaving the rest transparent.
+
+        :param threshold: The threshold to use when separating edge and non-edge pixels. Larger values produce thinner edge lines. Defaults to 0.1
+        :type threshold: float
+        :return: The resulting images after applying the filter
+        :rtype: List[XAImage]
+
+        .. versionadded:: 0.1.0
+        """
+        filtered_images = [None] * self.xa_elem.count()
+        threads = [None] * self.xa_elem.count()
+        for index, image in enumerate(self):
+            threads[index] = self._spawn_thread(lambda: filtered_images.__setitem__(index, image.outline(threshold)))
+
+        while any([x.is_alive() for x in threads]):
+            time.sleep(0.01)
+
+        return filtered_images
+
+    def invert(self) -> List['XAImage']:
+        """Inverts the colors of each image in the list.
+
+        :return: The resulting images after applying the filter
+        :rtype: List[XAImage]
+
+        .. versionadded:: 0.1.0
+        """
+        filtered_images = [None] * self.xa_elem.count()
+        threads = [None] * self.xa_elem.count()
+        for index, image in enumerate(self):
+            threads[index] = self._spawn_thread(lambda: filtered_images.__setitem__(index, image.invert()))
+
+        while any([x.is_alive() for x in threads]):
+            time.sleep(0.01)
+
+        return filtered_images
+    
+    def sepia(self, intensity: float = 1.0) -> List['XAImage']:
+        """Applies a sepia filter to each image in the list; maps all colors of the images to shades of brown.
+
+        :param intensity: The opacity of the sepia effect. A value of 0 will have no impact on the image. Defaults to 1.0
+        :type intensity: float
+        :return: The resulting images after applying the filter
+        :rtype: List[XAImage]
+
+        .. versionadded:: 0.1.0
+        """
+        filtered_images = [None] * self.xa_elem.count()
+        threads = [None] * self.xa_elem.count()
+        for index, image in enumerate(self):
+            threads[index] = self._spawn_thread(lambda: filtered_images.__setitem__(index, image.sepia(intensity)))
+
+        while any([x.is_alive() for x in threads]):
+            time.sleep(0.01)
+
+        return filtered_images
+
+    def vignette(self, intensity: float = 1.0) -> List['XAImage']:
+        """Applies vignette shading to the corners of each image in the list.
+
+        :param intensity: The intensity of the vignette effect, defaults to 1.0
+        :type intensity: float
+        :return: The resulting images after applying the filter
+        :rtype: List[XAImage]
+
+        .. versionadded:: 0.1.0
+        """
+        filtered_images = [None] * self.xa_elem.count()
+        threads = [None] * self.xa_elem.count()
+        for index, image in enumerate(self):
+            threads[index] = self._spawn_thread(lambda: filtered_images.__setitem__(index, image.vignette(intensity)))
+
+        while any([x.is_alive() for x in threads]):
+            time.sleep(0.01)
+
+        return filtered_images
+
+    def depth_of_filed(self, focal_region: Union[Tuple[Tuple[int, int], Tuple[int, int]], None] = None, intensity: float = 10.0, focal_region_saturation: float = 1.5) -> List['XAImage']:
+        """Applies a depth of field filter to each image in the list, simulating a tilt & shift effect.
+
+        :param focal_region: Two points defining a line within each image to focus the effect around (pixels around the line will be in focus), or None to use the center third of the image, defaults to None
+        :type focal_region: Union[Tuple[Tuple[int, int], Tuple[int, int]], None]
+        :param intensity: Controls the amount of distance around the focal region to keep in focus. Higher values decrease the distance before the out-of-focus effect starts. Defaults to 10.0
+        :type intensity: float
+        :param focal_region_saturation: Adjusts the saturation of the focial region. Higher values increase saturation. Defaults to 1.5 (1.5x default saturation)
+        :type focal_region_saturation: float
+        :return: The resulting images after applying the filter
+        :rtype: List[XAImage]
+
+        .. versionadded:: 0.1.0
+        """
+        filtered_images = [None] * self.xa_elem.count()
+        threads = [None] * self.xa_elem.count()
+        for index, image in enumerate(self):
+            threads[index] = self._spawn_thread(lambda: filtered_images.__setitem__(index, image.depth_of_field(focal_region, intensity, focal_region_saturation)))
+
+        while any([x.is_alive() for x in threads]):
+            time.sleep(0.01)
+
+        return filtered_images
+
+    def crystallize(self, crystal_size: float = 20.0) -> List['XAImage']:
+        """Applies a crystallization filter to each image in the list. Creates polygon-shaped color blocks by aggregating pixel values.
+
+        :param crystal_size: The radius of the crystals, defaults to 20.0
+        :type crystal_size: float
+        :return: The resulting images after applying the filter
+        :rtype: List[XAImage]
+
+        .. versionadded:: 0.1.0
+        """
+        filtered_images = [None] * self.xa_elem.count()
+        threads = [None] * self.xa_elem.count()
+        for index, image in enumerate(self):
+            threads[index] = self._spawn_thread(lambda: filtered_images.__setitem__(index, image.crystallize(crystal_size)))
+
+        while any([x.is_alive() for x in threads]):
+            time.sleep(0.01)
+
+        return filtered_images
+
+    def comic(self) -> List['XAImage']:
+        """Applies a comic filter to each image in the list. Outlines edges and applies a color halftone effect.
+
+        :return: The resulting images after applying the filter
+        :rtype: List[XAImage]
+
+        .. versionadded:: 0.1.0
+        """
+        filtered_images = [None] * self.xa_elem.count()
+        threads = [None] * self.xa_elem.count()
+        for index, image in enumerate(self):
+            threads[index] = self._spawn_thread(lambda: filtered_images.__setitem__(index, image.comic()))
+
+        while any([x.is_alive() for x in threads]):
+            time.sleep(0.01)
+
+        return filtered_images
+
+    def pointillize(self, point_size: float = 20.0) -> List['XAImage']:
+        """Applies a pointillization filter to each image in the list.
+
+        :param crystal_size: The radius of the points, defaults to 20.0
+        :type crystal_size: float
+        :return: The resulting images after applying the filter
+        :rtype: List[XAImage]
+
+        .. versionadded:: 0.1.0
+        """
+        filtered_images = [None] * self.xa_elem.count()
+        threads = [None] * self.xa_elem.count()
+        for index, image in enumerate(self):
+            threads[index] = self._spawn_thread(lambda: filtered_images.__setitem__(index, image.pointillize(point_size)))
+
+        while any([x.is_alive() for x in threads]):
+            time.sleep(0.01)
+
+        return filtered_images
+
+    def bloom(self, intensity: float = 0.5) -> List['XAImage']:
+        """Applies a bloom effect to each image in the list. Softens edges and adds a glow.
+
+        :param intensity: The strength of the softening and glow effects, defaults to 0.5
+        :type intensity: float
+        :return: The resulting images after applying the filter
+        :rtype: List[XAImage]
+
+        .. versionadded:: 0.1.0
+        """
+        filtered_images = [None] * self.xa_elem.count()
+        threads = [None] * self.xa_elem.count()
+        for index, image in enumerate(self):
+            threads[index] = self._spawn_thread(lambda: filtered_images.__setitem__(index, image.bloom(intensity)))
+
+        while any([x.is_alive() for x in threads]):
+            time.sleep(0.01)
+
+        return filtered_images
+
+    def monochrome(self, color: XAColor, intensity: float = 1.0) -> List['XAImage']:
+        """Remaps the colors of each image in the list to shades of the specified color.
+
+        :param color: The color of map each images colors to
+        :type color: XAColor
+        :param intensity: The strength of recoloring effect. Higher values map colors to darker shades of the provided color. Defaults to 1.0
+        :type intensity: float
+        :return: The resulting images after applying the filter
+        :rtype: List[XAImage]
+
+        .. versionadded:: 0.1.0
+        """
+        filtered_images = [None] * self.xa_elem.count()
+        threads = [None] * self.xa_elem.count()
+        for index, image in enumerate(self):
+            threads[index] = self._spawn_thread(lambda: filtered_images.__setitem__(index, image.monochrome(color, intensity)))
+
+        while any([x.is_alive() for x in threads]):
+            time.sleep(0.01)
+
+        return filtered_images
+
+    def bump(self, center: Union[Tuple[int, int], None] = None, radius: float = 300.0, curvature: float = 0.5) -> List['XAImage']:
+        """Adds a concave (inward) or convex (outward) bump to each image in the list at the specified location within each image.
+
+        :param center: The center point of the effect, or None to use the center of the image, defaults to None
+        :type center: Union[Tuple[int, int], None]
+        :param radius: The radius of the bump in pixels, defaults to 300.0
+        :type radius: float
+        :param curvature: Controls the direction and intensity of the bump's curvature. Positive values create convex bumps while negative values create concave bumps. Defaults to 0.5
+        :type curvature: float
+        :return: The resulting images after applying the distortion
+        :rtype: List[XAImage]
+
+        .. versionadded:: 0.1.0
+        """
+        bumped_images = [None] * self.xa_elem.count()
+        threads = [None] * self.xa_elem.count()
+        for index, image in enumerate(self):
+            threads[index] = self._spawn_thread(lambda: bumped_images.__setitem__(index, image.bump(center, radius, curvature)))
+
+        while any([x.is_alive() for x in threads]):
+            time.sleep(0.01)
+
+        return bumped_images
+
+    def pinch(self, center: Union[Tuple[int, int], None] = None, intensity: float = 0.5) -> List['XAImage']:
+        """Adds an inward pinch distortion to each image in the list at the specified location within each image.
+
+        :param center: The center point of the effect, or None to use the center of the image, defaults to None
+        :type center: Union[Tuple[int, int], None]
+        :param intensity: Controls the scale of the pinch effect. Higher values stretch pixels away from the specified center to a greater degree. Defaults to 0.5
+        :type intensity: float
+        :return: The resulting images after applying the distortion
+        :rtype: List[XAImage]
+
+        .. versionadded:: 0.1.0
+        """
+        pinched_images = [None] * self.xa_elem.count()
+        threads = [None] * self.xa_elem.count()
+        for index, image in enumerate(self):
+            threads[index] = self._spawn_thread(lambda: pinched_images.__setitem__(index, image.pinch(center, intensity)))
+
+        while any([x.is_alive() for x in threads]):
+            time.sleep(0.01)
+
+        return pinched_images
+
+    def twirl(self, center: Union[Tuple[int, int], None] = None, radius: float = 300.0, angle: float = 3.14) -> List['XAImage']:
+        """Adds a twirl distortion to each image in the list by rotating pixels around the specified location within each image.
+
+        :param center: The center point of the effect, or None to use the center of the image, defaults to None
+        :type center: Union[Tuple[int, int], None]
+        :param radius: The pixel radius around the centerpoint that defines the area to apply the effect to, defaults to 300.0
+        :type radius: float
+        :param angle: The angle of the twirl in radians, defaults to 3.14
+        :type angle: float
+        :return: The resulting images after applying the distortion
+        :rtype: List[XAImage]
+
+        .. versionadded:: 0.1.0
+        """
+        twirled_images = [None] * self.xa_elem.count()
+        threads = [None] * self.xa_elem.count()
+        for index, image in enumerate(self):
+            threads[index] = self._spawn_thread(lambda: twirled_images.__setitem__(index, image.twirl(center, radius, angle)))
+
+        while any([x.is_alive() for x in threads]):
+            time.sleep(0.01)
+
+        return twirled_images
+
     def auto_enhance(self, correct_red_eye: bool = False, crop_to_features: bool = False, correct_rotation: bool = False) -> List['XAImage']:
         """Attempts to enhance each image in the list by applying suggested filters.
 
@@ -7243,7 +7889,15 @@ class XAImageList(XAList, XAClipboardCodable):
 
         .. versionadded:: 0.1.0
         """
-        return [image.auto_enhance() for image in self]
+        enhanced_images = [None] * self.xa_elem.count()
+        threads = [None] * self.xa_elem.count()
+        for index, image in enumerate(self):
+            threads[index] = self._spawn_thread(lambda: enhanced_images.__setitem__(index, image.auto_enhance()))
+
+        while any([x.is_alive() for x in threads]):
+            time.sleep(0.01)
+
+        return enhanced_images
 
     def flip_horizontally(self) -> List['XAImage']:
         """Flips each image in the list horizontally.
@@ -7253,7 +7907,15 @@ class XAImageList(XAList, XAClipboardCodable):
 
         .. versionadded:: 0.1.0
         """
-        return [image.flip_horizontally() for image in self]
+        flipped_images = [None] * self.xa_elem.count()
+        threads = [None] * self.xa_elem.count()
+        for index, image in enumerate(self):
+            threads[index] = self._spawn_thread(lambda: flipped_images.__setitem__(index, image.flip_horizontally()))
+
+        while any([x.is_alive() for x in threads]):
+            time.sleep(0.01)
+
+        return flipped_images
 
     def flip_vertically(self) -> List['XAImage']:
         """Flips each image in the list vertically.
@@ -7263,7 +7925,15 @@ class XAImageList(XAList, XAClipboardCodable):
 
         .. versionadded:: 0.1.0
         """
-        return [image.flip_horizontally() for image in self]
+        flipped_images = [None] * self.xa_elem.count()
+        threads = [None] * self.xa_elem.count()
+        for index, image in enumerate(self):
+            threads[index] = self._spawn_thread(lambda: flipped_images.__setitem__(index, image.flip_vertically()))
+
+        while any([x.is_alive() for x in threads]):
+            time.sleep(0.01)
+
+        return flipped_images
 
     def rotate(self, degrees: float) -> List['XAImage']:
         """Rotates each image in the list by the specified amount of degrees.
@@ -7275,7 +7945,15 @@ class XAImageList(XAList, XAClipboardCodable):
 
         .. versionadded:: 0.1.0
         """
-        return [image.rotate(degrees) for image in self]
+        rotated_images = [None] * self.xa_elem.count()
+        threads = [None] * self.xa_elem.count()
+        for index, image in enumerate(self):
+            threads[index] = self._spawn_thread(lambda: rotated_images.__setitem__(index, image.rotate(45)))
+
+        while any([x.is_alive() for x in threads]):
+            time.sleep(0.01)
+
+        return rotated_images
 
     def crop(self, size: Tuple[int, int], corner: Union[Tuple[int, int], None] = None) -> List['XAImage']:
         """Crops each image in the list to the specified dimensions.
@@ -7289,21 +7967,40 @@ class XAImageList(XAList, XAClipboardCodable):
 
         .. versionadded:: 0.1.0
         """
-        return [image.crop(size, corner) for image in self]
+        cropped_images = [None] * self.xa_elem.count()
+        threads = [None] * self.xa_elem.count()
+        for index, image in enumerate(self):
+            threads[index] = self._spawn_thread(lambda: cropped_images.__setitem__(index, image.crop(size, corner)))
 
-    def scale(self, scale_factor_x: float, scale_factor_y: float) -> List['XAImage']:
+        while any([x.is_alive() for x in threads]):
+            time.sleep(0.01)
+
+        return cropped_images
+
+    def scale(self, scale_factor_x: float, scale_factor_y: Union[float, None] = None) -> List['XAImage']:
         """Scales each image in the list by the specified horizontal and vertical factors.
 
         :param scale_factor_x: The factor by which to scale each image in the X dimension
         :type scale_factor_x: float
-        :param scale_factor_y: The factor by which to scale each image in the Y dimension
-        :type scale_factor_y: float
+        :param scale_factor_y: The factor by which to scale each image in the Y dimension, or None to match the horizontal factor, defaults to None
+        :type scale_factor_y: Union[float, None]
         :return: The list of scaled images
         :rtype: List[XAImage]
 
         .. versionadded:: 0.1.0
         """
-        return [image.scale(scale_factor_x, scale_factor_y) for image in self]
+        if scale_factor_y is None:
+            scale_factor_y = scale_factor_x
+            
+        scaled_images = [None] * self.xa_elem.count()
+        threads = [None] * self.xa_elem.count()
+        for index, image in enumerate(self):
+            threads[index] = self._spawn_thread(lambda: scaled_images.__setitem__(index, image.scale(scale_factor_x, scale_factor_y)))
+
+        while any([x.is_alive() for x in threads]):
+            time.sleep(0.01)
+
+        return scaled_images
 
     def pad(self, horizontal_border_width: int = 50, vertical_border_width: int = 50, pad_color: Union[XAColor, None] = None) -> List['XAImage']:
         """Pads each image in the list with the specified color; add a border around each image in the list with the specified vertical and horizontal width.
@@ -7319,7 +8016,15 @@ class XAImageList(XAList, XAClipboardCodable):
 
         .. versionadded:: 0.1.0
         """
-        return [image.pad(horizontal_border_width, vertical_border_width, pad_color) for image in self]
+        padded_images = [None] * self.xa_elem.count()
+        threads = [None] * self.xa_elem.count()
+        for index, image in enumerate(self):
+            threads[index] = self._spawn_thread(lambda: padded_images.__setitem__(index, image.pad(horizontal_border_width, vertical_border_width, pad_color)))
+
+        while any([x.is_alive() for x in threads]):
+            time.sleep(0.01)
+
+        return padded_images
 
     def overlay(self, image: 'XAImage', location: Union[Tuple[int, int], None] = None, size: Union[Tuple[int, int], None] = None) -> List['XAImage']:
         """Overlays an image on top of each image in the list, at the specified location, with the specified size.
@@ -7335,7 +8040,15 @@ class XAImageList(XAList, XAClipboardCodable):
 
         .. versionadded:: 0.1.0
         """
-        return [img.overlay(image, location, size) for img in self]
+        overlaid_images = [None] * self.xa_elem.count()
+        threads = [None] * self.xa_elem.count()
+        for index, image in enumerate(self):
+            threads[index] = self._spawn_thread(lambda: overlaid_images.__setitem__(index, image.overlay(image, location, size)))
+
+        while any([x.is_alive() for x in threads]):
+            time.sleep(0.01)
+
+        return overlaid_images
 
     def overlay_text(self, text: str, location: Union[Tuple[int, int], None] = None, font_size: float = 12, font_color: Union[XAColor, None] = None) -> List['XAImage']:
         """Overlays text of the specified size and color at the provided location within each image of the list.
@@ -7353,7 +8066,15 @@ class XAImageList(XAList, XAClipboardCodable):
 
         .. versionadded:: 0.1.0
         """
-        return [image.overlay_text(text, location, font_size, font_color) for image in self]
+        overlaid_images = [None] * self.xa_elem.count()
+        threads = [None] * self.xa_elem.count()
+        for index, image in enumerate(self):
+            threads[index] = self._spawn_thread(lambda: overlaid_images.__setitem__(index, image.overlay_text(text, location, font_size, font_color)))
+
+        while any([x.is_alive() for x in threads]):
+            time.sleep(0.01)
+
+        return overlaid_images
 
     def extract_text(self) -> List[str]:
         """Extracts and returns a list of all visible text in each image of the list.
@@ -7403,14 +8124,11 @@ class XAImage(XAObject, XAClipboardCodable):
 
     .. versionadded:: 0.0.2
     """
-    XAImageModification = namedtuple('ImageModification', ['original_image', 'result']) #: A named tuple returned by image manipulation operations such as :func:`pixellate` containing the original image and the result after applying modifications.
 
-    def __init__(self, image_reference: Union[str, XAPath, AppKit.NSURL, AppKit.NSImage, None] = None, data: Union[AppKit.NSData, None] = None, name: Union[str, None] = None):
+    def __init__(self, image_reference: Union[str, XAPath, AppKit.NSURL, AppKit.NSImage, None] = None, data: Union[AppKit.NSData, None] = None):
         self.size: Tuple[int, int] #: The dimensions of the image
-        self.name: str #: The name of the image
         self.file: Union[XAPath, None] = None #: The path to the image file, if one exists
         self.data: str #: The TIFF representation of the image
-        self.name = name or "image" #: The title of the image
         self.modified: bool = False #: Whether the image data has been modified since the object was originally created
 
         self.xa_elem = None
@@ -7452,7 +8170,7 @@ class XAImage(XAObject, XAClipboardCodable):
 
                 elif isinstance(image_reference, XAPath) or isinstance(image_reference, XAURL):
                     # The reference is a compatible XAObject
-                    self.xa_elem = AppKit.NSImage.alloc().initWithContentsOfURL_(self.file.xa_elem)
+                    self.xa_elem = AppKit.NSImage.alloc().initWithContentsOfURL_(image_reference.xa_elem)
 
                 elif isinstance(image_reference, XAImage):
                     # The reference is another XAImage
@@ -8297,18 +9015,21 @@ class XAImage(XAObject, XAClipboardCodable):
         self.modified = True
         return self
 
-    def scale(self, scale_factor_x: float, scale_factor_y: float) -> 'XAImage':
+    def scale(self, scale_factor_x: float, scale_factor_y: Union[float, None] = None) -> 'XAImage':
         """Scales the image by the specified horizontal and vertical factors.
 
         :param scale_factor_x: The factor by which to scale the image in the X dimension
         :type scale_factor_x: float
-        :param scale_factor_y: The factor by which to scale the image in the Y dimension
-        :type scale_factor_y: float
+        :param scale_factor_y: The factor by which to scale the image in the Y dimension, or None to match the horizontal factor, defaults to None
+        :type scale_factor_y: Union[float, None]
         :return: The image object, modifications included
         :rtype: XAImage
 
         .. versionadded:: 0.1.0
         """
+        if scale_factor_y is None:
+            scale_factor_y = scale_factor_x
+
         scaled_image = AppKit.NSImage.alloc().initWithSize_(AppKit.NSMakeSize(self.size[0] * scale_factor_x, self.size[1] * scale_factor_y))
         imageBounds = AppKit.NSMakeRect(0, 0, self.size[0], self.size[1])
 
@@ -8470,7 +9191,7 @@ class XAImage(XAObject, XAClipboardCodable):
         if not self.modified and self.file is not None and isinstance(self.file, XAPath):
             AppKit.NSWorkspace.sharedWorkspace().openFile_withApplication_(self.file.path, "Preview")
         else:
-            tmp_file = tempfile.NamedTemporaryFile(suffix = self.name)
+            tmp_file = tempfile.NamedTemporaryFile()
             with open(tmp_file.name, 'wb') as f:
                 f.write(self.xa_elem.TIFFRepresentation())
 
@@ -8834,8 +9555,6 @@ class XASound(XAObject, XAClipboardCodable):
     # def save(self, file_path: Union[XAPath, str]):
     #     if isinstance(file_path, str):
     #         file_path = XAPath(file_path)
-            
-
 
     def get_clipboard_representation(self) -> List[Union[AppKit.NSSound, AppKit.NSURL, str]]:
         """Gets a clipboard-codable representation of the sound.

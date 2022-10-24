@@ -141,12 +141,27 @@ class XAImageLike(XAProtocol):
 
     .. versionadded:: 0.1.0
     """
-    def get_image_representation(self) -> Union['XABase.XAImage', None]:
+    def get_image_representation(self) -> Any:
         """Gets a representation of the object that can be used to initialize an :class:`~PyXA.XABase.XAImage` object.
 
         This method must be overriden in child classes of XAImageLike.
 
         :return: The XAImage-compatible form of the object, or None if no such form exists
+        :rtype: Any
+        """
+        return None
+
+class XAPathLike(XAProtocol):
+    """A protocol for classes that can be treated the same as :class:`~PyXA.XABase.XAPath`.
+
+    .. versionadded:: 0.1.0
+    """
+    def get_path_representation(self) -> Any:
+        """Gets a representation of the object that can be used to initialize an :class:`~PyXA.XABase.XAPath` object.
+
+        This method must be overriden in child classes of XAPathLike.
+
+        :return: The XAPath-compatible form of the object, or None if no such form exists
         :rtype: Any
         """
         return None

@@ -102,7 +102,7 @@ When you run this, the Notes app will open to newly created note containing the 
 
 With that, our script is complete! You can run the script from your Terminal at any time, but you might want to save the workflow as an executable for greater convenience. The easiest way to do this is to add a `shebang` to the top of the script that instructs the Terminal to run the code using the Python interpreter:
 
-.. code-block:: Python
+.. code-block:: bash
    
    #!/usr/bin/env python
 
@@ -129,6 +129,7 @@ Additional Tutorial Topics
 
    apps/index
    lists
+   images
    clipboard
    user_input
    spotlight
@@ -136,6 +137,7 @@ Additional Tutorial Topics
    applescript
    menubar
    extensions/web/rssfeed
+   appscript
    tips_tricks
 
 

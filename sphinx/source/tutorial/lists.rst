@@ -119,7 +119,7 @@ PyXA provides several convenience methods for retrieving lists matching simple f
 .. code-block:: Python
 
     import PyXA
-    app = PyXA.Application("Notes")
+    notes = PyXA.Application("Notes")
     print(app.notes().containing("body", "Hello").name())
     print(app.notes().containing("title", "Hello").name())
     # ['Note 1', 'Example Note', 'Another Note']

@@ -36,6 +36,6 @@ from .XABase import (
     XAMenuBar, XAMenu,
 )
 
-from .extensions.XAWeb import (
+from .Additions.XAWeb import (
     RSSFeed,
 )

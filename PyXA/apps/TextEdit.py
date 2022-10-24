@@ -333,7 +333,7 @@ class XATextEditWindow(XABaseScriptable.XASBPrintable):
 
 
 
-class XATextEditDocumentList(XABase.XAList, XAClipboardCodable):
+class XATextEditDocumentList(XABase.XATextDocumentList, XAClipboardCodable):
     """A wrapper around lists of documents that employs fast enumeration techniques.
 
     All properties of documents can be called as methods on the wrapped list, returning a list containing each document's value for the property.
@@ -341,7 +341,7 @@ class XATextEditDocumentList(XABase.XAList, XAClipboardCodable):
     .. versionadded:: 0.0.3
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XATextEditDocument, filter)
+        super().__init__(properties, filter, XATextEditDocument)
 
     def properties(self) -> List[dict]:
         """Gets the properties of each document in the list.
@@ -351,7 +351,14 @@ class XATextEditDocumentList(XABase.XAList, XAClipboardCodable):
         
         .. versionadded:: 0.0.3
         """
-        return list(self.xa_elem.arrayByApplyingSelector_("properties"))
+        raw_dicts = list(self.xa_elem.arrayByApplyingSelector_("properties"))
+        return [{
+            "modified": raw_dict["modified"],
+            "name": raw_dict["name"],
+            "class": "document",
+            "path": XABase.XAPath(raw_dict["path"]),
+            "text": raw_dict["text"]
+        } for raw_dict in raw_dicts]
 
     def path(self) -> List[XABase.XAPath]:
         """Gets the path of each document in the list.
@@ -374,72 +381,6 @@ class XATextEditDocumentList(XABase.XAList, XAClipboardCodable):
         """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
-    def text(self) -> List[XABase.XAText]:
-        """Gets the text of each document in the list.
-
-        :return: A list of document texts
-        :rtype: List[str]
-        
-        .. versionadded:: 0.0.3
-        """
-        ls = self.xa_elem.arrayByApplyingSelector_("text")
-        return [self._new_element(text, XABase.XAText) for text in ls]
-
-    def paragraphs(self) -> List[List[XABase.XAParagraph]]:
-        """Gets the paragraphs of each document in the list.
-
-        :return: A list of lists of paragraphs
-        :rtype: List[List[XABase.XAParagraph]]
-        
-        .. versionadded:: 0.0.3
-        """
-        ls = self.xa_elem.arrayByApplyingSelector_("paragraphs")
-        return [self._new_element(paragraph, XABase.XAParagraph) for paragraph in [plist for plist in ls]]
-
-    def words(self) -> List[List[XABase.XAWord]]:
-        """Gets the words of each document in the list.
-
-        :return: A list of lists of words
-        :rtype: List[List[XABase.XAWord]]
-        
-        .. versionadded:: 0.0.3
-        """
-        ls = self.xa_elem.arrayByApplyingSelector_("words")
-        return [self._new_element(word, XABase.XAWord) for word in [wordlist for wordlist in ls]]
-
-    def characters(self) -> List[List[XABase.XACharacter]]:
-        """Gets the characters of each document in the list.
-
-        :return: A list of lists of characters
-        :rtype: List[List[XABase.XACharacter]]
-        
-        .. versionadded:: 0.0.3
-        """
-        ls = self.xa_elem.arrayByApplyingSelector_("characters")
-        return [self._new_element(character, XABase.XACharacter) for character in [charlist for charlist in ls]]
-
-    def attribute_runs(self) -> List[List[XABase.XAAttributeRun]]:
-        """Gets the attribute runs of each document in the list.
-
-        :return: A list of lists of attribute runs
-        :rtype: List[List[XABase.XAAttributeRun]]
-        
-        .. versionadded:: 0.0.3
-        """
-        ls = self.xa_elem.arrayByApplyingSelector_("attributeRuns")
-        return [self._new_element(attribute_run, XABase.XAAttributeRun) for attribute_run in [runlist for runlist in ls]]
-
-    def attachments(self) -> List[List[XABase.XAAttachment]]:
-        """Gets the attachments of each document in the list.
-
-        :return: A list of lists of attachments
-        :rtype: List[List[XABase.XAAttachment]]
-        
-        .. versionadded:: 0.0.3
-        """
-        ls = self.xa_elem.arrayByApplyingSelector_("attachments")
-        return [self._new_element(attachment, XABase.XAAttributeRun) for attachment in [attachmentlist for attachmentlist in ls]]
-
     def modified(self) -> List[str]:
         """Gets the modified status of each document in the list.
 
@@ -450,15 +391,24 @@ class XATextEditDocumentList(XABase.XAList, XAClipboardCodable):
         """
         return list(self.xa_elem.arrayByApplyingSelector_("modified"))
 
-    def by_properties(self, properties: dict) -> Union['XATextEditDocument', None]:
+    def by_properties(self, properties: dict) -> Union['XABase.XATextDocument', None]:
         """Retrieves the document whose properties match the given properties dictionary, if one exists.
 
         :return: The desired document, if it is found
-        :rtype: Union[XATextEditDocument, None]
+        :rtype: Union[XATextDocument, None]
         
-        .. versionadded:: 0.0.3
+        .. versionadded:: 0.1.0
         """
-        return self.by_property("properties", properties)
+        for document in self.xa_elem:
+            doc_props = document.properties()
+            conditions = [
+                doc_props["modified"] == properties["modified"],
+                doc_props["name"] == properties["name"],
+                doc_props["path"] == (properties["path"].xa_elem if isinstance(properties["path"], XABase.XAPath) else properties["path"]),
+                doc_props["text"] == properties["text"]
+            ]
+            if all(conditions):
+                return self._new_element(document, self.xa_ocls)
 
     def by_path(self, path: XABase.XAPath) -> Union['XATextEditDocument', None]:
         """Retrieves the document whose path matches the given path, if one exists.
@@ -571,9 +521,10 @@ class XATextEditDocumentList(XABase.XAList, XAClipboardCodable):
         texts = self.text()
         paths = self.path()
         for index, text in enumerate(texts):
-            items.append(str(text), paths[index].xa_elem)
+            items.append(str(text))
+            items.append(paths[index].xa_elem)
         return items
-
+        
     def __repr__(self):
         return "<" + str(type(self)) + str(self.name()) + ">"
 
@@ -664,7 +615,7 @@ class XATextEditDocument(XABase.XATextDocument, XAPrintable, XAClipboardCodable,
         """Copies the document file and its contents to the clipboard.
 
         .. deprecated:: 0.0.8
-           Use :class:`XABase.XAClipboard` methods instead.
+           Use the :class:`XABase.XAClipboard` class instead.
 
         .. versionadded:: 0.0.2
         """

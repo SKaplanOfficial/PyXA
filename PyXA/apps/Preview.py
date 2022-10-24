@@ -47,7 +47,7 @@ class XAPreviewApplication(XABaseScriptable.XASBApplication, XACanOpenPath, XACa
         """Opens the print dialog for the file at the given path, if the file can be opened in Preview.
 
         :param path: The path of the file to print.
-        :type path: Union[str, NSURL]
+        :type path: Union[str, AppKit.NSURL]
         :param show_prompt: Whether to show the print dialog or skip directly printing, defaults to True
         :type show_prompt: bool, optional
 
@@ -243,13 +243,13 @@ class XAPreviewDocumentList(XABase.XAList, XAClipboardCodable):
     def by_modified(self, modified: bool) -> 'XAPreviewDocument':
         return self.by_property("modified", modified)
 
-    def get_clipboard_representation(self) -> List[NSURL]:
+    def get_clipboard_representation(self) -> List[AppKit.NSURL]:
         """Gets a clipboard-codable representation of each document in the list.
 
         When the clipboard content is set to a document, each documents's file URL is added to the clipboard.
 
         :return: The document's file URL
-        :rtype: List[NSURL]
+        :rtype: List[AppKit.NSURL]
 
         .. versionadded:: 0.0.8
         """
@@ -337,7 +337,7 @@ class XAPreviewDocument(XABase.XATextDocument, XAPrintable, XACloseable, XAClipb
         When the clipboard content is set to a document, the documents's file URL is added to the clipboard.
 
         :return: The document's file URL
-        :rtype: NSURL
+        :rtype: AppKit.NSURL
 
         .. versionadded:: 0.0.8
         """

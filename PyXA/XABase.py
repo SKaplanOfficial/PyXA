@@ -25,6 +25,7 @@ from PyObjCTools import AppHelper
 import appscript
 
 import Foundation
+import CoreMedia
 import AppKit
 import NaturalLanguage
 import LatentSemanticMapping
@@ -7228,7 +7229,7 @@ class XAImageList(XAList, XAClipboardCodable):
         """
         return XAImage.vertical_stitch(self)
 
-    def auto_enhance(self, correct_red_eye: bool = False, crop_to_features: bool = False, correct_rotation: bool = False) -> List['XAImage.XAImageModification']:
+    def auto_enhance(self, correct_red_eye: bool = False, crop_to_features: bool = False, correct_rotation: bool = False) -> List['XAImage']:
         """Attempts to enhance each image in the list by applying suggested filters.
 
         :param correct_red_eye: Whether to attempt red eye removal, defaults to False
@@ -7237,60 +7238,74 @@ class XAImageList(XAList, XAClipboardCodable):
         :type crop_to_features: bool, optional
         :param correct_rotation: Whether attempt perspective correction by rotating the images, defaults to False
         :type correct_rotation: bool, optional
-        :return: A tuple containing a list old images (before enhancement) and the list of new ones
-        :rtype: List.XAImage.XAImageModification
+        :return: The list of enhanced images
+        :rtype: List[XAImage]
 
         .. versionadded:: 0.1.0
         """
         return [image.auto_enhance() for image in self]
 
-    def flip_horizontally(self) -> List['List.XAImage.XAImageModification']:
+    def flip_horizontally(self) -> List['XAImage']:
         """Flips each image in the list horizontally.
 
-        :return: A list of ImageModification objects containing the original images and the flipped images
-        :rtype: List[XAImage.XAImageModification]
+        :return: The list of flipped images
+        :rtype: List[XAImage]
 
         .. versionadded:: 0.1.0
         """
         return [image.flip_horizontally() for image in self]
 
-    def flip_vertically(self) -> List['List.XAImage.XAImageModification']:
+    def flip_vertically(self) -> List['XAImage']:
         """Flips each image in the list vertically.
 
-        :return: A list of ImageModification objects containing the original images and the flipped images
-        :rtype: List[XAImage.XAImageModification]
+       :return: The list of flipped images
+        :rtype: List[XAImage]
 
         .. versionadded:: 0.1.0
         """
         return [image.flip_horizontally() for image in self]
 
-    def rotate(self, degrees: float) -> List['List.XAImage.XAImageModification']:
+    def rotate(self, degrees: float) -> List['XAImage']:
         """Rotates each image in the list by the specified amount of degrees.
 
         :param degrees: The number of degrees to rotate the images by
         :type degrees: float
-        :return: A list of ImageModification objects containing the original images and the flipped images
-        :rtype: List[XAImage.XAImageModification]
+        :return: The list of rotated images
+        :rtype: List[XAImage]
 
         .. versionadded:: 0.1.0
         """
         return [image.rotate(degrees) for image in self]
 
-    def scale(self, scale_factor_x: float, scale_factor_y: float) -> List['List.XAImage.XAImageModification']:
+    def crop(self, size: Tuple[int, int], corner: Union[Tuple[int, int], None] = None) -> List['XAImage']:
+        """Crops each image in the list to the specified dimensions.
+
+        :param size: The dimensions to crop each image to
+        :type size: Tuple[int, int]
+        :param corner: The bottom-left location to crom each image from, or None to use (0, 0), defaults to None
+        :type corner: Union[Tuple[int, int], None]
+        :return: The list of cropped images
+        :rtype: List[XAImage]
+
+        .. versionadded:: 0.1.0
+        """
+        return [image.crop(size, corner) for image in self]
+
+    def scale(self, scale_factor_x: float, scale_factor_y: float) -> List['XAImage']:
         """Scales each image in the list by the specified horizontal and vertical factors.
 
         :param scale_factor_x: The factor by which to scale each image in the X dimension
         :type scale_factor_x: float
         :param scale_factor_y: The factor by which to scale each image in the Y dimension
         :type scale_factor_y: float
-        :return: A list of ImageModification objects containing the original images and the flipped images
-        :rtype: List[XAImage.XAImageModification]
+        :return: The list of scaled images
+        :rtype: List[XAImage]
 
         .. versionadded:: 0.1.0
         """
         return [image.scale(scale_factor_x, scale_factor_y) for image in self]
 
-    def pad(self, horizontal_border_width: int = 50, vertical_border_width: int = 50, pad_color: Union[XAColor, None] = None) -> List['List.XAImage.XAImageModification']:
+    def pad(self, horizontal_border_width: int = 50, vertical_border_width: int = 50, pad_color: Union[XAColor, None] = None) -> List['XAImage']:
         """Pads each image in the list with the specified color; add a border around each image in the list with the specified vertical and horizontal width.
 
         :param horizontal_border_width: The border width, in pixels, in the x-dimension, defaults to 50
@@ -7299,14 +7314,14 @@ class XAImageList(XAList, XAClipboardCodable):
         :type vertical_border_width: int
         :param pad_color: The color of the border, or None for a white border, defaults to None
         :type pad_color: Union[XAColor, None]
-        :return: A list of ImageModification objects containing the original images and the flipped images
-        :rtype: List[XAImage.XAImageModification]
+        :return: The list of padded images
+        :rtype: List[XAImage]
 
         .. versionadded:: 0.1.0
         """
         return [image.pad(horizontal_border_width, vertical_border_width, pad_color) for image in self]
 
-    def overlay(self, image: 'XAImage', location: Union[Tuple[int, int], None] = None, size: Union[Tuple[int, int], None] = None) -> List['List.XAImage.XAImageModification']:
+    def overlay(self, image: 'XAImage', location: Union[Tuple[int, int], None] = None, size: Union[Tuple[int, int], None] = None) -> List['XAImage']:
         """Overlays an image on top of each image in the list, at the specified location, with the specified size.
 
         :param image: The image to overlay on top of each image in the list
@@ -7315,14 +7330,14 @@ class XAImageList(XAList, XAClipboardCodable):
         :type location: Union[Tuple[int, int], None]
         :param size: The width and height of the overlaid image, or None to use the overlaid's images existing width and height, or (-1, -1) to use the dimensions of each background images, defaults to None
         :type size: Union[Tuple[int, int], None]
-        :return: A list of ImageModification objects containing the original images and the flipped images
-        :rtype: List[XAImage.XAImageModification]
+        :return: The list of images with the specified image overlaid on top of them
+        :rtype: List[XAImage]
 
         .. versionadded:: 0.1.0
         """
         return [img.overlay(image, location, size) for img in self]
 
-    def overlay_text(self, text: str, location: Union[Tuple[int, int], None] = None, font_size: float = 12, font_color: Union[XAColor, None] = None) -> List['List.XAImage.XAImageModification']:
+    def overlay_text(self, text: str, location: Union[Tuple[int, int], None] = None, font_size: float = 12, font_color: Union[XAColor, None] = None) -> List['XAImage']:
         """Overlays text of the specified size and color at the provided location within each image of the list.
 
         :param text: The text to overlay onto each image of the list
@@ -7333,8 +7348,8 @@ class XAImageList(XAList, XAClipboardCodable):
         :type font_size: float
         :param font_color: The color of the text, or None to use black, defaults to None
         :type font_color: XAColor
-        :return: A list of ImageModification objects containing the original images and the flipped images
-        :rtype: List[XAImage.XAImageModification]
+        :return: The list of images with the specified text overlaid on top of them
+        :rtype: List[XAImage]
 
         .. versionadded:: 0.1.0
         """
@@ -7457,9 +7472,7 @@ class XAImage(XAObject, XAClipboardCodable):
                     # Must obtain the image representation using the XAImageLike protocol
                     self.xa_elem = XAImage(image_reference.get_image_representation()).xa_elem
 
-        self.data = self.xa_elem.TIFFRepresentation()
-
-    def __update_image(self, modified_image: Quartz.CIImage) -> XAImageModification:
+    def __update_image(self, modified_image: Quartz.CIImage) -> 'XAImage':
         # Crop the result to the original image size
         cropped = modified_image.imageByCroppingToRect_(Quartz.CGRectMake(0, 0, self.size[0], self.size[1]))
 
@@ -7469,10 +7482,9 @@ class XAImage(XAObject, XAClipboardCodable):
         result.addRepresentation_(rep)
 
         # Update internal data
-        old_image = XAImage(self.xa_elem)
         self.xa_elem = result
         self.modified = True
-        return XAImage.XAImageModification(old_image, self)
+        return self
 
     @property
     def size(self) -> Tuple[int, int]:
@@ -7481,6 +7493,10 @@ class XAImage(XAObject, XAClipboardCodable):
         .. versionadded:: 0.1.0
         """
         return tuple(self.xa_elem.size())
+
+    @property
+    def data(self) -> AppKit.NSData:
+        return self.xa_elem.TIFFRepresentation()
 
     @property
     def has_alpha_channel(self) -> bool:
@@ -7799,13 +7815,13 @@ class XAImage(XAObject, XAClipboardCodable):
         composition.addRepresentation_(composition_rep)
         return XAImage(composition)
     
-    def edges(self, intensity: float = 1.0) -> XAImageModification:
+    def edges(self, intensity: float = 1.0) -> 'XAImage':
         """Detects the edges in the image and highlights them colorfully, blackening other areas of the image.
 
         :param intensity: The degree to which edges are highlighted. Higher is brighter. Defaults to 1.0
         :type intensity: float
-        :return: A tuple containing the old image (before edge detection) and the modified one
-        :rtype: XAImageModification
+        :return: The resulting image after applying the filter
+        :rtype: XAImage
 
         .. versionadded:: 0.1.0
         """
@@ -7817,13 +7833,13 @@ class XAImage(XAObject, XAClipboardCodable):
         uncropped = filter.valueForKey_(Quartz.kCIOutputImageKey)
         return self.__update_image(uncropped)
 
-    def gaussian_blur(self, intensity: float = 10) -> XAImageModification:
+    def gaussian_blur(self, intensity: float = 10) -> 'XAImage':
         """Blurs the image using a Gaussian filter.
 
         :param intensity: The strength of the blur effect, defaults to 10
         :type intensity: float
-        :return: A tuple containing the old image (before edge detection) and the modified one
-        :rtype: XAImageModification
+        :return: The resulting image after applying the filter
+        :rtype: XAImage
 
         .. versionadded:: 0.1.0
         """
@@ -7835,15 +7851,15 @@ class XAImage(XAObject, XAClipboardCodable):
         uncropped = filter.valueForKey_(Quartz.kCIOutputImageKey)
         return self.__update_image(uncropped)
 
-    def reduce_noise(self, noise_level: float = 0.02, sharpness: float = 0.4) -> XAImageModification:
+    def reduce_noise(self, noise_level: float = 0.02, sharpness: float = 0.4) -> 'XAImage':
         """Reduces noise in the image by sharpening areas with a luminance delta below the specified noise level threshold.
 
         :param noise_level: The threshold for luminance changes in an area below which will be considered noise, defaults to 0.02
         :type noise_level: float
         :param sharpness: The sharpness of the resulting image, defaults to 0.4
         :type sharpness: float
-        :return: A tuple containing the old image (before edge detection) and the modified one
-        :rtype: XAImageModification
+        :return: The resulting image after applying the filter
+        :rtype: XAImage
 
         .. versionadded:: 0.1.0
         """
@@ -7856,13 +7872,13 @@ class XAImage(XAObject, XAClipboardCodable):
         uncropped = filter.valueForKey_(Quartz.kCIOutputImageKey)
         return self.__update_image(uncropped)
 
-    def pixellate(self, pixel_size: float = 8.0) -> XAImageModification:
+    def pixellate(self, pixel_size: float = 8.0) -> 'XAImage':
         """Pixellates the image.
 
         :param pixel_size: The size of the pixels, defaults to 8.0
         :type pixel_size: float
-        :return: A tuple containing the old image (before edge detection) and the modified one
-        :rtype: XAImageModification
+        :return: The resulting image after applying the filter
+        :rtype: XAImage
 
         .. versionadded:: 0.1.0
         """
@@ -7874,13 +7890,13 @@ class XAImage(XAObject, XAClipboardCodable):
         uncropped = filter.valueForKey_(Quartz.kCIOutputImageKey)
         return self.__update_image(uncropped)
 
-    def outline(self, threshold: float = 0.1) -> XAImageModification:
+    def outline(self, threshold: float = 0.1) -> 'XAImage':
         """Outlines detected edges within the image in black, leaving the rest transparent.
 
         :param threshold: The threshold to use when separating edge and non-edge pixels. Larger values produce thinner edge lines. Defaults to 0.1
         :type threshold: float
-        :return: A tuple containing the old image (before edge detection) and the modified one
-        :rtype: XAImageModification
+        :return: The resulting image after applying the filter
+        :rtype: XAImage
 
         .. versionadded:: 0.1.0
         """
@@ -7892,11 +7908,11 @@ class XAImage(XAObject, XAClipboardCodable):
         uncropped = filter.valueForKey_(Quartz.kCIOutputImageKey)
         return self.__update_image(uncropped)
 
-    def invert(self) -> XAImageModification:
+    def invert(self) -> 'XAImage':
         """Inverts the color of the image.
 
-        :return: A tuple containing the old image (before edge detection) and the modified one
-        :rtype: XAImageModification
+        :return: The resulting image after applying the filter
+        :rtype: XAImage
 
         .. versionadded:: 0.1.0
         """
@@ -7907,13 +7923,13 @@ class XAImage(XAObject, XAClipboardCodable):
         uncropped = filter.valueForKey_(Quartz.kCIOutputImageKey)
         return self.__update_image(uncropped)
     
-    def sepia(self, intensity: float = 1.0) -> XAImageModification:
+    def sepia(self, intensity: float = 1.0) -> 'XAImage':
         """Applies a sepia filter to the image; maps all colors of the image to shades of brown.
 
         :param intensity: The opacity of the sepia effect. A value of 0 will have no impact on the image. Defaults to 1.0
         :type intensity: float
-        :return: A tuple containing the old image (before edge detection) and the modified one
-        :rtype: XAImageModification
+        :return: The resulting image after applying the filter
+        :rtype: XAImage
 
         .. versionadded:: 0.1.0
         """
@@ -7925,13 +7941,13 @@ class XAImage(XAObject, XAClipboardCodable):
         uncropped = filter.valueForKey_(Quartz.kCIOutputImageKey)
         return self.__update_image(uncropped)
 
-    def vignette(self, intensity: float = 1.0) -> XAImageModification:
+    def vignette(self, intensity: float = 1.0) -> 'XAImage':
         """Applies vignette shading to the corners of the image.
 
         :param intensity: The intensity of the vignette effect, defaults to 1.0
         :type intensity: float
-        :return: A tuple containing the old image (before edge detection) and the modified one
-        :rtype: XAImageModification
+        :return: The resulting image after applying the filter
+        :rtype: XAImage
 
         .. versionadded:: 0.1.0
         """
@@ -7943,7 +7959,7 @@ class XAImage(XAObject, XAClipboardCodable):
         uncropped = filter.valueForKey_(Quartz.kCIOutputImageKey)
         return self.__update_image(uncropped)
 
-    def depth_of_filed(self, focal_region: Union[Tuple[Tuple[int, int], Tuple[int, int]], None] = None, intensity: float = 10.0, focal_region_saturation: float = 1.5) -> XAImageModification:
+    def depth_of_filed(self, focal_region: Union[Tuple[Tuple[int, int], Tuple[int, int]], None] = None, intensity: float = 10.0, focal_region_saturation: float = 1.5) -> 'XAImage':
         """Applies a depth of field filter to the image, simulating a tilt & shift effect.
 
         :param focal_region: Two points defining a line within the image to focus the effect around (pixels around the line will be in focus), or None to use the center third of the image, defaults to None
@@ -7952,8 +7968,8 @@ class XAImage(XAObject, XAClipboardCodable):
         :type intensity: float
         :param focal_region_saturation: Adjusts the saturation of the focial region. Higher values increase saturation. Defaults to 1.5 (1.5x default saturation)
         :type focal_region_saturation: float
-        :return: A tuple containing the old image (before edge detection) and the modified one
-        :rtype: XAImageModification
+        :return: The resulting image after applying the filter
+        :rtype: XAImage
 
         .. versionadded:: 0.1.0
         """
@@ -7977,13 +7993,13 @@ class XAImage(XAObject, XAClipboardCodable):
         uncropped = filter.valueForKey_(Quartz.kCIOutputImageKey)
         return self.__update_image(uncropped)
 
-    def crystallize(self, crystal_size: float = 20.0) -> XAImageModification:
+    def crystallize(self, crystal_size: float = 20.0) -> 'XAImage':
         """Applies a crystallization filter to the image. Creates polygon-shaped color blocks by aggregating pixel values.
 
         :param crystal_size: The radius of the crystals, defaults to 20.0
         :type crystal_size: float
-        :return: A tuple containing the old image (before edge detection) and the modified one
-        :rtype: XAImageModification
+        :return: The resulting image after applying the filter
+        :rtype: XAImage
 
         .. versionadded:: 0.1.0
         """
@@ -7995,11 +8011,11 @@ class XAImage(XAObject, XAClipboardCodable):
         uncropped = filter.valueForKey_(Quartz.kCIOutputImageKey)
         return self.__update_image(uncropped)
 
-    def comic(self) -> XAImageModification:
+    def comic(self) -> 'XAImage':
         """Applies a comic filter to the image. Outlines edges and applies a color halftone effect.
 
-        :return: A tuple containing the old image (before edge detection) and the modified one
-        :rtype: XAImageModification
+        :return: The resulting image after applying the filter
+        :rtype: XAImage
 
         .. versionadded:: 0.1.0
         """
@@ -8010,13 +8026,13 @@ class XAImage(XAObject, XAClipboardCodable):
         uncropped = filter.valueForKey_(Quartz.kCIOutputImageKey)
         return self.__update_image(uncropped)
 
-    def pointillize(self, point_size: float = 20.0) -> XAImageModification:
+    def pointillize(self, point_size: float = 20.0) -> 'XAImage':
         """Applies a pointillization filter to the image.
 
         :param crystal_size: The radius of the points, defaults to 20.0
         :type crystal_size: float
-        :return: A tuple containing the old image (before edge detection) and the modified one
-        :rtype: XAImageModification
+        :return: The resulting image after applying the filter
+        :rtype: XAImage
 
         .. versionadded:: 0.1.0
         """
@@ -8028,13 +8044,13 @@ class XAImage(XAObject, XAClipboardCodable):
         uncropped = filter.valueForKey_(Quartz.kCIOutputImageKey)
         return self.__update_image(uncropped)
 
-    def bloom(self, intensity: float = 0.5) -> XAImageModification:
+    def bloom(self, intensity: float = 0.5) -> 'XAImage':
         """Applies a bloom effect to the image. Softens edges and adds a glow.
 
         :param intensity: The strength of the softening and glow effects, defaults to 0.5
         :type intensity: float
-        :return: A tuple containing the old image (before edge detection) and the modified one
-        :rtype: XAImageModification
+        :return: The resulting image after applying the filter
+        :rtype: XAImage
 
         .. versionadded:: 0.1.0
         """
@@ -8046,15 +8062,15 @@ class XAImage(XAObject, XAClipboardCodable):
         uncropped = filter.valueForKey_(Quartz.kCIOutputImageKey)
         return self.__update_image(uncropped)
 
-    def monochrome(self, color: XAColor, intensity: float = 1.0) -> XAImageModification:
+    def monochrome(self, color: XAColor, intensity: float = 1.0) -> 'XAImage':
         """Remaps the colors of the image to shades of the specified color.
 
         :param color: The color of map the image's colors to
         :type color: XAColor
         :param intensity: The strength of recoloring effect. Higher values map colors to darker shades of the provided color. Defaults to 1.0
         :type intensity: float
-        :return: A tuple containing the old image (before edge detection) and the modified one
-        :rtype: XAImageModification
+        :return: The resulting image after applying the filter
+        :rtype: XAImage
 
         .. versionadded:: 0.1.0
         """
@@ -8068,7 +8084,7 @@ class XAImage(XAObject, XAClipboardCodable):
         uncropped = filter.valueForKey_(Quartz.kCIOutputImageKey)
         return self.__update_image(uncropped)
 
-    def bump(self, center: Union[Tuple[int, int], None] = None, radius: float = 300.0, curvature: float = 0.5) -> XAImageModification:
+    def bump(self, center: Union[Tuple[int, int], None] = None, radius: float = 300.0, curvature: float = 0.5) -> 'XAImage':
         """Creates a concave (inward) or convex (outward) bump at the specified location within the image.
 
         :param center: The center point of the effect, or None to use the center of the image, defaults to None
@@ -8077,8 +8093,8 @@ class XAImage(XAObject, XAClipboardCodable):
         :type radius: float
         :param curvature: Controls the direction and intensity of the bump's curvature. Positive values create convex bumps while negative values create concave bumps. Defaults to 0.5
         :type curvature: float
-        :return: A tuple containing the old image (before edge detection) and the modified one
-        :rtype: XAImageModification
+        :return: The resulting image after applying the distortion
+        :rtype: XAImage
 
         .. versionadded:: 0.1.0
         """
@@ -8097,15 +8113,15 @@ class XAImage(XAObject, XAClipboardCodable):
         uncropped = filter.valueForKey_(Quartz.kCIOutputImageKey)
         return self.__update_image(uncropped)
 
-    def pinch(self, center: Union[Tuple[int, int], None] = None, intensity: float = 0.5) -> XAImageModification:
+    def pinch(self, center: Union[Tuple[int, int], None] = None, intensity: float = 0.5) -> 'XAImage':
         """Creates an inward pinch distortion at the specified location within the image.
 
         :param center: The center point of the effect, or None to use the center of the image, defaults to None
         :type center: Union[Tuple[int, int], None]
         :param intensity: Controls the scale of the pinch effect. Higher values stretch pixels away from the specified center to a greater degree. Defaults to 0.5
         :type intensity: float
-        :return: A tuple containing the old image (before edge detection) and the modified one
-        :rtype: XAImageModification
+        :return: The resulting image after applying the distortion
+        :rtype: XAImage
 
         .. versionadded:: 0.1.0
         """
@@ -8123,7 +8139,7 @@ class XAImage(XAObject, XAClipboardCodable):
         uncropped = filter.valueForKey_(Quartz.kCIOutputImageKey)
         return self.__update_image(uncropped)
 
-    def twirl(self, center: Union[Tuple[int, int], None] = None, radius: float = 300.0, angle: float = 3.14) -> XAImageModification:
+    def twirl(self, center: Union[Tuple[int, int], None] = None, radius: float = 300.0, angle: float = 3.14) -> 'XAImage':
         """Creates a twirl distortion by rotating pixels around the specified location within the image.
 
         :param center: The center point of the effect, or None to use the center of the image, defaults to None
@@ -8132,8 +8148,8 @@ class XAImage(XAObject, XAClipboardCodable):
         :type radius: float
         :param angle: The angle of the twirl in radians, defaults to 3.14
         :type angle: float
-        :return: A tuple containing the old image (before edge detection) and the modified one
-        :rtype: XAImageModification
+        :return: The resulting image after applying the distortion
+        :rtype: XAImage
 
         .. versionadded:: 0.1.0
         """
@@ -8152,7 +8168,7 @@ class XAImage(XAObject, XAClipboardCodable):
         uncropped = filter.valueForKey_(Quartz.kCIOutputImageKey)
         return self.__update_image(uncropped)
 
-    def auto_enhance(self, correct_red_eye: bool = False, crop_to_features: bool = False, correct_rotation: bool = False) -> XAImageModification:
+    def auto_enhance(self, correct_red_eye: bool = False, crop_to_features: bool = False, correct_rotation: bool = False) -> 'XAImage':
         """Attempts to enhance the image by applying suggested filters.
 
         :param correct_red_eye: Whether to attempt red eye removal, defaults to False
@@ -8161,8 +8177,8 @@ class XAImage(XAObject, XAClipboardCodable):
         :type crop_to_features: bool, optional
         :param correct_rotation: Whether attempt perspective correction by rotating the image, defaults to False
         :type correct_rotation: bool, optional
-        :return: A tuple containing the old image (before enhancement) and the new one
-        :rtype: XAImageModification
+        :return: The resulting image after applying the enchantments
+        :rtype: XAImage
 
         .. versionadded:: 0.1.0
         """
@@ -8179,17 +8195,14 @@ class XAImage(XAObject, XAClipboardCodable):
             ci_image = filter.outputImage()
         return self.__update_image(ci_image)
 
-    def flip_horizontally(self) -> XAImageModification:
+    def flip_horizontally(self) -> 'XAImage':
         """Flips the image horizontally.
 
-        :return: A tuple containing the old image (before flipping) and the new one
-        :rtype: XAImageModification
+        :return: The image object, modifications included
+        :rtype: XAImage
 
         .. versionadded:: 0.1.0
         """
-        # Backup the original image
-        old_image = XAImage(self.xa_elem)
-
         flipped_image = AppKit.NSImage.alloc().initWithSize_(self.xa_elem.size())
         imageBounds = AppKit.NSMakeRect(0, 0, self.size[0], self.size[1])
 
@@ -8201,19 +8214,18 @@ class XAImage(XAObject, XAClipboardCodable):
         transform.concat()
         self.xa_elem.drawInRect_fromRect_operation_fraction_(imageBounds, Quartz.CGRectZero, AppKit.NSCompositingOperationCopy, 1.0)
         flipped_image.unlockFocus()
-        return XAImage.XAImageModification(old_image, self)
+        self.xa_elem = flipped_image
+        self.modified = True
+        return self
 
-    def flip_vertically(self) -> XAImageModification:
+    def flip_vertically(self) -> 'XAImage':
         """Flips the image vertically.
 
-        :return: A tuple containing the old image (before flipping) and the new one
-        :rtype: XAImageModification
+        :return: The image object, modifications included
+        :rtype: XAImage
 
         .. versionadded:: 0.1.0
         """
-        # Backup the original image
-        old_image = XAImage(self.xa_elem)
-
         flipped_image = AppKit.NSImage.alloc().initWithSize_(self.xa_elem.size())
         imageBounds = AppKit.NSMakeRect(0, 0, self.size[0], self.size[1])
 
@@ -8226,21 +8238,19 @@ class XAImage(XAObject, XAClipboardCodable):
         self.xa_elem.drawInRect_fromRect_operation_fraction_(imageBounds, Quartz.CGRectZero, AppKit.NSCompositingOperationCopy, 1.0)
         flipped_image.unlockFocus()
         self.xa_elem = flipped_image
-        return XAImage.XAImageModification(old_image, self)
+        self.modified = True
+        return self
 
-    def rotate(self, degrees: float) -> XAImageModification:
+    def rotate(self, degrees: float) -> 'XAImage':
         """Rotates the image clockwise by the specified number of degrees.
 
         :param degrees: The number of degrees to rotate the image by
         :type degrees: float
-        :return: A tuple containing the old image (before rotating) and the new one
-        :rtype: XAImageModification
+        :return: The image object, modifications included
+        :rtype: XAImage
 
         .. versionadded:: 0.1.0
         """
-        # Backup the original image
-        old_image = XAImage(self.xa_elem)
-
         sinDegrees = abs(math.sin(degrees * math.pi / 180.0))
         cosDegrees = abs(math.cos(degrees * math.pi / 180.0))
         newSize = Quartz.CGSizeMake(self.size[1] * sinDegrees + self.size[0] * cosDegrees, self.size[0] * sinDegrees + self.size[1] * cosDegrees)
@@ -8258,23 +8268,47 @@ class XAImage(XAObject, XAClipboardCodable):
         self.xa_elem.drawInRect_fromRect_operation_fraction_(imageBounds, Quartz.CGRectZero, AppKit.NSCompositingOperationCopy, 1.0)
         rotated_image.unlockFocus()
         self.xa_elem = rotated_image
-        return XAImage.XAImageModification(old_image, self)
+        self.modified = True
+        return self
 
-    def scale(self, scale_factor_x: float, scale_factor_y: float) -> XAImageModification:
+    def crop(self, size: Tuple[int, int], corner: Union[Tuple[int, int], None] = None) -> 'XAImage':
+        """Crops the image to the specified dimensions.
+
+        :param size: The width and height of the resulting image
+        :type size: Tuple[int, int]
+        :param corner: The bottom-left corner location from which to crop the image, or None to use (0, 0), defaults to None
+        :type corner: Union[Tuple[int, int], None]
+        :return: The image object, modifications included
+        :rtype: XAImage
+
+        .. versionadded:: 0.1.0
+        """
+        if corner is None:
+            # No corner provided -- use (0,0) by default
+            corner = (0, 0)
+
+        cropped_image = AppKit.NSImage.alloc().initWithSize_(AppKit.NSMakeSize(size[0], size[1]))
+        imageBounds = AppKit.NSMakeRect(corner[0], corner[1], self.size[0], self.size[1])
+
+        cropped_image.lockFocus()
+        self.xa_elem.drawInRect_(imageBounds)
+        cropped_image.unlockFocus()
+        self.xa_elem = cropped_image
+        self.modified = True
+        return self
+
+    def scale(self, scale_factor_x: float, scale_factor_y: float) -> 'XAImage':
         """Scales the image by the specified horizontal and vertical factors.
 
         :param scale_factor_x: The factor by which to scale the image in the X dimension
         :type scale_factor_x: float
         :param scale_factor_y: The factor by which to scale the image in the Y dimension
         :type scale_factor_y: float
-        :return: A tuple containing the old image (before scaling) and the new one
-        :rtype: XAImageModification
+        :return: The image object, modifications included
+        :rtype: XAImage
 
         .. versionadded:: 0.1.0
         """
-        # Backup the original image
-        old_image = XAImage(self.xa_elem)
-
         scaled_image = AppKit.NSImage.alloc().initWithSize_(AppKit.NSMakeSize(self.size[0] * scale_factor_x, self.size[1] * scale_factor_y))
         imageBounds = AppKit.NSMakeRect(0, 0, self.size[0], self.size[1])
 
@@ -8286,9 +8320,10 @@ class XAImage(XAObject, XAClipboardCodable):
         self.xa_elem.drawInRect_fromRect_operation_fraction_(imageBounds, Quartz.CGRectZero, AppKit.NSCompositingOperationCopy, 1.0)
         scaled_image.unlockFocus()
         self.xa_elem = scaled_image
-        return XAImage.XAImageModification(old_image, self)
+        self.modified = True
+        return self
 
-    def pad(self, horizontal_border_width: int = 50, vertical_border_width: int = 50, pad_color: Union[XAColor, None] = None) -> XAImageModification:
+    def pad(self, horizontal_border_width: int = 50, vertical_border_width: int = 50, pad_color: Union[XAColor, None] = None) -> 'XAImage':
         """Pads the images with the specified color; adds a border around the image with the specified vertical and horizontal width.
 
         :param horizontal_border_width: The border width, in pixels, in the x-dimension, defaults to 50
@@ -8297,14 +8332,11 @@ class XAImage(XAObject, XAClipboardCodable):
         :type vertical_border_width: int
         :param pad_color: The color of the border, or None for a white border, defaults to None
         :type pad_color: Union[XAColor, None]
-        :return: A tuple containing the old image (before padding) and the new one
-        :rtype: XAImageModification
+        :return: The image object, modifications included
+        :rtype: XAImage
 
         .. versionadded:: 0.1.0
         """
-        # Backup the original image
-        old_image = XAImage(self.xa_elem)
-
         if pad_color is None:
             # No color provided -- use white by default
             pad_color = XAColor.white()
@@ -8318,9 +8350,10 @@ class XAImage(XAObject, XAClipboardCodable):
         self.xa_elem.drawInRect_(bounds)
         color_swatch.xa_elem.unlockFocus()
         self.xa_elem = color_swatch.xa_elem
-        return XAImage.XAImageModification(old_image, self)
+        self.modified = True
+        return self
 
-    def overlay(self, image: 'XAImage', location: Union[Tuple[int, int], None] = None, size: Union[Tuple[int, int], None] = None) -> XAImageModification:
+    def overlay_image(self, image: 'XAImage', location: Union[Tuple[int, int], None] = None, size: Union[Tuple[int, int], None] = None) -> 'XAImage':
         """Overlays an image on top of this image, at the specified location, with the specified size.
 
         :param image: The image to overlay on top of this image
@@ -8329,14 +8362,11 @@ class XAImage(XAObject, XAClipboardCodable):
         :type location: Union[Tuple[int, int], None]
         :param size: The width and height of the overlaid image, or None to use the overlaid's images existing width and height, or (-1, -1) to use the dimensions of the background image, defaults to None
         :type size: Union[Tuple[int, int], None]
-        :return: A tuple containing the old image (before adding an overlay) and the new one
-        :rtype: XAImageModification
+        :return: The image object, modifications included
+        :rtype: XAImage
 
         .. versionadded:: 0.1.0
         """
-        # Backup the original background image
-        old_image = XAImage(self.xa_elem)
-
         if location is None:
             # No location provided -- use the bottom-left point of the background image by default
             location = (0, 0)
@@ -8358,9 +8388,10 @@ class XAImage(XAObject, XAClipboardCodable):
         bounds = AppKit.NSMakeRect(location[0], location[1], size[0], size[1])
         image.xa_elem.drawInRect_(bounds)
         self.xa_elem.unlockFocus()
-        return XAImage.XAImageModification(old_image, self)
+        self.modified = True
+        return self.xa_elem
 
-    def overlay_text(self, text: str, location: Union[Tuple[int, int], None] = None, font_size: float = 12, font_color: Union[XAColor, None] = None):
+    def overlay_text(self, text: str, location: Union[Tuple[int, int], None] = None, font_size: float = 12, font_color: Union[XAColor, None] = None) -> 'XAImage':
         """Overlays text of the specified size and color at the provided location within the image.
 
         :param text: The text to overlay onto the image
@@ -8371,14 +8402,11 @@ class XAImage(XAObject, XAClipboardCodable):
         :type font_size: float
         :param font_color: The color of the text, or None to use black, defaults to None
         :type font_color: XAColor
-        :return: A tuple containing the old image (after overlaying text) and the new one
-        :rtype: XAImageModification
+        :return: The image object, modifications included
+        :rtype: XAImage
 
         .. versionadded:: 0.1.0
         """
-        # Backup the original background image
-        old_image = XAImage(self.xa_elem)
-
         if location is None:
             # No location provided -- use (5, 5) by default
             location = (5, 5)
@@ -8397,7 +8425,8 @@ class XAImage(XAObject, XAClipboardCodable):
         self.xa_elem.lockFocus()
         AppKit.NSString.alloc().initWithString_(text).drawInRect_withAttributes_(textRect, attributes)
         self.xa_elem.unlockFocus()
-        return XAImage.XAImageModification(old_image, self)
+        self.modified = True
+        return self
 
     def extract_text(self) -> List[str]:
         """Extracts and returns all visible text in the image.
@@ -8463,7 +8492,7 @@ class XAImage(XAObject, XAClipboardCodable):
         elif isinstance(file_path, XAPath):
             file_path = file_path.path
         fm = AppKit.NSFileManager.defaultManager()
-        fm.createFileAtPath_contents_attributes_(file_path, self.data, None)
+        fm.createFileAtPath_contents_attributes_(file_path, self.xa_elem.TIFFRepresentation(), None)
 
     def get_clipboard_representation(self) -> AppKit.NSImage:
         """Gets a clipboard-codable representation of the iimage.
@@ -8480,29 +8509,152 @@ class XAImage(XAObject, XAClipboardCodable):
 
 
 
+class XASoundList(XAList, XAClipboardCodable):
+    """A wrapper around lists of sounds that employs fast enumeration techniques.
+
+    .. versionadded:: 0.1.0
+    """
+    def __init__(self, properties: dict, filter: Union[dict, None] = None):
+        super().__init__(properties, XASound, filter)
+
+    def get_clipboard_representation(self) -> List[Union[AppKit.NSSound, AppKit.NSURL, str]]:
+        """Gets a clipboard-codable representation of each sound in the list.
+
+        When the clipboard content is set to a list of sounds, each sound's raw sound data, its associated file URL, and its file path string are added to the clipboard.
+
+        :return: The clipboard-codable form of the sound
+        :rtype: Any
+
+        .. versionadded:: 0.1.0
+        """
+        return [self.xa_elem, self.file.xa_elem, self.file.xa_elem.path()]
+
 class XASound(XAObject, XAClipboardCodable):
     """A wrapper class for NSSound objects and associated methods.
 
     .. versionadded:: 0.0.1
     """
-    def __init__(self, sound_file: Union[str, 'XAURL', 'XAPath']):
-        if isinstance(sound_file, str):
-            if "/" in sound_file:
-                sound_file = XAPath(sound_file)
+    def __init__(self, sound_reference: Union[str, 'XAURL', 'XAPath']):
+        self.file = None
+
+        if isinstance(sound_reference, str):
+            # Sound reference is a string
+            if "://" in sound_reference:
+                # Sound reference is a URL
+                self.file = XAURL(sound_reference)
+                sound_reference = XAURL(self.file)
+            if "/" in sound_reference:
+                # Sound reference is a file path
+                self.file = XAPath(sound_reference)
+                sound_reference = XAPath(self.file)
             else:
-                sound_file = XAPath("/System/Library/Sounds/" + sound_file + ".aiff")
-        self.file = sound_file
-        self.xa_elem = AppKit.NSSound.alloc()
-        self.xa_elem.initWithContentsOfURL_byReference_(sound_file.xa_elem, False)
+                # Sound reference is the name of a default sound
+                self.file = XAPath("/System/Library/Sounds/" + sound_reference + ".aiff")
+                sound_reference = XAPath(self.file)
+        elif isinstance(sound_reference, dict):
+            # Sound reference comes from XAList
+            sound_reference = sound_reference["element"]
+            # Sound reference is a string
+            if isinstance(sound_reference, str):
+                if "://" in sound_reference:
+                    # Sound reference is a URL
+                    self.file = XAURL(sound_reference)
+                    sound_reference = self.file.xa_elem
+                if "/" in sound_reference:
+                    # Sound reference is a file path
+                    self.file = XAPath(sound_reference)
+                    sound_reference = self.file.xa_elem
+                else:
+                    # Sound reference is the name of a default sound
+                    self.file = XAPath("/System/Library/Sounds/" + sound_reference + ".aiff")
+                    sound_reference = XAPath(self.file)
+        elif isinstance(sound_reference, XAPath):
+            # Sound reference is an XAPath object
+            self.file = sound_reference
+            sound_reference = sound_reference.xa_elem
+        elif isinstance(sound_reference, XAURL):
+            # Sound reference is an XAURL object
+            self.file = sound_reference.xa_elem
+            sound_reference = sound_reference
+        elif isinstance(sound_reference, XASound):
+            self.file = sound_reference.file
+            sound_reference = sound_reference.xa_elem
+
+        if isinstance(sound_reference, AVFoundation.AVAudioFile):
+            # Sound reference is an NSSound object
+            self.xa_elem = sound_reference
 
         self.duration: float #: The duration of the sound in seconds
 
+        self.__audio_file = AVFoundation.AVAudioFile.alloc().initForReading_error_(self.file.xa_elem if self.file is not None else None, None)[0]
+
+        self.__audio_engine = AVFoundation.AVAudioEngine.alloc().init()
+        self.__player_node = AVFoundation.AVAudioPlayerNode.alloc().init()
+        self.__audio_engine.attachNode_(self.__player_node)
+
+        self.__audio_engine.connect_to_format_(self.__player_node, self.__audio_engine.mainMixerNode(), self.__audio_file.processingFormat())
+
+        self.__player_node.stop()
+        self.__audio_engine.stop()
+
+        self.xa_elem = self.__audio_file
+
+    @property
+    def num_sample_frames(self) -> int:
+        """The number of sample frames in the audio file.
+
+        .. versionadded:: 0.1.0
+        """
+        return self.xa_elem.length()
+
+    @property
+    def sample_rate(self) -> float:
+        """The sample rate for the sound format, in hertz.
+
+        .. versionadded:: 0.1.0
+        """
+        return self.xa_elem.processingFormat().sampleRate()
+
     @property
     def duration(self) -> float:
-        return self.xa_elem.duration()
+        """The duration of the sound in seconds.
+
+        .. versionadded:: 0.1.0
+        """
+        return self.num_sample_frames / self.sample_rate
+
+    def open(*sound_references: Union[str, XAPath, List[Union[str, XAPath]]]) -> Union['XASound', XASoundList]:
+        """Initializes one or more sounds from files.
+
+        :param sound_references: The sound(s) to open
+        :type sound_references: Union[str, XAPath, List[Union[str, XAPath]]]
+        :return: The newly created sound object, or a list of sound objects
+        :rtype: Union[XASound, XASoundList]
+
+        .. versionadded:: 0.1.0
+        """
+        if len(sound_references) == 1:
+            sound_references = sound_references[0]
+
+        if isinstance(sound_references, list) or isinstance(sound_references, tuple):
+            return XASoundList({"element": sound_references})
+        else:
+            return XASound(sound_references)
+
+    def beep():
+        """Plays the system Beep sound.
+
+        .. versionadded:: 0.1.0
+        """
+        AppleScript("""
+            beep
+            delay 0.5
+        """).run()
 
     def play(self) -> 'XASound':
         """Plays the sound from the beginning.
+
+        Audio playback runs in a separate thread. For the sound the play properly, you must keep the main thread alive over the duration of the desired playback.
 
         :return: A reference to this sound object.
         :rtype: XASound
@@ -8510,17 +8662,25 @@ class XASound(XAObject, XAClipboardCodable):
         :Example:
 
         >>> import PyXA
+        >>> import time
         >>> glass_sound = PyXA.sound("Glass")
         >>> glass_sound.play()
+        >>> time.sleep(glass_sound.duration)
 
         .. seealso:: :func:`pause`, :func:`stop`
 
         .. versionadded:: 0.0.1
         """
-        self.xa_elem.stop()
-        self.xa_elem.play()
-        time.sleep(self.xa_elem.duration())
+        def play_sound(self):
+            self.__player_node.scheduleFile_atTime_completionHandler_(self.xa_elem, None, None)
+            self.__audio_engine.startAndReturnError_(None)
+            self.__player_node.play()
+            while self.__player_node.isPlaying():
+                AppKit.NSRunLoop.currentRunLoop().runUntilDate_(datetime.now() + timedelta(seconds = 0.1))
+
+        self._spawn_thread(play_sound, [self])
         return self
+        
 
     def pause(self) -> 'XASound':
         """Pauses the sound.
@@ -8538,11 +8698,13 @@ class XASound(XAObject, XAClipboardCodable):
 
         .. versionadded:: 0.0.1
         """
-        self.xa_elem.pause()
+        self.__player_node.pause()
         return self
 
     def resume(self) -> 'XASound':
         """Plays the sound starting from the time it was last paused at.
+
+        Audio playback runs in a separate thread. For the sound the play properly, you must keep the main thread alive over the duration of the desired playback.
 
         :return: A reference to this sound object.
         :rtype: XASound
@@ -8557,7 +8719,14 @@ class XASound(XAObject, XAClipboardCodable):
 
         .. versionadded:: 0.0.1
         """
-        self.xa_elem.resume()
+        def play_sound(self):
+            self.__player_node.scheduleFile_atTime_completionHandler_(self.xa_elem, None, None)
+            self.__audio_engine.startAndReturnError_(None)
+            self.__player_node.play()
+            while self.__player_node.isPlaying():
+                AppKit.NSRunLoop.currentRunLoop().runUntilDate_(datetime.now() + timedelta(seconds = 0.1))
+
+        self._spawn_thread(play_sound, [self])
         return self
 
     def stop(self) -> 'XASound':
@@ -8576,10 +8745,10 @@ class XASound(XAObject, XAClipboardCodable):
 
         .. versionadded:: 0.0.1
         """
-        self.xa_elem.stop()
+        self.__audio_engine.stop()
         return self
 
-    def set_volume(self, volume: int) -> 'XASound':
+    def set_volume(self, volume: float) -> 'XASound':
         """Sets the volume of the sound.
 
         :param volume: The desired volume of the sound in the range [0.0, 1.0].
@@ -8597,7 +8766,7 @@ class XASound(XAObject, XAClipboardCodable):
 
         .. versionadded:: 0.0.1
         """
-        self.xa_elem.setVolume_(volume)
+        self.__audio_engine.mainMixerNode().setOutputVolume_(volume)
         return self
 
     def volume(self) -> float:
@@ -8617,10 +8786,12 @@ class XASound(XAObject, XAClipboardCodable):
 
         .. versionadded:: 0.0.1
         """
-        return self.xa_elem.volume()
+        return self.__audio_engine.mainMixerNode().volume()
 
     def loop(self, times: int) -> 'XASound':
         """Plays the sound the specified number of times.
+
+        Audio playback runs in a separate thread. For the sound the play properly, you must keep the main thread alive over the duration of the desired playback.
 
         :param times: The number of times to loop the sound.
         :type times: int
@@ -8630,17 +8801,41 @@ class XASound(XAObject, XAClipboardCodable):
         :Example:
 
         >>> import PyXA
+        >>> import time
         >>> glass_sound = PyXA.sound("Glass")
         >>> glass_sound.loop(10)
+        >>> time.sleep(glass_sound.duration * 10)
 
         .. versionadded:: 0.0.1
         """
-        self.xa_elem.setLoops_(times)
-        self.xa_elem.play()
-        time.sleep(self.xa_elem.duration() * times)
-        self.xa_elem.stop()
-        self.xa_elem.setLoops_(0)
+        def play_sound():
+            num_plays = 0
+            while num_plays < times:
+                sound = XASound(self.file)
+                sound.play()
+                num_plays += 1
+                time.sleep(self.duration)
+
+        self._spawn_thread(play_sound)
         return self
+
+    def trim(self, start_time: float, end_time: float):
+        asset = AVFoundation.AVAsset.assetWithURL_(self.file.xa_elem)
+        print(asset)
+
+        export_ession = AVFoundation.AVAssetExportSession.exportSessionWithAsset_presetName_(asset, None)
+
+        start_time = CoreMedia.CMTimeMake(start_time * 100, 100)
+        end_time = CoreMedia.CMTimeMake(end_time * 100, 100)
+        time_range =  CoreMedia.CMTimeRangeFromTimeToTime(start_time, end_time);
+
+        # export_session.setOutputURL_(self.file.xa_elem)
+
+    # def save(self, file_path: Union[XAPath, str]):
+    #     if isinstance(file_path, str):
+    #         file_path = XAPath(file_path)
+            
+
 
     def get_clipboard_representation(self) -> List[Union[AppKit.NSSound, AppKit.NSURL, str]]:
         """Gets a clipboard-codable representation of the sound.

@@ -326,7 +326,7 @@ class RSSItem(XABase.XAObject):
         return self.xa_elem.text()
 
     def links(self) -> List[XABase.XAURL]:
-        """Retrieves the URL reference by each link tag as a list of :class:`XABase.XAURL` objects.
+        """Retrieves the URL referenced by each link tag as a list of :class:`XABase.XAURL` objects.
 
         :return: The list of link URLs
         :rtype: List[XABase.XAURL]

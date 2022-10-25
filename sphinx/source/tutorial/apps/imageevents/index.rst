@@ -11,7 +11,7 @@ Image Events Tutorials
 ######################
 
 Tutorial 1 - Basic Image-Related Tasks
-*************************************
+**************************************
 
 Reading Image Properties
 ------------------------

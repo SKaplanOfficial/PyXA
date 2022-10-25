@@ -7,14 +7,18 @@ from .PyXA import (
 
 from .XABase import (
     # Base Types
-    XAPredicate,
     XAText,
     XAURL,
     XAPath,
     XAColor,
     XASound,
     XAImage,
+    XAVideo,
     XALocation,
+
+    # Utilities
+    XAPredicate,
+    SDEFParser,
 
     # Interoperability
     AppleScript,

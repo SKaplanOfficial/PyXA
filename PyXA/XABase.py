@@ -11,7 +11,7 @@ from pprint import pprint
 import random
 import tempfile
 import time, os, sys
-from typing import Any, Callable, Literal, Tuple, Union, List, Dict
+from typing import Any, Callable, Literal, Union, Self
 import threading
 from bs4 import BeautifulSoup, element
 import requests
@@ -118,7 +118,7 @@ class XAObject():
             raise error
         return value
 
-    def _new_element(self, obj: AppKit.NSObject, obj_class: type = 'XAObject', *args: List[Any]) -> 'XAObject':
+    def _new_element(self, obj: AppKit.NSObject, obj_class: type = 'XAObject', *args: list[Any]) -> 'XAObject':
         """Wrapper for creating a new PyXA object.
 
         :param folder_obj: The Objective-C representation of an object.
@@ -138,15 +138,15 @@ class XAObject():
         }
         return obj_class(properties, *args)
 
-    def _spawn_thread(self, function: Callable[..., Any], args: Union[List[Any], None] = None, kwargs: Union[List[Any], None] = None, daemon: bool = True) -> threading.Thread:
+    def _spawn_thread(self, function: Callable[..., Any], args: Union[list[Any], None] = None, kwargs: Union[list[Any], None] = None, daemon: bool = True) -> threading.Thread:
         """Spawns a new thread running the specified function.
 
         :param function: The function to run in the new thread
         :type function: Callable[..., Any]
         :param args: Arguments to pass to the function
-        :type args: List[Any]
+        :type args: list[Any]
         :param kwargs: Keyword arguments to pass to the function
-        :type kwargs: List[Any]
+        :type kwargs: list[Any]
         :param daemon: Whether the thread should be a daemon thread, defaults to True
         :type daemon: bool, optional
         :return: The thread object
@@ -481,7 +481,7 @@ class XAApplication(XAObject, XAClipboardCodable):
         for process in self.xa_sevt.processes():
             processes.append(process)
 
-    def windows(self, filter: dict = None) -> List['XAWindow']:
+    def windows(self, filter: dict = None) -> list['XAWindow']:
         return self.xa_prcs.windows(filter)
 
     @property
@@ -491,7 +491,7 @@ class XAApplication(XAObject, XAClipboardCodable):
     def menu_bars(self, filter: dict = None) -> 'XAUIMenuBarList':
         return self._new_element(self.xa_prcs.xa_elem.menuBars(), XAUIMenuBarList, filter)
 
-    def get_clipboard_representation(self) -> List[Union[str, AppKit.NSURL, AppKit.NSImage]]:
+    def get_clipboard_representation(self) -> list[Union[str, AppKit.NSURL, AppKit.NSImage]]:
         """Gets a clipboard-codable representation of the application.
 
         When the clipboard content is set to an application, three items are placed on the clipboard:
@@ -508,7 +508,7 @@ class XAApplication(XAObject, XAClipboardCodable):
         The pasted content may different for other applications.
 
         :return: The clipboard-codable representation
-        :rtype: List[Union[str, AppKit.NSURL, AppKit.NSImage]]
+        :rtype: list[Union[str, AppKit.NSURL, AppKit.NSImage]]
 
         .. versionadded:: 0.0.8
         """
@@ -566,7 +566,7 @@ class SDEFParser(XAObject):
                     elif property_type == "integer":
                         property_type = "int"
                     elif property_type == "rectangle":
-                        property_type = "Tuple[int, int, int, int]"
+                        property_type = "tuple[int, int, int, int]"
                     else:
                         property_type = "XA" + app_name + property_type.title()
 
@@ -627,7 +627,7 @@ class SDEFParser(XAObject):
                     elif property_type == "integer":
                         property_type = "int"
                     elif property_type == "rectangle":
-                        property_type = "Tuple[int, int, int, int]"
+                        property_type = "tuple[int, int, int, int]"
                     else:
                         property_type = "XA" + app_name + property_type.title()
 
@@ -725,7 +725,7 @@ class SDEFParser(XAObject):
 
         lines = []
 
-        lines.append("from typing import Any, Callable, Tuple, Union, List, Dict")
+        lines.append("from typing import Any, Callable, Union")
         lines.append("\nfrom PyXA import XABase")
         lines.append("from PyXA.XABase import OSType")
         lines.append("from PyXA import XABaseScriptable")
@@ -744,7 +744,7 @@ class SDEFParser(XAObject):
 
                 for property in scripting_class["properties"]:
                     lines.append("")
-                    lines.append("\tdef " + property["name"] + "(self) -> List['" + property["type"].replace(" ", "") + "']:")
+                    lines.append("\tdef " + property["name"] + "(self) -> list['" + property["type"].replace(" ", "") + "']:")
                     lines.append("\t\t\"\"\"" + property["comment"] + "\n\n\t\t.. versionadded:: " + PYXA_VERSION + "\n\t\t\"\"\"")
                     lines.append("\t\treturn list(self.xa_elem.arrayByApplyingSelector_(\"" + property["name"] + "\"))")
 
@@ -1172,6 +1172,7 @@ class XAList(XAObject):
         """
         return self._new_element(self.xa_elem[index], self.xa_ocls)
 
+    @property
     def first(self) -> XAObject:
         """Retrieves the first element of the list as a wrapped PyXA object.
 
@@ -1182,6 +1183,7 @@ class XAList(XAObject):
         """
         return self._new_element(self.xa_elem.firstObject(), self.xa_ocls)
 
+    @property
     def last(self) -> XAObject:
         """Retrieves the last element of the list as a wrapped PyXA object.
 
@@ -1206,7 +1208,7 @@ class XAList(XAObject):
             random.shuffle(self.xa_elem)
         return self
 
-    def push(self, *elements: List[XAObject]):
+    def push(self, *elements: list[XAObject]):
         """Appends the object referenced by the provided PyXA wrapper to the end of the list.
 
         .. versionadded:: 0.0.3
@@ -1260,9 +1262,9 @@ class XAPredicate(XAObject, XAClipboardCodable):
     .. versionadded:: 0.0.4
     """
     def __init__(self):
-        self.keys: List[str] = []
-        self.operators: List[str] = []
-        self.values: List[str] = []
+        self.keys: list[str] = []
+        self.operators: list[str] = []
+        self.values: list[str] = []
 
     def from_dict(self, ref_dict: dict) -> 'XAPredicate':
         """Populates the XAPredicate object from the supplied dictionary.
@@ -1847,11 +1849,11 @@ class XAURL(XAObject, XAClipboardCodable):
         """
         AppKit.NSWorkspace.sharedWorkspace().openURL_(self.xa_elem)
 
-    def extract_text(self) -> List[str]:
+    def extract_text(self) -> list[str]:
         """Extracts the visible text from the webpage that the URL points to.
 
         :return: The list of extracted lines of text
-        :rtype: List[str]
+        :rtype: list[str]
 
         .. versionadded:: 0.0.8
         """
@@ -1859,11 +1861,11 @@ class XAURL(XAObject, XAClipboardCodable):
             self.__get_soup()
         return self.soup.get_text().splitlines()
 
-    def extract_images(self) -> List['XAImage']:
+    def extract_images(self) -> list['XAImage']:
         """Extracts all images from HTML of the webpage that the URL points to.
 
         :return: The list of extracted images
-        :rtype: List[XAImage]
+        :rtype: list[XAImage]
 
         .. versionadded:: 0.0.8
         """
@@ -1892,7 +1894,7 @@ class XAURL(XAObject, XAClipboardCodable):
 
             return image_objects
 
-    def get_clipboard_representation(self) -> List[Union[AppKit.NSURL, str]]:
+    def get_clipboard_representation(self) -> list[Union[AppKit.NSURL, str]]:
         """Gets a clipboard-codable representation of the URL.
 
         When the clipboard content is set to a URL, the raw URL data and the string representation of the URL are added to the clipboard.
@@ -1944,7 +1946,7 @@ class XAPath(XAObject, XAClipboardCodable):
         """
         self.xa_wksp.activateFileViewerSelectingURLs_([self.xa_elem])
 
-    def get_clipboard_representation(self) -> List[Union[AppKit.NSURL, str]]:
+    def get_clipboard_representation(self) -> list[Union[AppKit.NSURL, str]]:
         """Gets a clipboard-codable representation of the path.
 
         When the clipboard content is set to a path, the raw file URL data and the string representation of the path are added to the clipboard.
@@ -1971,15 +1973,15 @@ class AppleScript(XAObject):
 
     .. versionadded:: 0.0.5
     """
-    def __init__(self, script: Union[str, List[str], None] = None):
+    def __init__(self, script: Union[str, list[str], None] = None):
         """Creates a new AppleScript object.
 
         :param script: A string or list of strings representing lines of AppleScript code, or the path to a script plaintext file, defaults to None
-        :type script: Union[str, List[str], None], optional
+        :type script: Union[str, list[str], None], optional
 
         .. versionadded:: 0.0.5
         """
-        self.script: List[str] #: The lines of AppleScript code contained in the script
+        self.script: list[str] #: The lines of AppleScript code contained in the script
         self.last_result: Any #: The return value of the last execution of the script
         self.file_path: XAPath #: The file path of this script, if one exists
 
@@ -2002,11 +2004,11 @@ class AppleScript(XAObject):
     def file_path(self) -> 'XAPath':
         return self.__file_path
 
-    def add(self, script: Union[str, List[str], 'AppleScript']):
+    def add(self, script: Union[str, list[str], 'AppleScript']):
         """Adds the supplied string, list of strings, or script as a new line entry in the script.
 
         :param script: The script to append to the current script string.
-        :type script: Union[str, List[str], AppleScript]
+        :type script: Union[str, list[str], AppleScript]
 
         :Example:
 
@@ -2025,13 +2027,13 @@ class AppleScript(XAObject):
         elif isinstance(script, AppleScript):
             self.script.extend(script.script)
 
-    def insert(self, index: int, script: Union[str, List[str], 'AppleScript']):
+    def insert(self, index: int, script: Union[str, list[str], 'AppleScript']):
         """Inserts the supplied string, list of strings, or script as a line entry in the script starting at the given line index.
 
         :param index: The line index to begin insertion at
         :type index: int
         :param script: The script to insert into the current script
-        :type script: Union[str, List[str], AppleScript]
+        :type script: Union[str, list[str], AppleScript]
 
         :Example:
 
@@ -2171,13 +2173,13 @@ class AppleScript(XAObject):
         with open(self.file_path.xa_elem.path(), "w") as f:
             f.write(source)
 
-    def parse_result_data(result: dict) -> List[Tuple[str, str]]:
+    def parse_result_data(result: dict) -> list[tuple[str, str]]:
         """Extracts string data from an AppleScript execution result dictionary.
 
         :param result: The execution result dictionary to extract data from
         :type result: dict
         :return: A list of responses contained in the result structured as tuples
-        :rtype: List[Tuple[str, str]]
+        :rtype: list[tuple[str, str]]
 
         :Example:
 
@@ -2279,7 +2281,7 @@ class XAClipboard(XAObject):
         self.content #: The content of the clipboard
 
     @property
-    def content(self) -> Dict[str, List[Any]]:
+    def content(self) -> dict[str, list[Any]]:
         info_by_type = {}
         for item in self.xa_elem.pasteboardItems():
             for item_type in item.types():
@@ -2291,7 +2293,7 @@ class XAClipboard(XAObject):
         return info_by_type
 
     @content.setter
-    def content(self, value: List[Any]):
+    def content(self, value: list[Any]):
         if not isinstance(value, list):
             value = [value]
         self.xa_elem.clearContents()
@@ -2322,11 +2324,11 @@ class XAClipboard(XAObject):
         """
         self.xa_elem.clearContents()
 
-    def get_strings(self) -> List[str]:
+    def get_strings(self) -> list[str]:
         """Retrieves string type data from the clipboard, if any such data exists.
 
         :return: The list of strings currently copied to the clipboard
-        :rtype: List[str]
+        :rtype: list[str]
 
         .. versionadded:: 0.0.8
         """
@@ -2337,11 +2339,11 @@ class XAClipboard(XAObject):
                 items.append(string)
         return items
 
-    def get_urls(self) -> List['XAURL']:
+    def get_urls(self) -> list['XAURL']:
         """Retrieves URL type data from the clipboard, as instances of :class:`XAURL` and :class:`XAPath`, if any such data exists.
 
         :return: The list of file URLs and web URLs currently copied to the clipboard
-        :rtype: List[XAURL]
+        :rtype: list[XAURL]
 
         .. versionadded:: 0.0.8
         """
@@ -2360,11 +2362,11 @@ class XAClipboard(XAObject):
                 items.append(url)
         return items
 
-    def get_images(self) -> List['XAImage']:
+    def get_images(self) -> list['XAImage']:
         """Retrieves image type data from the clipboard, as instances of :class:`XAImage`, if any such data exists.
 
         :return: The list of images currently copied to the clipboard
-        :rtype: List[XAImage]
+        :rtype: list[XAImage]
 
         .. versionadded:: 0.0.8
         """
@@ -2377,11 +2379,11 @@ class XAClipboard(XAObject):
                     items.append(img)
         return items
 
-    def set_contents(self, content: List[Any]):
+    def set_contents(self, content: list[Any]):
         """Sets the content of the clipboard
 
         :param content: A list of the content to add fill the clipboard with.
-        :type content: List[Any]
+        :type content: list[Any]
 
         .. deprecated:: 0.0.8
            Set the :ivar:`content` property directly instead.
@@ -2472,11 +2474,11 @@ class XACommandDetector(XAObject):
 
     .. versionadded:: 0.0.9
     """
-    def __init__(self, command_function_map: Union[Dict[str, Callable[[], Any]], None] = None):
+    def __init__(self, command_function_map: Union[dict[str, Callable[[], Any]], None] = None):
         """Creates a command detector object.
 
         :param command_function_map: A dictionary mapping command strings to function objects
-        :type command_function_map: Dict[str, Callable[[], Any]]
+        :type command_function_map: dict[str, Callable[[], Any]]
 
         .. versionadded:: 0.0.9
         """
@@ -2550,13 +2552,13 @@ class XASpeechRecognizer(XAObject):
 
     .. versionadded:: 0.0.9
     """
-    def __init__(self, finish_conditions: Union[None, Dict[Callable[[str], bool], Callable[[str], bool]]] = None):
+    def __init__(self, finish_conditions: Union[None, dict[Callable[[str], bool], Callable[[str], bool]]] = None):
         """Creates a speech recognizer object.
 
         By default, with no other rules specified, the Speech Recognizer will timeout after 10 seconds once :func:`listen` is called.
 
         :param finish_conditions: A dictionary of rules and associated methods to call when a rule evaluates to true, defaults to None
-        :type finish_conditions: Union[None, Dict[Callable[[str], bool], Callable[[str], bool]]], optional
+        :type finish_conditions: Union[None, dict[Callable[[str], bool], Callable[[str], bool]]], optional
 
         .. versionadded:: 0.0.9
         """
@@ -2643,11 +2645,11 @@ class XASpeech(XAObject):
         self.volume: float = volume #: The speaking volume
         self.rate: int = rate #: The speaking rate
 
-    def voices(self) -> List[str]:
+    def voices(self) -> list[str]:
         """Gets the list of voice names available on the system.
 
         :return: The list of voice names
-        :rtype: List[str]
+        :rtype: list[str]
 
         :Example:
 
@@ -2722,11 +2724,11 @@ class XASpotlight(XAObject):
 
     .. versionadded:: 0.0.9
     """
-    def __init__(self, *query: List[Any]):
-        self.query: List[Any] = query #: The query terms to search
+    def __init__(self, *query: list[Any]):
+        self.query: list[Any] = query #: The query terms to search
         self.timeout: int = 10 #: The amount of time in seconds to timeout the search after
         self.predicate: Union[str, XAPredicate] = None #: The predicate to filter search results by
-        self.results: List[XAPath] #: The results of the search
+        self.results: list[XAPath] #: The results of the search
         self.__results = None
 
         self.query_object = AppKit.NSMetadataQuery.alloc().init()
@@ -2734,7 +2736,7 @@ class XASpotlight(XAObject):
         nc.addObserver_selector_name_object_(self, '_queryNotification:', None, self.query_object)
 
     @property
-    def results(self) -> List['XAPath']:
+    def results(self) -> list['XAPath']:
         if len(self.query) == 0 and self.predicate is None:
             return []
         self.run()
@@ -2791,7 +2793,7 @@ class XASpotlight(XAObject):
         """
         AppKit.NSWorkspace.sharedWorkspace().showSearchResultsForQueryString_(str(self.query))
 
-    def __search_by_strs(self, terms: Tuple[str]):
+    def __search_by_strs(self, terms: tuple[str]):
         expanded_terms = [[x]*3 for x in terms]
         expanded_terms = [x for sublist in expanded_terms for x in sublist]
         format = "((kMDItemDisplayName CONTAINS %@) OR (kMDItemTextContent CONTAINS %@) OR (kMDItemFSName CONTAINS %@)) AND " * len(terms)
@@ -2803,21 +2805,21 @@ class XASpotlight(XAObject):
     def __search_by_date_range(self, date1: datetime, date2: datetime):
         self.__search_with_predicate(f"((kMDItemContentCreationDate > %@) AND (kMDItemContentCreationDate < %@)) OR ((kMDItemContentModificationDate > %@) AND (kMDItemContentModificationDate < %@)) OR ((kMDItemFSCreationDate > %@) AND (kMDItemFSCreationDate < %@)) OR ((kMDItemFSContentChangeDate > %@) AND (kMDItemFSContentChangeDate < %@)) OR ((kMDItemDateAdded > %@) AND (kMDItemDateAdded < %@))", *[date1, date2]*5)
 
-    def __search_by_date_strings(self, date: datetime, terms: Tuple[str]):
+    def __search_by_date_strings(self, date: datetime, terms: tuple[str]):
         expanded_terms = [[x]*3 for x in terms]
         expanded_terms = [x for sublist in expanded_terms for x in sublist]
         format = "((kMDItemDisplayName CONTAINS %@) OR (kMDItemTextContent CONTAINS %@) OR (kMDItemFSName CONTAINS %@)) AND " * len(terms)
         format += "(((kMDItemContentCreationDate > %@) AND (kMDItemContentCreationDate < %@)) OR ((kMDItemContentModificationDate > %@) AND (kMDItemContentModificationDate < %@)) OR ((kMDItemFSCreationDate > %@) AND (kMDItemFSCreationDate < %@)) OR ((kMDItemFSContentChangeDate > %@) AND (kMDItemFSContentChangeDate < %@)) OR ((kMDItemDateAdded > %@) AND (kMDItemDateAdded < %@)))"
         self.__search_with_predicate(format, *expanded_terms, *[date - timedelta(hours=12), date + timedelta(hours=12)]*5)
 
-    def __search_by_date_range_strings(self, date1: datetime, date2: datetime, terms: Tuple[str]):
+    def __search_by_date_range_strings(self, date1: datetime, date2: datetime, terms: tuple[str]):
         expanded_terms = [[x]*3 for x in terms]
         expanded_terms = [x for sublist in expanded_terms for x in sublist]
         format = "((kMDItemDisplayName CONTAINS %@) OR (kMDItemTextContent CONTAINS %@) OR (kMDItemFSName CONTAINS %@)) AND " * len(terms)
         format += "(((kMDItemContentCreationDate > %@) AND (kMDItemContentCreationDate < %@)) OR ((kMDItemContentModificationDate > %@) AND (kMDItemContentModificationDate < %@)) OR ((kMDItemFSCreationDate > %@) AND (kMDItemFSCreationDate < %@)) OR ((kMDItemFSContentChangeDate > %@) AND (kMDItemFSContentChangeDate < %@)) OR ((kMDItemDateAdded > %@) AND (kMDItemDateAdded < %@)))"
         self.__search_with_predicate(format, *expanded_terms, *[date1, date2]*5)
 
-    def __search_with_predicate(self, predicate_format: str, *args: List[Any]):
+    def __search_with_predicate(self, predicate_format: str, *args: list[Any]):
         predicate = AppKit.NSPredicate.predicateWithFormat_(predicate_format, *args)
         self.query_object.setPredicate_(predicate)
         self.query_object.startQuery()
@@ -2846,52 +2848,52 @@ class XAUIElementList(XAList):
             obj_type = XAUIElement
         super().__init__(properties, obj_type, filter)
 
-    def properties(self) -> List[dict]:
+    def properties(self) -> list[dict]:
         return list(self.xa_elem.arrayByApplyingSelector_("properties"))
 
-    def accessibility_description(self) -> List[str]:
+    def accessibility_description(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("accessibilityDescription"))
 
-    def enabled(self) -> List[bool]:
+    def enabled(self) -> list[bool]:
         return list(self.xa_elem.arrayByApplyingSelector_("enabled"))
 
-    def entire_contents(self) -> List[List[Any]]:
+    def entire_contents(self) -> list[list[Any]]:
         return list(self.xa_elem.arrayByApplyingSelector_("entireContents"))
 
-    def focused(self) -> List[bool]:
+    def focused(self) -> list[bool]:
         return list(self.xa_elem.arrayByApplyingSelector_("focused"))
 
-    def name(self) -> List[str]:
+    def name(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
-    def title(self) -> List[str]:
+    def title(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("title"))
 
-    def position(self) -> List[Tuple[Tuple[int, int], Tuple[int, int]]]:
+    def position(self) -> list[tuple[tuple[int, int], tuple[int, int]]]:
         return list(self.xa_elem.arrayByApplyingSelector_("position"))
 
-    def size(self) -> List[Tuple[int, int]]:
+    def size(self) -> list[tuple[int, int]]:
         return list(self.xa_elem.arrayByApplyingSelector_("size"))
 
-    def maximum_value(self) -> List[Any]:
+    def maximum_value(self) -> list[Any]:
         return list(self.xa_elem.arrayByApplyingSelector_("maximumValue"))
 
-    def minimum_value(self) -> List[Any]:
+    def minimum_value(self) -> list[Any]:
         return list(self.xa_elem.arrayByApplyingSelector_("minimumValue"))
 
-    def value(self) -> List[Any]:
+    def value(self) -> list[Any]:
         return list(self.xa_elem.arrayByApplyingSelector_("value"))
 
-    def role(self) -> List[str]:
+    def role(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("role"))
 
-    def role_description(self) -> List[str]:
+    def role_description(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("roleDescription"))
 
-    def subrole(self) -> List[str]:
+    def subrole(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("subrole"))
 
-    def selected(self) -> List[bool]:
+    def selected(self) -> list[bool]:
         return list(self.xa_elem.arrayByApplyingSelector_("selected"))
 
     def by_properties(self, properties: dict) -> 'XAUIElement':
@@ -2900,7 +2902,7 @@ class XAUIElementList(XAList):
     def by_accessibility_description(self, accessibility_description: str) -> 'XAUIElement':
         return self.by_property("accessibilityDescription", accessibility_description)
 
-    def by_entire_contents(self, entire_contents: List[Any]) -> 'XAUIElement':
+    def by_entire_contents(self, entire_contents: list[Any]) -> 'XAUIElement':
         return self.by_property("entireContents", entire_contents)
 
     def by_focused(self, focused: bool) -> 'XAUIElement':
@@ -2912,10 +2914,10 @@ class XAUIElementList(XAList):
     def by_title(self, title: str) -> 'XAUIElement':
         return self.by_property("title", title)
 
-    def by_position(self, position: Tuple[Tuple[int, int], Tuple[int, int]]) -> 'XAUIElement':
+    def by_position(self, position: tuple[tuple[int, int], tuple[int, int]]) -> 'XAUIElement':
         return self.by_property("position", position)
 
-    def by_size(self, size: Tuple[int, int]) -> 'XAUIElement':
+    def by_size(self, size: tuple[int, int]) -> 'XAUIElement':
         return self.by_property("size", size)
 
     def by_maximum_value(self, maximum_value: Any) -> 'XAUIElement':
@@ -2950,8 +2952,8 @@ class XAUIElement(XAObject):
         self.focused: bool #: Whether the window is the currently element
         self.name: str #: The name of the element
         self.title: str #: The title of the element (often the same as its name)
-        self.position: Tuple[int, int] #: The position of the top left corner of the element
-        self.size: Tuple[int, int] #: The width and height of the element, in pixels
+        self.position: tuple[int, int] #: The position of the top left corner of the element
+        self.size: tuple[int, int] #: The width and height of the element, in pixels
         self.maximum_value: Any #: The maximum value that the element can have
         self.minimum_value: Any #: The minimum value that the element can have
         self.value: Any #: The current value of the element
@@ -2973,7 +2975,7 @@ class XAUIElement(XAObject):
         return self.xa_elem.enabled()
 
     @property
-    def entire_contents(self) -> List[XAObject]:
+    def entire_contents(self) -> list[XAObject]:
         ls = self.xa_elem.entireContents()
         return [self._new_element(x, XAUIElement) for x in ls]
 
@@ -2990,11 +2992,11 @@ class XAUIElement(XAObject):
         return self.xa_elem.title()
 
     @property
-    def position(self) -> Tuple[int, int]:
+    def position(self) -> tuple[int, int]:
         return self.xa_elem.position()
 
     @property
-    def size(self) -> Tuple[int, int]:
+    def size(self) -> tuple[int, int]:
         return self.xa_elem.size()
 
     @property
@@ -3553,11 +3555,11 @@ class XATextDocumentList(XAList, XAClipboardCodable):
             obj_class = XATextDocument
         super().__init__(properties, obj_class, filter)
 
-    def properties(self) -> List[dict]:
+    def properties(self) -> list[dict]:
         """Gets the properties of each document in the list.
 
         :return: A list of document properties dictionaries
-        :rtype: List[dict]
+        :rtype: list[dict]
         
         .. versionadded:: 0.0.3
         """
@@ -3650,13 +3652,13 @@ class XATextDocumentList(XAList, XAClipboardCodable):
         ls = self.xa_elem.arrayByApplyingSelector_("attachments")
         return [self._new_element([plist for plist in ls], XAAttachmentList)]
 
-    def get_clipboard_representation(self) -> List[Union[str, AppKit.NSURL]]:
+    def get_clipboard_representation(self) -> list[Union[str, AppKit.NSURL]]:
         """Gets a clipboard-codable representation of each document in the list.
 
         When the clipboard content is set to a list of documents, each documents's file URL and name are added to the clipboard.
 
         :return: A list of each document's file URL and name
-        :rtype: List[Union[str, AppKit.NSURL]]
+        :rtype: list[Union[str, AppKit.NSURL]]
 
         .. versionadded:: 0.0.8
         """
@@ -3971,13 +3973,13 @@ class XAText(XAObject):
     #     #     suggestions.append(guesses)
     #     return suggestions
 
-    def tag_parts_of_speech(self, unit: Literal["word", "sentence", "paragraph", "document"] = "word") -> List[Tuple[str, str]]:
+    def tag_parts_of_speech(self, unit: Literal["word", "sentence", "paragraph", "document"] = "word") -> list[tuple[str, str]]:
         """Tags each word of the text with its associated part of speech.
 
         :param unit: The grammatical unit to divide the text into for tagging, defaults to "word"
         :type unit: Literal["word", "sentence", "paragraph", "document"]
         :return: A list of tuples identifying each word of the text and its part of speech
-        :rtype: List[Tuple[str, str]]
+        :rtype: list[tuple[str, str]]
 
         :Example 1: Extract nouns from a text
 
@@ -4009,13 +4011,13 @@ class XAText(XAObject):
         tagger.enumerateTagsInRange_unit_scheme_options_usingBlock_((0, len(str(self.xa_elem))), unit, NaturalLanguage.NLTagSchemeLexicalClass, NaturalLanguage.NLTaggerOmitPunctuation | NaturalLanguage.NLTaggerOmitWhitespace, apply_tags)
         return tagged_pos
 
-    def tag_languages(self, unit: Literal["word", "sentence", "paragraph", "document"] = "paragraph") -> List[Tuple[str, str]]:
+    def tag_languages(self, unit: Literal["word", "sentence", "paragraph", "document"] = "paragraph") -> list[tuple[str, str]]:
         """Tags each paragraph of the text with its language.
 
         :param unit: The grammatical unit to divide the text into for tagging, defaults to "paragraph"
         :type unit: Literal["word", "sentence", "paragraph", "document"]
         :return: A list of tuples identifying each paragraph of the text and its language
-        :rtype: List[Tuple[str, str]]
+        :rtype: list[tuple[str, str]]
 
         :Example:
 
@@ -4047,13 +4049,13 @@ class XAText(XAObject):
         tagger.enumerateTagsInRange_unit_scheme_options_usingBlock_((0, len(str(self.xa_elem))), unit, NaturalLanguage.NLTagSchemeLanguage, NaturalLanguage.NLTaggerOmitPunctuation | NaturalLanguage.NLTaggerOmitWhitespace, apply_tags)
         return tagged_languages
 
-    def tag_entities(self, unit: Literal["word", "sentence", "paragraph", "document"] = "word") -> List[Tuple[str, str]]:
+    def tag_entities(self, unit: Literal["word", "sentence", "paragraph", "document"] = "word") -> list[tuple[str, str]]:
         """Tags each word of the text with either the category of entity it represents (i.e. person, place, or organization) or its part of speech.
 
         :param unit: The grammatical unit to divide the text into for tagging, defaults to "word"
         :type unit: Literal["word", "sentence", "paragraph", "document"]
         :return: A list of tuples identifying each word of the text and its entity category or part of speech
-        :rtype: List[Tuple[str, str]]
+        :rtype: list[tuple[str, str]]
 
         :Example:
 
@@ -4085,13 +4087,13 @@ class XAText(XAObject):
         tagger.enumerateTagsInRange_unit_scheme_options_usingBlock_((0, len(str(self.xa_elem))), unit, NaturalLanguage.NLTagSchemeNameTypeOrLexicalClass, NaturalLanguage.NLTaggerOmitPunctuation | NaturalLanguage.NLTaggerOmitWhitespace, apply_tags)
         return tagged_languages
 
-    def tag_lemmas(self, unit: Literal["word", "sentence", "paragraph", "document"] = "word") -> List[Tuple[str, str]]:
+    def tag_lemmas(self, unit: Literal["word", "sentence", "paragraph", "document"] = "word") -> list[tuple[str, str]]:
         """Tags each word of the text with its stem word.
 
         :param unit: The grammatical unit to divide the text into for tagging, defaults to "word"
         :type unit: Literal["word", "sentence", "paragraph", "document"]
         :return: A list of tuples identifying each word of the text and its stem words
-        :rtype: List[Tuple[str, str]]
+        :rtype: list[tuple[str, str]]
 
         :Example 1: Lemmatize each word in a text
 
@@ -4134,15 +4136,15 @@ class XAText(XAObject):
         tagger.enumerateTagsInRange_unit_scheme_options_usingBlock_((0, len(str(self.xa_elem))), unit, NaturalLanguage.NLTagSchemeLemma, NaturalLanguage.NLTaggerOmitPunctuation | NaturalLanguage.NLTaggerOmitWhitespace | NaturalLanguage.NLTaggerJoinContractions, apply_tags)
         return tagged_lemmas
 
-    def tag_sentiments(self, sentiment_scale: List[str] = None, unit: Literal["word", "sentence", "paragraph", "document"] = "paragraph") -> List[Tuple[str, str]]:
+    def tag_sentiments(self, sentiment_scale: list[str] = None, unit: Literal["word", "sentence", "paragraph", "document"] = "paragraph") -> list[tuple[str, str]]:
         """Tags each paragraph of the text with a sentiment rating.
 
         :param sentiment_scale: A list of terms establishing a range of sentiments from most negative to most postive
-        :type sentiment_scale: List[str]
+        :type sentiment_scale: list[str]
         :param unit: The grammatical unit to divide the text into for tagging, defaults to "paragraph"
         :type unit: Literal["word", "sentence", "paragraph", "document"]
         :return: A list of tuples identifying each paragraph of the text and its sentiment rating
-        :rtype: List[Tuple[str, str]]
+        :rtype: list[tuple[str, str]]
 
         :Example 1: Assess the sentiment of a string
 
@@ -4482,11 +4484,11 @@ class XAAttachment(XAObject):
 
 
 class XALSM(XAObject):
-    def __init__(self, dataset: Union[Dict[str, List[str]], None] = None, from_file: bool = False):
+    def __init__(self, dataset: Union[dict[str, list[str]], None] = None, from_file: bool = False):
         """Initializes a Latent Semantic Mapping environment.
 
         :param dataset: The initial dataset, specified as a dictionary where keys are categories and values are list of corresponding texts, defaults to None. Cannot be None if from_file is False.
-        :type dataset: Union[Dict[str, List[str]], None], optional
+        :type dataset: Union[dict[str, list[str]], None], optional
         :param from_file: Whether the LSM is being loaded from a file, defaults to False. Cannot be False is dataset is None.
         :type from_file: bool, optional
         :raises ValueError: Either you must provide a dataset, or you must load an existing map from an external file
@@ -4631,13 +4633,13 @@ class XALSM(XAObject):
         LatentSemanticMapping.LSMMapCompile(new_lsm.map)
         return new_lsm
 
-    def add_category(self, name: str, initial_data: Union[List[str], None] = None) -> int:
+    def add_category(self, name: str, initial_data: Union[list[str], None] = None) -> int:
         """Adds a new category to the map, optionally filling the category with initial text data.
 
         :param name: The name of the category
         :type name: str
         :param initial_data: _description_
-        :type initial_data: List[str]
+        :type initial_data: list[str]
         :return: The ID of the new category
         :rtype: int
 
@@ -4668,11 +4670,11 @@ class XALSM(XAObject):
         LatentSemanticMapping.LSMMapCompile(self.map)
         return category_ref
 
-    def add_data(self, data: Dict[Union[int, str], List[str]]) -> List[int]:
+    def add_data(self, data: dict[Union[int, str], list[str]]) -> list[int]:
         """Adds the provided data, organized by category, to the active map.
 
         :param data: A dictionary specifying new or existing categories along with data to input into them
-        :type data: Dict[Union[int, str], List[str]]
+        :type data: dict[Union[int, str], list[str]]
         :return: A list of newly created category IDs
         :rtype: int
 
@@ -4739,7 +4741,7 @@ class XALSM(XAObject):
         LatentSemanticMapping.LSMMapAddTextWithWeight(self.map, text_ref, self.__categories[category], weight)
         LatentSemanticMapping.LSMMapCompile(self.map)
 
-    def categorize_query(self, query: str, num_results: int = 1) -> List[Tuple[int, float]]:
+    def categorize_query(self, query: str, num_results: int = 1) -> list[tuple[int, float]]:
         """Categorizes the query based on the current weights in the map.
 
         :param query: The query to categorize
@@ -4747,7 +4749,7 @@ class XALSM(XAObject):
         :param num_results: The number of categorizations to show, defaults to 1
         :type num_results: int, optional
         :return: A list of tuples identifying categories and their associated score. A higher score indicates better fit. If not matching categorization is found, the list will be empty.
-        :rtype: List[Tuple[int, float]]
+        :rtype: list[tuple[int, float]]
 
         :Example:
 
@@ -5232,7 +5234,7 @@ class XAAlert(XAObject):
         self.title: str = title
         self.message: str = message
         self.style: XAAlertStyle = style
-        self.buttons: List[str] = buttons
+        self.buttons: list[str] = buttons
 
     def display(self) -> int:
         """Displays the alert.
@@ -5308,22 +5310,22 @@ class XADialog(XAObject):
 
     .. versionadded:: 0.0.8
     """
-    def __init__(self, text: str = "", title: Union[str, None] = None, buttons: Union[None, List[Union[str, int]]] = None, hidden_answer: bool = False, default_button: Union[str, int, None] = None, cancel_button: Union[str, int, None] = None, icon: Union[Literal["stop", "note", "caution"], None] = None, default_answer: Union[str, int, None] = None):
+    def __init__(self, text: str = "", title: Union[str, None] = None, buttons: Union[None, list[Union[str, int]]] = None, hidden_answer: bool = False, default_button: Union[str, int, None] = None, cancel_button: Union[str, int, None] = None, icon: Union[Literal["stop", "note", "caution"], None] = None, default_answer: Union[str, int, None] = None):
         super().__init__()
         self.text: str = text
         self.title: str = title
-        self.buttons: Union[None, List[Union[str, int]]] = buttons or []
+        self.buttons: Union[None, list[Union[str, int]]] = buttons or []
         self.hidden_answer: bool = hidden_answer
         self.icon: Union[str, None] = icon
         self.default_button: Union[str, int, None] = default_button
         self.cancel_button: Union[str, int, None] = cancel_button
         self.default_answer: Union[str, int, None] = default_answer
 
-    def display(self) -> Union[str, int, None, List[str]]:
+    def display(self) -> Union[str, int, None, list[str]]:
         """Displays the dialog, waits for the user to select an option or cancel, then returns the selected button or None if cancelled.
 
         :return: The selected button or None if no value was selected
-        :rtype: Union[str, int, None, List[str]]
+        :rtype: Union[str, int, None, list[str]]
 
         .. versionadded:: 0.0.8
         """
@@ -5362,22 +5364,22 @@ class XAMenu(XAObject):
 
     .. versionadded:: 0.0.8
     """
-    def __init__(self, menu_items: List[Any], title: str = "Select Item", prompt: str = "Select an item", default_items: Union[List[str], None] = None, ok_button_name: str = "Okay", cancel_button_name: str = "Cancel", multiple_selections_allowed: bool = False, empty_selection_allowed: bool = False):
+    def __init__(self, menu_items: list[Any], title: str = "Select Item", prompt: str = "Select an item", default_items: Union[list[str], None] = None, ok_button_name: str = "Okay", cancel_button_name: str = "Cancel", multiple_selections_allowed: bool = False, empty_selection_allowed: bool = False):
         super().__init__()
-        self.menu_items: List[Union[str, int]] = menu_items #: The items the user can choose from
+        self.menu_items: list[Union[str, int]] = menu_items #: The items the user can choose from
         self.title: str = title #: The title of the dialog window
         self.prompt: str = prompt #: The prompt to display in the dialog box
-        self.default_items: List[str] = default_items or [] #: The items to initially select
+        self.default_items: list[str] = default_items or [] #: The items to initially select
         self.ok_button_name: str = ok_button_name #: The name of the OK button
         self.cancel_button_name: str = cancel_button_name #: The name of the Cancel button
         self.multiple_selections_allowed: bool = multiple_selections_allowed #: Whether multiple items can be selected
         self.empty_selection_allowed: bool = empty_selection_allowed #: Whether the user can click OK without selecting anything
 
-    def display(self) -> Union[str, int, bool, List[str], List[int]]:
+    def display(self) -> Union[str, int, bool, list[str], list[int]]:
         """Displays the menu, waits for the user to select an option or cancel, then returns the selected value or False if cancelled.
 
         :return: The selected value or False if no value was selected
-        :rtype: Union[str, int, bool, List[str], List[int]]
+        :rtype: Union[str, int, bool, list[str], list[int]]
 
         .. versionadded:: 0.0.8
         """
@@ -5410,10 +5412,10 @@ class XAFilePicker(XAObject):
 
     .. versionadded:: 0.0.8
     """
-    def __init__(self, prompt: str = "Choose File", types: List[str] = None, default_location: Union[str, None] = None, show_invisibles: bool = False, multiple_selections_allowed: bool = False, show_package_contents: bool = False):
+    def __init__(self, prompt: str = "Choose File", types: list[str] = None, default_location: Union[str, None] = None, show_invisibles: bool = False, multiple_selections_allowed: bool = False, show_package_contents: bool = False):
         super().__init__()
         self.prompt: str = prompt #: The prompt to display in the dialog box
-        self.types: List[str] = types #: The file types/type identifiers to allow for selection
+        self.types: list[str] = types #: The file types/type identifiers to allow for selection
         self.default_location: Union[str, None] = default_location #: The default file location
         self.show_invisibles: bool = show_invisibles #: Whether invisible files and folders are shown
         self.multiple_selections_allowed: bool = multiple_selections_allowed #: Whether the user can select multiple files
@@ -5830,7 +5832,7 @@ class XADiskItemList(XAList):
             object_class = XADiskItem
         super().__init__(properties, object_class, filter)
 
-    def busy_status(self) -> List['bool']:
+    def busy_status(self) -> list['bool']:
         """Retrieves the busy status of each disk item in the list.
 
         .. versionadded:: 0.1.0
@@ -5845,56 +5847,56 @@ class XADiskItemList(XAList):
         ls = self.xa_elem.arrayByApplyingSelector_("container")
         return self._new_element(ls, XADiskItemList)
 
-    def creation_date(self) -> List['datetime']:
+    def creation_date(self) -> list['datetime']:
         """Retrieves the creation date of each disk item in the list.
 
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("creationDate"))
 
-    def displayed_name(self) -> List['str']:
+    def displayed_name(self) -> list['str']:
         """Retrieves the displayed name of each disk item in the list.
 
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("displayedName"))
 
-    def id(self) -> List['str']:
+    def id(self) -> list['str']:
         """Retrieves the unique ID of each disk item in the list.
 
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("id"))
 
-    def modification_date(self) -> List['datetime']:
+    def modification_date(self) -> list['datetime']:
         """Retrieves the last modified date of each disk item in the list.
 
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("modificationDate"))
 
-    def name(self) -> List['str']:
+    def name(self) -> list['str']:
         """Retrieves the name of each disk item in the list.
 
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
-    def name_extension(self) -> List['str']:
+    def name_extension(self) -> list['str']:
         """Retrieves the name extension of each disk item in the list.
 
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("nameExtension"))
 
-    def package_folder(self) -> List['bool']:
+    def package_folder(self) -> list['bool']:
         """Retrieves the package folder status of each disk item in the list.
 
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("packageFolder"))
 
-    def path(self) -> List['XAPath']:
+    def path(self) -> list['XAPath']:
         """Retrieves the file system path of each disk item in the list.
 
         .. versionadded:: 0.1.0
@@ -5902,14 +5904,14 @@ class XADiskItemList(XAList):
         ls = self.xa_elem.arrayByApplyingSelector_("path")
         return [XAPath(x) for x in ls]
 
-    def physical_size(self) -> List['int']:
+    def physical_size(self) -> list['int']:
         """Retrieves the actual disk space used by each disk item in the list.
 
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("physicalSize"))
 
-    def posix_path(self) -> List[XAPath]:
+    def posix_path(self) -> list[XAPath]:
         """Retrieves the POSIX file system path of each disk item in the list.
 
         .. versionadded:: 0.1.0
@@ -5917,14 +5919,14 @@ class XADiskItemList(XAList):
         ls = self.xa_elem.arrayByApplyingSelector_("POSIXPath")
         return [XAPath(x) for x in ls]
 
-    def size(self) -> List['int']:
+    def size(self) -> list['int']:
         """Retrieves the logical size of each disk item in the list.
 
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("size"))
 
-    def url(self) -> List['XAURL']:
+    def url(self) -> list['XAURL']:
         """Retrieves the URL of each disk item in the list.
 
         .. versionadded:: 0.1.0
@@ -5932,14 +5934,14 @@ class XADiskItemList(XAList):
         ls = self.xa_elem.arrayByApplyingSelector_("URL")
         return [XAURL(x) for x in ls]
 
-    def visible(self) -> List['bool']:
+    def visible(self) -> list['bool']:
         """Retrieves the visible status of each item in the list.
 
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("visible"))
 
-    def volume(self) -> List['str']:
+    def volume(self) -> list['str']:
         """Retrieves the volume on which each item in the list resides.
 
         .. versionadded:: 0.1.0
@@ -6220,7 +6222,7 @@ class XAAliasList(XADiskItemList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, filter, XAAlias)
 
-    def creator_type(self) -> List['str']:
+    def creator_type(self) -> list['str']:
         """Retrieves the OSType identifying the application that created each alias in the list
 
         .. versionadded:: 0.1.0
@@ -6235,49 +6237,49 @@ class XAAliasList(XADiskItemList):
         ls = self.xa_elem.arrayByApplyingSelector_("defaultApplication")
         return self._new_element(ls, XADiskItemList)
 
-    def file_type(self) -> List['str']:
+    def file_type(self) -> list['str']:
         """Retrieves the OSType identifying the type of data contained in each alias in the list.
 
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("fileType"))
 
-    def kind(self) -> List['str']:
+    def kind(self) -> list['str']:
         """Retrieves the kind of each alias in the list.
 
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("kind"))
 
-    def product_version(self) -> List['str']:
+    def product_version(self) -> list['str']:
         """Retrieves the product version of each alias in the list.
 
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("productVersion"))
 
-    def short_version(self) -> List['str']:
+    def short_version(self) -> list['str']:
         """Retrieves the short version of the application bundle referenced by each alias in the list.
 
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("shortVersion"))
 
-    def stationery(self) -> List['bool']:
+    def stationery(self) -> list['bool']:
         """Retrieves the stationery status of each alias in the list.
 
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("stationery"))
 
-    def type_identifier(self) -> List['str']:
+    def type_identifier(self) -> list['str']:
         """Retrieves the type identifier of each alias in the list.
 
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("typeIdentifier"))
 
-    def version(self) -> List['str']:
+    def version(self) -> list['str']:
         """Retrieves the version of the application bundle referenced by each alias in the list.
 
         .. versionadded:: 0.1.0
@@ -6475,21 +6477,21 @@ class XADiskList(XADiskItemList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, filter, XADisk)
 
-    def capacity(self) -> List['float']:
+    def capacity(self) -> list['float']:
         """Retrieves the total number of bytes (free or used) on each disk in the list.
 
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("capacity"))
 
-    def ejectable(self) -> List['bool']:
+    def ejectable(self) -> list['bool']:
         """Retrieves the ejectable status of each disk in the list.
 
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("ejectable"))
 
-    def format(self) -> List['XAEventsApplication.Format']:
+    def format(self) -> list['XAEventsApplication.Format']:
         """Retrieves the file system format of each disk in the list.
 
         .. versionadded:: 0.1.0
@@ -6497,42 +6499,42 @@ class XADiskList(XADiskItemList):
         ls = self.xa_elem.arrayByApplyingSelector_("format")
         return [XAEventsApplication.Format(OSType(x.stringValue())) for x in ls]
 
-    def free_space(self) -> List['float']:
+    def free_space(self) -> list['float']:
         """Retrieves the number of free bytes left on each disk in the list.
 
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("freeSpace"))
 
-    def ignore_privileges(self) -> List['bool']:
+    def ignore_privileges(self) -> list['bool']:
         """Retrieves the ignore privileges status for each disk in the list.
 
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("ignorePrivileges"))
 
-    def local_volume(self) -> List['bool']:
+    def local_volume(self) -> list['bool']:
         """Retrieves the local volume status for each disk in the list.
 
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("localVolume"))
 
-    def server(self) -> List['str']:
+    def server(self) -> list['str']:
         """Retrieves the server on which each disk in the list resides, AFP volumes only.
 
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("server"))
 
-    def startup(self) -> List['bool']:
+    def startup(self) -> list['bool']:
         """Retrieves the startup disk status of each disk in the list.
 
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("startup"))
 
-    def zone(self) -> List['str']:
+    def zone(self) -> list['str']:
         """Retrieves the zone in which each disk's server resides, AFP volumes only.
 
         .. versionadded:: 0.1.0
@@ -6730,14 +6732,14 @@ class XADomainList(XAList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XADomain, filter)
 
-    def id(self) -> List['str']:
+    def id(self) -> list['str']:
         """Retrieves the unique identifier of each domain in the list
 
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("id"))
 
-    def name(self) -> List['str']:
+    def name(self) -> list['str']:
         """Retrieves the name of each domain in the list.
 
         .. versionadded:: 0.1.0
@@ -7020,7 +7022,7 @@ class XAFileList(XADiskItemList):
             object_class = XAFile
         super().__init__(properties, filter, object_class)
 
-    def creator_type(self) -> List['str']:
+    def creator_type(self) -> list['str']:
         """Retrieves the OSType identifying the application that created each file in the list.
 
         .. versionadded:: 0.1.0
@@ -7035,49 +7037,49 @@ class XAFileList(XADiskItemList):
         ls = self.xa_elem.arrayByApplyingSelector_("defaultApplication")
         return self._new_element(ls, XADiskItemList)
 
-    def file_type(self) -> List['str']:
+    def file_type(self) -> list['str']:
         """Retrieves the OSType identifying the type of data contained in each file in the list.
 
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("fileType"))
 
-    def kind(self) -> List['str']:
+    def kind(self) -> list['str']:
         """Retrieves the kind of each file in the list.
 
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("kind"))
 
-    def product_version(self) -> List['str']:
+    def product_version(self) -> list['str']:
         """Retrieves the product version of each file in the list.
 
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("productVersion"))
 
-    def short_version(self) -> List['str']:
+    def short_version(self) -> list['str']:
         """Retrieves the short version of each file in the list.
 
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("shortVersion"))
 
-    def stationery(self) -> List['bool']:
+    def stationery(self) -> list['bool']:
         """Retrieves the stationery status of each file in the list.
 
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("stationery"))
 
-    def type_identifier(self) -> List['str']:
+    def type_identifier(self) -> list['str']:
         """Retrieves the type identifier of each file in the list.
 
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("typeIdentifier"))
 
-    def version(self) -> List['str']:
+    def version(self) -> list['str']:
         """Retrieves the version of each file in the list.
 
         .. versionadded:: 0.1.0
@@ -7496,6 +7498,8 @@ class XAImageList(XAList, XAClipboardCodable):
             obj_class = XAImage
         super().__init__(properties, obj_class, filter)
 
+        self.modified = False #: Whether the list of images has been modified since it was initialized
+
     def __partial_init(self):
         images = [None] * self.xa_elem.count()
 
@@ -7537,9 +7541,11 @@ class XAImageList(XAList, XAClipboardCodable):
         while any([t.is_alive() for t in threads]):
             time.sleep(0.01)
 
-        return self._new_element(filtered_images, XAImageList)
+        self.modified = True
+        self.xa_elem = AppKit.NSMutableArray.alloc().initWithArray_(filtered_images)
+        return self
 
-    def file(self) -> List[XAPath]:
+    def file(self) -> list[XAPath]:
         return [x.file for x in self]
 
     def horizontal_stitch(self) -> 'XAImage':
@@ -7570,7 +7576,7 @@ class XAImageList(XAList, XAClipboardCodable):
         """Creates a composition image by adding the color values of each image in the list.
 
         :param images: The images to add together
-        :type images: List[XAImage]
+        :type images: list[XAImage]
         :return: The resulting image composition
         :rtype: XAImage
 
@@ -7602,7 +7608,7 @@ class XAImageList(XAList, XAClipboardCodable):
         """Creates a composition image by subtracting the color values of each image in the list successively.
 
         :param images: The images to create the composition from
-        :type images: List[XAImage]
+        :type images: list[XAImage]
         :return: The resulting image composition
         :rtype: XAImage
 
@@ -7774,11 +7780,11 @@ class XAImageList(XAList, XAClipboardCodable):
 
         return self.__apply_filter(filter_block, intensity)
 
-    def depth_of_field(self, focal_region: Union[Tuple[Tuple[int, int], Tuple[int, int]], None] = None, intensity: float = 10.0, focal_region_saturation: float = 1.5) -> 'XAImageList':
+    def depth_of_field(self, focal_region: Union[tuple[tuple[int, int], tuple[int, int]], None] = None, intensity: float = 10.0, focal_region_saturation: float = 1.5) -> 'XAImageList':
         """Applies a depth of field filter to each image in the list, simulating a tilt & shift effect.
 
         :param focal_region: Two points defining a line within each image to focus the effect around (pixels around the line will be in focus), or None to use the center third of the image, defaults to None
-        :type focal_region: Union[Tuple[Tuple[int, int], Tuple[int, int]], None]
+        :type focal_region: Union[tuple[tuple[int, int], tuple[int, int]], None]
         :param intensity: Controls the amount of distance around the focal region to keep in focus. Higher values decrease the distance before the out-of-focus effect starts. Defaults to 10.0
         :type intensity: float
         :param focal_region_saturation: Adjusts the saturation of the focial region. Higher values increase saturation. Defaults to 1.5 (1.5x default saturation)
@@ -7900,11 +7906,11 @@ class XAImageList(XAList, XAClipboardCodable):
 
         return self.__apply_filter(filter_block, intensity)
 
-    def bump(self, center: Union[Tuple[int, int], None] = None, radius: float = 300.0, curvature: float = 0.5) -> 'XAImageList':
+    def bump(self, center: Union[tuple[int, int], None] = None, radius: float = 300.0, curvature: float = 0.5) -> 'XAImageList':
         """Adds a concave (inward) or convex (outward) bump to each image in the list at the specified location within each image.
 
         :param center: The center point of the effect, or None to use the center of the image, defaults to None
-        :type center: Union[Tuple[int, int], None]
+        :type center: Union[tuple[int, int], None]
         :param radius: The radius of the bump in pixels, defaults to 300.0
         :type radius: float
         :param curvature: Controls the direction and intensity of the bump's curvature. Positive values create convex bumps while negative values create concave bumps. Defaults to 0.5
@@ -7948,13 +7954,15 @@ class XAImageList(XAList, XAClipboardCodable):
         while any([t.is_alive() for t in threads]):
             time.sleep(0.01)
 
-        return self._new_element(bumped_images, XAImageList)
+        self.modified = True
+        self.xa_elem = AppKit.NSMutableArray.alloc().initWithArray_(bumped_images)
+        return self
 
-    def pinch(self, center: Union[Tuple[int, int], None] = None, intensity: float = 0.5) -> 'XAImageList':
+    def pinch(self, center: Union[tuple[int, int], None] = None, intensity: float = 0.5) -> 'XAImageList':
         """Adds an inward pinch distortion to each image in the list at the specified location within each image.
 
         :param center: The center point of the effect, or None to use the center of the image, defaults to None
-        :type center: Union[Tuple[int, int], None]
+        :type center: Union[tuple[int, int], None]
         :param intensity: Controls the scale of the pinch effect. Higher values stretch pixels away from the specified center to a greater degree. Defaults to 0.5
         :type intensity: float
         :return: The resulting images after applying the distortion
@@ -7995,13 +8003,15 @@ class XAImageList(XAList, XAClipboardCodable):
         while any([t.is_alive() for t in threads]):
             time.sleep(0.01)
 
-        return self._new_element(pinched_images, XAImageList)
+        self.modified = True
+        self.xa_elem = AppKit.NSMutableArray.alloc().initWithArray_(pinched_images)
+        return self
 
-    def twirl(self, center: Union[Tuple[int, int], None] = None, radius: float = 300.0, angle: float = 3.14) -> 'XAImageList':
+    def twirl(self, center: Union[tuple[int, int], None] = None, radius: float = 300.0, angle: float = 3.14) -> 'XAImageList':
         """Adds a twirl distortion to each image in the list by rotating pixels around the specified location within each image.
 
         :param center: The center point of the effect, or None to use the center of the image, defaults to None
-        :type center: Union[Tuple[int, int], None]
+        :type center: Union[tuple[int, int], None]
         :param radius: The pixel radius around the centerpoint that defines the area to apply the effect to, defaults to 300.0
         :type radius: float
         :param angle: The angle of the twirl in radians, defaults to 3.14
@@ -8045,7 +8055,9 @@ class XAImageList(XAList, XAClipboardCodable):
         while any([t.is_alive() for t in threads]):
             time.sleep(0.01)
 
-        return self._new_element(twirled_images, XAImageList)
+        self.modified = True
+        self.xa_elem = AppKit.NSMutableArray.alloc().initWithArray_(twirled_images)
+        return self
 
     def auto_enhance(self, correct_red_eye: bool = False, crop_to_features: bool = False, correct_rotation: bool = False) -> 'XAImageList':
         """Attempts to enhance each image in the list by applying suggested filters.
@@ -8094,7 +8106,9 @@ class XAImageList(XAList, XAClipboardCodable):
         while any([t.is_alive() for t in threads]):
             time.sleep(0.01)
 
-        return self._new_element(enhanced_images, XAImageList)
+        self.modified = True
+        self.xa_elem = AppKit.NSMutableArray.alloc().initWithArray_(enhanced_images)
+        return self
 
     def flip_horizontally(self) -> 'XAImageList':
         """Flips each image in the list horizontally.
@@ -8128,7 +8142,9 @@ class XAImageList(XAList, XAClipboardCodable):
         while any([t.is_alive() for t in threads]):
             time.sleep(0.01)
 
-        return self._new_element(flipped_images, XAImageList)
+        self.modified = True
+        self.xa_elem = AppKit.NSMutableArray.alloc().initWithArray_(flipped_images)
+        return self
 
     def flip_vertically(self) -> 'XAImageList':
         """Flips each image in the list vertically.
@@ -8162,7 +8178,9 @@ class XAImageList(XAList, XAClipboardCodable):
         while any([t.is_alive() for t in threads]):
             time.sleep(0.01)
 
-        return self._new_element(flipped_images, XAImageList)
+        self.modified = True
+        self.xa_elem = AppKit.NSMutableArray.alloc().initWithArray_(flipped_images)
+        return self
 
     def rotate(self, degrees: float) -> 'XAImageList':
         """Rotates each image in the list by the specified amount of degrees.
@@ -8205,15 +8223,17 @@ class XAImageList(XAList, XAClipboardCodable):
         while any([t.is_alive() for t in threads]):
             time.sleep(0.01)
 
-        return self._new_element(rotated_images, XAImageList)
+        self.modified = True
+        self.xa_elem = AppKit.NSMutableArray.alloc().initWithArray_(rotated_images)
+        return self
 
-    def crop(self, size: Tuple[int, int], corner: Union[Tuple[int, int], None] = None) -> 'XAImageList':
+    def crop(self, size: tuple[int, int], corner: Union[tuple[int, int], None] = None) -> 'XAImageList':
         """Crops each image in the list to the specified dimensions.
 
         :param size: The dimensions to crop each image to
-        :type size: Tuple[int, int]
+        :type size: tuple[int, int]
         :param corner: The bottom-left location to crom each image from, or None to use (0, 0), defaults to None
-        :type corner: Union[Tuple[int, int], None]
+        :type corner: Union[tuple[int, int], None]
         :return: The list of cropped images
         :rtype: XAImageList
 
@@ -8242,7 +8262,9 @@ class XAImageList(XAList, XAClipboardCodable):
         while any([t.is_alive() for t in threads]):
             time.sleep(0.01)
 
-        return self._new_element(cropped_images, XAImageList)
+        self.modified = True
+        self.xa_elem = AppKit.NSMutableArray.alloc().initWithArray_(cropped_images)
+        return self
 
     def scale(self, scale_factor_x: float, scale_factor_y: Union[float, None] = None) -> 'XAImageList':
         """Scales each image in the list by the specified horizontal and vertical factors.
@@ -8282,7 +8304,9 @@ class XAImageList(XAList, XAClipboardCodable):
         while any([t.is_alive() for t in threads]):
             time.sleep(0.01)
 
-        return self._new_element(scaled_images, XAImageList)
+        self.modified = True
+        self.xa_elem = AppKit.NSMutableArray.alloc().initWithArray_(scaled_images)
+        return self
 
     def pad(self, horizontal_border_width: int = 50, vertical_border_width: int = 50, pad_color: Union[XAColor, None] = None) -> 'XAImageList':
         """Pads each image in the list with the specified color; add a border around each image in the list with the specified vertical and horizontal width.
@@ -8323,17 +8347,19 @@ class XAImageList(XAList, XAClipboardCodable):
         while any([t.is_alive() for t in threads]):
             time.sleep(0.01)
 
-        return self._new_element(padded_images, XAImageList)
+        self.modified = True
+        self.xa_elem = AppKit.NSMutableArray.alloc().initWithArray_(padded_images)
+        return self
 
-    def overlay_image(self, image: 'XAImage', location: Union[Tuple[int, int], None] = None, size: Union[Tuple[int, int], None] = None) -> 'XAImageList':
+    def overlay_image(self, image: 'XAImage', location: Union[tuple[int, int], None] = None, size: Union[tuple[int, int], None] = None) -> 'XAImageList':
         """Overlays an image on top of each image in the list, at the specified location, with the specified size.
 
         :param image: The image to overlay on top of each image in the list
         :type image: XAImage
         :param location: The bottom-left point of the overlaid image in the results, or None to use the bottom-left point of each background image, defaults to None
-        :type location: Union[Tuple[int, int], None]
+        :type location: Union[tuple[int, int], None]
         :param size: The width and height of the overlaid image, or None to use the overlaid's images existing width and height, or (-1, -1) to use the dimensions of each background images, defaults to None
-        :type size: Union[Tuple[int, int], None]
+        :type size: Union[tuple[int, int], None]
         :return: The list of images with the specified image overlaid on top of them
         :rtype: XAImageList
 
@@ -8372,15 +8398,17 @@ class XAImageList(XAList, XAClipboardCodable):
         while any([t.is_alive() for t in threads]):
             time.sleep(0.01)
 
-        return self._new_element(overlayed_images, XAImageList)
+        self.modified = True
+        self.xa_elem = AppKit.NSMutableArray.alloc().initWithArray_(overlayed_images)
+        return self
 
-    def overlay_text(self, text: str, location: Union[Tuple[int, int], None] = None, font_size: float = 12, font_color: Union[XAColor, None] = None) -> 'XAImageList':
+    def overlay_text(self, text: str, location: Union[tuple[int, int], None] = None, font_size: float = 12, font_color: Union[XAColor, None] = None) -> 'XAImageList':
         """Overlays text of the specified size and color at the provided location within each image of the list.
 
         :param text: The text to overlay onto each image of the list
         :type text: str
         :param location: The bottom-left point of the start of the text, or None to use (5, 5), defaults to None
-        :type location: Union[Tuple[int, int], None]
+        :type location: Union[tuple[int, int], None]
         :param font_size: The font size, in pixels, of the text, defaults to 12
         :type font_size: float
         :param font_color: The color of the text, or None to use black, defaults to None
@@ -8420,13 +8448,15 @@ class XAImageList(XAList, XAClipboardCodable):
         while any([t.is_alive() for t in threads]):
             time.sleep(0.01)
 
-        return self._new_element(overlayed_images, XAImageList)
+        self.modified = True
+        self.xa_elem = AppKit.NSMutableArray.alloc().initWithArray_(overlayed_images)
+        return self
 
-    def extract_text(self) -> List[str]:
+    def extract_text(self) -> list[str]:
         """Extracts and returns a list of all visible text in each image of the list.
 
         :return: The array of extracted text strings
-        :rtype: List[str]
+        :rtype: list[str]
 
         :Example:
 
@@ -8477,13 +8507,27 @@ class XAImageList(XAList, XAClipboardCodable):
         for image in self:
             image.show_in_preview()
 
-    def get_clipboard_representation(self) -> List[AppKit.NSImage]:
+    def save(self, file_paths: list[Union[XAPath, str]]):
+        """Saves each image to a file on the disk.
+
+        :param file_path: The path at which to save the image file. Any existing file at that location will be overwritten, defaults to None
+        :type file_path: Union[XAPath, str, None]
+
+        .. versionadded:: 0.1.0
+        """
+        for index, image in enumerate(self):
+            path = None
+            if len(file_paths) > index:
+                path = file_paths[index]
+            image.save(path)
+
+    def get_clipboard_representation(self) -> list[AppKit.NSImage]:
         """Gets a clipboard-codable representation of each image in the list.
 
         When the clipboard content is set to a list of image, the raw data of each image is added to the clipboard. You can then 
 
         :return: A list of media item file URLs
-        :rtype: List[NSURL]
+        :rtype: list[NSURL]
 
         .. versionadded:: 0.0.8
         """
@@ -8500,7 +8544,7 @@ class XAImage(XAObject, XAClipboardCodable):
     """
 
     def __init__(self, image_reference: Union[str, XAPath, AppKit.NSURL, AppKit.NSImage, None] = None, data: Union[AppKit.NSData, None] = None):
-        self.size: Tuple[int, int] #: The dimensions of the image
+        self.size: tuple[int, int] #: The dimensions of the image
         self.file: Union[XAPath, None] = None #: The path to the image file, if one exists
         self.data: str #: The TIFF representation of the image
         self.modified: bool = False #: Whether the image data has been modified since the object was originally created
@@ -8529,9 +8573,11 @@ class XAImage(XAObject, XAClipboardCodable):
                     self.xa_elem = image_reference["element"]
                     if isinstance(self.xa_elem, str):
                         # The reference is a string -- reinitialize using it
+                        self.file = self.xa_elem
                         self.xa_elem = XAImage(self.xa_elem).xa_elem
                     elif isinstance(self.xa_elem, XAImage):
                         # The reference is another XAImage object
+                        self.file = self.xa_elem.file
                         self.xa_elem = self.xa_elem.xa_elem
 
                 elif isinstance(image_reference, AppKit.NSImage):
@@ -8542,12 +8588,19 @@ class XAImage(XAObject, XAClipboardCodable):
                     # The reference is raw image data
                     self.xa_elem = AppKit.NSImage.alloc().initWithData_(data)
 
-                elif isinstance(image_reference, XAPath) or isinstance(image_reference, XAURL):
-                    # The reference is a compatible XAObject
+                elif isinstance(image_reference, XAPath):
+                    # The reference is an XAPath
+                    self.file = image_reference.path
+                    self.xa_elem = AppKit.NSImage.alloc().initWithContentsOfURL_(image_reference.xa_elem)
+
+                elif isinstance(image_reference, XAURL):
+                    # The reference is an XAURL
+                    self.file = image_reference.url
                     self.xa_elem = AppKit.NSImage.alloc().initWithContentsOfURL_(image_reference.xa_elem)
 
                 elif isinstance(image_reference, XAImage):
                     # The reference is another XAImage
+                    self.file = image_reference.file
                     self.xa_elem = image_reference.xa_elem
 
                 elif isinstance(image_reference, str):
@@ -8579,7 +8632,7 @@ class XAImage(XAObject, XAClipboardCodable):
         return self
 
     @property
-    def size(self) -> Tuple[int, int]:
+    def size(self) -> tuple[int, int]:
         """The dimensions of the image, in pixels.
 
         .. versionadded:: 0.1.0
@@ -8779,11 +8832,11 @@ class XAImage(XAObject, XAClipboardCodable):
         uncropped = filter.valueForKey_(Quartz.kCIOutputImageKey)
         self.__update_image(uncropped)
 
-    def open(*images: Union[str, XAPath, List[Union[str, XAPath]]]) -> Union['XAImage', XAImageList]:
+    def open(*images: Union[str, XAPath, list[Union[str, XAPath]]]) -> Union['XAImage', XAImageList]:
         """Initializes one or more images from files.
 
         :param images: The image(s) to open
-        :type images: Union[str, XAPath, List[Union[str, XAPath]]]
+        :type images: Union[str, XAPath, list[Union[str, XAPath]]]
         :return: The newly created image object, or a list of image objects
         :rtype: Union[XAImage, XAImageList]
 
@@ -8941,11 +8994,11 @@ class XAImage(XAObject, XAClipboardCodable):
         uncropped = filter.valueForKey_(Quartz.kCIOutputImageKey)
         return self.__update_image(uncropped)
 
-    def depth_of_field(self, focal_region: Union[Tuple[Tuple[int, int], Tuple[int, int]], None] = None, intensity: float = 10.0, focal_region_saturation: float = 1.5) -> 'XAImage':
+    def depth_of_field(self, focal_region: Union[tuple[tuple[int, int], tuple[int, int]], None] = None, intensity: float = 10.0, focal_region_saturation: float = 1.5) -> 'XAImage':
         """Applies a depth of field filter to the image, simulating a tilt & shift effect.
 
         :param focal_region: Two points defining a line within the image to focus the effect around (pixels around the line will be in focus), or None to use the center third of the image, defaults to None
-        :type focal_region: Union[Tuple[Tuple[int, int], Tuple[int, int]], None]
+        :type focal_region: Union[tuple[tuple[int, int], tuple[int, int]], None]
         :param intensity: Controls the amount of distance around the focal region to keep in focus. Higher values decrease the distance before the out-of-focus effect starts. Defaults to 10.0
         :type intensity: float
         :param focal_region_saturation: Adjusts the saturation of the focial region. Higher values increase saturation. Defaults to 1.5 (1.5x default saturation)
@@ -9066,11 +9119,11 @@ class XAImage(XAObject, XAClipboardCodable):
         uncropped = filter.valueForKey_(Quartz.kCIOutputImageKey)
         return self.__update_image(uncropped)
 
-    def bump(self, center: Union[Tuple[int, int], None] = None, radius: float = 300.0, curvature: float = 0.5) -> 'XAImage':
+    def bump(self, center: Union[tuple[int, int], None] = None, radius: float = 300.0, curvature: float = 0.5) -> 'XAImage':
         """Creates a concave (inward) or convex (outward) bump at the specified location within the image.
 
         :param center: The center point of the effect, or None to use the center of the image, defaults to None
-        :type center: Union[Tuple[int, int], None]
+        :type center: Union[tuple[int, int], None]
         :param radius: The radius of the bump in pixels, defaults to 300.0
         :type radius: float
         :param curvature: Controls the direction and intensity of the bump's curvature. Positive values create convex bumps while negative values create concave bumps. Defaults to 0.5
@@ -9095,11 +9148,11 @@ class XAImage(XAObject, XAClipboardCodable):
         uncropped = filter.valueForKey_(Quartz.kCIOutputImageKey)
         return self.__update_image(uncropped)
 
-    def pinch(self, center: Union[Tuple[int, int], None] = None, intensity: float = 0.5) -> 'XAImage':
+    def pinch(self, center: Union[tuple[int, int], None] = None, intensity: float = 0.5) -> 'XAImage':
         """Creates an inward pinch distortion at the specified location within the image.
 
         :param center: The center point of the effect, or None to use the center of the image, defaults to None
-        :type center: Union[Tuple[int, int], None]
+        :type center: Union[tuple[int, int], None]
         :param intensity: Controls the scale of the pinch effect. Higher values stretch pixels away from the specified center to a greater degree. Defaults to 0.5
         :type intensity: float
         :return: The resulting image after applying the distortion
@@ -9121,11 +9174,11 @@ class XAImage(XAObject, XAClipboardCodable):
         uncropped = filter.valueForKey_(Quartz.kCIOutputImageKey)
         return self.__update_image(uncropped)
 
-    def twirl(self, center: Union[Tuple[int, int], None] = None, radius: float = 300.0, angle: float = 3.14) -> 'XAImage':
+    def twirl(self, center: Union[tuple[int, int], None] = None, radius: float = 300.0, angle: float = 3.14) -> 'XAImage':
         """Creates a twirl distortion by rotating pixels around the specified location within the image.
 
         :param center: The center point of the effect, or None to use the center of the image, defaults to None
-        :type center: Union[Tuple[int, int], None]
+        :type center: Union[tuple[int, int], None]
         :param radius: The pixel radius around the centerpoint that defines the area to apply the effect to, defaults to 300.0
         :type radius: float
         :param angle: The angle of the twirl in radians, defaults to 3.14
@@ -9253,13 +9306,13 @@ class XAImage(XAObject, XAClipboardCodable):
         self.modified = True
         return self
 
-    def crop(self, size: Tuple[int, int], corner: Union[Tuple[int, int], None] = None) -> 'XAImage':
+    def crop(self, size: tuple[int, int], corner: Union[tuple[int, int], None] = None) -> 'XAImage':
         """Crops the image to the specified dimensions.
 
         :param size: The width and height of the resulting image
-        :type size: Tuple[int, int]
+        :type size: tuple[int, int]
         :param corner: The bottom-left corner location from which to crop the image, or None to use (0, 0), defaults to None
-        :type corner: Union[Tuple[int, int], None]
+        :type corner: Union[tuple[int, int], None]
         :return: The image object, modifications included
         :rtype: XAImage
 
@@ -9338,15 +9391,15 @@ class XAImage(XAObject, XAClipboardCodable):
         self.modified = True
         return self
 
-    def overlay_image(self, image: 'XAImage', location: Union[Tuple[int, int], None] = None, size: Union[Tuple[int, int], None] = None) -> 'XAImage':
+    def overlay_image(self, image: 'XAImage', location: Union[tuple[int, int], None] = None, size: Union[tuple[int, int], None] = None) -> 'XAImage':
         """Overlays an image on top of this image, at the specified location, with the specified size.
 
         :param image: The image to overlay on top of this image
         :type image: XAImage
         :param location: The bottom-left point of the overlaid image in the result, or None to use the bottom-left point of the background image, defaults to None
-        :type location: Union[Tuple[int, int], None]
+        :type location: Union[tuple[int, int], None]
         :param size: The width and height of the overlaid image, or None to use the overlaid's images existing width and height, or (-1, -1) to use the dimensions of the background image, defaults to None
-        :type size: Union[Tuple[int, int], None]
+        :type size: Union[tuple[int, int], None]
         :return: The image object, modifications included
         :rtype: XAImage
 
@@ -9376,13 +9429,13 @@ class XAImage(XAObject, XAClipboardCodable):
         self.modified = True
         return self.xa_elem
 
-    def overlay_text(self, text: str, location: Union[Tuple[int, int], None] = None, font_size: float = 12, font_color: Union[XAColor, None] = None) -> 'XAImage':
+    def overlay_text(self, text: str, location: Union[tuple[int, int], None] = None, font_size: float = 12, font_color: Union[XAColor, None] = None) -> 'XAImage':
         """Overlays text of the specified size and color at the provided location within the image.
 
         :param text: The text to overlay onto the image
         :type text: str
         :param location: The bottom-left point of the start of the text, or None to use (5, 5), defaults to None
-        :type location: Union[Tuple[int, int], None]
+        :type location: Union[tuple[int, int], None]
         :param font_size: The font size, in pixels, of the text, defaults to 12
         :type font_size: float
         :param font_color: The color of the text, or None to use black, defaults to None
@@ -9413,11 +9466,11 @@ class XAImage(XAObject, XAClipboardCodable):
         self.modified = True
         return self
 
-    def extract_text(self) -> List[str]:
+    def extract_text(self) -> list[str]:
         """Extracts and returns all visible text in the image.
 
         :return: The array of extracted text strings
-        :rtype: List[str]
+        :rtype: list[str]
 
         :Example:
 
@@ -9465,7 +9518,7 @@ class XAImage(XAObject, XAClipboardCodable):
             time.sleep(1)
 
     def save(self, file_path: Union[XAPath, str, None] = None):
-        """Saves the image to a file of the disk. Saves to the original file (if there was one) by default.
+        """Saves the image to a file on the disk. Saves to the original file (if there was one) by default.
 
         :param file_path: The path at which to save the image file. Any existing file at that location will be overwritten, defaults to None
         :type file_path: Union[XAPath, str, None]
@@ -9502,7 +9555,7 @@ class XASoundList(XAList, XAClipboardCodable):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XASound, filter)
 
-    def get_clipboard_representation(self) -> List[Union[AppKit.NSSound, AppKit.NSURL, str]]:
+    def get_clipboard_representation(self) -> list[Union[AppKit.NSSound, AppKit.NSURL, str]]:
         """Gets a clipboard-codable representation of each sound in the list.
 
         When the clipboard content is set to a list of sounds, each sound's raw sound data, its associated file URL, and its file path string are added to the clipboard.
@@ -9515,11 +9568,11 @@ class XASoundList(XAList, XAClipboardCodable):
         return [self.xa_elem, self.file.xa_elem, self.file.xa_elem.path()]
 
 class XASound(XAObject, XAClipboardCodable):
-    """A wrapper class for NSSound objects and associated methods.
+    """A class for playing and interacting with audio files and data.
 
     .. versionadded:: 0.0.1
     """
-    def __init__(self, sound_reference: Union[str, 'XAURL', 'XAPath']):
+    def __init__(self, sound_reference: Union[str, XAURL, XAPath]):
         self.file = None
 
         if isinstance(sound_reference, str):
@@ -9527,15 +9580,15 @@ class XASound(XAObject, XAClipboardCodable):
             if "://" in sound_reference:
                 # Sound reference is a URL
                 self.file = XAURL(sound_reference)
-                sound_reference = XAURL(self.file)
+                sound_reference = self.file.xa_elem
             if "/" in sound_reference:
                 # Sound reference is a file path
                 self.file = XAPath(sound_reference)
-                sound_reference = XAPath(self.file)
+                sound_reference = self.file.xa_elem
             else:
                 # Sound reference is the name of a default sound
                 self.file = XAPath("/System/Library/Sounds/" + sound_reference + ".aiff")
-                sound_reference = XAPath(self.file)
+                sound_reference = self.file.xa_elem
         elif isinstance(sound_reference, dict):
             # Sound reference comes from XAList
             sound_reference = sound_reference["element"]
@@ -9559,7 +9612,7 @@ class XASound(XAObject, XAClipboardCodable):
             sound_reference = sound_reference.xa_elem
         elif isinstance(sound_reference, XAURL):
             # Sound reference is an XAURL object
-            self.file = sound_reference.xa_elem
+            self.file = sound_reference
             sound_reference = sound_reference
         elif isinstance(sound_reference, XASound):
             self.file = sound_reference.file
@@ -9608,11 +9661,11 @@ class XASound(XAObject, XAClipboardCodable):
         """
         return self.num_sample_frames / self.sample_rate
 
-    def open(*sound_references: Union[str, XAPath, List[Union[str, XAPath]]]) -> Union['XASound', XASoundList]:
+    def open(*sound_references: Union[str, XAPath, list[Union[str, XAPath]]]) -> Union['XASound', XASoundList]:
         """Initializes one or more sounds from files.
 
         :param sound_references: The sound(s) to open
-        :type sound_references: Union[str, XAPath, List[Union[str, XAPath]]]
+        :type sound_references: Union[str, XAPath, list[Union[str, XAPath]]]
         :return: The newly created sound object, or a list of sound objects
         :rtype: Union[XASound, XASoundList]
 
@@ -9636,13 +9689,13 @@ class XASound(XAObject, XAClipboardCodable):
             delay 0.5
         """).run()
 
-    def play(self) -> 'XASound':
+    def play(self) -> Self:
         """Plays the sound from the beginning.
 
         Audio playback runs in a separate thread. For the sound the play properly, you must keep the main thread alive over the duration of the desired playback.
 
         :return: A reference to this sound object.
-        :rtype: XASound
+        :rtype: Self
 
         :Example:
 
@@ -9665,13 +9718,12 @@ class XASound(XAObject, XAClipboardCodable):
 
         self._spawn_thread(play_sound, [self])
         return self
-        
 
-    def pause(self) -> 'XASound':
+    def pause(self) -> Self:
         """Pauses the sound.
 
         :return: A reference to this sound object.
-        :rtype: XASound
+        :rtype: Self
 
         :Example:
 
@@ -9686,13 +9738,13 @@ class XASound(XAObject, XAClipboardCodable):
         self.__player_node.pause()
         return self
 
-    def resume(self) -> 'XASound':
+    def resume(self) -> Self:
         """Plays the sound starting from the time it was last paused at.
 
         Audio playback runs in a separate thread. For the sound the play properly, you must keep the main thread alive over the duration of the desired playback.
 
         :return: A reference to this sound object.
-        :rtype: XASound
+        :rtype: Self
 
         :Example:
 
@@ -9733,13 +9785,13 @@ class XASound(XAObject, XAClipboardCodable):
         self.__audio_engine.stop()
         return self
 
-    def set_volume(self, volume: float) -> 'XASound':
+    def set_volume(self, volume: float) -> Self:
         """Sets the volume of the sound.
 
         :param volume: The desired volume of the sound in the range [0.0, 1.0].
         :type volume: int
         :return: A reference to this sound object.
-        :rtype: XASound
+        :rtype: Self
 
         :Example:
 
@@ -9773,7 +9825,7 @@ class XASound(XAObject, XAClipboardCodable):
         """
         return self.__audio_engine.mainMixerNode().volume()
 
-    def loop(self, times: int) -> 'XASound':
+    def loop(self, times: int) -> Self:
         """Plays the sound the specified number of times.
 
         Audio playback runs in a separate thread. For the sound the play properly, you must keep the main thread alive over the duration of the desired playback.
@@ -9781,7 +9833,7 @@ class XASound(XAObject, XAClipboardCodable):
         :param times: The number of times to loop the sound.
         :type times: int
         :return: A reference to this sound object.
-        :rtype: XASound
+        :rtype: Self
 
         :Example:
 
@@ -9804,23 +9856,89 @@ class XASound(XAObject, XAClipboardCodable):
         self._spawn_thread(play_sound)
         return self
 
-    def trim(self, start_time: float, end_time: float):
-        asset = AVFoundation.AVAsset.assetWithURL_(self.file.xa_elem)
-        print(asset)
+    def trim(self, start_time: float, end_time: float) -> Self:
+        """Trims the sound to the specified start and end time, in seconds.
 
-        export_ession = AVFoundation.AVAssetExportSession.exportSessionWithAsset_presetName_(asset, None)
+        This will create a momentary sound data file in the current working directory for storing the intermediary trimmed sound data.
+
+        :param start_time: The start time in seconds
+        :type start_time: float
+        :param end_time: The end time in seconds
+        :type end_time: float
+        :return: The updated sound object
+        :rtype: Self
+
+        .. versionadded:: 0.1.0
+        """
+        # Clear the temp data path
+        file_path = "sound_data_tmp.m4a"
+        if os.path.exists(file_path):
+            AppKit.NSFileManager.defaultManager().removeItemAtPath_error_(file_path, None)
+
+        # Configure the export session
+        asset = AVFoundation.AVAsset.assetWithURL_(self.file.xa_elem)
+        export_session = AVFoundation.AVAssetExportSession.exportSessionWithAsset_presetName_(asset, AVFoundation.AVAssetExportPresetAppleM4A)
 
         start_time = CoreMedia.CMTimeMake(start_time * 100, 100)
         end_time = CoreMedia.CMTimeMake(end_time * 100, 100)
         time_range =  CoreMedia.CMTimeRangeFromTimeToTime(start_time, end_time);
 
-        # export_session.setOutputURL_(self.file.xa_elem)
+        export_session.setTimeRange_(time_range)
+        export_session.setOutputURL_(XAPath(file_path).xa_elem)
+        export_session.setOutputFileType_(AVFoundation.AVFileTypeAppleM4A)
 
-    # def save(self, file_path: Union[XAPath, str]):
-    #     if isinstance(file_path, str):
-    #         file_path = XAPath(file_path)
+        # Export to file path
+        waiting = False
+        def handler():
+            nonlocal waiting
+            waiting = True
 
-    def get_clipboard_representation(self) -> List[Union[AppKit.NSSound, AppKit.NSURL, str]]:
+        export_session.exportAsynchronouslyWithCompletionHandler_(handler)
+
+        while not waiting:
+            time.sleep(0.01)
+
+        # Load the sound file back into active memory
+        self.__audio_file = AVFoundation.AVAudioFile.alloc().initForReading_error_(XAPath(file_path).xa_elem, None)[0]
+        self.xa_elem = self.__audio_file
+        AppKit.NSFileManager.defaultManager().removeItemAtPath_error_(file_path, None) 
+        return self
+
+    def save(self, file_path: Union[XAPath, str]):
+        """Saves the sound to the specified file path.
+
+        :param file_path: The path to save the sound to
+        :type file_path: Union[XAPath, str]
+
+        .. versionadded:: 0.1.0
+        """
+        if isinstance(file_path, str):
+            file_path = XAPath(file_path)
+
+        # Configure the export session
+        asset = AVFoundation.AVAsset.assetWithURL_(self.file.xa_elem)
+        export_session = AVFoundation.AVAssetExportSession.exportSessionWithAsset_presetName_(asset, AVFoundation.AVAssetExportPresetAppleM4A)
+
+        start_time = CoreMedia.CMTimeMake(0, 100)
+        end_time = CoreMedia.CMTimeMake(self.duration * 100, 100)
+        time_range =  CoreMedia.CMTimeRangeFromTimeToTime(start_time, end_time);
+
+        export_session.setTimeRange_(time_range)
+        export_session.setOutputURL_(file_path.xa_elem)
+        # export_session.setOutputFileType_(AVFoundation.AVFileTypeAppleM4A)
+
+        # Export to file path
+        waiting = False
+        def handler():
+            nonlocal waiting
+            waiting = True
+
+        export_session.exportAsynchronouslyWithCompletionHandler_(handler)
+        
+        while not waiting:
+            time.sleep(0.01)
+
+    def get_clipboard_representation(self) -> list[Union[AppKit.NSSound, AppKit.NSURL, str]]:
         """Gets a clipboard-codable representation of the sound.
 
         When the clipboard content is set to a sound, the raw sound data, the associated file URL, and the path string of the file are added to the clipboard.
@@ -9831,3 +9949,126 @@ class XASound(XAObject, XAClipboardCodable):
         .. versionadded:: 0.0.8
         """
         return [self.xa_elem, self.file.xa_elem, self.file.xa_elem.path()]
+
+
+
+class XAVideo(XAObject):
+    """A class for interacting with video files and data.
+
+    .. versionadded:: 0.1.0
+    """
+    def __init__(self, video_reference: Union[str, XAURL, XAPath]):
+        if isinstance(video_reference, str):
+            # References is to some kind of path or URL
+            if "://" in video_reference:
+                video_reference = XAURL(video_reference)
+            else:
+                video_reference = XAPath(video_reference)
+
+        self.xa_elem = AVFoundation.AVURLAsset.alloc().initWithURL_options_(video_reference.xa_elem, { AVFoundation.AVURLAssetPreferPreciseDurationAndTimingKey: objc.YES })
+
+    def reverse(self, output_file: Union[XAPath, str]):
+        """Reverses the video and exports the result to the specified output file path.
+
+        :param output_file: The file to export the reversed video to
+        :type output_file: Union[XAPath, str]
+
+        .. versionadded:: 0.1.0
+        """
+        if isinstance(output_file, str):
+            output_file = XAPath(output_file)
+        output_url = output_file.xa_elem
+
+        reader = AVFoundation.AVAssetReader.alloc().initWithAsset_error_(self.xa_elem, None)[0]
+
+        video_track = self.xa_elem.tracksWithMediaType_(AVFoundation.AVMediaTypeVideo)[-1]
+        
+        reader_output = AVFoundation.AVAssetReaderTrackOutput.alloc().initWithTrack_outputSettings_(video_track, { Quartz.CoreVideo.kCVPixelBufferPixelFormatTypeKey: Quartz.CoreVideo.kCVPixelFormatType_420YpCbCr8BiPlanarVideoRange })
+
+        reader.addOutput_(reader_output)
+        reader.startReading()
+
+        samples = []
+        while sample := reader_output.copyNextSampleBuffer():
+            samples.append(sample)
+
+        writer = AVFoundation.AVAssetWriter.alloc().initWithURL_fileType_error_(output_url, AVFoundation.AVFileTypeMPEG4, None)[0]
+
+        writer_settings = {
+            AVFoundation.AVVideoCodecKey: AVFoundation.AVVideoCodecTypeH264,
+            AVFoundation.AVVideoWidthKey: video_track.naturalSize().width,
+            AVFoundation.AVVideoHeightKey: video_track.naturalSize().height,
+            AVFoundation.AVVideoCompressionPropertiesKey: { AVFoundation.AVVideoAverageBitRateKey: video_track.estimatedDataRate() }
+        }
+
+        format_hint = video_track.formatDescriptions()[-1]
+        writer_input = AVFoundation.AVAssetWriterInput.alloc().initWithMediaType_outputSettings_sourceFormatHint_(AVFoundation.AVMediaTypeVideo, writer_settings, format_hint)
+
+        writer_input.setExpectsMediaDataInRealTime_(False)
+
+        pixel_buffer_adaptor = AVFoundation.AVAssetWriterInputPixelBufferAdaptor.alloc().initWithAssetWriterInput_sourcePixelBufferAttributes_(writer_input, None)
+        writer.addInput_(writer_input)
+        writer.startWriting()
+        writer.startSessionAtSourceTime_(CoreMedia.CMSampleBufferGetPresentationTimeStamp(samples[0]))
+
+        for index, sample in enumerate(samples):
+            presentation_time = CoreMedia.CMSampleBufferGetPresentationTimeStamp(sample)
+
+            image_buffer_ref = CoreMedia.CMSampleBufferGetImageBuffer(samples[len(samples) - index - 1])
+            if image_buffer_ref is not None:
+                pixel_buffer_adaptor.appendPixelBuffer_withPresentationTime_(image_buffer_ref, presentation_time)
+
+            while not writer_input.isReadyForMoreMediaData():
+                time.sleep(0.1)
+
+        self._spawn_thread(writer.finishWriting)
+        return AVFoundation.AVAsset.assetWithURL_(output_url)
+
+    def show_in_quicktime(self):
+        """Shows the video in QuickTime Player.
+
+        This will create a momentary video data file in the current working directory to store intermediary video data.
+
+        .. versionadded:: 0.1.0
+        """
+        self.save("video-data-tmp.mp4")
+
+        video_url = XAPath(os.getcwd() + "/video-data-tmp.mp4").xa_elem
+        quicktime_url = XAPath("/System/Applications/QuickTime Player.app").xa_elem
+        AppKit.NSWorkspace.sharedWorkspace().openURLs_withApplicationAtURL_configuration_completionHandler_([video_url], quicktime_url, None, None)
+        time.sleep(1)
+
+        AppKit.NSFileManager.defaultManager().removeItemAtPath_error_(video_url.path(), None) 
+
+    def save(self, file_path: Union[XAPath, str]):
+        """Saves the video at the specified file path.
+
+        :param file_path: The path to save the video at
+        :type file_path: Union[XAPath, str]
+        
+        .. versionadded:: 0.1.0
+        """
+        if isinstance(file_path, str):
+            file_path = XAPath(file_path)
+
+        # Configure the export session
+        export_session = AVFoundation.AVAssetExportSession.exportSessionWithAsset_presetName_(self.xa_elem, AVFoundation.AVAssetExportPresetHighestQuality)
+
+        start_time = CoreMedia.CMTimeMake(0, 100)
+        end_time = CoreMedia.CMTimeMake(self.xa_elem.duration().value * self.xa_elem.duration().timescale, 100)
+        time_range =  CoreMedia.CMTimeRangeFromTimeToTime(start_time, end_time);
+
+        export_session.setTimeRange_(time_range)
+        export_session.setOutputURL_(file_path.xa_elem)
+
+        # Export to file path
+        waiting = False
+        def handler():
+            nonlocal waiting
+            waiting = True
+
+        export_session.exportAsynchronouslyWithCompletionHandler_(handler)
+        
+        while not waiting:
+            time.sleep(0.01)
+    

@@ -5,7 +5,7 @@ Control the macOS Notes application using JXA-like syntax.
 
 from datetime import datetime
 from enum import Enum
-from typing import List, Tuple, Union
+from typing import Any, List, Tuple, Union
 
 import AppKit
 from ScriptingBridge import SBElementArray
@@ -75,8 +75,11 @@ class XANotesApplication(XABaseScriptable.XASBApplication, XACanOpenPath, XACanP
         else:
             self.set_property('selection', selection.xa_elem)
 
-    def open(self, path: str) -> 'XANote':
-        super().open(path)
+    def open(self, file_ref: Union[XABase.XAPath, str]) -> 'XANote':
+        if isinstance(file_ref, XABase.XAPath):
+            file_ref = file_ref.path
+
+        super().open(file_ref)
         return self.notes()[0]
 
     def documents(self, filter: Union[dict, None] = None) -> 'XANotesDocumentList':
@@ -159,7 +162,7 @@ class XANotesApplication(XABaseScriptable.XASBApplication, XACanOpenPath, XACanP
         """
         return self._new_element(self.xa_scel.attachments(), XANotesAttachmentList, filter)
         
-    def new_note(self, name = "New Note", body = "", note_folder: 'XANotesFolder' = None) -> 'XANote':
+    def new_note(self, name = "New Note", body = "", folder: 'XANotesFolder' = None) -> 'XANote':
         """Creates a new note with the given name and body text in the given folder.
         If no folder is provided, the note is created in the default Notes folder.
 
@@ -167,8 +170,8 @@ class XANotesApplication(XABaseScriptable.XASBApplication, XACanOpenPath, XACanP
         :type name: str, optional
         :param body: The initial body text of the note, defaults to ""
         :type body: str, optional
-        :param note_folder: The folder to create the new note in, defaults to None
-        :type note_folder: XANotesFolder, optional
+        :param folder: The folder to create the new note in, defaults to None
+        :type folder: XANotesFolder, optional
         :return: A reference to the newly created note.
         :rtype: XANote
 
@@ -184,16 +187,16 @@ class XANotesApplication(XABaseScriptable.XASBApplication, XACanOpenPath, XACanP
 
         .. versionadded:: 0.0.1
         """
-        if note_folder is None:
-            note_folder = self
+        if folder is None:
+            folder = self
         name = name.replace('\n', '<br />')
         body = body.replace('\n', '<br />')
         properties = {
             "body": f"<b>{name}</b><br />{body}",
         }
         note = self.make("note", properties)
-        note_folder.notes().push(note)
-        return note
+        folder.notes().push(note)
+        return folder.notes()[0]
 
     def new_folder(self, name: str = "New Folder", account: 'XANotesAccount' = None) -> 'XANotesFolder':
         """Creates a new Notes folder with the given name.
@@ -217,14 +220,16 @@ class XANotesApplication(XABaseScriptable.XASBApplication, XACanOpenPath, XACanP
         """
         if account is None:
             account = self
+            
         properties = {
             "name": name,
         }
+
         folder = self.make("folder", properties)
         account.folders().push(folder)
-        return folder
+        return account.folders().by_name(name)
 
-    def make(self, specifier: str, properties: dict):
+    def make(self, specifier: str, properties: Union[dict, None] = None, data: Union[XABase.XAPath, str, None] = None):
         """Creates a new element of the given specifier class without adding it to any list.
 
         Use :func:`XABase.XAList.push` to push the element onto a list.
@@ -247,7 +252,16 @@ class XANotesApplication(XABaseScriptable.XASBApplication, XACanOpenPath, XACanP
 
         .. versionadded:: 0.0.3
         """
-        obj = self.xa_scel.classForScriptingClass_(specifier).alloc().initWithProperties_(properties)
+        if properties is None:
+            properties = {}
+
+        if isinstance(data, str):
+            data = XABase.XAPath(data)
+
+        if isinstance(data, XABase.XAPath):
+            data = data.xa_elem
+            
+        obj = self.xa_scel.classForScriptingClass_(specifier).alloc().initWithData_andProperties_(data, properties)
 
         if specifier == "note":
             return self._new_element(obj, XANote)
@@ -274,7 +288,7 @@ class XANoteList(XABase.XAList, XAClipboardCodable):
         return list(self.xa_elem.arrayByApplyingSelector_("id"))
 
     def body(self) -> List[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("body"))
+        return list(self.xa_elem.arrayByApplyingSelector_("body") or [])
 
     def plaintext(self) -> List[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("plaintext"))

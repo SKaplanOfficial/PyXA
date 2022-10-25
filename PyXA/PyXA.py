@@ -238,7 +238,7 @@ class Application(XAObject):
     def __xa_get_path_to_app(self, app_identifier: str) -> str:
         self.__xa_load_app_paths()
         for path in self.app_paths:
-            if app_identifier in path:
+            if app_identifier.lower() in path.lower():
                 return path
 
         raise ApplicationNotFoundError(app_identifier)
@@ -263,7 +263,7 @@ class Application(XAObject):
         app_identifier_l = app_identifier.lower()
 
         def _match_open_app(obj, index, stop):
-            return (obj.localizedName() == app_identifier, stop)
+            return (obj.localizedName().lower() == app_identifier_l, stop)
 
         idx_set = self.workspace.runningApplications().indexesOfObjectsPassingTest_(_match_open_app)
         if idx_set.count() == 1:

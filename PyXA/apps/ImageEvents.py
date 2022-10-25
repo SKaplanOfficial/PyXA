@@ -717,7 +717,7 @@ class XAImageEventsDisplay(XABase.XAObject):
 
 
 
-class XAImageEventsImageList(XABase.XAList, XAClipboardCodable):
+class XAImageEventsImageList(XABase.XAImageList):
     """A wrapper around lists of images that employs fast enumeration techniques.
 
     All properties of images can be called as methods on the wrapped list, returning a list containing each image's value for the property.
@@ -725,7 +725,7 @@ class XAImageEventsImageList(XABase.XAList, XAClipboardCodable):
     .. versionadded:: 0.1.0
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAImageEventsImage, filter)
+        super().__init__(properties, filter, XAImageEventsImage)
 
     def properties(self) -> List[Dict]:
         pyxa_dicts = []
@@ -923,205 +923,53 @@ class XAImageEventsImageList(XABase.XAList, XAClipboardCodable):
         """
         return self.by_property("resolution", resolution)
 
-    def crop(self, width: int, height: int) -> 'XAImageEventsImage':
-        """Crops each image in the list to the specified with and height.
+    def embed_profile(self, profile: 'XAImageEventsProfile') -> 'XABase.XAImageList':
+        """Embeds the specified ICC profile in each image of the list.
 
-        :param width: The width of the new images, in pixels
-        :type width: int
-        :param height: The height of the new images, in pixels
-        :type height: int
-        :return: The list of images
-        :rtype: XAImageEventsImageList
-
-        .. versionadded:: 0.1.0
-        """
-        for x in self.xa_elem:
-            x.cropToDimensions_([width, height])
-        return self
-
-    def embed_profile(self, profile: 'XAImageEventsProfile') -> 'XAImageEventsImageList':
-        """Embeds the specified ICC profile in each image in the list.
-
-        :param profile: The ICC profile to embed in the images
+        :param profile: The ICC profile to embed in the image
         :type profile: XAImageEventsProfile
-        :return: The list of images
-        :rtype: XAImageEventsImageList
+        :return: The list of modified images
+        :rtype: XABase.XAImageList
 
         .. versionadded:: 0.1.0
         """
-        for x in self.xa_elem:
-            x.embedWithSource_(profile.xa_elem)
-        return self
+        icc_data = AppKit.NSData.dataWithContentsOfURL_(profile.location.url.xa_elem)
+        color_space = AppKit.NSColorSpace.alloc().initWithICCProfileData_(icc_data)
 
-    def flip_horizontally(self) -> 'XAImageEventsImageList':
-        """Flips each image in the list horizontally.
+        images = [None] * self.xa_elem.count()
+        for index, ie_image in enumerate(self.xa_elem):
+            image = AppKit.NSImage.alloc().initWithContentsOfURL_(XABase.XAPath(ie_image.imageFile().POSIXPath()).xa_elem) 
+            img_rep = AppKit.NSBitmapImageRep.imageRepWithData_(image.TIFFRepresentation())
+            bitmap_image_rep = img_rep.bitmapImageRepByConvertingToColorSpace_renderingIntent_(color_space, AppKit.NSColorRenderingIntentPerceptual)
 
-        :return: The list of images
-        :rtype: XAImageEventsImageList
+            # Save rep into this object's data
+            images[index] = AppKit.NSImage.alloc().initWithCGImage_(bitmap_image_rep.CGImage())
+        
+        return self._new_element(images, XABase.XAImageList)
 
-        .. versionadded:: 0.1.0
-        """
-        for x in self.xa_elem:
-            x.flipHorizontal_vertical_(True, False)
-        return self
+    def unembed(self) -> 'XABase.XAImageList':
+        """Removes any embedded ICC profiles from each image of the list.
 
-    def flip_vertically(self) -> 'XAImageEventsImageList':
-        """Flips each image in the list vertically.
-
-        :return: The list of images
-        :rtype: XAImageEventsImageList
+        :return: The list of modified images
+        :rtype: XABase.XAImageList
 
         .. versionadded:: 0.1.0
         """
-        for x in self.xa_elem:
-            x.flipHorizontal_vertical_(False, True)
-        return self
+        images = [None] * self.xa_elem.count()
+        for index, ie_image in enumerate(self.xa_elem):
+            image = AppKit.NSImage.alloc().initWithContentsOfURL_(XABase.XAPath(ie_image.imageFile().POSIXPath()).xa_elem) 
+            img_rep = AppKit.NSBitmapImageRep.imageRepWithData_(image.TIFFRepresentation())
+            bitmap_image_rep = img_rep.bitmapImageRepByConvertingToColorSpace_renderingIntent_(AppKit.NSColorSpace.genericRGBColorSpace(), AppKit.NSColorRenderingIntentPerceptual)
 
-    def pad(self, horizontal_padding: int = 10, vertical_padding: int = 10, color: Union[XABase.XAColor, List[int], None] = None) -> 'XAImageEventsImageList':
-        """Pads each image in the list with a border of the specified color, or white by default.
-
-        :param horizontal_padding: The width of padding in the horizontal direction, defaults to 10
-        :type horizontal_padding: int, optional
-        :param vertical_padding: The width of padding in the vertical direction, defaults to 10
-        :type vertical_padding: int, optional
-        :param color: The color to pad with, defaults to None
-        :type color: Union[XABase.XAColor, List[int], None], optional
-        :return: The list of images
-        :rtype: XAImageEventsImageList
-
-        .. versionadded:: 0.1.0
-        """
-        if color is None:
-                color = [65535, 65535, 65535]
-        elif isinstance(color, XABase.XAColor):
-            color = [color.red_value * 65535, color.green_value * 65535, color.blue_value * 65535]
-
-        def pad_img(image, index, stop):
-            dimensions = [image.dimensions()[0] + horizontal_padding, image.dimensions()[1] + vertical_padding]
-            image.padToDimensions_withPadColor_(dimensions, color)
-
-        self.xa_elem.enumerateObjectsUsingBlock_(pad_img)
-        return self
-
-    def rotate(self, angle: float) -> 'XAImageEventsImageList':
-        """Rotates each image in the list to the specified angle.
-
-        :param angle: The angle to rotate the images by
-        :type angle: float
-        :return: The list of images
-        :rtype: XAImageEventsImageList
-
-        .. versionadded:: 0.1.0
-        """
-        def rotate_img(image, index, stop):
-            image.rotateToAngle_(angle)
-
-        self.xa_elem.enumerateObjectsUsingBlock_(rotate_img)
-        return self
-
-    def save(self, file_type: Union[XAImageEventsApplication.FileType, None] = None, add_icons: bool = False, file_paths: Union[List[Union[XABase.XAPath, str, None]], None] = None, pack_bits: bool = False, compression_level: XAImageEventsApplication.CompressionLevel = XAImageEventsApplication.CompressionLevel.LOW):
-        """Saves each image in the list
-
-        :param file_type: The file type to save the images as, or None to save as their current file type (usually the type of the original image file), defaults to None
-        :type file_type: Union[XAImageEventsApplication.FileType, None], optional
-        :param add_icons: Whether to add icons, defaults to False
-        :type add_icons: bool, optional
-        :param file_paths: The paths to save the images in, or None to save at the path of the original image files, defaults to None
-        :type file_paths: Union[List[Union[XABase.XAPath, str, None]], None], optional
-        :param pack_bits: Whether to compress the bytes with PackBits (applies only to TIFF files), defaults to False
-        :type pack_bits: bool, optional
-        :param compression_level: Specifies the compression level of the resultant files (applies only to JPEG files), defaults to XAImageEventsApplication.CompressionLevel.LOW
-        :type compression_level: XAImageEventsApplication.CompressionLevel, optional
-
-        .. versionadded:: 0.1.0
-        """
-        if isinstance(file_paths, list):
-            for index, path in enumerate(file_paths):
-                if isinstance(path, XABase.XAPath):
-                    file_paths[index] = path.path
-
-        if file_type is not None:
-            file_type = file_type.value
-
-        files = []
-        def save_img(index, image):
-            nonlocal file_type
-            if file_type is None:
-                file_type = XABase.OSType(image.fileType().get().stringValue())
-            files.append(image.saveAs_icon_in_PackBits_withCompressionLevel_(file_type, add_icons, file_paths[index], pack_bits, compression_level.value))
-
-        for index, image in enumerate(self.xa_elem):
-            self._spawn_thread(save_img, [index, image])
-
-        while len(files) != len(self.xa_elem):
-            sleep(0.01)
-
-    def scale(self, scale_factor: Union[float, None] = None, width: Union[int, None] = None) -> 'XAImageEventsImageList':
-        """Scales each image in the list by the specified factor or to the specified width.
-
-        :param scale_factor: The factor to scale the images by, from 0 to infinity, or None to scale to a set width instead, defaults to None
-        :type scale_factor: float, optional
-        :param width: The positive width, in pixels, to scale the images to, or None to scale by a scale factor instead, defaults to None
-        :type width: int, optional
-        :return: The list of images
-        :rtype: XAImageEventsImageList
-
-        .. versionadded:: 0.1.0
-        """
-        if scale_factor == None and width == None:
-            raise ValueError("Either scale factor or width must be positive.")
-
-        def scale_img(image, index, stop):
-            nonlocal scale_factor
-            if scale_factor != None:
-                width = image.dimensions()[0] * scale_factor
-            elif width != None:
-                scale_factor = width / image.dimensions()[0]
-                
-            image.scaleByFactor_toSize_(scale_factor, width)
-
-        self.xa_elem.enumerateObjectsUsingBlock_(scale_img)
-        return self
-
-    def unembed(self) -> 'XAImageEventsImageList':
-        """Removes all embedded ICC profiles from each image in the list.
-
-        :return: The list of images
-        :rtype: XAImageEventsImageList
-
-        .. versionadded:: 0.1.0
-        """
-        for x in self.xa_elem:
-            x.unembed()
-        return self
-
-    def get_clipboard_representation(self) -> List[AppKit.NSURL]:
-        """Gets a clipboard-codable representation of each image in the list.
-
-        When the clipboard content is set to a list of images, each image's file URL is added to the clipboard.
-
-        :return: The file URL of each image in the list
-        :rtype: List[AppKit.NSURL]
-
-        .. versionadded:: 0.1.0
-        """
-        tmp_paths = [image.imageFile().POSIXPath() + "-tmp." + image.imageFile().nameExtension() for image in self.xa_elem]
-        self.save(file_paths=tmp_paths)
-        clipboard_reps = self._new_element(tmp_paths, XABase.XAImageList).get_clipboard_representation()
-
-        def cleanup():
-            nonlocal tmp_paths
-            for path in tmp_paths:
-                AppKit.NSFileManager.defaultManager().removeItemAtPath_error_(path, None) 
-
-        t = Timer(1, cleanup)
-        t.start()
-        return clipboard_reps
+            # Save rep into this object's data
+            images[index] = AppKit.NSImage.alloc().initWithCGImage_(bitmap_image_rep.CGImage())
+        
+        return self._new_element(images, XABase.XAImageList)
 
     def __repr__(self):
         return "<" + str(type(self)) + str(self.name()) + ">"
 
-class XAImageEventsImage(XABase.XAObject, XAClipboardCodable, XAImageLike):
+class XAImageEventsImage(XABase.XAImage):
     """An image contained in a file.
 
     .. versionadded:: 0.1.0
@@ -1129,15 +977,13 @@ class XAImageEventsImage(XABase.XAObject, XAClipboardCodable, XAImageLike):
     def __init__(self, properties):
         super().__init__(properties)
 
-    def __temp_save(self):
-        path =  self.image_file.posix_path + "-tmp." + self.image_file.name_extension
-        self.save(file_path=path)
+        self.modified = False #: Whether the image has been modified since it was last saved
 
-        def cleanup(path):
-            AppKit.NSFileManager.defaultManager().removeItemAtPath_error_(path, None) 
-        
-        t = Timer(1, cleanup, [path])
-        t.start()
+        self.xa_prnt = properties["parent"]
+        self.xa_scel = properties["element"]
+
+        # Elevate base element to XAImage
+        self.xa_elem = XABase.XAImage(self.image_file.posix_path).xa_elem
 
     @property
     def properties(self) -> Dict:
@@ -1145,7 +991,7 @@ class XAImageEventsImage(XABase.XAObject, XAClipboardCodable, XAImageLike):
 
         .. versionadded:: 0.1.0
         """
-        raw_dict = self.xa_elem.properties()
+        raw_dict = self.xa_scel.properties()
         pyxa_dict = {
             "color_space": XAImageEventsApplication.ColorSpace(XABase.OSType(raw_dict["colorSpace"].stringValue())),
             "image_file": self._new_element(raw_dict["imageFile"], XABase.XAFile),
@@ -1169,7 +1015,7 @@ class XAImageEventsImage(XABase.XAObject, XAClipboardCodable, XAImageLike):
 
         .. versionadded:: 0.1.0
         """
-        path = self.image_file.posix_path
+        path = self.image_file.posix_path.path
         img = XABase.XAImage(path)
         return img
 
@@ -1182,7 +1028,7 @@ class XAImageEventsImage(XABase.XAObject, XAClipboardCodable, XAImageLike):
 
         .. versionadded:: 0.1.0
         """
-        path =  self.image_file.posix_path + "-tmp." + self.image_file.name_extension
+        path =  self.image_file.posix_path.path + "-tmp." + self.image_file.name_extension
         self.save(file_path=path)
         img = XABase.XAImage(path)
 
@@ -1200,7 +1046,7 @@ class XAImageEventsImage(XABase.XAObject, XAClipboardCodable, XAImageLike):
 
         .. versionadded:: 0.1.0
         """
-        return XAImageEventsApplication.BitDepth(self.xa_elem.bitDepth())
+        return XAImageEventsApplication.BitDepth(self.xa_scel.bitDepth())
 
     @property
     def color_space(self) -> 'XAImageEventsApplication.ColorSpace':
@@ -1208,7 +1054,7 @@ class XAImageEventsImage(XABase.XAObject, XAClipboardCodable, XAImageLike):
 
         .. versionadded:: 0.1.0
         """
-        return XAImageEventsApplication.ColorSpace(self.xa_elem.colorSpace())
+        return XAImageEventsApplication.ColorSpace(self.xa_scel.colorSpace())
 
     @property
     def dimensions(self) -> 'Tuple[int, int]':
@@ -1218,7 +1064,7 @@ class XAImageEventsImage(XABase.XAObject, XAClipboardCodable, XAImageLike):
         """
         if hasattr(self, "_dimensions"):
             return getattr(self, "_dimensions")
-        return tuple(self.xa_elem.dimensions())
+        return tuple(self.xa_scel.dimensions())
 
     @property
     def embedded_profile(self) -> 'XAImageEventsProfile':
@@ -1226,7 +1072,7 @@ class XAImageEventsImage(XABase.XAObject, XAClipboardCodable, XAImageLike):
 
         .. versionadded:: 0.1.0
         """
-        return self.new_element(self.xa_elem.embeddedProfile(), XAImageEventsProfile)
+        return self._new_element(self.xa_scel.embeddedProfile(), XAImageEventsProfile)
 
     @property
     def file_type(self) -> 'XAImageEventsApplication.FileType':
@@ -1234,7 +1080,7 @@ class XAImageEventsImage(XABase.XAObject, XAClipboardCodable, XAImageLike):
 
         .. versionadded:: 0.1.0
         """
-        return XAImageEventsApplication.FileType(OSType(self.xa_elem.fileType().get().stringValue()))
+        return XAImageEventsApplication.FileType(OSType(self.xa_scel.fileType().get().stringValue()))
 
     @property
     def image_file(self) -> 'XABase.XAFile':
@@ -1242,7 +1088,7 @@ class XAImageEventsImage(XABase.XAObject, XAClipboardCodable, XAImageLike):
 
         .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_elem.imageFile(), XABase.XAFile)
+        return self._new_element(self.xa_scel.imageFile(), XABase.XAFile)
 
     @property
     def location(self) -> 'XABase.XADiskItem':
@@ -1250,7 +1096,7 @@ class XAImageEventsImage(XABase.XAObject, XAClipboardCodable, XAImageLike):
 
         .. versionadded:: 0.1.0
         """
-        return self._new_element(self.xa_elem.location(), XABase.XADiskItem)
+        return self._new_element(self.xa_scel.location(), XABase.XADiskItem)
 
     @property
     def name(self) -> 'str':
@@ -1258,7 +1104,7 @@ class XAImageEventsImage(XABase.XAObject, XAClipboardCodable, XAImageLike):
 
         .. versionadded:: 0.1.0
         """
-        return self.xa_elem.name()
+        return self.xa_scel.name()
 
     @property
     def resolution(self) -> 'Tuple[float, float]':
@@ -1266,24 +1112,7 @@ class XAImageEventsImage(XABase.XAObject, XAClipboardCodable, XAImageLike):
 
         .. versionadded:: 0.1.0
         """
-        return tuple(self.xa_elem.resolution())
-
-    def crop(self, width: int, height: int) -> 'XAImageEventsImage':
-        """Crops the image to the specified width and height, originating at the center of the image.
-
-        :param width: The width of the new image, in pixels
-        :type width: int
-        :param height: The height of the new image, in pixels
-        :type height: int
-        :return: The image object
-        :rtype: XAImageEventsImage
-
-        .. versionadded:: 0.1.0
-        """
-        self.xa_elem.cropToDimensions_([width, height])
-        self._dimensions = (width, height)
-        self.__temp_save()
-        return self
+        return tuple(self.xa_scel.resolution())
 
     def embed_profile(self, profile: 'XAImageEventsProfile') -> 'XAImageEventsImage':
         """Embeds the specified ICC profile in the image.
@@ -1295,131 +1124,17 @@ class XAImageEventsImage(XABase.XAObject, XAClipboardCodable, XAImageLike):
 
         .. versionadded:: 0.1.0
         """
-        self.xa_elem.embedWithSource_(profile.xa_elem)
-        self.__temp_save()
-        return self
+        # Get the target color space
+        self.xa_scel.embedWithSource_(profile.xa_elem)
+        icc_data = AppKit.NSData.dataWithContentsOfURL_(profile.location.url.xa_elem)
+        color_space = AppKit.NSColorSpace.alloc().initWithICCProfileData_(icc_data)
 
-    def flip_horizontally(self) -> 'XAImageEventsImage':
-        """Flips the image horizontally.
+        # Update the image rep
+        img_rep = AppKit.NSBitmapImageRep.imageRepWithData_(self.xa_elem.TIFFRepresentation())
+        bitmap_image_rep = img_rep.bitmapImageRepByConvertingToColorSpace_renderingIntent_(color_space, AppKit.NSColorRenderingIntentPerceptual)
 
-        :return: The image object
-        :rtype: XAImageEventsImage
-
-        .. versionadded:: 0.1.0
-        """
-        self.xa_elem.flipHorizontal_vertical_(True, False)
-        self.__temp_save()
-        return self
-
-    def flip_vertically(self) -> 'XAImageEventsImage':
-        """Flips the image vertically.
-
-        :return: The image object
-        :rtype: XAImageEventsImage
-
-        .. versionadded:: 0.1.0
-        """
-        self.xa_elem.flipHorizontal_vertical_(False, True)
-        self.__temp_save()
-        return self
-
-    def pad(self, horizontal_padding: int = 10, vertical_padding: int = 10, color: Union[XABase.XAColor, List[int], None] = None) -> 'XAImageEventsImage':
-        """Pads the image with a border of the specified color, or white by default.
-        
-        This will always replace transparent pixels, even when the padding in a given axis is set to 0.
-
-        :param horizontal_padding: The width of padding in the horizontal direction, defaults to 10
-        :type horizontal_padding: int, optional
-        :param vertical_padding: The width of padding in the vertical direction, defaults to 10
-        :type vertical_padding: int, optional
-        :param color: The color to pad the image with, defaults to None
-        :type color: Union[XABase.XAColor, List[int], None], optional
-        :return: The image object
-        :rtype: XAImageEventsImage
-
-        .. versionadded:: 0.1.0
-        """
-        dimensions = [self.dimensions[0] + horizontal_padding, self.dimensions[1] + vertical_padding]
-
-        if color is None:
-            color = [65535, 65535, 65535]
-        elif isinstance(color, XABase.XAColor):
-            color = [color.red_value * 65535, color.green_value * 65535, color.blue_value * 65535]
-
-        self.xa_elem.padToDimensions_withPadColor_(dimensions, color)
-        self._dimensions = tuple(dimensions)
-        self.__temp_save()
-        return self
-
-    def rotate(self, angle: float) -> 'XAImageEventsImage':
-        """Rotates the image to the specified angle.
-
-        :param angle: The angle to rotate the image by
-        :type angle: float
-        :return: The image object
-        :rtype: XAImageEventsImage
-
-        .. versionadded:: 0.1.0
-        """
-        self.xa_elem.rotateToAngle_(angle)
-        return self
-
-    def save(self, file_type: Union[XAImageEventsApplication.FileType, None] = None, add_icon: bool = False, file_path: Union[XABase.XAPath, str, None] = None, pack_bits: bool = False, compression_level: XAImageEventsApplication.CompressionLevel = XAImageEventsApplication.CompressionLevel.LOW) -> bool:
-        """Saves the image to a file.
-
-        :param file_type: The file type to save the image as, or None to save as the current file type (usually the type of the original image file), defaults to None
-        :type file_type: Union[XAImageEventsApplication.FileType, None], optional
-        :param add_icon: Whether to add an icon, defaults to False
-        :type add_icon: bool, optional
-        :param file_path: The path to save the image in, or None to save at the path of the original image file, defaults to None
-        :type file_path: Union[XABase.XAPath, str, None], optional
-        :param pack_bits: Whether to compress the bytes with PackBits (applies only to TIFF files), defaults to False
-        :type pack_bits: bool, optional
-        :param compression_level: Specifies the compression level of the resultant file (applies only to JPEG files), defaults to XAImageEventsApplication.CompressionLevel.LOW
-        :type compression_level: XAImageEventsApplication.CompressionLevel, optional
-        :return: True if the image is successfully saved to the desired file location
-        :rtype: bool
-
-        .. versionadded:: 0.1.0
-        """
-        if isinstance(file_path, XABase.XAPath):
-            file_path = file_path.path
-
-        if file_type is not None:
-            file_type = file_type.value
-            file_path = "".join(self.image_file.posix_path.split(".")[:-1]) + "." + XABase.unOSType(file_type).lower().strip()
-        else:
-            file_type = self.file_type.value
-
-        save_file = self.xa_elem.saveAs_icon_in_PackBits_withCompressionLevel_(file_type, add_icon, file_path, pack_bits, compression_level.value)
-        if save_file is None:
-            return False
-
-        self.xa_elem = self.xa_elem.open_(save_file)
-        return True
-
-    def scale(self, scale_factor: Union[float, None] = None, width: Union[int, None] = None) -> 'XAImageEventsImage':
-        """Scales the image by the specified factor or to the specified width.
-
-        :param scale_factor: The factor to scale the image by, from 0 to infinity, or None to scale to a set width instead, defaults to None
-        :type scale_factor: float, optional
-        :param width: The positive width, in pixels, to scale the image to, or None to scale by a scale factor instead, defaults to None
-        :type width: int, optional
-        :return: The image object
-        :rtype: XAImageEventsImage
-
-        .. versionadded:: 0.1.0
-        """
-        if scale_factor == None and width == None:
-            raise ValueError("Either scale factor or width must be positive.")
-        elif scale_factor != None:
-            width = self.dimensions[0] * scale_factor
-        elif width != None:
-            scale_factor = width / self.dimensions[0]
-
-        self.xa_elem.scaleByFactor_toSize_(scale_factor, width)
-        self._dimensions = (self.dimensions[0] * scale_factor, self.dimensions[1] * scale_factor)
-        # self.__temp_save()
+        # Save rep into this object's data
+        self.xa_elem = AppKit.NSImage.alloc().initWithCGImage_(bitmap_image_rep.CGImage())
         return self
 
     def unembed(self) -> 'XAImageEventsImage':
@@ -1430,8 +1145,10 @@ class XAImageEventsImage(XABase.XAObject, XAClipboardCodable, XAImageLike):
 
         .. versionadded:: 0.1.0
         """
-        self.xa_elem.unembed()
-        self.__temp_save()
+        self.xa_scel.unembed()
+        img_rep = AppKit.NSBitmapImageRep.imageRepWithData_(self.xa_elem.TIFFRepresentation())
+        bitmap_image_rep = img_rep.bitmapImageRepByConvertingToColorSpace_renderingIntent_(AppKit.NSColorSpace.genericRGBColorSpace(), AppKit.NSColorRenderingIntentPerceptual)
+        self.xa_elem = AppKit.NSImage.alloc().initWithCGImage_(bitmap_image_rep.CGImage())
         return self
 
     def metadata_tags(self, filter: Union[dict, None] = None) -> 'XAImageEventsMetadataTagList':
@@ -1439,39 +1156,14 @@ class XAImageEventsImage(XABase.XAObject, XAClipboardCodable, XAImageLike):
 
         .. versionadded:: 0.1.0
         """
-        self._new_element(self.xa_elem.metadataTags(), XAImageEventsMetadataTagList, filter)
+        return self._new_element(self.xa_scel.metadataTags(), XAImageEventsMetadataTagList, filter)
 
     def profiles(self, filter: Union[dict, None] = None) -> 'XAImageEventsProfileList':
         """Returns a list of profiles, as PyXA objects, matching the given filter.
 
         .. versionadded:: 0.1.0
         """
-        self._new_element(self.xa_elem.profiles(), XAImageEventsProfileList, filter)
-
-    def get_clipboard_representation(self) -> AppKit.NSImage:
-        """Gets a clipboard-codable representation of the image.
-
-        When the clipboard content is set to an image, the image's raw data is added to the clipboard, including all current modifications.
-
-        :return: The raw data of the image
-        :rtype: AppKit.NSImage
-
-        .. versionadded:: 0.1.0
-        """
-        file_path = "".join(self.image_file.posix_path.split(".")[:-1]) + "-tmp." + self.image_file.name_extension
-        status = self.save(file_path=file_path)
-        if (status):
-            clipboard_rep = XABase.XAImage(file_path).get_clipboard_representation()
-            AppKit.NSFileManager.defaultManager().removeFileAtPath_handler_(file_path, None)
-            return clipboard_rep
-
-    def get_image_representation(self) -> AppKit.NSImage:
-        """Gets a representation of the object that can be used to initialize an :class:`~PyXA.XABase.XAImage` object.
-
-        :return: The XAImage-compatible form of this object
-        :rtype: AppKit.NSImage
-        """
-        return self.get_clipboard_representation()
+        return self._new_element(self.xa_scel.profiles(), XAImageEventsProfileList, filter)
 
     def __repr__(self):
         return "<" + str(type(self)) + str(self.name) + ">"

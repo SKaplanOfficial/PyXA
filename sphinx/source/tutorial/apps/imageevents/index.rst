@@ -63,17 +63,18 @@ To alter the dimensions of an images, use the :func:`~PyXA.apps.ImageEvents.XAIm
 .. code-block:: python
 
     # Cropping
-    image.crop(300, 100)    # Crop to +/- 150 pixels horizontally, +/- 50 pixels vertically from the center of the image
+    image.crop((300, 300))  # Crop to +/- 150 pixels horizontally, +/- 50 pixels vertically from the center of the image
 
     # Scaling
-    image.scale(3)                    # Scale the image up 3x
-    image.scale(scale_factor=0.25)    # Scale the image down to 1/4 the size
-    image.scale(width=2000)           # Scale the width to 2000 pixels wide while maintaining the width:height ratio.
+    image.scale(2, 2)   # Scale the image up 3x
+    image.scale(0.25)   # Scale the image down to 1/4 the size
 
     # Padding
-    image.pad(100, 100)                         # Add a 100 pixel wide white border around the entire image
-    image.pad(50, 0, PyXA.XAColor(0, 0, 0))     # Add a 50 pixel black border on only the left and ride sides
+    image.pad(100, 100)                     # Add a 100 pixel wide white border around the entire image
+    image.pad(50, 0, PyXA.XAColor(0, 0, 0)) # Add a 50 pixel black border on only the left and ride sides
     image.pad(0, 25, PyXA.XAColor(1, 0, 0)) # Add a 25 pixel red border only on the top and bottom
+
+    image.show_in_preview()
 
 In addition to cropping, scaling, and padding, the :class:`~PyXA.apps.ImageEvents.XAImageEventsImage` class provides methods for rotating and flipping images, namely :func:`~PyXA.apps.ImageEvents.XAImageEventsImage.rotate`, :func:`~PyXA.apps.ImageEvents.XAImageEventsImage.flip_horizontally`, and :func:`~PyXA.apps.ImageEvents.XAImageEventsImage.flip_vertically`.
 
@@ -82,16 +83,13 @@ After manipulating an image, use the :func:`~PyXA.apps.ImageEvents.XAImageEvents
 .. code-block:: python
 
     image.save() # Save the image in-place (override original)
-    image.save(app.FileType.TIFF) # Save with a specified file type (create new file)
     image.save(file_path="/Users/exampleUser/Desktop/Example2.png") # Save to specific file path (override any file at that location)
-    image.save(app.FileType.TIFF, pack_bits=False) # Compress the bytes of the image to save space
-    image.save(app.FileType.JPEG, compression_level=app.CompressionLevel.HIGH) # Compress saved file to save more space
 
 The :class:`~PyXA.apps.ImageEvents.XAImageEventsImage` class implemented the :class:`~PyXA.XAProtocols.XAClipboardCodable` protocol, so you can also save image modifications directly to the clipboard, as done in the code below. This will copy the modified image's raw data to the clipboard without creating a permanent file on the disk. You can then paste the image, with all modifications included, into other applications.
 
 .. code-block:: python
 
-    image.scale(3)
+    image.scale(0.25)
     image.pad(50, 50, PyXA.XAColor(0, 0, 1))
     PyXA.XAClipboard().content = image
 

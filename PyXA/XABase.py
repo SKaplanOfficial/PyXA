@@ -4895,7 +4895,7 @@ class XAColor(XAObject, XAClipboardCodable):
 
         .. versionadded:: 0.1.0
         """
-        return XAColor(AppKit.NSColor.grayColor())
+        return XAColor(0.5, 0.5, 0.5)
 
     def black() -> 'XAColor':
         """Initializes and returns a pure black :class:`XAColor` object.
@@ -4909,7 +4909,7 @@ class XAColor(XAObject, XAClipboardCodable):
 
         .. versionadded:: 0.1.0
         """
-        return XAColor(AppKit.NSColor.clearColor())
+        return XAColor(0, 0, 0, 0)
 
     @property
     def red_value(self) -> float:
@@ -7491,8 +7491,53 @@ class XAImageList(XAList, XAClipboardCodable):
 
     .. versionadded:: 0.0.3
     """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAImage, filter)
+    def __init__(self, properties: dict, filter: Union[dict, None] = None, obj_class = None):
+        if obj_class is None:
+            obj_class = XAImage
+        super().__init__(properties, obj_class, filter)
+
+    def __partial_init(self):
+        images = [None] * self.xa_elem.count()
+
+        def init_images(ref, index, stop):
+            if isinstance(ref, str):
+                ref = AppKit.NSImage.alloc().initWithContentsOfURL_(XAPath(ref).xa_elem)
+            elif isinstance(ref, ScriptingBridge.SBObject):
+                ref = AppKit.NSImage.alloc().initWithContentsOfURL_(XAPath(ref.imageFile().POSIXPath()).xa_elem)
+            elif isinstance(ref, XAObject):
+                ref = AppKit.NSImage.alloc().initWithContentsOfURL_(ref.image_file.posix_path.xa_elem)
+            images[index] = ref
+
+        self.xa_elem.enumerateObjectsUsingBlock_(init_images)
+        return AppKit.NSMutableArray.alloc().initWithArray_(images)
+
+    def __apply_filter(self, filter_block, *args):
+        images = self.__partial_init()
+
+        filtered_images = [None] * images.count()
+        def filter_image(image, index, *args):
+            img = Quartz.CIImage.imageWithCGImage_(image.CGImage())
+            filter = filter_block(image, *args)
+            filter.setValue_forKey_(img, "inputImage")
+            uncropped = filter.valueForKey_(Quartz.kCIOutputImageKey)
+
+            # Crop the result to the original image size
+            cropped = uncropped.imageByCroppingToRect_(Quartz.CGRectMake(0, 0, image.size().width * 2, image.size().height * 2))
+
+            # Convert back to NSImage
+            rep = AppKit.NSCIImageRep.imageRepWithCIImage_(cropped)
+            result = AppKit.NSImage.alloc().initWithSize_(rep.size())
+            result.addRepresentation_(rep)
+            filtered_images[index] = result
+
+        threads = [None] * images.count()
+        for index, image in enumerate(images):
+            threads[index] = self._spawn_thread(filter_image, [image, index, *args])
+
+        while any([t.is_alive() for t in threads]):
+            time.sleep(0.01)
+
+        return self._new_element(filtered_images, XAImageList)
 
     def file(self) -> List[XAPath]:
         return [x.file for x in self]
@@ -7521,47 +7566,107 @@ class XAImageList(XAList, XAClipboardCodable):
         """
         return XAImage.vertical_stitch(self)
 
-    def edges(self, intensity: float = 1.0) -> List['XAImage']:
+    def additive_composition(self) -> 'XAImage':
+        """Creates a composition image by adding the color values of each image in the list.
+
+        :param images: The images to add together
+        :type images: List[XAImage]
+        :return: The resulting image composition
+        :rtype: XAImage
+
+        .. versionadded:: 0.1.0
+        """
+        image_data = [None] * self.xa_elem.count()
+        for index, image in enumerate(self.xa_elem):
+            if isinstance(image, str):
+                image = AppKit.NSImage.alloc().initWithContentsOfURL_(XAPath(image).xa_elem)
+            image_data[index] = Quartz.CIImage.imageWithData_(image.TIFFRepresentation())
+
+        current_composition = None
+        while len(image_data) > 1:
+            img1 = image_data.pop(0)
+            img2 = image_data.pop(0)
+            composition_filter = Quartz.CIFilter.filterWithName_("CIAdditionCompositing")
+            composition_filter.setDefaults()
+            composition_filter.setValue_forKey_(img1, "inputImage")
+            composition_filter.setValue_forKey_(img2, "inputBackgroundImage")
+            current_composition = composition_filter.outputImage()
+            image_data.insert(0, current_composition)
+            
+        composition_rep = AppKit.NSCIImageRep.imageRepWithCIImage_(current_composition)
+        composition = AppKit.NSImage.alloc().initWithSize_(composition_rep.size())
+        composition.addRepresentation_(composition_rep)
+        return XAImage(composition)
+
+    def subtractive_composition(self) -> 'XAImage':
+        """Creates a composition image by subtracting the color values of each image in the list successively.
+
+        :param images: The images to create the composition from
+        :type images: List[XAImage]
+        :return: The resulting image composition
+        :rtype: XAImage
+
+        .. versionadded:: 0.1.0
+        """
+        image_data = [None] * self.xa_elem.count()
+        for index, image in enumerate(self.xa_elem):
+            if isinstance(image, str):
+                image = AppKit.NSImage.alloc().initWithContentsOfURL_(XAPath(image).xa_elem)
+            image_data[index] = Quartz.CIImage.imageWithData_(image.TIFFRepresentation())
+
+        current_composition = None
+        while len(image_data) > 1:
+            img1 = image_data.pop(0)
+            img2 = image_data.pop(0)
+            composition_filter = Quartz.CIFilter.filterWithName_("CISubtractBlendMode")
+            composition_filter.setDefaults()
+            composition_filter.setValue_forKey_(img1, "inputImage")
+            composition_filter.setValue_forKey_(img2, "inputBackgroundImage")
+            current_composition = composition_filter.outputImage()
+            image_data.insert(0, current_composition)
+            
+        composition_rep = AppKit.NSCIImageRep.imageRepWithCIImage_(current_composition)
+        composition = AppKit.NSImage.alloc().initWithSize_(composition_rep.size())
+        composition.addRepresentation_(composition_rep)
+        return XAImage(composition)
+
+    def edges(self, intensity: float = 1.0) -> 'XAImageList':
         """Detects the edges in each image of the list and highlights them colorfully, blackening other areas of the images.
 
         :param intensity: The degree to which edges are highlighted. Higher is brighter. Defaults to 1.0
         :type intensity: float
         :return: The resulting images after applying the filter
-        :rtype: List[XAImage]
+        :rtype: XAImageList
 
         .. versionadded:: 0.1.0
         """
-        filtered_images = [None] * self.xa_elem.count()
-        threads = [None] * self.xa_elem.count()
-        for index, image in enumerate(self):
-            threads[index] = self._spawn_thread(lambda: filtered_images.__setitem__(index, image.edges(intensity)))
+        def filter_block(image, intensity):
+            filter = Quartz.CIFilter.filterWithName_("CIEdges")
+            filter.setDefaults()
+            filter.setValue_forKey_(intensity, "inputIntensity")
+            return filter
 
-        while any([x.is_alive() for x in threads]):
-            time.sleep(0.01)
+        return self.__apply_filter(filter_block, intensity)
 
-        return filtered_images
-
-    def gaussian_blur(self, intensity: float = 10) -> List['XAImage']:
+    def gaussian_blur(self, intensity: float = 10) -> 'XAImageList':
         """Blurs each image in the list using a Gaussian filter.
 
         :param intensity: The strength of the blur effect, defaults to 10
         :type intensity: float
         :return: The resulting images after applying the filter
-        :rtype: List[XAImage]
+        :rtype: XAImageList
 
         .. versionadded:: 0.1.0
         """
-        filtered_images = [None] * self.xa_elem.count()
-        threads = [None] * self.xa_elem.count()
-        for index, image in enumerate(self):
-            threads[index] = self._spawn_thread(lambda: filtered_images.__setitem__(index, image.gaussian_blur(intensity)))
+        def filter_block(image, intensity):
+            filter = Quartz.CIFilter.filterWithName_("CIGaussianBlur")
+            filter.setDefaults()
+            filter.setValue_forKey_(intensity, "inputRadius")
+            return filter
 
-        while any([x.is_alive() for x in threads]):
-            time.sleep(0.01)
+        return self.__apply_filter(filter_block, intensity)
 
-        return filtered_images
-
-    def reduce_noise(self, noise_level: float = 0.02, sharpness: float = 0.4) -> List['XAImage']:
+    def reduce_noise(self, noise_level: float = 0.02, sharpness: float = 0.4) -> 'XAImageList':
         """Reduces noise in each image of the list by sharpening areas with a luminance delta below the specified noise level threshold.
 
         :param noise_level: The threshold for luminance changes in an area below which will be considered noise, defaults to 0.02
@@ -7569,119 +7674,107 @@ class XAImageList(XAList, XAClipboardCodable):
         :param sharpness: The sharpness of the resulting images, defaults to 0.4
         :type sharpness: float
         :return: The resulting images after applying the filter
-        :rtype: List[XAImage]
+        :rtype: XAImageList
 
         .. versionadded:: 0.1.0
         """
-        filtered_images = [None] * self.xa_elem.count()
-        threads = [None] * self.xa_elem.count()
-        for index, image in enumerate(self):
-            threads[index] = self._spawn_thread(lambda: filtered_images.__setitem__(index, image.reduce_noise(noise_level, sharpness)))
+        def filter_block(image, noise_level, sharpness):
+            filter = Quartz.CIFilter.filterWithName_("CINoiseReduction")
+            filter.setDefaults()
+            filter.setValue_forKey_(noise_level, "inputNoiseLevel")
+            filter.setValue_forKey_(sharpness, "inputSharpness")
+            return filter
 
-        while any([x.is_alive() for x in threads]):
-            time.sleep(0.01)
+        return self.__apply_filter(filter_block, noise_level, sharpness)
 
-        return filtered_images
-
-    def pixellate(self, pixel_size: float = 8.0) -> List['XAImage']:
+    def pixellate(self, pixel_size: float = 8.0) -> 'XAImageList':
         """Pixellates each image in the list.
 
         :param pixel_size: The size of the pixels, defaults to 8.0
         :type pixel_size: float
         :return: The resulting images after applying the filter
-        :rtype: List[XAImage]
+        :rtype: XAImageList
 
         .. versionadded:: 0.1.0
         """
-        filtered_images = [None] * self.xa_elem.count()
-        threads = [None] * self.xa_elem.count()
-        for index, image in enumerate(self):
-            threads[index] = self._spawn_thread(lambda: filtered_images.__setitem__(index, image.pixellate(pixel_size)))
+        def filter_block(image, pixel_size):
+            filter = Quartz.CIFilter.filterWithName_("CIPixellate")
+            filter.setDefaults()
+            filter.setValue_forKey_(pixel_size, "inputScale")
+            return filter
 
-        while any([x.is_alive() for x in threads]):
-            time.sleep(0.01)
+        return self.__apply_filter(filter_block, pixel_size)
 
-        return filtered_images
-
-    def outline(self, threshold: float = 0.1) -> List['XAImage']:
+    def outline(self, threshold: float = 0.1) -> 'XAImageList':
         """Outlines detected edges within each image of the list in black, leaving the rest transparent.
 
         :param threshold: The threshold to use when separating edge and non-edge pixels. Larger values produce thinner edge lines. Defaults to 0.1
         :type threshold: float
         :return: The resulting images after applying the filter
-        :rtype: List[XAImage]
+        :rtype: XAImageList
 
         .. versionadded:: 0.1.0
         """
-        filtered_images = [None] * self.xa_elem.count()
-        threads = [None] * self.xa_elem.count()
-        for index, image in enumerate(self):
-            threads[index] = self._spawn_thread(lambda: filtered_images.__setitem__(index, image.outline(threshold)))
+        def filter_block(image, threshold):
+            filter = Quartz.CIFilter.filterWithName_("CILineOverlay")
+            filter.setDefaults()
+            filter.setValue_forKey_(threshold, "inputThreshold")
+            return filter
 
-        while any([x.is_alive() for x in threads]):
-            time.sleep(0.01)
+        return self.__apply_filter(filter_block, threshold)
 
-        return filtered_images
-
-    def invert(self) -> List['XAImage']:
+    def invert(self) -> 'XAImageList':
         """Inverts the colors of each image in the list.
 
         :return: The resulting images after applying the filter
-        :rtype: List[XAImage]
+        :rtype: XAImageList
 
         .. versionadded:: 0.1.0
         """
-        filtered_images = [None] * self.xa_elem.count()
-        threads = [None] * self.xa_elem.count()
-        for index, image in enumerate(self):
-            threads[index] = self._spawn_thread(lambda: filtered_images.__setitem__(index, image.invert()))
+        def filter_block(image):
+            filter = Quartz.CIFilter.filterWithName_("CIColorInvert")
+            filter.setDefaults()
+            return filter
 
-        while any([x.is_alive() for x in threads]):
-            time.sleep(0.01)
-
-        return filtered_images
+        return self.__apply_filter(filter_block)
     
-    def sepia(self, intensity: float = 1.0) -> List['XAImage']:
+    def sepia(self, intensity: float = 1.0) -> 'XAImageList':
         """Applies a sepia filter to each image in the list; maps all colors of the images to shades of brown.
 
         :param intensity: The opacity of the sepia effect. A value of 0 will have no impact on the image. Defaults to 1.0
         :type intensity: float
         :return: The resulting images after applying the filter
-        :rtype: List[XAImage]
+        :rtype: XAImageList
 
         .. versionadded:: 0.1.0
         """
-        filtered_images = [None] * self.xa_elem.count()
-        threads = [None] * self.xa_elem.count()
-        for index, image in enumerate(self):
-            threads[index] = self._spawn_thread(lambda: filtered_images.__setitem__(index, image.sepia(intensity)))
+        def filter_block(image, intensity):
+            filter = Quartz.CIFilter.filterWithName_("CISepiaTone")
+            filter.setDefaults()
+            filter.setValue_forKey_(intensity, "inputIntensity")
+            return filter
 
-        while any([x.is_alive() for x in threads]):
-            time.sleep(0.01)
+        return self.__apply_filter(filter_block, intensity)
 
-        return filtered_images
-
-    def vignette(self, intensity: float = 1.0) -> List['XAImage']:
+    def vignette(self, intensity: float = 1.0) -> 'XAImageList':
         """Applies vignette shading to the corners of each image in the list.
 
         :param intensity: The intensity of the vignette effect, defaults to 1.0
         :type intensity: float
         :return: The resulting images after applying the filter
-        :rtype: List[XAImage]
+        :rtype: XAImageList
 
         .. versionadded:: 0.1.0
         """
-        filtered_images = [None] * self.xa_elem.count()
-        threads = [None] * self.xa_elem.count()
-        for index, image in enumerate(self):
-            threads[index] = self._spawn_thread(lambda: filtered_images.__setitem__(index, image.vignette(intensity)))
+        def filter_block(image, intensity):
+            filter = Quartz.CIFilter.filterWithName_("CIVignette")
+            filter.setDefaults()
+            filter.setValue_forKey_(intensity, "inputIntensity")
+            return filter
 
-        while any([x.is_alive() for x in threads]):
-            time.sleep(0.01)
+        return self.__apply_filter(filter_block, intensity)
 
-        return filtered_images
-
-    def depth_of_filed(self, focal_region: Union[Tuple[Tuple[int, int], Tuple[int, int]], None] = None, intensity: float = 10.0, focal_region_saturation: float = 1.5) -> List['XAImage']:
+    def depth_of_field(self, focal_region: Union[Tuple[Tuple[int, int], Tuple[int, int]], None] = None, intensity: float = 10.0, focal_region_saturation: float = 1.5) -> 'XAImageList':
         """Applies a depth of field filter to each image in the list, simulating a tilt & shift effect.
 
         :param focal_region: Two points defining a line within each image to focus the effect around (pixels around the line will be in focus), or None to use the center third of the image, defaults to None
@@ -7691,99 +7784,100 @@ class XAImageList(XAList, XAClipboardCodable):
         :param focal_region_saturation: Adjusts the saturation of the focial region. Higher values increase saturation. Defaults to 1.5 (1.5x default saturation)
         :type focal_region_saturation: float
         :return: The resulting images after applying the filter
-        :rtype: List[XAImage]
+        :rtype: XAImageList
 
         .. versionadded:: 0.1.0
         """
-        filtered_images = [None] * self.xa_elem.count()
-        threads = [None] * self.xa_elem.count()
-        for index, image in enumerate(self):
-            threads[index] = self._spawn_thread(lambda: filtered_images.__setitem__(index, image.depth_of_field(focal_region, intensity, focal_region_saturation)))
+        def filter_block(image, focal_region, intensity, focal_region_saturation):
+            if focal_region is None:
+                center_top = Quartz.CIVector.vectorWithX_Y_(image.size().width / 2, image.size().height / 3)
+                center_bottom = Quartz.CIVector.vectorWithX_Y_(image.size().width / 2, image.size().height / 3 * 2)
+                focal_region = (center_top, center_bottom)
+            else:
+                point1 = Quartz.CIVector.vectorWithX_Y_(focal_region[0])
+                point2 = Quartz.CIVector.vectorWithX_Y_(focal_region[1])
+                focal_region = (point1, point2)
 
-        while any([x.is_alive() for x in threads]):
-            time.sleep(0.01)
+            filter = Quartz.CIFilter.filterWithName_("CIDepthOfField")
+            filter.setDefaults()
+            filter.setValue_forKey_(focal_region[0], "inputPoint0")
+            filter.setValue_forKey_(focal_region[1], "inputPoint1")
+            filter.setValue_forKey_(intensity, "inputRadius")
+            filter.setValue_forKey_(focal_region_saturation, "inputSaturation")
+            return filter
 
-        return filtered_images
+        return self.__apply_filter(filter_block, focal_region, intensity, focal_region_saturation)
 
-    def crystallize(self, crystal_size: float = 20.0) -> List['XAImage']:
+    def crystallize(self, crystal_size: float = 20.0) -> 'XAImageList':
         """Applies a crystallization filter to each image in the list. Creates polygon-shaped color blocks by aggregating pixel values.
 
         :param crystal_size: The radius of the crystals, defaults to 20.0
         :type crystal_size: float
         :return: The resulting images after applying the filter
-        :rtype: List[XAImage]
+        :rtype: XAImageList
 
         .. versionadded:: 0.1.0
         """
-        filtered_images = [None] * self.xa_elem.count()
-        threads = [None] * self.xa_elem.count()
-        for index, image in enumerate(self):
-            threads[index] = self._spawn_thread(lambda: filtered_images.__setitem__(index, image.crystallize(crystal_size)))
+        def filter_block(image, crystal_size):
+            filter = Quartz.CIFilter.filterWithName_("CICrystallize")
+            filter.setDefaults()
+            filter.setValue_forKey_(crystal_size, "inputRadius")
+            return filter
 
-        while any([x.is_alive() for x in threads]):
-            time.sleep(0.01)
+        return self.__apply_filter(filter_block, crystal_size)
 
-        return filtered_images
-
-    def comic(self) -> List['XAImage']:
+    def comic(self) -> 'XAImageList':
         """Applies a comic filter to each image in the list. Outlines edges and applies a color halftone effect.
 
         :return: The resulting images after applying the filter
-        :rtype: List[XAImage]
+        :rtype: XAImageList
 
         .. versionadded:: 0.1.0
         """
-        filtered_images = [None] * self.xa_elem.count()
-        threads = [None] * self.xa_elem.count()
-        for index, image in enumerate(self):
-            threads[index] = self._spawn_thread(lambda: filtered_images.__setitem__(index, image.comic()))
+        def filter_block(image):
+            filter = Quartz.CIFilter.filterWithName_("CIComicEffect")
+            filter.setDefaults()
+            return filter
 
-        while any([x.is_alive() for x in threads]):
-            time.sleep(0.01)
+        return self.__apply_filter(filter_block)
 
-        return filtered_images
-
-    def pointillize(self, point_size: float = 20.0) -> List['XAImage']:
+    def pointillize(self, point_size: float = 20.0) -> 'XAImageList':
         """Applies a pointillization filter to each image in the list.
 
         :param crystal_size: The radius of the points, defaults to 20.0
         :type crystal_size: float
         :return: The resulting images after applying the filter
-        :rtype: List[XAImage]
+        :rtype: XAImageList
 
         .. versionadded:: 0.1.0
         """
-        filtered_images = [None] * self.xa_elem.count()
-        threads = [None] * self.xa_elem.count()
-        for index, image in enumerate(self):
-            threads[index] = self._spawn_thread(lambda: filtered_images.__setitem__(index, image.pointillize(point_size)))
+        def filter_block(image, point_size):
+            filter = Quartz.CIFilter.filterWithName_("CIPointillize")
+            filter.setDefaults()
+            filter.setValue_forKey_(point_size, "inputRadius")
+            return filter
 
-        while any([x.is_alive() for x in threads]):
-            time.sleep(0.01)
+        return self.__apply_filter(filter_block, point_size)
 
-        return filtered_images
-
-    def bloom(self, intensity: float = 0.5) -> List['XAImage']:
+    def bloom(self, intensity: float = 0.5) -> 'XAImageList':
         """Applies a bloom effect to each image in the list. Softens edges and adds a glow.
 
         :param intensity: The strength of the softening and glow effects, defaults to 0.5
         :type intensity: float
         :return: The resulting images after applying the filter
-        :rtype: List[XAImage]
+        :rtype: XAImageList
 
         .. versionadded:: 0.1.0
         """
-        filtered_images = [None] * self.xa_elem.count()
-        threads = [None] * self.xa_elem.count()
-        for index, image in enumerate(self):
-            threads[index] = self._spawn_thread(lambda: filtered_images.__setitem__(index, image.bloom(intensity)))
+        def filter_block(image, intensity):
+            filter = Quartz.CIFilter.filterWithName_("CIBloom")
+            filter.setDefaults()
+            filter.setValue_forKey_(intensity, "inputIntensity")
+            return filter
 
-        while any([x.is_alive() for x in threads]):
-            time.sleep(0.01)
+        return self.__apply_filter(filter_block, intensity)
 
-        return filtered_images
-
-    def monochrome(self, color: XAColor, intensity: float = 1.0) -> List['XAImage']:
+    def monochrome(self, color: XAColor, intensity: float = 1.0) -> 'XAImageList':
         """Remaps the colors of each image in the list to shades of the specified color.
 
         :param color: The color of map each images colors to
@@ -7791,21 +7885,22 @@ class XAImageList(XAList, XAClipboardCodable):
         :param intensity: The strength of recoloring effect. Higher values map colors to darker shades of the provided color. Defaults to 1.0
         :type intensity: float
         :return: The resulting images after applying the filter
-        :rtype: List[XAImage]
+        :rtype: XAImageList
 
         .. versionadded:: 0.1.0
         """
-        filtered_images = [None] * self.xa_elem.count()
-        threads = [None] * self.xa_elem.count()
-        for index, image in enumerate(self):
-            threads[index] = self._spawn_thread(lambda: filtered_images.__setitem__(index, image.monochrome(color, intensity)))
+        ci_color = Quartz.CIColor.alloc().initWithColor_(color.xa_elem)
 
-        while any([x.is_alive() for x in threads]):
-            time.sleep(0.01)
+        def filter_block(image, intensity):
+            filter = Quartz.CIFilter.filterWithName_("CIColorMonochrome")
+            filter.setDefaults()
+            filter.setValue_forKey_(ci_color, "inputColor")
+            filter.setValue_forKey_(intensity, "inputIntensity")
+            return filter
 
-        return filtered_images
+        return self.__apply_filter(filter_block, intensity)
 
-    def bump(self, center: Union[Tuple[int, int], None] = None, radius: float = 300.0, curvature: float = 0.5) -> List['XAImage']:
+    def bump(self, center: Union[Tuple[int, int], None] = None, radius: float = 300.0, curvature: float = 0.5) -> 'XAImageList':
         """Adds a concave (inward) or convex (outward) bump to each image in the list at the specified location within each image.
 
         :param center: The center point of the effect, or None to use the center of the image, defaults to None
@@ -7815,21 +7910,47 @@ class XAImageList(XAList, XAClipboardCodable):
         :param curvature: Controls the direction and intensity of the bump's curvature. Positive values create convex bumps while negative values create concave bumps. Defaults to 0.5
         :type curvature: float
         :return: The resulting images after applying the distortion
-        :rtype: List[XAImage]
+        :rtype: XAImageList
 
         .. versionadded:: 0.1.0
         """
-        bumped_images = [None] * self.xa_elem.count()
-        threads = [None] * self.xa_elem.count()
-        for index, image in enumerate(self):
-            threads[index] = self._spawn_thread(lambda: bumped_images.__setitem__(index, image.bump(center, radius, curvature)))
+        images = self.__partial_init()
 
-        while any([x.is_alive() for x in threads]):
+        bumped_images = [None] * images.count()
+        def bump_image(image, index, center, radius, curvature):
+            if center is None:
+                center = Quartz.CIVector.vectorWithX_Y_(image.size().width / 2, image.size().height / 2)
+            else:
+                center = Quartz.CIVector.vectorWithX_Y_(center[0], center[1])
+
+            img = Quartz.CIImage.imageWithCGImage_(image.CGImage())
+            filter = Quartz.CIFilter.filterWithName_("CIBumpDistortion")
+            filter.setDefaults()
+            filter.setValue_forKey_(img, "inputImage")
+            filter.setValue_forKey_(center, "inputCenter")
+            filter.setValue_forKey_(radius, "inputRadius")
+            filter.setValue_forKey_(curvature, "inputScale")
+            uncropped = filter.valueForKey_(Quartz.kCIOutputImageKey)
+
+            # Crop the result to the original image size
+            cropped = uncropped.imageByCroppingToRect_(Quartz.CGRectMake(0, 0, image.size().width * 2, image.size().height * 2))
+
+            # Convert back to NSImage
+            rep = AppKit.NSCIImageRep.imageRepWithCIImage_(cropped)
+            result = AppKit.NSImage.alloc().initWithSize_(rep.size())
+            result.addRepresentation_(rep)
+            bumped_images[index] = result
+
+        threads = [None] * images.count()
+        for index, image in enumerate(images):
+            threads[index] = self._spawn_thread(bump_image, [image, index, center, radius, curvature])
+
+        while any([t.is_alive() for t in threads]):
             time.sleep(0.01)
 
-        return bumped_images
+        return self._new_element(bumped_images, XAImageList)
 
-    def pinch(self, center: Union[Tuple[int, int], None] = None, intensity: float = 0.5) -> List['XAImage']:
+    def pinch(self, center: Union[Tuple[int, int], None] = None, intensity: float = 0.5) -> 'XAImageList':
         """Adds an inward pinch distortion to each image in the list at the specified location within each image.
 
         :param center: The center point of the effect, or None to use the center of the image, defaults to None
@@ -7837,21 +7958,46 @@ class XAImageList(XAList, XAClipboardCodable):
         :param intensity: Controls the scale of the pinch effect. Higher values stretch pixels away from the specified center to a greater degree. Defaults to 0.5
         :type intensity: float
         :return: The resulting images after applying the distortion
-        :rtype: List[XAImage]
+        :rtype: XAImageList
 
         .. versionadded:: 0.1.0
         """
-        pinched_images = [None] * self.xa_elem.count()
-        threads = [None] * self.xa_elem.count()
-        for index, image in enumerate(self):
-            threads[index] = self._spawn_thread(lambda: pinched_images.__setitem__(index, image.pinch(center, intensity)))
+        images = self.__partial_init()
 
-        while any([x.is_alive() for x in threads]):
+        pinched_images = [None] * images.count()
+        def pinch_image(image, index, center, intensity):
+            if center is None:
+                center = Quartz.CIVector.vectorWithX_Y_(image.size().width / 2, image.size().height / 2)
+            else:
+                center = Quartz.CIVector.vectorWithX_Y_(center[0], center[1])
+
+            img = Quartz.CIImage.imageWithCGImage_(image.CGImage())
+            filter = Quartz.CIFilter.filterWithName_("CIPinchDistortion")
+            filter.setDefaults()
+            filter.setValue_forKey_(img, "inputImage")
+            filter.setValue_forKey_(center, "inputCenter")
+            filter.setValue_forKey_(intensity, "inputScale")
+            uncropped = filter.valueForKey_(Quartz.kCIOutputImageKey)
+
+            # Crop the result to the original image size
+            cropped = uncropped.imageByCroppingToRect_(Quartz.CGRectMake(0, 0, image.size().width * 2, image.size().height * 2))
+
+            # Convert back to NSImage
+            rep = AppKit.NSCIImageRep.imageRepWithCIImage_(cropped)
+            result = AppKit.NSImage.alloc().initWithSize_(rep.size())
+            result.addRepresentation_(rep)
+            pinched_images[index] = result
+
+        threads = [None] * images.count()
+        for index, image in enumerate(images):
+            threads[index] = self._spawn_thread(pinch_image, [image, index, center, intensity])
+
+        while any([t.is_alive() for t in threads]):
             time.sleep(0.01)
 
-        return pinched_images
+        return self._new_element(pinched_images, XAImageList)
 
-    def twirl(self, center: Union[Tuple[int, int], None] = None, radius: float = 300.0, angle: float = 3.14) -> List['XAImage']:
+    def twirl(self, center: Union[Tuple[int, int], None] = None, radius: float = 300.0, angle: float = 3.14) -> 'XAImageList':
         """Adds a twirl distortion to each image in the list by rotating pixels around the specified location within each image.
 
         :param center: The center point of the effect, or None to use the center of the image, defaults to None
@@ -7861,21 +8007,47 @@ class XAImageList(XAList, XAClipboardCodable):
         :param angle: The angle of the twirl in radians, defaults to 3.14
         :type angle: float
         :return: The resulting images after applying the distortion
-        :rtype: List[XAImage]
+        :rtype: XAImageList
 
         .. versionadded:: 0.1.0
         """
-        twirled_images = [None] * self.xa_elem.count()
-        threads = [None] * self.xa_elem.count()
-        for index, image in enumerate(self):
-            threads[index] = self._spawn_thread(lambda: twirled_images.__setitem__(index, image.twirl(center, radius, angle)))
+        images = self.__partial_init()
 
-        while any([x.is_alive() for x in threads]):
+        twirled_images = [None] * images.count()
+        def twirl_image(image, index, center, radius, angle):
+            if center is None:
+                center = Quartz.CIVector.vectorWithX_Y_(image.size().width / 2, image.size().height / 2)
+            else:
+                center = Quartz.CIVector.vectorWithX_Y_(center[0], center[1])
+
+            img = Quartz.CIImage.imageWithCGImage_(image.CGImage())
+            filter = Quartz.CIFilter.filterWithName_("CITwirlDistortion")
+            filter.setDefaults()
+            filter.setValue_forKey_(img, "inputImage")
+            filter.setValue_forKey_(center, "inputCenter")
+            filter.setValue_forKey_(radius, "inputRadius")
+            filter.setValue_forKey_(angle, "inputAngle")
+            uncropped = filter.valueForKey_(Quartz.kCIOutputImageKey)
+
+            # Crop the result to the original image size
+            cropped = uncropped.imageByCroppingToRect_(Quartz.CGRectMake(0, 0, image.size().width * 2, image.size().height * 2))
+
+            # Convert back to NSImage
+            rep = AppKit.NSCIImageRep.imageRepWithCIImage_(cropped)
+            result = AppKit.NSImage.alloc().initWithSize_(rep.size())
+            result.addRepresentation_(rep)
+            twirled_images[index] = result
+
+        threads = [None] * images.count()
+        for index, image in enumerate(images):
+            threads[index] = self._spawn_thread(twirl_image, [image, index, center, radius, angle])
+
+        while any([t.is_alive() for t in threads]):
             time.sleep(0.01)
 
-        return twirled_images
+        return self._new_element(twirled_images, XAImageList)
 
-    def auto_enhance(self, correct_red_eye: bool = False, crop_to_features: bool = False, correct_rotation: bool = False) -> List['XAImage']:
+    def auto_enhance(self, correct_red_eye: bool = False, crop_to_features: bool = False, correct_rotation: bool = False) -> 'XAImageList':
         """Attempts to enhance each image in the list by applying suggested filters.
 
         :param correct_red_eye: Whether to attempt red eye removal, defaults to False
@@ -7885,77 +8057,157 @@ class XAImageList(XAList, XAClipboardCodable):
         :param correct_rotation: Whether attempt perspective correction by rotating the images, defaults to False
         :type correct_rotation: bool, optional
         :return: The list of enhanced images
-        :rtype: List[XAImage]
+        :rtype: XAImageList
 
         .. versionadded:: 0.1.0
         """
-        enhanced_images = [None] * self.xa_elem.count()
-        threads = [None] * self.xa_elem.count()
-        for index, image in enumerate(self):
-            threads[index] = self._spawn_thread(lambda: enhanced_images.__setitem__(index, image.auto_enhance()))
+        images = self.__partial_init()
 
-        while any([x.is_alive() for x in threads]):
+        enhanced_images = [None] * images.count()
+        def enhance_image(image, index):
+            ci_image = Quartz.CIImage.imageWithCGImage_(image.CGImage())
+
+            options = {
+                Quartz.kCIImageAutoAdjustRedEye: correct_red_eye,
+                Quartz.kCIImageAutoAdjustCrop: crop_to_features,
+                Quartz.kCIImageAutoAdjustLevel: correct_rotation
+            }
+
+            enhancements = ci_image.autoAdjustmentFiltersWithOptions_(options)
+            for filter in enhancements:
+                filter.setValue_forKey_(ci_image, "inputImage")
+                ci_image = filter.outputImage()
+
+            # Crop the result to the original image size
+            cropped = ci_image.imageByCroppingToRect_(Quartz.CGRectMake(0, 0, image.size().width * 2, image.size().height * 2))
+
+            # Convert back to NSImage
+            rep = AppKit.NSCIImageRep.imageRepWithCIImage_(cropped)
+            result = AppKit.NSImage.alloc().initWithSize_(rep.size())
+            result.addRepresentation_(rep)
+            enhanced_images[index] = result
+
+        threads = [None] * images.count()
+        for index, image in enumerate(images):
+            threads[index] = self._spawn_thread(enhance_image, [image, index])
+
+        while any([t.is_alive() for t in threads]):
             time.sleep(0.01)
 
-        return enhanced_images
+        return self._new_element(enhanced_images, XAImageList)
 
-    def flip_horizontally(self) -> List['XAImage']:
+    def flip_horizontally(self) -> 'XAImageList':
         """Flips each image in the list horizontally.
 
         :return: The list of flipped images
-        :rtype: List[XAImage]
+        :rtype: XAImageList
 
         .. versionadded:: 0.1.0
         """
-        flipped_images = [None] * self.xa_elem.count()
-        threads = [None] * self.xa_elem.count()
-        for index, image in enumerate(self):
-            threads[index] = self._spawn_thread(lambda: flipped_images.__setitem__(index, image.flip_horizontally()))
+        images = self.__partial_init()
+            
+        flipped_images = [None] * images.count()
+        def flip_image(image, index):
+            flipped_image = AppKit.NSImage.alloc().initWithSize_(image.size())
+            imageBounds = AppKit.NSMakeRect(0, 0, image.size().width, image.size().height)
 
-        while any([x.is_alive() for x in threads]):
+            transform = AppKit.NSAffineTransform.alloc().init()
+            transform.translateXBy_yBy_(image.size().width, 0)
+            transform.scaleXBy_yBy_(-1, 1)
+
+            flipped_image.lockFocus()
+            transform.concat()
+            image.drawInRect_fromRect_operation_fraction_(imageBounds, Quartz.CGRectZero, AppKit.NSCompositingOperationCopy, 1.0)
+            flipped_image.unlockFocus()
+            flipped_images[index] = flipped_image
+
+        threads = [None] * images.count()
+        for index, image in enumerate(images):
+            threads[index] = self._spawn_thread(flip_image, [image, index])
+
+        while any([t.is_alive() for t in threads]):
             time.sleep(0.01)
 
-        return flipped_images
+        return self._new_element(flipped_images, XAImageList)
 
-    def flip_vertically(self) -> List['XAImage']:
+    def flip_vertically(self) -> 'XAImageList':
         """Flips each image in the list vertically.
 
-       :return: The list of flipped images
-        :rtype: List[XAImage]
+        :return: The list of flipped images
+        :rtype: XAImageList
 
         .. versionadded:: 0.1.0
         """
-        flipped_images = [None] * self.xa_elem.count()
-        threads = [None] * self.xa_elem.count()
-        for index, image in enumerate(self):
-            threads[index] = self._spawn_thread(lambda: flipped_images.__setitem__(index, image.flip_vertically()))
+        images = self.__partial_init()
+            
+        flipped_images = [None] * images.count()
+        def flip_image(image, index):
+            flipped_image = AppKit.NSImage.alloc().initWithSize_(image.size())
+            imageBounds = AppKit.NSMakeRect(0, 0, image.size().width, image.size().height)
 
-        while any([x.is_alive() for x in threads]):
+            transform = AppKit.NSAffineTransform.alloc().init()
+            transform.translateXBy_yBy_(0, image.size().height)
+            transform.scaleXBy_yBy_(1, -1)
+
+            flipped_image.lockFocus()
+            transform.concat()
+            image.drawInRect_fromRect_operation_fraction_(imageBounds, Quartz.CGRectZero, AppKit.NSCompositingOperationCopy, 1.0)
+            flipped_image.unlockFocus()
+            flipped_images[index] = flipped_image
+
+        threads = [None] * images.count()
+        for index, image in enumerate(images):
+            threads[index] = self._spawn_thread(flip_image, [image, index])
+
+        while any([t.is_alive() for t in threads]):
             time.sleep(0.01)
 
-        return flipped_images
+        return self._new_element(flipped_images, XAImageList)
 
-    def rotate(self, degrees: float) -> List['XAImage']:
+    def rotate(self, degrees: float) -> 'XAImageList':
         """Rotates each image in the list by the specified amount of degrees.
 
         :param degrees: The number of degrees to rotate the images by
         :type degrees: float
         :return: The list of rotated images
-        :rtype: List[XAImage]
+        :rtype: XAImageList
 
         .. versionadded:: 0.1.0
         """
-        rotated_images = [None] * self.xa_elem.count()
-        threads = [None] * self.xa_elem.count()
-        for index, image in enumerate(self):
-            threads[index] = self._spawn_thread(lambda: rotated_images.__setitem__(index, image.rotate(45)))
+        sinDegrees = abs(math.sin(degrees * math.pi / 180.0))
+        cosDegrees = abs(math.cos(degrees * math.pi / 180.0))
 
-        while any([x.is_alive() for x in threads]):
+        images = self.__partial_init()
+            
+        rotated_images = [None] * images.count()
+        def rotate_image(image, index):
+            new_size = Quartz.CGSizeMake(image.size().height * sinDegrees + image.size().width * cosDegrees, image.size().width * sinDegrees + image.size().height * cosDegrees)
+            rotated_image = AppKit.NSImage.alloc().initWithSize_(new_size)
+
+            imageBounds = Quartz.CGRectMake((new_size.width - image.size().width) / 2, (new_size.height - image.size().height) / 2, image.size().width, image.size().height)
+
+            transform = AppKit.NSAffineTransform.alloc().init()
+            transform.translateXBy_yBy_(new_size.width / 2, new_size.height / 2)
+            transform.rotateByDegrees_(degrees)
+            transform.translateXBy_yBy_(-new_size.width / 2, -new_size.height / 2)
+
+            rotated_image.lockFocus()
+            transform.concat()
+            image.drawInRect_fromRect_operation_fraction_(imageBounds, Quartz.CGRectZero, AppKit.NSCompositingOperationCopy, 1.0)
+            rotated_image.unlockFocus()
+
+            rotated_images[index] = rotated_image
+
+        threads = [None] * images.count()
+        for index, image in enumerate(images):
+            threads[index] = self._spawn_thread(rotate_image, [image, index])
+
+        while any([t.is_alive() for t in threads]):
             time.sleep(0.01)
 
-        return rotated_images
+        return self._new_element(rotated_images, XAImageList)
 
-    def crop(self, size: Tuple[int, int], corner: Union[Tuple[int, int], None] = None) -> List['XAImage']:
+    def crop(self, size: Tuple[int, int], corner: Union[Tuple[int, int], None] = None) -> 'XAImageList':
         """Crops each image in the list to the specified dimensions.
 
         :param size: The dimensions to crop each image to
@@ -7963,21 +8215,36 @@ class XAImageList(XAList, XAClipboardCodable):
         :param corner: The bottom-left location to crom each image from, or None to use (0, 0), defaults to None
         :type corner: Union[Tuple[int, int], None]
         :return: The list of cropped images
-        :rtype: List[XAImage]
+        :rtype: XAImageList
 
         .. versionadded:: 0.1.0
         """
-        cropped_images = [None] * self.xa_elem.count()
-        threads = [None] * self.xa_elem.count()
-        for index, image in enumerate(self):
-            threads[index] = self._spawn_thread(lambda: cropped_images.__setitem__(index, image.crop(size, corner)))
+        if corner is None:
+            # No corner provided -- use (0,0) by default
+            corner = (0, 0)
 
-        while any([x.is_alive() for x in threads]):
+        images = self.__partial_init()
+            
+        cropped_images = [None] * images.count()
+        def crop_image(image, index):
+            cropped_image = AppKit.NSImage.alloc().initWithSize_(AppKit.NSMakeSize(size[0], size[1]))
+            imageBounds = AppKit.NSMakeRect(corner[0], corner[1], image.size().width, image.size().height)
+
+            cropped_image.lockFocus()
+            image.drawInRect_(imageBounds)
+            cropped_image.unlockFocus()
+            cropped_images[index] = cropped_image
+
+        threads = [None] * images.count()
+        for index, image in enumerate(images):
+            threads[index] = self._spawn_thread(crop_image, [image, index])
+
+        while any([t.is_alive() for t in threads]):
             time.sleep(0.01)
 
-        return cropped_images
+        return self._new_element(cropped_images, XAImageList)
 
-    def scale(self, scale_factor_x: float, scale_factor_y: Union[float, None] = None) -> List['XAImage']:
+    def scale(self, scale_factor_x: float, scale_factor_y: Union[float, None] = None) -> 'XAImageList':
         """Scales each image in the list by the specified horizontal and vertical factors.
 
         :param scale_factor_x: The factor by which to scale each image in the X dimension
@@ -7985,24 +8252,39 @@ class XAImageList(XAList, XAClipboardCodable):
         :param scale_factor_y: The factor by which to scale each image in the Y dimension, or None to match the horizontal factor, defaults to None
         :type scale_factor_y: Union[float, None]
         :return: The list of scaled images
-        :rtype: List[XAImage]
+        :rtype: XAImageList
 
         .. versionadded:: 0.1.0
         """
         if scale_factor_y is None:
             scale_factor_y = scale_factor_x
+
+        images = self.__partial_init()
             
         scaled_images = [None] * self.xa_elem.count()
-        threads = [None] * self.xa_elem.count()
-        for index, image in enumerate(self):
-            threads[index] = self._spawn_thread(lambda: scaled_images.__setitem__(index, image.scale(scale_factor_x, scale_factor_y)))
+        def scale_image(image, index):
+            scaled_image = AppKit.NSImage.alloc().initWithSize_(AppKit.NSMakeSize(image.size().width * scale_factor_x, image.size().height * scale_factor_y))
+            imageBounds = AppKit.NSMakeRect(0, 0, image.size().width, image.size().height)
 
-        while any([x.is_alive() for x in threads]):
+            transform = AppKit.NSAffineTransform.alloc().init()
+            transform.scaleXBy_yBy_(scale_factor_x, scale_factor_y)
+
+            scaled_image.lockFocus()
+            transform.concat()
+            image.drawInRect_fromRect_operation_fraction_(imageBounds, Quartz.CGRectZero, AppKit.NSCompositingOperationCopy, 1.0)
+            scaled_image.unlockFocus()
+            scaled_images[index] = scaled_image
+
+        threads = [None] * self.xa_elem.count()
+        for index, image in enumerate(images):
+            threads[index] = self._spawn_thread(scale_image, [image, index])
+
+        while any([t.is_alive() for t in threads]):
             time.sleep(0.01)
 
-        return scaled_images
+        return self._new_element(scaled_images, XAImageList)
 
-    def pad(self, horizontal_border_width: int = 50, vertical_border_width: int = 50, pad_color: Union[XAColor, None] = None) -> List['XAImage']:
+    def pad(self, horizontal_border_width: int = 50, vertical_border_width: int = 50, pad_color: Union[XAColor, None] = None) -> 'XAImageList':
         """Pads each image in the list with the specified color; add a border around each image in the list with the specified vertical and horizontal width.
 
         :param horizontal_border_width: The border width, in pixels, in the x-dimension, defaults to 50
@@ -8012,21 +8294,38 @@ class XAImageList(XAList, XAClipboardCodable):
         :param pad_color: The color of the border, or None for a white border, defaults to None
         :type pad_color: Union[XAColor, None]
         :return: The list of padded images
-        :rtype: List[XAImage]
+        :rtype: XAImageList
 
         .. versionadded:: 0.1.0
         """
-        padded_images = [None] * self.xa_elem.count()
-        threads = [None] * self.xa_elem.count()
-        for index, image in enumerate(self):
-            threads[index] = self._spawn_thread(lambda: padded_images.__setitem__(index, image.pad(horizontal_border_width, vertical_border_width, pad_color)))
+        if pad_color is None:
+            # No color provided -- use white by default
+            pad_color = XAColor.white()
 
-        while any([x.is_alive() for x in threads]):
+        images = self.__partial_init()
+
+        padded_images = [None] * images.count()
+        def pad_image(image, index):
+            new_width = image.size().width + horizontal_border_width * 2
+            new_height = image.size().height + vertical_border_width * 2
+            color_swatch = pad_color.make_swatch(new_width, new_height)
+
+            color_swatch.xa_elem.lockFocus()
+            bounds = AppKit.NSMakeRect(horizontal_border_width, vertical_border_width, image.size().width, image.size().height)
+            image.drawInRect_(bounds)
+            color_swatch.xa_elem.unlockFocus()
+            padded_images[index] = color_swatch.xa_elem
+        
+        threads = [None] * images.count()
+        for index, image in enumerate(images):
+            threads[index] = self._spawn_thread(pad_image, [image, index])
+
+        while any([t.is_alive() for t in threads]):
             time.sleep(0.01)
 
-        return padded_images
+        return self._new_element(padded_images, XAImageList)
 
-    def overlay(self, image: 'XAImage', location: Union[Tuple[int, int], None] = None, size: Union[Tuple[int, int], None] = None) -> List['XAImage']:
+    def overlay_image(self, image: 'XAImage', location: Union[Tuple[int, int], None] = None, size: Union[Tuple[int, int], None] = None) -> 'XAImageList':
         """Overlays an image on top of each image in the list, at the specified location, with the specified size.
 
         :param image: The image to overlay on top of each image in the list
@@ -8036,21 +8335,46 @@ class XAImageList(XAList, XAClipboardCodable):
         :param size: The width and height of the overlaid image, or None to use the overlaid's images existing width and height, or (-1, -1) to use the dimensions of each background images, defaults to None
         :type size: Union[Tuple[int, int], None]
         :return: The list of images with the specified image overlaid on top of them
-        :rtype: List[XAImage]
+        :rtype: XAImageList
 
         .. versionadded:: 0.1.0
         """
-        overlaid_images = [None] * self.xa_elem.count()
-        threads = [None] * self.xa_elem.count()
-        for index, image in enumerate(self):
-            threads[index] = self._spawn_thread(lambda: overlaid_images.__setitem__(index, image.overlay(image, location, size)))
+        if location is None:
+            # No location provided -- use the bottom-left point of the background image by default
+            location = (0, 0)
 
-        while any([x.is_alive() for x in threads]):
+        images = self.__partial_init()
+        overlayed_images = [None] * images.count()
+        def overlay_image(img, index, image, size, location):
+            if size is None:
+                # No dimensions provided -- use size of overlay image by default
+                size = image.size
+            elif size == (-1, -1):
+                # Use remaining width/height of background image
+                size = (img.size().width - location[0], img.size().height - location[1])
+            elif size[0] == -1:
+                # Use remaining width of background image + provided height
+                size = (img.size().width - location[0], size[1])
+            elif size[1] == -1:
+                # Use remaining height of background image + provided width
+                size = (size[1], img.size().width - location[1])
+
+            img.lockFocus()
+            bounds = AppKit.NSMakeRect(location[0], location[1], size[0], size[1])
+            image.xa_elem.drawInRect_(bounds)
+            img.unlockFocus()
+            overlayed_images[index] = img
+        
+        threads = [None] * images.count()
+        for index, img in enumerate(images):
+            threads[index] = self._spawn_thread(overlay_image, [img, index, image, size, location])
+
+        while any([t.is_alive() for t in threads]):
             time.sleep(0.01)
 
-        return overlaid_images
+        return self._new_element(overlayed_images, XAImageList)
 
-    def overlay_text(self, text: str, location: Union[Tuple[int, int], None] = None, font_size: float = 12, font_color: Union[XAColor, None] = None) -> List['XAImage']:
+    def overlay_text(self, text: str, location: Union[Tuple[int, int], None] = None, font_size: float = 12, font_color: Union[XAColor, None] = None) -> 'XAImageList':
         """Overlays text of the specified size and color at the provided location within each image of the list.
 
         :param text: The text to overlay onto each image of the list
@@ -8062,19 +8386,41 @@ class XAImageList(XAList, XAClipboardCodable):
         :param font_color: The color of the text, or None to use black, defaults to None
         :type font_color: XAColor
         :return: The list of images with the specified text overlaid on top of them
-        :rtype: List[XAImage]
+        :rtype: XAImageList
 
         .. versionadded:: 0.1.0
         """
-        overlaid_images = [None] * self.xa_elem.count()
-        threads = [None] * self.xa_elem.count()
-        for index, image in enumerate(self):
-            threads[index] = self._spawn_thread(lambda: overlaid_images.__setitem__(index, image.overlay_text(text, location, font_size, font_color)))
+        if location is None:
+            # No location provided -- use (5, 5) by default
+            location = (5, 5)
 
-        while any([x.is_alive() for x in threads]):
+        if font_color is None:
+            # No color provided -- use black by default
+            font_color = XAColor.black()
+
+        font = AppKit.NSFont.userFontOfSize_(font_size)
+        images = self.__partial_init()
+        overlayed_images = [None] * self.xa_elem.count()
+        def overlay_text(image, index):
+            textRect = Quartz.CGRectMake(location[0], 0, image.size().width - location[0], location[1])
+            attributes = {
+                AppKit.NSFontAttributeName: font,
+                AppKit.NSForegroundColorAttributeName: font_color.xa_elem
+            }
+
+            image.lockFocus()
+            AppKit.NSString.alloc().initWithString_(text).drawInRect_withAttributes_(textRect, attributes)
+            image.unlockFocus()
+            overlayed_images[index] = image
+
+        threads = [None] * self.xa_elem.count()
+        for index, image in enumerate(images):
+            threads[index] = self._spawn_thread(overlay_text, [image, index])
+
+        while any([t.is_alive() for t in threads]):
             time.sleep(0.01)
 
-        return overlaid_images
+        return self._new_element(overlayed_images, XAImageList)
 
     def extract_text(self) -> List[str]:
         """Extracts and returns a list of all visible text in each image of the list.
@@ -8091,10 +8437,37 @@ class XAImageList(XAList, XAClipboardCodable):
 
         .. versionadded:: 0.1.0
         """
-        extracted_text = []
-        for image in self:
-            extracted_text.append(image.extract_text())
-        return extracted_text
+        images = self.__partial_init()
+
+        extracted_strings = [None] * self.xa_elem.count()
+        def get_text(image, index):
+            # Prepare CGImage
+            ci_image = Quartz.CIImage.imageWithCGImage_(image.CGImage())
+            context = Quartz.CIContext.alloc().initWithOptions_(None)
+            img = context.createCGImage_fromRect_(ci_image, ci_image.extent())
+
+            # Handle request completion
+            image_strings = []
+            def recognize_text_handler(request, error):
+                observations = request.results()
+                for observation in observations:
+                    recognized_strings = observation.topCandidates_(1)[0].string()
+                    image_strings.append(recognized_strings)
+
+            # Perform request and return extracted text
+            request = Vision.VNRecognizeTextRequest.alloc().initWithCompletionHandler_(recognize_text_handler)
+            request_handler = Vision.VNImageRequestHandler.alloc().initWithCGImage_options_(img, None)
+            request_handler.performRequests_error_([request], None)
+            extracted_strings[index] = image_strings
+
+        threads = [None] * self.xa_elem.count()
+        for index, image in enumerate(images):
+            threads[index] = self._spawn_thread(get_text, [image, index])
+
+        while any([t.is_alive() for t in threads]):
+            time.sleep(0.01)
+
+        return extracted_strings
 
     def show_in_preview(self):
         """Opens each image in the list in Preview.
@@ -8115,8 +8488,9 @@ class XAImageList(XAList, XAClipboardCodable):
         .. versionadded:: 0.0.8
         """
         data = []
-        for image in self:
-            data.append(image.xa_elem)
+        for image in self.__partial_init():
+            if image.TIFFRepresentation():
+                data.append(image)
         return data
 
 class XAImage(XAObject, XAClipboardCodable):
@@ -8192,7 +8566,7 @@ class XAImage(XAObject, XAClipboardCodable):
 
     def __update_image(self, modified_image: Quartz.CIImage) -> 'XAImage':
         # Crop the result to the original image size
-        cropped = modified_image.imageByCroppingToRect_(Quartz.CGRectMake(0, 0, self.size[0], self.size[1]))
+        cropped = modified_image.imageByCroppingToRect_(Quartz.CGRectMake(0, 0, self.size[0] * 2, self.size[1] * 2))
 
         # Convert back to NSImage
         rep = AppKit.NSCIImageRep.imageRepWithCIImage_(cropped)
@@ -8422,116 +8796,6 @@ class XAImage(XAObject, XAClipboardCodable):
             return XAImageList({"element": images})
         else:
             return XAImage(images)
-
-    def horizontal_stitch(images: Union[List['XAImage'], XAImageList]) -> 'XAImage':
-        """Horizontally stacks two or more images.
-
-        The first image in the list is placed at the left side of the resulting image.
-
-        :param images: The list of images to stitch together
-        :type images: Union[List[XAImage], XAImageList]
-        :return: The resulting image after stitching
-        :rtype: XAImage
-
-        .. versionadded:: 0.1.0
-        """
-        widths = [image.size[0] for image in images]
-        heights = [image.size[1] for image in images]
-        total_width = sum(widths)
-        max_height = max(heights)
-
-        canvas = AppKit.NSImage.alloc().initWithSize_(AppKit.NSMakeSize(total_width, max_height))
-
-        canvas.lockFocus()
-        current_x = 0
-        for image in images:
-            image.xa_elem.drawInRect_(AppKit.NSMakeRect(current_x, 0, image.size[0], image.size[1]))
-            current_x += image.size[0]
-        canvas.unlockFocus()
-        return XAImage(canvas)
-
-    def vertical_stitch(images: Union[List['XAImage'], XAImageList]) -> 'XAImage':
-        """Vertically stacks two or more images.
-
-        The first image in the list is placed at the bottom of the resulting image.
-
-        :param images: The list of images to stitch together
-        :type images: Union[List[XAImage], XAImageList]
-        :return: The resulting image after stitching
-        :rtype: XAImage
-
-        .. versionadded:: 0.1.0
-        """
-        widths = [image.size[0] for image in images]
-        heights = [image.size[1] for image in images]
-        max_width = max(widths)
-        total_height = sum(heights)
-
-        canvas = AppKit.NSImage.alloc().initWithSize_(AppKit.NSMakeSize(max_width, total_height))
-
-        canvas.lockFocus()
-        current_y = 0
-        for image in images:
-            image.xa_elem.drawInRect_(AppKit.NSMakeRect(0, current_y, image.size[0], image.size[1]))
-            current_y += image.size[1]
-        canvas.unlockFocus()
-        return XAImage(canvas)
-
-    def additive_composition(images: List['XAImage']) -> 'XAImage':
-        """Creates a composition image by adding the color values of each image in the provided list.
-
-        :param images: The images to add together
-        :type images: List[XAImage]
-        :return: The resulting image composition
-        :rtype: XAImage
-
-        .. versionadded:: 0.1.0
-        """
-        image_data = [Quartz.CIImage.imageWithData_(image.data) for image in images]
-
-        current_composition = None
-        while len(image_data) > 1:
-            img1 = image_data.pop(0)
-            img2 = image_data.pop(0)
-            composition_filter = Quartz.CIFilter.filterWithName_("CIAdditionCompositing")
-            composition_filter.setDefaults()
-            composition_filter.setValue_forKey_(img1, "inputImage")
-            composition_filter.setValue_forKey_(img2, "inputBackgroundImage")
-            current_composition = composition_filter.outputImage()
-            image_data.insert(0, current_composition)
-            
-        composition_rep = AppKit.NSCIImageRep.imageRepWithCIImage_(current_composition)
-        composition = AppKit.NSImage.alloc().initWithSize_(composition_rep.size())
-        composition.addRepresentation_(composition_rep)
-        return XAImage(composition)
-
-    def subtractive_composition(images: List['XAImage']) -> 'XAImage':
-        """Creates a composition image by subtracting the color values of each image in the provided list successively.
-
-        :param images: The images to create the composition from
-        :type images: List[XAImage]
-        :return: The resulting image composition
-        :rtype: XAImage
-
-        .. versionadded:: 0.1.0
-        """
-        image_data = [Quartz.CIImage.imageWithData_(image.data) for image in images]
-
-        current_composition = None
-        while len(image_data) > 1:
-            img1 = image_data.pop(0)
-            img2 = image_data.pop(0)
-            composition_filter = Quartz.CIFilter.filterWithName_("CISubtractBlendMode")
-            composition_filter.setDefaults()
-            composition_filter.setValue_forKey_(img1, "inputImage")
-            composition_filter.setValue_forKey_(img2, "inputBackgroundImage")
-            current_composition = composition_filter.outputImage()
-            image_data.insert(0, current_composition)
-            
-        composition_rep = AppKit.NSCIImageRep.imageRepWithCIImage_(current_composition)
-        composition = AppKit.NSImage.alloc().initWithSize_(composition_rep.size())
-        composition.addRepresentation_(composition_rep)
-        return XAImage(composition)
     
     def edges(self, intensity: float = 1.0) -> 'XAImage':
         """Detects the edges in the image and highlights them colorfully, blackening other areas of the image.
@@ -8677,7 +8941,7 @@ class XAImage(XAObject, XAClipboardCodable):
         uncropped = filter.valueForKey_(Quartz.kCIOutputImageKey)
         return self.__update_image(uncropped)
 
-    def depth_of_filed(self, focal_region: Union[Tuple[Tuple[int, int], Tuple[int, int]], None] = None, intensity: float = 10.0, focal_region_saturation: float = 1.5) -> 'XAImage':
+    def depth_of_field(self, focal_region: Union[Tuple[Tuple[int, int], Tuple[int, int]], None] = None, intensity: float = 10.0, focal_region_saturation: float = 1.5) -> 'XAImage':
         """Applies a depth of field filter to the image, simulating a tilt & shift effect.
 
         :param focal_region: Two points defining a line within the image to focus the effect around (pixels around the line will be in focus), or None to use the center third of the image, defaults to None
@@ -9045,7 +9309,7 @@ class XAImage(XAObject, XAClipboardCodable):
         return self
 
     def pad(self, horizontal_border_width: int = 50, vertical_border_width: int = 50, pad_color: Union[XAColor, None] = None) -> 'XAImage':
-        """Pads the images with the specified color; adds a border around the image with the specified vertical and horizontal width.
+        """Pads the image with the specified color; adds a border around the image with the specified vertical and horizontal width.
 
         :param horizontal_border_width: The border width, in pixels, in the x-dimension, defaults to 50
         :type horizontal_border_width: int

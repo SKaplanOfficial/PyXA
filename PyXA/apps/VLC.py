@@ -113,7 +113,7 @@ class XAVLCApplication(XABaseScriptable.XASBApplication, XACanOpenPath, XACanPri
         :Example 1: Open files from file paths
 
         >>> import PyXA
-        >>> app = PyXA.application("VLC")
+        >>> app = PyXA.Application("VLC")
         >>> app.open("/Users/exampleUser/Downloads/Example.avi")
         >>> 
         >>> path = PyXA.XAPath("/Users/exampleUser/Documents/Example.m4v")
@@ -122,7 +122,7 @@ class XAVLCApplication(XABaseScriptable.XASBApplication, XACanOpenPath, XACanPri
         :Example 2: Open URLs
 
         >>> import PyXA
-        >>> app = PyXA.application("VLC")
+        >>> app = PyXA.Application("VLC")
         >>> app.open("https://upload.wikimedia.org/wikipedia/commons/transcoded/0/0f/Baby_pelican.ogg/Baby_pelican.ogg.mp3")
         >>> 
         >>> url = PyXA.XAURL("https://www.youtube.com/watch?v=e9B3E_DnnWw")

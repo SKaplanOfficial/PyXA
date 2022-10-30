@@ -1,9 +1,11 @@
-import unittest
 import PyXA
+import time
+import unittest
 
+# Run with python -m unittest discover
 class TestSystemPreferences(unittest.TestCase):
     def setUp(self):
-        self.app = PyXA.application("System Preferences")
+        self.app = PyXA.Application("System Preferences")
         self.panes = self.app.panes()
 
     def test_application_type(self):
@@ -40,6 +42,11 @@ class TestSystemPreferences(unittest.TestCase):
         self.assertIsInstance(names, list)
         self.assertIsInstance(names[0], str)
 
-
+    def test_system_preferences_quit(self):
+        self.app.quit()
+        time.sleep(0.5)
+        running_apps = PyXA.PyXA.running_applications()
+        self.assertNotIn(self.app, running_apps)
+        
 if __name__ == '__main__':
     unittest.main()

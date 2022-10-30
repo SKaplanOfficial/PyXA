@@ -63,7 +63,7 @@ class XAChromiumApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         :Example 1: Open a local or external URL
 
            >>> import PyXA
-           >>> app = PyXA.application("Chromium")
+           >>> app = PyXA.Application("Chromium")
            >>> app.open("https://www.google.com")
            >>> app.open("google.com")
            >>> app.open("/Users/exampleuser/Documents/WebPage.html")
@@ -610,9 +610,9 @@ class XAChromiumTab(XABase.XAObject, XAClipboardCodable):
         :Example 1: Move the current tab to the second window
 
         >>> import PyXA
-        >>> app = PyXA.application("Chromium")
+        >>> app = PyXA.Application("Chromium")
         >>> tab = app.front_window.active_tab
-        >>> window2 = app.window(1)
+        >>> window2 = app.windows()[1]
         >>> tab.move_to(window2)
 
         .. seealso:: :func:`duplicate_to`
@@ -640,9 +640,9 @@ class XAChromiumTab(XABase.XAObject, XAClipboardCodable):
         :Example 1: Duplicate the current tab in the second window
 
         >>> import PyXA
-        >>> app = PyXA.application("Chromium")
+        >>> app = PyXA.Application("Chromium")
         >>> tab = app.front_window.active_tab
-        >>> window2 = app.window(1)
+        >>> window2 = app.windows()[1]
         >>> tab.duplicate_to(window2)
 
         .. seealso:: :func:`move_to`

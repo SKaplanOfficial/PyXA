@@ -18,6 +18,7 @@ application_classes = {
     "shortcuts events": ("Shortcuts", "XAShortcutsApplication"),
     "photos": ("PhotosApp", "XAPhotosApplication"),
     "system preferences": ("SystemPreferences", "XASystemPreferencesApplication"),
+    "system settings": ("SystemPreferences", "XASystemPreferencesApplication"),
     "keynote": ("Keynote", "XAKeynoteApplication"),
     "mail": ("Mail", "XAMailApplication"),
     "automator": ("Automator", "XAAutomatorApplication"),

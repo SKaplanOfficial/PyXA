@@ -17,8 +17,8 @@ PyXA Base Modules
    xabase
    xabasescriptable
 
-First-Party Application Modules
--------------------------------
+First-Party Application Module Reference
+----------------------------------------
 .. toctree::
    :maxdepth: 2
 
@@ -30,6 +30,7 @@ First-Party Application Modules
    apps/dictionary
    apps/finder
    apps/fontbook
+   apps/imageevents
    apps/keynote
    apps/mail
    apps/maps
@@ -51,12 +52,13 @@ First-Party Application Modules
    apps/textedit
    apps/tv
 
-Third-Party Application Modules
--------------------------------
+Third-Party Application Module Reference
+----------------------------------------
 .. toctree::
    :maxdepth: 2
 
    apps/bike
+   apps/cardhop
    apps/chromium
    apps/fantastical
    apps/flow

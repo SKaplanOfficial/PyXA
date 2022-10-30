@@ -100,21 +100,21 @@ class XANotesApplication(XABaseScriptable.XASBApplication, XACanOpenPath, XACanP
         :Example 1: Retrieve the name of each note
 
         >>> import PyXA
-        >>> app = PyXA.application("Notes")
+        >>> app = PyXA.Application("Notes")
         >>> print(app.notes().name())
         ['ExampleName1', 'ExampleName2', 'ExampleName3', ...]
 
         :Example 2: Retrieve notes by using a filter
 
         >>> import PyXA
-        >>> app = PyXA.application("Notes")
-        >>> print(app.notes({"name": ["contains", "fancy"]}))
+        >>> app = PyXA.Application("Notes")
+        >>> print(app.notes().containing("name", "fancy"))
         [('ExampleName1', 'x-coredata://213D109C-B439-42A0-96EC-380DE31393E2/ICNote/p2964'), ('ExampleName11', 'x-coredata://213D109C-B439-42A0-96EC-380DE31393E2/ICNote/p2963'), ...]
 
         :Example 3: Iterate over each note
 
         >>> import PyXA
-        >>> app = PyXA.application("Notes")
+        >>> app = PyXA.Application("Notes")
         >>> for note in app.notes():
         >>>     print(note.name)
         ExampleName1
@@ -136,7 +136,7 @@ class XANotesApplication(XABaseScriptable.XASBApplication, XACanOpenPath, XACanP
         :Example 1: Retrieve the name of each folder
 
         >>> import PyXA
-        >>> app = PyXA.application("Notes")
+        >>> app = PyXA.Application("Notes")
         >>> print(app.folders().name())
         ['ExampleFolder1', 'ExampleFolder2', 'ExampleFolder3', ...]
 
@@ -178,7 +178,7 @@ class XANotesApplication(XABaseScriptable.XASBApplication, XACanOpenPath, XACanP
         :Example:
 
         >>> import PyXA
-        >>> app = PyXA.application("Notes")
+        >>> app = PyXA.Application("Notes")
         >>> note = app.new_note("PyXA Notes", "Example text of new note.")
         >>> print(note)
         <<class 'PyXA.apps.Notes.XANote'>PyXA Notes, x-coredata://224D909C-B449-42B0-96EC-380EE22332E2/ICNote/p3388>
@@ -209,7 +209,7 @@ class XANotesApplication(XABaseScriptable.XASBApplication, XACanOpenPath, XACanP
         :Example:
 
         >>> import PyXA
-        >>> app = PyXA.application("Notes")
+        >>> app = PyXA.Application("Notes")
         >>> folder = app.new_folder("PyXA Notes Folder")
         >>> print(folder)
         <<class 'PyXA.apps.Notes.XANotesFolder'>PyXA Notes Folder, x-coredata://224D909C-B449-42B0-96EC-380EE22332E2/ICFolder/p3389>
@@ -244,7 +244,7 @@ class XANotesApplication(XABaseScriptable.XASBApplication, XACanOpenPath, XACanP
         :Example 1: Make a new folder and add a new note to that folder
 
         >>> import PyXA
-        >>> app = PyXA.application("Notes")
+        >>> app = PyXA.Application("Notes")
         >>> new_folder = app.make("folder", {"name": "Example Folder"})
         >>> new_note = app.make("note", {"name": "Example Note"})
         >>> app.folders().push(new_folder)
@@ -346,7 +346,7 @@ class XANoteList(XABase.XAList, XAClipboardCodable):
         :Example 1: Show the currently selected notes in separate windows
 
         >>> import PyXA
-        >>> app = PyXA.application("Notes")
+        >>> app = PyXA.Application("Notes")
         >>> notes = app.selection.show_separately()
         
         .. versionadded:: 0.0.4
@@ -595,7 +595,7 @@ class XANotesAttachmentList(XABase.XAList, XAClipboardCodable):
         :Example 1: Save the attachments in currently selected notes to the downloads folder
 
         >>> import PyXA
-        >>> app = PyXA.application("Notes")
+        >>> app = PyXA.Application("Notes")
         >>> app.selection.attachments().save("/Users/exampleuser/Downloads/")
 
         .. versionadded:: 0.0.4
@@ -939,7 +939,7 @@ class XANote(XABase.XAObject, XAClipboardCodable, XAShowable, XADeletable):
         :Example 1: List all attachments of a note
 
         >>> import PyXA
-        >>> app = PyXA.application("Notes")
+        >>> app = PyXA.Application("Notes")
         >>> note = app.notes()[-4]
         >>> print(note.attachments())
         <<class 'PyXA.apps.Notes.XANotesAttachmentList'>[('Example.pdf, 'x-coredata://224D909C-B449-42B0-96EC-380EE22332E2/ICAttachment/p526')]>
@@ -947,7 +947,7 @@ class XANote(XABase.XAObject, XAClipboardCodable, XAShowable, XADeletable):
         :Example 2: Save the attachments of a note to the Downloads folder
 
         >>> import PyXA
-        >>> app = PyXA.application("Notes")
+        >>> app = PyXA.Application("Notes")
         >>> note = app.notes()[0]
         >>> print(note.attachments().save("/Users/exampleuser/Downloads/"))
 
@@ -1163,7 +1163,7 @@ class XANotesAccount(XABase.XAObject, XAClipboardCodable):
         :Example 1: List all notes belonging to an account
 
         >>> import PyXA
-        >>> app = PyXA.application("Notes")
+        >>> app = PyXA.Application("Notes")
         >>> account = app.accounts()[0]
         >>> print(account.notes())
         <<class 'PyXA.apps.Notes.XANoteList'>[('PyXA Stuff', 'x-coredata://224D909C-B449-42B0-96EC-380EE22332E2/ICNote/p3380'), ('Important Note', 'x-coredata://224D909C-B449-42B0-96EC-380EE22332E2/ICNote/p614'), ...]>
@@ -1187,7 +1187,7 @@ class XANotesAccount(XABase.XAObject, XAClipboardCodable):
         :Example 1: List all folders belonging to an account
 
         >>> import PyXA
-        >>> app = PyXA.application("Notes")
+        >>> app = PyXA.Application("Notes")
         >>> account = app.accounts()[0]
         >>> print(account.folders())
         <<class 'PyXA.apps.Notes.XANotesFolderList'>[('Imported Notes', 'x-coredata://224D909C-B449-42B0-96EC-380EE22332E2/ICFolder/p3104'), ('Notes', 'x-coredata://224D909C-B449-42B0-96EC-380EE22332E2/ICFolder/p3123'), ...]>

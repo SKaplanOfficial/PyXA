@@ -102,13 +102,13 @@ Modifying Image Attributes
 
 In addition to accessing information attributes, you can use PyXA to concisely set image attributes such as the vibrance, tint, and temperature of an image. The mutable attributes are:
 
-- :attribute:`~PyXA.XABase.XAImage.gamma`
-- :attribute:`~PyXA.XABase.XAImage.vibrance`
-- :attribute:`~PyXA.XABase.XAImage.tint`
-- :attribute:`~PyXA.XABase.XAImage.temperature`
-- :attribute:`~PyXA.XABase.XAImage.white_point`
-- :attribute:`~PyXA.XABase.XAImage.highlight`
-- :attribute:`~PyXA.XABase.XAImage.shadow`
+- :attr:`~PyXA.XABase.XAImage.gamma`
+- :attr:`~PyXA.XABase.XAImage.vibrance`
+- :attr:`~PyXA.XABase.XAImage.tint`
+- :attr:`~PyXA.XABase.XAImage.temperature`
+- :attr:`~PyXA.XABase.XAImage.white_point`
+- :attr:`~PyXA.XABase.XAImage.highlight`
+- :attr:`~PyXA.XABase.XAImage.shadow`
 
 .. code-block:: python
 

@@ -264,14 +264,14 @@ class XAPagesApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         :Example 1: Making a new document
 
         >>> import PyXA
-        >>> pages = PyXA.application("Pages")
+        >>> pages = PyXA.Application("Pages")
         >>> new_doc = pages.make("document", {"bodyText": "This is a whole new document!"})
         >>> pages.documents().push(new_doc)
 
         :Example 3: Making new elements on a page
 
         >>> import PyXA
-        >>> pages = PyXA.application("Pages")
+        >>> pages = PyXA.Application("Pages")
         >>> new_line = pages.make("line", {"startPoint": (100, 100), "endPoint": (200, 200)})
         >>> pages.documents()[0].pages()[0].lines().push(new_line)
 
@@ -2691,7 +2691,7 @@ class XAPagesGroup(XAPagesContainer):
         :Example:
 
         >>> import PyXA
-        >>> pages = PyXA.application("Pages")
+        >>> pages = PyXA.Application("Pages")
         >>> group = pages.current_document.groups()[0]
         >>> group.rotate(45)
 
@@ -2944,7 +2944,7 @@ class XAPagesImage(XAPagesiWorkItem):
         :Example:
 
         >>> import PyXA
-        >>> pages = PyXA.application("Pages")
+        >>> pages = PyXA.Application("Pages")
         >>> page = pages.documents()[0].pages()[0]
         >>> img = page.add_image("/Users/steven/Documents/idk/idk.001.png")
         >>> img.rotate(30)
@@ -2972,7 +2972,7 @@ class XAPagesImage(XAPagesiWorkItem):
         :Example:
 
         >>> import PyXA
-        >>> pages = PyXA.application("Pages")
+        >>> pages = PyXA.Application("Pages")
         >>> page = pages.documents()[0].pages()[0]
         >>> img = page.add_image("/Users/exampleuser/Documents/Images/Test1.png")
         >>> sleep(1)
@@ -3581,7 +3581,7 @@ class XAPagesLine(XAPagesiWorkItem):
         :Example:
 
         >>> import PyXA
-        >>> pages = PyXA.application("Pages")
+        >>> pages = PyXA.Application("Pages")
         >>> line = pages.current_document.lines()[0]
         >>> line.rotate(45)
 
@@ -3840,7 +3840,7 @@ class XAPagesMovie(XAPagesiWorkItem):
         :Example:
 
         >>> import PyXA
-        >>> pages = PyXA.application("Pages")
+        >>> pages = PyXA.Application("Pages")
         >>> movie = pages.current_document.movies()[0]
         >>> movie.rotate(45)
 
@@ -4060,7 +4060,7 @@ class XAPagesTextItem(XAPagesiWorkItem):
         :Example:
 
         >>> import PyXA
-        >>> pages = PyXA.application("Pages")
+        >>> pages = PyXA.Application("Pages")
         >>> text = pages.current_document.text_items()[0]
         >>> text.rotate(45)
 

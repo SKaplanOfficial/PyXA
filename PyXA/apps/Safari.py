@@ -79,7 +79,7 @@ class XASafariApplication(XABaseScriptable.XASBApplication, XABaseScriptable.XAS
         :Example 1: Open local and external URLs
 
         >>> import PyXA
-        >>> app = PyXA.application("Safari")
+        >>> app = PyXA.Application("Safari")
         >>> app.open("https://www.google.com")
         >>> app.open("google.com")
         >>> app.open("/Users/exampleuser/Documents/WebPage.html")
@@ -121,7 +121,7 @@ class XASafariApplication(XABaseScriptable.XASBApplication, XABaseScriptable.XAS
         :Example:
 
         >>> import PyXA
-        >>> app = PyXA.application("Safari")
+        >>> app = PyXA.Application("Safari")
         >>> window = app.front_window
         >>> doc = app.current_document
         >>> tab = window.current_tab
@@ -149,7 +149,7 @@ class XASafariApplication(XABaseScriptable.XASBApplication, XABaseScriptable.XAS
         :Example:
 
         >>> import PyXA
-        >>> app = PyXA.application("Safari")
+        >>> app = PyXA.Application("Safari")
         >>> app.search("What is PyXA?")
 
         .. seealso:: :func:`search_in_tab`
@@ -173,7 +173,7 @@ class XASafariApplication(XABaseScriptable.XASBApplication, XABaseScriptable.XAS
         :Example:
 
         >>> import PyXA
-        >>> app = PyXA.application("Safari")
+        >>> app = PyXA.Application("Safari")
         >>> tab = app.front_window.current_tab
         >>> app.search_in_tab(tab, "What is PyXA?")
 
@@ -197,7 +197,7 @@ class XASafariApplication(XABaseScriptable.XASBApplication, XABaseScriptable.XAS
         :Example:
 
         >>> import PyXA
-        >>> app = PyXA.application("Safari")
+        >>> app = PyXA.Application("Safari")
         >>> tab = app.front_window.current_tab
         >>> script = "(function example() { return 1 + 1 })()"
         >>> print(app.do_javascript(script, tab))
@@ -265,14 +265,14 @@ class XASafariApplication(XABaseScriptable.XASBApplication, XABaseScriptable.XAS
         :Example 1: Make a new tab in Safari's front window
 
         >>> import PyXA
-        >>> app = PyXA.application("Safari")
+        >>> app = PyXA.Application("Safari")
         >>> new_tab = app.make("tab", {"URL": "http://google.com"})
         >>> app.front_window.tabs().push(new_tab)
 
         :Example 2: Open a page in a new window by making a new document
 
         >>> import PyXA
-        >>> app = PyXA.application("Safari")
+        >>> app = PyXA.Application("Safari")
         >>> new_doc = app.make("document", {"URL": "http://google.com"})
         >>> app.documents().push(new_doc)
 
@@ -625,9 +625,9 @@ class XASafariDocumentList(XABase.XAList, XAClipboardCodable):
         
         .. versionadded:: 0.0.4
         """
-        if isinstance(text, XABase.XAText):
-            text = str(text)
-        return self.by_property("text", text)
+        for doc in self.xa_elem:
+            if doc.text() == str(text):
+                return self._new_element(doc, XASafariDocument)
 
     def reload(self) -> Self:
         """Reloads all documents in the list.
@@ -863,7 +863,7 @@ class XASafariTabList(XABase.XAList, XAClipboardCodable):
         self.xa_aref.activateWithOptions_(AppKit.NSApplicationActivateIgnoringOtherApps)
         for index, tab in enumerate(self):
             self.xa_prnt.current_tab = tab
-            texts[index] = self._new_element(tab.text, XABase.XAText)
+            texts[index] = tab.text
         self.xa_prnt.current_tab = self.xa_prnt.tabs()[current_tab]
         return texts
 
@@ -895,7 +895,9 @@ class XASafariTabList(XABase.XAList, XAClipboardCodable):
         
         .. versionadded:: 0.0.4
         """
-        return self.by_property("source", source)
+        for tab in self.xa_elem:
+            if tab.source() == source:
+                return self._new_element(tab, XASafariTab)
 
     def by_url(self, url: XABase.XAURL) -> Union['XASafariTab', None]:
         """Retrieves the tab whose URL matches the given URL, if one exists.
@@ -925,9 +927,9 @@ class XASafariTabList(XABase.XAList, XAClipboardCodable):
         
         .. versionadded:: 0.0.4
         """
-        if isinstance(text, XABase.XAText):
-            text = str(text)
-        return self.by_property("text", text)
+        for tab in self.xa_elem:
+            if tab.text() == str(text):
+                return self._new_element(tab, XASafariTab)
 
     def by_visible(self, visible: bool) -> Union['XASafariTab', None]:
         """Retrieves the tab whose visible status matches the given boolean, if one exists.
@@ -1126,7 +1128,7 @@ class XASafariTab(XASafariGeneric, XAClipboardCodable):
         :Example:
 
         >>> import PyXA
-        >>> app = PyXA.application("Safari")
+        >>> app = PyXA.Application("Safari")
         >>> tab = app.front_window.current_tab
         >>> window2 = app.window(1)
         >>> tab.move_to(window2)
@@ -1150,7 +1152,7 @@ class XASafariTab(XASafariGeneric, XAClipboardCodable):
         :Example:
 
         >>> import PyXA
-        >>> app = PyXA.application("Safari")
+        >>> app = PyXA.Application("Safari")
         >>> tab = app.front_window.current_tab
         >>> window2 = app.window(1)
         >>> tab.duplicate_to(window2)

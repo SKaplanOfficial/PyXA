@@ -1,9 +1,10 @@
-import unittest
 import PyXA
+import time
+import unittest
 
 class TestShortcuts(unittest.TestCase):
     def setUp(self):
-        self.app = PyXA.application("Shortcuts")
+        self.app = PyXA.Application("Shortcuts")
         self.folders = self.app.folders()
         self.shortcuts = self.app.shortcuts()
 
@@ -33,19 +34,25 @@ class TestShortcuts(unittest.TestCase):
         self.assertIsInstance(names[0], str)
 
     def test_folder_eq(self):
-        folder1 = self.app.folders({"name": "Test"})[0]
-        folder2 = self.folders.by_name("Test")
+        folder1 = self.app.folders({"name": "PyXA Test Folder"})[0]
+        folder2 = self.folders.by_name("PyXA Test Folder")
         self.assertEqual(folder1, folder2)
 
     def test_shortcut_eq(self):
-        shortcut1 = self.app.shortcuts({"name": "Test"})[0]
-        shortcut2 = self.shortcuts.by_name("Test")
+        shortcut1 = self.app.shortcuts({"name": "PyXA Test"})[0]
+        shortcut2 = self.shortcuts.by_name("PyXA Test")
         self.assertEqual(shortcut1, shortcut2)
 
     def test_folder_shortcuts(self):
         all_shortcuts = self.folders.shortcuts()
         shortcut = all_shortcuts[0][0]
         self.assertIsInstance(shortcut, PyXA.apps.Shortcuts.XAShortcut)
+
+    def test_shortcuts_quit(self):
+        self.app.quit()
+        time.sleep(0.5)
+        running_apps = PyXA.PyXA.running_applications()
+        self.assertNotIn(self.app, running_apps)
 
 if __name__ == '__main__':
     unittest.main()

@@ -53,20 +53,29 @@ class XAMessagesApplication(XABaseScriptable.XASBApplication):
 
     def __init__(self, properties):
         super().__init__(properties)
-        self.name: str #: The name of the application
-        self.frontmost: bool #: Whether Messages is the active application
-        self.version: str #: The version of Messages.app
 
     @property
     def name(self) -> str:
+        """The name of the application.
+
+        .. versionadded:: 0.0.1
+        """
         return self.xa_scel.name()
 
     @property
     def frontmost(self) -> bool:
+        """Whether Messages is the active application.
+
+        .. versionadded:: 0.0.1
+        """
         return self.xa_scel.frontmost()
 
     @property
     def version(self) -> str:
+        """The version of Messages.app.
+
+        .. versionadded:: 0.0.1
+        """
         return self.xa_scel.version()
 
     def send(self, message: str, chat: 'XAMessagesChat'):
@@ -80,7 +89,7 @@ class XAMessagesApplication(XABaseScriptable.XASBApplication):
         :Example 1:
 
         >>> import PyXA
-        >>> messages = PyXA.application("Messages")
+        >>> messages = PyXA.Application("Messages")
         >>> friend = messages.participants().by_full_name("Example Person")
         >>> chat = messages.chats().by_participants([friend])
         >>> messages.send("Testing 1 2 3", chat)
@@ -105,21 +114,21 @@ class XAMessagesApplication(XABaseScriptable.XASBApplication):
         :Example 1: List all chats
 
         >>> import PyXA
-        >>> app = PyXA.application("Messages")
+        >>> app = PyXA.Application("Messages")
         >>> print(app.chats())
         <<class 'PyXA.apps.Messages.XAMessagesChatList'>['iMessage;-;+11234567891', 'SMS;-;+12234567891', ...]
 
         :Example 2: List the names of all named chats
 
         >>> import PyXA
-        >>> app = PyXA.application("Messages")
+        >>> app = PyXA.Application("Messages")
         >>> print(app.chats().name())
         ['PyXA Group', 'Dev Chat']
 
         :Example 3: List the information, including participants, of every chat
 
         >>> import PyXA
-        >>> app = PyXA.application("Messages")
+        >>> app = PyXA.Application("Messages")
         >>> chats = app.chats()
         >>> for chat in chats:
         >>>     print("\n")
@@ -143,14 +152,14 @@ class XAMessagesApplication(XABaseScriptable.XASBApplication):
         :Example 1: List all participants
 
         >>> import PyXA
-        >>> messages = PyXA.application("Messages")
+        >>> messages = PyXA.Application("Messages")
         >>> print(messages.participants())
         <<class 'PyXA.apps.Messages.XAMessagesParticipantList'>['+1 (888) 888-8888', 'Example Person', 'Another Person', ...]>
 
         :Example 2: Get a participant by full name
 
         >>> import PyXA
-        >>> messages = PyXA.application("Messages")
+        >>> messages = PyXA.Application("Messages")
         >>> print(messages.participants().by_full_name("Example Person"))
         <<class 'PyXA.apps.Messages.XAMessagesParticipant'>Example Person>
 
@@ -164,14 +173,14 @@ class XAMessagesApplication(XABaseScriptable.XASBApplication):
         :Example 1: Print a list of all accounts
 
         >>> import PyXA
-        >>> messages = PyXA.application("Messages")
+        >>> messages = PyXA.Application("Messages")
         >>> print(messages.accounts())
         <<class 'PyXA.apps.Messages.XAMessagesAccountList'>[<ServiceType.IMESSAGE: 1936289139>, <ServiceType.SMS: 1936289139>, <ServiceType.IMESSAGE: 1936289139>]>
 
         :Example 2: Get an account by its ID
 
         >>> import PyXA
-        >>> messages = PyXA.application("Messages")
+        >>> messages = PyXA.Application("Messages")
         >>> print(messages.accounts().by_id("BEC519EA-DD88-5574-BDB9-C48486D3111B"))
         <PyXA.apps.Messages.XAMessagesAccount object at 0x126de2340>
 
@@ -185,28 +194,28 @@ class XAMessagesApplication(XABaseScriptable.XASBApplication):
         :Example 1: List all file transfers
 
         >>> import PyXA
-        >>> messages = PyXA.application("Messages")
+        >>> messages = PyXA.Application("Messages")
         >>> print(messages.file_transfers())
         <<class 'PyXA.apps.Messages.XAMessagesFileTransferList'>['at_0_8BEC6B47-3B43-4D14-87C1-221C2BDED01C', 'at_0_9C0DC423-F6AB-4A98-8532-1C4D250160CD', ...]>
 
         :Example 2: Get a file transfer by filename
 
         >>> import PyXA
-        >>> messages = PyXA.application("Messages")
+        >>> messages = PyXA.Application("Messages")
         >>> print(messages.file_transfers().by_name("Example1.png")
         <<class 'PyXA.apps.Messages.XAMessagesFileTransfer'>Example1.png>
 
         :Example 3: List the file paths of file transfers
 
         >>> import PyXA
-        >>> messages = PyXA.application("Messages")
+        >>> messages = PyXA.Application("Messages")
         >>> print(messages.file_transfers().file_path())
         [file:///Users/exampleuser/Library/Messages/Attachments/de/14/at_0_8BEC6B47-3B43-4D14-87C1-221C2BDED01C/Example1.png, file:///Users/exampleuser/Library/Messages/Attachments/c4/04/at_0_9C0DC423-F6AB-4A98-8532-1C4D250160CD/Example2.jpg, ...]
 
         :Example 4: Get the first PNG file transfer
 
         >>> import PyXA
-        >>> messages = PyXA.application("Messages")
+        >>> messages = PyXA.Application("Messages")
         >>> print(messages.file_transfers().containing("name", "png"))
         <<class 'PyXA.apps.Messages.XAMessagesFileTransfer'>Example1.png>
 
@@ -224,29 +233,29 @@ class XAMessagesWindow(XABaseScriptable.XASBWindow):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.name: str #: The title of the window
-        self.id: int #: The unique identifier for the window
-        self.index: int #: The index of the window in the front-to-back ordering
-        self.bounds: tuple[int, int, int, int] #: The bounding rectangle of the window
-        self.closeable: bool #: Whether the window has a close button
-        self.miniaturizable: bool #: Whether the window can be minimized
-        self.miniaturized: bool #: Whether the window is currently minimized
-        self.resizable: bool #: Whether the window can be resized
-        self.visible: bool #: Whether the window is currently visible
-        self.zoomable: bool #: Whether the window can be zoomed
-        self.zoomed: bool #: Whether the window is currently zoomed
-        self.document: XAMessagesDocument #: The document currently displayed in the window
 
     @property
     def name(self) -> str:
+        """The title of the window.
+
+        .. versionadded:: 0.0.4
+        """
         return self.xa_scel.name()
 
     @property
     def id(self) -> int:
+        """The unique identifier for the window.
+
+        .. versionadded:: 0.0.4
+        """
         return self.xa_scel.id()
 
     @property
     def index(self) -> int:
+        """The index of the window in the front-to-back ordering.
+
+        .. versionadded:: 0.0.4
+        """
         return self.xa_scel.index()
 
     @index.setter
@@ -255,6 +264,10 @@ class XAMessagesWindow(XABaseScriptable.XASBWindow):
 
     @property
     def bounds(self) -> tuple[int, int, int, int]:
+        """The bounding rectangle of the window.
+
+        .. versionadded:: 0.0.4
+        """
         rect = self.xa_elem.bounds()
         origin = rect.origin
         size = rect.size
@@ -271,14 +284,26 @@ class XAMessagesWindow(XABaseScriptable.XASBWindow):
 
     @property
     def closeable(self) -> bool:
+        """Whether the window has a close button.
+
+        .. versionadded:: 0.0.4
+        """
         return self.xa_scel.closeable()
 
     @property
     def miniaturizable(self) -> bool:
+        """Whether the window can be minimized.
+
+        .. versionadded:: 0.0.4
+        """
         return self.xa_scel.miniaturizable()
 
     @property
     def miniaturized(self) -> bool:
+        """Whether the window is currently minimized.
+
+        .. versionadded:: 0.0.4
+        """
         return self.xa_scel.miniaturized()
 
     @miniaturized.setter
@@ -287,10 +312,18 @@ class XAMessagesWindow(XABaseScriptable.XASBWindow):
 
     @property
     def resizable(self) -> bool:
+        """Whether the window can be resized.
+
+        .. versionadded:: 0.0.4
+        """
         return self.xa_scel.resizable()
 
     @property
     def visible(self) -> bool:
+        """Whether the window is currently visible.
+
+        .. versionadded:: 0.0.4
+        """
         return self.xa_scel.visible()
 
     @visible.setter
@@ -299,10 +332,18 @@ class XAMessagesWindow(XABaseScriptable.XASBWindow):
 
     @property
     def zoomable(self) -> bool:
+        """Whether the window can be zoomed.
+
+        .. versionadded:: 0.0.4
+        """
         return self.xa_scel.zoomable()
 
     @property
     def zoomed(self) -> bool:
+        """Whether the window is currently zoomed.
+
+        .. versionadded:: 0.0.4
+        """
         return self.xa_scel.zoomed()
 
     @zoomed.setter
@@ -311,6 +352,10 @@ class XAMessagesWindow(XABaseScriptable.XASBWindow):
 
     @property
     def document(self) -> 'XAMessagesDocument':
+        """The document currently displayed in the window.
+
+        .. versionadded:: 0.0.4
+        """
         return self._new_element(self.xa_scel.document(), XAMessagesDocument)
 
 
@@ -393,20 +438,29 @@ class XAMessagesDocument(XABase.XAObject):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.name: str #: The title of the document
-        self.modified: bool #: Whether the document has been modified since its last save
-        self.file: str #: The location of the document on the disk, if one exists
 
     @property
     def name(self) -> str:
+        """The title of the document.
+
+        .. versionadded:: 0.0.4
+        """
         return self.xa_elem.name()
 
     @property
     def modified(self) -> bool:
+        """Whether the document has been modified since its last save.
+
+        .. versionadded:: 0.0.4
+        """
         return self.xa_elem.modified()
 
     @property
     def file(self) -> str:
+        """The location of the document on the disk, if one exists.
+
+        .. versionadded:: 0.0.4
+        """
         return self.xa_elem.file()
 
 
@@ -542,20 +596,29 @@ class XAMessagesChat(XABase.XAObject, XAClipboardCodable):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.id: str #: The unique identifier for the chat
-        self.name: str #: The name of the chat as it appears in the chat list
-        self.account: XAMessagesAccount #: The account that is participating in the chat
 
     @property
     def id(self) -> str:
+        """The unique identifier for the chat.
+
+        .. versionadded:: 0.0.1
+        """
         return self.xa_elem.id()
 
     @property
     def name(self) -> str:
+        """The name of the chat as it appears in the chat list.
+
+        .. versionadded:: 0.0.1
+        """
         return self.xa_elem.name()
 
     @property
     def account(self) -> 'XAMessagesAccount':
+        """The account that is participating in the chat.
+
+        .. versionadded:: 0.0.1
+        """
         return self._new_element(self.xa_elem.account(), XAMessagesAccount)
 
     def send(self, message):
@@ -569,7 +632,7 @@ class XAMessagesChat(XABase.XAObject, XAClipboardCodable):
         :Example 1: Send an SMS to a chat based on the chat ID
 
         >>> import PyXA
-        >>> app = PyXA.application("Messages")
+        >>> app = PyXA.Application("Messages")
         >>> chat = app.chats().by_id("SMS;-;+11234567891")
         >>> chat.send("Hello!")
 
@@ -917,7 +980,6 @@ class XAMessagesFileTransfer(XABase.XAObject, XAClipboardCodable):
 
         .. versionadded:: 0.0.8
         """
-        print(self.file_path.xa_elem)
         return [self.file_path.xa_elem]
 
     def __repr__(self):

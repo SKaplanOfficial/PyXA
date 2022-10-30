@@ -62,7 +62,7 @@ class XAPreviewApplication(XABaseScriptable.XASBApplication, XACanOpenPath, XACa
         :Example 1: List all documents
 
         >>> import PyXA
-        >>> app = PyXA.application("Preview")
+        >>> app = PyXA.Application("Preview")
         >>> print(app.documents())
         <<class 'PyXA.apps.Preview.XAPreviewDocumentList'>['Example1.pdf', 'Example2.pdf']>
 
@@ -379,7 +379,7 @@ class XAPreviewDocument(XABase.XATextDocument, XAPrintable, XACloseable, XAClipb
         :Example 1: Save a PDF (or any compatible document) as a PNG
 
         >>> import PyXA
-        >>> app = PyXA.application("Preview")
+        >>> app = PyXA.Application("Preview")
         >>> doc = app.documents()[0] # A PDF
         >>> # Save to Downloads to avoid permission errors
         >>> doc.save("/Users/steven/Downloads/Example.png")

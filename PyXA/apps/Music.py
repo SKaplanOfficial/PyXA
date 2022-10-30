@@ -170,20 +170,13 @@ class XAMusicApplication(MediaApplicationBase.XAMediaApplication):
     def visuals_enabled(self, visuals_enabled: bool):
         self.set_property('visualsEnabled', visuals_enabled)
 
+    @property
     def current_track(self) -> 'XAMusicTrack':
         """Returns the currently playing (or paused but not stopped) track.
 
         .. versionadded:: 0.0.1
         """
-        properties = {
-            "parent": self,
-            "appspace": self.xa_apsp,
-            "workspace": self.xa_wksp,
-            "element": self.xa_scel.currentTrack(),
-            "appref": self.xa_aref,
-            "system_events": self.xa_sevt,
-        }
-        return XAMusicTrack(properties)
+        return self._new_element(self.xa_scel.currentTrack(), XAMusicTrack)
 
     # def convert(self, items):
     #     self.xa_scel.convert_([item.xa_elem for item in items])
@@ -208,7 +201,7 @@ class XAMusicApplication(MediaApplicationBase.XAMediaApplication):
         :Example:
 
         >>> import PyXA
-        >>> app = PyXA.application("Music")
+        >>> app = PyXA.Application("Music")
         >>> print(app.airplay_devices())
         <<class 'PyXA.apps.Music.XAMusicAirPlayDeviceList'>['ExampleUser\\'s MacBook Pro']>
 

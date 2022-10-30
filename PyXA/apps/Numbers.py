@@ -287,14 +287,14 @@ class XANumbersApplication(XABaseScriptable.XASBApplication):
         :Example 1: Making a new document
 
         >>> import PyXA
-        >>> Numbers = PyXA.application("Numbers")
+        >>> Numbers = PyXA.Application("Numbers")
         >>> new_doc = Numbers.make("document", {"bodyText": "This is a whole new document!"})
         >>> Numbers.documents().push(new_doc)
 
         :Example 3: Making new elements on a page
 
         >>> import PyXA
-        >>> Numbers = PyXA.application("Numbers")
+        >>> Numbers = PyXA.Application("Numbers")
         >>> new_line = Numbers.make("line", {"startPoint": (100, 100), "endPoint": (200, 200)})
         >>> Numbers.documents()[0].sheets()[0].lines().push(new_line)
 
@@ -2037,7 +2037,7 @@ class XANumbersGroup(XANumbersContainer):
         :Example:
 
         >>> import PyXA
-        >>> Numbers = PyXA.application("Numbers")
+        >>> Numbers = PyXA.Application("Numbers")
         >>> group = Numbers.current_document.groups()[0]
         >>> group.rotate(45)
 
@@ -2290,7 +2290,7 @@ class XANumbersImage(XANumbersiWorkItem):
         :Example:
 
         >>> import PyXA
-        >>> Numbers = PyXA.application("Numbers")
+        >>> Numbers = PyXA.Application("Numbers")
         >>> page = Numbers.documents()[0].sheets()[0]
         >>> img = page.add_image("/Users/steven/Documents/idk/idk.001.png")
         >>> img.rotate(30)
@@ -2318,7 +2318,7 @@ class XANumbersImage(XANumbersiWorkItem):
         :Example:
 
         >>> import PyXA
-        >>> Numbers = PyXA.application("Numbers")
+        >>> Numbers = PyXA.Application("Numbers")
         >>> page = Numbers.documents()[0].sheets()[0]
         >>> img = page.add_image("/Users/exampleuser/Documents/Images/Test1.png")
         >>> sleep(1)
@@ -2927,7 +2927,7 @@ class XANumbersLine(XANumbersiWorkItem):
         :Example:
 
         >>> import PyXA
-        >>> Numbers = PyXA.application("Numbers")
+        >>> Numbers = PyXA.Application("Numbers")
         >>> line = Numbers.current_document.lines()[0]
         >>> line.rotate(45)
 
@@ -3187,7 +3187,7 @@ class XANumbersMovie(XANumbersiWorkItem):
         :Example:
 
         >>> import PyXA
-        >>> Numbers = PyXA.application("Numbers")
+        >>> Numbers = PyXA.Application("Numbers")
         >>> movie = Numbers.current_document.movies()[0]
         >>> movie.rotate(45)
 
@@ -3408,7 +3408,7 @@ class XANumbersTextItem(XANumbersiWorkItem):
         :Example:
 
         >>> import PyXA
-        >>> Numbers = PyXA.application("Numbers")
+        >>> Numbers = PyXA.Application("Numbers")
         >>> text = Numbers.current_document.text_items()[0]
         >>> text.rotate(45)
 

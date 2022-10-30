@@ -33,7 +33,7 @@ PyXA can control Safari and interact with its content. In this example, we use P
 ```python
 import PyXA
 from time import sleep
-safari = PyXA.application("Safari")
+safari = PyXA.Application("Safari")
 safari.open("https://www.apple.com")
 sleep(1)
 safari.current_document.print()
@@ -43,7 +43,13 @@ safari.current_document.print()
 PyXA can also be used to interact with the Music app. In this example, we use PyXA to get a reference to the Music app, begin playback of the next-up song, then repeatedly print out some information about the track whenever the current track changes. The information will be printed regardless of *how* the track changes, so you can test this script by running it and skipping to the next song. 
 ```python
 import PyXA
-music = PyXA.application("Music")
+from time import sleep
+music = PyXA.Application("Music")
+
+# Wait for Music.app to be ready to play
+music.activate()
+while not music.frontmost:
+    sleep(0.5)
 music.play()
 
 track_name = ""
@@ -76,26 +82,22 @@ PyXA can also be used for more complex tasks. In this example, we use PyXA to ge
 ```python
 import PyXA
 from datetime import datetime, timedelta
-end_date = datetime.now().strftime("%Y-%m-%d")
 
-notes = PyXA.application("Notes")
-calendar = PyXA.application("Calendar")
-reminders = PyXA.application("Reminders")
+notes = PyXA.Application("Notes")
+calendar = PyXA.Application("Calendar")
+reminders = PyXA.Application("Reminders")
 
-note_text = "-- Reminders --"
-for reminder in reminders.reminders({"completed": False}):
-    if reminder.dueDate is None or end_date in str(reminder.dueDate):
-        note_text += "\nReminder: " + reminder.name
-        if reminder.body != "" and reminder.body != None:
-            note_text += "\n" + reminder.body
+end_date = datetime.now()
+note = notes.new_note(f"<h1>Agenda for {end_date.strftime('%Y-%m-%d')}</h1>", "")
 
-note_text += "\n\n-- Events --"
+note.body += "<br/>-- Reminders --"
+for reminder in reminders.reminders({ "completed": False }):
+    note.body += "Reminder: " + reminder.name
+
+note.body += "<br/>-- Events --"
 for calendar in calendar.calendars():
-    for event in calendar.events():
-        if end_date in str(event.endDate):
-            note_text += "\nEvent: " + event.summary + ", from " + str(event.startDate) + " to " + str(event.endDate)
-
-notes.new_note(f"<h1>Agenda for {end_date}</h1>", note_text)
+    for event in calendar.events().between("endDate", end_date, end_date + timedelta(days=2)):
+        note.body += "Event: " + event.summary + ", from " + str(event.start_date) + " to " + str(event.end_date)
 ```
 When run, the above script creates a note in the Notes application similar to the following:
 
@@ -106,7 +108,7 @@ Lastly, PyXA has several convenient features for working with lists, interacting
 
 ```python
 import PyXA
-app = PyXA.application("Messages")
+app = PyXA.Application("Messages")
 last_file_transfer = app.file_transfers().filter("direction", "==", app.MessageDirection.OUTGOING)[-1]
 PyXA.XAClipboard().content = last_file_transfer
 ```

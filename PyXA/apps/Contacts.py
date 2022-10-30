@@ -134,7 +134,7 @@ class XAContactsApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         :Example:
 
         >>> import PyXA
-        >>> app = PyXA.application("Contacts")
+        >>> app = PyXA.Application("Contacts")
         >>> print(app.groups())
         <<class 'PyXA.apps.Contacts.XAContactsGroupList'>['Example Group 1', 'Example Group 2', ...]>
 
@@ -153,7 +153,7 @@ class XAContactsApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         :Example:
 
         >>> import PyXA
-        >>> app = PyXA.application("Contacts")
+        >>> app = PyXA.Application("Contacts")
         >>> print(app.people())
         <<class 'PyXA.apps.Contacts.XAContactsPersonList'>['Example Contact 1', 'Example Contact 2', ...]>
 
@@ -176,7 +176,7 @@ class XAContactsApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         :Example 1: Add a URL to a contact
 
         >>> import PyXA
-        >>> app = PyXA.application("Contacts")
+        >>> app = PyXA.Application("Contacts")
         >>> contact = app.people().by_name("Example Contact")
         >>> new_url = app.make("url", {"label": "Google", "value": "www.google.com"})
         >>> contact.urls().push(new_url)
@@ -964,7 +964,7 @@ class XAContactsEntry(XABase.XAObject):
         :Example 1: Add a contact to a group
 
         >>> import PyXA
-        >>> app = PyXA.application("Contacts")
+        >>> app = PyXA.Application("Contacts")
         >>> group = app.groups().by_name("Example Group")
         >>> app.people()[0].add_to(group)
         >>> app.save()
@@ -983,7 +983,7 @@ class XAContactsEntry(XABase.XAObject):
         :Example 1: Remove a contact from a group
 
         >>> import PyXA
-        >>> app = PyXA.application("Contacts")
+        >>> app = PyXA.Application("Contacts")
         >>> group = app.groups().by_name("Example Group")
         >>> app.people()[0].add_to(group)
         >>> app.people()[0].remove_from(group)

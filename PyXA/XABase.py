@@ -300,15 +300,6 @@ class XAApplication(XAObject, XAClipboardCodable):
         self.xa_wcls = XAWindow
         self.__xa_prcs = None
 
-        self.bundle_identifier: str #: The bundle identifier for the application
-        self.bundle_url: str #: The file URL of the application bundle
-        self.executable_url: str #: The file URL of the application's executable
-        self.frontmost: bool #: Whether the application is the active application
-        self.launch_date: datetime #: The date and time that the application was launched
-        self.localized_name: str #: The application's name
-        self.owns_menu_bar: bool #: Whether the application owns the top menu bar
-        self.process_identifier: str #: The process identifier for the application instance 
-
         self.xa_apsc: appscript.GenericApp
 
     @property
@@ -342,18 +333,34 @@ class XAApplication(XAObject, XAClipboardCodable):
 
     @property
     def bundle_identifier(self) -> str:
+        """The bundle identifier for the application.
+
+        .. versionadded:: 0.0.1
+        """
         return self.xa_elem.bundleIdentifier()
 
     @property
     def bundle_url(self) -> str:
+        """The file URL of the application bundle.
+
+        .. versionadded:: 0.0.1
+        """
         return self.xa_elem.bundleURL()
 
     @property
     def executable_url(self) -> str:
+        """The file URL of the application's executable.
+
+        .. versionadded:: 0.0.1
+        """
         return self.xa_elem.executableURL()
 
     @property
     def frontmost(self) -> bool:
+        """Whether the application is the active application.
+
+        .. versionadded:: 0.0.1
+        """
         return self.xa_elem.isActive()
 
     @frontmost.setter
@@ -363,18 +370,34 @@ class XAApplication(XAObject, XAClipboardCodable):
 
     @property
     def launch_date(self) -> datetime:
+        """The date and time that the application was launched.
+
+        .. versionadded:: 0.0.1
+        """
         return self.xa_elem.launchDate()
 
     @property
     def localized_name(self) -> str:
+        """The application's name.
+
+        .. versionadded:: 0.0.1
+        """
         return self.xa_elem.localizedName()
 
     @property
     def owns_menu_bar(self) -> bool:
+        """Whether the application owns the top menu bar.
+
+        .. versionadded:: 0.0.1
+        """
         return self.xa_elem.ownsMenuBar()
 
     @property
     def process_identifier(self) -> str:
+        """The process identifier for the application instance.
+
+        .. versionadded:: 0.0.1
+        """
         return self.xa_elem.processIdentifier()
 
     def activate(self) -> 'XAApplication':
@@ -399,7 +422,7 @@ class XAApplication(XAObject, XAClipboardCodable):
         :Example:
 
         >>> import PyXA
-        >>> safari = PyXA.application("Safari")
+        >>> safari = PyXA.Application("Safari")
         >>> safari.terminate()
 
         .. seealso:: :func:`quit`, :func:`activate`
@@ -418,7 +441,7 @@ class XAApplication(XAObject, XAClipboardCodable):
         :Example:
 
         >>> import PyXA
-        >>> safari = PyXA.application("Safari")
+        >>> safari = PyXA.Application("Safari")
         >>> safari.quit()
 
         .. seealso:: :func:`terminate`, :func:`activate`
@@ -437,7 +460,7 @@ class XAApplication(XAObject, XAClipboardCodable):
         :Example:
 
         >>> import PyXA
-        >>> safari = PyXA.application("Safari")
+        >>> safari = PyXA.Application("Safari")
         >>> safari.hide()
 
         .. seealso:: :func:`unhide`
@@ -456,7 +479,7 @@ class XAApplication(XAObject, XAClipboardCodable):
         :Example:
 
         >>> import PyXA
-        >>> safari = PyXA.application("Safari")
+        >>> safari = PyXA.Application("Safari")
         >>> safari.unhide()
 
         .. seealso:: :func:`hide`
@@ -475,7 +498,7 @@ class XAApplication(XAObject, XAClipboardCodable):
         :Example:
 
         >>> import PyXA
-        >>> safari = PyXA.application("Safari")
+        >>> safari = PyXA.Application("Safari")
         >>> safari.focus()
 
         .. seealso:: :func:`unfocus`
@@ -498,7 +521,7 @@ class XAApplication(XAObject, XAClipboardCodable):
         :Example:
 
         >>> import PyXA
-        >>> safari = PyXA.application("Safari")
+        >>> safari = PyXA.Application("Safari")
         >>> safari.unfocus()
 
         .. seealso:: :func:`focus`
@@ -879,7 +902,7 @@ class XAList(XAObject):
         :Example:
 
         >>> import PyXA
-        >>> app = PyXA.application("Photos")
+        >>> app = PyXA.Application("Photos")
         >>> photo = app.media_items().by_property("id", "CB24FE9F-E9DC-4A5C-A0B0-CC779B1CEDCE/L0/001")
         >>> print(photo)
         <<class 'PyXA.apps.PhotosApp.XAPhotosMediaItem'>id=CB24FE9F-E9DC-4A5C-A0B0-CC779B1CEDCE/L0/001>
@@ -889,9 +912,9 @@ class XAList(XAObject):
         predicate = XAPredicate()
         predicate.add_eq_condition(property, value)
         ls = predicate.evaluate(self.xa_elem)
-        if hasattr(ls, "get"):
-            ls = predicate.evaluate(self.xa_elem).get()
-            
+        # if hasattr(ls, "get"):
+        #     ls = predicate.evaluate(self.xa_elem).get()
+
         if len(ls) == 0:
             return None
 
@@ -1138,7 +1161,7 @@ class XAList(XAObject):
         :Example 1: Get the last file sent by you (via this machine) in Messages.app
 
         >>> import PyXA
-        >>> app = PyXA.application("Messages")
+        >>> app = PyXA.Application("Messages")
         >>> last_file_transfer = app.file_transfers().filter("direction", "==", app.MessageDirection.OUTGOING)[-1]
         >>> print(last_file_transfer)
         <<class 'PyXA.apps.Messages.XAMessagesFileTransfer'>Test.jpg>
@@ -1146,7 +1169,7 @@ class XAList(XAObject):
         :Example 2: Get the list of favorite photos/videos from Photos.app
 
         >>> import PyXA
-        >>> app = PyXA.application("Photos")
+        >>> app = PyXA.Application("Photos")
         >>> favorites = app.media_items().filter("favorite", "==", True)
         >>> print(favorites)
         <<class 'PyXA.apps.PhotosApp.XAPhotosMediaItemList'>['CB24FE9F-E9DC-4A5C-A0B0-CC779B1CEDCE/L0/001', 'EFEB7F37-8373-4972-8E43-21612F597185/L0/001', ...]>
@@ -1158,7 +1181,7 @@ class XAList(XAObject):
         :Example 3: Provide a custom format string
 
         >>> import PyXA
-        >>> app = PyXA.application("Photos")
+        >>> app = PyXA.Application("Photos")
         >>> photo = app.media_items().filter("id == 'CB24FE9F-E9DC-4A5C-A0B0-CC779B1CEDCE/L0/001'")[0]
         >>> print(photo)
         <<class 'PyXA.apps.PhotosApp.XAPhotosMediaItem'>id=CB24FE9F-E9DC-4A5C-A0B0-CC779B1CEDCE/L0/001>
@@ -1191,10 +1214,10 @@ class XAList(XAObject):
                 predicate.add_match_condition(filter, value1)
 
             filtered_list = predicate.evaluate(self.xa_elem)
-            return self._new_element(filtered_list, self.__class__)
+            return super()._new_element(filtered_list, self.__class__)
         else:
             filtered_list = XAPredicate.evaluate_with_format(self.xa_elem, filter)
-            return self._new_element(filtered_list, self.__class__)
+            return super()._new_element(filtered_list, self.__class__)
 
     def at(self, index: int) -> XAObject:
         """Retrieves the element at the specified index.
@@ -1252,9 +1275,14 @@ class XAList(XAObject):
         objects = []
         for element in elements:
             len_before = len(self.xa_elem)
-            self.xa_elem.get().addObject_(element.xa_elem)
+            self.xa_elem.addObject_(element.xa_elem)
+
+            if len(self.xa_elem) == len_before:
+                # Object wasn't added -- try force-getting the list before adding
+                self.xa_elem.get().addObject_(element.xa_elem)
+
             if len(self.xa_elem) > len_before:
-                objects.append(self[-1])
+                objects.append(self[len(self.xa_elem) - 1])
         
         if len(objects) == 1:
             return objects[0]
@@ -1398,16 +1426,23 @@ class XAPredicate(XAObject, XAClipboardCodable):
         format = "( " + " ) && ( ".join(expressions) + " )"
 
         predicate = AppKit.NSPredicate.predicateWithFormat_(format, *self.values)
-        predicate = str(predicate) # Not sure why this is necessary sometimes, but it is.
-        ls = target_list.filteredArrayUsingPredicate_(AppKit.NSPredicate.predicateWithFormat_(predicate))
+        ls = target_list.filteredArrayUsingPredicate_(predicate)
+
+        if len(ls) == 0:
+            try:
+                # Not sure why this is necessary sometimes, but it is.
+                predicate = str(predicate)
+                ls = target_list.filteredArrayUsingPredicate_(AppKit.NSPredicate.predicateWithFormat_(predicate))
+            except ValueError:
+                pass
 
         if isinstance(target, XAList):
             return target.__class__({
                 "parent": target,
-                "appspace": AppKit.NSApplication.sharedApplication(),
-                "workspace": AppKit.NSWorkspace.sharedWorkspace(),
+                "appspace": self.xa_apsp,
+                "workspace": self.xa_wksp,
                 "element": ls,
-                "appref": AppKit.NSApplication.sharedApplication(),
+                "appref": self.xa_aref,
             })
         return ls
 
@@ -2609,17 +2644,17 @@ class XACommandDetector(XAObject):
         >>> import PyXA
         >>> PyXA.speak("What app do you want to open?")
         >>> PyXA.XACommandDetector({
-        >>>     "safari": PyXA.application("Safari").activate,
-        >>>     "messages": PyXA.application("Messages").activate,
-        >>>     "shortcuts": PyXA.application("Shortcuts").activate,
-        >>>     "mail": PyXA.application("Mail").activate,
-        >>>     "calendar": PyXA.application("Calendar").activate,
-        >>>     "notes": PyXA.application("Notes").activate,
-        >>>     "music": PyXA.application("Music").activate,
-        >>>     "tv": PyXA.application("TV").activate,
-        >>>     "pages": PyXA.application("Pages").activate,
-        >>>     "numbers": PyXA.application("Numbers").activate,
-        >>>     "keynote": PyXA.application("Keynote").activate,
+        >>>     "safari": PyXA.Application("Safari").activate,
+        >>>     "messages": PyXA.Application("Messages").activate,
+        >>>     "shortcuts": PyXA.Application("Shortcuts").activate,
+        >>>     "mail": PyXA.Application("Mail").activate,
+        >>>     "calendar": PyXA.Application("Calendar").activate,
+        >>>     "notes": PyXA.Application("Notes").activate,
+        >>>     "music": PyXA.Application("Music").activate,
+        >>>     "tv": PyXA.Application("TV").activate,
+        >>>     "pages": PyXA.Application("Pages").activate,
+        >>>     "numbers": PyXA.Application("Numbers").activate,
+        >>>     "keynote": PyXA.Application("Keynote").activate,
         >>> }).listen()
 
         .. versionadded:: 0.0.9
@@ -3810,7 +3845,7 @@ class XATextDocument(XAObject):
 
         .. versionadded:: 0.0.1
         """
-        old_text = self.text
+        old_text = str(self.text)
         self.set_property("text", text + old_text)
         return self
 
@@ -3826,7 +3861,7 @@ class XATextDocument(XAObject):
 
         .. versionadded:: 0.0.1
         """
-        old_text = self.text
+        old_text = str(self.text)
         self.set_property("text", old_text + text)
         return self
 
@@ -3838,7 +3873,7 @@ class XATextDocument(XAObject):
 
         .. versionadded:: 0.0.4
         """
-        self.set_property("text", reversed(self.text))
+        self.set_property("text", reversed(str(self.text)))
         return self
 
     def paragraphs(self, filter: dict = None) -> 'XAParagraphList':

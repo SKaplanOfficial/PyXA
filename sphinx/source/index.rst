@@ -3,6 +3,10 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
+.. image:: _static/assets/PyXALogoTransparent.png
+   :alt: PyXA Logo
+
+
 PyXA Documentation
 ==================
 

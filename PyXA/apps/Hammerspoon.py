@@ -50,7 +50,7 @@ class XAHammerspoonApplication(XABaseScriptable.XASBApplication):
         :Example:
 
         >>> import PyXA
-        >>> app = PyXA.application("hammerspoon")
+        >>> app = PyXA.Application("hammerspoon")
         >>> app.execute_lua_code(\"\"\"
         >>>     app = hs.appfinder.appFromName("Finder")
         >>>     app:activate()

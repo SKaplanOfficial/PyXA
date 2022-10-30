@@ -162,7 +162,7 @@ class XACalculatorApplication(XABase.XAApplication):
         :Example:
 
         >>> import PyXA
-        >>> app = PyXA.application("Calculator")
+        >>> app = PyXA.Application("Calculator")
         >>> app.input("c2*3.14*5*5=")
         34.54
 

@@ -291,7 +291,7 @@ class XAKeynoteApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         :Example 1: List the name of every open Keynote document
 
         >>> import PyXA
-        >>> app = PyXA.application("Keynote")
+        >>> app = PyXA.Application("Keynote")
         >>> docs = app.documents()
         >>> for doc in docs:
         >>>     print(doc.name)
@@ -326,7 +326,7 @@ class XAKeynoteApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         :Example 1: List the name of each theme
 
         >>> import PyXA
-        >>> app = PyXA.application("Keynote")
+        >>> app = PyXA.Application("Keynote")
         >>> themes = app.themes()
         >>> print(themes.name())
         ['Basic White', 'Basic Black', 'Classic White', 'White', 'Black', 'Basic Color', 'Color Gradient Light', 'Color Gradient', 'Gradient', 'Showroom', 'Modern Portfolio', 'Slate', 'Photo Essay', 'Bold Color', 'Showcase', 'Briefing', 'Academy', 'Modern Type', 'Exhibition', 'Feature Story', 'Look Book', 'Classic', 'Editorial', 'Cream Paper', 'Industrial', 'Blueprint', 'Graph Paper', 'Chalkboard', 'Photo Portfolio', 'Leather Book', 'Artisan', 'Improv', 'Drafting', 'Kyoto', 'Brushed Canvas', 'Craft', 'Parchment', 'Renaissance', 'Moroccan', 'Hard Cover', 'Linen Book', 'Vintage', 'Typeset', 'Harmony', 'Formal']
@@ -925,14 +925,14 @@ class XAKeynoteDocument(XABaseScriptable.XASBPrintable, XACloseable):
         :Example 1: List all slides
 
         >>> import PyXA
-        >>> app = PyXA.application("Keynotes")
-        >>> print(app.panes())
+        >>> app = PyXA.Application("Keynotes")
+        >>> print(app.slides())
 
         :Example 2: List slides after applying a filter
 
         >>> import PyXA
-        >>> app = PyXA.application("Keynotes")
-        >>> print(app.panes({"name": "Accessibility"}))
+        >>> app = PyXA.Application("Keynotes")
+        >>> print(app.slides().greater_than("slideNumber", 5))
 
         .. versionadded:: 0.0.2
         """
@@ -951,24 +951,18 @@ class XAKeynoteDocument(XABaseScriptable.XASBPrintable, XACloseable):
         return self.xa_prnt.xa_prnt.new_slide(self, properties)
 
     def slide_layouts(self, filter: Union[dict, None] = None) -> 'XAKeynoteSlideLayoutList':
-        """Returns a list of slide_layouts, as PyXA objects, matching the given filter.
+        """Returns a list of slide layouts, as PyXA objects, matching the given filter.
 
-        :param filter: A dictionary specifying property-value pairs that all returned slide_layouts will have, or None
+        :param filter: A dictionary specifying property-value pairs that all returned slide layouts will have, or None
         :type filter: Union[dict, None]
-        :return: The list of slide_layouts
+        :return: The list of slide layouts
         :rtype: XAKeynoteSlideLayoutList
 
-        :Example 1: List all slide_layouts
+        :Example: List all slide layouts
 
         >>> import PyXA
-        >>> app = PyXA.application("Keynotes")
-        >>> print(app.panes())
-
-        :Example 2: List slide_layouts after applying a filter
-
-        >>> import PyXA
-        >>> app = PyXA.application("Keynotes")
-        >>> print(app.panes({"name": "Accessibility"}))
+        >>> app = PyXA.Application("Keynotes")
+        >>> print(app.slide_layouts())
 
         .. versionadded:: 0.0.2
         """

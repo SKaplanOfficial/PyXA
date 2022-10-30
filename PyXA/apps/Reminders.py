@@ -147,7 +147,7 @@ class XARemindersApplication(XABaseScriptable.XASBApplication):
 
         >>> from datetime import datetime, timedelta
         >>> import PyXA
-        >>> app = PyXA.application("Reminder")
+        >>> app = PyXA.Application("Reminder")
         >>> due_date = datetime.now() + timedelta(hours = 1)
         >>> reminder = app.new_reminder("Read PyXA listation", "Complete 1 tutorial", due_date)
         >>> print(reminder.id)
@@ -1191,36 +1191,27 @@ class XARemindersReminder(XABaseScriptable.XASBObject):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        
-        # Scripting Properties
-        self.properties: dict #: All properties of the reminder.
-        self.name: str #: The name of the reminder
-        self.id: str #: The unique identifier of the reminder
-        self.container: Union[XARemindersList, XARemindersReminder] #: The container of the reminder
-        self.creation_date: datetime #: The creation date of the reminder
-        self.modification_date: datetime #: The modification date of the reminder
-        self.body: str #: The notes attached to the reminder
-        self.completed: bool #: Whether the reminder is completed
-        self.completion_date: datetime #: The completion date of the reminder
-        self.due_date: datetime #: The due date of the reminder; will set both date and time
-        self.allday_due_date: datetime #: The all-day due date of the reminder; will only set a date
-        self.remind_me_date: datetime #: The remind date of the reminder
-        self.priority: int #: The priority of the reminder; 0: no priority, 1–4: high, 5: medium, 6–9: low
-        self.flagged: bool #: Whether the reminder is flagged
-
-        # EventKit Properties
-        self.recurrence_rule #: The recurrence rule for the reminder
-        self.all_day: bool #: Whether the reminder is all day or a specific time
-        self.notes: str #: User-inputted notes for this reminder
-        self.url #: The URL attached to the reminder, if there is one
+        self.__properties = None
 
     @property
     def properties(self) -> dict:
-        return self.xa_elem.properties()
+        """All properties of the reminder.
+
+        .. versionadded:: 0.0.6
+        """
+        if self.__properties is None:
+            self.__properties = self.xa_elem.properties()
+        return self.__properties.copy()
 
     @property
     def name(self) -> str:
-        return self.xa_elem.name()
+        """The name of the reminder.
+
+        .. versionadded:: 0.0.6
+        """
+        if self.__properties is None:
+            self.__properties = self.xa_elem.properties()
+        return self.__properties["name"]
 
     @name.setter
     def name(self, name: str):
@@ -1228,23 +1219,51 @@ class XARemindersReminder(XABaseScriptable.XASBObject):
 
     @property
     def id(self) -> str:
-        return self.xa_elem.id()
+        """The unique identifier of the reminder.
+
+        .. versionadded:: 0.0.6
+        """
+        if self.__properties is None:
+            self.__properties = self.xa_elem.properties()
+        return self.__properties["id"]
 
     @property
     def container(self) -> Union[XARemindersList, 'XARemindersReminder']:
+        """The container of the reminder.
+
+        .. versionadded:: 0.0.6
+        """
         return self._new_element(self.xa_elem.container(), XARemindersList)
 
     @property
     def creation_date(self) -> datetime:
-        return self.xa_elem.creationDate()
+        """The creation date of the reminder.
+
+        .. versionadded:: 0.0.6
+        """
+        if self.__properties is None:
+            self.__properties = self.xa_elem.properties()
+        return self.__properties["creationDate"]
 
     @property
     def modification_date(self) -> datetime:
-        return self.xa_elem.modificationDate()
+        """The modification date of the reminder.
+
+        .. versionadded:: 0.0.6
+        """
+        if self.__properties is None:
+            self.__properties = self.xa_elem.properties()
+        return self.__properties["modificationDate"]
 
     @property
     def body(self) -> str:
-        return self.xa_elem.body()
+        """The notes attached to the reminder.
+
+        .. versionadded:: 0.0.6
+        """
+        if self.__properties is None:
+            self.__properties = self.xa_elem.properties()
+        return self.__properties["body"]
 
     @body.setter
     def body(self, body: str):
@@ -1252,7 +1271,13 @@ class XARemindersReminder(XABaseScriptable.XASBObject):
 
     @property
     def completed(self) -> bool:
-        return self.xa_elem.completed()
+        """Whether the reminder is completed.
+
+        .. versionadded:: 0.0.6
+        """
+        if self.__properties is None:
+            self.__properties = self.xa_elem.properties()
+        return self.__properties["completed"]
 
     @completed.setter
     def completed(self, completed: bool):
@@ -1260,7 +1285,13 @@ class XARemindersReminder(XABaseScriptable.XASBObject):
 
     @property
     def completion_date(self) -> datetime:
-        return self.xa_elem.completionDate()
+        """The completion date of the reminder.
+
+        .. versionadded:: 0.0.6
+        """
+        if self.__properties is None:
+            self.__properties = self.xa_elem.properties()
+        return self.__properties["completionDate"]
 
     @completion_date.setter
     def completion_date(self, completion_date: datetime):
@@ -1268,7 +1299,14 @@ class XARemindersReminder(XABaseScriptable.XASBObject):
 
     @property
     def due_date(self) -> datetime:
-        return self.xa_elem.dueDate()
+        """The due date of the reminder; will set both date and time.
+
+        .. versionadded:: 0.0.6
+        """
+        if self.__properties is None:
+            self.__properties = self.xa_elem.properties()
+        print(self.__properties)
+        return self.__properties["dueDate"]
 
     @due_date.setter
     def due_date(self, due_date: datetime):
@@ -1276,7 +1314,13 @@ class XARemindersReminder(XABaseScriptable.XASBObject):
 
     @property
     def allday_due_date(self) -> datetime:
-        return self.xa_elem.alldayDueDate()
+        """The all-day due date of the reminder; will only set a date.
+
+        .. versionadded:: 0.0.6
+        """
+        if self.__properties is None:
+            self.__properties = self.xa_elem.properties()
+        return self.__properties["allDayDueDate"]
 
     @allday_due_date.setter
     def allday_due_date(self, allday_due_date: datetime):
@@ -1284,7 +1328,13 @@ class XARemindersReminder(XABaseScriptable.XASBObject):
 
     @property
     def remind_me_date(self) -> datetime:
-        return self.xa_elem.remindMeDate()
+        """The remind date of the reminder.
+
+        .. versionadded:: 0.0.6
+        """
+        if self.__properties is None:
+            self.__properties = self.xa_elem.properties()
+        return self.__properties["remindMeDate"]
 
     @remind_me_date.setter
     def remind_me_date(self, remind_me_date: datetime):
@@ -1292,7 +1342,13 @@ class XARemindersReminder(XABaseScriptable.XASBObject):
 
     @property
     def priority(self) -> int:
-        return self.xa_elem.priority()
+        """The priority of the reminder; 0: no priority, 1–4: high, 5: medium, 6–9: low.
+
+        .. versionadded:: 0.0.6
+        """
+        if self.__properties is None:
+            self.__properties = self.xa_elem.properties()
+        return self.__properties["priority"]
 
     @priority.setter
     def priority(self, priority: int):
@@ -1300,7 +1356,13 @@ class XARemindersReminder(XABaseScriptable.XASBObject):
 
     @property
     def flagged(self) -> bool:
-        return self.xa_elem.flagged()
+        """Whether the reminder is flagged.
+
+        .. versionadded:: 0.0.6
+        """
+        if self.__properties is None:
+            self.__properties = self.xa_elem.properties()
+        return self.__properties["flagged"]
 
     @flagged.setter
     def flagged(self, flagged: bool):
@@ -1308,21 +1370,37 @@ class XARemindersReminder(XABaseScriptable.XASBObject):
 
     @property
     def all_day(self) -> bool:
+        """Whether the reminder is all day or a specific time.
+
+        .. versionadded:: 0.0.6
+        """
         reminder = self.__get_ek_reminder()
         return reminder.allDay() == 1
 
     @property
     def notes(self) -> str:
+        """User-inputted notes for this reminder.
+
+        .. versionadded:: 0.0.6
+        """
         reminder = self.__get_ek_reminder()
         return reminder.notes()
 
     @property
     def url(self) -> XABase.XAURL:
+        """The URL attached to the reminder, if there is one.
+
+        .. versionadded:: 0.0.6
+        """
         reminder = self.__get_ek_reminder()
         return XABase.XAURL(reminder.URL())
 
     @property
     def recurrence_rule(self) -> 'XARemindersRecurrenceRule':
+        """The recurrence rule for the reminder.
+
+        .. versionadded:: 0.0.6
+        """
         reminder = self.__get_ek_reminder()
         if reminder.recurrenceRule() is not None:
             return self._new_element(reminder.recurrenceRule(), XARemindersRecurrenceRule)
@@ -1331,9 +1409,13 @@ class XARemindersReminder(XABaseScriptable.XASBObject):
         xa_estr = self._exec_suppresed(EventKit.EKEventStore.alloc().init)
         predicate = xa_estr.predicateForRemindersInCalendars_(None)
         reminders = xa_estr.remindersMatchingPredicate_(predicate)
-        reminder_id = self.xa_elem.id()
+
+        reminder_id = self.xa_elem.properties()["id"] if self.__properties is None else self.__properties["id"]
+
         if reminder_id is not None:
-            reminders = XABase.XAPredicate().from_args("calendarItemIdentifier", reminder_id[19:]).evaluate(reminders)
+            predicate = AppKit.NSPredicate.predicateWithFormat_("%@ CONTAINS calendarItemIdentifier", reminder_id)
+            reminders = reminders.filteredArrayUsingPredicate_(predicate)
+            
             if len(reminders) > 0:
                 return reminders[0]
     

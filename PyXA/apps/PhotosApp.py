@@ -337,7 +337,7 @@ class XAPhotosApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         :Example 1: Make a new album
 
         >>> import PyXA
-        >>> app = PyXA.application("Photos")
+        >>> app = PyXA.Application("Photos")
         >>> new_album = app.make("album", {"name": "PyXA"})
         >>> app.albums().push(new_album)
 

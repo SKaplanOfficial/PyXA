@@ -247,7 +247,7 @@ class XAFinderApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         :Example:
 
         >>> import PyXA
-        >>> app = PyXA.application("Finder")
+        >>> app = PyXA.Application("Finder")
         >>> app.select_item("/Users/exampleuser/Documents/Example.txt")
 
         .. seealso:: :func:`select_items`
@@ -271,9 +271,9 @@ class XAFinderApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         :Example:
 
         >>> import PyXA
-        >>> app = PyXA.application("Finder")
+        >>> app = PyXA.Application("Finder")
         >>> items = ["/Users/exampleuser/Documents/Example 1.txt", "/Users/exampleuser/Documents/Example 2.txt"]
-        >>> app.select_item(items)
+        >>> app.select_items(items)
 
         .. seealso:: :func:`select_item`
 
@@ -298,7 +298,7 @@ class XAFinderApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
        :Example:
 
         >>> import PyXA
-        >>> app = PyXA.application("Finder")
+        >>> app = PyXA.Application("Finder")
         >>> app.recycle_item("/Users/exampleuser/Documents/Example.txt")
 
         .. seealso:: :func:`recycle_items`
@@ -326,7 +326,7 @@ class XAFinderApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         :Example:
 
         >>> import PyXA
-        >>> app = PyXA.application("Finder")
+        >>> app = PyXA.Application("Finder")
         >>> items = ["/Users/exampleuser/Documents/Example 1.txt", "/Users/exampleuser/Documents/Example 2.txt"]
         >>> app.recycle_items(items)
 
@@ -348,7 +348,7 @@ class XAFinderApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
        :Example:
 
         >>> import PyXA
-        >>> app = PyXA.application("Finder")
+        >>> app = PyXA.Application("Finder")
         >>> app.empty_trash()
 
         .. versionadded:: 0.0.1
@@ -367,7 +367,7 @@ class XAFinderApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
        :Example:
 
         >>> import PyXA
-        >>> app = PyXA.application("Finder")
+        >>> app = PyXA.Application("Finder")
         >>> app.delete_item("/Users/exampleuser/Documents/Example.txt")
 
         .. seealso:: :func:`delete_items`
@@ -395,7 +395,7 @@ class XAFinderApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         :Example:
 
         >>> import PyXA
-        >>> app = PyXA.application("Finder")
+        >>> app = PyXA.Application("Finder")
         >>> items = ["/Users/exampleuser/Documents/Example 1.txt", "/Users/exampleuser/Documents/Example 2.txt"]
         >>> app.delete_items(items)
 
@@ -421,7 +421,7 @@ class XAFinderApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
        :Example:
 
         >>> import PyXA
-        >>> app = PyXA.application("Finder")
+        >>> app = PyXA.Application("Finder")
         >>> app.duplicate_item("/Users/exampleuser/Documents/Example.txt")
 
         .. seealso:: :func:`duplicate_items`
@@ -459,7 +459,7 @@ class XAFinderApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         :Example:
 
         >>> import PyXA
-        >>> app = PyXA.application("Finder")
+        >>> app = PyXA.Application("Finder")
         >>> items = ["/Users/exampleuser/Documents/Example 1.txt", "/Users/exampleuser/Documents/Example 2.txt"]
         >>> app.duplicate_items(items)
 
@@ -1927,7 +1927,7 @@ class XAFinderWindow(XABaseScriptable.XASBWindow, XABaseScriptable.XASBPrintable
     :Example 1: Setting the bounds of a Finder window
 
     >>> import PyXA
-    >>> app = PyXA.application("Finder")
+    >>> app = PyXA.Application("Finder")
     >>> window = app.windows()[0]
     >>> lock = False
     >>> (old_w, old_h) = (0,0)

@@ -3,6 +3,7 @@
 Control the macOS TextEdit application using JXA-like syntax.
 """
 
+from time import sleep
 from typing import Union, Self
 
 import AppKit
@@ -61,7 +62,7 @@ class XATextEditApplication(XABaseScriptable.XASBApplication, XACanOpenPath, XAC
 
         >>> import PyXA
         >>> from datetime import datetime, timedelta
-        >>> app = PyXA.application("TextEdit")
+        >>> app = PyXA.Application("TextEdit")
         >>> doc = app.documents()[0]
         >>> print_time = datetime.now() + timedelta(minutes=1)
         >>> properties = {
@@ -97,21 +98,21 @@ class XATextEditApplication(XABaseScriptable.XASBApplication, XACanOpenPath, XAC
         :Example 1: Listing all documents
 
         >>> import PyXA
-        >>> app = PyXA.application("TextEdit")
+        >>> app = PyXA.Application("TextEdit")
         >>> print(list(app.documents()))
         [<<class 'PyXA.apps.TextEdit.XATextEditDocument'>Current Document.txt>, <<class 'PyXA.apps.TextEdit.XATextEditDocument'>Another Document.txt>, ...]
 
         :Example 2: List documents after applying a filter
 
         >>> import PyXA
-        >>> app = PyXA.application("TextEdit")
+        >>> app = PyXA.Application("TextEdit")
         >>> print(list(app.documents({"name": "Another Document.txt"})))
         [<<class 'PyXA.apps.TextEdit.XATextEditDocument'>Another Document.txt>]
 
         :Example 3: List all paragraphs, words, and characters in all currently open documents
 
         >>> import PyXA
-        >>> app = PyXA.application("TextEdit")
+        >>> app = PyXA.Application("TextEdit")
         >>> documents = app.documents()
         >>> print("Paragraphs:", documents.paragraphs())
         >>> print("Words:", documents.words())
@@ -149,7 +150,7 @@ class XATextEditApplication(XABaseScriptable.XASBApplication, XACanOpenPath, XAC
         :Example 1: Create a new document with a name and initial body content
 
         >>> import PyXA
-        >>> app = PyXA.application("TextEdit")
+        >>> app = PyXA.Application("TextEdit")
         >>> doc = app.new_document("New.txt", "Example text")
         >>> print(doc.properties)
         {
@@ -170,7 +171,9 @@ class XATextEditApplication(XABaseScriptable.XASBApplication, XACanOpenPath, XAC
             if not location.endswith("/"):
                 location = location + "/"
             location = location + name
-        return self.push("document", {"name": name, "text": text, "path": location}, self.xa_scel.documents(), XATextEditDocument)
+        new_doc = self.make("document", {"name": name, "text": text, "path": location})
+        doc = self.documents().push(new_doc)
+        return doc
 
     def make(self, specifier: str, properties: dict):
         """Creates a new element of the given specifier class without adding it to any list.
@@ -187,7 +190,7 @@ class XATextEditApplication(XABaseScriptable.XASBApplication, XACanOpenPath, XAC
         :Example 1: Make a new document and push it onto the list of documents
 
         >>> import PyXA
-        >>> app = PyXA.application("TextEdit")
+        >>> app = PyXA.Application("TextEdit")
         >>> properties = {
         >>>     "name": "Example.txt",
         >>>     "path": "/Users/exampleuser/Downloads/Example.txt",
@@ -354,7 +357,7 @@ class XATextEditDocumentList(XABase.XATextDocumentList, XAClipboardCodable):
             "modified": raw_dict["modified"],
             "name": raw_dict["name"],
             "class": "document",
-            "path": XABase.XAPath(raw_dict["path"]),
+            "path": XABase.XAPath(raw_dict["path"]) if raw_dict["path"] is not None else None,
             "text": raw_dict["text"]
         } for raw_dict in raw_dicts]
 
@@ -402,13 +405,13 @@ class XATextEditDocumentList(XABase.XATextDocumentList, XAClipboardCodable):
             conditions = [
                 doc_props["modified"] == properties["modified"],
                 doc_props["name"] == properties["name"],
-                doc_props["path"] == (properties["path"].xa_elem if isinstance(properties["path"], XABase.XAPath) else properties["path"]),
+                doc_props["path"] == (properties["path"].path if isinstance(properties["path"], XABase.XAPath) else properties["path"]),
                 doc_props["text"] == properties["text"]
             ]
             if all(conditions):
                 return self._new_element(document, self.xa_ocls)
 
-    def by_path(self, path: XABase.XAPath) -> Union['XATextEditDocument', None]:
+    def by_path(self, path: Union[str, XABase.XAPath]) -> Union['XATextEditDocument', None]:
         """Retrieves the document whose path matches the given path, if one exists.
 
         :return: The desired document, if it is found
@@ -416,7 +419,9 @@ class XATextEditDocumentList(XABase.XATextDocumentList, XAClipboardCodable):
         
         .. versionadded:: 0.0.3
         """
-        return self.by_property("path", path.xa_elem)
+        if isinstance(path, XABase.XAPath):
+            path = path.path
+        return self.by_property("path", path)
 
     def by_name(self, name: str) -> Union['XATextEditDocument', None]:
         """Retrieves the first document whose name matches the given name, if one exists.
@@ -449,7 +454,7 @@ class XATextEditDocumentList(XABase.XATextDocumentList, XAClipboardCodable):
         :Example 1: Prepend a string at the beginning of every open document
 
         >>> import PyXA
-        >>> app = PyXA.application("TextEdit")
+        >>> app = PyXA.Application("TextEdit")
         >>> documents = app.documents()
         >>> documents.prepend("-- PyXA Notes --\\n\\n")
 
@@ -473,7 +478,7 @@ class XATextEditDocumentList(XABase.XATextDocumentList, XAClipboardCodable):
         :Example 1: Append a string at the end of every open document
 
         >>> import PyXA
-        >>> app = PyXA.application("TextEdit")
+        >>> app = PyXA.Application("TextEdit")
         >>> documents = app.documents()
         >>> documents.append("\\n\\n-- End Of Notes --")
 
@@ -495,7 +500,7 @@ class XATextEditDocumentList(XABase.XATextDocumentList, XAClipboardCodable):
         :Example 1: Reverse the text of every open document
 
         >>> import PyXA
-        >>> app = PyXA.application("TextEdit")
+        >>> app = PyXA.Application("TextEdit")
         >>> documents = app.documents()
         >>> documents.reverse()
 
@@ -596,7 +601,7 @@ class XATextEditDocument(XABase.XATextDocument, XAPrintable, XAClipboardCodable,
         :Example 1: Save all currently open documents
 
         >>> import PyXA
-        >>> app = PyXA.application("TextEdit")
+        >>> app = PyXA.Application("TextEdit")
         >>> for doc in app.documents():
         >>>     doc.save()
 
@@ -622,4 +627,7 @@ class XATextEditDocument(XABase.XATextDocument, XAPrintable, XAClipboardCodable,
         return [str(self.text), self.path.xa_elem]
 
     def __repr__(self):
-        return "<" + str(type(self)) + self.name + ">"
+        try:
+            return "<" + str(type(self)) + self.name + ">"
+        except AttributeError:
+            return "<" + str(type(self)) + str(self.xa_elem) + ">"

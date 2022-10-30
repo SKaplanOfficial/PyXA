@@ -71,14 +71,14 @@ class XASystemPreferencesApplication(XABaseScriptable.XASBApplication):
         :Example 1: List all preference panes
 
         >>> import PyXA
-        >>> app = PyXA.application("System Preferences")
+        >>> app = PyXA.Application("System Preferences")
         >>> print(app.panes())
         <<class 'PyXA.apps.SystemPreferences.XAPreferencePaneList'>['Accessibility', 'Apple ID', 'Battery', ...]>
 
         :Example 2: List preference panes after applying a filter
 
         >>> import PyXA
-        >>> app = PyXA.application("System Preferences")
+        >>> app = PyXA.Application("System Preferences")
         >>> print(app.panes({"name": "Battery"}))
         <<class 'PyXA.apps.SystemPreferences.XAPreferencePaneList'>['Battery']>
 
@@ -99,14 +99,14 @@ class XAPreferencePaneList(XABase.XAList):
     :Example 1: List the name of each preference pane
 
     >>> import PyXA
-    >>> app = PyXA.application("System Preferences")
+    >>> app = PyXA.Application("System Preferences")
     >>> print(app.panes().name())
     ['Accessibility', 'Apple ID', 'Battery', 'Bluetooth', ...]
 
     :Example 2: Get a preference pane by name (two ways)
 
     >>> import PyXA
-    >>> app = PyXA.application("System Preferences")
+    >>> app = PyXA.Application("System Preferences")
     >>> pane1 = app.panes().by_name("Battery")
     >>> pane2 = app.panes({"name": "Battery"})[0]
     >>> print(pane1 == pane2)
@@ -174,7 +174,7 @@ class XAPreferencePane(XABase.XAObject):
         :Example 1: Listing all anchors
         
         >>> import PyXA
-        >>> app = PyXA.application("System Preferences")
+        >>> app = PyXA.Application("System Preferences")
         >>> pane = app.panes()[0]
         >>> print(pane.anchors())
         <<class 'PyXA.apps.SystemPreferences.XAPreferenceAnchorList'>['Accessibility_Shortcut', 'Seeing_Cursor', ...]>
@@ -196,7 +196,7 @@ class XAPreferencePane(XABase.XAObject):
         :Example 1: Reveal the `Displays` preference pane
 
         >>> import PyXA
-        >>> app = PyXA.application("System Preferences")
+        >>> app = PyXA.Application("System Preferences")
         >>> app.activate()
         >>> app.panes().by_name("Displays").reveal()
 
@@ -215,7 +215,7 @@ class XAPreferencePane(XABase.XAObject):
 
         >>> import PyXA
         >>> from time import sleep
-        >>> app = PyXA.application("System Preferences")
+        >>> app = PyXA.Application("System Preferences")
         >>> app.activate()
         >>> pane = app.panes().by_name("Date & Time")
         >>> pane.reveal()
@@ -272,7 +272,7 @@ class XAPreferenceAnchor(XABase.XAObject):
         :Example 1: Reveal the `Siri` anchor in the `Accessibility` pane
 
         >>> import PyXA
-        >>> app = PyXA.application("System Preferences")
+        >>> app = PyXA.Application("System Preferences")
         >>> pane = app.panes().by_name("Accessibility")
         >>> anchor = pane.anchors().by_name("Siri")
         >>> anchor.reveal()

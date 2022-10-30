@@ -44,8 +44,6 @@ class XAFantasticalApplication(XABaseScriptable.XASBApplication):
     def parse_sentence(self, sentence: str, notes: str = "", calendar: Union[str, 'XAFantasticalCalendar', None] = None, add_immediately: bool = True, add_attendees: bool = False):
         """Parses the given sentences and creates a corresponding calendar item based on the parsing result.
 
-        _extended_summary_
-
         :param sentence: The sentence to parse
         :type sentence: str
         :param notes: Notes to attach to the calendar item, defaults to ""
@@ -60,6 +58,8 @@ class XAFantasticalApplication(XABaseScriptable.XASBApplication):
         :Example 1: Add simple events to calendars
 
         >>> # Create an event on the default calendar
+        >>> import PyXA
+        >>> app = PyXA.Application("Fantastical")
         >>> app.parse_sentence("Event 1")
         >>> 
         >>> # Create an event on a calendar specified by a calendar object

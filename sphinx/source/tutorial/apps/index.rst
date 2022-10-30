@@ -1,8 +1,8 @@
-Application Modules
-===================
+Application Module Overviews
+============================
 
-First-Party Application Modules
--------------------------------
+First-Party Application Modules Overviews
+-----------------------------------------
 
 .. toctree::
    :maxdepth: 1
@@ -15,6 +15,7 @@ First-Party Application Modules
    dictionary/index
    finder/index
    fontbook/index
+   imageevents/index
    keynote/index
    mail/index
    maps/index
@@ -36,12 +37,14 @@ First-Party Application Modules
    textedit/index
    tv/index
 
-Third-Party Application Modules
--------------------------------
+Third-Party Application Module Overviews
+----------------------------------------
 
 .. toctree::
    :maxdepth: 1
 
+   bike/index
+   cardhop/index
    chromium/index
    drafts/index
    fantastical/index

@@ -59,14 +59,14 @@ class XAShortcutsApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         :Example 1: Get all folders
 
         >>> import PyXA
-        >>> app = PyXA.application("Shortcuts")
+        >>> app = PyXA.Application("Shortcuts")
         >>> print(app.folders())
         <<class 'PyXA.apps.Shortcuts.XAShortcutFolderList'>['Starter Shortcuts', 'Window Management', 'Dev Tools', ...]>
 
         :Example 2: Get the number of shortcuts contained in each folder
 
         >>> import PyXA
-        >>> app = PyXA.application("Shortcuts")
+        >>> app = PyXA.Application("Shortcuts")
         >>> all_shortcuts = app.folders().shortcuts()
         >>> lengths = [len(ls) for ls in all_shortcuts]
         >>> print(lengths)
@@ -86,7 +86,7 @@ class XAShortcutsApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         :Example 1: Get all shortcuts
 
         >>> import PyXA
-        >>> app = PyXA.application("Shortcuts")
+        >>> app = PyXA.Application("Shortcuts")
         >>> print(app.shortcuts())
         <<class 'PyXA.apps.Shortcuts.XAShortcutList'>['Combine Screenshots & Share', 'Travel plans', 'Paywall Bypasser via Facebook', 'Display Notification', 'Text Converter For iMessage', ...]>
 
@@ -301,7 +301,7 @@ class XAShortcutFolder(XABase.XAObject, XAClipboardCodable):
         :Example 1: Get all shortcuts in a folder
 
         >>> import PyXA
-        >>> app = PyXA.application("Shortcuts")
+        >>> app = PyXA.Application("Shortcuts")
         >>> folder = app.folders()[0]
         >>> print(folder.shortcuts())
         <<class 'PyXA.apps.Shortcuts.XAShortcutList'>['Text Last Image', 'Shazam shortcut', 'Make QR Code', 'Music Quiz', ...]>
@@ -309,7 +309,7 @@ class XAShortcutFolder(XABase.XAObject, XAClipboardCodable):
         :Example 2: Get a list of shortcut colors in a folder
 
         >>> import PyXA
-        >>> app = PyXA.application("Shortcuts")
+        >>> app = PyXA.Application("Shortcuts")
         >>> folder = app.folders()[0]
         >>> print(folder.shortcuts().color())
         [<<class 'PyXA.XABase.XAColor'>r=0.21521323919296265, g=0.7715266942977905, b=0.32515448331832886, a=0.0>, <<class 'PyXA.XABase.XAColor'>r=0.2379034161567688, g=0.3681696951389313, b=0.7627069354057312, a=0.0>, ...]>
@@ -603,7 +603,7 @@ class XAShortcut(XABaseScriptable.XASBPrintable, XAClipboardCodable):
         :Example 1: Run a shortcut without inputs
 
         >>> import PyXA
-        >>> app = PyXA.application("Shortcuts")
+        >>> app = PyXA.Application("Shortcuts")
         >>> folder = app.folders().by_name("Dev Tools")
         >>> shortcut = folder.shortcuts().by_name("Show IP Address")
         >>> shortcut.run()
@@ -611,15 +611,15 @@ class XAShortcut(XABaseScriptable.XASBPrintable, XAClipboardCodable):
         :Example 2: Run a shortcut with text input
 
         >>> import PyXA
-        >>> app = PyXA.application("Shortcuts")
+        >>> app = PyXA.Application("Shortcuts")
         >>> shortcut = app.shortcuts().by_name("Show Notification")
         >>> shortcut.run("Testing 1 2 3...")
 
         :Example 3: Run a shortcut with URL input
 
         >>> import PyXA
-        >>> app = PyXA.application("Shortcuts")
-        >>> safari = PyXA.application("Safari")
+        >>> app = PyXA.Application("Shortcuts")
+        >>> safari = PyXA.Application("Safari")
         >>> document = safari.document(0)
         >>> shortcut = app.shortcuts().by_name("Save URL as PDF")
         >>> shortcut.run(document.url)

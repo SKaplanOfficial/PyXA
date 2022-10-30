@@ -214,12 +214,16 @@ class XAApplicationList(XAList):
     def __iter__(self):
         return (Application(object["kCGWindowOwnerName"]) for object in self.xa_elem.objectEnumerator())
 
+    def __contains__(self, item):
+        if isinstance(item, XAApplication):
+            return item.process_identifier in self.process_identifier()
+
     def __repr__(self):
         return "<" + str(type(self)) + str(self.localized_name()) + ">"
 
 class Application(XAObject):
-    shared_app = AppKit.NSApplication.sharedApplication()
-    workspace = AppKit.NSWorkspace.sharedWorkspace()
+    _shared_app = None
+    _workspace = None
     app_paths: List[str] = [] #: A list containing the path to each application
 
     def __init__(self, app_name: str):
@@ -234,6 +238,18 @@ class Application(XAObject):
         new_self = self.__get_application(app_name)
         self.__class__ = new_self.__class__
         self.__dict__.update(new_self.__dict__)
+
+    @property
+    def shared_app(self):
+        if Application._shared_app == None:
+            Application._shared_app = AppKit.NSApplication.sharedApplication()
+        yield Application._shared_app
+
+    @property
+    def workspace(self):
+        if Application._workspace == None:
+            Application._workspace = AppKit.NSWorkspace.sharedWorkspace()
+        return Application._workspace
 
     def __xa_get_path_to_app(self, app_identifier: str) -> str:
         self.__xa_load_app_paths()
@@ -263,7 +279,8 @@ class Application(XAObject):
         app_identifier_l = app_identifier.lower()
 
         def _match_open_app(obj, index, stop):
-            return (obj.localizedName().lower() == app_identifier_l, stop)
+            res = obj.localizedName().lower() == app_identifier_l
+            return res, res
 
         idx_set = self.workspace.runningApplications().indexesOfObjectsPassingTest_(_match_open_app)
         if idx_set.count() == 1:

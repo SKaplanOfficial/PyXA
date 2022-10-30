@@ -103,10 +103,12 @@ class XASBApplication(XASBObject, XABase.XAApplication):
         self.xa_scel = ScriptingBridge.SBApplication.alloc().initWithURL_(self.xa_elem.bundleURL())
         self.xa_wcls = XASBWindow
 
-        self.front_window: XASBWindow #: The front window of the application
-
     @property
     def front_window(self) -> 'XASBWindow':
+        """The front window of the application.
+
+        .. versionadded:: 0.0.1
+        """
         return self._new_element(self.xa_scel.windows()[0], self.xa_wcls)
 
     def windows(self, filter: dict = None) -> 'XASBWindowList':

@@ -5,11 +5,7 @@ Control Flow using JXA-like syntax.
 
 from datetime import timedelta
 
-import AppKit
-
-from PyXA import XABase
 from PyXA import XABaseScriptable
-from ..XAProtocols import XAClipboardCodable
 
 class XAFlowApplication(XABaseScriptable.XASBApplication):
     """A class for managing and interacting with Flow.app.

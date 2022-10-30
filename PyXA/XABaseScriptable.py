@@ -1,4 +1,5 @@
 from enum import Enum
+from pprint import pprint
 from typing import List, Tuple, Union
 import threading
 import ScriptingBridge
@@ -99,7 +100,7 @@ class XASBApplication(XASBObject, XABase.XAApplication):
 
     def __init__(self, properties):
         super().__init__(properties)
-        self.xa_scel = ScriptingBridge.SBApplication.alloc().initWithBundleIdentifier_(self.xa_elem.bundleIdentifier())
+        self.xa_scel = ScriptingBridge.SBApplication.alloc().initWithURL_(self.xa_elem.bundleURL())
         self.xa_wcls = XASBWindow
 
         self.front_window: XASBWindow #: The front window of the application

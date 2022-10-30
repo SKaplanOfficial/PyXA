@@ -3,7 +3,7 @@
 Control the macOS TV application using JXA-like syntax.
 """
 
-from typing import List, Union
+from typing import Union
 
 from PyXA import XABase, XABaseScriptable
 
@@ -36,11 +36,11 @@ class XATVTrackList(MediaApplicationBase.XAMediaItemList):
             obj_class = XATVTrack
         super().__init__(properties, filter, obj_class)
 
-    def sort_director(self) -> List[str]:
+    def sort_director(self) -> list[str]:
         """Gets the director sort string of each track in the list.
 
         :return: A list of track director sort strings
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.7
         """

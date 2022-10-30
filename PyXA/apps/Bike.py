@@ -4,9 +4,7 @@ Control Bike using JXA-like syntax.
 """
 
 from enum import Enum
-from time import sleep
-from turtle import st
-from typing import Any, List, Tuple, Union
+from typing import Union
 
 import AppKit
 
@@ -83,7 +81,7 @@ class XABikeApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         :Example:
 
         >>> import PyXA
-        >>> app = PyXA.application("Bike")
+        >>> app = PyXA.Application("Bike")
         >>> print(app.documents())
         <<class 'PyXA.apps.Bike.XABikeDocumentList'>['Untitled', 'PyXA Notes.bike']>
 
@@ -106,7 +104,7 @@ class XABikeApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         :Example 1: Add new rows to the current document
 
         >>> import PyXA
-        >>> app = PyXA.application("Bike")
+        >>> app = PyXA.Application("Bike")
         >>> front_doc_rows = app.front_window.document.rows()
         >>> 
         >>> row1 = app.make("row", {"name": "This is a new row!"})
@@ -148,7 +146,7 @@ class XABikeWindow(XABaseScriptable.XASBWindow):
         self.name: str #: The title of the window
         self.id: int #: The unique identifier of the window
         self.index: int #: The index of the window, ordered front to back
-        self.bounds: Tuple[int, int, int, int] #: The bounding rectangle of the window
+        self.bounds: tuple[int, int, int, int] #: The bounding rectangle of the window
         self.closeable: bool #: Whether the window has a close button
         self.miniaturizable: bool #: Whether the window has a minimize button
         self.miniaturized: bool #: Whether the window is currently minimized
@@ -175,14 +173,14 @@ class XABikeWindow(XABaseScriptable.XASBWindow):
         self.set_property('index', index)
 
     @property
-    def bounds(self) -> Tuple[int, int, int, int]:
+    def bounds(self) -> tuple[int, int, int, int]:
         rect = self.xa_elem.bounds()
         origin = rect.origin
         size = rect.size
         return (origin.x, origin.y, size.width, size.height)
 
     @bounds.setter
-    def bounds(self, bounds: Tuple[int, int, int, int]):
+    def bounds(self, bounds: tuple[int, int, int, int]):
         x = bounds[0]
         y = bounds[1]
         w = bounds[2]
@@ -250,52 +248,52 @@ class XABikeDocumentList(XABase.XAList, XACanOpenPath, XAClipboardCodable):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XABikeDocument, filter)
 
-    def name(self) -> List[str]:
+    def name(self) -> list[str]:
         """Gets the name of each document in the list.
 
         :return: A list of document names
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
-    def modified(self) -> List[bool]:
+    def modified(self) -> list[bool]:
         """Gets the modified status of each document in the list.
 
         :return: A list of document modified status booleans
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("modified"))
 
-    def file(self) -> List[XABase.XAPath]:
+    def file(self) -> list[XABase.XAPath]:
         """Gets the file path of each document in the list.
 
         :return: A list of document file paths
-        :rtype: List[XABase.XAPath]
+        :rtype: list[XABase.XAPath]
         
         .. versionadded:: 0.1.0
         """
         ls = self.xa_elem.arrayByApplyingSelector_("file")
         return [XABase.XAPath(x) for x in ls]
 
-    def id(self) -> List[str]:
+    def id(self) -> list[str]:
         """Gets the ID of each document in the list.
 
         :return: A list of document IDs
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("id"))
     
-    def url(self) -> List[XABase.XAURL]:
+    def url(self) -> list[XABase.XAURL]:
         """Gets the URL of each document in the list.
 
         :return: A list of document urls
-        :rtype: List[XABase.XAURL]
+        :rtype: list[XABase.XAURL]
         
         .. versionadded:: 0.1.0
         """
@@ -347,11 +345,11 @@ class XABikeDocumentList(XABase.XAList, XACanOpenPath, XAClipboardCodable):
         ls = self.xa_elem.arrayByApplyingSelector_("hoistedRow")
         return self._new_element(ls, XABikeRowList)
 
-    def selected_text(self) -> List[str]:
+    def selected_text(self) -> list[str]:
         """Gets the selected text of each document in the list.
 
         :return: A list of document selected texts
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
@@ -444,7 +442,7 @@ class XABikeDocumentList(XABase.XAList, XACanOpenPath, XAClipboardCodable):
         """
         return self.by_property("rootRow", root_row.xa_elem)
 
-    def by_entire_contents(self, entire_contents: Union['XABikeRowList', List['XABikeRow']]) -> Union['XABikeDocument', None]:
+    def by_entire_contents(self, entire_contents: Union['XABikeRowList', list['XABikeRow']]) -> Union['XABikeDocument', None]:
         """Retrieves the document whose entire contents matches the given list of rows, if one exists.
 
         :return: The desired document, if it is found
@@ -498,7 +496,7 @@ class XABikeDocumentList(XABase.XAList, XACanOpenPath, XAClipboardCodable):
         """
         return self.by_property("selectionRow", selection_row.xa_elem)
 
-    def by_selection_rows(self, selection_rows: Union['XABikeRowList', List['XABikeRow']]) -> Union['XABikeDocument', None]:
+    def by_selection_rows(self, selection_rows: Union['XABikeRowList', list['XABikeRow']]) -> Union['XABikeDocument', None]:
         """Retrieves the document whose selection rows match the given list of rows, if one exists.
 
         :return: The desired document, if it is found
@@ -620,7 +618,7 @@ class XABikeDocument(XABase.XAObject, XACloseable):
         :Example:
 
         >>> import PyXA
-        >>> app = PyXA.application("Bike")
+        >>> app = PyXA.Application("Bike")
         >>> doc = app.documents()[0]
         >>> doc.save("/Users/exampleUser/Documents/Notes.opml", app.FileFormat.OPML)
 
@@ -643,7 +641,7 @@ class XABikeDocument(XABase.XAObject, XACloseable):
         :Example:
 
         >>> import PyXA
-        >>> app = PyXA.application("Bike")
+        >>> app = PyXA.Application("Bike")
         >>> doc = app.front_window.document
         >>> print(doc.rows())
         <<class 'PyXA.apps.Bike.XABikeRowList'>['Row 1', 'Row 2', 'Row 2.1']>
@@ -668,62 +666,62 @@ class XABikeRowList(XABase.XAList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XABikeRow, filter)
 
-    def id(self) -> List[str]:
+    def id(self) -> list[str]:
         """Gets the ID of each row in the list.
 
         :return: A list of row IDs
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("id"))
 
-    def url(self) -> List[XABase.XAURL]:
+    def url(self) -> list[XABase.XAURL]:
         """Gets the URL of each row in the list.
 
         :return: A list of row URLs
-        :rtype: List[XABase.XAURL]
+        :rtype: list[XABase.XAURL]
         
         .. versionadded:: 0.1.0
         """
         ls = self.xa_elem.arrayByApplyingSelector_("url")
         return [XABase.XAURL(x) for x in ls]
 
-    def level(self) -> List[int]:
+    def level(self) -> list[int]:
         """Gets the level of each row in the list.
 
         :return: A list of row levels
-        :rtype: List[int]
+        :rtype: list[int]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("level"))
 
-    def contains_rows(self) -> List[bool]:
+    def contains_rows(self) -> list[bool]:
         """Gets the contains rows status of each row in the list.
 
         :return: A list of row contains rows status booleans
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("containsRows"))
 
-    def name(self) -> List[str]:
+    def name(self) -> list[str]:
         """Gets the name of each row in the list.
 
         :return: A list of row names
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
-    def container(self) -> List[Union[XABikeDocument, 'XABikeRow']]:
+    def container(self) -> list[Union[XABikeDocument, 'XABikeRow']]:
         """Gets the container of each row in the list.
 
         :return: A list of row containers
-        :rtype: List[Union[XABikeDocument, 'XABikeRow']]
+        :rtype: list[Union[XABikeDocument, 'XABikeRow']]
         
         .. versionadded:: 0.1.0
         """
@@ -774,41 +772,41 @@ class XABikeRowList(XABase.XAList):
         ls = [item for contents in ls for item in contents]
         return self._new_element(ls, XABikeRowList)
 
-    def visible(self) -> List[bool]:
+    def visible(self) -> list[bool]:
         """Gets the visible status of each row in the list.
 
         :return: A list of row visible status booleans
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("visible"))
 
-    def selected(self) -> List[bool]:
+    def selected(self) -> list[bool]:
         """Gets the selected status of each row in the list.
 
         :return: A list of row selected status booleans
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("selected"))
 
-    def expanded(self) -> List[bool]:
+    def expanded(self) -> list[bool]:
         """Gets the expanded status of each row in the list.
 
         :return: A list of row expanded status booleans
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("expanded"))
 
-    def collapsed(self) -> List[bool]:
+    def collapsed(self) -> list[bool]:
         """Gets the collapsed status of each row in the list.
 
         :return: A list of row collapsed status booleans
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.1.0
         """
@@ -916,7 +914,7 @@ class XABikeRowList(XABase.XAList):
         """
         return self.by_property("containerDocument", container_document.xa_elem)
 
-    def by_entire_contents(self, entire_contents: Union['XABikeRowList', List['XABikeRow']]) -> Union['XABikeRow', None]:
+    def by_entire_contents(self, entire_contents: Union['XABikeRowList', list['XABikeRow']]) -> Union['XABikeRow', None]:
         """Retrieves the row whose entire contents matches the given list of rows, if one exists.
 
         :return: The desired row, if it is found
@@ -1118,7 +1116,7 @@ class XABikeRow(XABase.XAObject, XADeletable):
         :Example:
     
         >>> import PyXA
-        >>> app = PyXA.application("Bike")
+        >>> app = PyXA.Application("Bike")
         >>> doc = app.documents()[0]
         >>> row1 = doc.rows()[0]
         >>> row2 = doc.rows()[5]
@@ -1155,7 +1153,7 @@ class XABikeRow(XABase.XAObject, XADeletable):
         :Example:
 
         >>> import PyXA
-        >>> app = PyXA.application("Bike")
+        >>> app = PyXA.Application("Bike")
         >>> doc = app.front_window.document
         >>> row = doc.rows()[4]
         >>> print(row.rows())
@@ -1192,21 +1190,21 @@ class XABikeAttributeList(XABase.XAList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XABikeAttribute, filter)
 
-    def name(self) -> List[str]:
+    def name(self) -> list[str]:
         """Gets the name of each attribute in the list.
 
         :return: A list of attribute names
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
-    def value(self) -> List[str]:
+    def value(self) -> list[str]:
         """Gets the value of each attribute in the list.
 
         :return: A list of attribute values
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
@@ -1216,7 +1214,7 @@ class XABikeAttributeList(XABase.XAList):
         """Gets the container row of each attribute in the list.
 
         :return: A list of attribute container rows
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """

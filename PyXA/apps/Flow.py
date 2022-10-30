@@ -4,7 +4,6 @@ Control Flow using JXA-like syntax.
 """
 
 from datetime import timedelta
-from typing import List, Tuple, Union
 
 import AppKit
 

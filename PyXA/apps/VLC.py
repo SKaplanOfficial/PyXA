@@ -1,6 +1,6 @@
 
 from time import sleep
-from typing import Tuple, Union, List
+from typing import Union
 
 import AppKit
 
@@ -290,31 +290,31 @@ class XAVLCDocumentList(XABase.XAList, XACloseable, XAClipboardCodable):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XAVLCDocument, filter)
 
-    def name(self) -> List[str]:
+    def name(self) -> list[str]:
         """Gets the name of each document in the list.
 
         :return: A list of document names
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.9
         """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
-    def modified(self) -> List[bool]:
+    def modified(self) -> list[bool]:
         """Gets the modified status of each document in the list.
 
         :return: A list of modified status booleans
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.0.9
         """
         return list(self.xa_elem.arrayByApplyingSelector_("modified"))
 
-    def path(self) -> List[XABase.XAPath]:
+    def path(self) -> list[XABase.XAPath]:
         """Gets the file path of each document in the list.
 
         :return: A list of file paths
-        :rtype: List[XABase.XAPath]
+        :rtype: list[XABase.XAPath]
         
         .. versionadded:: 0.0.9
         """
@@ -353,13 +353,13 @@ class XAVLCDocumentList(XABase.XAList, XACloseable, XAClipboardCodable):
             path = XABase.XAPath(path)
         return self.by_property("path", path.xa_elem)
 
-    def get_clipboard_representation(self) -> List[str]:
+    def get_clipboard_representation(self) -> list[str]:
         """Gets a clipboard-codable representation of each document in the list.
 
         When the clipboard content is set to a list of documents, the name of each document is added to the clipboard.
 
         :return: A list of document names
-        :rtype: List[str]
+        :rtype: list[str]
 
         .. versionadded:: 0.0.8
         """
@@ -420,7 +420,7 @@ class XAVLCWindow(XABaseScriptable.XASBWindow):
     def __init__(self, properties):
         super().__init__(properties)
         
-        self.bounds: Tuple[Tuple[int, int], Tuple[int, int]] #: The bounding rectangle of the window.
+        self.bounds: tuple[tuple[int, int], tuple[int, int]] #: The bounding rectangle of the window.
         self.closeable: bool #: Whether the window has a close box.
         self.document: XAVLCDocument #: The document whose contents are being displayed in the window.
         self.floating: bool #: Whether the window floats.
@@ -437,14 +437,14 @@ class XAVLCWindow(XABaseScriptable.XASBWindow):
         self.zoomed: bool #: Whether the window is currently zoomed.
 
     @property
-    def bounds(self) -> Tuple[int, int, int, int]:
+    def bounds(self) -> tuple[int, int, int, int]:
         bounds = self.xa_elem.bounds()
         origin = bounds.origin
         size = bounds.size
         return (origin.x, origin.y, size.width, size.height)
 
     @bounds.setter
-    def bounds(self, bounds: Tuple[int, int, int, int]):
+    def bounds(self, bounds: tuple[int, int, int, int]):
         x = bounds[0]
         y = bounds[1]
         w = bounds[2]

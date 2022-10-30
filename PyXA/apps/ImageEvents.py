@@ -1,12 +1,10 @@
 from datetime import datetime
 from enum import Enum
-from typing import Any, Callable, Tuple, Union, List, Dict
-from time import sleep, time
+from typing import Union, Dict
 from threading import Timer
 
 import AppKit
 import ScriptingBridge
-from PyObjCTools import AppHelper
 
 from PyXA import XABase
 from PyXA.XABase import OSType
@@ -593,11 +591,11 @@ class XAImageEventsApplication(XABase.XAEventsApplication, XABaseScriptable.XASB
         """
         return self._new_element(self.xa_scel.profiles(), XAImageEventsProfileList, filter)
 
-    def open(self, *paths: Union[List[XABase.XAPath], XABase.XAPath, str]) -> 'XAImageEventsImage':
+    def open(self, *paths: Union[list[XABase.XAPath], XABase.XAPath, str]) -> 'XAImageEventsImage':
         """Opens the disk item at the given filepath.
 
         :param path: The path to a file or the URL to a website to open.
-        :type path: Union[List[XABase.XAPath], XABase.XAPath, str]
+        :type path: Union[list[XABase.XAPath], XABase.XAPath, str]
         :return: A reference to the opened file, or None if no file was created or it cannot be found
         :rtype: Any
 
@@ -633,7 +631,7 @@ class XAImageEventsDisplayList(XABase.XAList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XAImageEventsDisplay, filter)
 
-    def display_number(self) -> List['int']:
+    def display_number(self) -> list['int']:
         """Retrieves the number of each display in the list.
 
         .. versionadded:: 0.1.0
@@ -648,7 +646,7 @@ class XAImageEventsDisplayList(XABase.XAList):
         ls = self.xa_elem.arrayByApplyingSelector_("displayProfile")
         return self._new_element(ls, XAImageEventsProfileList)
 
-    def name(self) -> List['str']:
+    def name(self) -> list['str']:
         """Retrieves the name of each display in the list.
 
         .. versionadded:: 0.1.0
@@ -727,7 +725,7 @@ class XAImageEventsImageList(XABase.XAImageList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, filter, XAImageEventsImage)
 
-    def properties(self) -> List[Dict]:
+    def properties(self) -> list[Dict]:
         pyxa_dicts = []
         ls = self.xa_elem.arrayByApplyingSelector_("properties")
         for raw_dict in ls:
@@ -785,21 +783,21 @@ class XAImageEventsImageList(XABase.XAImageList):
         t.start()
         return images
 
-    def bit_depth(self) -> List['XAImageEventsApplication.BitDepth']:
+    def bit_depth(self) -> list['XAImageEventsApplication.BitDepth']:
         """Retrieves the bit depth of each image in the list.
 
         .. versionadded:: 0.1.0
         """
         return [x.bit_depth for x in self]
 
-    def color_space(self) -> List['XAImageEventsApplication.ColorSpace']:
+    def color_space(self) -> list['XAImageEventsApplication.ColorSpace']:
         """Retrieves the color space of each image in the list.
 
         .. versionadded:: 0.1.0
         """
         return [x.color_space for x in self]
 
-    def dimensions(self) -> List[List[int]]:
+    def dimensions(self) -> list[list[int]]:
         """Retrieves the width and height of each image in the list.
 
         .. versionadded:: 0.1.0
@@ -815,7 +813,7 @@ class XAImageEventsImageList(XABase.XAImageList):
         ls = self.xa_elem.arrayByApplyingSelector_("embeddedProfile")
         return self._new_element(ls, XAImageEventsProfileList)
 
-    def file_type(self) -> List['XAImageEventsApplication.FileType']:
+    def file_type(self) -> list['XAImageEventsApplication.FileType']:
         """Retrieves the file type of each image in the list.
 
         .. versionadded:: 0.1.0
@@ -831,7 +829,7 @@ class XAImageEventsImageList(XABase.XAImageList):
         ls = self.xa_elem.arrayByApplyingSelector_("imageFile")
         return self._new_element(ls, XABase.XAFileList)
 
-    def location(self) -> List['XABase.XADiskItem']:
+    def location(self) -> list['XABase.XADiskItem']:
         """Retrieves the folder or disk that encloses the file that contains each image in the list.
 
         .. versionadded:: 0.1.0
@@ -839,14 +837,14 @@ class XAImageEventsImageList(XABase.XAImageList):
         ls = self.xa_elem.arrayByApplyingSelector_("location")
         return self._new_element(ls, XABase.XADiskItemList)
 
-    def name(self) -> List['str']:
+    def name(self) -> list['str']:
         """Retrieves the name of each image in the list.
 
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
-    def resolution(self) -> List['float']:
+    def resolution(self) -> list['float']:
         """Retrieves the horizontal and vertical pixel density of each image in the list.
 
         .. versionadded:: 0.1.0
@@ -872,7 +870,7 @@ class XAImageEventsImageList(XABase.XAImageList):
             if x.colorSpace() == color_space.value:
                 return x
 
-    def by_dimensions(self, dimensions: List[int]) -> 'XAImageEventsImage':
+    def by_dimensions(self, dimensions: list[int]) -> 'XAImageEventsImage':
         """Retrieves the image whose dimensions matches the given dimensions.
 
         .. versionadded:: 0.1.0
@@ -916,7 +914,7 @@ class XAImageEventsImageList(XABase.XAImageList):
         """
         return self.by_property("name", name)
 
-    def by_resolution(self, resolution: List[float]) -> 'XAImageEventsImage':
+    def by_resolution(self, resolution: list[float]) -> 'XAImageEventsImage':
         """Retrieves the image whose resolution matches the given resolution.
 
         .. versionadded:: 0.1.0
@@ -1057,7 +1055,7 @@ class XAImageEventsImage(XABase.XAImage):
         return XAImageEventsApplication.ColorSpace(self.xa_scel.colorSpace())
 
     @property
-    def dimensions(self) -> 'Tuple[int, int]':
+    def dimensions(self) -> 'tuple[int, int]':
         """The width and height of the image, respectively, in pixels.
 
         .. versionadded:: 0.1.0
@@ -1107,7 +1105,7 @@ class XAImageEventsImage(XABase.XAImage):
         return self.xa_scel.name()
 
     @property
-    def resolution(self) -> 'Tuple[float, float]':
+    def resolution(self) -> 'tuple[float, float]':
         """The horizontal and vertical pixel density of the image, respectively, in dots per inch.
 
         .. versionadded:: 0.1.0
@@ -1181,21 +1179,21 @@ class XAImageEventsMetadataTagList(XABase.XAList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XAImageEventsMetadataTag, filter)
 
-    def description(self) -> List['str']:
+    def description(self) -> list['str']:
         """Retrieves the description of each tag's function.
 
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("description"))
 
-    def name(self) -> List['str']:
+    def name(self) -> list['str']:
         """Retrieves the name of each tag in the list.
 
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
-    def value(self) -> List[Union[bool, int, float, str, 'XAImageEventsProfile', any]]:
+    def value(self) -> list[Union[bool, int, float, str, 'XAImageEventsProfile', any]]:
         """Retrieves the current setting of each tag in the list.
 
         .. versionadded:: 0.1.0
@@ -1220,7 +1218,7 @@ class XAImageEventsMetadataTagList(XABase.XAList):
         """
         return self.by_property("name", name)
 
-    def by_value(self, value: List[Union[bool, int, float, str, 'XAImageEventsProfile', any]]) -> 'XAImageEventsMetadataTag':
+    def by_value(self, value: list[Union[bool, int, float, str, 'XAImageEventsProfile', any]]) -> 'XAImageEventsMetadataTag':
         """Retrieves the metadata tag whose value matches the given value.
 
         .. versionadded:: 0.1.0
@@ -1283,7 +1281,7 @@ class XAImageEventsProfileList(XABase.XAList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XAImageEventsProfile, filter)
 
-    def color_space(self) -> List['XAImageEventsApplication.ColorSpace']:
+    def color_space(self) -> list['XAImageEventsApplication.ColorSpace']:
         """Retrieves the color space of each profile in the list.
 
         .. versionadded:: 0.1.0
@@ -1291,7 +1289,7 @@ class XAImageEventsProfileList(XABase.XAList):
         ls = self.xa_elem.arrayByApplyingSelector_("colorSpace")
         return [XAImageEventsApplication.ColorSpace(XABase.OSType(x.stringValue())) for x in ls]
 
-    def connection_space(self) -> List['XAImageEventsApplication.ConnectionSpace']:
+    def connection_space(self) -> list['XAImageEventsApplication.ConnectionSpace']:
         """Retrieves the connection space of each profile in the list.
 
         .. versionadded:: 0.1.0
@@ -1299,21 +1297,21 @@ class XAImageEventsProfileList(XABase.XAList):
         ls = self.xa_elem.arrayByApplyingSelector_("connectionSpace")
         return [XAImageEventsApplication.ConnectionSpace(XABase.OSType(x.stringValue())) for x in ls]
 
-    def creation_date(self) -> List['datetime']:
+    def creation_date(self) -> list['datetime']:
         """Retrieves the creation date of each profile in the list.
 
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("creationDate"))
 
-    def creator(self) -> List['str']:
+    def creator(self) -> list['str']:
         """Retrieves the creator type of each profile in the list.
 
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("creator"))
 
-    def device_class(self) -> List['XAImageEventsApplication.DeviceClass']:
+    def device_class(self) -> list['XAImageEventsApplication.DeviceClass']:
         """Retrieves the device class of each profile in the list.
 
         .. versionadded:: 0.1.0
@@ -1321,14 +1319,14 @@ class XAImageEventsProfileList(XABase.XAList):
         ls = self.xa_elem.arrayByApplyingSelector_("deviceClass")
         return [XAImageEventsApplication.DeviceClass(XABase.OSType(x.stringValue())) for x in ls]
 
-    def device_manufacturer(self) -> List['str']:
+    def device_manufacturer(self) -> list['str']:
         """Retrieves the device manufacturer of each profile in the list.
 
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("deviceManufacturer"))
 
-    def device_model(self) -> List['int']:
+    def device_model(self) -> list['int']:
         """Retrieves the device model of each profile in the list.
 
         .. versionadded:: 0.1.0
@@ -1343,28 +1341,28 @@ class XAImageEventsProfileList(XABase.XAList):
         ls = self.xa_elem.arrayByApplyingSelector_("location")
         return self._new_element(ls, XABase.XAAliasList)
 
-    def name(self) -> List['str']:
+    def name(self) -> list['str']:
         """Retrieves the description text of each profile in the list.
 
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
-    def platform(self) -> List['str']:
+    def platform(self) -> list['str']:
         """Retrieves the intended platform of each profile in the list.
 
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("platform"))
 
-    def preferred_cmm(self) -> List['str']:
+    def preferred_cmm(self) -> list['str']:
         """Retrieves the preferred CMM of each profile in the list.
 
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("preferredCMM"))
 
-    def quality(self) -> List['XAImageEventsApplication.ProfileQuality']:
+    def quality(self) -> list['XAImageEventsApplication.ProfileQuality']:
         """Retrieves the quality of each profile in the list.
 
         .. versionadded:: 0.1.0
@@ -1372,7 +1370,7 @@ class XAImageEventsProfileList(XABase.XAList):
         ls = self.xa_elem.arrayByApplyingSelector_("quality")
         return [XAImageEventsApplication.ProfileQuality(XABase.OSType(x.stringValue())) for x in ls]
 
-    def rendering_intent(self) -> List['XAImageEventsApplication.RenderingIntent']:
+    def rendering_intent(self) -> list['XAImageEventsApplication.RenderingIntent']:
         """Retrieves the rendering intent of each profile in the list.
 
         .. versionadded:: 0.1.0
@@ -1380,14 +1378,14 @@ class XAImageEventsProfileList(XABase.XAList):
         ls = self.xa_elem.arrayByApplyingSelector_("renderingIntent")
         return [XAImageEventsApplication.RenderingIntent(XABase.OSType(x.stringValue())) for x in ls]
 
-    def size(self) -> List['int']:
+    def size(self) -> list['int']:
         """Retrieves the size, in bytes, of each profile in the list.
 
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("size"))
 
-    def version(self) -> List['str']:
+    def version(self) -> list['str']:
         """Retrieves the version number of each profile in the list.
 
         .. versionadded:: 0.1.0

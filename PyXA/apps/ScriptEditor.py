@@ -3,7 +3,7 @@
 Control Script Editor using JXA-like syntax.
 """
 
-from typing import Any, Callable, Literal, Tuple, Union, List, Dict
+from typing import Literal, Union
 
 import AppKit
 
@@ -23,11 +23,11 @@ class XAScriptEditorItemList(XABase.XAList):
             obj_class = XAScriptEditorItem
         super().__init__(properties, obj_class, filter)
 
-    def properties(self) -> List[dict]:
+    def properties(self) -> list[dict]:
         """Gets the properties each item in the list.
 
         :return: A list of property dictionaries
-        :rtype: List[dict]
+        :rtype: list[dict]
         
         .. versionadded:: 0.0.9
         """
@@ -136,31 +136,31 @@ class XAScriptEditorDocumentList(XAScriptEditorItemList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, filter, XAScriptEditorDocument)
 
-    def modified(self) -> List[bool]:
+    def modified(self) -> list[bool]:
         """Gets the modified status of each document in the list.
 
         :return: A list of modified status booleans
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.0.9
         """
         return list(self.xa_elem.arrayByApplyingSelector_("modified"))
 
-    def name(self) -> List[str]:
+    def name(self) -> list[str]:
         """Gets the name of each document in the list.
 
         :return: A list of document names
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.9
         """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
-    def path(self) -> List[XABase.XAPath]:
+    def path(self) -> list[XABase.XAPath]:
         """Gets the path of each document in the list.
 
         :return: A list of document paths
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.4
         """
@@ -178,21 +178,21 @@ class XAScriptEditorDocumentList(XAScriptEditorItemList):
         ls = self.xa_elem.arrayByApplyingSelector_("contents")
         return self._new_element(ls, XAScriptEditorTextList)
 
-    def object_description(self) -> List[str]:
+    def object_description(self) -> list[str]:
         """Gets the object description of each document in the list.
 
         :return: A list of document object descriptions
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.9
         """
         return list(self.xa_elem.arrayByApplyingSelector_("objectDescription"))
 
-    def event_log(self) -> List[str]:
+    def event_log(self) -> list[str]:
         """Gets the event log of each document in the list.
 
         :return: A list of document event logs
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.9
         """
@@ -461,13 +461,13 @@ class XAScriptEditorDocument(XAScriptEditorItem, XACloseable, XADeletable, XAPri
         self.xa_elem.print_printDialog_withProperties_(self.xa_elem, show_dialog, print_properties)
         return self
 
-    def get_clipboard_representation(self) -> List[Union[AppKit.NSURL, str]]:
+    def get_clipboard_representation(self) -> list[Union[AppKit.NSURL, str]]:
         """Gets a clipboard-codable representation of the document.
 
         When the clipboard content is set to a Script Editor document, the document's URL and source code are added to the clipboard.
 
         :return: The document's path and text content
-        :rtype: List[Union[AppKit.NSURL, str]]
+        :rtype: list[Union[AppKit.NSURL, str]]
 
         .. versionadded:: 0.0.9
         """
@@ -487,7 +487,7 @@ class XAScriptEditorWindow(XABaseScriptable.XASBWindow):
     def __init__(self, properties):
         super().__init__(properties)
         
-        self.bounds: Tuple[int, int, int, int] #: The bounding rectangle of the window
+        self.bounds: tuple[int, int, int, int] #: The bounding rectangle of the window
         self.closeable: bool #: Whether the window has a close button
         self.document: XAScriptEditorDocument #: The document currently displayed in the window
         self.floating: bool #: Whether the window floats
@@ -504,14 +504,14 @@ class XAScriptEditorWindow(XABaseScriptable.XASBWindow):
         self.zoomed: bool #: Whether the window is currently zoomed
 
     @property
-    def bounds(self) -> Tuple[int, int, int, int]:
+    def bounds(self) -> tuple[int, int, int, int]:
         rect = self.xa_elem.bounds()
         origin = rect.origin
         size = rect.size
         return (origin.x, origin.y, size.width, size.height)
 
     @bounds.setter
-    def bounds(self, bounds: Tuple[int, int, int, int]):
+    def bounds(self, bounds: tuple[int, int, int, int]):
         x = bounds[0]
         y = bounds[1]
         w = bounds[2]
@@ -687,32 +687,32 @@ class XAScriptEditorTextList(XABase.XATextList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, filter, XAScriptEditorText)
 
-    def color(self) -> List[XABase.XAColor]:
+    def color(self) -> list[XABase.XAColor]:
         """Gets the color each text in the list.
 
         :return: A list of text colors
-        :rtype: List[XABase.XAColor]
+        :rtype: list[XABase.XAColor]
         
         .. versionadded:: 0.0.9
         """
         ls = self.xa_elem.arrayByApplyingSelector_("color")
         return [XABase.XAColor(x) for x in ls]
 
-    def font(self) -> List[str]:
+    def font(self) -> list[str]:
         """Gets the font name each text in the list.
 
         :return: A list of text fonts
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.9
         """
         return list(self.xa_elem.arrayByApplyingSelector_("font"))
 
-    def size(self) -> List[int]:
+    def size(self) -> list[int]:
         """Gets the font size each text in the list.
 
         :return: A list of text font sizes
-        :rtype: List[int]
+        :rtype: list[int]
         
         .. versionadded:: 0.0.9
         """
@@ -800,51 +800,51 @@ class XAScriptEditorLanguageList(XAScriptEditorItemList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, filter, XAScriptEditorLanguage)
 
-    def object_description(self) -> List[str]:
+    def object_description(self) -> list[str]:
         """Gets the object description each language in the list.
 
         :return: A list of language object descriptions
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.9
         """
         return list(self.xa_elem.arrayByApplyingSelector_("objectDescription"))
 
-    def id(self) -> List[str]:
+    def id(self) -> list[str]:
         """Gets the ID each language in the list.
 
         :return: A list of language IDs
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.9
         """
         return list(self.xa_elem.arrayByApplyingSelector_("id"))
 
-    def name(self) -> List[str]:
+    def name(self) -> list[str]:
         """Gets the name each language in the list.
 
         :return: A list of language names
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.9
         """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
-    def supports_compiling(self) -> List[bool]:
+    def supports_compiling(self) -> list[bool]:
         """Gets the supports compiling status each language in the list.
 
         :return: A list of supports compiling status boolean values
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.0.9
         """
         return list(self.xa_elem.arrayByApplyingSelector_("supportsCompiling"))
 
-    def supports_recording(self) -> List[bool]:
+    def supports_recording(self) -> list[bool]:
         """Gets the supports recording status each language in the list.
 
         :return: A list of supports recording status boolean values
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.0.9
         """
@@ -953,11 +953,11 @@ class XAScriptEditorSelectionObjectList(XAScriptEditorItemList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, filter, XAScriptEditorSelectionObject)
 
-    def character_range(self) -> List[Tuple[int, int]]:
+    def character_range(self) -> list[tuple[int, int]]:
         """Gets the character range each selection object in the list.
 
         :return: A list of character ranges
-        :rtype: List[Tuple[int, int]]
+        :rtype: list[tuple[int, int]]
         
         .. versionadded:: 0.0.9
         """
@@ -974,7 +974,7 @@ class XAScriptEditorSelectionObjectList(XAScriptEditorItemList):
         ls = self.xa_elem.arrayByApplyingSelector_("contents")
         return self._new_element(ls, XAScriptEditorItemList)
 
-    def by_character_range(self, character_range: Tuple[int, int]) -> 'XAScriptEditorSelectionObject':
+    def by_character_range(self, character_range: tuple[int, int]) -> 'XAScriptEditorSelectionObject':
         """Retrieves the selection object whose character range matches the given character range, if one exists.
 
         :return: The desired selection object, if it is found
@@ -1002,11 +1002,11 @@ class XAScriptEditorSelectionObject(XAScriptEditorItem):
     def __init__(self, properties):
         super().__init__(properties)
         
-        self.character_range: Tuple[int, int] #: The range of characters in the selection.
+        self.character_range: tuple[int, int] #: The range of characters in the selection.
         self.contents: XAScriptEditorItem #: The contents of the selection.
 
     @property
-    def character_range(self) -> Tuple[int, int]:
+    def character_range(self) -> tuple[int, int]:
         return self.xa_elem.characterRange()
 
     @property

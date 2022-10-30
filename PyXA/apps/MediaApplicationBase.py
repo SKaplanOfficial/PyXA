@@ -5,14 +5,16 @@ A base set of classes for media applications such as Music.app and TV.app.
 
 from datetime import datetime
 from enum import Enum
-from typing import List, Literal, Tuple, Union
+import time
+from typing import Literal, Union
 
 import AppKit
 from PyXA import XABase
+from PyXA import XABaseScriptable
 from PyXA.XAProtocols import XACanOpenPath
 
 
-class XAMediaApplication(XABase.XAApplication, XACanOpenPath):
+class XAMediaApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
     """A class for managing and interacting with media apps.
 
     .. seealso:: :class:`XAMediaWindow`, class:`XAMediaSource`, :class:`XAMediaPlaylist`, :class:`XAMediaTrack`
@@ -436,62 +438,62 @@ class XAMediaItemList(XABase.XAList):
             obj_class = XAMediaItem
         super().__init__(properties, obj_class, filter)
 
-    def container(self) -> List[XABase.XAObject]:
+    def container(self) -> list[XABase.XAObject]:
         """Gets the container of each music item in the list.
 
         :return: A list of music item containers
-        :rtype: List[XABase.XAObject]
+        :rtype: list[XABase.XAObject]
         
         .. versionadded:: 0.0.7
         """
         ls = self.xa_elem.arrayByApplyingSelector_("container")
         return self._new_element(ls, XABase.XAList)
 
-    def id(self) -> List[int]:
+    def id(self) -> list[int]:
         """Gets the ID of each music item in the list.
 
         :return: A list of music item IDs
-        :rtype: List[int]
+        :rtype: list[int]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("id"))
 
-    def index(self) -> List[int]:
+    def index(self) -> list[int]:
         """Gets the index of each music item in the list.
 
         :return: A list of music item indices
-        :rtype: List[nt]
+        :rtype: list[nt]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("index"))
 
-    def name(self) -> List[str]:
+    def name(self) -> list[str]:
         """Gets the name of each music item in the list.
 
         :return: A list of music item names
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
-    def persistent_id(self) -> List[str]:
+    def persistent_id(self) -> list[str]:
         """Gets the persistent ID of each music item in the list.
 
         :return: A list of music item persistent IDs
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("persistentID"))
     
-    def properties(self) -> List[dict]:
+    def properties(self) -> list[dict]:
         """Gets the properties of each music item in the list.
 
         :return: A list of music item properties dictionaries
-        :rtype: List[dict]
+        :rtype: list[dict]
         
         .. versionadded:: 0.0.7
         """
@@ -557,20 +559,20 @@ class XAMediaItemList(XABase.XAList):
         """
         return self.by_property("properties", properties)
 
-    def get_clipboard_representation(self) -> List[str]:
+    def get_clipboard_representation(self) -> list[str]:
         """Gets a clipboard-codable representation of each music item in the list.
 
         When a list of music items is copied to the clipboard, the name of each item is added to the clipboard.
 
         :return: A list of track names
-        :rtype: List[str]
+        :rtype: list[str]
 
         .. versionadded:: 0.0.8
         """
         return self.name()
 
     def __repr__(self):
-        return "<" + str(type(self)) + str(self.name()) + ">"
+        return "<" + str(type(self)) + "length: " + str(len(self.xa_elem)) + ">"
 
 class XAMediaItem(XABase.XAObject):
     """A generic class with methods common to the various playable media classes in media apps.
@@ -665,62 +667,62 @@ class XAMediaArtworkList(XAMediaItemList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, filter, XAMediaArtwork)
 
-    def data(self) -> List[XABase.XAImage]:
+    def data(self) -> list[XABase.XAImage]:
         """Gets the data image of each artwork in the list.
 
         :return: A list of artwork images
-        :rtype: List[XABase.XAImage]
+        :rtype: list[XABase.XAImage]
         
         .. versionadded:: 0.0.7
         """
         ls = self.xa_elem.arrayByApplyingSelector_("data")
         return [XABase.XAImage(x) for x in ls]
 
-    def object_description(self) -> List[str]:
+    def object_description(self) -> list[str]:
         """Gets the description of each artwork in the list.
 
         :return: A list of artwork descriptions
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("objectDescription"))
 
-    def downloaded(self) -> List[bool]:
+    def downloaded(self) -> list[bool]:
         """Gets the download status of each artwork in the list.
 
         :return: A list of artwork download statuses
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("downloaded"))
 
-    def format(self) -> List[int]:
+    def format(self) -> list[int]:
         """Gets the format of each artwork in the list.
 
         :return: A list of artwork formats
-        :rtype: List[int]
+        :rtype: list[int]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("format"))
 
-    def kind(self) -> List[int]:
+    def kind(self) -> list[int]:
         """Gets the kind of each artwork in the list.
 
         :return: A list of artwork kinds
-        :rtype: List[int]
+        :rtype: list[int]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("kind"))
 
-    def raw_data(self) -> List[bytes]:
+    def raw_data(self) -> list[bytes]:
         """Gets the raw data of each artwork in the list.
 
         :return: A list of artwork raw data
-        :rtype: List[bytes]
+        :rtype: list[bytes]
         
         .. versionadded:: 0.0.7
         """
@@ -855,31 +857,31 @@ class XAMediaPlaylistList(XAMediaItemList):
             obj_class = XAMediaPlaylist
         super().__init__(properties, filter, obj_class)
 
-    def object_description(self) -> List[str]:
+    def object_description(self) -> list[str]:
         """Gets the description of each playlist in the list.
 
         :return: A list of playlist descriptions
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("objectDescription"))
 
-    def duration(self) -> List[int]:
+    def duration(self) -> list[int]:
         """Gets the duration of each playlist in the list.
 
         :return: A list of playlist durations
-        :rtype: List[int]
+        :rtype: list[int]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("duration"))
 
-    def name(self) -> List[str]:
+    def name(self) -> list[str]:
         """Gets the name of each playlist in the list.
 
         :return: A list of playlist names
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.7
         """
@@ -896,42 +898,42 @@ class XAMediaPlaylistList(XAMediaItemList):
         ls = self.xa_elem.arrayByApplyingSelector_("parent")
         return self._new_element(ls, XAMediaPlaylistList)
 
-    def size(self) -> List[int]:
+    def size(self) -> list[int]:
         """Gets the size of each playlist in the list.
 
         :return: A list of playlist sizes
-        :rtype: List[int]
+        :rtype: list[int]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("size"))
 
-    def special_kind(self) -> List[XAMediaApplication.PlaylistKind]:
+    def special_kind(self) -> list[XAMediaApplication.PlaylistKind]:
         """Gets the special kind of each playlist in the list.
 
         :return: A list of playlist kinds
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.7
         """
         ls = self.xa_elem.arrayByApplyingSelector_("specialKind")
         return [XAMediaApplication.PlaylistKind(XABase.OSType(x.stringValue())) for x in ls]
 
-    def time(self) -> List[str]:
+    def time(self) -> list[str]:
         """Gets the time, in HH:MM:SS format, of each playlist in the list.
 
         :return: A list of playlist times
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("time"))
 
-    def visible(self) -> List[bool]:
+    def visible(self) -> list[bool]:
         """Gets the visible status of each playlist in the list.
 
         :return: A list of playlist visible statuses
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.0.7
         """
@@ -1212,31 +1214,31 @@ class XAMediaSourceList(XAMediaItemList):
             obj_class = XAMediaSource
         super().__init__(properties, filter, obj_class)
 
-    def capacity(self) -> List[int]:
+    def capacity(self) -> list[int]:
         """Gets the capacity of each source in the list.
 
         :return: A list of source capacity amounts
-        :rtype: List[int]
+        :rtype: list[int]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("capacity"))
 
-    def free_space(self) -> List[int]:
+    def free_space(self) -> list[int]:
         """Gets the free space of each source in the list.
 
         :return: A list of source free space amounts
-        :rtype: List[int]
+        :rtype: list[int]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("freeSpace"))
 
-    def kind(self) -> List[XAMediaApplication.SourceKind]:
+    def kind(self) -> list[XAMediaApplication.SourceKind]:
         """Gets the kind of each source in the list.
 
         :return: A list of source kinds
-        :rtype: List[XAMediaApplication.SourceKind]
+        :rtype: list[XAMediaApplication.SourceKind]
         
         .. versionadded:: 0.0.7
         """
@@ -1348,494 +1350,494 @@ class XAMediaTrackList(XAMediaItemList):
             obj_class = XAMediaTrack
         super().__init__(properties, filter, obj_class)
 
-    def album(self) -> List[str]:
+    def album(self) -> list[str]:
         """Gets the album name of each track in the list.
 
         :return: A list of track album names
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("album"))
 
-    def album_rating(self) -> List[int]:
+    def album_rating(self) -> list[int]:
         """Gets the album rating of each track in the list.
 
         :return: A list of track album ratings
-        :rtype: List[int]
+        :rtype: list[int]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("albumRating"))
 
-    def album_rating_kind(self) -> List[XAMediaApplication.RatingKind]:
+    def album_rating_kind(self) -> list[XAMediaApplication.RatingKind]:
         """Gets the album rating kind of each track in the list.
 
         :return: A list of track album rating kinds
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.7
         """
         ls = self.xa_elem.arrayByApplyingSelector_("albumRatingKind")
         return [XAMediaApplication.RatingKind(XABase.OSType(x.stringValue())) for x in ls]
 
-    def bit_rate(self) -> List[int]:
+    def bit_rate(self) -> list[int]:
         """Gets the bit rate of each track in the list.
 
         :return: A list of track bit rates
-        :rtype: List[int]
+        :rtype: list[int]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("bitRate"))
 
-    def bookmark(self) -> List[float]:
+    def bookmark(self) -> list[float]:
         """Gets the bookmark time of each track in the list.
 
         :return: A list of track bookmark times
-        :rtype: List[float]
+        :rtype: list[float]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("bookmark"))
 
-    def bookmarkable(self) -> List[bool]:
+    def bookmarkable(self) -> list[bool]:
         """Gets the bookmarkable status of each track in the list.
 
         :return: A list of track bookmarkable statuses
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("bookmarkable"))
 
-    def category(self) -> List[str]:
+    def category(self) -> list[str]:
         """Gets the category of each track in the list.
 
         :return: A list of track categories
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("category"))
 
-    def comment(self) -> List[str]:
+    def comment(self) -> list[str]:
         """Gets the comment of each track in the list.
 
         :return: A list of track comments
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("comment"))
 
-    def database_id(self) -> List[int]:
+    def database_id(self) -> list[int]:
         """Gets the database ID of each track in the list.
 
         :return: A list of track database IDs
-        :rtype: List[int]
+        :rtype: list[int]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("databaseID"))
 
-    def date_added(self) -> List[datetime]:
+    def date_added(self) -> list[datetime]:
         """Gets the date added of each track in the list.
 
         :return: A list of track dates added
-        :rtype: List[datetime]
+        :rtype: list[datetime]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("dateAdded"))
 
-    def object_description(self) -> List[str]:
+    def object_description(self) -> list[str]:
         """Gets the description of each track in the list.
 
         :return: A list of track descriptions
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("objectDescription"))
 
-    def disc_count(self) -> List[int]:
+    def disc_count(self) -> list[int]:
         """Gets the disc count of each track in the list.
 
         :return: A list of track disc counts
-        :rtype: List[int]
+        :rtype: list[int]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("discCount"))
 
-    def disc_number(self) -> List[int]:
+    def disc_number(self) -> list[int]:
         """Gets the disc number of each track in the list.
 
         :return: A list of track disc numbers
-        :rtype: List[int]
+        :rtype: list[int]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("discNumber"))
 
-    def downloader_apple_id(self) -> List[str]:
+    def downloader_apple_id(self) -> list[str]:
         """Gets the downloader Apple ID of each track in the list.
 
         :return: A list of track downloader Apple IDs
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("downloaderAppleID"))
 
-    def downloader_name(self) -> List[str]:
+    def downloader_name(self) -> list[str]:
         """Gets the downloader name of each track in the list.
 
         :return: A list of track downloader names
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("downloaderName"))
 
-    def duration(self) -> List[float]:
+    def duration(self) -> list[float]:
         """Gets the duration of each track in the list.
 
         :return: A list of track durations
-        :rtype: List[float]
+        :rtype: list[float]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("duration"))
 
-    def enabled(self) -> List[bool]:
+    def enabled(self) -> list[bool]:
         """Gets the enabled status of each track in the list.
 
         :return: A list of track enabled statuses
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("enabled"))
 
-    def episode_id(self) -> List[str]:
+    def episode_id(self) -> list[str]:
         """Gets the episode ID of each track in the list.
 
         :return: A list of track episode IDs
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("episodeID"))
 
-    def episode_number(self) -> List[int]:
+    def episode_number(self) -> list[int]:
         """Gets the episode number of each track in the list.
 
         :return: A list of track episode numbers
-        :rtype: List[int]
+        :rtype: list[int]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("episodeNumber"))
 
-    def finish(self) -> List[float]:
+    def finish(self) -> list[float]:
         """Gets the stop time of each track in the list.
 
         :return: A list of track stop times
-        :rtype: List[float]
+        :rtype: list[float]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("finish"))
 
-    def genre(self) -> List[str]:
+    def genre(self) -> list[str]:
         """Gets the genre of each track in the list.
 
         :return: A list of track genres
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("genre"))
 
-    def grouping(self) -> List[str]:
+    def grouping(self) -> list[str]:
         """Gets the grouping of each track in the list.
 
         :return: A list of track groupings
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("grouping"))
 
-    def kind(self) -> List[str]:
+    def kind(self) -> list[str]:
         """Gets the kind of each track in the list.
 
         :return: A list of track kinds
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("kind"))
 
-    def long_description(self) -> List[str]:
+    def long_description(self) -> list[str]:
         """Gets the long description of each track in the list.
 
         :return: A list of track long descriptions
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("longDescription"))
 
-    def media_kind(self) -> List[XAMediaApplication.MediaKind]:
+    def media_kind(self) -> list[XAMediaApplication.MediaKind]:
         """Gets the media kind of each track in the list.
 
         :return: A list of track media kinds
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.7
         """
         ls = self.xa_elem.arrayByApplyingSelector_("mediaKind")
         return [XAMediaApplication.MediaKind(XABase.OSType(x.stringValue())) for x in ls]
 
-    def modification_date(self) -> List[datetime]:
+    def modification_date(self) -> list[datetime]:
         """Gets the modification date of each track in the list.
 
         :return: A list of track modification dates
-        :rtype: List[datetime]
+        :rtype: list[datetime]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("modificationDate"))
 
-    def played_count(self) -> List[int]:
+    def played_count(self) -> list[int]:
         """Gets the played count of each track in the list.
 
         :return: A list of track played counts
-        :rtype: List[int]
+        :rtype: list[int]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("playedCount"))
 
-    def played_date(self) -> List[datetime]:
+    def played_date(self) -> list[datetime]:
         """Gets the played date of each track in the list.
 
         :return: A list of track played dates
-        :rtype: List[datetime]
+        :rtype: list[datetime]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("playedDate"))
 
-    def purchaser_apple_id(self) -> List[str]:
+    def purchaser_apple_id(self) -> list[str]:
         """Gets the purchaser Apple ID of each track in the list.
 
         :return: A list of track purchaser Apple IDs
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("purchaserAppleID"))
 
-    def purchaser_name(self) -> List[str]:
+    def purchaser_name(self) -> list[str]:
         """Gets the purchaser name of each track in the list.
 
         :return: A list of track purchaser names
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("purchaserName"))
 
-    def rating(self) -> List[int]:
+    def rating(self) -> list[int]:
         """Gets the rating of each track in the list.
 
         :return: A list of track ratings
-        :rtype: List[int]
+        :rtype: list[int]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("rating"))
 
-    def rating_kind(self) -> List[XAMediaApplication.RatingKind]:
+    def rating_kind(self) -> list[XAMediaApplication.RatingKind]:
         """Gets the rating kind of each track in the list.
 
         :return: A list of track rating kinds
-        :rtype: List[XAMediaApplication.RatingKind]
+        :rtype: list[XAMediaApplication.RatingKind]
         
         .. versionadded:: 0.0.7
         """
         ls = self.xa_elem.arrayByApplyingSelector_("ratingKind")
         return [XAMediaApplication.RatingKind(XABase.OSType(x.stringValue())) for x in ls]
 
-    def release_date(self) -> List[datetime]:
+    def release_date(self) -> list[datetime]:
         """Gets the release date of each track in the list.
 
         :return: A list of track release dates
-        :rtype: List[datetime]
+        :rtype: list[datetime]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("releaseDate"))
 
-    def sample_rate(self) -> List[int]:
+    def sample_rate(self) -> list[int]:
         """Gets the sample rate of each track in the list.
 
         :return: A list of track sample rates
-        :rtype: List[int]
+        :rtype: list[int]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("sampleRate"))
 
-    def season_number(self) -> List[int]:
+    def season_number(self) -> list[int]:
         """Gets the season number of each track in the list.
 
         :return: A list of track season numbers
-        :rtype: List[int]
+        :rtype: list[int]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("seasonNumber"))
 
-    def skipped_count(self) -> List[int]:
+    def skipped_count(self) -> list[int]:
         """Gets the skipped count of each track in the list.
 
         :return: A list of track skipped count
-        :rtype: List[int]
+        :rtype: list[int]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("skippedCount"))
 
-    def skipped_date(self) -> List[datetime]:
+    def skipped_date(self) -> list[datetime]:
         """Gets the skipped date of each track in the list.
 
         :return: A list of track skipped dates
-        :rtype: List[datetime]
+        :rtype: list[datetime]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("skippedDate"))
 
-    def show(self) -> List[str]:
+    def show(self) -> list[str]:
         """Gets the show of each track in the list.
 
         :return: A list of track shows
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("show"))
 
-    def sort_album(self) -> List[str]:
+    def sort_album(self) -> list[str]:
         """Gets the album sort string of each track in the list.
 
         :return: A list of track album sort strings
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("sortAlbum"))
 
-    def sort_name(self) -> List[str]:
+    def sort_name(self) -> list[str]:
         """Gets the name sort string of each track in the list.
 
         :return: A list of track name sort strings
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("sortName"))
 
-    def sort_show(self) -> List[str]:
+    def sort_show(self) -> list[str]:
         """Gets the show sort strings of each track in the list.
 
         :return: A list of track show sort strings
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("sortShow"))
 
-    def size(self) -> List[int]:
+    def size(self) -> list[int]:
         """Gets the size of each track in the list.
 
         :return: A list of track sizes
-        :rtype: List[int]
+        :rtype: list[int]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("size"))
 
-    def start(self) -> List[float]:
+    def start(self) -> list[float]:
         """Gets the start time of each track in the list.
 
         :return: A list of track start times
-        :rtype: List[float]
+        :rtype: list[float]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("start"))
 
-    def time(self) -> List[str]:
+    def time(self) -> list[str]:
         """Gets the time string of each track in the list.
 
         :return: A list of track time strings
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("time"))
 
-    def track_count(self) -> List[int]:
+    def track_count(self) -> list[int]:
         """Gets the track count of each track in the list.
 
         :return: A list of track counts
-        :rtype: List[int]
+        :rtype: list[int]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("trackCount"))
 
-    def track_number(self) -> List[int]:
+    def track_number(self) -> list[int]:
         """Gets the track number of each track in the list.
 
         :return: A list of track numbers
-        :rtype: List[int]
+        :rtype: list[int]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("trackNumber"))
 
-    def unplayed(self) -> List[bool]:
+    def unplayed(self) -> list[bool]:
         """Gets the unplayed status of each track in the list.
 
         :return: A list of track unplayed statuses
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("unplayed"))
 
-    def volume_adjustment(self) -> List[int]:
+    def volume_adjustment(self) -> list[int]:
         """Gets the volume adjustment of each track in the list.
 
         :return: A list of track volume adjustments
-        :rtype: List[int]
+        :rtype: list[int]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("volumeAdjustment"))
 
-    def year(self) -> List[int]:
+    def year(self) -> list[int]:
         """Gets the year of each track in the list.
 
         :return: A list of track years
-        :rtype: List[int]
+        :rtype: list[int]
         
         .. versionadded:: 0.0.7
         """
@@ -2781,11 +2783,11 @@ class XAMediaFileTrackList(XAMediaTrackList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, filter, XAMediaFileTrack)
 
-    def location(self) -> List[XABase.XAURL]:
+    def location(self) -> list[XABase.XAURL]:
         """Gets the location of each track in the list.
 
         :return: A list of track locations
-        :rtype: List[XABase.XAURL]
+        :rtype: list[XABase.XAURL]
         
         .. versionadded:: 0.0.7
         """
@@ -2855,11 +2857,11 @@ class XAMediaURLTrackList(XAMediaTrackList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, filter, XAMediaURLTrack)
 
-    def address(self) -> List[str]:
+    def address(self) -> list[str]:
         """Gets the address of each track in the list.
 
         :return: A list of track addresses
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.7
         """
@@ -2907,21 +2909,21 @@ class XAMediaUserPlaylistList(XAMediaPlaylistList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, filter, XAMediaUserPlaylist)
 
-    def shared(self) -> List[bool]:
+    def shared(self) -> list[bool]:
         """Gets the shared status of each user playlist in the list.
 
         :return: A list of playlist shared status boolean values
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("shared"))
 
-    def smart(self) -> List[bool]:
+    def smart(self) -> list[bool]:
         """Gets the smart status of each user playlist in the list.
 
         :return: A list of playlist smart status boolean values
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.0.7
         """
@@ -3041,107 +3043,107 @@ class XAMediaWindowList(XAMediaItemList):
             obj_class = XAMediaWindow
         super().__init__(properties, filter, obj_class)
 
-    def bounds(self) -> List[Tuple[Tuple[int, int], Tuple[int, int]]]:
+    def bounds(self) -> list[tuple[tuple[int, int], tuple[int, int]]]:
         """Gets the bounds of each window in the list.
 
         :return: A list of window bounds
-        :rtype: List[Tuple[Tuple[int, int], Tuple[int, int]]]
+        :rtype: list[tuple[tuple[int, int], tuple[int, int]]]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("bounds"))
 
-    def closeable(self) -> List[bool]:
+    def closeable(self) -> list[bool]:
         """Gets the closeable status of each window in the list.
 
         :return: A list of window closeable statuses
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("closeable"))
 
-    def collapseable(self) -> List[bool]:
+    def collapseable(self) -> list[bool]:
         """Gets the collapseable status of each window in the list.
 
         :return: A list of window collapseable statuses
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("collapseable"))
 
-    def collapsed(self) -> List[bool]:
+    def collapsed(self) -> list[bool]:
         """Gets the collapsed status of each window in the list.
 
         :return: A list of window collapsed statuses
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("collapsed"))
 
-    def full_screen(self) -> List[bool]:
+    def full_screen(self) -> list[bool]:
         """Gets the full screen status of each window in the list.
 
         :return: A list of window full screen statuses
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("fullScreen"))
 
-    def position(self) -> List[Tuple[int, int]]:
+    def position(self) -> list[tuple[int, int]]:
         """Gets the position of each window in the list.
 
         :return: A list of window positions
-        :rtype: List[Tuple[int, int]]
+        :rtype: list[tuple[int, int]]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("position"))
 
-    def resizable(self) -> List[bool]:
+    def resizable(self) -> list[bool]:
         """Gets the resizable status of each window in the list.
 
         :return: A list of window resizable statuses
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("resizable"))
 
-    def visible(self) -> List[bool]:
+    def visible(self) -> list[bool]:
         """Gets the visible status of each window in the list.
 
         :return: A list of window visible statuses
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("visible"))
 
-    def zoomable(self) -> List[bool]:
+    def zoomable(self) -> list[bool]:
         """Gets the zoomable status of each window in the list.
 
         :return: A list of window zoomable statuses
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("zoomable"))
 
-    def zoomed(self) -> List[bool]:
+    def zoomed(self) -> list[bool]:
         """Gets the zoomed status of each window in the list.
 
         :return: A list of window zoomed statuses
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("zoomed"))
 
-    def by_bounds(self, bounds: Tuple[Tuple[int, int], Tuple[int, int]]) -> Union['XAMediaWindow', None]:
+    def by_bounds(self, bounds: tuple[tuple[int, int], tuple[int, int]]) -> Union['XAMediaWindow', None]:
         """Retrieves the window whose bounds matches the given bounds, if one exists.
 
         :return: The desired window, if it is found
@@ -3192,7 +3194,7 @@ class XAMediaWindowList(XAMediaItemList):
         """
         return self.by_property("fullScreen", full_screen)
 
-    def by_position(self, position: Tuple[int, int]) -> Union['XAMediaWindow', None]:
+    def by_position(self, position: tuple[int, int]) -> Union['XAMediaWindow', None]:
         """Retrieves the first window whose position matches the given position, if one exists.
 
         :return: The desired window, if it is found
@@ -3252,26 +3254,26 @@ class XAMediaWindow(XABase.XAWindow, XAMediaItem):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.bounds: Tuple[int, int, int, int] #: The bounding rectangle for the window
+        self.bounds: tuple[int, int, int, int] #: The bounding rectangle for the window
         self.closeable: bool #: Whether the window has a close button
         self.collapseable: bool #: Whether the window can be minimized
         self.collapsed: bool #: Whether the window is currently minimized
         self.full_screen: bool #: Whether the window is currently full screen
-        self.position: Tuple[int, int] #: The upper left position of the window
+        self.position: tuple[int, int] #: The upper left position of the window
         self.resizable: bool #: Whether the window can be resized
         self.visible: bool #: Whether the window is currently visible
         self.zoomable: bool #: Whether the window can be zoomed
         self.zoomed: bool #: Whether the window is currently zoomed
 
     @property
-    def bounds(self) -> Tuple[int, int, int, int]:
+    def bounds(self) -> tuple[int, int, int, int]:
         rect = self.xa_elem.bounds()
         origin = rect.origin
         size = rect.size
         return (origin.x, origin.y, size.width, size.height)
 
     @bounds.setter
-    def bounds(self, bounds: Tuple[int, int, int, int]):
+    def bounds(self, bounds: tuple[int, int, int, int]):
         x = bounds[0]
         y = bounds[1]
         w = bounds[2]
@@ -3304,11 +3306,11 @@ class XAMediaWindow(XABase.XAWindow, XAMediaItem):
         self.set_property('fullScreen', full_screen)
 
     @property
-    def position(self) -> Tuple[int, int]:
+    def position(self) -> tuple[int, int]:
         return self.xa_elem.position()
 
     @position.setter
-    def position(self, position: Tuple[int, int]):
+    def position(self, position: tuple[int, int]):
         self.set_property('position', position)
 
     @property

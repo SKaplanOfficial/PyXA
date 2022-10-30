@@ -3,8 +3,7 @@
 Control the macOS Stocks application using JXA-like syntax.
 """
 
-from curses import nonl
-from typing import List, Literal, Union
+from typing import Union
 from AppKit import NSPredicate, NSMutableArray, NSURL
 
 from PyXA import XABase
@@ -102,32 +101,32 @@ class XAStocksSavedStockList(XABase.XAList, XAClipboardCodable):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XAStocksSavedStock, filter)
 
-    def properties(self) -> List[str]:
+    def properties(self) -> list[str]:
         return self.xa_elem.arrayByApplyingSelector_("properties")
 
-    def name(self) -> List[str]:
+    def name(self) -> list[str]:
         return [x.name for x in self]
 
-    def symbol(self) -> List[str]:
+    def symbol(self) -> list[str]:
         return [x.symbol for x in self]
 
-    def price(self) -> List[str]:
+    def price(self) -> list[str]:
         return [x.price for x in self]
 
-    def change(self) -> List[str]:
+    def change(self) -> list[str]:
         return [x.change for x in self]
 
-    def selected(self) -> List[str]:
+    def selected(self) -> list[str]:
         ls = self.xa_elem.arrayByApplyingSelector_("selected")
         return [x.get() for x in ls]
 
-    def get_clipboard_representation(self) -> List[Union[str, NSURL]]:
+    def get_clipboard_representation(self) -> list[Union[str, NSURL]]:
         """Gets a clipboard-codable representation of each stock in the list.
 
         When the clipboard content is set to a list of saved stocks, each stocks's name, price, and stocks URI are added to the clipboard.
 
         :return: Each stock's name, price, and stocks URI
-        :rtype: List[Union[str, NSURL]]
+        :rtype: list[Union[str, NSURL]]
 
         .. versionadded:: 0.0.8
         """
@@ -194,13 +193,13 @@ class XAStocksSavedStock(XABase.XAObject, XAClipboardCodable):
         """
         self.xa_elem.actions()[0].perform()
 
-    def get_clipboard_representation(self) -> List[Union[str, NSURL]]:
+    def get_clipboard_representation(self) -> list[Union[str, NSURL]]:
         """Gets a clipboard-codable representation of the stock.
 
         When the clipboard content is set to a saved stock, the stocks's name, price, and stocks URI are added to the clipboard.
 
         :return: The stock's name, price, and stocks URI 
-        :rtype: List[Union[str, NSURL]]
+        :rtype: list[Union[str, NSURL]]
 
         .. versionadded:: 0.0.8
         """

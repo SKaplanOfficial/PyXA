@@ -3,7 +3,7 @@
 Control the macOS System Preferences application using JXA-like syntax.
 """
 
-from typing import List, Union
+from typing import Union
 
 from PyXA import XABase
 from PyXA import XABaseScriptable
@@ -66,7 +66,7 @@ class XASystemPreferencesApplication(XABaseScriptable.XASBApplication):
         :param filter: A dictionary specifying property-value pairs that all returned preference panes will have, or None
         :type filter: Union[dict, None]
         :return: The list of preference panes
-        :rtype: List[XAPreferencePane]
+        :rtype: list[XAPreferencePane]
 
         :Example 1: List all preference panes
 
@@ -117,13 +117,13 @@ class XAPreferencePaneList(XABase.XAList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XAPreferencePane, filter)
 
-    def id(self) -> List[str]:
+    def id(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("id"))
 
-    def localized_name(self) -> List[str]:
+    def localized_name(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("localizedName"))
 
-    def name(self) -> List[str]:
+    def name(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
     def by_id(self, id: str) -> 'XAPreferencePane':
@@ -169,7 +169,7 @@ class XAPreferencePane(XABase.XAObject):
         :param filter: A dictionary specifying property-value pairs that all returned anchors will have, or None
         :type filter: Union[dict, None]
         :return: The list of anchors
-        :rtype: List[XAPreferenceAnchor]
+        :rtype: list[XAPreferenceAnchor]
 
         :Example 1: Listing all anchors
         
@@ -230,9 +230,6 @@ class XAPreferencePane(XABase.XAObject):
     def __repr__(self):
         return "<" + str(type(self)) + self.name + ", id=" + str(self.id) + ">"
 
-    def __eq__(self, other: 'XAPreferencePane'):
-        return self.id == other.id
-
 
 class XAPreferenceAnchorList(XABase.XAList):
     """A wrapper around lists of preference anchors that employs fast enumeration techniques.
@@ -244,7 +241,7 @@ class XAPreferenceAnchorList(XABase.XAList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XAPreferenceAnchor, filter)
 
-    def name(self) -> List[str]:
+    def name(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
     def by_name(self, name: str) -> 'XAPreferenceAnchor':
@@ -287,6 +284,3 @@ class XAPreferenceAnchor(XABase.XAObject):
 
     def __repr__(self):
         return "<" + str(type(self)) + self.name + ">"
-
-    def __eq__(self, other: 'XAPreferenceAnchor'):
-        return self.name == other.name

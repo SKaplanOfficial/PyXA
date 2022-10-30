@@ -4,7 +4,7 @@ Control the macOS Contacts application using JXA-like syntax.
 """
 from datetime import datetime
 from enum import Enum
-from typing import Any, List, Tuple, Union
+from typing import Any, Union
 
 import AppKit
 
@@ -83,7 +83,7 @@ class XAContactsApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         return self._new_element(self.xa_scel.selection(), XAContactsPersonList)
 
     @selection.setter
-    def selection(self, selection: Union['XAContactsPersonList', List['XAContactsPerson']]):
+    def selection(self, selection: Union['XAContactsPersonList', list['XAContactsPerson']]):
         if isinstance(selection, list):
             selection = [x.xa_elem for x in selection]
             self.set_property("selection", selection)
@@ -211,7 +211,7 @@ class XAContactsWindow(XABaseScriptable.XASBWindow):
         self.name: str #: The title of the window
         self.id: int #: The unique identifier for the window
         self.index: int #: The index of the window in the front-to-back ordering
-        self.bounds: Tuple[int, int, int, int] #: The bounding rectangle of the window
+        self.bounds: tuple[int, int, int, int] #: The bounding rectangle of the window
         self.closeable: bool #: Whether the window has a close button
         self.miniaturizable: bool #: Whether the window can be minimized
         self.miniaturized: bool #: Whether the window is currently minimized
@@ -238,14 +238,14 @@ class XAContactsWindow(XABaseScriptable.XASBWindow):
         self.set_property('index', index)
 
     @property
-    def bounds(self) -> Tuple[int, int, int, int]:
+    def bounds(self) -> tuple[int, int, int, int]:
         rect = self.xa_elem.bounds()
         origin = rect.origin
         size = rect.size
         return (origin.x, origin.y, size.width, size.height)
 
     @bounds.setter
-    def bounds(self, bounds: Tuple[int, int, int, int]):
+    def bounds(self, bounds: tuple[int, int, int, int]):
         x = bounds[0]
         y = bounds[1]
         w = bounds[2]
@@ -310,31 +310,31 @@ class XAContactsDocumentList(XABase.XAList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XAContactsDocument, filter)
 
-    def name(self) -> List[str]:
+    def name(self) -> list[str]:
         """Gets the name of each document in the list.
 
         :return: A list of document names
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
-    def modified(self) -> List[bool]:
+    def modified(self) -> list[bool]:
         """Gets the modified status of each document in the list.
 
         :return: A list of document modified statuses
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("modified"))
 
-    def file(self) -> List[XABase.XAURL]:
+    def file(self) -> list[XABase.XAURL]:
         """Gets the file of each document in the list.
 
         :return: A list of document files
-        :rtype: List[XABase.XAURL]
+        :rtype: list[XABase.XAURL]
         
         .. versionadded:: 0.0.7
         """
@@ -410,91 +410,91 @@ class XAContactsAddressList(XABase.XAList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XAContactsAddress, filter)
 
-    def city(self) -> List[str]:
+    def city(self) -> list[str]:
         """Gets the city of each address in the list.
 
         :return: A list of address cities
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("city"))
 
-    def formatted_address(self) -> List[str]:
+    def formatted_address(self) -> list[str]:
         """Gets the formatted address representation of each address in the list.
 
         :return: A list of address formatted representations
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("formattedAddress"))
 
-    def street(self) -> List[str]:
+    def street(self) -> list[str]:
         """Gets the street of each address in the list.
 
         :return: A list of address streets
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("street"))
 
-    def id(self) -> List[str]:
+    def id(self) -> list[str]:
         """Gets the ID of each address in the list.
 
         :return: A list of address IDs
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("id"))
 
-    def zip(self) -> List[str]:
+    def zip(self) -> list[str]:
         """Gets the ZIP code of each address in the list.
 
         :return: A list of address ZIP codes
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("zip"))
 
-    def country(self) -> List[str]:
+    def country(self) -> list[str]:
         """Gets the country of each address in the list.
 
         :return: A list of address countries
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("country"))
 
-    def label(self) -> List[str]:
+    def label(self) -> list[str]:
         """Gets the label of each address in the list.
 
         :return: A list of address labels
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("label"))
 
-    def country_code(self) -> List[str]:
+    def country_code(self) -> list[str]:
         """Gets the country code of each address in the list.
 
         :return: A list of address country codes
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("countryCode"))
 
-    def state(self) -> List[str]:
+    def state(self) -> list[str]:
         """Gets the state of each address in the list.
 
         :return: A list of address states
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.7
         """
@@ -689,31 +689,31 @@ class XAContactsContactInfoList(XABase.XAList):
             obj_class = XAContactsContactInfo
         super().__init__(properties, obj_class, filter)
 
-    def label(self) -> List[str]:
+    def label(self) -> list[str]:
         """Gets the label of each information entry in the list.
 
         :return: A list of information entry labels
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("label"))
 
-    def value(self) -> List[Any]:
+    def value(self) -> list[Any]:
         """Gets the value of each information entry in the list.
 
         :return: A list of information entry values
-        :rtype: List[Any]
+        :rtype: list[Any]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("value"))
 
-    def id(self) -> List[str]:
+    def id(self) -> list[str]:
         """Gets the ID of each information entry in the list.
 
         :return: A list of information entry IDs
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.7
         """
@@ -840,41 +840,41 @@ class XAContactsEntryList(XABase.XAList):
             obj_class = XAContactsEntry
         super().__init__(properties, obj_class, filter)
 
-    def modification_date(self) -> List[datetime]:
+    def modification_date(self) -> list[datetime]:
         """Gets the last modification date of each contact entry in the list.
 
         :return: A list of contact entry modification dates
-        :rtype: List[datetime]
+        :rtype: list[datetime]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("modificationDate"))
 
-    def creation_date(self) -> List[datetime]:
+    def creation_date(self) -> list[datetime]:
         """Gets the creation date of each contact entry in the list.
 
         :return: A list of contact entry creation dates
-        :rtype: List[datetime]
+        :rtype: list[datetime]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("creationDate"))
 
-    def id(self) -> List[str]:
+    def id(self) -> list[str]:
         """Gets the ID of each contact entry in the list.
 
         :return: A list of contact entry IDs
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("id"))
 
-    def selected(self) -> List[bool]:
+    def selected(self) -> list[bool]:
         """Gets the selected status of each contact entry in the list.
 
         :return: A list of contact entry selected statuses
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.0.7
         """
@@ -1017,11 +1017,11 @@ class XAContactsGroupList(XAContactsEntryList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, filter, XAContactsGroup)
 
-    def name(self) -> List[str]:
+    def name(self) -> list[str]:
         """Gets the name of each contact group in the list.
 
         :return: A list of contact group names
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.7
         """
@@ -1097,32 +1097,32 @@ class XAContactsInstantMessageList(XAContactsContactInfoList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, filter, XAContactsInstantMessage)
 
-    def service_name(self) -> List[str]:
+    def service_name(self) -> list[str]:
         """Gets the service name of each IM address in the list.
 
         :return: A list of IM address service names
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("serviceName"))
 
-    def service_type(self) -> List[XAContactsApplication.ServiceType]:
+    def service_type(self) -> list[XAContactsApplication.ServiceType]:
         """Gets the service type of each IM address in the list.
 
         :return: A list of IM address service types
-        :rtype: List[XAContactsApplication.ServiceType]
+        :rtype: list[XAContactsApplication.ServiceType]
         
         .. versionadded:: 0.0.7
         """
         ls = self.xa_elem.arrayByApplyingSelector_("serviceType")
         return [XAContactsApplication.ServiceType(XABase.OSType(x.stringValue())) for x in ls]
 
-    def user_name(self) -> List[str]:
+    def user_name(self) -> list[str]:
         """Gets the user name of each IM address in the list.
 
         :return: A list of IM address user names
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.7
         """
@@ -1209,202 +1209,202 @@ class XAContactsPersonList(XAContactsEntryList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, filter, XAContactsPerson)
 
-    def nickname(self) -> List[str]:
+    def nickname(self) -> list[str]:
         """Gets the nickname of each person in the list.
 
         :return: A list of contact person nicknames
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("nickname"))
 
-    def organization(self) -> List[str]:
+    def organization(self) -> list[str]:
         """Gets the organization of each person in the list.
 
         :return: A list of contact person organizations
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("organization"))
 
-    def maiden_name(self) -> List[str]:
+    def maiden_name(self) -> list[str]:
         """Gets the maiden name of each person in the list.
 
         :return: A list of contact person maiden names
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("maidenName"))
 
-    def suffix(self) -> List[str]:
+    def suffix(self) -> list[str]:
         """Gets the suffix of each person in the list.
 
         :return: A list of contact person suffixes
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("suffix"))
 
-    def vcard(self) -> List[str]:
+    def vcard(self) -> list[str]:
         """Gets the vCard representation of each person in the list.
 
         :return: A list of contact person vCard representations
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("vcard"))
 
-    def home_page(self) -> List[str]:
+    def home_page(self) -> list[str]:
         """Gets the home page of each person in the list.
 
         :return: A list of contact person home pages
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("homePage"))
 
-    def birth_date(self) -> List[datetime]:
+    def birth_date(self) -> list[datetime]:
         """Gets the birthdate of each person in the list.
 
         :return: A list of contact person birthdates
-        :rtype: List[datetime]
+        :rtype: list[datetime]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("birthdate"))
 
-    def phonetic_last_name(self) -> List[str]:
+    def phonetic_last_name(self) -> list[str]:
         """Gets the phonetic last name of each person in the list.
 
         :return: A list of contact person phonetic last names
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("phoneticLastName"))
 
-    def title(self) -> List[str]:
+    def title(self) -> list[str]:
         """Gets the title of each person in the list.
 
         :return: A list of contact person titles
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("title"))
 
-    def phonetic_middle_name(self) -> List[str]:
+    def phonetic_middle_name(self) -> list[str]:
         """Gets the phonetic middle name of each person in the list.
 
         :return: A list of contact person phonetic middle names
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("phoneticMiddleName"))
 
-    def department(self) -> List[str]:
+    def department(self) -> list[str]:
         """Gets the department of each person in the list.
 
         :return: A list of contact person departments
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("department"))
 
-    def image(self) -> List[XABase.XAImage]:
+    def image(self) -> list[XABase.XAImage]:
         """Gets the image of each person in the list.
 
         :return: A list of contact person images
-        :rtype: List[XABase.XAImage]
+        :rtype: list[XABase.XAImage]
         
         .. versionadded:: 0.0.7
         """
         ls = self.xa_elem.arrayByApplyingSelector_("image")
         return [XABase.XAImage(x) for x in ls]
 
-    def name(self) -> List[str]:
+    def name(self) -> list[str]:
         """Gets the name of each person in the list.
 
         :return: A list of contact person names
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
-    def note(self) -> List[str]:
+    def note(self) -> list[str]:
         """Gets the notes of each person in the list.
 
         :return: A list of contact person notes
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("note"))
 
-    def company(self) -> List[bool]:
+    def company(self) -> list[bool]:
         """Gets the company status of each "person" in the list.
 
         :return: A list of contact company statuses
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("company"))
 
-    def middle_name(self) -> List[str]:
+    def middle_name(self) -> list[str]:
         """Gets the middle name of each person in the list.
 
         :return: A list of contact person middle names
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("middleName"))
 
-    def phonetic_first_name(self) -> List[str]:
+    def phonetic_first_name(self) -> list[str]:
         """Gets the phonetic first name of each person in the list.
 
         :return: A list of contact person phonetic first names
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("phoneticFirstName"))
 
-    def job_title(self) -> List[str]:
+    def job_title(self) -> list[str]:
         """Gets the job title of each person in the list.
 
         :return: A list of contact person job titles
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("jobTitle"))
 
-    def last_name(self) -> List[str]:
+    def last_name(self) -> list[str]:
         """Gets the last name of each person in the list.
 
         :return: A list of contact person last names
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("lastName"))
 
-    def first_name(self) -> List[str]:
+    def first_name(self) -> list[str]:
         """Gets the first name of each person in the list.
 
         :return: A list of contact person first names
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.7
         """
@@ -1977,51 +1977,51 @@ class XAContactsSocialProfileList(XABase.XAList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XAContactsSocialProfile, filter)
 
-    def id(self) -> List[str]:
+    def id(self) -> list[str]:
         """Gets the ID of each social profile in the list.
 
         :return: A list of social profile IDs
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("id"))
 
-    def service_name(self) -> List[str]:
+    def service_name(self) -> list[str]:
         """Gets the service name of each social profile in the list.
 
         :return: A list of social profile service names
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("serviceName"))
 
-    def user_name(self) -> List[str]:
+    def user_name(self) -> list[str]:
         """Gets the user name of each social profile in the list.
 
         :return: A list of social profile user names
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("userName"))
 
-    def user_identifier(self) -> List[str]:
+    def user_identifier(self) -> list[str]:
         """Gets the user identifier of each social profile in the list.
 
         :return: A list of social profile user identifiers
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("userIdentifier"))
 
-    def url(self) -> List[str]:
+    def url(self) -> list[str]:
         """Gets the URL of each social profile in the list.
 
         :return: A list of social profile URLs
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.7
         """

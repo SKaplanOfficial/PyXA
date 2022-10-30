@@ -3,15 +3,13 @@
 Control Cardhop using JXA-like syntax.
 """
 
-from datetime import datetime
 from enum import Enum
-from typing import List, Tuple, Union
+from typing import Union
 
 import AppKit
 from ScriptingBridge import SBElementArray
 
 from PyXA import XABase
-from PyXA.XABase import OSType
 from PyXA import XABaseScriptable
 from ..XAProtocols import XACanOpenPath, XACanPrintPath, XAClipboardCodable, XADeletable, XAPrintable, XAShowable
 
@@ -73,7 +71,7 @@ class XACardhopWindow(XABaseScriptable.XASBWindow, XAPrintable):
         self.name: str #: The title of the window
         self.id: int #: The unique identifier of the window
         self.index: int #: The index of the window, ordered front to back
-        self.bounds: Tuple[int, int, int, int]: The bounding rectangle of the window
+        self.bounds: tuple[int, int, int, int] #: The bounding rectangle of the window
         self.closeable: bool #: Whether the window has a close button
         self.miniaturizable: bool #: Whether the window has a minimize button
         self.miniaturized: bool #: Whether the window is currently minimized
@@ -100,14 +98,14 @@ class XACardhopWindow(XABaseScriptable.XASBWindow, XAPrintable):
         self.set_property('index', index)
 
     @property
-    def bounds(self) -> Tuple[int, int, int, int]:
+    def bounds(self) -> tuple[int, int, int, int]:
         rect = self.xa_elem.bounds()
         origin = rect.origin
         size = rect.size
         return (origin.x, origin.y, size.width, size.height)
 
     @bounds.setter
-    def bounds(self, bounds: Tuple[int, int, int, int]):
+    def bounds(self, bounds: tuple[int, int, int, int]):
         x = bounds[0]
         y = bounds[1]
         w = bounds[2]
@@ -172,31 +170,31 @@ class XACardhopDocumentList(XABase.XAList, XAPrintable, XAClipboardCodable):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XACardhopDocument, filter)
 
-    def name(self) -> List[str]:
+    def name(self) -> list[str]:
         """Gets the name of each document in the list.
 
         :return: A list of document names
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
-    def modified(self) -> List[bool]:
+    def modified(self) -> list[bool]:
         """Gets the modified status of each document in the list.
 
         :return: A list of document modified status booleans
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("modified"))
 
-    def file(self) -> List[XABase.XAPath]:
+    def file(self) -> list[XABase.XAPath]:
         """Gets the file path of each document in the list.
 
         :return: A list of document file paths
-        :rtype: List[XABase.XAPath]
+        :rtype: list[XABase.XAPath]
         
         .. versionadded:: 0.1.0
         """
@@ -235,13 +233,13 @@ class XACardhopDocumentList(XABase.XAList, XAPrintable, XAClipboardCodable):
             file = XABase.XAPath(file)
         return self.by_property("file", file.xa_elem)
 
-    def get_clipboard_representation(self) -> List[Union[str, AppKit.NSURL]]:
+    def get_clipboard_representation(self) -> list[Union[str, AppKit.NSURL]]:
         """Gets a clipboard-codable representation of each document in the list.
 
         When the clipboard content is set to a list of documents, each documents's file URL and name are added to the clipboard.
 
         :return: A list of each document's file URL and name
-        :rtype: List[Union[str, AppKit.NSURL]]
+        :rtype: list[Union[str, AppKit.NSURL]]
 
         .. versionadded:: 0.0.8
         """

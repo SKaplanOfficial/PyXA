@@ -3,10 +3,6 @@
 Control Alfred using JXA-like syntax.
 """
 
-from datetime import datetime
-from typing import Any, List, Union
-
-from PyXA import XABase
 from PyXA import XABaseScriptable
 
 class XAAlfredApplication(XABaseScriptable.XASBApplication):
@@ -27,11 +23,11 @@ class XAAlfredApplication(XABaseScriptable.XASBApplication):
         """
         self.xa_scel.search_(query)
 
-    def action(self, items: List[str]):
+    def action(self, items: list[str]):
         """Shows Alfred actions for the given file/folder/item.
 
         :param items: A list of item paths
-        :type items: List[str]
+        :type items: list[str]
 
         .. versionadded:: 0.0.8
         """

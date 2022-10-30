@@ -3,8 +3,7 @@
 Control the macOS Preview application using JXA-like syntax.
 """
 
-from enum import Enum
-from typing import List, Tuple, Union
+from typing import Union, Self
 
 import AppKit
 
@@ -89,7 +88,7 @@ class XAPreviewWindow(XABaseScriptable.XASBPrintable):
         super().__init__(properties)
 
         self.properties: dict #: All properties of the window
-        self.bounds: Tuple[int, int, int, int] #: The bounding rectangle of the window
+        self.bounds: tuple[int, int, int, int] #: The bounding rectangle of the window
         self.closeable: bool #: Whether the window has a close button
         self.document: XAPreviewDocument #: The document currently displayed in the window
         self.floating: bool #: WHether the window floats
@@ -110,14 +109,14 @@ class XAPreviewWindow(XABaseScriptable.XASBPrintable):
         return self.xa_elem.properties()
 
     @property
-    def bounds(self) -> Tuple[int, int, int, int]:
+    def bounds(self) -> tuple[int, int, int, int]:
         rect = self.xa_elem.bounds()
         origin = rect.origin
         size = rect.size
         return (origin.x, origin.y, size.width, size.height)
 
     @bounds.setter
-    def bounds(self, bounds: Tuple[int, int, int, int]):
+    def bounds(self, bounds: tuple[int, int, int, int]):
         x = bounds[0]
         y = bounds[1]
         w = bounds[2]
@@ -218,38 +217,96 @@ class XAPreviewDocumentList(XABase.XAList, XAClipboardCodable):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XAPreviewDocument, filter)
 
-    def properties(self) -> List[dict]:
+    def properties(self) -> list[dict]:
+        """Gets the properties dictionary of each document in the list.
+
+        :return: A list of document properties dictionaries
+        :rtype: list[dict]
+        
+        .. versionadded:: 0.0.4
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("properties"))
 
-    def name(self) -> List[str]:
+    def name(self) -> list[str]:
+        """Gets the name of each document in the list.
+
+        :return: A list of document names
+        :rtype: list[str]
+        
+        .. versionadded:: 0.0.4
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
-    def path(self) -> List[XABase.XAPath]:
+    def path(self) -> list[XABase.XAPath]:
+        """Gets the path of each document in the list.
+
+        :return: A list of document paths
+        :rtype: list[XABase.XAPath]
+        
+        .. versionadded:: 0.0.4
+        """
         ls = self.xa_elem.arrayByApplyingSelector_("path")
         return [XABase.XAPath(x) for x in ls]
 
-    def modified(self) -> List[str]:
+    def modified(self) -> list[str]:
+        """Gets the modified status of each document in the list.
+
+        :return: A list of document modified status booleans
+        :rtype: list[bool]
+        
+        .. versionadded:: 0.0.4
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("modified"))
 
-    def by_properties(self, properties: dict) -> 'XAPreviewDocument':
+    def by_properties(self, properties: dict) -> Union['XAPreviewDocument', None]:
+        """Retrieves the document whose properties dictionary matches the given properties, if one exists.
+
+        :return: The desired document, if it is found
+        :rtype: Union[XAPreviewDocument, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("properties", properties)
 
-    def by_name(self, name: str) -> 'XAPreviewDocument':
+    def by_name(self, name: str) -> Union['XAPreviewDocument', None]:
+        """Retrieves the document whose name matches the given name, if one exists.
+
+        :return: The desired document, if it is found
+        :rtype: Union[XAPreviewDocument, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("name", name)
 
-    def by_path(self, path: XABase.XAPath) -> 'XAPreviewDocument':
+    def by_path(self, path: Union[str, XABase.XAPath]) -> Union['XAPreviewDocument', None]:
+        """Retrieves the document whose path status matches the given path, if one exists.
+
+        :return: The desired document, if it is found
+        :rtype: Union[XAPreviewDocument, None]
+        
+        .. versionadded:: 0.0.4
+        """
+        if isinstance(path, str):
+            path = XABase.XAPath(str)
         return self.by_property("path", str(path.xa_elem))
 
-    def by_modified(self, modified: bool) -> 'XAPreviewDocument':
+    def by_modified(self, modified: bool) -> Union['XAPreviewDocument', None]:
+        """Retrieves the document whose modified status matches the given boolean value, if one exists.
+
+        :return: The desired document, if it is found
+        :rtype: Union[XAPreviewDocument, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("modified", modified)
 
-    def get_clipboard_representation(self) -> List[AppKit.NSURL]:
+    def get_clipboard_representation(self) -> list[AppKit.NSURL]:
         """Gets a clipboard-codable representation of each document in the list.
 
         When the clipboard content is set to a document, each documents's file URL is added to the clipboard.
 
         :return: The document's file URL
-        :rtype: List[AppKit.NSURL]
+        :rtype: list[AppKit.NSURL]
 
         .. versionadded:: 0.0.8
         """
@@ -297,7 +354,7 @@ class XAPreviewDocument(XABase.XATextDocument, XAPrintable, XACloseable, XAClipb
     def modified(self) -> bool:
         return self.xa_elem.modified()
 
-    def print(self, print_properties: Union[dict, None] = None, show_dialog: bool = True) -> 'XAPreviewDocument':
+    def print(self, print_properties: Union[dict, None] = None, show_dialog: bool = True) -> Self:
         """Prints the document.
 
         :param print_properties: Properties to set for printing, defaults to None
@@ -305,7 +362,7 @@ class XAPreviewDocument(XABase.XATextDocument, XAPrintable, XACloseable, XAClipb
         :param show_dialog: Whether to show the print dialog, defaults to True
         :type show_dialog: bool, optional
         :return: The document object
-        :rtype: XAPreviewDocument
+        :rtype: Self
 
         .. versionadded:: 0.0.4
         """

@@ -3,7 +3,7 @@
 Control iTerm using JXA-like syntax.
 """
 
-from typing import Any, List, Tuple, Union
+from typing import Union
 
 import AppKit
 from PyXA import XABaseScriptable, XABase
@@ -86,13 +86,13 @@ class XAiTermApplication(XABaseScriptable.XASBApplication):
         """
         return self.xa_scel.requestCookieAndKeyForAppNamed_(app)
 
-    def launch_api_script(self, script_name: str, arguments: Union[List[str], None] = None):
+    def launch_api_script(self, script_name: str, arguments: Union[list[str], None] = None):
         """Launches an API script by name, providing it with the given arguments.
 
         :param script_name: The name of the script to launch
         :type script_name: str
         :param arguments: The arguments to pass to the script, defaults to None
-        :type arguments: Union[List[str], None], optional
+        :type arguments: Union[list[str], None], optional
 
         .. versionadded:: 0.1.0
         """
@@ -125,7 +125,7 @@ class XAiTermWindow(XABaseScriptable.XASBWindow, XABase.XAObject, XASelectable, 
         self.alternate_identifier: str #: The alternate unique identifier of the session
         self.name: str #: The full title of the window
         self.index: int #: The index of the window in the front-to-back ordering
-        self.bounds: Tuple[int, int, int, int] #: The bounding rectangle of the window
+        self.bounds: tuple[int, int, int, int] #: The bounding rectangle of the window
         self.closeable: bool #: Whether the window has a close button
         self.miniaturizable: bool #: Whether the window can be minimized
         self.miniaturized: bool #: Whether the window is currently minimized
@@ -138,7 +138,7 @@ class XAiTermWindow(XABaseScriptable.XASBWindow, XABase.XAObject, XASelectable, 
         self.current_session: XAiTermSession #: The current session in a window
         self.is_hotkey_window: bool #: Whether the window is a hotkey window
         self.hotkey_window_profile: str #: If the window is a hotkey window, this gives the name of the profile that created the window
-        self.position: Tuple[int, int] #: The position os the window, relative to the upper left corner of the screen
+        self.position: tuple[int, int] #: The position os the window, relative to the upper left corner of the screen
 
         if self.is_hotkey_window:
             self.__class__ = XAiTermHotkeyWindow
@@ -164,14 +164,14 @@ class XAiTermWindow(XABaseScriptable.XASBWindow, XABase.XAObject, XASelectable, 
         self.set_property("index", index)
 
     @property
-    def bounds(self) -> Tuple[int, int, int, int]:
+    def bounds(self) -> tuple[int, int, int, int]:
         rect = self.xa_elem.bounds()
         origin = rect.origin
         size = rect.size
         return (origin.x, origin.y, size.width, size.height)
 
     @bounds.setter
-    def bounds(self, bounds: Tuple[int, int, int, int]):
+    def bounds(self, bounds: tuple[int, int, int, int]):
         x = bounds[0]
         y = bounds[1]
         w = bounds[2]
@@ -260,11 +260,11 @@ class XAiTermWindow(XABaseScriptable.XASBWindow, XABase.XAObject, XASelectable, 
         self.set_property('hotkeyWindowProfile', hotkey_window_profile)
 
     @property
-    def position(self) -> Tuple[int, int]:
+    def position(self) -> tuple[int, int]:
         return self.xa_elem.position()
 
     @position.setter
-    def position(self, position: Tuple[int, int]):
+    def position(self, position: tuple[int, int]):
         self.set_property('position', position)
 
     def create_tab(self, profile: Union[str, None] = None, command: Union[str, None] = None):

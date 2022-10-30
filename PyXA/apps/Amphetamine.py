@@ -3,12 +3,10 @@
 Control Amphetamine using JXA-like syntax.
 """
 
-from datetime import datetime
-from typing import Any, List, Literal, Tuple, Union
+from typing import Literal, Union
 
 import AppKit
 
-from PyXA import XABase
 from PyXA import XABaseScriptable
 
 class XAAmphetamineApplication(XABaseScriptable.XASBApplication):
@@ -273,7 +271,7 @@ class XAAmphetamineWindow(XABaseScriptable.XASBWindow):
         self.name: str #: The title of the window
         self.id: int #: The unique identifier of the window
         self.index: int #: The index of the window, ordered front to back
-        self.bounds: Tuple[int, int, int, int] #: The bounding rectangle of the window
+        self.bounds: tuple[int, int, int, int] #: The bounding rectangle of the window
         self.closeable: bool #: Whether the window has a close button
         self.miniaturizable: bool #: Whether the window has a minimize button
         self.miniaturized: bool #: Whether the window is currently minimized
@@ -299,14 +297,14 @@ class XAAmphetamineWindow(XABaseScriptable.XASBWindow):
         self.set_property('index', index)
 
     @property
-    def bounds(self) -> Tuple[int, int, int, int]:
+    def bounds(self) -> tuple[int, int, int, int]:
         rect = self.xa_elem.bounds()
         origin = rect.origin
         size = rect.size
         return (origin.x, origin.y, size.width, size.height)
 
     @bounds.setter
-    def bounds(self, bounds: Tuple[int, int, int, int]):
+    def bounds(self, bounds: tuple[int, int, int, int]):
         x = bounds[0]
         y = bounds[1]
         w = bounds[2]

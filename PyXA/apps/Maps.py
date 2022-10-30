@@ -3,7 +3,7 @@
 Control the macOS Maps application using JXA-like syntax.
 """
 
-from typing import List, Literal, Union
+from typing import Literal, Union
 from AppKit import NSPredicate
 
 from PyXA import XABase
@@ -198,7 +198,7 @@ class XAMapsTabList(XABase.XAList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XAMapsTab, filter)
 
-    # def name(self) -> List[str]:
+    # def name(self) -> list[str]:
     #     ls = self.xa_elem.arrayByApplyingSelector_("objectDescription")
     #     return [x.split(",")[0] for x in ls]
 
@@ -244,7 +244,7 @@ class XAMapsSidebarLocationList(XABase.XAList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XAMapsSidebarLocation, filter)
 
-    def name(self) -> List[str]:
+    def name(self) -> list[str]:
         ls = self.xa_elem.arrayByApplyingSelector_("objectDescription")
         return [x.split(",")[0] for x in ls]
 

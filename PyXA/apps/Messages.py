@@ -5,7 +5,7 @@ Control the macOS Messages application using JXA-like syntax.
 
 from datetime import datetime
 from enum import Enum
-from typing import Any, List, Tuple, Union
+from typing import Any, Union
 
 import AppKit
 
@@ -227,7 +227,7 @@ class XAMessagesWindow(XABaseScriptable.XASBWindow):
         self.name: str #: The title of the window
         self.id: int #: The unique identifier for the window
         self.index: int #: The index of the window in the front-to-back ordering
-        self.bounds: Tuple[int, int, int, int] #: The bounding rectangle of the window
+        self.bounds: tuple[int, int, int, int] #: The bounding rectangle of the window
         self.closeable: bool #: Whether the window has a close button
         self.miniaturizable: bool #: Whether the window can be minimized
         self.miniaturized: bool #: Whether the window is currently minimized
@@ -254,14 +254,14 @@ class XAMessagesWindow(XABaseScriptable.XASBWindow):
         self.set_property('index', index)
 
     @property
-    def bounds(self) -> Tuple[int, int, int, int]:
+    def bounds(self) -> tuple[int, int, int, int]:
         rect = self.xa_elem.bounds()
         origin = rect.origin
         size = rect.size
         return (origin.x, origin.y, size.width, size.height)
 
     @bounds.setter
-    def bounds(self, bounds: Tuple[int, int, int, int]):
+    def bounds(self, bounds: tuple[int, int, int, int]):
         x = bounds[0]
         y = bounds[1]
         w = bounds[2]
@@ -326,31 +326,31 @@ class XAMessagesDocumentList(XABase.XAList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XAMessagesDocument, filter)
 
-    def name(self) -> List[str]:
+    def name(self) -> list[str]:
         """Gets the name of each document in the list.
 
         :return: A list of document names
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.4
         """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
-    def modified(self) -> List[bool]:
+    def modified(self) -> list[bool]:
         """Gets the modified status of each document in the list.
 
         :return: A list of modified status boolean values
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.0.4
         """
         return list(self.xa_elem.arrayByApplyingSelector_("modified"))
 
-    def file(self) -> List[str]:
+    def file(self) -> list[str]:
         """Gets the file path of each document in the list.
 
         :return: A list of document file paths
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.4
         """
@@ -422,21 +422,21 @@ class XAMessagesChatList(XABase.XAList, XAClipboardCodable):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XAMessagesChat, filter)
 
-    def id(self) -> List[str]:
+    def id(self) -> list[str]:
         """Gets the ID of each chat in the list.
 
         :return: A list of chat IDs
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.4
         """
         return list(self.xa_elem.arrayByApplyingSelector_("id"))
 
-    def name(self) -> List[str]:
+    def name(self) -> list[str]:
         """Gets the name of each chat in the list.
 
         :return: A list of chat names
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.4
         """
@@ -453,11 +453,11 @@ class XAMessagesChatList(XABase.XAList, XAClipboardCodable):
         ls = self.xa_elem.arrayByApplyingSelector_("account")
         return self._new_element(ls, XAMessagesAccountList)
 
-    def participants(self) -> List['XAMessagesParticipantList']:
+    def participants(self) -> list['XAMessagesParticipantList']:
         """Gets the list of participants of every chat in the list.
 
         :return: A list of lists of participants
-        :rtype: List[XAMessagesParticipantList]
+        :rtype: list[XAMessagesParticipantList]
 
         .. versionadded:: 0.0.6
         """
@@ -496,11 +496,11 @@ class XAMessagesChatList(XABase.XAList, XAClipboardCodable):
         """
         return self.by_property("account", account.xa_elem)
 
-    def by_participants(self, participants: List['XAMessagesParticipant']) -> 'XAMessagesChat':
+    def by_participants(self, participants: list['XAMessagesParticipant']) -> 'XAMessagesChat':
         """Retrieves the first chat whose participants list matches the given list.
 
         :param participants: A list of participants to compare chat participants against
-        :type participants: List[XAMessagesParticipant]
+        :type participants: list[XAMessagesParticipant]
         :return: The desired chat, if it exists
         :rtype: XAMessagesChat
 
@@ -520,13 +520,13 @@ class XAMessagesChatList(XABase.XAList, XAClipboardCodable):
             if len(match) == len(participants):
                 return self._new_element(chat, XAMessagesChat)
 
-    def get_clipboard_representation(self) -> List[str]:
+    def get_clipboard_representation(self) -> list[str]:
         """Gets a clipboard-codable representation of each chat in the list.
 
         When the clipboard content is set to a list of chats, each chat's name is added to the clipboard.
 
         :return: The list of chat names
-        :rtype: List[str]
+        :rtype: list[str]
 
         .. versionadded:: 0.0.8
         """
@@ -612,42 +612,42 @@ class XAMessagesFileTransferList(XABase.XAList, XAClipboardCodable):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XAMessagesFileTransfer, filter)
 
-    def id(self) -> List[str]:
+    def id(self) -> list[str]:
         """Gets the ID of each file transfer in the list.
 
         :return: A list of file transfer IDs
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.4
         """
         return list(self.xa_elem.arrayByApplyingSelector_("id"))
 
-    def name(self) -> List[str]:
+    def name(self) -> list[str]:
         """Gets the name of each file transfer in the list.
 
         :return: A list of file names
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.4
         """
         return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
-    def file_path(self) -> List[XABase.XAPath]:
+    def file_path(self) -> list[XABase.XAPath]:
         """Gets the file path of each file transfer in the list.
 
         :return: A list of file paths
-        :rtype: List[XABase.XAPath]
+        :rtype: list[XABase.XAPath]
         
         .. versionadded:: 0.0.4
         """
         ls = self.xa_elem.arrayByApplyingSelector_("filePath")
         return [XABase.XAPath(x) for x in ls]
 
-    def direction(self) -> List[XAMessagesApplication.MessageDirection]:
+    def direction(self) -> list[XAMessagesApplication.MessageDirection]:
         """Gets the direction of each file transfer in the list.
 
         :return: A list of direction enum values
-        :rtype: List[XAMessagesApplication.MessageDirection]:
+        :rtype: list[XAMessagesApplication.MessageDirection]:
         
         .. versionadded:: 0.0.4
         """
@@ -676,42 +676,42 @@ class XAMessagesFileTransferList(XABase.XAList, XAClipboardCodable):
         ls = self.xa_elem.arrayByApplyingSelector_("participant")
         return self._new_element(ls, XAMessagesParticipantList)
 
-    def file_size(self) -> List[int]:
+    def file_size(self) -> list[int]:
         """Gets the file size of each file transfer in the list.
 
         :return: A list of file sizes in byes
-        :rtype: List[int]
+        :rtype: list[int]
         
         .. versionadded:: 0.0.4
         """
         return list(self.xa_elem.arrayByApplyingSelector_("fileSize"))
 
-    def file_progress(self) -> List[int]:
+    def file_progress(self) -> list[int]:
         """Gets the file progress of each file transfer in the list.
 
         :return: A list of file progress in bytes transferred out of total bytes
-        :rtype: List[int]
+        :rtype: list[int]
         
         .. versionadded:: 0.0.4
         """
         return list(self.xa_elem.arrayByApplyingSelector_("fileProgress"))
 
-    def transfer_status(self) -> List[XAMessagesApplication.TransferStatus]:
+    def transfer_status(self) -> list[XAMessagesApplication.TransferStatus]:
         """Gets the transfer status of each file transfer in the list.
 
         :return: A list of transfer status enum values
-        :rtype: List[XAMessagesApplication.TransferStatus]
+        :rtype: list[XAMessagesApplication.TransferStatus]
         
         .. versionadded:: 0.0.4
         """
         ls = self.xa_elem.arrayByApplyingSelector_("transferStatus")
         return [XAMessagesApplication.TransferStatus(x) for x in ls]
 
-    def started(self) -> List[bool]:
+    def started(self) -> list[bool]:
         """Gets the started status of each file transfer in the list.
 
         :return: A list of start status boolean values
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.0.4
         """
@@ -830,13 +830,13 @@ class XAMessagesFileTransferList(XABase.XAList, XAClipboardCodable):
             value1 = XAEvents.event_from_str(XABase.unOSType(value1.value))
         return super().filter(filter, comparison_operation, value1, value2)
 
-    def get_clipboard_representation(self) -> List[Union[str, AppKit.NSURL]]:
+    def get_clipboard_representation(self) -> list[Union[str, AppKit.NSURL]]:
         """Gets a clipboard-codable representation of each file transfer in the list.
 
         When the clipboard content is set to a list of file transfers, each file transfer's file path URL is added to the clipboard.
 
         :return: The list of file path URLs
-        :rtype: List[AppKit.NSURL]
+        :rtype: list[AppKit.NSURL]
 
         .. versionadded:: 0.0.8
         """
@@ -907,13 +907,13 @@ class XAMessagesFileTransfer(XABase.XAObject, XAClipboardCodable):
     def started(self) -> datetime:
         return self.xa_elem.started()
 
-    def get_clipboard_representation(self) -> List[AppKit.NSURL]:
+    def get_clipboard_representation(self) -> list[AppKit.NSURL]:
         """Gets a clipboard-codable representation of the file transfer.
 
         When the clipboard content is set to a file transfer, the path of the file transfer is added to the clipboard.
 
         :return: The file path of the file transfer
-        :rtype: List[AppKit.NSURL]
+        :rtype: list[AppKit.NSURL]
 
         .. versionadded:: 0.0.8
         """
@@ -936,11 +936,11 @@ class XAMessagesParticipantList(XABase.XAList, XAClipboardCodable):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XAMessagesParticipant, filter)
 
-    def id(self) -> List[str]:
+    def id(self) -> list[str]:
         """Gets the ID of each participant in the list.
 
         :return: A list of participant IDs
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.4
         """
@@ -957,51 +957,51 @@ class XAMessagesParticipantList(XABase.XAList, XAClipboardCodable):
         ls = self.xa_elem.arrayByApplyingSelector_("account")
         return self._new_element(ls, XAMessagesAccountList)
 
-    def name(self) -> List[str]:
+    def name(self) -> list[str]:
         """Gets the displayed name of each participant in the list.
 
         :return: A list of participant names
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.4
         """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
-    def handle(self) -> List[str]:
+    def handle(self) -> list[str]:
         """Gets the handle of each participant in the list.
 
         :return: A list of participant handles
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.4
         """
         return list(self.xa_elem.arrayByApplyingSelector_("handle"))
 
-    def first_name(self) -> List[str]:
+    def first_name(self) -> list[str]:
         """Gets the first name of each participant in the list.
 
         :return: A list of participant first names
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.4
         """
         return list(self.xa_elem.arrayByApplyingSelector_("firstName"))
 
-    def last_name(self) -> List[str]:
+    def last_name(self) -> list[str]:
         """Gets the last name of each participant in the list.
 
         :return: A list of participant last names
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.4
         """
         return list(self.xa_elem.arrayByApplyingSelector_("lastName"))
 
-    def full_name(self) -> List[str]:
+    def full_name(self) -> list[str]:
         """Gets the full name of each participant in the list.
 
         :return: A list of participant names
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.4
         """
@@ -1077,13 +1077,13 @@ class XAMessagesParticipantList(XABase.XAList, XAClipboardCodable):
         """
         return self.by_property("fullName", full_name)
 
-    def get_clipboard_representation(self) -> List[str]:
+    def get_clipboard_representation(self) -> list[str]:
         """Gets a clipboard-codable representation of each participant in the list.
 
         When the clipboard content is set to a list of participants, each participant's full name is added to the clipboard.
 
         :return: The list of participant names
-        :rtype: List[str]
+        :rtype: list[str]
 
         .. versionadded:: 0.0.8
         """
@@ -1163,52 +1163,52 @@ class XAMessagesAccountList(XABase.XAList, XAClipboardCodable):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XAMessagesAccount, filter)
 
-    def id(self) -> List[str]:
+    def id(self) -> list[str]:
         """Gets the ID of each account in the list.
 
         :return: A list of account IDs
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.4
         """
         return list(self.xa_elem.arrayByApplyingSelector_("id"))
 
-    def object_description(self) -> List[str]:
+    def object_description(self) -> list[str]:
         """Gets the description of each account in the list.
 
         :return: A list of description strings
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.4
         """
         return list(self.xa_elem.get().arrayByApplyingSelector_("objectDescription"))
 
-    def enabled(self) -> List[bool]:
+    def enabled(self) -> list[bool]:
         """Gets the enabled status of each account in the list.
 
         :return: A list of enabled status boolean values
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.0.4
         """
         return list(self.xa_elem.arrayByApplyingSelector_("enabled"))
 
-    def connection_status(self) -> List[XAMessagesApplication.ConnectionStatus]:
+    def connection_status(self) -> list[XAMessagesApplication.ConnectionStatus]:
         """Gets the connection status of each account in the list.
 
         :return: A list of connection status enum values
-        :rtype: List[XAMessagesApplication.ConnectionStatus]:
+        :rtype: list[XAMessagesApplication.ConnectionStatus]:
         
         .. versionadded:: 0.0.4
         """
         ls = self.xa_elem.arrayByApplyingSelector_("connectionStatus")
         return [XAMessagesApplication.ConnectionStatus(XABase.OSType(x.stringValue())) for x in ls]
 
-    def service_type(self) -> List[XAMessagesApplication.ServiceType]:
+    def service_type(self) -> list[XAMessagesApplication.ServiceType]:
         """Gets the service type of each account in the list.
 
         :return: A list of service type enum values
-        :rtype: List[XAMessagesApplication.ServiceType]:
+        :rtype: list[XAMessagesApplication.ServiceType]:
         
         .. versionadded:: 0.0.4
         """
@@ -1265,13 +1265,13 @@ class XAMessagesAccountList(XABase.XAList, XAClipboardCodable):
         """
         return self.by_property("serviceType", service_type.value)
 
-    def get_clipboard_representation(self) -> List[str]:
+    def get_clipboard_representation(self) -> list[str]:
         """Gets a clipboard-codable representation of each account in the list.
 
         When the clipboard content is set to a list of accounts, each account's object description is added to the clipboard.
 
         :return: The list of account descriptions
-        :rtype: List[str]
+        :rtype: list[str]
 
         .. versionadded:: 0.0.8
         """

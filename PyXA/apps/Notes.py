@@ -5,7 +5,7 @@ Control the macOS Notes application using JXA-like syntax.
 
 from datetime import datetime
 from enum import Enum
-from typing import Any, List, Tuple, Union
+from typing import Union
 
 import AppKit
 from ScriptingBridge import SBElementArray
@@ -68,7 +68,7 @@ class XANotesApplication(XABaseScriptable.XASBApplication, XACanOpenPath, XACanP
         return self._new_element(self.xa_scel.selection(), XANoteList)
 
     @selection.setter
-    def selection(self, selection: Union['XANoteList', List['XANote']]):
+    def selection(self, selection: Union['XANoteList', list['XANote']]):
         if isinstance(selection, list):
             selection = [x.xa_elem for x in selection]
             self.set_property("selection", selection)
@@ -281,28 +281,28 @@ class XANoteList(XABase.XAList, XAClipboardCodable):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XANote, filter)
 
-    def name(self) -> List[str]:
+    def name(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
-    def id(self) -> List[str]:
+    def id(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("id"))
 
-    def body(self) -> List[str]:
+    def body(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("body") or [])
 
-    def plaintext(self) -> List[str]:
+    def plaintext(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("plaintext"))
 
-    def creation_date(self) -> List[datetime]:
+    def creation_date(self) -> list[datetime]:
         return list(self.xa_elem.arrayByApplyingSelector_("creationDate"))
 
-    def modification_date(self) -> List[datetime]:
+    def modification_date(self) -> list[datetime]:
         return list(self.xa_elem.arrayByApplyingSelector_("modificationDate"))
 
-    def password_protected(self) -> List[bool]:
+    def password_protected(self) -> list[bool]:
         return list(self.xa_elem.arrayByApplyingSelector_("passwordProtected"))
 
-    def shared(self) -> List[bool]:
+    def shared(self) -> list[bool]:
         return list(self.xa_elem.arrayByApplyingSelector_("shared"))
 
     def container(self) -> 'XANotesFolderList':
@@ -355,20 +355,20 @@ class XANoteList(XABase.XAList, XAClipboardCodable):
             note.showSeparately_(True)
         return self
 
-    def get_clipboard_representation(self) -> List[str]:
+    def get_clipboard_representation(self) -> list[str]:
         """Gets a clipboard-codable representation of each note in the list.
 
         When the clipboard content is set to a list of notes, the plaintext of each note is added to the clipboard.
 
         :return: A list of note plaintext representations
-        :rtype: List[str]
+        :rtype: list[str]
 
         .. versionadded:: 0.0.8
         """
         return self.plaintext()
 
     def __repr__(self):
-        return "<" + str(type(self)) + str(self.id()) + ">"
+        return "<" + str(type(self)) + "length: " + str(len(self.xa_elem)) + ">"
 
 
 class XANotesDocumentList(XABase.XAList, XAClipboardCodable):
@@ -379,13 +379,13 @@ class XANotesDocumentList(XABase.XAList, XAClipboardCodable):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XANotesDocument, filter)
 
-    def name(self) -> List[str]:
+    def name(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
-    def modified(self) -> List[bool]:
+    def modified(self) -> list[bool]:
         return list(self.xa_elem.arrayByApplyingSelector_("modified"))
 
-    def file(self) -> List[str]:
+    def file(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("file"))
 
     def by_name(self, name: str) -> 'XANotesDocument':
@@ -397,13 +397,13 @@ class XANotesDocumentList(XABase.XAList, XAClipboardCodable):
     def by_file(self, file: str) -> 'XANotesDocument':
         return self.by_property("file", file)
 
-    def get_clipboard_representation(self) -> List[str]:
+    def get_clipboard_representation(self) -> list[str]:
         """Gets a clipboard-codable representation of each document in the list.
 
         When the clipboard content is set to a list of documents, the name of each document is added to the clipboard.
 
         :return: A list of document names
-        :rtype: List[str]
+        :rtype: list[str]
 
         .. versionadded:: 0.0.8
         """
@@ -421,13 +421,13 @@ class XANotesAccountList(XABase.XAList, XAClipboardCodable):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XANotesAccount, filter)
 
-    def name(self) -> List[str]:
+    def name(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
-    def upgraded(self) -> List[bool]:
+    def upgraded(self) -> list[bool]:
         return list(self.xa_elem.arrayByApplyingSelector_("upgraded"))
 
-    def id(self) -> List[str]:
+    def id(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("id"))
 
     def default_folder(self) -> 'XANotesFolderList':
@@ -454,13 +454,13 @@ class XANotesAccountList(XABase.XAList, XAClipboardCodable):
     def by_default_folder(self, default_folder: 'XANotesFolder') -> 'XANotesAccount':
         return self.by_property("defaultFolder", default_folder.value)
 
-    def get_clipboard_representation(self) -> List[str]:
+    def get_clipboard_representation(self) -> list[str]:
         """Gets a clipboard-codable representation of each account in the list.
 
         When the clipboard content is set to a list of accounts, the name of each account is added to the clipboard.
 
         :return: A list of account names
-        :rtype: List[str]
+        :rtype: list[str]
 
         .. versionadded:: 0.0.8
         """
@@ -478,13 +478,13 @@ class XANotesFolderList(XABase.XAList, XAClipboardCodable):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XANotesFolder, filter)
 
-    def name(self) -> List[str]:
+    def name(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
-    def id(self) -> List[str]:
+    def id(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("id"))
 
-    def shared(self) -> List[bool]:
+    def shared(self) -> list[bool]:
         return list(self.xa_elem.arrayByApplyingSelector_("shared"))
 
     def container(self) -> XANotesAccountList:
@@ -511,13 +511,13 @@ class XANotesFolderList(XABase.XAList, XAClipboardCodable):
     def by_container(self, container: 'XANotesAccount') -> 'XANotesFolder':
         return self.by_property("container", container.value)
 
-    def get_clipboard_representation(self) -> List[str]:
+    def get_clipboard_representation(self) -> list[str]:
         """Gets a clipboard-codable representation of each folder in the list.
 
         When the clipboard content is set to a list of folders, the name of each folder is added to the clipboard.
 
         :return: A list of folder names
-        :rtype: List[str]
+        :rtype: list[str]
 
         .. versionadded:: 0.0.8
         """
@@ -535,25 +535,25 @@ class XANotesAttachmentList(XABase.XAList, XAClipboardCodable):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XANoteAttachment, filter)
 
-    def name(self) -> List[str]:
+    def name(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
-    def id(self) -> List[str]:
+    def id(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("id"))
 
-    def content_identifier(self) -> List[str]:
+    def content_identifier(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("contentIdentifier"))
 
-    def creation_date(self) -> List[datetime]:
+    def creation_date(self) -> list[datetime]:
         return list(self.xa_elem.arrayByApplyingSelector_("creationDate"))
 
-    def modification_date(self) -> List[datetime]:
+    def modification_date(self) -> list[datetime]:
         return list(self.xa_elem.arrayByApplyingSelector_("modificationDate"))
 
-    def url(self) -> List[str]:
+    def url(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("URL"))
 
-    def shared(self) -> List[bool]:
+    def shared(self) -> list[bool]:
         return list(self.xa_elem.arrayByApplyingSelector_("shared"))
 
     def container(self) -> XANoteList:
@@ -624,7 +624,7 @@ class XANotesWindow(XABaseScriptable.XASBWindow):
         self.name: str #: The full title of the window
         self.id: int #: The unique identifier for the window
         self.index: int #: The index of the window in front-to-back ordering
-        self.bounds: Tuple[int, int, int, int] #: The bounding rectangle of the window
+        self.bounds: tuple[int, int, int, int] #: The bounding rectangle of the window
         self.closeable: bool #: Whether the window has a close button
         self.miniaturizable: bool #: Whether the window can be minimized
         self.miniaturized: bool #: Whether the window is currently minimized
@@ -651,14 +651,14 @@ class XANotesWindow(XABaseScriptable.XASBWindow):
         self.set_property('index', index)
 
     @property
-    def bounds(self) -> Tuple[int, int, int, int]:
+    def bounds(self) -> tuple[int, int, int, int]:
         rect = self.xa_elem.bounds()
         origin = rect.origin
         size = rect.size
         return (origin.x, origin.y, size.width, size.height)
 
     @bounds.setter
-    def bounds(self, bounds: Tuple[int, int, int, int]):
+    def bounds(self, bounds: tuple[int, int, int, int]):
         x = bounds[0]
         y = bounds[1]
         w = bounds[2]
@@ -1083,13 +1083,13 @@ class XANoteAttachment(XABase.XAObject, XAClipboardCodable):
         """
         self.xa_elem.delete()
 
-    def get_clipboard_representation(self) -> Union[str, List[Union[AppKit.NSURL, str]]]:
+    def get_clipboard_representation(self) -> Union[str, list[Union[AppKit.NSURL, str]]]:
         """Gets a clipboard-codable representation of the attachment.
 
         When the clipboard content is set to an attachment, the URL of the attachment (if one exists) and the attachment's name are added to the clipboard.
 
         :return: The URL and name of the attachment, or just the name of the attachment
-        :rtype: List[Union[AppKit.NSURL, str]]
+        :rtype: list[Union[AppKit.NSURL, str]]
 
         .. versionadded:: 0.0.8
         """

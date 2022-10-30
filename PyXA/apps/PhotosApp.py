@@ -12,7 +12,7 @@ Control the macOS Photos application using JXA-like syntax.
 from curses import meta
 from datetime import datetime
 from pprint import pprint
-from typing import Any, Tuple, Union, List
+from typing import Any, Union
 from AppKit import NSImage, NSURL, NSFileManager
 
 import AppKit
@@ -99,11 +99,11 @@ class XAPhotosApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
     def library_path(self) -> XABase.XAPath:
         return XABase.XAPath(self.__photos_library.photoLibraryURL())
 
-    def open(self, path: Union[str, XABase.XAPath, List[Union[str, XABase.XAPath]]]) -> 'XAPhotosApplication':
+    def open(self, path: Union[str, XABase.XAPath, list[Union[str, XABase.XAPath]]]) -> 'XAPhotosApplication':
         """Imports the file at the given filepath without adding it to any particular album.
 
         :param target: The path to a file to import into photos.
-        :type target: Union[str, XABase.XAPath, List[str, List[XABase.XAPath]]]
+        :type target: Union[str, XABase.XAPath, list[str, list[XABase.XAPath]]]
         :return: The Photos application object
         :rtype: XAPhotosApplication
 
@@ -120,11 +120,11 @@ class XAPhotosApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
 
         return self.import_files([path])
 
-    def import_files(self, files: List[Union[str, NSURL]], destination_album: Union['XAPhotosAlbum', None] = None, skip_duplicate_checking: bool = False) -> 'XAPhotosMediaItemList':
+    def import_files(self, files: list[Union[str, NSURL]], destination_album: Union['XAPhotosAlbum', None] = None, skip_duplicate_checking: bool = False) -> 'XAPhotosMediaItemList':
         """Imports a list of files into the specified album.
 
         :param files: The files to import
-        :type files: List[Union[str, NSURL]]
+        :type files: list[Union[str, NSURL]]
         :param destination_album: The album to import items into, defaults to None
         :type destination_album: Union[XAPhotosAlbum, None], optional
         :param skip_duplicate_checking: Whether the skip checking duplicates and import everything, defaults to False
@@ -147,11 +147,11 @@ class XAPhotosApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
             ls = self.xa_scel.import_into_skipCheckDuplicates_(urls, destination_album.xa_elem, skip_duplicate_checking)
         return self._new_element(ls, XAPhotosMediaItemList)
 
-    def export(self, media_items: Union['XAPhotosMediaItemList', List['XAPhotosMediaItem']], destination_path: Union[str, NSURL], use_originals: bool = False) -> 'XAPhotosApplication':
+    def export(self, media_items: Union['XAPhotosMediaItemList', list['XAPhotosMediaItem']], destination_path: Union[str, NSURL], use_originals: bool = False) -> 'XAPhotosApplication':
         """Exports a list of media items to the specified folder.
 
         :param media_items: The media items to export
-        :type media_items: Union[XAPhotosMediaItemList, List[XAPhotosMediaItem]]
+        :type media_items: Union[XAPhotosMediaItemList, list[XAPhotosMediaItem]]
         :param destination_path: The folder to store the exported files in
         :type destination_path: Union[str, NSURL]
         :param use_originals: Whether to export the original files or rendered jpgs, defaults to False
@@ -182,11 +182,11 @@ class XAPhotosApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         ls = self.xa_scel.searchFor_(query)
         return self._new_element(ls, XAPhotosMediaItemList)
 
-    def add(self, media_items: Union['XAPhotosMediaItemList', List['XAPhotosMediaItem']], album: 'XAPhotosAlbum') -> 'XAPhotosApplication':
+    def add(self, media_items: Union['XAPhotosMediaItemList', list['XAPhotosMediaItem']], album: 'XAPhotosAlbum') -> 'XAPhotosApplication':
         """Adds the given list of media items to the specified album.
 
         :param media_items: The media items to add
-        :type media_items: Union[XAPhotosMediaItemList, List[XAPhotosMediaItem]]
+        :type media_items: Union[XAPhotosMediaItemList, list[XAPhotosMediaItem]]
         :param album: The album to add the media items to
         :type album: XAPhotosAlbum
         :return: The Photos application object
@@ -386,7 +386,7 @@ class XAPhotosMediaItemList(XABase.XAList, XAClipboardCodable):
 
         self.__image_manager.requestImageDataAndOrientationForAsset_options_resultHandler_(asset, options, result_handler)
 
-    def _new_element(self, obj: AppKit.NSObject, obj_class: type = XABase.XAObject, *args: List[Any]) -> 'XABase.XAObject':
+    def _new_element(self, obj: AppKit.NSObject, obj_class: type = XABase.XAObject, *args: list[Any]) -> 'XABase.XAObject':
         element = super()._new_element(obj, obj_class, *args)
         predicate = XABase.XAPredicate()
         predicate.add_eq_condition("id", obj.localIdentifier())
@@ -394,194 +394,194 @@ class XAPhotosMediaItemList(XABase.XAList, XAClipboardCodable):
         element.xa_scel = ls[0]
         return element
 
-    def properties(self) -> List[dict]:
+    def properties(self) -> list[dict]:
         """Gets the properties of each media item in the list.
 
         :return: A list of media item properties dictionaries
-        :rtype: List[dict]
+        :rtype: list[dict]
         
         .. versionadded:: 0.0.6
         """
         return list(self.xa_scel.arrayByApplyingSelector_("properties"))
 
-    def keywords(self) -> List[List[str]]:
+    def keywords(self) -> list[list[str]]:
         """Gets the keywords of each media item in the list.
 
         :return: A list of media item keywords
-        :rtype: List[List[str]]
+        :rtype: list[list[str]]
         
         .. versionadded:: 0.0.6
         """
         ls = self.xa_scel.arrayByApplyingSelector_("keywords")
         return [keyword for keywordlist in ls for keyword in keywordlist]
 
-    def duration(self) -> List[float]:
+    def duration(self) -> list[float]:
         """Gets the duration of each media item in the list.
 
         :return: A list of media item durations
-        :rtype: List[float]
+        :rtype: list[float]
         
         .. versionadded:: 0.0.6
         """
         return [x.duration() for x in self.xa_elem]
 
-    def title(self) -> List[str]:
+    def title(self) -> list[str]:
         """Gets the title of each media item in the list.
 
         :return: A list of media item titles
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.6
         """
         return list(self.xa_elem.arrayByApplyingSelector_("title"))
 
-    def file_path(self) -> List[XABase.XAPath]:
+    def file_path(self) -> list[XABase.XAPath]:
         """Gets the file path of each media item in the list.
 
         :return: A list of media item original file paths
-        :rtype: List[XABase.XAPath]
+        :rtype: list[XABase.XAPath]
         
         .. versionadded:: 0.0.6
         """
         ls = self.xa_elem.arrayByApplyingSelector_("mainFileURL")
         return [XABase.XAPath(x) for x in ls]
 
-    def object_description(self) -> List[str]:
+    def object_description(self) -> list[str]:
         """Gets the object description of each media item in the list.
 
         :return: A list of media item descriptions
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.6
         """
         return list(self.xa_scel.arrayByApplyingSelector_("objectDescription"))
 
-    def favorite(self) -> List[bool]:
+    def favorite(self) -> list[bool]:
         """Gets the favorited status of each media item in the list.
 
         :return: A list of media item favorited status boolean values
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.0.6
         """
         return [x.isFavorite() for x in self.xa_elem]
 
-    def creation_date(self) -> List[datetime]:
+    def creation_date(self) -> list[datetime]:
         """Gets the creation date of each media item in the list.
 
         :return: A list of media item creation dates
-        :rtype: List[datetime]
+        :rtype: list[datetime]
         
         .. versionadded:: 0.0.6
         """
         return list(self.xa_elem.arrayByApplyingSelector_("creationDate"))
 
-    def modification_date(self) -> List[datetime]:
+    def modification_date(self) -> list[datetime]:
         """Gets the last modification date of each media item in the list.
 
         :return: A list of media item modification dates
-        :rtype: List[datetime]
+        :rtype: list[datetime]
         
         .. versionadded:: 0.0.6
         """
         return list(self.xa_elem.arrayByApplyingSelector_("modificationDate"))
 
-    def is_burst(self) -> List[bool]:
+    def is_burst(self) -> list[bool]:
         """Gets the is burst status of each media item in the list.
 
         :return: A list of media item is burst status booleans
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.1.0
         """
         return [x.representsBurst() for x in self.xa_elem]
 
-    def is_video(self) -> List[bool]:
+    def is_video(self) -> list[bool]:
         """Gets the is video status of each media item in the list.
 
         :return: A list of media item is video status booleans
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.1.0
         """
         return [x.isVideo() for x in self.xa_elem]
 
-    def is_hidden(self) -> List[bool]:
+    def is_hidden(self) -> list[bool]:
         """Gets the is hidden status of each media item in the list.
 
         :return: A list of media item is hidden status booleans
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.1.0
         """
         return [x.isHidden() for x in self.xa_elem]
 
-    def is_photo(self) -> List[bool]:
+    def is_photo(self) -> list[bool]:
         """Gets the is photo status of each media item in the list.
 
         :return: A list of media item is photo status booleans
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.1.0
         """
         return [x.isPhoto() for x in self.xa_elem]
 
-    def id(self) -> List[str]:
+    def id(self) -> list[str]:
         """Gets the ID of each media item in the list.
 
         :return: A list of media item IDs
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.6
         """
         return list(self.xa_elem.arrayByApplyingSelector_("localIdentifier"))
 
-    def height(self) -> List[int]:
+    def height(self) -> list[int]:
         """Gets the height of each media item in the list.
 
         :return: A list of media item heights
-        :rtype: List[int]
+        :rtype: list[int]
         
         .. versionadded:: 0.0.6
         """
         return [x.pixelHeight() for x in self.xa_elem]
 
-    def width(self) -> List[int]:
+    def width(self) -> list[int]:
         """Gets the width of each media item in the list.
 
         :return: A list of media item widths
-        :rtype: List[int]
+        :rtype: list[int]
         
         .. versionadded:: 0.0.6
         """
         return [x.pixelWidth() for x in self.xa_elem]
 
-    def filename(self) -> List[str]:
+    def filename(self) -> list[str]:
         """Gets the filename of each media item in the list.
 
         :return: A list of media item filenames
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.6
         """
         return list(self.xa_elem.arrayByApplyingSelector_("filename"))
 
-    def altitude(self) -> List[float]:
+    def altitude(self) -> list[float]:
         """Gets the altitude of each media item in the list.
 
         :return: A list of media item altitudes
-        :rtype: List[float]
+        :rtype: list[float]
         
         .. versionadded:: 0.0.6
         """
         locations = self.xa_elem.arrayByApplyingSelector_("location")
         return [x.altitude() for x in locations]
 
-    def size(self) -> List[Tuple[float, float]]:
+    def size(self) -> list[tuple[float, float]]:
         """Gets the file size, in bytes, of each media item in the list.
 
         :return: A list of media item file sizes
-        :rtype: List[Tuple[float, float]]
+        :rtype: list[tuple[float, float]]
         
         .. versionadded:: 0.0.6
         """
@@ -590,11 +590,11 @@ class XAPhotosMediaItemList(XABase.XAList, XAClipboardCodable):
         attributes = [file_manager.attributesOfItemAtPath_error_(x.path, None) for x in paths]
         return [x[0][AppKit.NSFileSize] for x in attributes if x is not None and x[0] is not None]
 
-    def location(self) -> List[List[Union[float, None]]]:
+    def location(self) -> list[list[Union[float, None]]]:
         """Gets the location of each media item in the list.
 
         :return: A list of media item locations
-        :rtype: List[List[Union[float, None]]]
+        :rtype: list[list[Union[float, None]]]
         
         .. versionadded:: 0.0.6
         """
@@ -620,7 +620,7 @@ class XAPhotosMediaItemList(XABase.XAList, XAClipboardCodable):
         obj = ls[0]
         return self._new_element(obj, self.xa_ocls)
 
-    def by_keywords(self, keywords: List[str]) -> Union['XAPhotosMediaItem', None]:
+    def by_keywords(self, keywords: list[str]) -> Union['XAPhotosMediaItem', None]:
         """Retrieves the media item whose keywords list matches the given keywords, if one exists.
 
         :return: The desired media item, if it is found
@@ -741,13 +741,13 @@ class XAPhotosMediaItemList(XABase.XAList, XAClipboardCodable):
         loc = (location.latitude, location.longitude)
         return self.by_property("location", loc)
 
-    def get_clipboard_representation(self) -> List[NSURL]:
+    def get_clipboard_representation(self) -> list[NSURL]:
         """Gets a clipboard-codable representation of each media item in the list.
 
         When the clipboard content is set to a list of media items, each item's file URL is added to the clipboard.
 
         :return: A list of media item file URLs
-        :rtype: List[NSURL]
+        :rtype: list[NSURL]
 
         .. versionadded:: 0.0.8
         """
@@ -765,7 +765,7 @@ class XAPhotosMediaItem(XABase.XAObject, XAClipboardCodable, XAImageLike):
         super().__init__(properties)
         
         self.properties: dict #: All properties of the media item
-        self.keywords: List[str] #: A list of keywords to associate with a media item
+        self.keywords: list[str] #: A list of keywords to associate with a media item
         self.name: str #: The name (title) of the media item.
         self.object_description: str #: A description of the media item.
         self.favorite: bool #: Whether the media item has been favorited.
@@ -813,12 +813,12 @@ class XAPhotosMediaItem(XABase.XAObject, XAClipboardCodable, XAImageLike):
         return self.xa_scel.properties()
 
     @property
-    def keywords(self) -> List[str]:
+    def keywords(self) -> list[str]:
         self.xa_scel = self.xa_scel.get()
         return list(self.xa_scel.keywords())
 
     @keywords.setter
-    def keywords(self, keywords: List[str]):
+    def keywords(self, keywords: list[str]):
         self.set_scriptable_property('keywords', keywords)
 
     @property
@@ -916,7 +916,7 @@ class XAPhotosMediaItem(XABase.XAObject, XAClipboardCodable, XAImageLike):
         )
 
     @location.setter
-    def location(self, location: Union[XABase.XALocation, List[float]]):
+    def location(self, location: Union[XABase.XALocation, list[float]]):
         if isinstance(location, list):
             self.set_property('location', location)
         else:
@@ -997,31 +997,31 @@ class XAPhotosContainerList(XABase.XAList, XAClipboardCodable):
             obj_class = XAPhotosContainer
         super().__init__(properties, obj_class, filter)
 
-    def properties(self) -> List[dict]:
+    def properties(self) -> list[dict]:
         """Gets the properties of each container in the list.
 
         :return: A list of container properties dictionaries
-        :rtype: List[dict]
+        :rtype: list[dict]
         
         .. versionadded:: 0.0.6
         """
         return list(self.xa_elem.arrayByApplyingSelector_("properties"))
 
-    def id(self) -> List[str]:
+    def id(self) -> list[str]:
         """Gets the ID of each container in the list.
 
         :return: A list of container IDs
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.6
         """
         return list(self.xa_elem.arrayByApplyingSelector_("id"))
 
-    def name(self) -> List[str]:
+    def name(self) -> list[str]:
         """Gets the name of each container in the list.
 
         :return: A list of container names
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.6
         """

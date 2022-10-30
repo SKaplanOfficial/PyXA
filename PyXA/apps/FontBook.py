@@ -3,7 +3,7 @@
 Control the macOS FontBook application using JXA-like syntax.
 """
 
-from typing import List, Tuple, Union
+from typing import Union
 
 import AppKit
 
@@ -68,7 +68,7 @@ class XAFontBookApplication(XABaseScriptable.XASBApplication):
         return self._new_element(ls, XAFontBookTypefaceList)
 
     @selection.setter
-    def selection(self, selection: Union['XAFontBookTypefaceList', List['XAFontBookTypeface']]):
+    def selection(self, selection: Union['XAFontBookTypefaceList', list['XAFontBookTypeface']]):
         if isinstance(selection, list):
             selection = [x.xa_elem for x in selection]
             self.set_property('selection', selection)
@@ -81,7 +81,7 @@ class XAFontBookApplication(XABaseScriptable.XASBApplication):
         return self._new_element(ls, XAFontBookFontFamilyList)
 
     @selected_font_families.setter
-    def selected_font_families(self, selected_font_families: Union['XAFontBookFontFamilyList', List['XAFontBookFontFamily']]):
+    def selected_font_families(self, selected_font_families: Union['XAFontBookFontFamilyList', list['XAFontBookFontFamily']]):
         if isinstance(selected_font_families, list):
             selected_font_families = [x.xa_elem for x in selected_font_families]
             self.set_property('selectedFontFamilies', selected_font_families)
@@ -94,7 +94,7 @@ class XAFontBookApplication(XABaseScriptable.XASBApplication):
         return self._new_element(ls, XAFontBookFontCollectionList)
 
     @selected_collections.setter
-    def selected_collections(self, selected_collections: Union['XAFontBookFontCollectionList', List['XAFontBookFontCollection']]):
+    def selected_collections(self, selected_collections: Union['XAFontBookFontCollectionList', list['XAFontBookFontCollection']]):
         if isinstance(selected_collections, list):
             selected_collections = [x.xa_elem for x in selected_collections]
             self.set_property('selectedCollections', selected_collections)
@@ -164,7 +164,7 @@ class XAFontBookWindow(XABase.XAObject):
         super().__init__(properties)
         self.name: str #: The full title of the window
         self.id: int #: The unique identifier for the window
-        self.bounds: Tuple[int, int, int, int] #: The bounding rectangle of the window
+        self.bounds: tuple[int, int, int, int] #: The bounding rectangle of the window
         self.closeable: bool #: Whether the window has a close button
         self.titled: bool # Whether the window has a title bar
         self.index: int #: The index of the window in the front-to-back window ordering
@@ -190,14 +190,14 @@ class XAFontBookWindow(XABase.XAObject):
         return self.xa_elem.id()
 
     @property
-    def bounds(self) -> Tuple[int, int, int, int]:
+    def bounds(self) -> tuple[int, int, int, int]:
         rect = self.xa_elem.bounds()
         origin = rect.origin
         size = rect.size
         return (origin.x, origin.y, size.width, size.height)
 
     @bounds.setter
-    def bounds(self, bounds: Tuple[int, int, int, int]):
+    def bounds(self, bounds: tuple[int, int, int, int]):
         x = bounds[0]
         y = bounds[1]
         w = bounds[2]
@@ -278,13 +278,13 @@ class XAFontBookDocumentList(XABase.XAList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XAFontBookDocument, filter)
 
-    def path(self) -> List[str]:
+    def path(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("path"))
 
-    def modified(self) -> List[bool]:
+    def modified(self) -> list[bool]:
         return list(self.xa_elem.arrayByApplyingSelector_("modified"))
 
-    def name(self) -> List[str]:
+    def name(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
     def by_path(self, path: str) -> 'XAFontBookDocument':
@@ -342,25 +342,25 @@ class XAFontBookFontFamilyList(XABase.XAList, XAClipboardCodable):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XAFontBookFontFamily, filter)
 
-    def properties(self) -> List[dict]:
+    def properties(self) -> list[dict]:
         return list(self.xa_elem.arrayByApplyingSelector_("properties"))
 
-    def name(self) -> List[str]:
+    def name(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
-    def display_name(self) -> List[str]:
+    def display_name(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("displayName"))
 
-    def displayed_name(self) -> List[str]:
+    def displayed_name(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("displayedName"))
 
-    def enabled(self) -> List[bool]:
+    def enabled(self) -> list[bool]:
         return list(self.xa_elem.arrayByApplyingSelector_("enabled"))
 
-    def duplicated(self) -> List[bool]:
+    def duplicated(self) -> list[bool]:
         return list(self.xa_elem.arrayByApplyingSelector_("duplicated"))
 
-    def files(self) -> List[List[XABase.XAPath]]:
+    def files(self) -> list[list[XABase.XAPath]]:
         ls = self.xa_elem.arrayByApplyingSelector_("files")
         return [XABase.XAURL(x) for x in [y for y in ls]]
 
@@ -382,16 +382,16 @@ class XAFontBookFontFamilyList(XABase.XAList, XAClipboardCodable):
     def by_duplicates(self, duplicated: bool) -> 'XAFontBookFontFamily':
         return self.by_property("duplicated", duplicated)
 
-    def by_files(self, files: List[XABase.XAPath]) -> 'XAFontBookFontFamily':
+    def by_files(self, files: list[XABase.XAPath]) -> 'XAFontBookFontFamily':
         return files == self.files()
 
-    def get_clipboard_representation(self) -> List[str]:
+    def get_clipboard_representation(self) -> list[str]:
         """Gets a clipboard-codable representation of each font family in the list.
 
         When the clipboard content is set to a list of font families, the name of each font family is added to the clipboard.
 
         :return: The list of font family names
-        :rtype: List[str]
+        :rtype: list[str]
 
         .. versionadded:: 0.0.8
         """
@@ -415,7 +415,7 @@ class XAFontBookFontFamily(XABase.XAObject, XAClipboardCodable):
         self.displayed_name: str #: The display name of the font family
         self.enabled: bool #: Whether the font family is enabled
         self.duplicated: bool #: Whether teh font family contains duplicated faces
-        self.files: List[XABase.XAPath] #: The font files of the font family
+        self.files: list[XABase.XAPath] #: The font files of the font family
 
     @property
     def properties(self) -> dict:
@@ -446,7 +446,7 @@ class XAFontBookFontFamily(XABase.XAObject, XAClipboardCodable):
         return self.xa_elem.duplicated()
 
     @property
-    def files(self) -> List[XABase.XAPath]:
+    def files(self) -> list[XABase.XAPath]:
         ls = self.xa_elem.files()
         return [XABase.XAPath(x) for x in ls]
 
@@ -492,51 +492,51 @@ class XAFontBookTypefaceList(XABase.XAList, XAClipboardCodable):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XAFontBookTypeface, filter)
 
-    def properties(self) -> List[dict]:
+    def properties(self) -> list[dict]:
         return list(self.xa_elem.arrayByApplyingSelector_("properties"))
 
-    def name(self) -> List[str]:
+    def name(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
-    def display_name(self) -> List[str]:
+    def display_name(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("displayName"))
 
-    def displayed_name(self) -> List[str]:
+    def displayed_name(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("displayedName"))
 
     def font_family(self) -> XAFontBookFontFamilyList:
         ls = self.xa_elem.arrayByApplyingSelector_("fontFamily")
         return self._new_element(ls, XAFontBookFontFamilyList)
 
-    def family_name(self) -> List[str]:
+    def family_name(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("familyName"))
 
-    def style_name(self) -> List[str]:
+    def style_name(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("styleName"))
 
-    def post_script_name(self) -> List[str]:
+    def post_script_name(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("postScriptName"))
 
-    def id(self) -> List[str]:
+    def id(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("id"))
 
-    def enabled(self) -> List[bool]:
+    def enabled(self) -> list[bool]:
         return list(self.xa_elem.arrayByApplyingSelector_("enabled"))
 
-    def duplicated(self) -> List[bool]:
+    def duplicated(self) -> list[bool]:
         return list(self.xa_elem.arrayByApplyingSelector_("duplicated"))
 
-    def font_type(self) -> List[str]:
+    def font_type(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("fontType"))
 
-    def copyright(self) -> List[str]:
+    def copyright(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("copyright"))
 
     def font_container(self) -> 'XAFontBookFontContainerList':
         ls = self.xa_elem.arrayByApplyingSelector_("fontContainer")
         return self._new_element(ls, XAFontBookFontContainerList)
 
-    def files(self) -> List[XABase.XAPath]:
+    def files(self) -> list[XABase.XAPath]:
         ls = self.xa_elem.arrayByApplyingSelector_("files")
         return [XABase.XAPath(x) for x in ls]
 
@@ -582,18 +582,18 @@ class XAFontBookTypefaceList(XABase.XAList, XAClipboardCodable):
     def by_font_container(self, font_container: 'XAFontBookFontContainer') -> 'XAFontBookTypeface':
         return self.by_property("fontContainer", font_container.xa_elem)
 
-    def by_files(self, files: List[XABase.XAPath]) -> 'XAFontBookTypeface':
+    def by_files(self, files: list[XABase.XAPath]) -> 'XAFontBookTypeface':
         for typeface in self:
             if typeface.files == files:
                 return typeface
 
-    def get_clipboard_representation(self) -> List[str]:
+    def get_clipboard_representation(self) -> list[str]:
         """Gets a clipboard-codable representation of each typeface in the list.
 
         When the clipboard content is set to a list of typefaces, the name of each typeface is added to the clipboard.
 
         :return: The list of typeface names
-        :rtype: List[str]
+        :rtype: list[str]
 
         .. versionadded:: 0.0.8
         """
@@ -625,7 +625,7 @@ class XAFontBookTypeface(XABase.XAObject, XAClipboardCodable):
         self.font_type: str #: The type of the typeface
         self.copyright: str #: The copyright string for the typeface
         self.font_container: XAFontBookFontContainer #: The container of the typeface
-        self.files: List[XABase.XAPath] #: The font files for the typeface
+        self.files: list[XABase.XAPath] #: The font files for the typeface
 
     @property
     def properties(self) -> dict:
@@ -688,7 +688,7 @@ class XAFontBookTypeface(XABase.XAObject, XAClipboardCodable):
         return self._new_element(self.xa_elem.fontContainer(), XAFontBookFontContainer)
 
     @property
-    def files(self) -> List[XABase.XAPath]:
+    def files(self) -> list[XABase.XAPath]:
         ls = self.xa_elem.files()
         return [XABase.XAPath(x) for x in ls]
 
@@ -720,16 +720,16 @@ class XAFontBookFontContainerList(XABase.XAList, XAClipboardCodable):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XAFontBookFontContainer, filter)
 
-    def properties(self) -> List[dict]:
+    def properties(self) -> list[dict]:
         return list(self.xa_elem.arrayByApplyingSelector_("properties"))
 
-    def name(self) -> List[str]:
+    def name(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
-    def path(self) -> List[str]:
+    def path(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("path"))
 
-    def files(self) -> List[XABase.XAPath]:
+    def files(self) -> list[XABase.XAPath]:
         ls = self.xa_elem.arrayByApplyingSelector_("files")
         return [XABase.XAPath(x) for x in ls]
 
@@ -737,7 +737,7 @@ class XAFontBookFontContainerList(XABase.XAList, XAClipboardCodable):
         ls = self.xa_elem.arrayByApplyingSelector_("domain")
         return self._new_element(ls, XAFontBookFontDomainList)
 
-    def id(self) -> List[str]:
+    def id(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("id"))
 
     def by_properties(self, properties: dict) -> 'XAFontBookFontContainer':
@@ -749,7 +749,7 @@ class XAFontBookFontContainerList(XABase.XAList, XAClipboardCodable):
     def by_path(self, path: str) -> 'XAFontBookFontContainer':
         return self.by_property("path", path)
 
-    def by_files(self, files: List[XABase.XAPath]) -> 'XAFontBookFontContainer':
+    def by_files(self, files: list[XABase.XAPath]) -> 'XAFontBookFontContainer':
         return files == self.files()
 
     def by_domain(self, domain: 'XAFontBookFontDomain') -> 'XAFontBookFontContainer':
@@ -758,13 +758,13 @@ class XAFontBookFontContainerList(XABase.XAList, XAClipboardCodable):
     def by_id(self, id: str) -> 'XAFontBookFontContainer':
         return self.by_property("id", id)
 
-    def get_clipboard_representation(self) -> List[str]:
+    def get_clipboard_representation(self) -> list[str]:
         """Gets a clipboard-codable representation of each container in the list.
 
         When the clipboard content is set to a list of containers, the name of each container is added to the clipboard.
 
         :return: The list of container names
-        :rtype: List[str]
+        :rtype: list[str]
 
         .. versionadded:: 0.0.8
         """
@@ -785,7 +785,7 @@ class XAFontBookFontContainer(XABase.XAObject, XAClipboardCodable):
         self.properties: dict #: All properties of the container
         self.name: str #: The name of the container
         self.path: str #: The path to the main container
-        self.files: List[XABase.XAPath] #: The files for the container
+        self.files: list[XABase.XAPath] #: The files for the container
         self.domain: XAFontBookFontDomain #: The font domain for the container
         self.id: str #: The unique identifier of the container
 
@@ -802,7 +802,7 @@ class XAFontBookFontContainer(XABase.XAObject, XAClipboardCodable):
         return self.xa_elem.path()
 
     @property
-    def files(self) -> List[XABase.XAPath]:
+    def files(self) -> list[XABase.XAPath]:
         ls = self.xa_elem.files()
         return [XABase.XAPath(x) for x in ls]
 
@@ -865,19 +865,19 @@ class XAFontBookFontCollectionList(XABase.XAList, XAClipboardCodable):
             obj_class = XAFontBookFontCollection
         super().__init__(properties, obj_class, filter)
 
-    def properties(self) -> List[dict]:
+    def properties(self) -> list[dict]:
         return list(self.xa_elem.arrayByApplyingSelector_("properties"))
 
-    def name(self) -> List[str]:
+    def name(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
-    def display_name(self) -> List[str]:
+    def display_name(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("displayName"))
 
-    def displayed_name(self) -> List[str]:
+    def displayed_name(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("displayedName"))
 
-    def enabled(self) -> List[bool]:
+    def enabled(self) -> list[bool]:
         return list(self.xa_elem.arrayByApplyingSelector_("enabled"))
 
     def by_properties(self, properties: dict) -> 'XAFontBookFontCollection':
@@ -895,13 +895,13 @@ class XAFontBookFontCollectionList(XABase.XAList, XAClipboardCodable):
     def by_enabled(self, enabled: bool) -> 'XAFontBookFontCollection':
         return self.by_property("enabled", enabled)
 
-    def get_clipboard_representation(self) -> List[str]:
+    def get_clipboard_representation(self) -> list[str]:
         """Gets a clipboard-codable representation of each collection in the list.
 
         When the clipboard content is set to a list of collections, the name of each collection is added to the clipboard.
 
         :return: The list of collection names
-        :rtype: List[str]
+        :rtype: list[str]
 
         .. versionadded:: 0.0.8
         """

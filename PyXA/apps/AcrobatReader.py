@@ -5,7 +5,7 @@ Control Adobe Acrobat Reader using JXA-like syntax.
 
 from datetime import datetime
 from enum import Enum
-from typing import List, Tuple, Union, Literal
+from typing import Union, Literal
 
 import AppKit
 
@@ -331,7 +331,7 @@ class XAAcrobatReaderWindow(XABaseScriptable.XASBWindow):
         super().__init__(properties)
 
         self.name: str #: The title of the window
-        self.bounds: Tuple[int, int, int, int] #: The bounding rectangle for the window
+        self.bounds: tuple[int, int, int, int] #: The bounding rectangle for the window
         self.visible: bool #: Whether the window is visible
 
     @property
@@ -339,14 +339,14 @@ class XAAcrobatReaderWindow(XABaseScriptable.XASBWindow):
         return self.xa_elem.name()
 
     @property
-    def bounds(self) -> Tuple[int, int, int, int]:
+    def bounds(self) -> tuple[int, int, int, int]:
         rect = self.xa_elem.bounds()
         origin = rect.origin
         size = rect.size
         return (origin.x, origin.y, size.width, size.height)
 
     @bounds.setter
-    def bounds(self, bounds: Tuple[int, int, int, int]):
+    def bounds(self, bounds: tuple[int, int, int, int]):
         x = bounds[0]
         y = bounds[1]
         w = bounds[2]
@@ -371,21 +371,21 @@ class XAAcrobatReaderDocumentList(XABase.XAList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XAAcrobatReaderDocument, filter)
 
-    def best_type(self) -> List[str]:
+    def best_type(self) -> list[str]:
         """Gets the best type of each document in the list.
 
         :return: A list of document best types
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("bestType"))
 
-    def bounds(self) -> List[Tuple[int, int, int, int]]:
+    def bounds(self) -> list[tuple[int, int, int, int]]:
         """Gets the bounds of each document in the list.
 
         :return: A list of document bounds
-        :rtype: List[Tuple[int, int, int, int]]
+        :rtype: list[tuple[int, int, int, int]]
         
         .. versionadded:: 0.1.0
         """
@@ -397,52 +397,52 @@ class XAAcrobatReaderDocumentList(XABase.XAList):
             bounds.append((origin.x, origin.y, size.width, size.height))
         return bounds
 
-    def default_type(self) -> List[str]:
+    def default_type(self) -> list[str]:
         """Gets the default type of each document in the list.
 
         :return: A list of document default types
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("defaultType"))
 
-    def file_alias(self) -> List[XABase.XAPath]:
+    def file_alias(self) -> list[XABase.XAPath]:
         """Gets the file alias of each document in the list.
 
         :return: A list of document file aliases
-        :rtype: List[XABase.XAPath]
+        :rtype: list[XABase.XAPath]
         
         .. versionadded:: 0.1.0
         """
         ls = self.xa_elem.arrayByApplyingSelector_("fileAlias")
         return [XABase.XAPath(x) for x in ls]
 
-    def name(self) -> List[str]:
+    def name(self) -> list[str]:
         """Gets the name of each document in the list.
 
         :return: A list of document names
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
-    def modified(self) -> List[bool]:
+    def modified(self) -> list[bool]:
         """Gets the modified status of each document in the list.
 
         :return: A list of document modified status booleans
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("modified"))
 
-    def view_mode(self) -> List[XAAcrobatReaderApplication.ViewMode]:
+    def view_mode(self) -> list[XAAcrobatReaderApplication.ViewMode]:
         """Gets the view mode of each document in the list.
 
         :return: A list of document view modes
-        :rtype: List[XAAcrobatReaderApplication.ViewMode]
+        :rtype: list[XAAcrobatReaderApplication.ViewMode]
         
         .. versionadded:: 0.1.0
         """
@@ -459,7 +459,7 @@ class XAAcrobatReaderDocumentList(XABase.XAList):
         """
         return self.by_property("bestType", best_type)
 
-    def by_bounds(self, bounds: Tuple[int, int, int, int]) -> Union['XAAcrobatReaderDocument', None]:
+    def by_bounds(self, bounds: tuple[int, int, int, int]) -> Union['XAAcrobatReaderDocument', None]:
         """Retrieves the document whose bounds match the given bounds, if one exists.
 
         :return: The desired document, if it is found
@@ -535,7 +535,7 @@ class XAAcrobatReaderDocument(XABase.XAObject):
         super().__init__(properties)
 
         self.best_type: str #: The best descriptor type
-        self.bounds: Tuple[int, int, int, int] #: The boundary rectangle for the document's window, in screen coordinates (left, top, right, bottom). Note that (0,0) is in the upper left.
+        self.bounds: tuple[int, int, int, int] #: The boundary rectangle for the document's window, in screen coordinates (left, top, right, bottom). Note that (0,0) is in the upper left.
         self.default_type: str #: The default descriptor type
         self.file_alias: str #: An alias to the file where the doc will be saved to if no other name is supplied. This is usually the same file as where it the document was read in from
         self.name: str #: The document’s name (as shown in the window’s titlebar)
@@ -547,14 +547,14 @@ class XAAcrobatReaderDocument(XABase.XAObject):
         return self.xa_elem.bestType()
 
     @property
-    def bounds(self) -> Tuple[int, int, int, int]:
+    def bounds(self) -> tuple[int, int, int, int]:
         rect = self.xa_elem.bounds()
         origin = rect.origin
         size = rect.size
         return (origin.x, origin.y, size.width, size.height)
 
     @bounds.setter
-    def bounds(self, bounds: Tuple[int, int, int, int]):
+    def bounds(self, bounds: tuple[int, int, int, int]):
         x = bounds[0]
         y = bounds[1]
         w = bounds[2]
@@ -665,101 +665,101 @@ class XAAcrobatReaderPDFPageList(XABase.XAList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XAAcrobatReaderPDFPage, filter)
 
-    def best_type(self) -> List[str]:
+    def best_type(self) -> list[str]:
         """Gets the best type of each PDF page in the list.
 
         :return: A list of PDF page best types
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("bestType"))
 
-    def art_box(self) -> List[List[float]]:
+    def art_box(self) -> list[list[float]]:
         """Gets the art box of each PDF page in the list.
 
         :return: A list of PDF page art boxes
-        :rtype: List[List[float]]
+        :rtype: list[list[float]]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("artBox"))
 
-    def bleed_box(self) -> List[List[float]]:
+    def bleed_box(self) -> list[list[float]]:
         """Gets the bleed box of each PDF page in the list.
 
         :return: A list of PDF page bleed boxes
-        :rtype: List[List[float]]
+        :rtype: list[list[float]]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("bleedBox"))
 
-    def crop_box(self) -> List[List[float]]:
+    def crop_box(self) -> list[list[float]]:
         """Gets the crop box of each PDF page in the list.
 
         :return: A list of PDF page crop boxes
-        :rtype: List[List[float]]
+        :rtype: list[list[float]]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("cropBox"))
 
-    def default_type(self) -> List[str]:
+    def default_type(self) -> list[str]:
         """Gets the default type of each PDF page in the list.
 
         :return: A list of PDF page default types
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("defaultType"))
 
-    def label_text(self) -> List[str]:
+    def label_text(self) -> list[str]:
         """Gets the label text of each PDF page in the list.
 
         :return: A list of PDF page label texts
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("labelText"))
 
-    def media_box(self) -> List[List[float]]:
+    def media_box(self) -> list[list[float]]:
         """Gets the media box of each PDF page in the list.
 
         :return: A list of PDF page media boxes
-        :rtype: List[List[float]]
+        :rtype: list[list[float]]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("mediaBox"))
 
-    def page_number(self) -> List[int]:
+    def page_number(self) -> list[int]:
         """Gets the page number of each PDF page in the list.
 
         :return: A list of PDF page page numbers
-        :rtype: List[int]
+        :rtype: list[int]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("pageNumber"))
 
-    def rotation(self) -> List[int]:
+    def rotation(self) -> list[int]:
         """Gets the rotation of each PDF page in the list.
 
         :return: A list of PDF page rotation amounts
-        :rtype: List[int]
+        :rtype: list[int]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("rotation"))
 
-    def trim_box(self) -> List[List[float]]:
+    def trim_box(self) -> list[list[float]]:
         """Gets the trim box of each PDF page in the list.
 
         :return: A list of PDF page trim boxes
-        :rtype: List[List[float]]
+        :rtype: list[list[float]]
         
         .. versionadded:: 0.1.0
         """
@@ -775,7 +775,7 @@ class XAAcrobatReaderPDFPageList(XABase.XAList):
         """
         return self.by_property("bestType", best_type)
 
-    def by_art_box(self, art_box: List[float]) -> Union['XAAcrobatReaderPDFPage', None]:
+    def by_art_box(self, art_box: list[float]) -> Union['XAAcrobatReaderPDFPage', None]:
         """Retrieves the first PDF page whose art box matches the given rectangle, if one exists.
 
         :return: The desired PDF page, if it is found
@@ -785,7 +785,7 @@ class XAAcrobatReaderPDFPageList(XABase.XAList):
         """
         return self.by_property("artBox", art_box)
 
-    def by_bleed_box(self, bleed_box: List[float]) -> Union['XAAcrobatReaderPDFPage', None]:
+    def by_bleed_box(self, bleed_box: list[float]) -> Union['XAAcrobatReaderPDFPage', None]:
         """Retrieves the first PDF page whose blled box matches the given rectangle, if one exists.
 
         :return: The desired PDF page, if it is found
@@ -795,7 +795,7 @@ class XAAcrobatReaderPDFPageList(XABase.XAList):
         """
         return self.by_property("bleedBox", bleed_box)
 
-    def by_crop_box(self, crop_box: List[float]) -> Union['XAAcrobatReaderPDFPage', None]:
+    def by_crop_box(self, crop_box: list[float]) -> Union['XAAcrobatReaderPDFPage', None]:
         """Retrieves the first PDF page whose crop box matches the given rectangle, if one exists.
 
         :return: The desired PDF page, if it is found
@@ -825,7 +825,7 @@ class XAAcrobatReaderPDFPageList(XABase.XAList):
         """
         return self.by_property("labelText", label_text)
 
-    def by_media_box(self, media_box: List[float]) -> Union['XAAcrobatReaderPDFPage', None]:
+    def by_media_box(self, media_box: list[float]) -> Union['XAAcrobatReaderPDFPage', None]:
         """Retrieves the first PDF page whose media box matches the given rectangle, if one exists.
 
         :return: The desired PDF page, if it is found
@@ -855,7 +855,7 @@ class XAAcrobatReaderPDFPageList(XABase.XAList):
         """
         return self.by_property("rotation", rotation)
 
-    def by_trim_box(self, trim_box: List[float]) -> Union['XAAcrobatReaderPDFPage', None]:
+    def by_trim_box(self, trim_box: list[float]) -> Union['XAAcrobatReaderPDFPage', None]:
         """Retrieves the first PDF page whose trim box matches the given rectangle, if one exists.
 
         :return: The desired PDF page, if it is found
@@ -874,42 +874,42 @@ class XAAcrobatReaderPDFPage(XAAcrobatReaderWindow):
         super().__init__(properties)
 
         self.best_type: str #: The best descriptor type
-        self.art_box: List[float] #: The art box rectangle for the page, in PDF space (left, top, right, bottom)
-        self.bleed_box: List[float] #: The bleed box rectangle for the page, in PDF space (left, top, right, bottom)
-        self.crop_box: List[float] #: The crop rectangle for the page, in PDF space (left, top, right, bottom)
+        self.art_box: list[float] #: The art box rectangle for the page, in PDF space (left, top, right, bottom)
+        self.bleed_box: list[float] #: The bleed box rectangle for the page, in PDF space (left, top, right, bottom)
+        self.crop_box: list[float] #: The crop rectangle for the page, in PDF space (left, top, right, bottom)
         self.default_type: str #: The default descriptor type
         self.label_text: str #: The label (or custom page number) used to describe the page
-        self.media_box: List[float] #: The media bounds rectangle for the page, in PDF space (left, top, right, bottom)
+        self.media_box: list[float] #: The media bounds rectangle for the page, in PDF space (left, top, right, bottom)
         self.page_number: int #: The page’s number.
         self.rotation: int #: The rotation angle of the page (0, 90, 180, 270)
-        self.trim_box: List[float] #: The trim box rectangle for the page, in PDF space (left, top, right, bottom)
+        self.trim_box: list[float] #: The trim box rectangle for the page, in PDF space (left, top, right, bottom)
 
     @property
     def best_type(self) -> str:
         return self.xa_elem.bestType()
         
     @property
-    def art_box(self) -> List[float]:
+    def art_box(self) -> list[float]:
         return self.xa_elem.artBox()
 
     @art_box.setter
-    def art_box(self, art_box: List[float]):
+    def art_box(self, art_box: list[float]):
         self.set_property('artBox', art_box)
 
     @property
-    def bleed_box(self) -> List[float]:
+    def bleed_box(self) -> list[float]:
         return self.xa_elem.bleedBox()
 
     @bleed_box.setter
-    def bleed_box(self, bleed_box: List[float]):
+    def bleed_box(self, bleed_box: list[float]):
         self.set_property('bleedBox', bleed_box)
 
     @property
-    def crop_box(self) -> List[float]:
+    def crop_box(self) -> list[float]:
         return self.xa_elem.cropBox()
 
     @crop_box.setter
-    def crop_box(self, crop_box: List[float]):
+    def crop_box(self, crop_box: list[float]):
         self.set_property('cropBox', crop_box)
 
     @property
@@ -921,11 +921,11 @@ class XAAcrobatReaderPDFPage(XAAcrobatReaderWindow):
         return self.xa_elem.labelText()
 
     @property
-    def media_box(self) -> List[float]:
+    def media_box(self) -> list[float]:
         return self.xa_elem.mediaBox()
 
     @media_box.setter
-    def media_box(self, media_box: List[float]):
+    def media_box(self, media_box: list[float]):
         self.set_property('mediaBox', media_box)
 
     @property
@@ -941,11 +941,11 @@ class XAAcrobatReaderPDFPage(XAAcrobatReaderWindow):
         self.set_property('rotation', rotation)
 
     @property
-    def trim_box(self) -> List[float]:
+    def trim_box(self) -> list[float]:
         return self.xa_elem.trimBox()
 
     @trim_box.setter
-    def trim_box(self, trim_box: List[float]):
+    def trim_box(self, trim_box: list[float]):
         self.set_property('trimBox', trim_box)
 
 
@@ -961,82 +961,82 @@ class XAAcrobatReaderBookmarkList(XABase.XAList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XAAcrobatReaderBookmark, filter)
 
-    def best_type(self) -> List[str]:
+    def best_type(self) -> list[str]:
         """Gets the best type of each bookmark in the list.
 
         :return: A list of bookmark best types
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("bestType"))
 
-    def default_type(self) -> List[str]:
+    def default_type(self) -> list[str]:
         """Gets the default type of each bookmark in the list.
 
         :return: A list of bookmark default types
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("defaultType"))
 
-    def destination_page_number(self) -> List[int]:
+    def destination_page_number(self) -> list[int]:
         """Gets the destination page number of each bookmark in the list.
 
         :return: A list of bookmark destination page numbers
-        :rtype: List[int]
+        :rtype: list[int]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("destinationPageNumber"))
 
-    def destination_rectangle(self) -> List[List[float]]:
+    def destination_rectangle(self) -> list[list[float]]:
         """Gets the destination rectangle of each bookmark in the list.
 
         :return: A list of bookmark destination rectangles
-        :rtype: List[List[float]]
+        :rtype: list[list[float]]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("destinationRectangle"))
 
-    def fit_type(self) -> List[XAAcrobatReaderApplication.FitType]:
+    def fit_type(self) -> list[XAAcrobatReaderApplication.FitType]:
         """Gets the fit type of each bookmark in the list.
 
         :return: A list of bookmark fit types
-        :rtype: List[XAAcrobatReaderApplication.FitType]
+        :rtype: list[XAAcrobatReaderApplication.FitType]
         
         .. versionadded:: 0.1.0
         """
         ls = self.xa_elem.arrayByApplyingSelector_("fitType")
         return [XAAcrobatReaderApplication.FitType(x) for x in ls]
 
-    def index(self) -> List[int]:
+    def index(self) -> list[int]:
         """Gets the index of each bookmark in the list.
 
         :return: A list of bookmark indices
-        :rtype: List[int]
+        :rtype: list[int]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("index"))
 
-    def name(self) -> List[str]:
+    def name(self) -> list[str]:
         """Gets the name of each bookmark in the list.
 
         :return: A list of bookmark names
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
-    def zoom_factor(self) -> List[float]:
+    def zoom_factor(self) -> list[float]:
         """Gets the zoom factor of each bookmark in the list.
 
         :return: A list of bookmark zoom factors
-        :rtype: List[float]
+        :rtype: list[float]
         
         .. versionadded:: 0.1.0
         """
@@ -1072,7 +1072,7 @@ class XAAcrobatReaderBookmarkList(XABase.XAList):
         """
         return self.by_property("destinationPageNumber", destination_page_number)
 
-    def by_destination_rectangle(self, destination_rectangle: List[float]) -> Union['XAAcrobatReaderBookmark', None]:
+    def by_destination_rectangle(self, destination_rectangle: list[float]) -> Union['XAAcrobatReaderBookmark', None]:
         """Retrieves the bookmark whose destination rectangle matches the given rectangle, if one exists.
 
         :return: The desired bookmark, if it is found
@@ -1133,7 +1133,7 @@ class XAAcrobatReaderBookmark(XABase.XAObject):
         self.best_type: str #: The best descriptor type
         self.default_type: str #: The default descriptor type
         self.destination_page_number: int #: The number of the page the PDF Window goes to when the bookmark is performed
-        self.destination_rectangle: List[float] #: The boundary rectangle for the view of the destination, in PDF space (left, top, right, bottom). [Set this only after setting the fit type property]
+        self.destination_rectangle: list[float] #: The boundary rectangle for the view of the destination, in PDF space (left, top, right, bottom). [Set this only after setting the fit type property]
         self.fit_type: XAAcrobatReaderApplication.FitType #: Controls how the destination rectangle is fitted to the window when the bookmark is executed
         self.index: int #: The bookmark’s index within the Document
         self.name: str #: The bookmark’s title
@@ -1156,11 +1156,11 @@ class XAAcrobatReaderBookmark(XABase.XAObject):
         self.set_property('destinationPageNumber', destination_page_number)
 
     @property
-    def destination_rectangle(self) -> List[float]:
+    def destination_rectangle(self) -> list[float]:
         return self.xa_elem.destinationRectangle()
 
     @destination_rectangle.setter
-    def destination_rectangle(self, destination_rectangle: List[float]):
+    def destination_rectangle(self, destination_rectangle: list[float]):
         self.set_property('destinationRectangle', destination_rectangle)
 
     @property
@@ -1204,82 +1204,82 @@ class XAAcrobatReaderAnnotationList(XABase.XAList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XAAcrobatReaderAnnotation, filter)
 
-    def best_type(self) -> List[str]:
+    def best_type(self) -> list[str]:
         """Gets the best type of each annotation in the list.
 
         :return: A list of annotation best types
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("bestType"))
 
-    def bounds(self) -> List[List[float]]:
+    def bounds(self) -> list[list[float]]:
         """Gets the bounds of each annotation in the list.
 
         :return: A list of annotation bounds
-        :rtype: List[List[float]]
+        :rtype: list[list[float]]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("bounds"))
 
-    def color(self) -> List[XABase.XAColor]:
+    def color(self) -> list[XABase.XAColor]:
         """Gets the color of each annotation in the list.
 
         :return: A list of annotation colors
-        :rtype: List[XABase.XAColor]
+        :rtype: list[XABase.XAColor]
         
         .. versionadded:: 0.1.0
         """
         ls = self.xa_elem.arrayByApplyingSelector_("color")
         return [XABase.XAColor(x) for x in ls]
 
-    def contents(self) -> List[str]:
+    def contents(self) -> list[str]:
         """Gets the contents of each annotation in the list.
 
         :return: A list of annotation contents
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("contents"))
 
-    def default_type(self) -> List[str]:
+    def default_type(self) -> list[str]:
         """Gets the default type of each annotation in the list.
 
         :return: A list of annotation default types
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("defaultType"))
 
-    def destination_page_number(self) -> List[int]:
+    def destination_page_number(self) -> list[int]:
         """Gets the destination page number of each annotation in the list.
 
         :return: A list of annotation destination page numbers
-        :rtype: List[int]
+        :rtype: list[int]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("destinationPageNumber"))
 
-    def destination_rectangle(self) -> List[List[float]]:
+    def destination_rectangle(self) -> list[list[float]]:
         """Gets the destination rectangle of each annotation in the list.
 
         :return: A list of annotation destination rectangles
-        :rtype: List[List[float]]
+        :rtype: list[list[float]]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("destinationRectangle"))
 
-    def fit_type(self) -> List[XAAcrobatReaderApplication.FitType]:
+    def fit_type(self) -> list[XAAcrobatReaderApplication.FitType]:
         """Gets the fit type of each annotation in the list.
 
         :return: A list of annotation fit types
-        :rtype: List[XAAcrobatReaderApplication.FitType]
+        :rtype: list[XAAcrobatReaderApplication.FitType]
         
         .. versionadded:: 0.1.0
         """
@@ -1287,61 +1287,61 @@ class XAAcrobatReaderAnnotationList(XABase.XAList):
         # TODO
         return [XAAcrobatReaderApplication.FitType(x) for x in ls]
 
-    def index(self) -> List[int]:
+    def index(self) -> list[int]:
         """Gets the index of each annotation in the list.
 
         :return: A list of annotation indices
-        :rtype: List[int]
+        :rtype: list[int]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("index"))
 
-    def modification_date(self) -> List[datetime]:
+    def modification_date(self) -> list[datetime]:
         """Gets the modification date of each annotation in the list.
 
         :return: A list of annotation modification dates
-        :rtype: List[datetime]
+        :rtype: list[datetime]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("modificationDate"))
 
-    def name(self) -> List[str]:
+    def name(self) -> list[str]:
         """Gets the name of each annotation in the list.
 
         :return: A list of annotation names
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
-    def open_state(self) -> List[bool]:
+    def open_state(self) -> list[bool]:
         """Gets the open status of each annotation in the list.
 
         :return: A list of annotation open status booleans
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("openState"))
 
-    def subtype(self) -> List[str]:
+    def subtype(self) -> list[str]:
         """Gets the subtype of each annotation in the list.
 
         :return: A list of annotation subtypes
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("subtype"))
 
-    def zoom_factor(self) -> List[float]:
+    def zoom_factor(self) -> list[float]:
         """Gets the zoom factor of each annotation in the list.
 
         :return: A list of annotation zoom factors
-        :rtype: List[float]
+        :rtype: list[float]
         
         .. versionadded:: 0.1.0
         """
@@ -1357,7 +1357,7 @@ class XAAcrobatReaderAnnotationList(XABase.XAList):
         """
         return self.by_property("bestType", best_type)
 
-    def by_bounds(self, bounds: List[float]) -> Union['XAAcrobatReaderAnnotation', None]:
+    def by_bounds(self, bounds: list[float]) -> Union['XAAcrobatReaderAnnotation', None]:
         """Retrieves the first annotation whose bounds match the given bounds, if one exists.
 
         :return: The desired annotation, if it is found
@@ -1407,7 +1407,7 @@ class XAAcrobatReaderAnnotationList(XABase.XAList):
         """
         return self.by_property("destinationPageNumber", destination_page_number)
 
-    def by_destination_rectangle(self, destination_rectangle: List[float]) -> Union['XAAcrobatReaderAnnotation', None]:
+    def by_destination_rectangle(self, destination_rectangle: list[float]) -> Union['XAAcrobatReaderAnnotation', None]:
         """Retrieves the first annotation whose destination rectangle matches the given rectangle, if one exists.
 
         :return: The desired annotation, if it is found
@@ -1506,12 +1506,12 @@ class XAAcrobatReaderAnnotation(XABase.XAObject):
         super().__init__(properties)
 
         self.best_type: str #: The best descriptor type
-        self.bounds: List[float] #: The boundary rectangle for the annotation, in PDF space (left, top, right, bottom)
+        self.bounds: list[float] #: The boundary rectangle for the annotation, in PDF space (left, top, right, bottom)
         self.color: XABase.XAColor #: The color of the border around the annotation
         self.contents: str #: Text subtype only: The textual contents of the annotation
         self.default_type: str #: The default descriptor type
         self.destination_page_number: int #: Link subtype only: The number of the page the PDF Window goes to when the link annotation is performed
-        self.destination_rectangle: List[float] #: Link subtype only: The boundary rectangle for the view of the destination, in PDF space (left, top, right, bottom)
+        self.destination_rectangle: list[float] #: Link subtype only: The boundary rectangle for the view of the destination, in PDF space (left, top, right, bottom)
         self.fit_type: XAAcrobatReaderApplication.FitType #: Link subtype only: Controls how the destination rectangle is fitted to the window when the annotation is performed
         self.index: int #: The annotation’s index within a Page object
         self.modification_date: datetime #: The date and time the annotation was last modified
@@ -1525,11 +1525,11 @@ class XAAcrobatReaderAnnotation(XABase.XAObject):
         return self.xa_elem.bestType()
 
     @property
-    def bounds(self) -> List[float]:
+    def bounds(self) -> list[float]:
         return self.xa_elem.bounds()
 
     @bounds.setter
-    def bounds(self, bounds: List[float]):
+    def bounds(self, bounds: list[float]):
         self.set_property('bounds', bounds)
 
     @property
@@ -1561,11 +1561,11 @@ class XAAcrobatReaderAnnotation(XABase.XAObject):
         self.set_property('destinationPageNumber', destination_page_number)
 
     @property
-    def destination_rectangle(self) -> List[float]:
+    def destination_rectangle(self) -> list[float]:
         return self.xa_elem.destinationRectangle()
 
     @destination_rectangle.setter
-    def destination_rectangle(self, destination_rectangle: List[float]):
+    def destination_rectangle(self, destination_rectangle: list[float]):
         self.set_property('destinationRectangle', destination_rectangle)
 
     @property
@@ -1629,41 +1629,41 @@ class XAAcrobatReaderMenuList(XABase.XAList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XAAcrobatReaderMenu, filter)
 
-    def best_type(self) -> List[str]:
+    def best_type(self) -> list[str]:
         """Gets the best type of each menu in the list.
 
         :return: A list of menu best types
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("bestType"))
 
-    def default_type(self) -> List[str]:
+    def default_type(self) -> list[str]:
         """Gets the default type of each menu in the list.
 
         :return: A list of menu default types
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("defaultType"))
 
-    def name(self) -> List[str]:
+    def name(self) -> list[str]:
         """Gets the name of each menu in the list.
 
         :return: A list of menu names
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
-    def title(self) -> List[str]:
+    def title(self) -> list[str]:
         """Gets the title of each menu in the list.
 
         :return: A list of menu titles
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
@@ -1751,71 +1751,71 @@ class XAAcrobatReaderMenuItemList(XABase.XAList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XAAcrobatReaderMenuItem, filter)
 
-    def best_type(self) -> List[str]:
+    def best_type(self) -> list[str]:
         """Gets the best type of each menu item in the list.
 
         :return: A list of menu item best types
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("bestType"))
 
-    def default_type(self) -> List[str]:
+    def default_type(self) -> list[str]:
         """Gets the default type of each menu item in the list.
 
         :return: A list of menu item default types
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("defaultType"))
 
-    def enabled(self) -> List[bool]:
+    def enabled(self) -> list[bool]:
         """Gets the enabled status of each menu item in the list.
 
         :return: A list of menu item enabled status booleans
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("enabled"))
 
-    def marked(self) -> List[bool]:
+    def marked(self) -> list[bool]:
         """Gets the marked status of each menu item in the list.
 
         :return: A list of menu item marked status booleans
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("marked"))
 
-    def name(self) -> List[str]:
+    def name(self) -> list[str]:
         """Gets the name of each menu item in the list.
 
         :return: A list of menu item names
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
-    def title(self) -> List[str]:
+    def title(self) -> list[str]:
         """Gets the title of each menu item in the list.
 
         :return: A list of menu item titles
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("title"))
 
-    def has_submenu(self) -> List[bool]:
+    def has_submenu(self) -> list[bool]:
         """Gets the has submenu status of each menu item in the list.
 
         :return: A list of menu item has submenu status booleans
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.1.0
         """

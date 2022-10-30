@@ -4,7 +4,7 @@ Control the macOS Reminders application using JXA-like syntax.
 """
 
 from datetime import datetime
-from typing import List, Literal, Union, Tuple
+from typing import Literal, Union
 
 import EventKit
 import AppKit
@@ -202,7 +202,7 @@ class XARemindersWindow(XABaseScriptable.XASBObject):
         self.name: str #: The title of the window.
         self.id: int #: The unique identifier of the window.
         self.index: int #: The index of the window, ordered front to back.
-        self.bounds: Tuple[int, int, int, int] #: The bounding rectangle of the window.
+        self.bounds: tuple[int, int, int, int] #: The bounding rectangle of the window.
         self.closeable: bool #: Does the window have a close button?
         self.miniaturizable: bool #: Does the window have a minimize button?
         self.miniaturized: bool #: Is the window minimized right now?
@@ -229,14 +229,14 @@ class XARemindersWindow(XABaseScriptable.XASBObject):
         self.set_property('index', index)
 
     @property
-    def bounds(self) -> Tuple[int, int, int, int]:
+    def bounds(self) -> tuple[int, int, int, int]:
         rect = self.xa_elem.bounds()
         origin = rect.origin
         size = rect.size
         return (origin.x, origin.y, size.width, size.height)
 
     @bounds.setter
-    def bounds(self, bounds: Tuple[int, int, int, int]):
+    def bounds(self, bounds: tuple[int, int, int, int]):
         x = bounds[0]
         y = bounds[1]
         w = bounds[2]
@@ -361,41 +361,41 @@ class XARemindersDocumentList(XABase.XAList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XARemindersDocument, filter)
 
-    def properties(self) -> List[dict]:
+    def properties(self) -> list[dict]:
         """Gets the properties of each document in the list.
 
         :return: A list of document properties dictionaries
-        :rtype: List[dict]
+        :rtype: list[dict]
         
         .. versionadded:: 0.0.6
         """
         return list(self.xa_elem.arrayByApplyingSelector_("properties"))
 
-    def name(self) -> List[dict]:
+    def name(self) -> list[dict]:
         """Gets the name of each document in the list.
 
         :return: A list of document names
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.6
         """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
-    def modified(self) -> List[dict]:
+    def modified(self) -> list[dict]:
         """Gets the modified status of each document in the list.
 
         :return: A list of document modified status boolean values
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.0.6
         """
         return list(self.xa_elem.arrayByApplyingSelector_("modified"))
 
-    def file(self) -> List[XABase.XAPath]:
+    def file(self) -> list[XABase.XAPath]:
         """Gets the file path of each document in the list.
 
         :return: A list of document file paths
-        :rtype: List[XABase.XAPath]
+        :rtype: list[XABase.XAPath]
         
         .. versionadded:: 0.0.6
         """
@@ -518,31 +518,31 @@ class XARemindersAccountList(XABase.XAList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XARemindersAccount, filter)
 
-    def properties(self) -> List[dict]:
+    def properties(self) -> list[dict]:
         """Gets the properties of each account in the list.
 
         :return: A list of account properties dictionaries
-        :rtype: List[dict]
+        :rtype: list[dict]
         
         .. versionadded:: 0.0.6
         """
         return list(self.xa_elem.arrayByApplyingSelector_("properties"))
 
-    def id(self) -> List[str]:
+    def id(self) -> list[str]:
         """Gets the ID of each account in the list.
 
         :return: A list of account IDs
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.6
         """
         return list(self.xa_elem.arrayByApplyingSelector_("id"))
 
-    def name(self) -> List[str]:
+    def name(self) -> list[str]:
         """Gets the name of each account in the list.
 
         :return: A list of account names
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.6
         """
@@ -626,31 +626,31 @@ class XARemindersListList(XABase.XAList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XARemindersList, filter)
 
-    def properties(self) -> List[dict]:
+    def properties(self) -> list[dict]:
         """Gets the properties of each reminder list in the list.
 
         :return: A list of reminder list properties dictionaries
-        :rtype: List[dict]
+        :rtype: list[dict]
         
         .. versionadded:: 0.0.6
         """
         return list(self.xa_elem.arrayByApplyingSelector_("properties"))
 
-    def id(self) -> List[str]:
+    def id(self) -> list[str]:
         """Gets the ID of each reminder list in the list.
 
         :return: A list of reminder list IDs
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.6
         """
         return list(self.xa_elem.arrayByApplyingSelector_("id"))
 
-    def name(self) -> List[dict]:
+    def name(self) -> list[dict]:
         """Gets the name of each reminder list in the list.
 
         :return: A list of reminder list names
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.6
         """
@@ -667,21 +667,21 @@ class XARemindersListList(XABase.XAList):
         ls = self.xa_elem.arrayByApplyingSelector_("container")
         return self._new_element(ls, XARemindersAccountList)
 
-    def color(self) -> List[dict]:
+    def color(self) -> list[dict]:
         """Gets the color of each reminder list in the list.
 
         :return: A list of reminder list colors
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.6
         """
         return list(self.xa_elem.arrayByApplyingSelector_("color"))
 
-    def emblem(self) -> List[dict]:
+    def emblem(self) -> list[dict]:
         """Gets the emblem name of each reminder list in the list.
 
         :return: A list of reminder list emblems
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.6
         """
@@ -873,31 +873,31 @@ class XARemindersReminderList(XABase.XAList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XARemindersReminder, filter)
 
-    def properties(self) -> List[dict]:
+    def properties(self) -> list[dict]:
         """Gets the properties of each reminder in the list.
 
         :return: A list of reminder properties dictionaries
-        :rtype: List[dict]
+        :rtype: list[dict]
         
         .. versionadded:: 0.0.6
         """
         return list(self.xa_elem.arrayByApplyingSelector_("properties"))
 
-    def name(self) -> List[str]:
+    def name(self) -> list[str]:
         """Gets the name of each reminder in the list.
 
         :return: A list of reminder names
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.6
         """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
-    def id(self) -> List[str]:
+    def id(self) -> list[str]:
         """Gets the ID of each reminder in the list.
 
         :return: A list of reminder IDs
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.6
         """
@@ -914,111 +914,111 @@ class XARemindersReminderList(XABase.XAList):
         ls = self.xa_elem.arrayByApplyingSelector_("creationDate")
         return self._new_element(ls, XARemindersListList)
 
-    def creation_date(self) -> List[datetime]:
+    def creation_date(self) -> list[datetime]:
         """Gets the creation date of each reminder in the list.
 
         :return: A list of creation dates
-        :rtype: List[datetime]
+        :rtype: list[datetime]
         
         .. versionadded:: 0.0.6
         """
         return list(self.xa_elem.arrayByApplyingSelector_("creationDate"))
 
-    def modification_date(self) -> List[datetime]:
+    def modification_date(self) -> list[datetime]:
         """Gets the last modification date of each reminder in the list.
 
         :return: A list of modification dates
-        :rtype: List[datetime]
+        :rtype: list[datetime]
         
         .. versionadded:: 0.0.6
         """
         return list(self.xa_elem.arrayByApplyingSelector_("modificationDate"))
 
-    def body(self) -> List[str]:
+    def body(self) -> list[str]:
         """Gets the body text of each reminder in the list.
 
         :return: A list of reminder body texts
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.6
         """
         return list(self.xa_elem.arrayByApplyingSelector_("body"))
 
-    def completed(self) -> List[bool]:
+    def completed(self) -> list[bool]:
         """Gets the completed status of each reminder in the list.
 
         :return: A list of reminder completed status boolean values
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.0.6
         """
         return list(self.xa_elem.arrayByApplyingSelector_("completed"))
 
-    def completion_date(self) -> List[datetime]:
+    def completion_date(self) -> list[datetime]:
         """Gets the completion date of each reminder in the list.
 
         :return: A list of completion dates
-        :rtype: List[datetime]
+        :rtype: list[datetime]
         
         .. versionadded:: 0.0.6
         """
         return list(self.xa_elem.arrayByApplyingSelector_("completionDate"))
 
-    def due_date(self) -> List[datetime]:
+    def due_date(self) -> list[datetime]:
         """Gets the due date of each reminder in the list.
 
         :return: A list of due dates
-        :rtype: List[datetime]
+        :rtype: list[datetime]
         
         .. versionadded:: 0.0.6
         """
         return list(self.xa_elem.arrayByApplyingSelector_("dueDate"))
 
-    def allday_due_date(self) -> List[datetime]:
+    def allday_due_date(self) -> list[datetime]:
         """Gets the allday due date of each reminder in the list.
 
         :return: A list of allday due dates
-        :rtype: List[datetime]
+        :rtype: list[datetime]
         
         .. versionadded:: 0.0.6
         """
         return list(self.xa_elem.arrayByApplyingSelector_("alldayDueDate"))
 
-    def remind_me_date(self) -> List[datetime]:
+    def remind_me_date(self) -> list[datetime]:
         """Gets the remind me date of each reminder in the list.
 
         :return: A list of remind me dates
-        :rtype: List[datetime]
+        :rtype: list[datetime]
         
         .. versionadded:: 0.0.6
         """
         return list(self.xa_elem.arrayByApplyingSelector_("remindMeDate"))
 
-    def priority(self) -> List[int]:
+    def priority(self) -> list[int]:
         """Gets the priority of each reminder in the list.
 
         :return: A list of reminder priorities
-        :rtype: List[int]
+        :rtype: list[int]
         
         .. versionadded:: 0.0.6
         """
         return list(self.xa_elem.arrayByApplyingSelector_("priority"))
 
-    def flagged(self) -> List[bool]:
+    def flagged(self) -> list[bool]:
         """Gets the flagged status of each reminder in the list.
 
         :return: A list of reminder flagged status boolean values
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.0.6
         """
         return list(self.xa_elem.arrayByApplyingSelector_("flagged"))
 
-    def alarms(self) -> List['XARemindersAlarmList']:
+    def alarms(self) -> list['XARemindersAlarmList']:
         """Gets the alarms of each reminder in the list.
 
         :return: A list of lists of alarms
-        :rtype: List[XARemindersAlarmList]
+        :rtype: list[XARemindersAlarmList]
         
         .. versionadded:: 0.0.6
         """
@@ -1457,51 +1457,51 @@ class XARemindersAlarmList(XABase.XAList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XARemindersAlarm, filter)
 
-    def id(self) -> List[str]:
+    def id(self) -> list[str]:
         """Gets the ID of each alarm in the list.
 
         :return: A list of alarm IDs
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.6
         """
         return list(self.xa_elem.arrayByApplyingSelector_("sharedUID"))
 
-    def snoozed(self) -> List[bool]:
+    def snoozed(self) -> list[bool]:
         """Gets the snoozed status of each alarm in the list.
 
         :return: A list of alarm snoozed status boolean values
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.6
         """
         return list(self.xa_elem.arrayByApplyingSelector_("isSnoozed"))
 
-    def date(self) -> List[datetime]:
+    def date(self) -> list[datetime]:
         """Gets the date of each alarm in the list.
 
         :return: A list of alarm dates
-        :rtype: List[datetime]
+        :rtype: list[datetime]
         
         .. versionadded:: 0.0.6
         """
         return list(self.xa_elem.arrayByApplyingSelector_("absoluteDate"))
 
-    def proximity_direction(self) -> List[str]:
+    def proximity_direction(self) -> list[str]:
         """Gets the proximity direction of each alarm in the list.
 
         :return: A list of directions
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.6
         """
         return list(self.xa_elem.arrayByApplyingSelector_("proximityString"))
 
-    def location(self) -> List[XABase.XALocation]:
+    def location(self) -> list[XABase.XALocation]:
         """Gets the location of each alarm in the list.
 
         :return: A list of alarm locations
-        :rtype: List[XABase.XALocation]
+        :rtype: list[XABase.XALocation]
         
         .. versionadded:: 0.0.6
         """

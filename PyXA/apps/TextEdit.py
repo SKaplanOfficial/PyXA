@@ -3,13 +3,11 @@
 Control the macOS TextEdit application using JXA-like syntax.
 """
 
-from enum import Enum
-from typing import List, Tuple, Union
+from typing import Union, Self
 
 import AppKit
 
 from PyXA import XABase
-from PyXA.XABase import OSType
 from PyXA import XABaseScriptable
 from ..XAProtocols import XACanOpenPath, XACanPrintPath, XAClipboardCodable, XACloseable, XAPrintable
 
@@ -94,7 +92,7 @@ class XATextEditApplication(XABaseScriptable.XASBApplication, XACanOpenPath, XAC
         :param filter: A dictionary specifying property-value pairs that all returned documents will have
         :type filter: dict
         :return: The list of documents
-        :rtype: List[XATextEditDocument]
+        :rtype: list[XATextEditDocument]
 
         :Example 1: Listing all documents
 
@@ -217,7 +215,7 @@ class XATextEditWindow(XABaseScriptable.XASBPrintable):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.bounds: Tuple[int, int, int, int] #: The bounding rectangle of the window
+        self.bounds: tuple[int, int, int, int] #: The bounding rectangle of the window
         self.closeable: bool #: Whether the window has a close button
         self.document: XATextEditDocument #: The active document
         self.floating: bool #: Whether the window floats
@@ -234,14 +232,14 @@ class XATextEditWindow(XABaseScriptable.XASBPrintable):
         self.zoomed: bool #: Whether the window is currently zoomed
 
     @property
-    def bounds(self) -> Tuple[int, int, int, int]:
+    def bounds(self) -> tuple[int, int, int, int]:
         rect = self.xa_elem.bounds()
         origin = rect.origin
         size = rect.size
         return (origin.x, origin.y, size.width, size.height)
 
     @bounds.setter
-    def bounds(self, bounds: Tuple[int, int, int, int]):
+    def bounds(self, bounds: tuple[int, int, int, int]):
         x = bounds[0]
         y = bounds[1]
         w = bounds[2]
@@ -343,11 +341,11 @@ class XATextEditDocumentList(XABase.XATextDocumentList, XAClipboardCodable):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, filter, XATextEditDocument)
 
-    def properties(self) -> List[dict]:
+    def properties(self) -> list[dict]:
         """Gets the properties of each document in the list.
 
         :return: A list of document properties dictionaries
-        :rtype: List[dict]
+        :rtype: list[dict]
         
         .. versionadded:: 0.0.3
         """
@@ -360,32 +358,32 @@ class XATextEditDocumentList(XABase.XATextDocumentList, XAClipboardCodable):
             "text": raw_dict["text"]
         } for raw_dict in raw_dicts]
 
-    def path(self) -> List[XABase.XAPath]:
+    def path(self) -> list[XABase.XAPath]:
         """Gets the path of each document in the list.
 
         :return: A list of document paths
-        :rtype: List[XABase.XAPath]
+        :rtype: list[XABase.XAPath]
         
         .. versionadded:: 0.0.3
         """
         ls = self.xa_elem.arrayByApplyingSelector_("path")
         return [XABase.XAPath(x) for x in ls]
 
-    def name(self) -> List[str]:
+    def name(self) -> list[str]:
         """Gets the name of each document in the list.
 
         :return: A list of document names
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.3
         """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
-    def modified(self) -> List[str]:
+    def modified(self) -> list[str]:
         """Gets the modified status of each document in the list.
 
         :return: A list of modified status booleans
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.0.3
         """
@@ -507,13 +505,13 @@ class XATextEditDocumentList(XABase.XATextDocumentList, XAClipboardCodable):
             doc.setValue_forKey_(doc.text().get()[::-1], "text")
         return self
 
-    def get_clipboard_representation(self) -> List[Union[str, AppKit.NSURL]]:
+    def get_clipboard_representation(self) -> list[Union[str, AppKit.NSURL]]:
         """Gets a clipboard-codable representation of each document in the list.
 
         When the clipboard content is set to a list of documents, each documents's file URL and name are added to the clipboard.
 
         :return: A list of each document's file URL and name
-        :rtype: List[Union[str, AppKit.NSURL]]
+        :rtype: list[Union[str, AppKit.NSURL]]
 
         .. versionadded:: 0.0.8
         """
@@ -570,7 +568,7 @@ class XATextEditDocument(XABase.XATextDocument, XAPrintable, XAClipboardCodable,
     def modified(self) -> bool:
         return self.xa_elem.modified()
 
-    def print(self, print_properties: Union[dict, None] = None, show_dialog: bool = True) -> 'XATextEditDocument':
+    def print(self, print_properties: Union[dict, None] = None, show_dialog: bool = True) -> Self:
         """Prints the document.
 
         :param print_properties: Properties to set for printing, defaults to None
@@ -578,7 +576,7 @@ class XATextEditDocument(XABase.XATextDocument, XAPrintable, XAClipboardCodable,
         :param show_dialog: Whether to show the print dialog, defaults to True
         :type show_dialog: bool, optional
         :return: The document object
-        :rtype: XATextEditDocument
+        :rtype: Self
 
         .. versionadded:: 0.0.8
         """
@@ -611,24 +609,13 @@ class XATextEditDocument(XABase.XATextDocument, XAPrintable, XAClipboardCodable,
             url = AppKit.NSURL.alloc().initFileURLWithPath_(self.path)
             self.xa_elem.saveAs_in_("txt", url)
 
-    def copy(self):
-        """Copies the document file and its contents to the clipboard.
-
-        .. deprecated:: 0.0.8
-           Use the :class:`XABase.XAClipboard` class instead.
-
-        .. versionadded:: 0.0.2
-        """
-        url = AppKit.NSURL.alloc().initFileURLWithPath_(self.path)
-        self.set_clipboard([self.text, url])
-
-    def get_clipboard_representation(self) -> List[Union[str, AppKit.NSURL]]:
+    def get_clipboard_representation(self) -> list[Union[str, AppKit.NSURL]]:
         """Gets a clipboard-codable representation of the document.
 
         When the clipboard content is set to a document, the documents's file URL and body text are added to the clipboard.
 
         :return: The document's file URL and body text
-        :rtype: List[Union[str, AppKit.NSURL]]
+        :rtype: list[Union[str, AppKit.NSURL]]
 
         .. versionadded:: 0.0.8
         """

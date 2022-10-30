@@ -5,7 +5,7 @@ Control the macOS Music application using JXA-like syntax.
 
 from datetime import datetime
 from enum import Enum
-from typing import List, Literal, Tuple, Union
+from typing import Literal, Union
 
 import AppKit
 from PyXA import XABase, XABaseScriptable
@@ -99,7 +99,7 @@ class XAMusicApplication(MediaApplicationBase.XAMediaApplication):
         return self._new_element(ls, XAMusicAirPlayDeviceList)
 
     @current_airplay_devices.setter
-    def current_airplay_devices(self, current_airplay_devices: Union['XAMusicAirPlayDeviceList', List['XAMusicAirPlayDevice']]):
+    def current_airplay_devices(self, current_airplay_devices: Union['XAMusicAirPlayDeviceList', list['XAMusicAirPlayDevice']]):
         if isinstance(current_airplay_devices, list):
             current_airplay_devices = [x.xa_elem for x in current_airplay_devices]
             self.set_property('currentAirplayDevices', current_airplay_devices)
@@ -188,7 +188,7 @@ class XAMusicApplication(MediaApplicationBase.XAMediaApplication):
     # def convert(self, items):
     #     self.xa_scel.convert_([item.xa_elem for item in items])
 
-    def add_to_playlist(self, urls: List[Union[str, AppKit.NSURL]], playlist):
+    def add_to_playlist(self, urls: list[Union[str, AppKit.NSURL]], playlist):
         items = []
         for url in urls:
             if isinstance(url, str):
@@ -300,92 +300,92 @@ class XAMusicAirPlayDeviceList(MediaApplicationBase.XAMediaItemList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, filter, XAMusicAirPlayDevice)
 
-    def active(self) -> List[bool]:
+    def active(self) -> list[bool]:
         """Gets the active status of each device in the list.
 
         :return: A list of AirPlay device active statuses
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("active"))
 
-    def available(self) -> List[bool]:
+    def available(self) -> list[bool]:
         """Gets the available status of each device in the list.
 
         :return: A list of AirPlay device available statuses
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("available"))
 
-    def kind(self) -> List[XAMusicApplication.DeviceKind]:
+    def kind(self) -> list[XAMusicApplication.DeviceKind]:
         """Gets the kind of each device in the list.
 
         :return: A list of AirPlay device kinds
-        :rtype: List[XAMusicApplication.DeviceKind]
+        :rtype: list[XAMusicApplication.DeviceKind]
         
         .. versionadded:: 0.0.7
         """
         ls = self.xa_elem.arrayByApplyingSelector_("kind")
         return [XAMusicApplication.DeviceKind(XABase.OSType(x.stringValue())) for x in ls]
 
-    def network_address(self) -> List[str]:
+    def network_address(self) -> list[str]:
         """Gets the network address of each device in the list.
 
         :return: A list of AirPlay device MAC addresses
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("networkAddress"))
 
-    def protected(self) -> List[bool]:
+    def protected(self) -> list[bool]:
         """Gets the protected status of each device in the list.
 
         :return: A list of AirPlay device protected statuses
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("protected"))
 
-    def selected(self) -> List[bool]:
+    def selected(self) -> list[bool]:
         """Gets the selected status of each device in the list.
 
         :return: A list of AirPlay device selected statuses
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("selected"))
 
-    def supports_audio(self) -> List[bool]:
+    def supports_audio(self) -> list[bool]:
         """Gets the supports audio status of each device in the list.
 
         :return: A list of AirPlay device supports audio statuses
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("supportsAudio"))
 
-    def supports_audio(self) -> List[bool]:
+    def supports_audio(self) -> list[bool]:
         """Gets the supports video status of each device in the list.
 
         :return: A list of AirPlay device supports video statuses
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("supportsVideo"))
 
-    def sound_volume(self) -> List[int]:
+    def sound_volume(self) -> list[int]:
         """Gets the sound volume of each device in the list.
 
         :return: A list of AirPlay device sound volumes
-        :rtype: List[int]
+        :rtype: list[int]
         
         .. versionadded:: 0.0.7
         """
@@ -556,11 +556,11 @@ class XAMusicEncoderList(MediaApplicationBase.XAMediaItemList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, filter, XAMusicEncoder)
 
-    def format(self) -> List[str]:
+    def format(self) -> list[str]:
         """Gets the format of each encoder in the list.
 
         :return: A list of encoder desformatscriptions
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.7
         """
@@ -602,131 +602,131 @@ class XAMusicEQPresetList(MediaApplicationBase.XAMediaItemList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, filter, XAMusicEQPreset)
 
-    def band1(self) -> List[float]:
+    def band1(self) -> list[float]:
         """Gets the band1 of each preset in the list.
 
         :return: A list of preset band1 levels
-        :rtype: List[float]
+        :rtype: list[float]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("band1"))
 
-    def band2(self) -> List[float]:
+    def band2(self) -> list[float]:
         """Gets the band2 of each preset in the list.
 
         :return: A list of preset band2 levels
-        :rtype: List[float]
+        :rtype: list[float]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("band2"))
 
-    def band3(self) -> List[float]:
+    def band3(self) -> list[float]:
         """Gets the band3 of each preset in the list.
 
         :return: A list of preset band3 levels
-        :rtype: List[float]
+        :rtype: list[float]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("band3"))
 
-    def band4(self) -> List[float]:
+    def band4(self) -> list[float]:
         """Gets the band4 of each preset in the list.
 
         :return: A list of preset band4 levels
-        :rtype: List[float]
+        :rtype: list[float]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("band4"))
 
-    def band5(self) -> List[float]:
+    def band5(self) -> list[float]:
         """Gets the band5 of each preset in the list.
 
         :return: A list of preset band5 levels
-        :rtype: List[float]
+        :rtype: list[float]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("band5"))
 
-    def band6(self) -> List[float]:
+    def band6(self) -> list[float]:
         """Gets the band6 of each preset in the list.
 
         :return: A list of preset band6 levels
-        :rtype: List[float]
+        :rtype: list[float]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("band6"))
 
-    def band7(self) -> List[float]:
+    def band7(self) -> list[float]:
         """Gets the band7 of each preset in the list.
 
         :return: A list of preset band7 levels
-        :rtype: List[float]
+        :rtype: list[float]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("band7"))
 
-    def band8(self) -> List[float]:
+    def band8(self) -> list[float]:
         """Gets the band8 of each preset in the list.
 
         :return: A list of preset band8 levels
-        :rtype: List[float]
+        :rtype: list[float]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("band8"))
 
-    def band9(self) -> List[float]:
+    def band9(self) -> list[float]:
         """Gets the band9 of each preset in the list.
 
         :return: A list of preset band9 levels
-        :rtype: List[float]
+        :rtype: list[float]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("band9"))
 
-    def band10(self) -> List[float]:
+    def band10(self) -> list[float]:
         """Gets the band10 of each preset in the list.
 
         :return: A list of preset band10 levels
-        :rtype: List[float]
+        :rtype: list[float]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("band10"))
 
-    def modifiable(self) -> List[float]:
+    def modifiable(self) -> list[float]:
         """Gets the modifiable status of each preset in the list.
 
         :return: A list of preset modifiable statuses
-        :rtype: List[float]
+        :rtype: list[float]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("modifiable"))
 
-    def preamp(self) -> List[float]:
+    def preamp(self) -> list[float]:
         """Gets the preamp level of each preset in the list.
 
         :return: A list of preset preamp levels
-        :rtype: List[float]
+        :rtype: list[float]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("preamp"))
 
-    def update_tracks(self) -> List[float]:
+    def update_tracks(self) -> list[float]:
         """Gets the update track status of each preset in the list.
 
         :return: A list of preset update track statuses
-        :rtype: List[float]
+        :rtype: list[float]
         
         .. versionadded:: 0.0.7
         """
@@ -998,21 +998,21 @@ class XAMusicPlaylistList(MediaApplicationBase.XAMediaPlaylistList):
             obj_class = XAMusicPlaylist
         super().__init__(properties, filter, obj_class)
 
-    def disliked(self) -> List[bool]:
+    def disliked(self) -> list[bool]:
         """Gets the dislike status of each playlist in the list.
 
         :return: A list of playlist dislike statuses
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("disliked"))
 
-    def loved(self) -> List[bool]:
+    def loved(self) -> list[bool]:
         """Gets the loved status of each playlist in the list.
 
         :return: A list of playlist loved statuses
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.0.7
         """
@@ -1121,71 +1121,71 @@ class XAMusicAudioCDPlaylistList(XAMusicPlaylistList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, filter, XAMusicAudioCDPlaylist)
 
-    def artist(self) -> List[str]:
+    def artist(self) -> list[str]:
         """Gets the artist of each playlist in the list.
 
         :return: A list of audio CD playlist artists
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("artist"))
 
-    def compilation(self) -> List[bool]:
+    def compilation(self) -> list[bool]:
         """Gets the compilation status of each playlist in the list.
 
         :return: A list of audio CD playlist compilation status boolean values
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("compilation"))
 
-    def composer(self) -> List[str]:
+    def composer(self) -> list[str]:
         """Gets the composer of each playlist in the list.
 
         :return: A list of audio CD playlist composers
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("composer"))
 
-    def disc_count(self) -> List[int]:
+    def disc_count(self) -> list[int]:
         """Gets the disc count of each playlist in the list.
 
         :return: A list of audio CD playlist disc counts
-        :rtype: List[int]
+        :rtype: list[int]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("discCount"))
 
-    def disc_number(self) -> List[int]:
+    def disc_number(self) -> list[int]:
         """Gets the disc number of each playlist in the list.
 
         :return: A list of audio CD playlist disc numbers
-        :rtype: List[int]
+        :rtype: list[int]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("discNumber"))
 
-    def genre(self) -> List[str]:
+    def genre(self) -> list[str]:
         """Gets the genre of each playlist in the list.
 
         :return: A list of audio CD playlist genres
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("genre"))
 
-    def year(self) -> List[int]:
+    def year(self) -> list[int]:
         """Gets the year of each playlist in the list.
 
         :return: A list of audio CD playlist years
-        :rtype: List[int]
+        :rtype: list[int]
         
         .. versionadded:: 0.0.7
         """
@@ -1496,212 +1496,212 @@ class XAMusicTrackList(MediaApplicationBase.XAMediaTrackList):
             obj_class = XAMusicTrack
         super().__init__(properties, filter, obj_class)
 
-    def album_artist(self) -> List[str]:
+    def album_artist(self) -> list[str]:
         """Gets the album artist of each track in the list.
 
         :return: A list of track album artists
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("albumArtist"))
 
-    def album_disliked(self) -> List[bool]:
+    def album_disliked(self) -> list[bool]:
         """Gets the album disliked status of each track in the list.
 
         :return: A list of track album disliked statuses
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("albumDisliked"))
 
-    def album_loved(self) -> List[bool]:
+    def album_loved(self) -> list[bool]:
         """Gets the album loved status of each track in the list.
 
         :return: A list of track album loved statuses
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("albumLoved"))
 
-    def artist(self) -> List[str]:
+    def artist(self) -> list[str]:
         """Gets the artist of each track in the list.
 
         :return: A list of track artists
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("artist"))
 
-    def bpm(self) -> List[int]:
+    def bpm(self) -> list[int]:
         """Gets the BPM of each track in the list.
 
         :return: A list of track BPMs
-        :rtype: List[int]
+        :rtype: list[int]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("bpm"))
 
-    def cloud_status(self) -> List[XAMusicApplication.iCloudStatus]:
+    def cloud_status(self) -> list[XAMusicApplication.iCloudStatus]:
         """Gets the cloud status of each track in the list.
 
         :return: A list of track cloud statuses
-        :rtype: List[XAMusicApplication.iCloudStatus]
+        :rtype: list[XAMusicApplication.iCloudStatus]
         
         .. versionadded:: 0.0.7
         """
         ls = self.xa_elem.arrayByApplyingSelector_("cloudStatus")
         return [XAMusicApplication.iCloudStatus(XABase.OSType(x.stringValue())) for x in ls]
 
-    def compilation(self) -> List[bool]:
+    def compilation(self) -> list[bool]:
         """Gets the compilation status of each track in the list.
 
         :return: A list of track compilation statuses
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("compilation"))
 
-    def composer(self) -> List[str]:
+    def composer(self) -> list[str]:
         """Gets the composer of each track in the list.
 
         :return: A list of track composers
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("composer"))
 
-    def disliked(self) -> List[bool]:
+    def disliked(self) -> list[bool]:
         """Gets the disliked status of each track in the list.
 
         :return: A list of track disliked statuses
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("disliked"))
 
-    def eq(self) -> List[str]:
+    def eq(self) -> list[str]:
         """Gets the name of the EQ preset of each track in the list.
 
         :return: A list of track EQ presets
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("EQ"))
 
-    def gapless(self) -> List[bool]:
+    def gapless(self) -> list[bool]:
         """Gets the gapless status of each track in the list.
 
         :return: A list of track gapless statuses
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("gapless"))
 
-    def loved(self) -> List[bool]:
+    def loved(self) -> list[bool]:
         """Gets the loved status of each track in the list.
 
         :return: A list of track loved statuses
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("loved"))
 
-    def lyrics(self) -> List[str]:
+    def lyrics(self) -> list[str]:
         """Gets the lyrics of each track in the list.
 
         :return: A list of track lyrics
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("lyrics"))
 
-    def movement(self) -> List[str]:
+    def movement(self) -> list[str]:
         """Gets the movement of each track in the list.
 
         :return: A list of track movements
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("movement"))
 
-    def movement_count(self) -> List[int]:
+    def movement_count(self) -> list[int]:
         """Gets the movement count of each track in the list.
 
         :return: A list of track movement counts
-        :rtype: List[int]
+        :rtype: list[int]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("movementCount"))
 
-    def movement_number(self) -> List[int]:
+    def movement_number(self) -> list[int]:
         """Gets the movement number of each track in the list.
 
         :return: A list of track movement numbers
-        :rtype: List[int]
+        :rtype: list[int]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("movementNumber"))
 
-    def shufflable(self) -> List[bool]:
+    def shufflable(self) -> list[bool]:
         """Gets the shufflable status of each track in the list.
 
         :return: A list of track shuffle statuses
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("shufflable"))
 
-    def sort_artist(self) -> List[str]:
+    def sort_artist(self) -> list[str]:
         """Gets the artist sort string of each track in the list.
 
         :return: A list of track artist sort strings
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("sortArtist"))
 
-    def sort_album_artist(self) -> List[str]:
+    def sort_album_artist(self) -> list[str]:
         """Gets the album artist sort string of each track in the list.
 
         :return: A list of track album artist sort strings
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("sortAlbumArtist"))
 
-    def sort_composer(self) -> List[str]:
+    def sort_composer(self) -> list[str]:
         """Gets the composer sort string of each track in the list.
 
         :return: A list of track composer sort strings
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("sortComposer"))
 
-    def work(self) -> List[str]:
+    def work(self) -> list[str]:
         """Gets the work of each track in the list.
 
         :return: A list of track works
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.7
         """
@@ -2146,11 +2146,11 @@ class XAMusicAudioCDTrackList(XAMusicTrackList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, filter, XAMusicAudioCDTrack)
 
-    def location(self) -> List[XABase.XAURL]:
+    def location(self) -> list[XABase.XAURL]:
         """Gets the location of each track in the list.
 
         :return: A list of track locations
-        :rtype: List[XABase.XAURL]
+        :rtype: list[XABase.XAURL]
         
         .. versionadded:: 0.0.7
         """
@@ -2196,11 +2196,11 @@ class XAMusicUserPlaylistList(XAMusicPlaylistList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, filter, XAMusicUserPlaylist)
 
-    def genius(self) -> List[bool]:
+    def genius(self) -> list[bool]:
         """Gets the genius status of each user playlist in the list.
 
         :return: A list of playlist genius status boolean values
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.0.7
         """

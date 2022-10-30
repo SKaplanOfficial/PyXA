@@ -4,7 +4,7 @@ Control Drafts using JXA-like syntax.
 """
 
 from datetime import datetime
-from typing import List, Union
+from typing import Union
 
 from PyXA import XABase
 from PyXA import XABaseScriptable
@@ -89,91 +89,91 @@ class XADraftsDraftList(XABase.XAList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XADraftsDraft, filter)
 
-    def id(self) -> List[str]:
+    def id(self) -> list[str]:
         """Gets the ID of each draft in the list.
 
         :return: A list of draft IDs
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.8
         """
         return list(self.xa_elem.arrayByApplyingSelector_("id"))
 
-    def name(self) -> List[str]:
+    def name(self) -> list[str]:
         """Gets the name of each draft in the list.
 
         :return: A list of draft names
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.8
         """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
-    def content(self) -> List[str]:
+    def content(self) -> list[str]:
         """Gets the content of each draft in the list.
 
         :return: A list of draft contents
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.8
         """
         return list(self.xa_elem.arrayByApplyingSelector_("content"))
 
-    def flagged(self) -> List[bool]:
+    def flagged(self) -> list[bool]:
         """Gets the flagged status of each draft in the list.
 
         :return: A list of draft flagged statuses
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.0.8
         """
         return list(self.xa_elem.arrayByApplyingSelector_("flagged"))
 
-    def tags(self) -> List[List[str]]:
+    def tags(self) -> list[list[str]]:
         """Gets the tags of each draft in the list.
 
         :return: A list of draft tags
-        :rtype: List[List[str]]
+        :rtype: list[list[str]]
         
         .. versionadded:: 0.0.8
         """
         return list(self.xa_elem.arrayByApplyingSelector_("tags"))
 
-    def created_at(self) -> List[datetime]:
+    def created_at(self) -> list[datetime]:
         """Gets the creation date of each draft in the list.
 
         :return: A list of draft creation dates
-        :rtype: List[datetime]
+        :rtype: list[datetime]
         
         .. versionadded:: 0.0.8
         """
         return list(self.xa_elem.arrayByApplyingSelector_("createdAt"))
 
-    def modified_at(self) -> List[datetime]:
+    def modified_at(self) -> list[datetime]:
         """Gets the last modification date of each draft in the list.
 
         :return: A list of draft modification dates
-        :rtype: List[datetime]
+        :rtype: list[datetime]
         
         .. versionadded:: 0.0.8
         """
         return list(self.xa_elem.arrayByApplyingSelector_("modifiedAt"))
 
-    def accessed_at(self) -> List[datetime]:
+    def accessed_at(self) -> list[datetime]:
         """Gets the last access date of each draft in the list.
 
         :return: A list of draft last access dates
-        :rtype: List[datetime]
+        :rtype: list[datetime]
         
         .. versionadded:: 0.0.8
         """
         return list(self.xa_elem.arrayByApplyingSelector_("accessedAt"))
 
-    def permalink(self) -> List[str]:
+    def permalink(self) -> list[str]:
         """Gets the URL of each draft in the list.
 
         :return: A list of draft URLs
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.8
         """
@@ -219,7 +219,7 @@ class XADraftsDraftList(XABase.XAList):
         """
         return self.by_property("flagged", flagged)
 
-    def by_tags(self, tags: List[str]) -> Union['XADraftsDraft', None]:
+    def by_tags(self, tags: list[str]) -> Union['XADraftsDraft', None]:
         """Retrieves the first draft whose list of tags matches the given list, if one exists.
 
         :return: The desired draft, if it is found
@@ -280,7 +280,7 @@ class XADraftsDraft(XABase.XAObject):
         self.name: str #: The first line of the draft
         self.content: str #: The content of the draft
         self.flagged: bool #: The flagged status of the draft
-        self.tags: List[str] #: The tags assigned to the draft
+        self.tags: list[str] #: The tags assigned to the draft
         self.created_at: datetime #: The date the draft was created
         self.modified_at: datetime #: The date the draft was last modified
         self.accessed_at: datetime #: The date the draft was last accessed
@@ -311,11 +311,11 @@ class XADraftsDraft(XABase.XAObject):
         self.set_property("flagged", flagged)
 
     @property
-    def tags(self) -> List[str]:
+    def tags(self) -> list[str]:
         return self.xa_elem.tags()
     
     @tags.setter
-    def tags(self, tags: List[str]):
+    def tags(self, tags: list[str]):
         self.set_property("tags", tags)
 
     @property

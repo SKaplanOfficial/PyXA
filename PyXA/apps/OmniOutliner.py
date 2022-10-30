@@ -4,9 +4,7 @@ Control OmniOutliner using JXA-like syntax.
 """
 from datetime import datetime
 from enum import Enum
-from re import S
-from turtle import st
-from typing import Any, List, Tuple, Union
+from typing import Union
 import AppKit
 
 from PyXA import XABase
@@ -175,7 +173,7 @@ class XAOmniOutlinerWindow(XABaseScriptable.XASBWindow):
         self.name: str #: The title of window
         self.id: int #: The unique identifier of the window
         self.index: int #: The index of the window in the front-to-back ordering
-        self.bounds: Tuple[int, int, int, int] #: The bounding rectangle of the window in the form of (top-left-x, top-left-y, width, height)
+        self.bounds: tuple[int, int, int, int] #: The bounding rectangle of the window in the form of (top-left-x, top-left-y, width, height)
         self.closeable: bool #: Whether the window has a close button
         self.miniaturizable: bool #: Whether the window has a minimize button
         self.miniaturized: bool #: Whether the window is currently minimized
@@ -198,14 +196,14 @@ class XAOmniOutlinerWindow(XABaseScriptable.XASBWindow):
         return self.xa_elem.index()
 
     @property
-    def bounds(self) -> Tuple[int, int, int, int]:
+    def bounds(self) -> tuple[int, int, int, int]:
         rect = self.xa_elem.bounds()
         origin = rect.origin
         size = rect.size
         return (origin.x, origin.y, size.width, size.height)
 
     @bounds.setter
-    def bounds(self, bounds: Tuple[int, int, int, int]):
+    def bounds(self, bounds: tuple[int, int, int, int]):
         x = bounds[0]
         y = bounds[1]
         w = bounds[2]
@@ -432,84 +430,84 @@ class XAOmniOutlinerDocumentList(XABase.XAList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XAOmniOutlinerDocument, filter)
 
-    def name(self) -> List[str]:
+    def name(self) -> list[str]:
         """Gets the name of each document in the list.
 
         :return: A list of document names
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.9
         """
         return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
-    def modified(self) -> List[bool]:
+    def modified(self) -> list[bool]:
         """Gets the modified status of each document in the list.
 
         :return: A list of modified status booleans
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.0.9
         """
         return list(self.xa_elem.arrayByApplyingSelector_("modified") or [])
 
-    def file(self) -> List[XABase.XAPath]:
+    def file(self) -> list[XABase.XAPath]:
         """Gets the file path of each document in the list.
 
         :return: A list of file paths
-        :rtype: List[XABase.XAPath]
+        :rtype: list[XABase.XAPath]
         
         .. versionadded:: 0.0.9
         """
         ls = self.xa_elem.arrayByApplyingSelector_("file")
         return [XABase.XAPath(x) for x in ls]
 
-    def alternate_color(self) -> List[XABase.XAColor]:
+    def alternate_color(self) -> list[XABase.XAColor]:
         """Gets the alternate row color of each document in the list.
 
         :return: A list of document alternate row colors
-        :rtype: List[XABase.XAColor]
+        :rtype: list[XABase.XAColor]
         
         .. versionadded:: 0.0.9
         """
         ls = self.xa_elem.arrayByApplyingSelector_("alternateColor")
         return [XABase.XAColor(x) for x in ls]
 
-    def background_color(self) -> List[XABase.XAColor]:
+    def background_color(self) -> list[XABase.XAColor]:
         """Gets the background color of each document in the list.
 
         :return: A list of document background colors
-        :rtype: List[XABase.XAColor]
+        :rtype: list[XABase.XAColor]
         
         .. versionadded:: 0.0.9
         """
         ls = self.xa_elem.arrayByApplyingSelector_("backgroundColor")
         return [XABase.XAColor(x) for x in ls]
 
-    def canredo(self) -> List[bool]:
+    def canredo(self) -> list[bool]:
         """Gets the redo status of each document in the list.
 
         :return: A list of redo status booleans
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.0.9
         """
         return list(self.xa_elem.arrayByApplyingSelector_("canredo") or [])
 
-    def canundo(self) -> List[bool]:
+    def canundo(self) -> list[bool]:
         """Gets the undo status of each document in the list.
 
         :return: A list of undo status booleans
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.0.9
         """
         return list(self.xa_elem.arrayByApplyingSelector_("canundo") or [])
 
-    def children_are_sections(self) -> List[bool]:
+    def children_are_sections(self) -> list[bool]:
         """Gets the children are sections status of each document in the list.
 
         :return: A list of child are sections status booleans
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.0.9
         """
@@ -526,52 +524,52 @@ class XAOmniOutlinerDocumentList(XABase.XAList):
         ls = self.xa_elem.arrayByApplyingSelector_("columnTitleStyle")
         return self._new_element(ls, XAOmniOutlinerStyleList)
 
-    def editable(self) -> List[bool]:
+    def editable(self) -> list[bool]:
         """Gets the editable status of each document in the list.
 
         :return: A list of editable status booleans
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.0.9
         """
         return list(self.xa_elem.arrayByApplyingSelector_("editable") or [])
 
-    def folded_editing_enabled(self) -> List[bool]:
+    def folded_editing_enabled(self) -> list[bool]:
         """Gets the folded editing enabled status of each document in the list.
 
         :return: A list of folded editing enabled status booleans
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.0.9
         """
         return list(self.xa_elem.arrayByApplyingSelector_("foldedEditingEnabled") or [])
 
-    def has_subtopics(self) -> List[bool]:
+    def has_subtopics(self) -> list[bool]:
         """Gets the has subtopics of each document in the list.
 
         :return: A list of has subtopics status booleans
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.0.9
         """
         return list(self.xa_elem.arrayByApplyingSelector_("hasSubtopics") or [])
 
-    def horizontal_grid_color(self) -> List[XABase.XAColor]:
+    def horizontal_grid_color(self) -> list[XABase.XAColor]:
         """Gets the horizontal grid color of each document in the list.
 
         :return: A list of horizontal grid colors
-        :rtype: List[XABase.XAColor]
+        :rtype: list[XABase.XAColor]
         
         .. versionadded:: 0.0.9
         """
         ls = self.xa_elem.arrayByApplyingSelector_("horizontalGridColor")
         return [XABase.XAColor(x) for x in ls]
 
-    def id(self) -> List[str]:
+    def id(self) -> list[str]:
         """Gets the ID of each document in the list.
 
         :return: A list of document IDs
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.9
         """
@@ -588,73 +586,73 @@ class XAOmniOutlinerDocumentList(XABase.XAList):
         ls = self.xa_elem.arrayByApplyingSelector_("noteColumn")
         return self._new_element(ls, XAOmniOutlinerColumnList)
 
-    def note_display(self) -> List[XAOmniOutlinerApplication.DisplayType]:
+    def note_display(self) -> list[XAOmniOutlinerApplication.DisplayType]:
         """Gets the note display type of each document in the list.
 
         :return: A list of document note display types
-        :rtype: List[XAOmniOutlinerApplication.DisplayType]
+        :rtype: list[XAOmniOutlinerApplication.DisplayType]
         
         .. versionadded:: 0.0.9
         """
         ls = self.xa_elem.arrayByApplyingSelector_("noteDisplay")
         return [XAOmniOutlinerApplication.DisplayType(XABase.OSType(x.stringValue())) for x in ls]
 
-    def save_identifier(self) -> List[str]:
+    def save_identifier(self) -> list[str]:
         """Gets the save identifier of each document in the list.
 
         :return: A list of document save identifiers
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.9
         """
         return list(self.xa_elem.arrayByApplyingSelector_("saveIdentifier") or [])
 
-    def save_identifier_enabled(self) -> List[bool]:
+    def save_identifier_enabled(self) -> list[bool]:
         """Gets the save identifier enabled status of each document in the list.
 
         :return: A list of saved identifier enabled status booleans
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.0.9
         """
         return list(self.xa_elem.arrayByApplyingSelector_("saveIdentifierEnabled") or [])
 
-    def sorting_postponed(self) -> List[bool]:
+    def sorting_postponed(self) -> list[bool]:
         """Gets the sorting postponed status of each document in the list.
 
         :return: A list of sort postponed status booleans
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.0.9
         """
         return list(self.xa_elem.arrayByApplyingSelector_("sortingPostponed") or [])
 
-    def status_sort_order(self) -> List[XAOmniOutlinerApplication.SortOrder]:
+    def status_sort_order(self) -> list[XAOmniOutlinerApplication.SortOrder]:
         """Gets the status sort order direction of each document in the list.
 
         :return: A list of status sort order directions
-        :rtype: List[XAOmniOutlinerApplication.SortOrder]
+        :rtype: list[XAOmniOutlinerApplication.SortOrder]
         
         .. versionadded:: 0.0.9
         """
         ls = self.xa_elem.arrayByApplyingSelector_("statusSortOrder")
         return [XAOmniOutlinerApplication.SortOrder(XABase.OSType(x.stringValue())) for x in ls]
 
-    def status_visible(self) -> List[bool]:
+    def status_visible(self) -> list[bool]:
         """Gets the status visible status of each document in the list.
 
         :return: A list of status visible status booleans
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.0.9
         """
         return list(self.xa_elem.arrayByApplyingSelector_("statusVisible") or [])
 
-    def store_compressed(self) -> List[bool]:
+    def store_compressed(self) -> list[bool]:
         """Gets the store compressed status of each document in the list.
 
         :return: A list of store compressed status booleans
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.0.9
         """
@@ -671,11 +669,11 @@ class XAOmniOutlinerDocumentList(XABase.XAList):
         ls = self.xa_elem.arrayByApplyingSelector_("style")
         return self._new_element(ls, XAOmniOutlinerStyleList)
 
-    def title(self) -> List[str]:
+    def title(self) -> list[str]:
         """Gets the title of each document in the list.
 
         :return: A list of document titles
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.9
         """
@@ -692,62 +690,62 @@ class XAOmniOutlinerDocumentList(XABase.XAList):
         ls = self.xa_elem.arrayByApplyingSelector_("topicColumn")
         return self._new_element(ls, XAOmniOutlinerColumnList)
 
-    def undo_enabled(self) -> List[bool]:
+    def undo_enabled(self) -> list[bool]:
         """Gets the undo enabled status of each document in the list.
 
         :return: A list of document undo enabled status booleans
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.0.9
         """
         return list(self.xa_elem.arrayByApplyingSelector_("undoEnabled") or [])
 
-    def verticalGridColor(self) -> List[XABase.XAColor]:
+    def verticalGridColor(self) -> list[XABase.XAColor]:
         """Gets the vertical grid color of each document in the list.
 
         :return: A list of vertical grid colors
-        :rtype: List[XABase.XAColor]
+        :rtype: list[XABase.XAColor]
         
         .. versionadded:: 0.0.9
         """
         ls = self.xa_elem.arrayByApplyingSelector_("verticalGridColor")
         return [XABase.XAColor(x) for x in ls]
 
-    def visible(self) -> List[bool]:
+    def visible(self) -> list[bool]:
         """Gets the visible status of each document in the list.
 
         :return: A list of document visible status booleans
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.0.9
         """
         return list(self.xa_elem.arrayByApplyingSelector_("visible") or [])
 
-    def writes_wrapper(self) -> List[bool]:
+    def writes_wrapper(self) -> list[bool]:
         """Gets the writes wrapper of each document in the list.
 
         :return: A list of document writes wrapper status booleans
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.0.9
         """
         return list(self.xa_elem.arrayByApplyingSelector_("writesWrapper") or [])
 
-    def topiccolumnid(self) -> List[str]:
+    def topiccolumnid(self) -> list[str]:
         """Gets the topic column ID of each document in the list.
 
         :return: A list of document topic column IDs
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.9
         """
         return list(self.xa_elem.arrayByApplyingSelector_("topiccolumnid") or [])
 
-    def notecolumnid(self) -> List[str]:
+    def notecolumnid(self) -> list[str]:
         """Gets the note column ID of each document in the list.
 
         :return: A list of document note column IDs
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.9
         """
@@ -1006,11 +1004,11 @@ class XAOmniOutlinerDocument(XABase.XAObject, XACloseable, XAPrintable):
         """
         self.xa_elem.redo()
 
-    def select(self, items: Union[XABase.XAObject, List[XABase.XAObject], None] = None, extend: bool = False):
+    def select(self, items: Union[XABase.XAObject, list[XABase.XAObject], None] = None, extend: bool = False):
         """Selects one or more objects.
 
         :param items: An object or list of objects to select
-        :type items: Union[XABase.XAObject, List[XABase.XAObject], None]
+        :type items: Union[XABase.XAObject, list[XABase.XAObject], None]
         :param extend: Whether the selection is replaced or extended, defaults to False
         :type extend: bool, optional
 
@@ -1027,11 +1025,11 @@ class XAOmniOutlinerDocument(XABase.XAObject, XACloseable, XAPrintable):
             items = [x.xa_elem for x in items]
             self.xa_elem.select_extending_(items, extend)
 
-    def add(self, items: Union[XABase.XAObject, List[XABase.XAObject]]):
+    def add(self, items: Union[XABase.XAObject, list[XABase.XAObject]]):
         """Adds objects to the document.
 
         :param items: The object(s) to add
-        :type items: Union[XABase.XAObject, List[XABase.XAObject]]
+        :type items: Union[XABase.XAObject, list[XABase.XAObject]]
 
         .. versionadded:: 0.0.9
         """
@@ -1049,11 +1047,11 @@ class XAOmniOutlinerDocument(XABase.XAObject, XACloseable, XAPrintable):
         """
         self.xa_elem.addTo_(destination.xa_elem)
 
-    def remove(self, items: Union[XABase.XAObject, List[XABase.XAObject]]):
+    def remove(self, items: Union[XABase.XAObject, list[XABase.XAObject]]):
         """Remove objects from the document.
 
         :param items: The object(s) to remove
-        :type items: Union[XABase.XAObject, List[XABase.XAObject]]
+        :type items: Union[XABase.XAObject, list[XABase.XAObject]]
 
         .. versionadded:: 0.0.9
         """
@@ -1071,7 +1069,7 @@ class XAOmniOutlinerDocument(XABase.XAObject, XACloseable, XAPrintable):
         """
         self.xa_elem.removeFrom_(container.xa_elem)
 
-    def expand_all(self, items: Union['XAOmniOutlinerDocument', 'XAOmniOutlinerRow', XAOmniOutlinerDocumentList, 'XAOmniOutlinerRowList', List['XAOmniOutlinerDocument'], List['XAOmniOutlinerRow'], None] = None):
+    def expand_all(self, items: Union['XAOmniOutlinerDocument', 'XAOmniOutlinerRow', XAOmniOutlinerDocumentList, 'XAOmniOutlinerRowList', list['XAOmniOutlinerDocument'], list['XAOmniOutlinerRow'], None] = None):
         """Expand the entire outline of an object.
 
         .. versionadded:: 0.0.9
@@ -1087,7 +1085,7 @@ class XAOmniOutlinerDocument(XABase.XAObject, XACloseable, XAPrintable):
             # Expand an XAList of items
             self.xa_elem.expandAll_(items.xa_elem)
 
-    def collapse_all(self, items: Union['XAOmniOutlinerDocument', 'XAOmniOutlinerRow', XAOmniOutlinerDocumentList, 'XAOmniOutlinerRowList', List['XAOmniOutlinerDocument'], List['XAOmniOutlinerRow'], None] = None):
+    def collapse_all(self, items: Union['XAOmniOutlinerDocument', 'XAOmniOutlinerRow', XAOmniOutlinerDocumentList, 'XAOmniOutlinerRowList', list['XAOmniOutlinerDocument'], list['XAOmniOutlinerRow'], None] = None):
         """Collapse the entire outline of an object.
 
         .. versionadded:: 0.0.9
@@ -1103,11 +1101,11 @@ class XAOmniOutlinerDocument(XABase.XAObject, XACloseable, XAPrintable):
             # Collapse an XAObject, which can be an XAList
             self.xa_elem.collapseAll_(items.xa_elem)
 
-    def group(self, rows: Union['XAOmniOutlinerRow', 'XAOmniOutlinerRowList', List['XAOmniOutlinerRow'], None] = None):
+    def group(self, rows: Union['XAOmniOutlinerRow', 'XAOmniOutlinerRowList', list['XAOmniOutlinerRow'], None] = None):
         """Increase the outline level of a list of rows by creating a new parent row for them and moving under that new row.
 
         :param rows: The rows to group, defaults to None
-        :type rows: Union[XAOmniOutlinerRow, XAOmniOutlinerRowList, List[XAOmniOutlinerRow], None], optional
+        :type rows: Union[XAOmniOutlinerRow, XAOmniOutlinerRowList, list[XAOmniOutlinerRow], None], optional
 
         .. versionadded:: 0.0.9
         """
@@ -1122,11 +1120,11 @@ class XAOmniOutlinerDocument(XABase.XAObject, XACloseable, XAPrintable):
             # Group an XAObject, which can be an XAList
             self.xa_elem.group_(rows.xa_elem)
 
-    def ungroup(self, rows: Union['XAOmniOutlinerRow', 'XAOmniOutlinerRowList', List['XAOmniOutlinerRow'], None] = None):
+    def ungroup(self, rows: Union['XAOmniOutlinerRow', 'XAOmniOutlinerRowList', list['XAOmniOutlinerRow'], None] = None):
         """Decrease the outline level of all children of a row, moving them left one step.
 
         :param rows: The rows to ungroup, defaults to None
-        :type rows: Union[XAOmniOutlinerRow, XAOmniOutlinerRowList, List[XAOmniOutlinerRow], None], optional
+        :type rows: Union[XAOmniOutlinerRow, XAOmniOutlinerRowList, list[XAOmniOutlinerRow], None], optional
 
         .. versionadded:: 0.0.9
         """
@@ -1141,11 +1139,11 @@ class XAOmniOutlinerDocument(XABase.XAObject, XACloseable, XAPrintable):
             # Ungroup an XAObject, which can be an XAList
             self.xa_elem.ungroup_(rows.xa_elem)
 
-    def hoist(self, rows: Union['XAOmniOutlinerRow', 'XAOmniOutlinerRowList', List['XAOmniOutlinerRow'], None] = None):
+    def hoist(self, rows: Union['XAOmniOutlinerRow', 'XAOmniOutlinerRowList', list['XAOmniOutlinerRow'], None] = None):
         """Hide all rows in the outline, except for the descendants of the row passed to this command.
 
         :param rows: The rows to hoist, defaults to None
-        :type rows: Union[XAOmniOutlinerRow, XAOmniOutlinerRowList, List[XAOmniOutlinerRow], None], optional
+        :type rows: Union[XAOmniOutlinerRow, XAOmniOutlinerRowList, list[XAOmniOutlinerRow], None], optional
 
         .. versionadded:: 0.0.9
         """
@@ -1160,11 +1158,11 @@ class XAOmniOutlinerDocument(XABase.XAObject, XACloseable, XAPrintable):
             # Hoist an XAObject, which can be an XAList
             self.xa_elem.hoist_(rows.xa_elem)
 
-    def unhoist(self, documents: Union['XAOmniOutlinerDocument', XAOmniOutlinerDocumentList, List['XAOmniOutlinerDocument'], None] = None, unhoist_all: bool = False):
+    def unhoist(self, documents: Union['XAOmniOutlinerDocument', XAOmniOutlinerDocumentList, list['XAOmniOutlinerDocument'], None] = None, unhoist_all: bool = False):
         """Show rows hidden in the last hoist operation on a document.
 
         :param documents: The documents to unhoist, defaults to None
-        :type documents: Union[XAOmniOutlinerDocument, XAOmniOutlinerDocumentList, List[XAOmniOutlinerDocument], None], optional
+        :type documents: Union[XAOmniOutlinerDocument, XAOmniOutlinerDocumentList, list[XAOmniOutlinerDocument], None], optional
         :param unhoist_all: Reverse just the last Hoist operation on the outline, or show items hidden by all previous Hoist operations, defaults to False
         :type unhoist_all: bool, optional
 
@@ -1181,13 +1179,13 @@ class XAOmniOutlinerDocument(XABase.XAObject, XACloseable, XAPrintable):
             # Unhoist an XAObject, which can be an XAList
             self.xa_elem.unhoist_unhoistingAll_(documents, unhoist_all)
 
-    def pbcopy(self, items: List[XABase.XAObject], type: Union[str, List[str], None] = None, clipboard_name: Union[str, None] = None):
+    def pbcopy(self, items: list[XABase.XAObject], type: Union[str, list[str], None] = None, clipboard_name: Union[str, None] = None):
         """Copies one or more nodes to the clipboard.
 
         :param items: The list of items to copy to the clipboard
-        :type items: List[XABase.XAObject]
+        :type items: list[XABase.XAObject]
         :param type: The list of type identifier to use when copying the trees. If omitted, all writable clipboard types are used, defaults to None
-        :type type: Union[str, List[str], None], optional
+        :type type: Union[str, list[str], None], optional
         :param clipboard_name: The name of the clipboard to copy to, defaults to None
         :type clipboard_name: Union[str, None], optional
 
@@ -1309,7 +1307,7 @@ class XAOmniOutlinerDocumentType(XABase.XAObject):
 
         self.uti: str #: The Uniform Type Identifier for this document type
         self.display_name: str #: A user-presentable display name for this document type
-        self.file_extensions: List[str] #: File extensions for this document type
+        self.file_extensions: list[str] #: File extensions for this document type
 
     @property
     def uti(self) -> str:
@@ -1320,7 +1318,7 @@ class XAOmniOutlinerDocumentType(XABase.XAObject):
         return self.xa_elem.displayName()
 
     @property
-    def file_extensions(self) -> List[str]:
+    def file_extensions(self) -> list[str]:
         return self.xa_elem.fileExtensions()
 
 
@@ -1847,11 +1845,11 @@ class XAOmniOutlinerRow(XABase.XAObject):
     def visible(self) -> bool:
         return self.xa_elem.visible()
 
-    def expand_all(self, items: Union['XAOmniOutlinerRow', List['XAOmniOutlinerRow'], XAOmniOutlinerRowList, None] = None):
+    def expand_all(self, items: Union['XAOmniOutlinerRow', list['XAOmniOutlinerRow'], XAOmniOutlinerRowList, None] = None):
         """Expands a row or list of rows.
 
         :param items: The row(s) to expand, defaults to None
-        :type items: Union[XAOmniOutlinerRow, List[XAOmniOutlinerRow], XAOmniOutlinerRowList, None], optional
+        :type items: Union[XAOmniOutlinerRow, list[XAOmniOutlinerRow], XAOmniOutlinerRowList, None], optional
 
         .. versionadded:: 0.0.9
         """
@@ -1863,11 +1861,11 @@ class XAOmniOutlinerRow(XABase.XAObject):
             items = [x.xa_elem for x in items]
         self.xa_elem.expandAll_(items)
 
-    def collapse_all(self, items: Union['XAOmniOutlinerRow', List['XAOmniOutlinerRow'], XAOmniOutlinerRowList, None] = None):
+    def collapse_all(self, items: Union['XAOmniOutlinerRow', list['XAOmniOutlinerRow'], XAOmniOutlinerRowList, None] = None):
         """Collapses a row or list of rows.
 
         :param items: The row(s) to collapse, defaults to None
-        :type items: Union[XAOmniOutlinerRow, List[XAOmniOutlinerRow], XAOmniOutlinerRowList, None], optional
+        :type items: Union[XAOmniOutlinerRow, list[XAOmniOutlinerRow], XAOmniOutlinerRowList, None], optional
 
         .. versionadded:: 0.0.9
         """
@@ -1893,11 +1891,11 @@ class XAOmniOutlinerRow(XABase.XAObject):
         """
         self.xa_elem.outdent()
 
-    def add(self, items: Union[XABase.XAObject, List[XABase.XAObject]]):
+    def add(self, items: Union[XABase.XAObject, list[XABase.XAObject]]):
         """Adds objects to the row.
 
         :param items: The object(s) to add
-        :type items: Union[XABase.XAObject, List[XABase.XAObject]]
+        :type items: Union[XABase.XAObject, list[XABase.XAObject]]
 
         .. versionadded:: 0.0.9
         """
@@ -1915,11 +1913,11 @@ class XAOmniOutlinerRow(XABase.XAObject):
         """
         self.xa_elem.addTo_(destination.xa_elem)
 
-    def remove(self, items: Union[XABase.XAObject, List[XABase.XAObject]]):
+    def remove(self, items: Union[XABase.XAObject, list[XABase.XAObject]]):
         """Remove objects from the row.
 
         :param items: The object(s) to remove
-        :type items: Union[XABase.XAObject, List[XABase.XAObject]]
+        :type items: Union[XABase.XAObject, list[XABase.XAObject]]
 
         .. versionadded:: 0.0.9
         """
@@ -1937,11 +1935,11 @@ class XAOmniOutlinerRow(XABase.XAObject):
         """
         self.xa_elem.removeFrom_(container.xa_elem)
 
-    def group(self, rows: Union['XAOmniOutlinerRow', 'XAOmniOutlinerRowList', List['XAOmniOutlinerRow'], None] = None):
+    def group(self, rows: Union['XAOmniOutlinerRow', 'XAOmniOutlinerRowList', list['XAOmniOutlinerRow'], None] = None):
         """Increase the outline level of a list of rows by creating a new parent row for them and moving under that new row.
 
         :param rows: The rows to group, defaults to None
-        :type rows: Union[XAOmniOutlinerRow, XAOmniOutlinerRowList, List[XAOmniOutlinerRow], None], optional
+        :type rows: Union[XAOmniOutlinerRow, XAOmniOutlinerRowList, list[XAOmniOutlinerRow], None], optional
 
         .. versionadded:: 0.0.9
         """
@@ -1956,11 +1954,11 @@ class XAOmniOutlinerRow(XABase.XAObject):
             # Group an XAObject, which can be an XAList
             self.xa_elem.group_(rows.xa_elem)
 
-    def ungroup(self, rows: Union['XAOmniOutlinerRow', 'XAOmniOutlinerRowList', List['XAOmniOutlinerRow'], None] = None):
+    def ungroup(self, rows: Union['XAOmniOutlinerRow', 'XAOmniOutlinerRowList', list['XAOmniOutlinerRow'], None] = None):
         """Decrease the outline level of all children of a row, moving them left one step.
 
         :param rows: The rows to ungroup, defaults to None
-        :type rows: Union[XAOmniOutlinerRow, XAOmniOutlinerRowList, List[XAOmniOutlinerRow], None], optional
+        :type rows: Union[XAOmniOutlinerRow, XAOmniOutlinerRowList, list[XAOmniOutlinerRow], None], optional
 
         .. versionadded:: 0.0.9
         """
@@ -1975,11 +1973,11 @@ class XAOmniOutlinerRow(XABase.XAObject):
             # Ungroup an XAObject, which can be an XAList
             self.xa_elem.ungroup_(rows.xa_elem)
 
-    def hoist(self, rows: Union['XAOmniOutlinerRow', 'XAOmniOutlinerRowList', List['XAOmniOutlinerRow'], None] = None):
+    def hoist(self, rows: Union['XAOmniOutlinerRow', 'XAOmniOutlinerRowList', list['XAOmniOutlinerRow'], None] = None):
         """Hide all rows in the outline, except for the descendants of the row passed to this command.
 
         :param rows: The rows to hoist, defaults to None
-        :type rows: Union[XAOmniOutlinerRow, XAOmniOutlinerRowList, List[XAOmniOutlinerRow], None], optional
+        :type rows: Union[XAOmniOutlinerRow, XAOmniOutlinerRowList, list[XAOmniOutlinerRow], None], optional
 
         .. versionadded:: 0.0.9
         """
@@ -1994,13 +1992,13 @@ class XAOmniOutlinerRow(XABase.XAObject):
             # Hoist an XAObject, which can be an XAList
             self.xa_elem.hoist_(rows.xa_elem)
 
-    def pbcopy(self, items: List[XABase.XAObject], type: Union[str, List[str], None] = None, clipboard_name: Union[str, None] = None):
+    def pbcopy(self, items: list[XABase.XAObject], type: Union[str, list[str], None] = None, clipboard_name: Union[str, None] = None):
         """Copies one or more nodes to the clipboard.
 
         :param items: The list of items to copy to the clipboard
-        :type items: List[XABase.XAObject]
+        :type items: list[XABase.XAObject]
         :param type: The list of type identifier to use when copying the trees. If omitted, all writable clipboard types are used, defaults to None
-        :type type: Union[str, List[str], None], optional
+        :type type: Union[str, list[str], None], optional
         :param clipboard_name: The name of the clipboard to copy to, defaults to None
         :type clipboard_name: Union[str, None], optional
 
@@ -2511,8 +2509,8 @@ class XAOmniOutlinerAttribute(XABase.XAObject):
         self.style: XAOmniOutlinerStyle #: The style to which the attribute refers
         self.has_local_value: bool #: If true, the containing style defines a local value for this attribute
         self.defining_style: XAOmniOutlinerStyle #: The style responsible for the effective value in this attributes's style. This processes the local values, inherited styles and cascade chain
-        self.value: Union[XAOmniOutlinerGenericColor, XABase.XAColor, str, XABase.XAURL, float, List[float], int, bool, XAOmniOutlinerPoint, None] #: The value of the attribute in its style
-        self.default_value: Union[XAOmniOutlinerGenericColor, XABase.XAColor, str, XABase.XAURL, float, List[float], int, bool, XAOmniOutlinerPoint, None] #: The default value of the attribute in its style
+        self.value: Union[XAOmniOutlinerGenericColor, XABase.XAColor, str, XABase.XAURL, float, list[float], int, bool, XAOmniOutlinerPoint, None] #: The value of the attribute in its style
+        self.default_value: Union[XAOmniOutlinerGenericColor, XABase.XAColor, str, XABase.XAURL, float, list[float], int, bool, XAOmniOutlinerPoint, None] #: The default value of the attribute in its style
 
     @property
     def name(self) -> str:
@@ -2535,20 +2533,20 @@ class XAOmniOutlinerAttribute(XABase.XAObject):
         return self._new_element(self.xa_elem.definingStyle(), XAOmniOutlinerStyle)
 
     @property
-    def value(self) -> Union['XAOmniOutlinerGenericColor', XABase.XAColor, str, XABase.XAURL, float, List[float], int, bool, 'XAOmniOutlinerPoint', None]:
+    def value(self) -> Union['XAOmniOutlinerGenericColor', XABase.XAColor, str, XABase.XAURL, float, list[float], int, bool, 'XAOmniOutlinerPoint', None]:
         # TODO
         return self.xa_elem.value()
 
     @value.setter
-    def value(self, value: Union['XAOmniOutlinerGenericColor', XABase.XAColor, str, XABase.XAURL, float, List[float], int, bool, 'XAOmniOutlinerPoint', None]):
+    def value(self, value: Union['XAOmniOutlinerGenericColor', XABase.XAColor, str, XABase.XAURL, float, list[float], int, bool, 'XAOmniOutlinerPoint', None]):
         self.set_property("value", value)
 
     @property
-    def default_value(self) -> Union['XAOmniOutlinerGenericColor', XABase.XAColor, str, XABase.XAURL, float, List[float], int, bool, 'XAOmniOutlinerPoint', None]:
+    def default_value(self) -> Union['XAOmniOutlinerGenericColor', XABase.XAColor, str, XABase.XAURL, float, list[float], int, bool, 'XAOmniOutlinerPoint', None]:
         return self.xa_elem.defaultValue()
 
     @default_value.setter
-    def default_value(self, default_value: Union['XAOmniOutlinerGenericColor', XABase.XAColor, str, XABase.XAURL, float, List[float], int, bool, 'XAOmniOutlinerPoint', None]):
+    def default_value(self, default_value: Union['XAOmniOutlinerGenericColor', XABase.XAColor, str, XABase.XAURL, float, list[float], int, bool, 'XAOmniOutlinerPoint', None]):
         self.set_property("defaultValue", default_value)
 
     def clear(self):
@@ -2844,7 +2842,7 @@ class XAOmniOutlinerConduitSettingDomain(XABase.XAObject):
         super().__init__(properties)
 
         self.id: str #: The unique identifier of the domain. These should typically be in the reverse-DNS style of bundle identifiers ("com.mycompany.myproduct")
-        self.settings: List[Union[str, None]] #: Values must be strings or 'missing value' (removes value). To set a single entry, concatenate the current value with the changes and then re-set it. Concatenating an empty and non-empty record crashes AppleScript, so 'missing value' will be returned
+        self.settings: list[Union[str, None]] #: Values must be strings or 'missing value' (removes value). To set a single entry, concatenate the current value with the changes and then re-set it. Concatenating an empty and non-empty record crashes AppleScript, so 'missing value' will be returned
         self.external_id: str #: Identifies the conduit externally to OmniOutliner. This might be a record identifier in an external database. This will not get copied when duplicating the row, or if a 'save as' or 'save to' operation is performed instead of a normal 'save'
         self.container: XABase.XAObject #: The row or document containing this group of conduit settings
 
@@ -2853,11 +2851,11 @@ class XAOmniOutlinerConduitSettingDomain(XABase.XAObject):
         return self.xa_elem.id()
 
     @property
-    def settings(self) -> List[Union[str, None]]:
+    def settings(self) -> list[Union[str, None]]:
         return self.xa_elem.settings()
 
     @settings.setter
-    def settings(self, settings: List[Union[str, None]]):
+    def settings(self, settings: list[Union[str, None]]):
         self.set_property("settings", settings)
 
     @property

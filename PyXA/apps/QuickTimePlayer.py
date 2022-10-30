@@ -2,7 +2,7 @@
 
 Control the macOS QuickTime application using JXA-like syntax.
 """
-from typing import Any, List, Tuple, Union
+from typing import Any, Union
 
 import AppKit
 
@@ -197,7 +197,7 @@ class XAQuickTimeWindow(XABaseScriptable.XASBWindow):
     def __init__(self, properties):
         super().__init__(properties)
         self.id: int #: The unique identifier for the window
-        self.bounds: Tuple[int, int, int, int] #: The boundary rectangle for the window
+        self.bounds: tuple[int, int, int, int] #: The boundary rectangle for the window
         self.name: str #: The name of the window
         self.index: int #: The index of the window in the front-to-back order of Finder windows
         self.closeable: bool #: Whether the window has a close button
@@ -215,14 +215,14 @@ class XAQuickTimeWindow(XABaseScriptable.XASBWindow):
         return self.xa_elem.id()
 
     @property
-    def bounds(self) -> Tuple[int, int, int, int]:
+    def bounds(self) -> tuple[int, int, int, int]:
         rect = self.xa_elem.bounds()
         origin = rect.origin
         size = rect.size
         return (origin.x, origin.y, size.width, size.height)
 
     @bounds.setter
-    def bounds(self, bounds: Tuple[int, int, int, int]):
+    def bounds(self, bounds: tuple[int, int, int, int]):
         x = bounds[0]
         y = bounds[1]
         w = bounds[2]
@@ -314,121 +314,121 @@ class XAQuickTimeDocumentList(XABase.XAList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XAQuickTimeDocument, filter)
 
-    def properties(self) -> List[dict]:
+    def properties(self) -> list[dict]:
         """Gets the properties of each document in the list.
 
         :return: The list of property dictionaries
-        :rtype: List[dict]
+        :rtype: list[dict]
         
         .. versionadded:: 0.0.6
         """
         return list(self.xa_elem.arrayByApplyingSelector_("properties"))
 
-    def audio_volume(self) -> List[float]:
+    def audio_volume(self) -> list[float]:
         """Gets the audio volume of each document in the list.
 
         :return: The list of audio volumes
-        :rtype: List[float]
+        :rtype: list[float]
         
         .. versionadded:: 0.0.6
         """
         return list(self.xa_elem.arrayByApplyingSelector_("audioVolume"))
 
-    def current_time(self) -> List[float]:
+    def current_time(self) -> list[float]:
         """Gets the current time of each document in the list.
 
         :return: The list of current times
-        :rtype: List[float]
+        :rtype: list[float]
         
         .. versionadded:: 0.0.6
         """
         return list(self.xa_elem.arrayByApplyingSelector_("currentTime"))
 
-    def data_rate(self) -> List[int]:
+    def data_rate(self) -> list[int]:
         """Gets the data rate of each document in the list.
 
         :return: The list of data rates
-        :rtype: List[int]
+        :rtype: list[int]
         
         .. versionadded:: 0.0.6
         """
         return list(self.xa_elem.arrayByApplyingSelector_("dataRate"))
 
-    def data_size(self) -> List[int]:
+    def data_size(self) -> list[int]:
         """Gets the data size of each document in the list.
 
         :return: The list of data sizes
-        :rtype: List[int]
+        :rtype: list[int]
         
         .. versionadded:: 0.0.6
         """
         return list(self.xa_elem.arrayByApplyingSelector_("dataSize"))
 
-    def duration(self) -> List[float]:
+    def duration(self) -> list[float]:
         """Gets the duration of each document in the list.
 
         :return: The list of durations
-        :rtype: List[float]
+        :rtype: list[float]
         
         .. versionadded:: 0.0.6
         """
         return list(self.xa_elem.arrayByApplyingSelector_("duration"))
 
-    def looping(self) -> List[bool]:
+    def looping(self) -> list[bool]:
         """Gets the looping status of each document in the list.
 
         :return: The list of looping status boolean values
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.0.6
         """
         return list(self.xa_elem.arrayByApplyingSelector_("looping"))
 
-    def muted(self) -> List[bool]:
+    def muted(self) -> list[bool]:
         """Gets the muted status of each document in the list.
 
         :return: The list of muted status boolean values
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.0.6
         """
         return list(self.xa_elem.arrayByApplyingSelector_("muted"))
 
-    def natural_dimensions(self) -> List[Tuple[int, int]]:
+    def natural_dimensions(self) -> list[tuple[int, int]]:
         """Gets the natural dimensions of each document in the list.
 
         :return: The list of document dimensions
-        :rtype: List[Tuple[int, int]]
+        :rtype: list[tuple[int, int]]
         
         .. versionadded:: 0.0.6
         """
         return list(self.xa_elem.arrayByApplyingSelector_("naturalDimensions"))
 
-    def playing(self) -> List[bool]:
+    def playing(self) -> list[bool]:
         """Gets the playing status of each document in the list.
 
         :return: The list of playing status boolean values
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.0.6
         """
         return list(self.xa_elem.arrayByApplyingSelector_("playing"))
 
-    def rate(self) -> List[float]:
+    def rate(self) -> list[float]:
         """Gets the rate of each document in the list.
 
         :return: The list of rates
-        :rtype: List[float]
+        :rtype: list[float]
         
         .. versionadded:: 0.0.6
         """
         return list(self.xa_elem.arrayByApplyingSelector_("rate"))
 
-    def presenting(self) -> List[bool]:
+    def presenting(self) -> list[bool]:
         """Gets the presenting status of each document in the list.
 
         :return: The list of presenting status boolean values
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.0.6
         """
@@ -569,7 +569,7 @@ class XAQuickTimeDocumentList(XABase.XAList):
         """
         return self.by_property("muted", muted)
 
-    def by_natural_dimensions(self, natural_dimensions: Tuple[int, int]) -> 'XAQuickTimeDocument':
+    def by_natural_dimensions(self, natural_dimensions: tuple[int, int]) -> 'XAQuickTimeDocument':
         """Retrieves the document whose natural dimensions match the given dimensions, if one exists.
 
         :return: The desired document, if it is found
@@ -676,7 +676,7 @@ class XAQuickTimeDocument(XABase.XAObject):
         self.duration: float #: The duration of the movie in seconds
         self.looping: bool #: Whether the movie plays in a loop
         self.muted: bool #: Whether the movie is muted
-        self.natural_dimensions: Tuple[int, int] #: The national dimensions of the movie
+        self.natural_dimensions: tuple[int, int] #: The national dimensions of the movie
         self.playing: bool #: Whether the movie is currently playing
         self.rate: float #: The current rate of the movie
         self.presenting: bool #: Whether the movie is presented in full screen
@@ -735,7 +735,7 @@ class XAQuickTimeDocument(XABase.XAObject):
         self.set_property("muted", muted)
 
     @property
-    def natural_dimensions(self) -> Tuple[int, int]:
+    def natural_dimensions(self) -> tuple[int, int]:
         return self.xa_elem.naturalDimensions()
 
     @property
@@ -847,31 +847,31 @@ class XAQuickTimeAudioRecordingDeviceList(XABase.XAList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XAQuickTimeAudioRecordingDevice, filter)
 
-    def properties(self) -> List[dict]:
+    def properties(self) -> list[dict]:
         """Gets the properties of each device in the list.
 
         :return: The list of property dictionaries
-        :rtype: List[dict]
+        :rtype: list[dict]
         
         .. versionadded:: 0.0.6
         """
         return list(self.xa_elem.arrayByApplyingSelector_("properties"))
 
-    def name(self) -> List[str]:
+    def name(self) -> list[str]:
         """Gets the name of each device in the list.
 
         :return: The list of names
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.6
         """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
-    def id(self) -> List[str]:
+    def id(self) -> list[str]:
         """Gets the ID of each device in the list.
 
         :return: The list of IDs
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.6
         """
@@ -915,31 +915,31 @@ class XAQuickTimeVideoRecordingDeviceList(XABase.XAList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XAQuickTimeVideoRecordingDevice, filter)
 
-    def properties(self) -> List[dict]:
+    def properties(self) -> list[dict]:
         """Gets the properties of each device in the list.
 
         :return: The list of property dictionaries
-        :rtype: List[dict]
+        :rtype: list[dict]
         
         .. versionadded:: 0.0.6
         """
         return list(self.xa_elem.arrayByApplyingSelector_("properties"))
 
-    def name(self) -> List[str]:
+    def name(self) -> list[str]:
         """Gets the name of each device in the list.
 
         :return: The list of names
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.6
         """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
-    def id(self) -> List[str]:
+    def id(self) -> list[str]:
         """Gets the ID of each device in the list.
 
         :return: The list of IDs
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.6
         """
@@ -983,31 +983,31 @@ class XAQuickTimeAudioCompressionPresetList(XABase.XAList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XAQuickTimeAudioCompressionPreset, filter)
 
-    def properties(self) -> List[dict]:
+    def properties(self) -> list[dict]:
         """Gets the properties of each preset in the list.
 
         :return: The list of property dictionaries
-        :rtype: List[dict]
+        :rtype: list[dict]
         
         .. versionadded:: 0.0.6
         """
         return list(self.xa_elem.arrayByApplyingSelector_("properties"))
 
-    def name(self) -> List[str]:
+    def name(self) -> list[str]:
         """Gets the name of each preset in the list.
 
         :return: The list of names
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.6
         """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
-    def id(self) -> List[str]:
+    def id(self) -> list[str]:
         """Gets the ID of each preset in the list.
 
         :return: The list of IDs
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.6
         """
@@ -1051,31 +1051,31 @@ class XAQuickTimeMovieCompressionPresetList(XABase.XAList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XAQuickTimeMovieCompressionPreset, filter)
 
-    def properties(self) -> List[dict]:
+    def properties(self) -> list[dict]:
         """Gets the properties of each preset in the list.
 
         :return: The list of property dictionaries
-        :rtype: List[dict]
+        :rtype: list[dict]
         
         .. versionadded:: 0.0.6
         """
         return list(self.xa_elem.arrayByApplyingSelector_("properties"))
 
-    def name(self) -> List[str]:
+    def name(self) -> list[str]:
         """Gets the name of each preset in the list.
 
         :return: The list of names
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.6
         """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
-    def id(self) -> List[str]:
+    def id(self) -> list[str]:
         """Gets the ID of each preset in the list.
 
         :return: The list of IDs
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.6
         """
@@ -1119,31 +1119,31 @@ class XAQuickTimeScreenCompressionPresetList(XABase.XAList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XAQuickTimeScreenCompressionPreset, filter)
 
-    def properties(self) -> List[dict]:
+    def properties(self) -> list[dict]:
         """Gets the properties of each preset in the list.
 
         :return: The list of property dictionaries
-        :rtype: List[dict]
+        :rtype: list[dict]
         
         .. versionadded:: 0.0.6
         """
         return list(self.xa_elem.arrayByApplyingSelector_("properties"))
 
-    def name(self) -> List[str]:
+    def name(self) -> list[str]:
         """Gets the name of each preset in the list.
 
         :return: The list of names
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.6
         """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
-    def id(self) -> List[str]:
+    def id(self) -> list[str]:
         """Gets the ID of each preset in the list.
 
         :return: The list of IDs
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.6
         """

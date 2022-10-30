@@ -3,9 +3,8 @@
 Control the macOS Terminal application using JXA-like syntax.
 """
 
-from enum import Enum
 import subprocess
-from typing import Any, Dict, List, Tuple, Union
+from typing import Any, Dict, Union
 
 import AppKit
 
@@ -124,7 +123,7 @@ class XATerminalWindow(XABaseScriptable.XASBWindow, XABaseScriptable.XASBPrintab
         self.name: str #: The title of the window
         self.id: int #: The unique identifier for the window
         self.index: int #: The index of the window in the front-to-back ordering
-        self.bounds: Tuple[int, int, int, int] #: The bounding rectangle of the window
+        self.bounds: tuple[int, int, int, int] #: The bounding rectangle of the window
         self.closeable: bool #: Whether the window has a close button
         self.miniaturizable: bool #: Whether the window can be minimized
         self.miniaturized: bool #: Whether the window is currently minimized
@@ -134,7 +133,7 @@ class XATerminalWindow(XABaseScriptable.XASBWindow, XABaseScriptable.XASBPrintab
         self.zoomed: bool #: Whether the window is currently zoomed
         self.frontmost: bool #: Whether the window is currently the frontmost Terminal window
         self.selected_tab: XATerminalTab #: The Terminal tab currently displayed in the window
-        self.position: Tuple[int, int] #: The position of the top-left corner of the window
+        self.position: tuple[int, int] #: The position of the top-left corner of the window
 
     @property
     def name(self) -> str:
@@ -153,14 +152,14 @@ class XATerminalWindow(XABaseScriptable.XASBWindow, XABaseScriptable.XASBPrintab
         self.set_property("index", index)
 
     @property
-    def bounds(self) -> Tuple[int, int, int, int]:
+    def bounds(self) -> tuple[int, int, int, int]:
         rect = self.xa_elem.bounds()
         origin = rect.origin
         size = rect.size
         return (origin.x, origin.y, size.width, size.height)
 
     @bounds.setter
-    def bounds(self, bounds: Tuple[int, int, int, int]):
+    def bounds(self, bounds: tuple[int, int, int, int]):
         x = bounds[0]
         y = bounds[1]
         w = bounds[2]
@@ -225,11 +224,11 @@ class XATerminalWindow(XABaseScriptable.XASBWindow, XABaseScriptable.XASBPrintab
         self.set_property("selectedTab", selected_tab.xa_elem)
 
     @property
-    def position(self) -> Tuple[int, int]:
+    def position(self) -> tuple[int, int]:
         return self.xa_elem.position()
 
     @position.setter
-    def position(self, position: Tuple[int, int]):
+    def position(self, position: tuple[int, int]):
         self.set_property("position", position)
 
     def tabs(self, filter: dict = None) -> Union['XATerminalTabList', None]:
@@ -257,101 +256,101 @@ class XATerminalTabList(XABase.XAList, XAClipboardCodable):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XATerminalTab, filter)
 
-    def number_of_rows(self) -> List[int]:
+    def number_of_rows(self) -> list[int]:
         """Gets the number of rows of each tab in the list.
 
         :return: A list of tab row counts
-        :rtype: List[int]
+        :rtype: list[int]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("numberOfRows"))
 
-    def number_of_columns(self) -> List[int]:
+    def number_of_columns(self) -> list[int]:
         """Gets the number of columns of each tab in the list.
 
         :return: A list of tab column counts
-        :rtype: List[int]
+        :rtype: list[int]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("numberOfColumns"))
 
-    def contents(self) -> List[str]:
+    def contents(self) -> list[str]:
         """Gets the contents of each tab in the list.
 
         :return: A list of tab contents
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("contents"))
 
-    def history(self) -> List[str]:
+    def history(self) -> list[str]:
         """Gets the history f each tab in the list.
 
         :return: A list of tab histories
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("history"))
 
-    def busy(self) -> List[bool]:
+    def busy(self) -> list[bool]:
         """Gets the busy status of each tab in the list.
 
         :return: A list of tab busy statuses
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("busy"))
 
-    def processes(self) -> List[List[str]]:
+    def processes(self) -> list[list[str]]:
         """Gets the processes of each tab in the list.
 
         :return: A list of tab process lists
-        :rtype: List[List[str]]
+        :rtype: list[list[str]]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("processes"))
 
-    def selected(self) -> List[bool]:
+    def selected(self) -> list[bool]:
         """Gets the selected status of each tab in the list.
 
         :return: A list of tab selected statuses
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("selected"))
 
-    def title_displays_custom_title(self) -> List[bool]:
+    def title_displays_custom_title(self) -> list[bool]:
         """Gets the custom title status of each tab in the list.
 
         :return: A list of tab custom title statuses
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("titleDisplaysCustomTitle"))
 
-    def custom_title(self) -> List[str]:
+    def custom_title(self) -> list[str]:
         """Gets the custom title of each tab in the list.
 
         :return: A list of tab custom titles
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("customTitle"))
 
-    def tty(self) -> List[str]:
+    def tty(self) -> list[str]:
         """Gets the TTY name of each tab in the list.
 
         :return: A list of tab TTY names
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.7
         """
@@ -418,7 +417,7 @@ class XATerminalTabList(XABase.XAList, XAClipboardCodable):
         """
         return self.by_property("busy", busy)
 
-    def by_processes(self, processes: List[str]) -> Union['XATerminalTab', None]:
+    def by_processes(self, processes: list[str]) -> Union['XATerminalTab', None]:
         """Retrieves the tab whose list of processes matches the given list, if one exists.
 
         :return: The desired tab, if it is found
@@ -478,13 +477,13 @@ class XATerminalTabList(XABase.XAList, XAClipboardCodable):
         """
         return self.by_property("currentSettings", current_settings.xa_elem)
 
-    def get_clipboard_representation(self) -> List[str]:
+    def get_clipboard_representation(self) -> list[str]:
         """Gets a clipboard-codable representation of each tab in the list.
 
         When the clipboard content is set to a list of Terminal tabs, each tab's custom title and history are added to the clipboard.
 
         :return: The list of each tab's custom title and history
-        :rtype: List[str]
+        :rtype: list[str]
 
         .. versionadded:: 0.0.8
         """
@@ -511,7 +510,7 @@ class XATerminalTab(XABase.XAObject, XAClipboardCodable):
         self.contents: str #: The currently visible contents of the tab
         self.history: str #: The contents of the entire scrolling buffer of the tab
         self.busy: bool #: Whether the tab is currently busy running a process
-        self.processes: List[str] #: The processes currently running in the tab
+        self.processes: list[str] #: The processes currently running in the tab
         self.selected: bool #: Whether the tab is currently selected
         self.title_displays_custom_title: bool #: Whether the tab's title contains a custom title
         self.custom_title: str #: The tab's custom title
@@ -547,7 +546,7 @@ class XATerminalTab(XABase.XAObject, XAClipboardCodable):
         return self.xa_elem.busy()
 
     @property
-    def processes(self) -> List[str]:
+    def processes(self) -> list[str]:
         return self.xa_elem.processes()
 
     @property
@@ -586,13 +585,13 @@ class XATerminalTab(XABase.XAObject, XAClipboardCodable):
     def current_settings(self, current_settings: 'XATerminalSettingsSet'):
         self.set_property("currentSettings", current_settings.xa_elem)
 
-    def get_clipboard_representation(self) -> List[str]:
+    def get_clipboard_representation(self) -> list[str]:
         """Gets a clipboard-codable representation of the tab.
 
         When the clipboard content is set to a Terminal tab, the tab's custom title and its history are added to the clipboard.
 
         :return: The tab's custom title and history
-        :rtype: List[str]
+        :rtype: list[str]
 
         .. versionadded:: 0.0.8
         """
@@ -614,185 +613,185 @@ class XATerminalSettingsSetList(XABase.XAList, XAClipboardCodable):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XATerminalSettingsSet, filter)
 
-    def id(self) -> List[int]:
+    def id(self) -> list[int]:
         """Gets the ID of each settings set in the list.
 
         :return: A list of settings set IDs
-        :rtype: List[int]
+        :rtype: list[int]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("id"))
 
-    def name(self) -> List[str]:
+    def name(self) -> list[str]:
         """Gets the name of each settings set in the list.
 
         :return: A list of settings set names
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
-    def number_of_rows(self) -> List[int]:
+    def number_of_rows(self) -> list[int]:
         """Gets the number of rows of each settings set in the list.
 
         :return: A list of settings set row counts
-        :rtype: List[int]
+        :rtype: list[int]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("numberOfRows"))
 
-    def number_of_columns(self) -> List[int]:
+    def number_of_columns(self) -> list[int]:
         """Gets the number of columns of each settings set in the list.
 
         :return: A list of settings set column counts
-        :rtype: List[int]
+        :rtype: list[int]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("numberOfColumns"))
 
-    def cursor_color(self) -> List[XABase.XAColor]:
+    def cursor_color(self) -> list[XABase.XAColor]:
         """Gets the cursor color of each settings set in the list.
 
         :return: A list of settings set cursor colors
-        :rtype: List[XABase.XAColor]
+        :rtype: list[XABase.XAColor]
         
         .. versionadded:: 0.0.7
         """
         ls = self.xa_elem.arrayByApplyingSelector_("cursorColor")
         return [XABase.XAColor(x) for x in ls]
 
-    def background_color(self) -> List[XABase.XAColor]:
+    def background_color(self) -> list[XABase.XAColor]:
         """Gets the background color of each settings set in the list.
 
         :return: A list of settings set background colors
-        :rtype: List[XABase.XAColor]
+        :rtype: list[XABase.XAColor]
         
         .. versionadded:: 0.0.7
         """
         ls = self.xa_elem.arrayByApplyingSelector_("backgroundColor")
         return [XABase.XAColor(x) for x in ls]
 
-    def normal_text_color(self) -> List[XABase.XAColor]:
+    def normal_text_color(self) -> list[XABase.XAColor]:
         """Gets the normal text color of each settings set in the list.
 
         :return: A list of settings set normal text colors
-        :rtype: List[XABase.XAColor]
+        :rtype: list[XABase.XAColor]
         
         .. versionadded:: 0.0.7
         """
         ls = self.xa_elem.arrayByApplyingSelector_("normalTextColor")
         return [XABase.XAColor(x) for x in ls]
 
-    def bold_text_color(self) -> List[XABase.XAColor]:
+    def bold_text_color(self) -> list[XABase.XAColor]:
         """Gets the bold text color of each settings set in the list.
 
         :return: A list of settings set bold text colors
-        :rtype: List[XABase.XAColor]
+        :rtype: list[XABase.XAColor]
         
         .. versionadded:: 0.0.7
         """
         ls = self.xa_elem.arrayByApplyingSelector_("boldTextColor")
         return [XABase.XAColor(x) for x in ls]
 
-    def font_name(self) -> List[str]:
+    def font_name(self) -> list[str]:
         """Gets the font name of each settings set in the list.
 
         :return: A list of settings set font names
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("fontName"))
 
-    def font_size(self) -> List[int]:
+    def font_size(self) -> list[int]:
         """Gets the font size of each settings set in the list.
 
         :return: A list of settings set font sizes
-        :rtype: List[int]
+        :rtype: list[int]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("fontSize"))
 
-    def font_antialiasing(self) -> List[bool]:
+    def font_antialiasing(self) -> list[bool]:
         """Gets the font antialiasing status of each settings set in the list.
 
         :return: A list of settings set font antialiasing statuses
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("fontAntialiasing"))
 
-    def clean_commands(self) -> List[List[str]]:
+    def clean_commands(self) -> list[list[str]]:
         """Gets the clean commands of each settings set in the list.
 
         :return: A list of settings set clean commands
-        :rtype: List[List[str]]
+        :rtype: list[list[str]]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("cleanCommands"))
 
-    def title_displays_device_name(self) -> List[bool]:
+    def title_displays_device_name(self) -> list[bool]:
         """Gets the device name in title status of each settings set in the list.
 
         :return: A list of settings set device name in title statuses
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("titleDisplaysDeviceName"))
 
-    def title_displays_shell_path(self) -> List[bool]:
+    def title_displays_shell_path(self) -> list[bool]:
         """Gets the shell path in title status of each settings set in the list.
 
         :return: A list of settings set shell path in title statuses
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("titleDisplaysShellPath"))
 
-    def title_displays_window_size(self) -> List[bool]:
+    def title_displays_window_size(self) -> list[bool]:
         """Gets the window size in title status of each settings set in the list.
 
         :return: A list of settings set window size in title statuses
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("titleDisplaysWindowSize"))
 
-    def title_displays_settings_name(self) -> List[bool]:
+    def title_displays_settings_name(self) -> list[bool]:
         """Gets the settings name in title status of each settings set in the list.
 
         :return: A list of settings set settings name in title statuses
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("titleDisplaysSettingsName"))
 
-    def title_displays_custom_title(self) -> List[bool]:
+    def title_displays_custom_title(self) -> list[bool]:
         """Gets the custom title in title status of each settings set in the list.
 
         :return: A list of settings set custom title in title statuses
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.0.7
         """
         return list(self.xa_elem.arrayByApplyingSelector_("titleDisplaysCustomTitle"))
 
-    def custom_title(self) -> List[str]:
+    def custom_title(self) -> list[str]:
         """Gets the custom title of each settings set in the list.
 
         :return: A list of settings set custom titles
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.7
         """
@@ -908,7 +907,7 @@ class XATerminalSettingsSetList(XABase.XAList, XAClipboardCodable):
         """
         return self.by_property("fontAntialiasing", font_antialiasing)
 
-    def by_clean_commands(self, clean_commands: List[str]) -> Union['XATerminalSettingsSet', None]:
+    def by_clean_commands(self, clean_commands: list[str]) -> Union['XATerminalSettingsSet', None]:
         """Retrieves the first settings set whose list of clean commands matches the given list, if one exists.
 
         :return: The desired settings set, if it is found
@@ -978,13 +977,13 @@ class XATerminalSettingsSetList(XABase.XAList, XAClipboardCodable):
         """
         return self.by_property("customTitle", custom_title)
 
-    def get_clipboard_representation(self) -> List[str]:
+    def get_clipboard_representation(self) -> list[str]:
         """Gets a clipboard-codable representation of each settings set in the list.
 
         When the clipboard content is set to a list of settings sets, each setting set's name is added to the clipboard.
 
         :return: The list of setting set names
-        :rtype: List[str]
+        :rtype: list[str]
 
         .. versionadded:: 0.0.8
         """
@@ -1011,7 +1010,7 @@ class XATerminalSettingsSet(XABase.XAObject, XAClipboardCodable):
         self.font_name: str #: The name of the font used to display the tab's contents
         self.font_size: int #: The size of the font used to display the tab's contents
         self.font_antialiasing: bool #: Whether the font used to display the tab's contents is antialiased
-        self.clean_commands: List[str] #: The processes which will be ignored when checking whether a tab can be closed without showing a prompt
+        self.clean_commands: list[str] #: The processes which will be ignored when checking whether a tab can be closed without showing a prompt
         self.title_displays_device_name: bool #: Whether the title contains the device name
         self.title_displays_shell_path: bool #: Whether the title contains the shell path
         self.title_displays_window_size: bool #: Whether the title contains the tab's size, in rows and columns
@@ -1104,11 +1103,11 @@ class XATerminalSettingsSet(XABase.XAObject, XAClipboardCodable):
         self.set_property("fontAntialiasing", font_antialiasing)
 
     @property
-    def clean_commands(self) -> List[str]:
+    def clean_commands(self) -> list[str]:
         return self.xa_elem.cleanCommands()
 
     @clean_commands.setter
-    def clean_commands(self, clean_commands: List[str]):
+    def clean_commands(self, clean_commands: list[str]):
         self.set_property("cleanCommands", clean_commands)
 
     @property

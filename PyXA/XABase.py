@@ -3,46 +3,47 @@
 General classes and methods applicable to any PyXA object.
 """
 
+import importlib
+import logging
+import math
+import os
+import random
+import subprocess
+import sys
+import tempfile
+import threading
+import time
+import xml.etree.ElementTree as ET
 from datetime import datetime, timedelta
 from enum import Enum
-import importlib
-import math
 from pprint import pprint
-import random
-import tempfile
-import time, os, sys
-from typing import Any, Callable, Literal, Union, Self
-import threading
-from bs4 import BeautifulSoup, element
-import requests
-import subprocess
-import objc
-import xml.etree.ElementTree as ET
+from typing import Any, Callable, Iterator, Literal, Self, Union
 
-from PyXA.apps import application_classes
-
-from PyObjCTools import AppHelper
-import appscript
-
-import Foundation
-import CoreMedia
 import AppKit
-import NaturalLanguage
-import LatentSemanticMapping
-from Quartz import CGImageSourceRef, CGImageSourceCreateWithData, CFDataRef, CGRectMake
-from CoreLocation import CLLocation
-from ScriptingBridge import SBApplication, SBElementArray
-import ScriptingBridge
-import Speech
+import appscript
 import AVFoundation
 import CoreLocation
+import CoreMedia
+import Foundation
+import LatentSemanticMapping
+import NaturalLanguage
+import objc
 import Quartz
+import requests
+import ScriptingBridge
+import Speech
 import Vision
+from bs4 import BeautifulSoup, element
+from CoreLocation import CLLocation
+from PyObjCTools import AppHelper
+from Quartz import (CFDataRef, CGImageSourceCreateWithData, CGImageSourceRef, CGRectMake)
+from ScriptingBridge import SBApplication, SBElementArray
 
-import threading
-
+from PyXA.apps import application_classes
 from PyXA.XAErrors import InvalidPredicateError
+
 from .XAProtocols import XACanOpenPath, XAClipboardCodable, XAPathLike
+
 
 def OSType(s: str):
     return int.from_bytes(s.encode("UTF-8"), "big")
@@ -53,6 +54,15 @@ def unOSType(i: int):
 
 PYXA_VERSION = "0.1.0"
 
+# Set up logging
+if not os.path.exists("logs"):
+    os.makedirs("logs")
+    
+logging.basicConfig(
+    filename="logs/pyxa_debug.log",
+    level=logging.DEBUG,
+    format="%(asctime)s:%(levelname)s:%(name)s:%(message)s"
+)
 
 ###############
 ### General ###
@@ -65,6 +75,7 @@ class XAObject():
 
     .. versionadded:: 0.0.1
     """
+    _xa_sevt = None
     def __init__(self, properties: dict = None):
         """Instantiates a PyXA scripting object.
 
@@ -78,14 +89,25 @@ class XAObject():
         """
         if properties is not None:
             self.xa_prnt = properties.get("parent", None)
-            self.xa_apsp = properties.get("appspace", None)
+            self._xa_apsp = properties.get("appspace", None)
             self.xa_wksp = properties.get("workspace", None)
             self.xa_elem = properties.get("element", None)
             self.xa_scel = properties.get("scriptable_element", None)
             self.xa_aref = properties.get("appref", None)
-            self.xa_sevt = properties.get("system_events", SBApplication.alloc().initWithBundleIdentifier_("com.apple.systemevents"))
 
         self.properties: dict #: The scriptable properties dictionary for the object
+
+    @property
+    def xa_apsp(self):
+        if not isinstance(self.__xa_apsp, AppKit.NSApplication):
+            self.__xa_apsp = list(self.__xa_apsp)[0]
+        return self.__xa_apsp
+
+    @property
+    def xa_sevt(self):
+        if XAObject._xa_sevt is None:
+            XAObject._xa_sevt = SBApplication.alloc().initWithBundleIdentifier_("com.apple.systemevents")
+        return XAObject._xa_sevt
 
     def _exec_suppresed(self, f: Callable[..., Any], *args: Any) -> Any:
         """Silences unwanted and otherwise unavoidable warning messages.
@@ -130,11 +152,10 @@ class XAObject():
         """
         properties = {
             "parent": self,
-            "appspace": getattr(self, "xa_apsp", None),
+            "appspace": self._xa_apsp,
             "workspace": getattr(self, "xa_wksp", None),
             "element": obj,
             "appref": getattr(self, "xa_aref", None),
-            "system_events": getattr(self, "xa_sevt", None),
         }
         return obj_class(properties, *args)
 
@@ -256,7 +277,14 @@ class XAObject():
         property_name = parts[0] + "".join(titled_parts)
         self.xa_scel.setValue_forKey_(value, property_name)
         return self
-    
+
+    def __eq__(self, other: 'XAObject'):
+        if other is None:
+            return False
+
+        if self.xa_elem == other.xa_elem:
+            return True
+        return self.xa_elem.get() == other.xa_elem.get()
 
 
 
@@ -270,20 +298,7 @@ class XAApplication(XAObject, XAClipboardCodable):
     def __init__(self, properties):
         super().__init__(properties)
         self.xa_wcls = XAWindow
-
-        predicate = AppKit.NSPredicate.predicateWithFormat_("displayedName == %@", self.xa_elem.localizedName())
-        process = self.xa_sevt.processes().filteredArrayUsingPredicate_(predicate)[0]
-
-        properties = {
-            "parent": self,
-            "appspace": self.xa_apsp,
-            "workspace": self.xa_wksp,
-            "element": process,
-            "appref": self.xa_aref,
-            "system_events": self.xa_sevt,
-            "window_class": self.xa_wcls
-        }
-        self.xa_prcs = XAProcess(properties)
+        self.__xa_prcs = None
 
         self.bundle_identifier: str #: The bundle identifier for the application
         self.bundle_url: str #: The file URL of the application bundle
@@ -295,6 +310,23 @@ class XAApplication(XAObject, XAClipboardCodable):
         self.process_identifier: str #: The process identifier for the application instance 
 
         self.xa_apsc: appscript.GenericApp
+
+    @property
+    def xa_prcs(self):
+        if self.__xa_prcs == None:
+            predicate = AppKit.NSPredicate.predicateWithFormat_("displayedName == %@", self.xa_elem.localizedName())
+            process = self.xa_sevt.processes().filteredArrayUsingPredicate_(predicate)[0]
+        
+            properties = {
+                "parent": self,
+                "appspace": self._xa_apsp,
+                "workspace": self.xa_wksp,
+                "element": process,
+                "appref": self.xa_aref,
+                "window_class": self.xa_wcls
+            }
+            self.__xa_prcs = XAProcess(properties)
+        return self.__xa_prcs
 
     def __getattr__(self, attr):
         if attr in self.__dict__:
@@ -859,6 +891,10 @@ class XAList(XAObject):
         ls = predicate.evaluate(self.xa_elem)
         if hasattr(ls, "get"):
             ls = predicate.evaluate(self.xa_elem).get()
+            
+        if len(ls) == 0:
+            return None
+
         obj = ls[0]
         return self._new_element(obj, self.xa_ocls)
 
@@ -1208,13 +1244,25 @@ class XAList(XAObject):
             random.shuffle(self.xa_elem)
         return self
 
-    def push(self, *elements: list[XAObject]):
+    def push(self, *elements: list[XAObject]) -> Union[XAObject, list[XAObject], None]:
         """Appends the object referenced by the provided PyXA wrapper to the end of the list.
 
         .. versionadded:: 0.0.3
         """
+        objects = []
         for element in elements:
-            self.xa_elem.addObject_(element.xa_elem)
+            len_before = len(self.xa_elem)
+            self.xa_elem.get().addObject_(element.xa_elem)
+            if len(self.xa_elem) > len_before:
+                objects.append(self[-1])
+        
+        if len(objects) == 1:
+            return objects[0]
+
+        if len(objects) == 0:
+            return None
+
+        return objects
 
     def insert(self, element: XAObject, index: int):
         """Inserts the object referenced by the provided PyXA wrapper at the specified index.
@@ -1232,15 +1280,35 @@ class XAList(XAObject):
         self.xa_elem.removeLastObject()
         return self._new_element(removed, self.xa_ocls)
 
+    def count(self, count_function: Callable[[object], bool]):
+        count = 0
+        for index in range(len(self)):
+            in_count = False
+            try:
+                in_count = count_function(self.xa_elem[index])
+            except:
+                # TODO: Add logging message here
+                pass
+
+            if not in_count:
+                try:
+                    in_count = count_function(self[index])
+                except:
+                    pass
+            
+            if in_count:
+                count += 1
+        return count
+
     def __getitem__(self, key: Union[int, slice]):
         if isinstance(key, slice):
             arr = AppKit.NSMutableArray.alloc().initWithArray_([self.xa_elem[index] for index in range(key.start, key.stop, key.step or 1)])
             return self._new_element(arr, self.__class__)
+        if key < 0:
+            key = self.xa_elem.count() + key
         return self._new_element(self.xa_elem.objectAtIndex_(key), self.xa_ocls)
 
     def __len__(self):
-        if hasattr(self.xa_elem, "count"):
-            return self.xa_elem.count()
         return len(self.xa_elem)
 
     def __reversed__(self):
@@ -1249,6 +1317,11 @@ class XAList(XAObject):
 
     def __iter__(self):
         return (self._new_element(object, self.xa_ocls) for object in self.xa_elem.objectEnumerator())
+
+    def __contains__(self, item):
+        if isinstance(item, XAObject):
+            item = item.xa_elem
+        return item in self.xa_elem
 
     def __repr__(self):
         return "<" + str(type(self)) + str(self.xa_elem) + ">"
@@ -1795,7 +1868,7 @@ class XAURL(XAObject, XAClipboardCodable):
 
     .. versionadded:: 0.0.5
     """
-    def __init__(self, url: Union[str, AppKit.NSURL]):
+    def __init__(self, url: Union[str, AppKit.NSURL, 'XAURL', 'XAPath']):
         super().__init__()
         self.parameters: str #: The query parameters of the URL
         self.scheme: str #: The URI scheme of the URL
@@ -1804,10 +1877,34 @@ class XAURL(XAObject, XAClipboardCodable):
         self.html: element.tag #: The html of the URL
         self.title: str #: The title of the URL
         self.soup: BeautifulSoup = None #: The bs4 object for the URL, starts as None until a bs4-related action is made
-        self.url: str = url #: The string form of the URL
+        self.url: str #: The string form of the URL
+
         if isinstance(url, str):
+            logging.debug("Initializing XAURL from string")
+            # URL-encode spaces
             url = url.replace(" ", "%20")
+
+            if url.startswith("/"):
+                # Prepend file scheme
+                url = "file://" + url
+            elif url.replace(".", "").isdecimal():
+                # URL is an IP -- must add http:// prefix
+                if ":" not in url:
+                    # No port provided, add port 80 by default
+                    url = "http://" + url + ":80"
+                else:
+                    url = "http://" + url
+            elif "://" not in url:
+                # URL is not currently valid, try prepending http://
+                url = "http://" + url
+            
+            self.url = url
             url = AppKit.NSURL.alloc().initWithString_(url)
+        elif isinstance(url, XAURL) or isinstance(url, XAPath):
+            logging.debug("Initializing XAURL from XAURL/XAPath")
+            self.url = url.url
+            url = url.xa_elem
+
         self.xa_elem = url
 
     @property
@@ -1923,6 +2020,7 @@ class XAPath(XAObject, XAClipboardCodable):
             path = AppKit.NSURL.alloc().initFileURLWithPath_(path)
         self.xa_elem = path
         self.path = path.path() #: The path string without the file:// prefix
+        self.url = str(self.xa_elem) #: The path string with the file:// prefix included
         self.xa_wksp = AppKit.NSWorkspace.sharedWorkspace()
 
     def open(self):
@@ -2451,8 +2549,6 @@ class XAProcess(XAObject):
     def __init__(self, properties):
         super().__init__(properties)
         self.xa_wcls = properties["window_class"]
-        self.id = self.xa_elem.id()
-        self.unix_id = self.xa_elem.unixId()
 
         self.front_window: XAWindow #: The front window of the application process
 
@@ -5143,7 +5239,7 @@ class XAColor(XAObject, XAClipboardCodable):
         return self.xa_elem
 
     def __repr__(self):
-        return f"<{str(type(self))}r={str(self.red())}, g={self.green()}, b={self.blue()}, a={self.alpha()}>"
+        return f"<{str(type(self))}r={str(self.red_value)}, g={self.green_value}, b={self.blue_value}, a={self.alpha_value}>"
 
 
 
@@ -8561,61 +8657,88 @@ class XAImage(XAObject, XAClipboardCodable):
 
         if data is not None:
             # Deprecated as of 0.1.0 -- Pass data as the image_reference instead
+            logging.warning("Setting the data parameter when initalizing an XAImage is deprecated functionality and will be removed in a future release")
             self.xa_elem = AppKit.NSImage.alloc().initWithData_(data)
         else:
-            if image_reference is None:
-                # No reference provided, just initialize a blank image
-                self.xa_elem = AppKit.NSImage.alloc().init()
-            else:
-                self.file = image_reference
-                if isinstance(image_reference, dict):
-                    # Image reference is provided by an XAList
-                    self.xa_elem = image_reference["element"]
-                    if isinstance(self.xa_elem, str):
-                        # The reference is a string -- reinitialize using it
-                        self.file = self.xa_elem
-                        self.xa_elem = XAImage(self.xa_elem).xa_elem
-                    elif isinstance(self.xa_elem, XAImage):
-                        # The reference is another XAImage object
-                        self.file = self.xa_elem.file
-                        self.xa_elem = self.xa_elem.xa_elem
+            self.file = image_reference
+            match image_reference:
+                case None:
+                    logging.debug("Image ref is none -- use empty NSImage")
+                    self.xa_elem = AppKit.NSImage.alloc().init()
 
-                elif isinstance(image_reference, AppKit.NSImage):
-                    # The reference is an Objective-C image object
-                    self.xa_elem = AppKit.NSImage.alloc().initWithData_(image_reference.TIFFRepresentation())
+                case {"element": str(ref)}:
+                    logging.debug("Image ref is string from XAList --> Reinit XAImage with string")
+                    self.file = ref
+                    self.xa_elem = XAImage(ref).xa_elem
 
-                elif isinstance(image_reference, AppKit.NSData):
-                    # The reference is raw image data
+                case {"element": XAImage() as image}:
+                    logging.debug("Image ref is XAImage from XAList --> Set xa_elem to that image's xa_elem")
+                    self.file = image.file
+                    self.xa_elem = image.xa_elem
+
+                case {"element": AppKit.NSImage() as image}:
+                    logging.debug("Image ref is NSImage from XAList --> Set xa_elem to that image")
+                    self.xa_elem = image
+
+                case str() as ref if "://" in ref:
+                    logging.debug("Image ref is web/file URL string --> Init NSImage with URL")
+                    url = XAURL(ref).xa_elem
+                    self.xa_elem = AppKit.NSImage.alloc().initWithContentsOfURL_(url)
+
+                case str() as ref if os.path.exists(ref) or os.path.exists(os.getcwd() + "/" + ref):
+                    logging.debug("Image ref is file path string --> Init NSImage with path URL")
+                    path = XAPath(ref).xa_elem
+                    self.xa_elem = AppKit.NSImage.alloc().initWithContentsOfURL_(path)
+
+                case XAPath() as path:
+                    logging.debug("Image ref is file path object --> Init NSImage with path URL")
+                    self.file = path.path
+                    self.xa_elem = AppKit.NSImage.alloc().initWithContentsOfURL_(path.xa_elem)
+
+                case XAURL() as url:
+                    logging.debug("Image ref is web/file URL object --> Init NSImage with URL")
+                    self.file = url.url
+                    self.xa_elem = AppKit.NSImage.alloc().initWithContentsOfURL_(url.xa_elem)
+
+                case str() as raw_string:
+                    logging.debug("Image ref is raw string --> Make image from string")
+                    font = AppKit.NSFont.monospacedSystemFontOfSize_weight_(15, AppKit.NSFontWeightMedium)
+                    text = AppKit.NSString.alloc().initWithString_(raw_string)
+                    attributes = {
+                        AppKit.NSFontAttributeName: font,
+                        AppKit.NSForegroundColorAttributeName: XAColor.black().xa_elem
+                    }
+                    text_size = text.sizeWithAttributes_(attributes)
+
+                    # Make a white background to overlay the text on
+                    swatch = XAColor.white().make_swatch(text_size.width + 20, text_size.height + 20)
+                    text_rect = AppKit.NSMakeRect(10, 10, text_size.width, text_size.height)
+
+                    # Overlay the text
+                    swatch.xa_elem.lockFocus()                        
+                    text.drawInRect_withAttributes_(text_rect, attributes)
+                    swatch.xa_elem.unlockFocus()
+                    self.xa_elem = swatch.xa_elem
+
+                case XAImage() as image:
+                    self.file = image.file
+                    self.xa_elem = image.xa_elem
+
+                case XAObject():
+                    logging.debug("Image ref is XAObject --> Obtain proper ref via XAImageLike protocol")
+                    self.xa_elem = XAImage(image_reference.get_image_representation()).xa_elem
+
+                case AppKit.NSData() as data:
+                    logging.debug("Image ref is NSData --> Init NSImage with data")
                     self.xa_elem = AppKit.NSImage.alloc().initWithData_(data)
 
-                elif isinstance(image_reference, XAPath):
-                    # The reference is an XAPath
-                    self.file = image_reference.path
-                    self.xa_elem = AppKit.NSImage.alloc().initWithContentsOfURL_(image_reference.xa_elem)
+                case AppKit.NSImage() as image:
+                    logging.debug("Image ref is NSImage --> Set xa_elem to that image")
+                    self.xa_elem = image
 
-                elif isinstance(image_reference, XAURL):
-                    # The reference is an XAURL
-                    self.file = image_reference.url
-                    self.xa_elem = AppKit.NSImage.alloc().initWithContentsOfURL_(image_reference.xa_elem)
-
-                elif isinstance(image_reference, XAImage):
-                    # The reference is another XAImage
-                    self.file = image_reference.file
-                    self.xa_elem = image_reference.xa_elem
-
-                elif isinstance(image_reference, str):
-                    # The reference is to a file or a none-file URL
-                    if "://" in image_reference:
-                        # The reference is to a non-file URL
-                        image_reference = XAURL(image_reference).xa_elem
-                    else:
-                        # The reference is to a file
-                        image_reference = XAPath(image_reference).xa_elem
-                    self.xa_elem = AppKit.NSImage.alloc().initWithContentsOfURL_(image_reference)
-
-                elif isinstance(image_reference, XAObject):
-                    # Must obtain the image representation using the XAImageLike protocol
-                    self.xa_elem = XAImage(image_reference.get_image_representation()).xa_elem
+                case _:
+                    logging.debug(f"Image ref is of unaccounted for type {type(image_reference)} --> Raise TypeError")
+                    raise TypeError(f"Error: Cannot initialize XAImage using {type(image_reference)} type.")
 
     def __update_image(self, modified_image: Quartz.CIImage) -> 'XAImage':
         # Crop the result to the original image size
@@ -8849,6 +8972,46 @@ class XAImage(XAObject, XAClipboardCodable):
             return XAImageList({"element": images})
         else:
             return XAImage(images)
+
+    @staticmethod
+    def image_from_text(text: str, font_size: int = 15, font_name: str = "Menlo", font_color: XAColor = XAColor.black(), background_color: XAColor = XAColor.white(), inset: int = 10) -> 'XAImage':
+        """Initializes an image of the provided text overlaid on the specified background color.
+
+        :param text: The text to create an image of
+        :type text: str
+        :param font_size: The font size of the text, defaults to 15
+        :type font_size: int, optional
+        :param font_name: The color of the text, defaults to XAColor.black()
+        :type font_name: str, optional
+        :param font_color: The name of the font to use for the text, defaults to ".SF NS Mono Light Medium"
+        :type font_color: XAColor, optional
+        :param background_color: The color to overlay the text on top of, defaults to XAColor.white()
+        :type background_color: XAColor, optional
+        :param inset: The width of the space between the text and the edge of the background color in the resulting image, defaults to 10
+        :type inset: int, optional
+        :return: XAImage
+        :rtype: The resulting image object
+
+        .. versionadded:: 0.1.0
+        """
+        font = AppKit.NSFont.fontWithName_size_(font_name, font_size)
+        print(font.displayName())
+        text = AppKit.NSString.alloc().initWithString_(text)
+        attributes = {
+            AppKit.NSFontAttributeName: font,
+            AppKit.NSForegroundColorAttributeName: font_color.xa_elem
+        }
+        text_size = text.sizeWithAttributes_(attributes)
+
+        # Make a white background to overlay the text on
+        swatch = background_color.make_swatch(text_size.width + inset * 2, text_size.height + inset * 2)
+        text_rect = AppKit.NSMakeRect(inset, inset, text_size.width, text_size.height)
+
+        # Overlay the text
+        swatch.xa_elem.lockFocus()                        
+        text.drawInRect_withAttributes_(text_rect, attributes)
+        swatch.xa_elem.unlockFocus()
+        return swatch
     
     def edges(self, intensity: float = 1.0) -> 'XAImage':
         """Detects the edges in the image and highlights them colorfully, blackening other areas of the image.
@@ -9544,6 +9707,9 @@ class XAImage(XAObject, XAClipboardCodable):
         """
         return self.xa_elem
 
+    def __eq__(self, other):
+        return self.xa_elem.TIFFRepresentation() == other.xa_elem.TIFFRepresentation()
+
 
 
 
@@ -9575,52 +9741,34 @@ class XASound(XAObject, XAClipboardCodable):
     def __init__(self, sound_reference: Union[str, XAURL, XAPath]):
         self.file = None
 
-        if isinstance(sound_reference, str):
-            # Sound reference is a string
-            if "://" in sound_reference:
-                # Sound reference is a URL
-                self.file = XAURL(sound_reference)
-                sound_reference = self.file.xa_elem
-            if "/" in sound_reference:
-                # Sound reference is a file path
-                self.file = XAPath(sound_reference)
-                sound_reference = self.file.xa_elem
-            else:
-                # Sound reference is the name of a default sound
-                self.file = XAPath("/System/Library/Sounds/" + sound_reference + ".aiff")
-                sound_reference = self.file.xa_elem
-        elif isinstance(sound_reference, dict):
-            # Sound reference comes from XAList
-            sound_reference = sound_reference["element"]
-            # Sound reference is a string
-            if isinstance(sound_reference, str):
-                if "://" in sound_reference:
-                    # Sound reference is a URL
-                    self.file = XAURL(sound_reference)
-                    sound_reference = self.file.xa_elem
-                if "/" in sound_reference:
-                    # Sound reference is a file path
-                    self.file = XAPath(sound_reference)
-                    sound_reference = self.file.xa_elem
-                else:
-                    # Sound reference is the name of a default sound
-                    self.file = XAPath("/System/Library/Sounds/" + sound_reference + ".aiff")
-                    sound_reference = XAPath(self.file)
-        elif isinstance(sound_reference, XAPath):
-            # Sound reference is an XAPath object
-            self.file = sound_reference
-            sound_reference = sound_reference.xa_elem
-        elif isinstance(sound_reference, XAURL):
-            # Sound reference is an XAURL object
-            self.file = sound_reference
-            sound_reference = sound_reference
-        elif isinstance(sound_reference, XASound):
-            self.file = sound_reference.file
-            sound_reference = sound_reference.xa_elem
+        match sound_reference:
+            case str() as ref if "://" in ref:
+                logging.debug(f"Sound ref is web/file URL --> Set file to URL")
+                self.file = XAURL(ref)
 
-        if isinstance(sound_reference, AVFoundation.AVAudioFile):
-            # Sound reference is an NSSound object
-            self.xa_elem = sound_reference
+            case str() as ref if os.path.exists(ref):
+                logging.debug(f"Sound ref is file path --> Set file to path")
+                self.file = XAPath(sound_reference)
+
+            case str() as ref:
+                logging.debug(f"Sound ref is raw string --> Set file to path of sound with ref name")
+                self.file = XAPath("/System/Library/Sounds/" + ref + ".aiff")
+
+            case {"element": str() as ref}:
+                logging.debug(f"Sound ref is string from XASoundList --> Reinit with string")
+                self.file = XASound(ref).file
+
+            case XAPath() as ref:
+                logging.debug(f"Sound ref is path object --> Set file to path")
+                self.file = ref
+
+            case XAURL() as ref:
+                logging.debug(f"Sound ref is web/file URL object --> Set file to URL")
+                self.file = ref
+
+            case XASound() as sound:
+                logging.debug(f"Sound ref is another XASound object --> Set file to that sound's file")
+                self.file = sound.file
 
         self.duration: float #: The duration of the sound in seconds
 
@@ -9710,6 +9858,7 @@ class XASound(XAObject, XAClipboardCodable):
         .. versionadded:: 0.0.1
         """
         def play_sound(self):
+            logging.debug(f"Playing XASound audio in new thread")
             self.__player_node.scheduleFile_atTime_completionHandler_(self.xa_elem, None, None)
             self.__audio_engine.startAndReturnError_(None)
             self.__player_node.play()

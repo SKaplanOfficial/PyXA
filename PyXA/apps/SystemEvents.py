@@ -6,7 +6,7 @@ from datetime import datetime
 from enum import Enum
 from pprint import pprint
 from time import sleep
-from typing import Any, Callable, Tuple, Union, List, Dict
+from typing import Any, Union
 
 import AppKit
 
@@ -463,14 +463,14 @@ class XASystemEventsApplication(XABase.XAEventsApplication, XABaseScriptable.XAS
         """
         self.xa_scel.click()
 
-    def key_code(self, key_code: Union[int, List[int]], modifier: Union['XASystemEventsApplication.Key', List['XASystemEventsApplication.Key'], None] = None):
+    def key_code(self, key_code: Union[int, list[int]], modifier: Union['XASystemEventsApplication.Key', list['XASystemEventsApplication.Key'], None] = None):
         if isinstance(modifier, list):
             modifier = [x.value for x in modifier]
             self.xa_scel.keyCode_using_(key_code, modifier)
         else:
             self.xa_scel.keyCode_using_(key_code, modifier.value if modifier is not None else None)
 
-    def key_stroke(self, key: Union[int, List[int]], modifier: Union['XASystemEventsApplication.Key', List['XASystemEventsApplication.Key'], None] = None):
+    def key_stroke(self, key: Union[int, list[int]], modifier: Union['XASystemEventsApplication.Key', list['XASystemEventsApplication.Key'], None] = None):
         def four_char_code(s):
             (ord(s[0]) << 24) + (ord(s[1]) << 16) + (ord(s[2]) << 8) + ord(s[3])
 
@@ -773,21 +773,21 @@ class XASystemEventsDocumentList(XABase.XAList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XASystemEventsDocument, filter)
 
-    def name(self) -> List[str]:
+    def name(self) -> list[str]:
         """Gets the name of each document in the list.
 
         :return: A list of document names
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
-    def modified(self) -> List[bool]:
+    def modified(self) -> list[bool]:
         """Gets the modified status of each document in the list.
 
         :return: A list of document modified status booleans
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.1.0
         """
@@ -887,7 +887,7 @@ class XASystemEventsWindow(XABaseScriptable.XASBWindow, XASelectable):
         self.name: str #: The title of the window
         self.id: int #: The unique identifier for the window
         self.index: int #: The index of the window in the front-to-back ordering
-        self.bounds: Tuple[int, int, int, int] #: The bounding rectangle of the window
+        self.bounds: tuple[int, int, int, int] #: The bounding rectangle of the window
         self.closeable: bool #: Whether the window has a close button
         self.miniaturizable: bool #: Whether the window can be minimized
         self.miniaturized: bool #: Whether the window is currently minimized
@@ -899,18 +899,18 @@ class XASystemEventsWindow(XABaseScriptable.XASBWindow, XASelectable):
         self.accessibility_description: Union[str, None] #: a more complete description of the window and its capabilities
         self.object_description: Union[str, None] #: the accessibility description, if available; otherwise, the role description
         self.enabled: Union[bool, None] #: Is the window enabled? ( Does it accept clicks? )
-        self.entire_contents: List[XABase.XAObject] #: A list of every UI element contained in this window and its child UI elements, to the limits of the tree
+        self.entire_contents: list[XABase.XAObject] #: A list of every UI element contained in this window and its child UI elements, to the limits of the tree
         self.focused: Union[bool, None] #: Is the focus on this window?
         self.help: Union[str, None] #: an elaborate description of the window and its capabilities
         self.maximum_value: Union[int, float, None] #: the maximum value that the UI element can take on
         self.minimum_value: Union[int, float, None] #: the minimum value that the UI element can take on
         self.name: str #: the name of the window, which identifies it within its container
         self.orientation: Union[str, None] #: the orientation of the window
-        self.position: Union[List[Union[int, float]], None] #: the position of the window
+        self.position: Union[list[Union[int, float]], None] #: the position of the window
         self.role: str #: an encoded description of the window and its capabilities
         self.role_description: str #: a more complete description of the window's role
         self.selected: Union[bool, None] #: Is the window selected?
-        self.size: Union[List[Union[int, float]], None] #: the size of the window
+        self.size: Union[list[Union[int, float]], None] #: the size of the window
         self.subrole: Union[str, None] #: an encoded description of the window and its capabilities
         self.title: str #: the title of the window as it appears on the screen
         self.value: Any #: the current value of the window
@@ -932,14 +932,14 @@ class XASystemEventsWindow(XABaseScriptable.XASBWindow, XASelectable):
         self.set_property("index", index)
 
     @property
-    def bounds(self) -> Tuple[int, int, int, int]:
+    def bounds(self) -> tuple[int, int, int, int]:
         rect = self.xa_elem.bounds()
         origin = rect.origin
         size = rect.size
         return (origin.x, origin.y, size.width, size.height)
 
     @bounds.setter
-    def bounds(self, bounds: Tuple[int, int, int, int]):
+    def bounds(self, bounds: tuple[int, int, int, int]):
         x = bounds[0]
         y = bounds[1]
         w = bounds[2]
@@ -1004,7 +1004,7 @@ class XASystemEventsWindow(XABaseScriptable.XASBWindow, XASelectable):
         return self.xa_elem.enabled()
 
     @property
-    def entire_contents(self) -> List[XABase.XAObject]:
+    def entire_contents(self) -> list[XABase.XAObject]:
         return self.xa_elem.entireContents()
 
     @property
@@ -1036,11 +1036,11 @@ class XASystemEventsWindow(XABaseScriptable.XASBWindow, XASelectable):
         return self.xa_elem.orientation()
 
     @property
-    def position(self) -> Union[List[Union[int, float]], None]:
+    def position(self) -> Union[list[Union[int, float]], None]:
         return self.xa_elem.position()
 
     @position.setter
-    def position(self, position: List[Union[int, float]]):
+    def position(self, position: list[Union[int, float]]):
         self.set_property('position', position)
 
     @property
@@ -1060,11 +1060,11 @@ class XASystemEventsWindow(XABaseScriptable.XASBWindow, XASelectable):
         self.set_property('selected', selected)
 
     @property
-    def size(self) -> Union[List[Union[int, float]], None]:
+    def size(self) -> Union[list[Union[int, float]], None]:
         return self.xa_elem.size()
 
     @size.setter
-    def size(self, size: List[Union[int, float]]):
+    def size(self, size: list[Union[int, float]]):
         self.set_property('size', size)
 
     @property
@@ -1499,11 +1499,11 @@ class XASystemEventsWindow(XABaseScriptable.XASBWindow, XASelectable):
         """
         return self._new_element(self.xa_elem.toolbars(), XASystemEventsUIElementList)
 
-    def click(self, point: Union[Tuple[int, int], None] = None):
+    def click(self, point: Union[tuple[int, int], None] = None):
         """Cause the window.
 
         :param point: The coordinate location at which to click, defaults to None
-        :type point: Union[Tuple[int, int], None], optional
+        :type point: Union[tuple[int, int], None], optional
 
         .. versionadded:: 0.1.0
         """
@@ -1557,42 +1557,42 @@ class XASystemEventsUserList(XABase.XAList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XASystemEventsUser, filter)
 
-    def full_name(self) -> List[str]:
+    def full_name(self) -> list[str]:
         """Gets the full name of each user in the list.
 
         :return: A list of user names
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("fullName"))
 
-    def home_directory(self) -> List[XABase.XAPath]:
+    def home_directory(self) -> list[XABase.XAPath]:
         """Gets the home directory path of each user in the list.
 
         :return: A list of user home directory paths
-        :rtype: List[XABase.XAPath]
+        :rtype: list[XABase.XAPath]
         
         .. versionadded:: 0.1.0
         """
         ls = self.xa_elem.arrayByApplyingSelector_("homeDirectory")
         return [XABase.XAPath(x) for x in ls]
 
-    def name(self) -> List[str]:
+    def name(self) -> list[str]:
         """Gets the short name of each user in the list.
 
         :return: A list of user names
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
-    def picture_path(self) -> List[XABase.XAPath]:
+    def picture_path(self) -> list[XABase.XAPath]:
         """Gets the picture path of each user in the list.
 
         :return: A list of user picture paths
-        :rtype: List[XABase.XAPath]
+        :rtype: list[XABase.XAPath]
         
         .. versionadded:: 0.1.0
         """
@@ -1883,104 +1883,104 @@ class XASystemEventsDesktopList(XABase.XAList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XASystemEventsUser, filter)
 
-    def name(self) -> List[str]:
+    def name(self) -> list[str]:
         """Gets the name of each desktop in the list.
 
         :return: A list of desktop names
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
-    def id(self) -> List[int]:
+    def id(self) -> list[int]:
         """Gets the ID of each desktop in the list.
 
         :return: A list of desktop IDs
-        :rtype: List[int]
+        :rtype: list[int]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("id"))
 
-    def change_interval(self) -> List[float]:
+    def change_interval(self) -> list[float]:
         """Gets the change interval of each desktop in the list.
 
         :return: A list of desktop picture change intervals
-        :rtype: List[float]
+        :rtype: list[float]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("changeInterval"))
 
-    def display_name(self) -> List[str]:
+    def display_name(self) -> list[str]:
         """Gets the display name of each desktop in the list.
 
         :return: A list of desktop display names
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("displayName"))
 
-    def picture(self) -> List[XABase.XAPath]:
+    def picture(self) -> list[XABase.XAPath]:
         """Gets the picture path of each desktop in the list.
 
         :return: A list of desktop picture paths
-        :rtype: List[XABase.XAPath]
+        :rtype: list[XABase.XAPath]
         
         .. versionadded:: 0.1.0
         """
         ls = self.xa_elem.arrayByApplyingSelector_("picture")
         return [XABase.XAPath(x) for x in ls]
 
-    def picture_rotation(self) -> List[XASystemEventsApplication.PictureRotation]:
+    def picture_rotation(self) -> list[XASystemEventsApplication.PictureRotation]:
         """Gets the picture rotation setting of each desktop in the list.
 
         :return: A list of desktop picture rotation settings
-        :rtype: List[XASystemEventsApplication.PictureRotation]
+        :rtype: list[XASystemEventsApplication.PictureRotation]
         
         .. versionadded:: 0.1.0
         """
         ls = self.xa_elem.arrayByApplyingSelector_("pictureRotation")
         return [XASystemEventsApplication.PictureRotation(x) for x in ls]
 
-    def pictures_folder(self) -> List[XABase.XAPath]:
+    def pictures_folder(self) -> list[XABase.XAPath]:
         """Gets the pictures folder of each desktop in the list.
 
         :return: A list of desktop pictures folders
-        :rtype: List[XABase.XAPath]
+        :rtype: list[XABase.XAPath]
         
         .. versionadded:: 0.1.0
         """
         ls = self.xa_elem.arrayByApplyingSelector_("picturesFolder")
         return [XABase.XAPath(x) for x in ls]
 
-    def random_folder(self) -> List[bool]:
+    def random_folder(self) -> list[bool]:
         """Gets the random order setting of each desktop in the list.
 
         :return: A list of desktop random order settings
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("randomOrder"))
 
-    def translucent_menu_bar(self) -> List[bool]:
+    def translucent_menu_bar(self) -> list[bool]:
         """Gets the translucent menu bar setting of each desktop in the list.
 
         :return: A list of desktop translucent menu bar settings
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("translucentMenuBar"))
 
-    def dynamic_style(self) -> List[XASystemEventsApplication.DynamicStyle]:
+    def dynamic_style(self) -> list[XASystemEventsApplication.DynamicStyle]:
         """Gets the dynamic style of each desktop in the list.
 
         :return: A list of desktop dynamic styles
-        :rtype: List[XASystemEventsApplication.DynamicStyle]
+        :rtype: list[XASystemEventsApplication.DynamicStyle]
         
         .. versionadded:: 0.1.0
         """
@@ -2322,41 +2322,41 @@ class XASystemEventsLoginItemList(XABase.XAList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XASystemEventsLoginItem, filter)
 
-    def hidden(self) -> List[bool]:
+    def hidden(self) -> list[bool]:
         """Gets the hidden status of each item in the list.
 
         :return: A list of property list hidden statuses
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("contents"))
 
-    def kind(self) -> List[str]:
+    def kind(self) -> list[str]:
         """Gets the kind of each item in the list.
 
         :return: A list of property list kinds
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("kind"))
 
-    def name(self) -> List[str]:
+    def name(self) -> list[str]:
         """Gets the name of each item in the list.
 
         :return: A list of property list names
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
-    def path(self) -> List[XABase.XAPath]:
+    def path(self) -> list[XABase.XAPath]:
         """Gets the path of each item in the list.
 
         :return: A list of property list paths
-        :rtype: List[XABase.XAPath]
+        :rtype: list[XABase.XAPath]
         
         .. versionadded:: 0.1.0
         """
@@ -2461,41 +2461,41 @@ class XASystemEventsConfigurationList(XABase.XAList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XASystemEventsConfiguration, filter)
 
-    def account_name(self) -> List[str]:
+    def account_name(self) -> list[str]:
         """Gets the account name of each configuration in the list.
 
         :return: A list of configuration account names
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("accountName") or [])
 
-    def connected(self) -> List[bool]:
+    def connected(self) -> list[bool]:
         """Gets the connected status of each configuration in the list.
 
         :return: A list of configuration connected status booleans
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("connected") or [])
 
-    def id(self) -> List[str]:
+    def id(self) -> list[str]:
         """Gets the ID of each configuration in the list.
 
         :return: A list of configuration IDs
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("id") or [])
 
-    def name(self) -> List[str]:
+    def name(self) -> list[str]:
         """Gets the name of each configuration in the list.
 
         :return: A list of configuration names
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
@@ -2610,81 +2610,81 @@ class XASystemEventsInterfaceList(XABase.XAList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XASystemEventsInterface, filter)
 
-    def automatic(self) -> List[bool]:
+    def automatic(self) -> list[bool]:
         """Gets the automatic status of each interface in the list.
 
         :return: A list of interface automatic status booleans
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("automatic") or [])
 
-    def duplex(self) -> List[str]:
+    def duplex(self) -> list[str]:
         """Gets the duplex setting of each interface in the list.
 
         :return: A list of interface duplex settings
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("duplex") or [])
 
-    def id(self) -> List[str]:
+    def id(self) -> list[str]:
         """Gets the ID of each interface in the list.
 
         :return: A list of interface IDs
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("id") or [])
 
-    def kind(self) -> List[str]:
+    def kind(self) -> list[str]:
         """Gets the kind of each interface in the list.
 
         :return: A list of interface kinds
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("kind") or [])
 
-    def mac_address(self) -> List[str]:
+    def mac_address(self) -> list[str]:
         """Gets the MAC address of each interface in the list.
 
         :return: A list of interface MAC addresses
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("macAddress") or [])
 
-    def mtu(self) -> List[str]:
+    def mtu(self) -> list[str]:
         """Gets the packet size of each interface in the list.
 
         :return: A list of interface packet sizes
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("mtu") or [])
 
-    def name(self) -> List[str]:
+    def name(self) -> list[str]:
         """Gets the name of each interface in the list.
 
         :return: A list of interface names
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
-    def speed(self) -> List[int]:
+    def speed(self) -> list[int]:
         """Gets the speed of each interface in the list.
 
         :return: A list of interface speeds
-        :rtype: List[int]
+        :rtype: list[int]
         
         .. versionadded:: 0.1.0
         """
@@ -2851,21 +2851,21 @@ class XASystemEventsLocationList(XABase.XAList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XASystemEventsLocation, filter)
 
-    def id(self) -> List[str]:
+    def id(self) -> list[str]:
         """Gets the ID of each location in the list.
 
         :return: A list of location IDs
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("id") or [])
 
-    def name(self) -> List[str]:
+    def name(self) -> list[str]:
         """Gets the name of each location in the list.
 
         :return: A list of location names
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
@@ -2987,11 +2987,11 @@ class XASystemEventsServiceList(XABase.XAList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XASystemEventsService, filter)
 
-    def active(self) -> List[bool]:
+    def active(self) -> list[bool]:
         """Gets the active status of each service in the list.
 
         :return: A list of service active booleans
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.1.0
         """
@@ -3008,11 +3008,11 @@ class XASystemEventsServiceList(XABase.XAList):
         ls = self.xa_elem.arrayByApplyingSelector_("currentConfiguration") or []
         return self._new_element(ls, XASystemEventsConfigurationList)
 
-    def id(self) -> List[str]:
+    def id(self) -> list[str]:
         """Gets the ID of each service in the list.
 
         :return: A list of service IDs
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
@@ -3029,21 +3029,21 @@ class XASystemEventsServiceList(XABase.XAList):
         ls = self.xa_elem.arrayByApplyingSelector_("interface") or []
         return self._new_element(ls, XASystemEventsInterfaceList)
 
-    def kind(self) -> List[str]:
+    def kind(self) -> list[str]:
         """Gets the kind of each service in the list.
 
         :return: A list of service kinds
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("kind") or [])
 
-    def name(self) -> List[str]:
+    def name(self) -> list[str]:
         """Gets the name of each service in the list.
 
         :return: A list of service names
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
@@ -3196,42 +3196,42 @@ class XASystemEventsScreenSaverList(XABase.XAList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XASystemEventsScreenSaver, filter)
 
-    def displayed_name(self) -> List[str]:
+    def displayed_name(self) -> list[str]:
         """Gets the displayed name of each screen saver in the list.
 
         :return: A list of screen saver displayed names
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("displayedName") or [])
 
-    def name(self) -> List[str]:
+    def name(self) -> list[str]:
         """Gets the name of each screen saver in the list.
 
         :return: A list of screen saver names
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
-    def path(self) -> List[XABase.XAPath]:
+    def path(self) -> list[XABase.XAPath]:
         """Gets the path of each screen saver in the list.
 
         :return: A list of screen saver paths
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         ls = self.xa_elem.arrayByApplyingSelector_("path") or []
         return [XABase.XAPath(x) for x in ls]
 
-    def picture_display_style(self) -> List[str]:
+    def picture_display_style(self) -> list[str]:
         """Gets the picture display style of each screen saver in the list.
 
         :return: A list of screen saver picture display styles
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
@@ -3466,42 +3466,42 @@ class XASystemEventsFolderActionList(XABase.XAList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XABase.XAFolderAction, filter)
 
-    def enabled(self) -> List[bool]:
+    def enabled(self) -> list[bool]:
         """Gets the enabled status of each folder action in the list.
 
         :return: A list of folder action enabled status booleans
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("enabled") or [])
 
-    def name(self) -> List[str]:
+    def name(self) -> list[str]:
         """Gets the name of each folder action in the list.
 
         :return: A list of folder action names
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
-    def path(self) -> List[XABase.XAPath]:
+    def path(self) -> list[XABase.XAPath]:
         """Gets the path of each folder action in the list.
 
         :return: A list of folder action paths
-        :rtype: List[XABase.XAPath]
+        :rtype: list[XABase.XAPath]
         
         .. versionadded:: 0.1.0
         """
         ls = self.xa_elem.arrayByApplyingSelector_("path") or []
         return [XABase.XAPath(x) for x in ls]
 
-    def volume(self) -> List[str]:
+    def volume(self) -> list[str]:
         """Gets the volume of each folder action in the list.
 
         :return: A list of folder action volumes
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
@@ -3621,42 +3621,42 @@ class XASystemEventsScriptList(XABase.XAList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XASystemEventsScript, filter)
 
-    def enabled(self) -> List[bool]:
+    def enabled(self) -> list[bool]:
         """Gets the enabled status of each script in the list.
 
         :return: A list of script enabled status booleans
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("enabled") or [])
 
-    def name(self) -> List[str]:
+    def name(self) -> list[str]:
         """Gets the name of each script in the list.
 
         :return: A list of script names
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
-    def path(self) -> List[XABase.XAPath]:
+    def path(self) -> list[XABase.XAPath]:
         """Gets the path of each script in the list.
 
         :return: A list of script paths
-        :rtype: List[XABase.XAPath]
+        :rtype: list[XABase.XAPath]
         
         .. versionadded:: 0.1.0
         """
         ls = self.xa_elem.arrayByApplyingSelector_("path") or []
         return [XABase.XAPath(x) for x in ls]
 
-    def posix_path(self) -> List[str]:
+    def posix_path(self) -> list[str]:
         """Gets the POSIX path of each script in the list.
 
         :return: A list of script POSIX paths
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
@@ -3753,21 +3753,21 @@ class XASystemEventsActionList(XABase.XAList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XASystemEventsAction, filter)
 
-    def object_description(self) -> List[str]:
+    def object_description(self) -> list[str]:
         """Gets the description of each action in the list.
 
         :return: A list of action descriptions
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("objectDescription") or [])
 
-    def name(self) -> List[str]:
+    def name(self) -> list[str]:
         """Gets the name of each action in the list.
 
         :return: A list of action names
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
@@ -3835,21 +3835,21 @@ class XASystemEventsAttributeList(XABase.XAList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XASystemEventsAttribute, filter)
 
-    def name(self) -> List[str]:
+    def name(self) -> list[str]:
         """Gets the name of each attribute in the list.
 
         :return: A list of attribute names
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
-    def settable(self) -> List[bool]:
+    def settable(self) -> list[bool]:
         """Gets the settable status of each attribute in the list.
 
         :return: A list of attribute settable status booleans
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.1.0
         """
@@ -3859,7 +3859,7 @@ class XASystemEventsAttributeList(XABase.XAList):
         """Gets the value of each attribute in the list.
 
         :return: A list of attribute values
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
@@ -3941,31 +3941,31 @@ class XASystemEventsUIElementList(XABase.XAList):
             obj_class = XASystemEventsUIElement
         super().__init__(properties, obj_class, filter)
 
-    def accessibility_description(self) -> List[str]:
+    def accessibility_description(self) -> list[str]:
         """Gets the accessibility description of each UI element in the list.
 
         :return: A list of UI element accessibility descriptions
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("accessibilityDescription") or [])
 
-    def object_description(self) -> List[str]:
+    def object_description(self) -> list[str]:
         """Gets the object description of each UI element in the list.
 
         :return: A list of UI element object descriptions
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("objectDescription") or [])
 
-    def enabled(self) -> List[bool]:
+    def enabled(self) -> list[bool]:
         """Gets the enabled status of each UI element in the list.
 
         :return: A list of UI element enabled status booleans
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.1.0
         """
@@ -3982,141 +3982,141 @@ class XASystemEventsUIElementList(XABase.XAList):
         ls = self.xa_elem.arrayByApplyingSelector_("entireContents") or []
         return self._new_element(ls, XASystemEventsUIElementList)
 
-    def focused(self) -> List[bool]:
+    def focused(self) -> list[bool]:
         """Gets the focused status of each UI element in the list.
 
         :return: A list of UI element focused status booleans
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("focused") or [])
 
-    def help(self) -> List[str]:
+    def help(self) -> list[str]:
         """Gets the help text of each UI element in the list.
 
         :return: A list of UI element help texts
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("help") or [])
 
-    def maximum_value(self) -> List[Union[int, float]]:
+    def maximum_value(self) -> list[Union[int, float]]:
         """Gets the maximum value of each UI element in the list.
 
         :return: A list of UI element maximum values
-        :rtype: List[Union[int, float]]
+        :rtype: list[Union[int, float]]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("maximumValue") or [])
 
-    def minimum_value(self) -> List[Union[int, float]]:
+    def minimum_value(self) -> list[Union[int, float]]:
         """Gets the minimum value of each UI element in the list.
 
         :return: A list of UI element minimum values
-        :rtype: List[Union[int, float]]
+        :rtype: list[Union[int, float]]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("minimumValue") or [])
 
-    def name(self) -> List[str]:
+    def name(self) -> list[str]:
         """Gets the name of each UI element in the list.
 
         :return: A list of UI element names
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
-    def orientation(self) -> List[str]:
+    def orientation(self) -> list[str]:
         """Gets the orientation of each UI element in the list.
 
         :return: A list of UI element orientations
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("orientation") or [])
 
-    def position(self) -> List[Tuple[int, int]]:
+    def position(self) -> list[tuple[int, int]]:
         """Gets the position of each UI element in the list.
 
         :return: A list of UI element positions
-        :rtype: List[Tuple[int, int]]
+        :rtype: list[tuple[int, int]]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("position") or [])
 
-    def role(self) -> List[str]:
+    def role(self) -> list[str]:
         """Gets the role of each UI element in the list.
 
         :return: A list of UI element roles
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("role") or [])
 
-    def role_description(self) -> List[str]:
+    def role_description(self) -> list[str]:
         """Gets the role description of each UI element in the list.
 
         :return: A list of UI element role descriptions
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("roleDescription") or [])
 
-    def selected(self) -> List[bool]:
+    def selected(self) -> list[bool]:
         """Gets the selected status of each UI element in the list.
 
         :return: A list of UI element selected status booleans
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("selected") or [])
 
-    def size(self) -> List[Tuple[int, int]]:
+    def size(self) -> list[tuple[int, int]]:
         """Gets the size of each UI element in the list.
 
         :return: A list of UI element sizes
-        :rtype: List[Tuple[int, int]]
+        :rtype: list[tuple[int, int]]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("size") or [])
 
-    def subrole(self) -> List[str]:
+    def subrole(self) -> list[str]:
         """Gets the subrole of each UI element in the list.
 
         :return: A list of UI element subroles
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("subrole") or [])
 
-    def title(self) -> List[str]:
+    def title(self) -> list[str]:
         """Gets the title of each UI element in the list.
 
         :return: A list of UI element titles
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("title") or [])
 
-    def value(self) -> List[Any]:
+    def value(self) -> list[Any]:
         """Gets the value of each UI element in the list.
 
         :return: A list of UI element values
-        :rtype: List[Any]
+        :rtype: list[Any]
         
         .. versionadded:: 0.1.0
         """
@@ -4222,7 +4222,7 @@ class XASystemEventsUIElementList(XABase.XAList):
         """
         return self.by_property("orientation", orientation)
 
-    def by_position(self, position: Tuple[int, int]) -> Union['XASystemEventsUIElement', None]:
+    def by_position(self, position: tuple[int, int]) -> Union['XASystemEventsUIElement', None]:
         """Retrieves the UI element whose position matches the given position, if one exists.
 
         :return: The desired UI element, if it is found
@@ -4262,7 +4262,7 @@ class XASystemEventsUIElementList(XABase.XAList):
         """
         return self.by_property("selected", selected)
 
-    def by_size(self, size: Tuple[int, int]) -> Union['XASystemEventsUIElement', None]:
+    def by_size(self, size: tuple[int, int]) -> Union['XASystemEventsUIElement', None]:
         """Retrieves the UI element whose size matches the given size, if one exists.
 
         :return: The desired UI element, if it is found
@@ -4323,11 +4323,11 @@ class XASystemEventsUIElement(XABase.XAObject, XASelectable):
         self.minimum_value: Union[int, float, None] #: the minimum value that the UI element can take on
         self.name: str #: the name of the UI Element, which identifies it within its container
         self.orientation: Union[str, None] #: the orientation of the UI element
-        self.position: Union[List[Union[int, float]], None] #: the position of the UI element
+        self.position: Union[list[Union[int, float]], None] #: the position of the UI element
         self.role: str #: an encoded description of the UI element and its capabilities
         self.role_description: str #: a more complete description of the UI element's role
         self.selected: Union[bool, None] #: Is the UI element selected?
-        self.size: Union[List[Union[int, float]], None] #: the size of the UI element
+        self.size: Union[list[Union[int, float]], None] #: the size of the UI element
         self.subrole: Union[str, None] #: an encoded description of the UI element and its capabilities
         self.title: str #: the title of the UI element as it appears on the screen
         self.value: Any #: the current value of the UI element
@@ -4377,11 +4377,11 @@ class XASystemEventsUIElement(XABase.XAObject, XASelectable):
         return self.xa_elem.orientation()
 
     @property
-    def position(self) -> Union[List[Union[int, float]], None]:
+    def position(self) -> Union[list[Union[int, float]], None]:
         return self.xa_elem.position()
 
     @position.setter
-    def position(self, position: Tuple[int, int]):
+    def position(self, position: tuple[int, int]):
         self.set_property('position', position)
 
     @property
@@ -4401,11 +4401,11 @@ class XASystemEventsUIElement(XABase.XAObject, XASelectable):
         self.set_property('selected', selected)
 
     @property
-    def size(self) -> Union[List[Union[int, float]], None]:
+    def size(self) -> Union[list[Union[int, float]], None]:
         return self.xa_elem.size()
 
     @size.setter
-    def size(self, size: List[Union[int, float]]):
+    def size(self, size: list[Union[int, float]]):
         self.set_property('size', size)
 
     @property
@@ -4424,11 +4424,11 @@ class XASystemEventsUIElement(XABase.XAObject, XASelectable):
     def value(self, value: Any):
         self.set_property('value', value)
 
-    def click(self, point: Union[Tuple[int, int], None] = None):
+    def click(self, point: Union[tuple[int, int], None] = None):
         """Cause the target process to behave as if the UI element were clicked.
 
         :param point: The coordinate location at which to click, defaults to None
-        :type point: Union[Tuple[int, int], None], optional
+        :type point: Union[tuple[int, int], None], optional
 
         .. versionadded:: 0.1.0
         """
@@ -5442,81 +5442,81 @@ class XASystemEventsProcessList(XASystemEventsUIElementList):
             obj_class = XASystemEventsProcess
         super().__init__(properties, filter, obj_class)
 
-    def accepts_high_level_events(self) -> List[bool]:
+    def accepts_high_level_events(self) -> list[bool]:
         """Gets the accepts high level events status of each process in the list.
 
         :return: A list of process accepts high level events status booleans
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("acceptsHighLevelEvents") or [])
 
-    def accepts_remote_events(self) -> List[bool]:
+    def accepts_remote_events(self) -> list[bool]:
         """Gets the accepts remote events status of each process in the list.
 
         :return: A list of process accepts remote events status booleans
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("acceptsRemoteEvents") or [])
 
-    def architecture(self) -> List[str]:
+    def architecture(self) -> list[str]:
         """Gets the architecture of each process in the list.
 
         :return: A list of process architectures
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("architecture") or [])
 
-    def background_only(self) -> List[bool]:
+    def background_only(self) -> list[bool]:
         """Gets the background only status of each process in the list.
 
         :return: A list of process background only status booleans
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("backgroundOnly") or [])
 
-    def bundle_identifier(self) -> List[str]:
+    def bundle_identifier(self) -> list[str]:
         """Gets the bundle identifier of each process in the list.
 
         :return: A list of process bundle identifiers
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("bundleIdentifier") or [])
 
-    def classic(self) -> List[bool]:
+    def classic(self) -> list[bool]:
         """Gets the classic status of each process in the list.
 
         :return: A list of process classic status booleans
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("class") or [])
 
-    def creator_type(self) -> List[str]:
+    def creator_type(self) -> list[str]:
         """Gets the creator type of each process in the list.
 
         :return: A list of process creator types
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("creatorType") or [])
 
-    def displayed_name(self) -> List[str]:
+    def displayed_name(self) -> list[str]:
         """Gets the displayed name of each process in the list.
 
         :return: A list of process displayed names
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
@@ -5533,91 +5533,91 @@ class XASystemEventsProcessList(XASystemEventsUIElementList):
         ls = self.xa_elem.arrayByApplyingSelector_("file") or []
         return self._new_element(ls, XABase.XAFileList)
 
-    def file_type(self) -> List[str]:
+    def file_type(self) -> list[str]:
         """Gets the file type of each process in the list.
 
         :return: A list of process file types
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("fileType") or [])
 
-    def has_scripting_terminology(self) -> List[bool]:
+    def has_scripting_terminology(self) -> list[bool]:
         """Gets the has scripting terminology status of each process in the list.
 
         :return: A list of process has scripting terminology status booleans
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("hasScriptingTerminology") or [])
 
-    def id(self) -> List[int]:
+    def id(self) -> list[int]:
         """Gets the ID of each process in the list.
 
         :return: A list of process IDs
-        :rtype: List[int]
+        :rtype: list[int]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("id") or [])
 
-    def name(self) -> List[str]:
+    def name(self) -> list[str]:
         """Gets the name of each process in the list.
 
         :return: A list of process names
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
-    def partition_space_used(self) -> List[int]:
+    def partition_space_used(self) -> list[int]:
         """Gets the partition spaced used of each process in the list.
 
         :return: A list of process partition spaces used
-        :rtype: List[int]
+        :rtype: list[int]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("partitionSpaceUsed") or [])
 
-    def short_name(self) -> List[str]:
+    def short_name(self) -> list[str]:
         """Gets the short name of each process in the list.
 
         :return: A list of process short names
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("shortName") or [])
 
-    def total_partition_size(self) -> List[int]:
+    def total_partition_size(self) -> list[int]:
         """Gets the total partition size of each process in the list.
 
         :return: A list of process total partition sizes
-        :rtype: List[int]
+        :rtype: list[int]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("totalPartitionSize") or [])
 
-    def unix_id(self) -> List[int]:
+    def unix_id(self) -> list[int]:
         """Gets the Unix PID of each process in the list.
 
         :return: A list of process Unix PIDs
-        :rtype: List[int]
+        :rtype: list[int]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("unixId") or [])
 
-    def visible(self) -> List[bool]:
+    def visible(self) -> list[bool]:
         """Gets the visible status of each process in the list.
 
         :return: A list of process visible status booleans
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.1.0
         """
@@ -6457,42 +6457,42 @@ class XASystemEventsPropertyListItemList(XABase.XAList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XASystemEventsPropertyListItem, filter)
 
-    def kind(self) -> List[str]:
+    def kind(self) -> list[str]:
         """Gets the kind of each property list item in the list.
 
         :return: A list of property list item kinds
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         # TODO
         return list(self.xa_elem.arrayByApplyingSelector_("kind"))
 
-    def name(self) -> List[str]:
+    def name(self) -> list[str]:
         """Gets the name of each property list item in the list.
 
         :return: A list of property list item names
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
-    def text(self) -> List[str]:
+    def text(self) -> list[str]:
         """Gets the text of each property list item in the list.
 
         :return: A list of property list item texts
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("text"))
 
-    def value(self) -> List[Union[int, bool, datetime, 'XASystemEventsList', dict, str, bytes]]:
+    def value(self) -> list[Union[int, bool, datetime, 'XASystemEventsList', dict, str, bytes]]:
         """Gets the value of each property list item in the list.
 
         :return: A list of property list item values
-        :rtype: List[Union[int, bool, datetime, XASystemEventsList, dict, str, XASystemEventsData]]
+        :rtype: list[Union[int, bool, datetime, XASystemEventsList, dict, str, XASystemEventsData]]
         
         .. versionadded:: 0.1.0
         """
@@ -6608,21 +6608,21 @@ class XASystemEventsXMLAttributeList(XABase.XAList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XASystemEventsXMLAttribute, filter)
 
-    def name(self) -> List[str]:
+    def name(self) -> list[str]:
         """Gets the name of each XML attribute in the list.
 
         :return: A list of XML attribute names
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
-    def value(self) -> List[Any]:
+    def value(self) -> list[Any]:
         """Gets the value of each XML attribute in the list.
 
         :return: A list of XML attribute values
-        :rtype: List[Any]
+        :rtype: list[Any]
         
         .. versionadded:: 0.1.0
         """
@@ -6687,31 +6687,31 @@ class XASystemEventsXMLDataList(XABase.XAList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XASystemEventsXMLData, filter)
 
-    def id(self) -> List[str]:
+    def id(self) -> list[str]:
         """Gets the ID of each XML data in the list.
 
         :return: A list of XML data IDs
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("id") or [])
 
-    def name(self) -> List[str]:
+    def name(self) -> list[str]:
         """Gets the name of each XML data in the list.
 
         :return: A list of XML data names
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
-    def text(self) -> List[str]:
+    def text(self) -> list[str]:
         """Gets the text of each XML data in the list.
 
         :return: A list of XML data texts
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
@@ -6807,31 +6807,31 @@ class XASystemEventsXMLElementList(XABase.XAList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XASystemEventsXMLElement, filter)
 
-    def id(self) -> List[str]:
+    def id(self) -> list[str]:
         """Gets the ID of each XML element in the list.
 
         :return: A list of XML element IDs
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("id") or [])
 
-    def name(self) -> List[str]:
+    def name(self) -> list[str]:
         """Gets the name of each XML element in the list.
 
         :return: A list of XML element names
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
-    def value(self) -> List[Any]:
+    def value(self) -> list[Any]:
         """Gets the value of each XML element in the list.
 
         :return: A list of XML element values
-        :rtype: List[Any]
+        :rtype: list[Any]
         
         .. versionadded:: 0.1.0
         """
@@ -7089,61 +7089,61 @@ class XASystemEventsScriptingClassList(XABase.XAList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XASystemEventsScriptingClass, filter)
 
-    def name(self) -> List[str]:
+    def name(self) -> list[str]:
         """Gets the name of each scripting class in the list.
 
         :return: A list of scripting class names
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
-    def id(self) -> List[str]:
+    def id(self) -> list[str]:
         """Gets the ID of each scripting class in the list.
 
         :return: A list of scripting class IDs
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("id") or [])
 
-    def object_description(self) -> List[str]:
+    def object_description(self) -> list[str]:
         """Gets the object description of each scripting class in the list.
 
         :return: A list of scripting class object description
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("objectDescription") or [])
 
-    def hidden(self) -> List[bool]:
+    def hidden(self) -> list[bool]:
         """Gets the hidden status of each scripting class in the list.
 
         :return: A list of scripting class hidden status booleans
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("hidden") or [])
 
-    def plural_name(self) -> List[str]:
+    def plural_name(self) -> list[str]:
         """Gets the plural name of each scripting class in the list.
 
         :return: A list of scripting class plural names
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("pluralName") or [])
 
-    def suite_name(self) -> List[str]:
+    def suite_name(self) -> list[str]:
         """Gets the suite name of each scripting class in the list.
 
         :return: A list of scripting class suite names
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
@@ -7314,31 +7314,31 @@ class XASystemEventsScriptingCommandList(XABase.XAList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XASystemEventsScriptingCommand, filter)
 
-    def name(self) -> List[str]:
+    def name(self) -> list[str]:
         """Gets the name of each scripting command in the list.
 
         :return: A list of scripting command names
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
-    def id(self) -> List[str]:
+    def id(self) -> list[str]:
         """Gets the ID of each scripting command in the list.
 
         :return: A list of scripting command IDs
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("id") or [])
 
-    def object_description(self) -> List[str]:
+    def object_description(self) -> list[str]:
         """Gets the object description of each scripting command in the list.
 
         :return: A list of scripting command object descriptions
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
@@ -7355,11 +7355,11 @@ class XASystemEventsScriptingCommandList(XABase.XAList):
         ls = self.xa_elem.arrayByApplyingSelector_("directParameter") or []
         return self._new_element(ls, XASystemEventsScriptingParameterList)
 
-    def hidden(self) -> List[str]:
+    def hidden(self) -> list[str]:
         """Gets the hidden status of each scripting command in the list.
 
         :return: A list of scripting command hidden status booleans
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
@@ -7376,11 +7376,11 @@ class XASystemEventsScriptingCommandList(XABase.XAList):
         ls = self.xa_elem.arrayByApplyingSelector_("scriptingResult") or []
         return self._new_element(ls, XASystemEventsScriptingResultObjectList)
 
-    def suite_name(self) -> List[str]:
+    def suite_name(self) -> list[str]:
         """Gets the suite name of each scripting command in the list.
 
         :return: A list of scripting command suite names
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
@@ -7572,31 +7572,31 @@ class XASystemEventsScriptingEnumerationList(XABase.XAList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XASystemEventsScriptingEnumeration, filter)
 
-    def name(self) -> List[str]:
+    def name(self) -> list[str]:
         """Gets the name of each scripting enumeration in the list.
 
         :return: A list of scripting enumeration names
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
-    def id(self) -> List[str]:
+    def id(self) -> list[str]:
         """Gets the ID of each scripting enumeration in the list.
 
         :return: A list of scripting enumeration IDs
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("id") or [])
 
-    def hidden(self) -> List[str]:
+    def hidden(self) -> list[str]:
         """Gets the hidden status of each scripting enumeration in the list.
 
         :return: A list of scripting enumeration hidden status booleans
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
@@ -7684,41 +7684,41 @@ class XASystemEventsScriptingEnumeratorList(XABase.XAList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XASystemEventsScriptingEnumerator, filter)
 
-    def name(self) -> List[str]:
+    def name(self) -> list[str]:
         """Gets the name of each scripting enumerator in the list.
 
         :return: A list of scripting enumerator names
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
-    def id(self) -> List[str]:
+    def id(self) -> list[str]:
         """Gets the ID of each scripting enumerator in the list.
 
         :return: A list of scripting enumerator IDs
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("id") or [])
 
-    def object_description(self) -> List[str]:
+    def object_description(self) -> list[str]:
         """Gets the object description of each scripting enumerator in the list.
 
         :return: A list of scripting enumerator object descriptions
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("objectDescription") or [])
 
-    def hidden(self) -> List[str]:
+    def hidden(self) -> list[str]:
         """Gets the hidden status of each scripting enumerator in the list.
 
         :return: A list of scripting enumerator hidden status booleans
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
@@ -7809,61 +7809,61 @@ class XASystemEventsScriptingParameterList(XABase.XAList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XASystemEventsScriptingParameter, filter)
 
-    def name(self) -> List[str]:
+    def name(self) -> list[str]:
         """Gets the name of each scripting parameter in the list.
 
         :return: A list of scripting parameter names
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
-    def id(self) -> List[str]:
+    def id(self) -> list[str]:
         """Gets the ID of each scripting parameter in the list.
 
         :return: A list of scripting parameter IDs
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("id") or [])
 
-    def object_description(self) -> List[str]:
+    def object_description(self) -> list[str]:
         """Gets the object description of each scripting parameter in the list.
 
         :return: A list of scripting parameter object descriptions
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("objectDescription") or [])
 
-    def hidden(self) -> List[bool]:
+    def hidden(self) -> list[bool]:
         """Gets the hidden status of each scripting parameter in the list.
 
         :return: A list of scripting parameter hidden status booleans
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("hidden") or [])
 
-    def kind(self) -> List[str]:
+    def kind(self) -> list[str]:
         """Gets the kind of each scripting parameter in the list.
 
         :return: A list of scripting parameter kinds
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("kind") or [])
 
-    def optional(self) -> List[bool]:
+    def optional(self) -> list[bool]:
         """Gets the optional status of each scripting parameter in the list.
 
         :return: A list of scripting parameter optional status booleans
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.1.0
         """
@@ -7984,82 +7984,82 @@ class XASystemEventsScriptingPropertyList(XABase.XAList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XASystemEventsScriptingProperty, filter)
 
-    def name(self) -> List[str]:
+    def name(self) -> list[str]:
         """Gets the name of each scripting property in the list.
 
         :return: A list of scripting property names
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
-    def id(self) -> List[str]:
+    def id(self) -> list[str]:
         """Gets the ID of each scripting property in the list.
 
         :return: A list of scripting property IDs
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("id") or [])
 
-    def access(self) -> List[XASystemEventsApplication.AccessRight]:
+    def access(self) -> list[XASystemEventsApplication.AccessRight]:
         """Gets the access type of each scripting property in the list.
 
         :return: A list of scripting property access types
-        :rtype: List[int]
+        :rtype: list[int]
         
         .. versionadded:: 0.1.0
         """
         ls = self.xa_elem.arrayByApplyingSelector_("access") or []
         return [XASystemEventsApplication.AccessRight(x) for x in ls]
 
-    def object_description(self) -> List[str]:
+    def object_description(self) -> list[str]:
         """Gets the object description of each scripting property in the list.
 
         :return: A list of scripting property object descriptions
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("objectDescription") or [])
 
-    def enumerated(self) -> List[bool]:
+    def enumerated(self) -> list[bool]:
         """Gets the enumerated status of each scripting property in the list.
 
         :return: A list of scripting property enumerated status booleans
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("enumerated") or [])
 
-    def hidden(self) -> List[str]:
+    def hidden(self) -> list[str]:
         """Gets the hidden status of each scripting property in the list.
 
         :return: A list of scripting property hidden status booleans
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("hidden") or [])
 
-    def kind(self) -> List[str]:
+    def kind(self) -> list[str]:
         """Gets the kind of each scripting property in the list.
 
         :return: A list of scripting property kinds
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("kind") or [])
 
-    def listed(self) -> List[bool]:
+    def listed(self) -> list[bool]:
         """Gets the listed status of each scripting property in the list.
 
         :return: A list of scripting property listed status booleans
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.1.0
         """
@@ -8210,41 +8210,41 @@ class XASystemEventsScriptingResultObjectList(XABase.XAList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XASystemEventsScriptingResultObject, filter)
 
-    def object_description(self) -> List[str]:
+    def object_description(self) -> list[str]:
         """Gets the object description of each scripting result object in the list.
 
         :return: A list of scripting result object descriptions
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("objectDescription") or [])
 
-    def enumerated(self) -> List[bool]:
+    def enumerated(self) -> list[bool]:
         """Gets the enumerated status of each scripting result object in the list.
 
         :return: A list of scripting result object enumerated status booleans
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("enumerated") or [])
 
-    def kind(self) -> List[str]:
+    def kind(self) -> list[str]:
         """Gets the kind of each scripting result object in the list.
 
         :return: A list of scripting result object kinds
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("kind") or [])
 
-    def listed(self) -> List[bool]:
+    def listed(self) -> list[bool]:
         """Gets the listed status of each scripting result object in the list.
 
         :return: A list of scripting result object listed status booleans
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.1.0
         """
@@ -8335,41 +8335,41 @@ class XASystemEventsScriptingSuiteList(XABase.XAList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XASystemEventsScriptingSuite, filter)
 
-    def name(self) -> List[str]:
+    def name(self) -> list[str]:
         """Gets the name of each scripting suite in the list.
 
         :return: A list of scripting suite names
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
-    def id(self) -> List[str]:
+    def id(self) -> list[str]:
         """Gets the ID of each scripting suite in the list.
 
         :return: A list of scripting suite IDs
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("id"))
 
-    def object_description(self) -> List[str]:
+    def object_description(self) -> list[str]:
         """Gets the object description of each scripting suite in the list.
 
         :return: A list of scripting suite object descriptions
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.1.0
         """
         return list(self.xa_elem.arrayByApplyingSelector_("objectDescription"))
 
-    def hidden(self) -> List[bool]:
+    def hidden(self) -> list[bool]:
         """Gets the hidden status of each scripting suite in the list.
 
         :return: A list of scripting suite hidden statuses
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.1.0
         """

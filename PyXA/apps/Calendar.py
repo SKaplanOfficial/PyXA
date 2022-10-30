@@ -1,6 +1,6 @@
 from datetime import date, datetime, timedelta
 from enum import Enum
-from typing import List, Tuple, Union
+from typing import Union
 
 import EventKit
 import AppKit
@@ -331,7 +331,7 @@ class XACalendarWindow(XABaseScriptable.XASBWindow):
         self.name: str #: The name of the window
         self.id: str #: The unique identifier for the window
         self.index: int #: The index of the window in the front-to-back ordering
-        self.bounds: Tuple[int, int, int, int] #: The bounding rectangle of the window
+        self.bounds: tuple[int, int, int, int] #: The bounding rectangle of the window
         self.closeable: bool #: Whether the window has a close button
         self.miniaturizable: bool #: Whether the window can be minimized
         self.miniaturized: bool #: Whether the window is currently minimized
@@ -362,14 +362,14 @@ class XACalendarWindow(XABaseScriptable.XASBWindow):
         self.set_property('index', index)
 
     @property
-    def bounds(self) -> Tuple[int, int, int, int]:
+    def bounds(self) -> tuple[int, int, int, int]:
         rect = self.xa_elem.bounds()
         origin = rect.origin
         size = rect.size
         return (origin.x, origin.y, size.width, size.height)
 
     @bounds.setter
-    def bounds(self, bounds: Tuple[int, int, int, int]):
+    def bounds(self, bounds: tuple[int, int, int, int]):
         x = bounds[0]
         y = bounds[1]
         w = bounds[2]
@@ -434,41 +434,41 @@ class XACalendarDocumentList(XABase.XAList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XACalendarDocument, filter)
 
-    def properties(self) -> List[dict]:
+    def properties(self) -> list[dict]:
         """Gets the properties of each document in the list.
 
         :return: A list of document properties dictionaries
-        :rtype: List[dict]
+        :rtype: list[dict]
         
         .. versionadded:: 0.0.6
         """
         return list(self.xa_elem.arrayByApplyingSelector_("properties"))
         
-    def name(self) -> List[str]:
+    def name(self) -> list[str]:
         """Gets the name of each document in the list.
 
         :return: A list of document names
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.6
         """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
-    def modified(self) -> List[bool]:
+    def modified(self) -> list[bool]:
         """Gets the modified status of each document in the list.
 
         :return: A list of document modified status boolean values
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.0.6
         """
         return list(self.xa_elem.arrayByApplyingSelector_("modified"))
 
-    def file(self) -> List[XABase.XAPath]:
+    def file(self) -> list[XABase.XAPath]:
         """Gets the file path of each document in the list.
 
         :return: A list of document file paths
-        :rtype: List[XABase.XAPath]
+        :rtype: list[XABase.XAPath]
         
         .. versionadded:: 0.0.6
         """
@@ -559,62 +559,62 @@ class XACalendarCalendarList(XABase.XAList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XACalendarCalendar, filter)
 
-    def properties(self) -> List[dict]:
+    def properties(self) -> list[dict]:
         """Gets the properties of each calendar in the list.
 
         :return: A list of calendar properties dictionaries
-        :rtype: List[dict]
+        :rtype: list[dict]
         
         .. versionadded:: 0.0.6
         """
         return list(self.xa_elem.arrayByApplyingSelector_("properties"))
 
-    def name(self) -> List[str]:
+    def name(self) -> list[str]:
         """Gets the name of each calendar in the list.
 
         :return: A list of calendar names
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.6
         """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
-    def color(self) -> List[str]:
+    def color(self) -> list[str]:
         """Gets the color of each calendar in the list.
 
         :return: A list of calendar color strings
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.6
         """
         ls = self.xa_elem.arrayByApplyingSelector_("color")
         return [XABase.XAColor(x) for x in ls]
 
-    def calendar_identifier(self) -> List[str]:
+    def calendar_identifier(self) -> list[str]:
         """Gets the ID of each calendar in the list.
 
         :return: A list of calendar IDs
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.6
         """
         return list(self.xa_elem.arrayByApplyingSelector_("calendarIdentifier"))
 
-    def writable(self) -> List[bool]:
+    def writable(self) -> list[bool]:
         """Gets the writable status of each calendar in the list.
 
         :return: A list of calendar writable status boolean values
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.0.6
         """
         return list(self.xa_elem.arrayByApplyingSelector_("writable"))
 
-    def description(self) -> List[str]:
+    def description(self) -> list[str]:
         """Gets the description of each calendar in the list.
 
         :return: A list of calendar descriptions
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.6
         """
@@ -973,41 +973,41 @@ class XACalendarAttendeeList(XABase.XAList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XACalendarEvent, filter)
 
-    def properties(self) -> List[dict]:
+    def properties(self) -> list[dict]:
         """Gets the properties of each attendee in the list.
 
         :return: A list of attendee properties dictionaries
-        :rtype: List[dict]
+        :rtype: list[dict]
         
         .. versionadded:: 0.0.6
         """
         return list(self.xa_elem.arrayByApplyingSelector_("properties"))
 
-    def display_name(self) -> List[str]:
+    def display_name(self) -> list[str]:
         """Gets the display name of each attendee in the list.
 
         :return: A list of attendee first and last names
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.6
         """
         return list(self.xa_elem.arrayByApplyingSelector_("displayName"))
 
-    def email(self) -> List[str]:
+    def email(self) -> list[str]:
         """Gets the email address of each attendee in the list.
 
         :return: A list of attendee email addresses
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.6
         """
         return list(self.xa_elem.arrayByApplyingSelector_("email"))
 
-    def participation_status(self) -> List[XACalendarApplication.ParticipationStatus]:
+    def participation_status(self) -> list[XACalendarApplication.ParticipationStatus]:
         """Gets the participation status of each attendee in the list.
 
         :return: A list of attendee participation statuses
-        :rtype: List[XACalendarApplication.ParticipationStatus]
+        :rtype: list[XACalendarApplication.ParticipationStatus]
         
         .. versionadded:: 0.0.6
         """
@@ -1098,142 +1098,142 @@ class XACalendarEventList(XABase.XAList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XACalendarEvent, filter)
 
-    def properties(self) -> List[dict]:
+    def properties(self) -> list[dict]:
         """Gets the properties of each event in the list.
 
         :return: A list of event properties dictionaries
-        :rtype: List[dict]
+        :rtype: list[dict]
         
         .. versionadded:: 0.0.6
         """
         return list(self.xa_elem.arrayByApplyingSelector_("properties"))
 
-    def description(self) -> List[str]:
+    def description(self) -> list[str]:
         """Gets the description of each event in the list.
 
         :return: A list of event descriptions
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.6
         """
         return list(self.xa_elem.arrayByApplyingSelector_("description"))
 
-    def start_date(self) -> List[datetime]:
+    def start_date(self) -> list[datetime]:
         """Gets the start date of each event in the list.
 
         :return: A list of event start dates
-        :rtype: List[datetime]
+        :rtype: list[datetime]
         
         .. versionadded:: 0.0.6
         """
         return list(self.xa_elem.arrayByApplyingSelector_("startDate"))
 
-    def properties(self) -> List[datetime]:
+    def properties(self) -> list[datetime]:
         """Gets the end date of each event in the list.
 
         :return: A list of event end dates
-        :rtype: List[datetime]
+        :rtype: list[datetime]
         
         .. versionadded:: 0.0.6
         """
         return list(self.xa_elem.arrayByApplyingSelector_("endDate"))
 
-    def allday_event(self) -> List[bool]:
+    def allday_event(self) -> list[bool]:
         """Gets the all-day status of each event in the list.
 
         :return: A list of event all-day status boolean values
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.0.6
         """
         return list(self.xa_elem.arrayByApplyingSelector_("alldayEvent"))
 
-    def recurrence(self) -> List[str]:
+    def recurrence(self) -> list[str]:
         """Gets the recurrence string of each event in the list.
 
         :return: A list of event recurrence strings
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.6
         """
         return list(self.xa_elem.arrayByApplyingSelector_("recurrence"))
 
-    def sequence(self) -> List[int]:
+    def sequence(self) -> list[int]:
         """Gets the version of each event in the list.
 
         :return: A list of event versions
-        :rtype: List[int]
+        :rtype: list[int]
         
         .. versionadded:: 0.0.6
         """
         return list(self.xa_elem.arrayByApplyingSelector_("sequence"))
 
-    def stamp_date(self) -> List[datetime]:
+    def stamp_date(self) -> list[datetime]:
         """Gets the modification date of each event in the list.
 
         :return: A list of event modification dates
-        :rtype: List[datetime]
+        :rtype: list[datetime]
         
         .. versionadded:: 0.0.6
         """
         return list(self.xa_elem.arrayByApplyingSelector_("stampDate"))
 
-    def excluded_dates(self) -> List[List[datetime]]:
+    def excluded_dates(self) -> list[list[datetime]]:
         """Gets the excluded dates of each event in the list.
 
         :return: A list of event excluded dates
-        :rtype: List[List[datetime]]
+        :rtype: list[list[datetime]]
         
         .. versionadded:: 0.0.6
         """
         return list(self.xa_elem.arrayByApplyingSelector_("excludedDates"))
 
-    def status(self) -> List[XACalendarApplication.EventStatus]:
+    def status(self) -> list[XACalendarApplication.EventStatus]:
         """Gets the status of each event in the list.
 
         :return: A list of event statuses
-        :rtype: List[XACalendarApplication.EventStatus]
+        :rtype: list[XACalendarApplication.EventStatus]
         
         .. versionadded:: 0.0.6
         """
         ls = self.xa_elem.arrayByApplyingSelector_("status")
         return [XACalendarApplication.EventStatus(XABase.OSType(x.stringValue())) for x in ls]
 
-    def summary(self) -> List[str]:
+    def summary(self) -> list[str]:
         """Gets the summary of each event in the list.
 
         :return: A list of event summaries
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.6
         """
         return list(self.xa_elem.arrayByApplyingSelector_("summary"))
 
-    def location(self) -> List[str]:
+    def location(self) -> list[str]:
         """Gets the location string of each event in the list.
 
         :return: A list of event locations
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.6
         """
         return list(self.xa_elem.arrayByApplyingSelector_("location"))
 
-    def uid(self) -> List[str]:
+    def uid(self) -> list[str]:
         """Gets the unique identifier of each event in the list.
 
         :return: A list of event IDs
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.6
         """
         return list(self.xa_elem.arrayByApplyingSelector_("uid"))
 
-    def url(self) -> List[str]:
+    def url(self) -> list[str]:
         """Gets the URL associated to each event in the list.
 
         :return: A list of event URLs
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.6
         """
@@ -1319,7 +1319,7 @@ class XACalendarEventList(XABase.XAList):
         """
         return self.by_property("stampDate", stamp_date)
 
-    def by_excluded_dates(self, excluded_dates: List[datetime]) -> Union['XACalendarEvent', None]:
+    def by_excluded_dates(self, excluded_dates: list[datetime]) -> Union['XACalendarEvent', None]:
         """Retrieves the first event whose excluded dates date matches the given list of dates, if one exists.
 
         :return: The desired event, if it is found
@@ -1400,7 +1400,7 @@ class XACalendarEvent(XABase.XAObject):
         self.recurrence: str #: A string describing the event recurrence
         self.sequence: int #: The event version
         self.stamp_date: date #: The date the event was last modified
-        self.excluded_dates: List[datetime] #: The exception dates for the event
+        self.excluded_dates: list[datetime] #: The exception dates for the event
         self.status: XACalendarApplication.EventStatus #: The status of the event
         self.summary: str #: The summary (title) of the event
         self.location: str #: The location of the event
@@ -1473,11 +1473,11 @@ class XACalendarEvent(XABase.XAObject):
         self.set_property('stampDate', stamp_date)
 
     @property
-    def excluded_dates(self) -> List[datetime]:
+    def excluded_dates(self) -> list[datetime]:
         return self.xa_elem.excludedDates()
 
     @excluded_dates.setter
-    def excluded_dates(self, excluded_dates: List[datetime]):
+    def excluded_dates(self, excluded_dates: list[datetime]):
         self.set_property('excludedDates', excluded_dates)
 
     @property
@@ -1658,53 +1658,53 @@ class XACalendarAttachmentList(XABase.XAList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XACalendarAttachment, filter)
 
-    def type(self) -> List[str]:
+    def type(self) -> list[str]:
         """Gets the type of each attachment in the list.
 
         :return: A list of attachment types
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.6
         """
         return list(self.xa_elem.arrayByApplyingSelector_("type"))
 
-    def file_name(self) -> List[str]:
+    def file_name(self) -> list[str]:
         """Gets the file name of each attachment in the list.
 
         :return: A list of attachment file names
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.6
         """
         return list(self.xa_elem.arrayByApplyingSelector_("filename"))
 
-    def file(self) -> List[XABase.XAPath]:
+    def file(self) -> list[XABase.XAPath]:
         """Gets the file path of each attachment in the list.
 
         :return: A list of attachment file paths
-        :rtype: List[XABase.XAPath]
+        :rtype: list[XABase.XAPath]
         
         .. versionadded:: 0.0.6
         """
         ls = self.xa_elem.arrayByApplyingSelector_("file")
         return [XABase.XAPath(x) for x in ls]
 
-    def url(self) -> List[XABase.XAURL]:
+    def url(self) -> list[XABase.XAURL]:
         """Gets the URL of each attachment in the list.
 
         :return: A list of attachment file URLs
-        :rtype: List[XABase.XAURL]
+        :rtype: list[XABase.XAURL]
         
         .. versionadded:: 0.0.6
         """
         ls = self.xa_elem.arrayByApplyingSelector_("URL")
         return [XABase.XAURL(x) for x in ls]
 
-    def uuid(self) -> List[str]:
+    def uuid(self) -> list[str]:
         """Gets the UUID of each attachment in the list.
 
         :return: A list of attachment UUIDs
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.6
         """

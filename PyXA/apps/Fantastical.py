@@ -4,7 +4,7 @@ Control Fantastical using JXA-like syntax.
 """
 
 from datetime import datetime
-from typing import Any, Callable, Literal, Tuple, Union, List, Dict
+from typing import Union
 
 import AppKit
 
@@ -158,31 +158,31 @@ class XAFantasticalDocumentList(XABase.XAList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XAFantasticalDocument, filter)
 
-    def name(self) -> List[str]:
+    def name(self) -> list[str]:
         """Gets the name of each document in the list.
 
         :return: A list of document names
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.9
         """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
-    def modified(self) -> List[bool]:
+    def modified(self) -> list[bool]:
         """Gets the modified status of each document in the list.
 
         :return: A list of modified status booleans
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.0.9
         """
         return list(self.xa_elem.arrayByApplyingSelector_("modified"))
 
-    def file(self) -> List[XABase.XAPath]:
+    def file(self) -> list[XABase.XAPath]:
         """Gets the path of each document in the list.
 
         :return: A list of document paths
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.4
         """
@@ -275,13 +275,13 @@ class XAFantasticalDocument(XABase.XAObject, XACloseable, XADeletable, XAPrintab
         self.xa_elem.print_printDialog_withProperties_(self.xa_elem, show_dialog, print_properties)
         return self
 
-    def get_clipboard_representation(self) -> List[Union[NSURL, str]]:
+    def get_clipboard_representation(self) -> list[Union[AppKit.NSURL, str]]:
         """Gets a clipboard-codable representation of the document.
 
         When the clipboard content is set to a Fantastical document, the document's URL and source code are added to the clipboard.
 
         :return: The document's path and text content
-        :rtype: List[Union[NSURL, str]]
+        :rtype: list[Union[AppKit.NSURL, str]]
 
         .. versionadded:: 0.0.9
         """
@@ -302,7 +302,7 @@ class XAFantasticalWindow(XABaseScriptable.XASBWindow, XAPrintable, XACloseable)
         self.name: str #: The full title of the window.
         self.id: int #: The unique identifier for the window
         self.index: int #: The index of the window in the front-to-back ordering
-        self.bounds: Tuple[int, int, int, int] #: The bounding rectangle of the window
+        self.bounds: tuple[int, int, int, int] #: The bounding rectangle of the window
         self.closeable: bool #: Whether the window has a close button
         self.miniaturizable: bool #: Whether the window can be minimized
         self.miniaturized: bool #: Whether the window is currently minimized
@@ -329,14 +329,14 @@ class XAFantasticalWindow(XABaseScriptable.XASBWindow, XAPrintable, XACloseable)
         self.set_property("index", index)
 
     @property
-    def bounds(self) -> Tuple[int, int, int, int]:
+    def bounds(self) -> tuple[int, int, int, int]:
         rect = self.xa_elem.bounds()
         origin = rect.origin
         size = rect.size
         return (origin.x, origin.y, size.width, size.height)
 
     @bounds.setter
-    def bounds(self, bounds: Tuple[int, int, int, int]):
+    def bounds(self, bounds: tuple[int, int, int, int]):
         x = bounds[0]
         y = bounds[1]
         w = bounds[2]
@@ -405,21 +405,21 @@ class XAFantasticalCalendarList(XABase.XAList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XAFantasticalCalendar, filter)
 
-    def title(self) -> List[str]:
+    def title(self) -> list[str]:
         """Gets the title of each calendar in the list.
 
         :return: A list of calendar titles
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.9
         """
         return list(self.xa_elem.arrayByApplyingSelector_("title"))
 
-    def id(self) -> List[str]:
+    def id(self) -> list[str]:
         """Gets the ID of each calendar in the list.
 
         :return: A list of calendar IDs
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.9
         """
@@ -489,92 +489,92 @@ class XAFantasticalCalendarItemList(XABase.XAList):
             obj_class = XAFantasticalCalendarItem
         super().__init__(properties, obj_class, filter)
 
-    def id(self) -> List[str]:
+    def id(self) -> list[str]:
         """Gets the ID of each calendar item in the list.
 
         :return: A list of calendar item IDs
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.9
         """
         return list(self.xa_elem.arrayByApplyingSelector_("id"))
 
-    def title(self) -> List[str]:
+    def title(self) -> list[str]:
         """Gets the title of each calendar item in the list.
 
         :return: A list of calendar item titles
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.9
         """
         return list(self.xa_elem.arrayByApplyingSelector_("title"))
 
-    def start_date(self) -> List[datetime]:
+    def start_date(self) -> list[datetime]:
         """Gets the start date of each calendar item in the list.
 
         :return: A list of calendar item IDs
-        :rtype: List[datetime]
+        :rtype: list[datetime]
         
         .. versionadded:: 0.0.9
         """
         return list(self.xa_elem.arrayByApplyingSelector_("startDate"))
 
-    def end_date(self) -> List[datetime]:
+    def end_date(self) -> list[datetime]:
         """Gets the end date of each calendar item in the list.
 
         :return: A list of calendar item IDs
-        :rtype: List[datetime]
+        :rtype: list[datetime]
         
         .. versionadded:: 0.0.9
         """
         return list(self.xa_elem.arrayByApplyingSelector_("endDate"))
 
-    def notes(self) -> List[str]:
+    def notes(self) -> list[str]:
         """Gets the notes of each calendar item in the list.
 
         :return: A list of calendar item notes
-        :rtype: List[str]
+        :rtype: list[str]
         
         .. versionadded:: 0.0.9
         """
         return list(self.xa_elem.arrayByApplyingSelector_("notes"))
 
-    def url(self) -> List[XABase.XAURL]:
+    def url(self) -> list[XABase.XAURL]:
         """Gets the URL of each calendar item in the list.
 
         :return: A list of calendar item URLs
-        :rtype: List[XABase.XAURL]
+        :rtype: list[XABase.XAURL]
         
         .. versionadded:: 0.0.9
         """
         ls = self.xa_elem.arrayByApplyingSelector_("URL")
         return [XABase.XAURL(x) for x in ls]
 
-    def show_url(self) -> List[XABase.XAURL]:
+    def show_url(self) -> list[XABase.XAURL]:
         """Gets the show URL of each calendar item in the list.
 
         :return: A list of calendar item show URLs
-        :rtype: List[XABase.XAURL]
+        :rtype: list[XABase.XAURL]
         
         .. versionadded:: 0.0.9
         """
         return list(self.xa_elem.arrayByApplyingSelector_("showURL"))
 
-    def is_recurring(self) -> List[bool]:
+    def is_recurring(self) -> list[bool]:
         """Gets the recurring status of each calendar item in the list.
 
         :return: A list of calendar item recurring statuses
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.0.9
         """
         return list(self.xa_elem.arrayByApplyingSelector_("isRecurring"))
 
-    def is_all_day(self) -> List[bool]:
+    def is_all_day(self) -> list[bool]:
         """Gets the all day status of each calendar item in the list.
 
         :return: A list of calendar item all day statuses
-        :rtype: List[bool]
+        :rtype: list[bool]
         
         .. versionadded:: 0.0.9
         """

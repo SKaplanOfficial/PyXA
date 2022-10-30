@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Getting User Input &mdash; PyXA 0.0.9 documentation</title>
+  <title>Getting User Input &mdash; PyXA 0.1.0 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
@@ -15,7 +15,9 @@
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -45,8 +47,9 @@
 <li class="toctree-l2"><a class="reference internal" href="index.html#installation">Installation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="index.html#basic-usage">Basic Usage</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="index.html#additional-tutorial-topics">Additional Tutorial Topics</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="apps/index.html">Application Modules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="apps/index.html">Application Module Overviews</a></li>
 <li class="toctree-l3"><a class="reference internal" href="lists.html">Working With Lists</a></li>
+<li class="toctree-l3"><a class="reference internal" href="images.html">Working with Images</a></li>
 <li class="toctree-l3"><a class="reference internal" href="clipboard.html">Working With The Clipboard</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">Getting User Input</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#alerts">Alerts</a></li>
@@ -63,6 +66,8 @@
 <li class="toctree-l3"><a class="reference internal" href="ui_scripting.html">UI Scripting</a></li>
 <li class="toctree-l3"><a class="reference internal" href="applescript.html">Running AppleScripts</a></li>
 <li class="toctree-l3"><a class="reference internal" href="menubar.html">Add Items to the Menu Bar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="extensions/web/rssfeed.html">Reading RSS Feeds</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appscript.html">Using Appscript to Work With Unsupported Applications</a></li>
 <li class="toctree-l3"><a class="reference internal" href="tips_tricks.html">Tips and Tricks</a></li>
 </ul>
 </li>
@@ -98,10 +103,10 @@
            <div itemprop="articleBody">
              
   <section id="getting-user-input">
-<h1>Getting User Input<a class="headerlink" href="#getting-user-input" title="Permalink to this headline"></a></h1>
+<h1>Getting User Input<a class="headerlink" href="#getting-user-input" title="Permalink to this heading"></a></h1>
 <p>PyXA provides several ways to get user input via dialogs, menus, and other familiar means. You can still use Python’s <code class="xref py py-func docutils literal notranslate"><span class="pre">input()</span></code> method to get keyboard input, and you can use Python’s built-in support for commandline arguments to get input in that way as well. Additional input methods (such as detecting keystrokes and/or mouseclicks in other applications) will be added in a future version of PyXA, but other packages exist that already offer such functionality.</p>
 <section id="alerts">
-<h2>Alerts<a class="headerlink" href="#alerts" title="Permalink to this headline"></a></h2>
+<h2>Alerts<a class="headerlink" href="#alerts" title="Permalink to this heading"></a></h2>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">PyXA</span>
 <span class="n">response</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XAAlert</span><span class="p">(</span>
     <span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;Alert!&quot;</span><span class="p">,</span>
@@ -115,7 +120,7 @@
 </div>
 </section>
 <section id="dialogs">
-<h2>Dialogs<a class="headerlink" href="#dialogs" title="Permalink to this headline"></a></h2>
+<h2>Dialogs<a class="headerlink" href="#dialogs" title="Permalink to this heading"></a></h2>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">PyXA</span>
 <span class="n">response</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XADialog</span><span class="p">(</span>
     <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;This is a dialog&quot;</span><span class="p">,</span>
@@ -156,7 +161,7 @@
 </div>
 </section>
 <section id="menus">
-<h2>Menus<a class="headerlink" href="#menus" title="Permalink to this headline"></a></h2>
+<h2>Menus<a class="headerlink" href="#menus" title="Permalink to this heading"></a></h2>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">PyXA</span>
 <span class="n">response</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XAMenu</span><span class="p">(</span>
     <span class="n">menu_items</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Option 1&#39;</span><span class="p">,</span> <span class="s1">&#39;Option 2&#39;</span><span class="p">,</span> <span class="s1">&#39;Option 3&#39;</span><span class="p">],</span>
@@ -174,7 +179,7 @@
 </div>
 </section>
 <section id="file-and-folder-pickers">
-<h2>File and Folder Pickers<a class="headerlink" href="#file-and-folder-pickers" title="Permalink to this headline"></a></h2>
+<h2>File and Folder Pickers<a class="headerlink" href="#file-and-folder-pickers" title="Permalink to this heading"></a></h2>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">PyXA</span>
 <span class="n">response</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XAFilePicker</span><span class="p">(</span>
     <span class="n">prompt</span> <span class="o">=</span> <span class="s2">&quot;Choose File&quot;</span><span class="p">,</span>
@@ -202,7 +207,7 @@
 </div>
 </section>
 <section id="file-name-dialogs">
-<h2>File Name Dialogs<a class="headerlink" href="#file-name-dialogs" title="Permalink to this headline"></a></h2>
+<h2>File Name Dialogs<a class="headerlink" href="#file-name-dialogs" title="Permalink to this heading"></a></h2>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">PyXA</span>
 <span class="n">response</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XAFileNameDialog</span><span class="p">(</span>
     <span class="n">prompt</span> <span class="o">=</span> <span class="s2">&quot;Choose Folder&quot;</span><span class="p">,</span>
@@ -215,7 +220,7 @@
 </div>
 </section>
 <section id="color-pickers">
-<h2>Color Pickers<a class="headerlink" href="#color-pickers" title="Permalink to this headline"></a></h2>
+<h2>Color Pickers<a class="headerlink" href="#color-pickers" title="Permalink to this heading"></a></h2>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">PyXA</span>
 <span class="n">response</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XAColorPicker</span><span class="p">(</span>
     <span class="n">style</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XAColorPickerStyle</span><span class="o">.</span><span class="n">CRAYONS</span>
@@ -226,7 +231,7 @@
 </div>
 </section>
 <section id="command-detectors">
-<h2>Command Detectors<a class="headerlink" href="#command-detectors" title="Permalink to this headline"></a></h2>
+<h2>Command Detectors<a class="headerlink" href="#command-detectors" title="Permalink to this heading"></a></h2>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">PyXA</span>
 
 <span class="k">def</span> <span class="nf">open_google</span><span class="p">():</span>
@@ -241,7 +246,7 @@
 <p>If you want to detect an exact command and display the standard macOS Voice Control interface, use a <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XACommandDetector" title="PyXA.XABase.XACommandDetector"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XACommandDetector</span></code></a> object. If you want to detect whether a user’s spoken input passes a certain rule, or if you want the command detection to occur without displaying an graphical interface, use <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XASpeechRecognizer" title="PyXA.XABase.XASpeechRecognizer"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XASpeechRecognizer</span></code></a>.</p>
 </section>
 <section id="speech-recognizers">
-<h2>Speech Recognizers<a class="headerlink" href="#speech-recognizers" title="Permalink to this headline"></a></h2>
+<h2>Speech Recognizers<a class="headerlink" href="#speech-recognizers" title="Permalink to this heading"></a></h2>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">PyXA</span>
 <span class="n">listener</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XASpeechRecognizer</span><span class="p">()</span>
 <span class="n">result</span> <span class="o">=</span> <span class="n">listener</span><span class="o">.</span><span class="n">listen</span><span class="p">()</span>

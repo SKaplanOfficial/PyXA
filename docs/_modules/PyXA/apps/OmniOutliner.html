@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PyXA.apps.OmniOutliner &mdash; PyXA 0.0.9 documentation</title>
+  <title>PyXA.apps.OmniOutliner &mdash; PyXA 0.1.0 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -14,7 +14,9 @@
         <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/jquery.js"></script>
         <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -74,9 +76,7 @@
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
 <span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
-<span class="kn">from</span> <span class="nn">re</span> <span class="kn">import</span> <span class="n">S</span>
-<span class="kn">from</span> <span class="nn">turtle</span> <span class="kn">import</span> <span class="n">st</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span>
 <span class="kn">import</span> <span class="nn">AppKit</span>
 
 <span class="kn">from</span> <span class="nn">PyXA</span> <span class="kn">import</span> <span class="n">XABase</span>
@@ -245,7 +245,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The title of window</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">:</span> <span class="nb">int</span> <span class="c1">#: The unique identifier of the window</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">index</span><span class="p">:</span> <span class="nb">int</span> <span class="c1">#: The index of the window in the front-to-back ordering</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">bounds</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="c1">#: The bounding rectangle of the window in the form of (top-left-x, top-left-y, width, height)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bounds</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="c1">#: The bounding rectangle of the window in the form of (top-left-x, top-left-y, width, height)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">closeable</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether the window has a close button</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">miniaturizable</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether the window has a minimize button</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">miniaturized</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether the window is currently minimized</span>
@@ -268,14 +268,14 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">index</span><span class="p">()</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">bounds</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">bounds</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
         <span class="n">rect</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">bounds</span><span class="p">()</span>
         <span class="n">origin</span> <span class="o">=</span> <span class="n">rect</span><span class="o">.</span><span class="n">origin</span>
         <span class="n">size</span> <span class="o">=</span> <span class="n">rect</span><span class="o">.</span><span class="n">size</span>
         <span class="k">return</span> <span class="p">(</span><span class="n">origin</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">origin</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">size</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="n">size</span><span class="o">.</span><span class="n">height</span><span class="p">)</span>
 
     <span class="nd">@bounds</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span> <span class="nf">bounds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bounds</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]):</span>
+    <span class="k">def</span> <span class="nf">bounds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bounds</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]):</span>
         <span class="n">x</span> <span class="o">=</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">y</span> <span class="o">=</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
         <span class="n">w</span> <span class="o">=</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
@@ -502,84 +502,84 @@
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">XAOmniOutlinerDocument</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
 
-<div class="viewcode-block" id="XAOmniOutlinerDocumentList.name"><a class="viewcode-back" href="../../../reference/apps/omnioutliner.html#PyXA.apps.OmniOutliner.XAOmniOutlinerDocumentList.name">[docs]</a>    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAOmniOutlinerDocumentList.name"><a class="viewcode-back" href="../../../reference/apps/omnioutliner.html#PyXA.apps.OmniOutliner.XAOmniOutlinerDocumentList.name">[docs]</a>    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the name of each document in the list.</span>
 
 <span class="sd">        :return: A list of document names</span>
-<span class="sd">        :rtype: List[str]</span>
+<span class="sd">        :rtype: list[str]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.9</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[])</span></div>
 
-<div class="viewcode-block" id="XAOmniOutlinerDocumentList.modified"><a class="viewcode-back" href="../../../reference/apps/omnioutliner.html#PyXA.apps.OmniOutliner.XAOmniOutlinerDocumentList.modified">[docs]</a>    <span class="k">def</span> <span class="nf">modified</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAOmniOutlinerDocumentList.modified"><a class="viewcode-back" href="../../../reference/apps/omnioutliner.html#PyXA.apps.OmniOutliner.XAOmniOutlinerDocumentList.modified">[docs]</a>    <span class="k">def</span> <span class="nf">modified</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the modified status of each document in the list.</span>
 
 <span class="sd">        :return: A list of modified status booleans</span>
-<span class="sd">        :rtype: List[bool]</span>
+<span class="sd">        :rtype: list[bool]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.9</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;modified&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[])</span></div>
 
-<div class="viewcode-block" id="XAOmniOutlinerDocumentList.file"><a class="viewcode-back" href="../../../reference/apps/omnioutliner.html#PyXA.apps.OmniOutliner.XAOmniOutlinerDocumentList.file">[docs]</a>    <span class="k">def</span> <span class="nf">file</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAPath</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAOmniOutlinerDocumentList.file"><a class="viewcode-back" href="../../../reference/apps/omnioutliner.html#PyXA.apps.OmniOutliner.XAOmniOutlinerDocumentList.file">[docs]</a>    <span class="k">def</span> <span class="nf">file</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAPath</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the file path of each document in the list.</span>
 
 <span class="sd">        :return: A list of file paths</span>
-<span class="sd">        :rtype: List[XABase.XAPath]</span>
+<span class="sd">        :rtype: list[XABase.XAPath]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.9</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">ls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;file&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAPath</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">ls</span><span class="p">]</span></div>
 
-<div class="viewcode-block" id="XAOmniOutlinerDocumentList.alternate_color"><a class="viewcode-back" href="../../../reference/apps/omnioutliner.html#PyXA.apps.OmniOutliner.XAOmniOutlinerDocumentList.alternate_color">[docs]</a>    <span class="k">def</span> <span class="nf">alternate_color</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAOmniOutlinerDocumentList.alternate_color"><a class="viewcode-back" href="../../../reference/apps/omnioutliner.html#PyXA.apps.OmniOutliner.XAOmniOutlinerDocumentList.alternate_color">[docs]</a>    <span class="k">def</span> <span class="nf">alternate_color</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the alternate row color of each document in the list.</span>
 
 <span class="sd">        :return: A list of document alternate row colors</span>
-<span class="sd">        :rtype: List[XABase.XAColor]</span>
+<span class="sd">        :rtype: list[XABase.XAColor]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.9</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">ls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;alternateColor&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">ls</span><span class="p">]</span></div>
 
-<div class="viewcode-block" id="XAOmniOutlinerDocumentList.background_color"><a class="viewcode-back" href="../../../reference/apps/omnioutliner.html#PyXA.apps.OmniOutliner.XAOmniOutlinerDocumentList.background_color">[docs]</a>    <span class="k">def</span> <span class="nf">background_color</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAOmniOutlinerDocumentList.background_color"><a class="viewcode-back" href="../../../reference/apps/omnioutliner.html#PyXA.apps.OmniOutliner.XAOmniOutlinerDocumentList.background_color">[docs]</a>    <span class="k">def</span> <span class="nf">background_color</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the background color of each document in the list.</span>
 
 <span class="sd">        :return: A list of document background colors</span>
-<span class="sd">        :rtype: List[XABase.XAColor]</span>
+<span class="sd">        :rtype: list[XABase.XAColor]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.9</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">ls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;backgroundColor&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">ls</span><span class="p">]</span></div>
 
-<div class="viewcode-block" id="XAOmniOutlinerDocumentList.canredo"><a class="viewcode-back" href="../../../reference/apps/omnioutliner.html#PyXA.apps.OmniOutliner.XAOmniOutlinerDocumentList.canredo">[docs]</a>    <span class="k">def</span> <span class="nf">canredo</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAOmniOutlinerDocumentList.canredo"><a class="viewcode-back" href="../../../reference/apps/omnioutliner.html#PyXA.apps.OmniOutliner.XAOmniOutlinerDocumentList.canredo">[docs]</a>    <span class="k">def</span> <span class="nf">canredo</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the redo status of each document in the list.</span>
 
 <span class="sd">        :return: A list of redo status booleans</span>
-<span class="sd">        :rtype: List[bool]</span>
+<span class="sd">        :rtype: list[bool]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.9</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;canredo&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[])</span></div>
 
-<div class="viewcode-block" id="XAOmniOutlinerDocumentList.canundo"><a class="viewcode-back" href="../../../reference/apps/omnioutliner.html#PyXA.apps.OmniOutliner.XAOmniOutlinerDocumentList.canundo">[docs]</a>    <span class="k">def</span> <span class="nf">canundo</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAOmniOutlinerDocumentList.canundo"><a class="viewcode-back" href="../../../reference/apps/omnioutliner.html#PyXA.apps.OmniOutliner.XAOmniOutlinerDocumentList.canundo">[docs]</a>    <span class="k">def</span> <span class="nf">canundo</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the undo status of each document in the list.</span>
 
 <span class="sd">        :return: A list of undo status booleans</span>
-<span class="sd">        :rtype: List[bool]</span>
+<span class="sd">        :rtype: list[bool]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.9</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;canundo&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[])</span></div>
 
-<div class="viewcode-block" id="XAOmniOutlinerDocumentList.children_are_sections"><a class="viewcode-back" href="../../../reference/apps/omnioutliner.html#PyXA.apps.OmniOutliner.XAOmniOutlinerDocumentList.children_are_sections">[docs]</a>    <span class="k">def</span> <span class="nf">children_are_sections</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAOmniOutlinerDocumentList.children_are_sections"><a class="viewcode-back" href="../../../reference/apps/omnioutliner.html#PyXA.apps.OmniOutliner.XAOmniOutlinerDocumentList.children_are_sections">[docs]</a>    <span class="k">def</span> <span class="nf">children_are_sections</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the children are sections status of each document in the list.</span>
 
 <span class="sd">        :return: A list of child are sections status booleans</span>
-<span class="sd">        :rtype: List[bool]</span>
+<span class="sd">        :rtype: list[bool]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.9</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -596,52 +596,52 @@
         <span class="n">ls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;columnTitleStyle&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="n">ls</span><span class="p">,</span> <span class="n">XAOmniOutlinerStyleList</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="XAOmniOutlinerDocumentList.editable"><a class="viewcode-back" href="../../../reference/apps/omnioutliner.html#PyXA.apps.OmniOutliner.XAOmniOutlinerDocumentList.editable">[docs]</a>    <span class="k">def</span> <span class="nf">editable</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAOmniOutlinerDocumentList.editable"><a class="viewcode-back" href="../../../reference/apps/omnioutliner.html#PyXA.apps.OmniOutliner.XAOmniOutlinerDocumentList.editable">[docs]</a>    <span class="k">def</span> <span class="nf">editable</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the editable status of each document in the list.</span>
 
 <span class="sd">        :return: A list of editable status booleans</span>
-<span class="sd">        :rtype: List[bool]</span>
+<span class="sd">        :rtype: list[bool]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.9</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;editable&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[])</span></div>
 
-<div class="viewcode-block" id="XAOmniOutlinerDocumentList.folded_editing_enabled"><a class="viewcode-back" href="../../../reference/apps/omnioutliner.html#PyXA.apps.OmniOutliner.XAOmniOutlinerDocumentList.folded_editing_enabled">[docs]</a>    <span class="k">def</span> <span class="nf">folded_editing_enabled</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAOmniOutlinerDocumentList.folded_editing_enabled"><a class="viewcode-back" href="../../../reference/apps/omnioutliner.html#PyXA.apps.OmniOutliner.XAOmniOutlinerDocumentList.folded_editing_enabled">[docs]</a>    <span class="k">def</span> <span class="nf">folded_editing_enabled</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the folded editing enabled status of each document in the list.</span>
 
 <span class="sd">        :return: A list of folded editing enabled status booleans</span>
-<span class="sd">        :rtype: List[bool]</span>
+<span class="sd">        :rtype: list[bool]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.9</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;foldedEditingEnabled&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[])</span></div>
 
-<div class="viewcode-block" id="XAOmniOutlinerDocumentList.has_subtopics"><a class="viewcode-back" href="../../../reference/apps/omnioutliner.html#PyXA.apps.OmniOutliner.XAOmniOutlinerDocumentList.has_subtopics">[docs]</a>    <span class="k">def</span> <span class="nf">has_subtopics</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAOmniOutlinerDocumentList.has_subtopics"><a class="viewcode-back" href="../../../reference/apps/omnioutliner.html#PyXA.apps.OmniOutliner.XAOmniOutlinerDocumentList.has_subtopics">[docs]</a>    <span class="k">def</span> <span class="nf">has_subtopics</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the has subtopics of each document in the list.</span>
 
 <span class="sd">        :return: A list of has subtopics status booleans</span>
-<span class="sd">        :rtype: List[bool]</span>
+<span class="sd">        :rtype: list[bool]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.9</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;hasSubtopics&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[])</span></div>
 
-<div class="viewcode-block" id="XAOmniOutlinerDocumentList.horizontal_grid_color"><a class="viewcode-back" href="../../../reference/apps/omnioutliner.html#PyXA.apps.OmniOutliner.XAOmniOutlinerDocumentList.horizontal_grid_color">[docs]</a>    <span class="k">def</span> <span class="nf">horizontal_grid_color</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAOmniOutlinerDocumentList.horizontal_grid_color"><a class="viewcode-back" href="../../../reference/apps/omnioutliner.html#PyXA.apps.OmniOutliner.XAOmniOutlinerDocumentList.horizontal_grid_color">[docs]</a>    <span class="k">def</span> <span class="nf">horizontal_grid_color</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the horizontal grid color of each document in the list.</span>
 
 <span class="sd">        :return: A list of horizontal grid colors</span>
-<span class="sd">        :rtype: List[XABase.XAColor]</span>
+<span class="sd">        :rtype: list[XABase.XAColor]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.9</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">ls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;horizontalGridColor&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">ls</span><span class="p">]</span></div>
 
-<div class="viewcode-block" id="XAOmniOutlinerDocumentList.id"><a class="viewcode-back" href="../../../reference/apps/omnioutliner.html#PyXA.apps.OmniOutliner.XAOmniOutlinerDocumentList.id">[docs]</a>    <span class="k">def</span> <span class="nf">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAOmniOutlinerDocumentList.id"><a class="viewcode-back" href="../../../reference/apps/omnioutliner.html#PyXA.apps.OmniOutliner.XAOmniOutlinerDocumentList.id">[docs]</a>    <span class="k">def</span> <span class="nf">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the ID of each document in the list.</span>
 
 <span class="sd">        :return: A list of document IDs</span>
-<span class="sd">        :rtype: List[str]</span>
+<span class="sd">        :rtype: list[str]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.9</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -658,73 +658,73 @@
         <span class="n">ls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;noteColumn&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="n">ls</span><span class="p">,</span> <span class="n">XAOmniOutlinerColumnList</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="XAOmniOutlinerDocumentList.note_display"><a class="viewcode-back" href="../../../reference/apps/omnioutliner.html#PyXA.apps.OmniOutliner.XAOmniOutlinerDocumentList.note_display">[docs]</a>    <span class="k">def</span> <span class="nf">note_display</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">XAOmniOutlinerApplication</span><span class="o">.</span><span class="n">DisplayType</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAOmniOutlinerDocumentList.note_display"><a class="viewcode-back" href="../../../reference/apps/omnioutliner.html#PyXA.apps.OmniOutliner.XAOmniOutlinerDocumentList.note_display">[docs]</a>    <span class="k">def</span> <span class="nf">note_display</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">XAOmniOutlinerApplication</span><span class="o">.</span><span class="n">DisplayType</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the note display type of each document in the list.</span>
 
 <span class="sd">        :return: A list of document note display types</span>
-<span class="sd">        :rtype: List[XAOmniOutlinerApplication.DisplayType]</span>
+<span class="sd">        :rtype: list[XAOmniOutlinerApplication.DisplayType]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.9</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">ls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;noteDisplay&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">XAOmniOutlinerApplication</span><span class="o">.</span><span class="n">DisplayType</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">OSType</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">stringValue</span><span class="p">()))</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">ls</span><span class="p">]</span></div>
 
-<div class="viewcode-block" id="XAOmniOutlinerDocumentList.save_identifier"><a class="viewcode-back" href="../../../reference/apps/omnioutliner.html#PyXA.apps.OmniOutliner.XAOmniOutlinerDocumentList.save_identifier">[docs]</a>    <span class="k">def</span> <span class="nf">save_identifier</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAOmniOutlinerDocumentList.save_identifier"><a class="viewcode-back" href="../../../reference/apps/omnioutliner.html#PyXA.apps.OmniOutliner.XAOmniOutlinerDocumentList.save_identifier">[docs]</a>    <span class="k">def</span> <span class="nf">save_identifier</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the save identifier of each document in the list.</span>
 
 <span class="sd">        :return: A list of document save identifiers</span>
-<span class="sd">        :rtype: List[str]</span>
+<span class="sd">        :rtype: list[str]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.9</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;saveIdentifier&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[])</span></div>
 
-<div class="viewcode-block" id="XAOmniOutlinerDocumentList.save_identifier_enabled"><a class="viewcode-back" href="../../../reference/apps/omnioutliner.html#PyXA.apps.OmniOutliner.XAOmniOutlinerDocumentList.save_identifier_enabled">[docs]</a>    <span class="k">def</span> <span class="nf">save_identifier_enabled</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAOmniOutlinerDocumentList.save_identifier_enabled"><a class="viewcode-back" href="../../../reference/apps/omnioutliner.html#PyXA.apps.OmniOutliner.XAOmniOutlinerDocumentList.save_identifier_enabled">[docs]</a>    <span class="k">def</span> <span class="nf">save_identifier_enabled</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the save identifier enabled status of each document in the list.</span>
 
 <span class="sd">        :return: A list of saved identifier enabled status booleans</span>
-<span class="sd">        :rtype: List[bool]</span>
+<span class="sd">        :rtype: list[bool]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.9</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;saveIdentifierEnabled&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[])</span></div>
 
-<div class="viewcode-block" id="XAOmniOutlinerDocumentList.sorting_postponed"><a class="viewcode-back" href="../../../reference/apps/omnioutliner.html#PyXA.apps.OmniOutliner.XAOmniOutlinerDocumentList.sorting_postponed">[docs]</a>    <span class="k">def</span> <span class="nf">sorting_postponed</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAOmniOutlinerDocumentList.sorting_postponed"><a class="viewcode-back" href="../../../reference/apps/omnioutliner.html#PyXA.apps.OmniOutliner.XAOmniOutlinerDocumentList.sorting_postponed">[docs]</a>    <span class="k">def</span> <span class="nf">sorting_postponed</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the sorting postponed status of each document in the list.</span>
 
 <span class="sd">        :return: A list of sort postponed status booleans</span>
-<span class="sd">        :rtype: List[bool]</span>
+<span class="sd">        :rtype: list[bool]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.9</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;sortingPostponed&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[])</span></div>
 
-<div class="viewcode-block" id="XAOmniOutlinerDocumentList.status_sort_order"><a class="viewcode-back" href="../../../reference/apps/omnioutliner.html#PyXA.apps.OmniOutliner.XAOmniOutlinerDocumentList.status_sort_order">[docs]</a>    <span class="k">def</span> <span class="nf">status_sort_order</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">XAOmniOutlinerApplication</span><span class="o">.</span><span class="n">SortOrder</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAOmniOutlinerDocumentList.status_sort_order"><a class="viewcode-back" href="../../../reference/apps/omnioutliner.html#PyXA.apps.OmniOutliner.XAOmniOutlinerDocumentList.status_sort_order">[docs]</a>    <span class="k">def</span> <span class="nf">status_sort_order</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">XAOmniOutlinerApplication</span><span class="o">.</span><span class="n">SortOrder</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the status sort order direction of each document in the list.</span>
 
 <span class="sd">        :return: A list of status sort order directions</span>
-<span class="sd">        :rtype: List[XAOmniOutlinerApplication.SortOrder]</span>
+<span class="sd">        :rtype: list[XAOmniOutlinerApplication.SortOrder]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.9</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">ls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;statusSortOrder&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">XAOmniOutlinerApplication</span><span class="o">.</span><span class="n">SortOrder</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">OSType</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">stringValue</span><span class="p">()))</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">ls</span><span class="p">]</span></div>
 
-<div class="viewcode-block" id="XAOmniOutlinerDocumentList.status_visible"><a class="viewcode-back" href="../../../reference/apps/omnioutliner.html#PyXA.apps.OmniOutliner.XAOmniOutlinerDocumentList.status_visible">[docs]</a>    <span class="k">def</span> <span class="nf">status_visible</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAOmniOutlinerDocumentList.status_visible"><a class="viewcode-back" href="../../../reference/apps/omnioutliner.html#PyXA.apps.OmniOutliner.XAOmniOutlinerDocumentList.status_visible">[docs]</a>    <span class="k">def</span> <span class="nf">status_visible</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the status visible status of each document in the list.</span>
 
 <span class="sd">        :return: A list of status visible status booleans</span>
-<span class="sd">        :rtype: List[bool]</span>
+<span class="sd">        :rtype: list[bool]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.9</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;statusVisible&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[])</span></div>
 
-<div class="viewcode-block" id="XAOmniOutlinerDocumentList.store_compressed"><a class="viewcode-back" href="../../../reference/apps/omnioutliner.html#PyXA.apps.OmniOutliner.XAOmniOutlinerDocumentList.store_compressed">[docs]</a>    <span class="k">def</span> <span class="nf">store_compressed</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAOmniOutlinerDocumentList.store_compressed"><a class="viewcode-back" href="../../../reference/apps/omnioutliner.html#PyXA.apps.OmniOutliner.XAOmniOutlinerDocumentList.store_compressed">[docs]</a>    <span class="k">def</span> <span class="nf">store_compressed</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the store compressed status of each document in the list.</span>
 
 <span class="sd">        :return: A list of store compressed status booleans</span>
-<span class="sd">        :rtype: List[bool]</span>
+<span class="sd">        :rtype: list[bool]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.9</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -741,11 +741,11 @@
         <span class="n">ls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;style&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="n">ls</span><span class="p">,</span> <span class="n">XAOmniOutlinerStyleList</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="XAOmniOutlinerDocumentList.title"><a class="viewcode-back" href="../../../reference/apps/omnioutliner.html#PyXA.apps.OmniOutliner.XAOmniOutlinerDocumentList.title">[docs]</a>    <span class="k">def</span> <span class="nf">title</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAOmniOutlinerDocumentList.title"><a class="viewcode-back" href="../../../reference/apps/omnioutliner.html#PyXA.apps.OmniOutliner.XAOmniOutlinerDocumentList.title">[docs]</a>    <span class="k">def</span> <span class="nf">title</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the title of each document in the list.</span>
 
 <span class="sd">        :return: A list of document titles</span>
-<span class="sd">        :rtype: List[str]</span>
+<span class="sd">        :rtype: list[str]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.9</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -762,62 +762,62 @@
         <span class="n">ls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;topicColumn&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="n">ls</span><span class="p">,</span> <span class="n">XAOmniOutlinerColumnList</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="XAOmniOutlinerDocumentList.undo_enabled"><a class="viewcode-back" href="../../../reference/apps/omnioutliner.html#PyXA.apps.OmniOutliner.XAOmniOutlinerDocumentList.undo_enabled">[docs]</a>    <span class="k">def</span> <span class="nf">undo_enabled</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAOmniOutlinerDocumentList.undo_enabled"><a class="viewcode-back" href="../../../reference/apps/omnioutliner.html#PyXA.apps.OmniOutliner.XAOmniOutlinerDocumentList.undo_enabled">[docs]</a>    <span class="k">def</span> <span class="nf">undo_enabled</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the undo enabled status of each document in the list.</span>
 
 <span class="sd">        :return: A list of document undo enabled status booleans</span>
-<span class="sd">        :rtype: List[bool]</span>
+<span class="sd">        :rtype: list[bool]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.9</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;undoEnabled&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[])</span></div>
 
-<div class="viewcode-block" id="XAOmniOutlinerDocumentList.verticalGridColor"><a class="viewcode-back" href="../../../reference/apps/omnioutliner.html#PyXA.apps.OmniOutliner.XAOmniOutlinerDocumentList.verticalGridColor">[docs]</a>    <span class="k">def</span> <span class="nf">verticalGridColor</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAOmniOutlinerDocumentList.verticalGridColor"><a class="viewcode-back" href="../../../reference/apps/omnioutliner.html#PyXA.apps.OmniOutliner.XAOmniOutlinerDocumentList.verticalGridColor">[docs]</a>    <span class="k">def</span> <span class="nf">verticalGridColor</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the vertical grid color of each document in the list.</span>
 
 <span class="sd">        :return: A list of vertical grid colors</span>
-<span class="sd">        :rtype: List[XABase.XAColor]</span>
+<span class="sd">        :rtype: list[XABase.XAColor]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.9</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">ls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;verticalGridColor&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">ls</span><span class="p">]</span></div>
 
-<div class="viewcode-block" id="XAOmniOutlinerDocumentList.visible"><a class="viewcode-back" href="../../../reference/apps/omnioutliner.html#PyXA.apps.OmniOutliner.XAOmniOutlinerDocumentList.visible">[docs]</a>    <span class="k">def</span> <span class="nf">visible</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAOmniOutlinerDocumentList.visible"><a class="viewcode-back" href="../../../reference/apps/omnioutliner.html#PyXA.apps.OmniOutliner.XAOmniOutlinerDocumentList.visible">[docs]</a>    <span class="k">def</span> <span class="nf">visible</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the visible status of each document in the list.</span>
 
 <span class="sd">        :return: A list of document visible status booleans</span>
-<span class="sd">        :rtype: List[bool]</span>
+<span class="sd">        :rtype: list[bool]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.9</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;visible&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[])</span></div>
 
-<div class="viewcode-block" id="XAOmniOutlinerDocumentList.writes_wrapper"><a class="viewcode-back" href="../../../reference/apps/omnioutliner.html#PyXA.apps.OmniOutliner.XAOmniOutlinerDocumentList.writes_wrapper">[docs]</a>    <span class="k">def</span> <span class="nf">writes_wrapper</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAOmniOutlinerDocumentList.writes_wrapper"><a class="viewcode-back" href="../../../reference/apps/omnioutliner.html#PyXA.apps.OmniOutliner.XAOmniOutlinerDocumentList.writes_wrapper">[docs]</a>    <span class="k">def</span> <span class="nf">writes_wrapper</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the writes wrapper of each document in the list.</span>
 
 <span class="sd">        :return: A list of document writes wrapper status booleans</span>
-<span class="sd">        :rtype: List[bool]</span>
+<span class="sd">        :rtype: list[bool]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.9</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;writesWrapper&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[])</span></div>
 
-<div class="viewcode-block" id="XAOmniOutlinerDocumentList.topiccolumnid"><a class="viewcode-back" href="../../../reference/apps/omnioutliner.html#PyXA.apps.OmniOutliner.XAOmniOutlinerDocumentList.topiccolumnid">[docs]</a>    <span class="k">def</span> <span class="nf">topiccolumnid</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAOmniOutlinerDocumentList.topiccolumnid"><a class="viewcode-back" href="../../../reference/apps/omnioutliner.html#PyXA.apps.OmniOutliner.XAOmniOutlinerDocumentList.topiccolumnid">[docs]</a>    <span class="k">def</span> <span class="nf">topiccolumnid</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the topic column ID of each document in the list.</span>
 
 <span class="sd">        :return: A list of document topic column IDs</span>
-<span class="sd">        :rtype: List[str]</span>
+<span class="sd">        :rtype: list[str]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.9</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;topiccolumnid&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[])</span></div>
 
-<div class="viewcode-block" id="XAOmniOutlinerDocumentList.notecolumnid"><a class="viewcode-back" href="../../../reference/apps/omnioutliner.html#PyXA.apps.OmniOutliner.XAOmniOutlinerDocumentList.notecolumnid">[docs]</a>    <span class="k">def</span> <span class="nf">notecolumnid</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAOmniOutlinerDocumentList.notecolumnid"><a class="viewcode-back" href="../../../reference/apps/omnioutliner.html#PyXA.apps.OmniOutliner.XAOmniOutlinerDocumentList.notecolumnid">[docs]</a>    <span class="k">def</span> <span class="nf">notecolumnid</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the note column ID of each document in the list.</span>
 
 <span class="sd">        :return: A list of document note column IDs</span>
-<span class="sd">        :rtype: List[str]</span>
+<span class="sd">        :rtype: list[str]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.9</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -1076,11 +1076,11 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">redo</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="XAOmniOutlinerDocument.select"><a class="viewcode-back" href="../../../reference/apps/omnioutliner.html#PyXA.apps.OmniOutliner.XAOmniOutlinerDocument.select">[docs]</a>    <span class="k">def</span> <span class="nf">select</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">items</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">],</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">extend</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="XAOmniOutlinerDocument.select"><a class="viewcode-back" href="../../../reference/apps/omnioutliner.html#PyXA.apps.OmniOutliner.XAOmniOutlinerDocument.select">[docs]</a>    <span class="k">def</span> <span class="nf">select</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">items</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">],</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">extend</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Selects one or more objects.</span>
 
 <span class="sd">        :param items: An object or list of objects to select</span>
-<span class="sd">        :type items: Union[XABase.XAObject, List[XABase.XAObject], None]</span>
+<span class="sd">        :type items: Union[XABase.XAObject, list[XABase.XAObject], None]</span>
 <span class="sd">        :param extend: Whether the selection is replaced or extended, defaults to False</span>
 <span class="sd">        :type extend: bool, optional</span>
 
@@ -1097,11 +1097,11 @@
             <span class="n">items</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">xa_elem</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">items</span><span class="p">]</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">select_extending_</span><span class="p">(</span><span class="n">items</span><span class="p">,</span> <span class="n">extend</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="XAOmniOutlinerDocument.add"><a class="viewcode-back" href="../../../reference/apps/omnioutliner.html#PyXA.apps.OmniOutliner.XAOmniOutlinerDocument.add">[docs]</a>    <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">items</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">]]):</span>
+<div class="viewcode-block" id="XAOmniOutlinerDocument.add"><a class="viewcode-back" href="../../../reference/apps/omnioutliner.html#PyXA.apps.OmniOutliner.XAOmniOutlinerDocument.add">[docs]</a>    <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">items</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">]]):</span>
         <span class="sd">&quot;&quot;&quot;Adds objects to the document.</span>
 
 <span class="sd">        :param items: The object(s) to add</span>
-<span class="sd">        :type items: Union[XABase.XAObject, List[XABase.XAObject]]</span>
+<span class="sd">        :type items: Union[XABase.XAObject, list[XABase.XAObject]]</span>
 
 <span class="sd">        .. versionadded:: 0.0.9</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -1119,11 +1119,11 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">addTo_</span><span class="p">(</span><span class="n">destination</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="XAOmniOutlinerDocument.remove"><a class="viewcode-back" href="../../../reference/apps/omnioutliner.html#PyXA.apps.OmniOutliner.XAOmniOutlinerDocument.remove">[docs]</a>    <span class="k">def</span> <span class="nf">remove</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">items</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">]]):</span>
+<div class="viewcode-block" id="XAOmniOutlinerDocument.remove"><a class="viewcode-back" href="../../../reference/apps/omnioutliner.html#PyXA.apps.OmniOutliner.XAOmniOutlinerDocument.remove">[docs]</a>    <span class="k">def</span> <span class="nf">remove</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">items</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">]]):</span>
         <span class="sd">&quot;&quot;&quot;Remove objects from the document.</span>
 
 <span class="sd">        :param items: The object(s) to remove</span>
-<span class="sd">        :type items: Union[XABase.XAObject, List[XABase.XAObject]]</span>
+<span class="sd">        :type items: Union[XABase.XAObject, list[XABase.XAObject]]</span>
 
 <span class="sd">        .. versionadded:: 0.0.9</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -1141,7 +1141,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">removeFrom_</span><span class="p">(</span><span class="n">container</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="XAOmniOutlinerDocument.expand_all"><a class="viewcode-back" href="../../../reference/apps/omnioutliner.html#PyXA.apps.OmniOutliner.XAOmniOutlinerDocument.expand_all">[docs]</a>    <span class="k">def</span> <span class="nf">expand_all</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">items</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XAOmniOutlinerDocument&#39;</span><span class="p">,</span> <span class="s1">&#39;XAOmniOutlinerRow&#39;</span><span class="p">,</span> <span class="n">XAOmniOutlinerDocumentList</span><span class="p">,</span> <span class="s1">&#39;XAOmniOutlinerRowList&#39;</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;XAOmniOutlinerDocument&#39;</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;XAOmniOutlinerRow&#39;</span><span class="p">],</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="XAOmniOutlinerDocument.expand_all"><a class="viewcode-back" href="../../../reference/apps/omnioutliner.html#PyXA.apps.OmniOutliner.XAOmniOutlinerDocument.expand_all">[docs]</a>    <span class="k">def</span> <span class="nf">expand_all</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">items</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XAOmniOutlinerDocument&#39;</span><span class="p">,</span> <span class="s1">&#39;XAOmniOutlinerRow&#39;</span><span class="p">,</span> <span class="n">XAOmniOutlinerDocumentList</span><span class="p">,</span> <span class="s1">&#39;XAOmniOutlinerRowList&#39;</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="s1">&#39;XAOmniOutlinerDocument&#39;</span><span class="p">],</span> <span class="nb">list</span><span class="p">[</span><span class="s1">&#39;XAOmniOutlinerRow&#39;</span><span class="p">],</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Expand the entire outline of an object.</span>
 
 <span class="sd">        .. versionadded:: 0.0.9</span>
@@ -1157,7 +1157,7 @@
             <span class="c1"># Expand an XAList of items</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">expandAll_</span><span class="p">(</span><span class="n">items</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="XAOmniOutlinerDocument.collapse_all"><a class="viewcode-back" href="../../../reference/apps/omnioutliner.html#PyXA.apps.OmniOutliner.XAOmniOutlinerDocument.collapse_all">[docs]</a>    <span class="k">def</span> <span class="nf">collapse_all</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">items</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XAOmniOutlinerDocument&#39;</span><span class="p">,</span> <span class="s1">&#39;XAOmniOutlinerRow&#39;</span><span class="p">,</span> <span class="n">XAOmniOutlinerDocumentList</span><span class="p">,</span> <span class="s1">&#39;XAOmniOutlinerRowList&#39;</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;XAOmniOutlinerDocument&#39;</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;XAOmniOutlinerRow&#39;</span><span class="p">],</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="XAOmniOutlinerDocument.collapse_all"><a class="viewcode-back" href="../../../reference/apps/omnioutliner.html#PyXA.apps.OmniOutliner.XAOmniOutlinerDocument.collapse_all">[docs]</a>    <span class="k">def</span> <span class="nf">collapse_all</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">items</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XAOmniOutlinerDocument&#39;</span><span class="p">,</span> <span class="s1">&#39;XAOmniOutlinerRow&#39;</span><span class="p">,</span> <span class="n">XAOmniOutlinerDocumentList</span><span class="p">,</span> <span class="s1">&#39;XAOmniOutlinerRowList&#39;</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="s1">&#39;XAOmniOutlinerDocument&#39;</span><span class="p">],</span> <span class="nb">list</span><span class="p">[</span><span class="s1">&#39;XAOmniOutlinerRow&#39;</span><span class="p">],</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Collapse the entire outline of an object.</span>
 
 <span class="sd">        .. versionadded:: 0.0.9</span>
@@ -1173,11 +1173,11 @@
             <span class="c1"># Collapse an XAObject, which can be an XAList</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">collapseAll_</span><span class="p">(</span><span class="n">items</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="XAOmniOutlinerDocument.group"><a class="viewcode-back" href="../../../reference/apps/omnioutliner.html#PyXA.apps.OmniOutliner.XAOmniOutlinerDocument.group">[docs]</a>    <span class="k">def</span> <span class="nf">group</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rows</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XAOmniOutlinerRow&#39;</span><span class="p">,</span> <span class="s1">&#39;XAOmniOutlinerRowList&#39;</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;XAOmniOutlinerRow&#39;</span><span class="p">],</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="XAOmniOutlinerDocument.group"><a class="viewcode-back" href="../../../reference/apps/omnioutliner.html#PyXA.apps.OmniOutliner.XAOmniOutlinerDocument.group">[docs]</a>    <span class="k">def</span> <span class="nf">group</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rows</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XAOmniOutlinerRow&#39;</span><span class="p">,</span> <span class="s1">&#39;XAOmniOutlinerRowList&#39;</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="s1">&#39;XAOmniOutlinerRow&#39;</span><span class="p">],</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Increase the outline level of a list of rows by creating a new parent row for them and moving under that new row.</span>
 
 <span class="sd">        :param rows: The rows to group, defaults to None</span>
-<span class="sd">        :type rows: Union[XAOmniOutlinerRow, XAOmniOutlinerRowList, List[XAOmniOutlinerRow], None], optional</span>
+<span class="sd">        :type rows: Union[XAOmniOutlinerRow, XAOmniOutlinerRowList, list[XAOmniOutlinerRow], None], optional</span>
 
 <span class="sd">        .. versionadded:: 0.0.9</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -1192,11 +1192,11 @@
             <span class="c1"># Group an XAObject, which can be an XAList</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">group_</span><span class="p">(</span><span class="n">rows</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="XAOmniOutlinerDocument.ungroup"><a class="viewcode-back" href="../../../reference/apps/omnioutliner.html#PyXA.apps.OmniOutliner.XAOmniOutlinerDocument.ungroup">[docs]</a>    <span class="k">def</span> <span class="nf">ungroup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rows</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XAOmniOutlinerRow&#39;</span><span class="p">,</span> <span class="s1">&#39;XAOmniOutlinerRowList&#39;</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;XAOmniOutlinerRow&#39;</span><span class="p">],</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="XAOmniOutlinerDocument.ungroup"><a class="viewcode-back" href="../../../reference/apps/omnioutliner.html#PyXA.apps.OmniOutliner.XAOmniOutlinerDocument.ungroup">[docs]</a>    <span class="k">def</span> <span class="nf">ungroup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rows</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XAOmniOutlinerRow&#39;</span><span class="p">,</span> <span class="s1">&#39;XAOmniOutlinerRowList&#39;</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="s1">&#39;XAOmniOutlinerRow&#39;</span><span class="p">],</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Decrease the outline level of all children of a row, moving them left one step.</span>
 
 <span class="sd">        :param rows: The rows to ungroup, defaults to None</span>
-<span class="sd">        :type rows: Union[XAOmniOutlinerRow, XAOmniOutlinerRowList, List[XAOmniOutlinerRow], None], optional</span>
+<span class="sd">        :type rows: Union[XAOmniOutlinerRow, XAOmniOutlinerRowList, list[XAOmniOutlinerRow], None], optional</span>
 
 <span class="sd">        .. versionadded:: 0.0.9</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -1211,11 +1211,11 @@
             <span class="c1"># Ungroup an XAObject, which can be an XAList</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">ungroup_</span><span class="p">(</span><span class="n">rows</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="XAOmniOutlinerDocument.hoist"><a class="viewcode-back" href="../../../reference/apps/omnioutliner.html#PyXA.apps.OmniOutliner.XAOmniOutlinerDocument.hoist">[docs]</a>    <span class="k">def</span> <span class="nf">hoist</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rows</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XAOmniOutlinerRow&#39;</span><span class="p">,</span> <span class="s1">&#39;XAOmniOutlinerRowList&#39;</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;XAOmniOutlinerRow&#39;</span><span class="p">],</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="XAOmniOutlinerDocument.hoist"><a class="viewcode-back" href="../../../reference/apps/omnioutliner.html#PyXA.apps.OmniOutliner.XAOmniOutlinerDocument.hoist">[docs]</a>    <span class="k">def</span> <span class="nf">hoist</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rows</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XAOmniOutlinerRow&#39;</span><span class="p">,</span> <span class="s1">&#39;XAOmniOutlinerRowList&#39;</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="s1">&#39;XAOmniOutlinerRow&#39;</span><span class="p">],</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Hide all rows in the outline, except for the descendants of the row passed to this command.</span>
 
 <span class="sd">        :param rows: The rows to hoist, defaults to None</span>
-<span class="sd">        :type rows: Union[XAOmniOutlinerRow, XAOmniOutlinerRowList, List[XAOmniOutlinerRow], None], optional</span>
+<span class="sd">        :type rows: Union[XAOmniOutlinerRow, XAOmniOutlinerRowList, list[XAOmniOutlinerRow], None], optional</span>
 
 <span class="sd">        .. versionadded:: 0.0.9</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -1230,11 +1230,11 @@
             <span class="c1"># Hoist an XAObject, which can be an XAList</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">hoist_</span><span class="p">(</span><span class="n">rows</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="XAOmniOutlinerDocument.unhoist"><a class="viewcode-back" href="../../../reference/apps/omnioutliner.html#PyXA.apps.OmniOutliner.XAOmniOutlinerDocument.unhoist">[docs]</a>    <span class="k">def</span> <span class="nf">unhoist</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">documents</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XAOmniOutlinerDocument&#39;</span><span class="p">,</span> <span class="n">XAOmniOutlinerDocumentList</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;XAOmniOutlinerDocument&#39;</span><span class="p">],</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">unhoist_all</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="XAOmniOutlinerDocument.unhoist"><a class="viewcode-back" href="../../../reference/apps/omnioutliner.html#PyXA.apps.OmniOutliner.XAOmniOutlinerDocument.unhoist">[docs]</a>    <span class="k">def</span> <span class="nf">unhoist</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">documents</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XAOmniOutlinerDocument&#39;</span><span class="p">,</span> <span class="n">XAOmniOutlinerDocumentList</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="s1">&#39;XAOmniOutlinerDocument&#39;</span><span class="p">],</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">unhoist_all</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Show rows hidden in the last hoist operation on a document.</span>
 
 <span class="sd">        :param documents: The documents to unhoist, defaults to None</span>
-<span class="sd">        :type documents: Union[XAOmniOutlinerDocument, XAOmniOutlinerDocumentList, List[XAOmniOutlinerDocument], None], optional</span>
+<span class="sd">        :type documents: Union[XAOmniOutlinerDocument, XAOmniOutlinerDocumentList, list[XAOmniOutlinerDocument], None], optional</span>
 <span class="sd">        :param unhoist_all: Reverse just the last Hoist operation on the outline, or show items hidden by all previous Hoist operations, defaults to False</span>
 <span class="sd">        :type unhoist_all: bool, optional</span>
 
@@ -1251,13 +1251,13 @@
             <span class="c1"># Unhoist an XAObject, which can be an XAList</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">unhoist_unhoistingAll_</span><span class="p">(</span><span class="n">documents</span><span class="p">,</span> <span class="n">unhoist_all</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="XAOmniOutlinerDocument.pbcopy"><a class="viewcode-back" href="../../../reference/apps/omnioutliner.html#PyXA.apps.OmniOutliner.XAOmniOutlinerDocument.pbcopy">[docs]</a>    <span class="k">def</span> <span class="nf">pbcopy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">items</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">],</span> <span class="nb">type</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">clipboard_name</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="XAOmniOutlinerDocument.pbcopy"><a class="viewcode-back" href="../../../reference/apps/omnioutliner.html#PyXA.apps.OmniOutliner.XAOmniOutlinerDocument.pbcopy">[docs]</a>    <span class="k">def</span> <span class="nf">pbcopy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">items</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">],</span> <span class="nb">type</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">clipboard_name</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Copies one or more nodes to the clipboard.</span>
 
 <span class="sd">        :param items: The list of items to copy to the clipboard</span>
-<span class="sd">        :type items: List[XABase.XAObject]</span>
+<span class="sd">        :type items: list[XABase.XAObject]</span>
 <span class="sd">        :param type: The list of type identifier to use when copying the trees. If omitted, all writable clipboard types are used, defaults to None</span>
-<span class="sd">        :type type: Union[str, List[str], None], optional</span>
+<span class="sd">        :type type: Union[str, list[str], None], optional</span>
 <span class="sd">        :param clipboard_name: The name of the clipboard to copy to, defaults to None</span>
 <span class="sd">        :type clipboard_name: Union[str, None], optional</span>
 
@@ -1379,7 +1379,7 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">uti</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The Uniform Type Identifier for this document type</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">display_name</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: A user-presentable display name for this document type</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">file_extensions</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="c1">#: File extensions for this document type</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">file_extensions</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="c1">#: File extensions for this document type</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">uti</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
@@ -1390,7 +1390,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">displayName</span><span class="p">()</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">file_extensions</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">file_extensions</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">fileExtensions</span><span class="p">()</span></div>
 
 
@@ -1917,11 +1917,11 @@
     <span class="k">def</span> <span class="nf">visible</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">visible</span><span class="p">()</span>
 
-<div class="viewcode-block" id="XAOmniOutlinerRow.expand_all"><a class="viewcode-back" href="../../../reference/apps/omnioutliner.html#PyXA.apps.OmniOutliner.XAOmniOutlinerRow.expand_all">[docs]</a>    <span class="k">def</span> <span class="nf">expand_all</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">items</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XAOmniOutlinerRow&#39;</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;XAOmniOutlinerRow&#39;</span><span class="p">],</span> <span class="n">XAOmniOutlinerRowList</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="XAOmniOutlinerRow.expand_all"><a class="viewcode-back" href="../../../reference/apps/omnioutliner.html#PyXA.apps.OmniOutliner.XAOmniOutlinerRow.expand_all">[docs]</a>    <span class="k">def</span> <span class="nf">expand_all</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">items</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XAOmniOutlinerRow&#39;</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="s1">&#39;XAOmniOutlinerRow&#39;</span><span class="p">],</span> <span class="n">XAOmniOutlinerRowList</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Expands a row or list of rows.</span>
 
 <span class="sd">        :param items: The row(s) to expand, defaults to None</span>
-<span class="sd">        :type items: Union[XAOmniOutlinerRow, List[XAOmniOutlinerRow], XAOmniOutlinerRowList, None], optional</span>
+<span class="sd">        :type items: Union[XAOmniOutlinerRow, list[XAOmniOutlinerRow], XAOmniOutlinerRowList, None], optional</span>
 
 <span class="sd">        .. versionadded:: 0.0.9</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -1933,11 +1933,11 @@
             <span class="n">items</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">xa_elem</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">items</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">expandAll_</span><span class="p">(</span><span class="n">items</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="XAOmniOutlinerRow.collapse_all"><a class="viewcode-back" href="../../../reference/apps/omnioutliner.html#PyXA.apps.OmniOutliner.XAOmniOutlinerRow.collapse_all">[docs]</a>    <span class="k">def</span> <span class="nf">collapse_all</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">items</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XAOmniOutlinerRow&#39;</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;XAOmniOutlinerRow&#39;</span><span class="p">],</span> <span class="n">XAOmniOutlinerRowList</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="XAOmniOutlinerRow.collapse_all"><a class="viewcode-back" href="../../../reference/apps/omnioutliner.html#PyXA.apps.OmniOutliner.XAOmniOutlinerRow.collapse_all">[docs]</a>    <span class="k">def</span> <span class="nf">collapse_all</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">items</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XAOmniOutlinerRow&#39;</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="s1">&#39;XAOmniOutlinerRow&#39;</span><span class="p">],</span> <span class="n">XAOmniOutlinerRowList</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Collapses a row or list of rows.</span>
 
 <span class="sd">        :param items: The row(s) to collapse, defaults to None</span>
-<span class="sd">        :type items: Union[XAOmniOutlinerRow, List[XAOmniOutlinerRow], XAOmniOutlinerRowList, None], optional</span>
+<span class="sd">        :type items: Union[XAOmniOutlinerRow, list[XAOmniOutlinerRow], XAOmniOutlinerRowList, None], optional</span>
 
 <span class="sd">        .. versionadded:: 0.0.9</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -1963,11 +1963,11 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">outdent</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="XAOmniOutlinerRow.add"><a class="viewcode-back" href="../../../reference/apps/omnioutliner.html#PyXA.apps.OmniOutliner.XAOmniOutlinerRow.add">[docs]</a>    <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">items</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">]]):</span>
+<div class="viewcode-block" id="XAOmniOutlinerRow.add"><a class="viewcode-back" href="../../../reference/apps/omnioutliner.html#PyXA.apps.OmniOutliner.XAOmniOutlinerRow.add">[docs]</a>    <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">items</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">]]):</span>
         <span class="sd">&quot;&quot;&quot;Adds objects to the row.</span>
 
 <span class="sd">        :param items: The object(s) to add</span>
-<span class="sd">        :type items: Union[XABase.XAObject, List[XABase.XAObject]]</span>
+<span class="sd">        :type items: Union[XABase.XAObject, list[XABase.XAObject]]</span>
 
 <span class="sd">        .. versionadded:: 0.0.9</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -1985,11 +1985,11 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">addTo_</span><span class="p">(</span><span class="n">destination</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="XAOmniOutlinerRow.remove"><a class="viewcode-back" href="../../../reference/apps/omnioutliner.html#PyXA.apps.OmniOutliner.XAOmniOutlinerRow.remove">[docs]</a>    <span class="k">def</span> <span class="nf">remove</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">items</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">]]):</span>
+<div class="viewcode-block" id="XAOmniOutlinerRow.remove"><a class="viewcode-back" href="../../../reference/apps/omnioutliner.html#PyXA.apps.OmniOutliner.XAOmniOutlinerRow.remove">[docs]</a>    <span class="k">def</span> <span class="nf">remove</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">items</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">]]):</span>
         <span class="sd">&quot;&quot;&quot;Remove objects from the row.</span>
 
 <span class="sd">        :param items: The object(s) to remove</span>
-<span class="sd">        :type items: Union[XABase.XAObject, List[XABase.XAObject]]</span>
+<span class="sd">        :type items: Union[XABase.XAObject, list[XABase.XAObject]]</span>
 
 <span class="sd">        .. versionadded:: 0.0.9</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -2007,11 +2007,11 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">removeFrom_</span><span class="p">(</span><span class="n">container</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="XAOmniOutlinerRow.group"><a class="viewcode-back" href="../../../reference/apps/omnioutliner.html#PyXA.apps.OmniOutliner.XAOmniOutlinerRow.group">[docs]</a>    <span class="k">def</span> <span class="nf">group</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rows</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XAOmniOutlinerRow&#39;</span><span class="p">,</span> <span class="s1">&#39;XAOmniOutlinerRowList&#39;</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;XAOmniOutlinerRow&#39;</span><span class="p">],</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="XAOmniOutlinerRow.group"><a class="viewcode-back" href="../../../reference/apps/omnioutliner.html#PyXA.apps.OmniOutliner.XAOmniOutlinerRow.group">[docs]</a>    <span class="k">def</span> <span class="nf">group</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rows</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XAOmniOutlinerRow&#39;</span><span class="p">,</span> <span class="s1">&#39;XAOmniOutlinerRowList&#39;</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="s1">&#39;XAOmniOutlinerRow&#39;</span><span class="p">],</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Increase the outline level of a list of rows by creating a new parent row for them and moving under that new row.</span>
 
 <span class="sd">        :param rows: The rows to group, defaults to None</span>
-<span class="sd">        :type rows: Union[XAOmniOutlinerRow, XAOmniOutlinerRowList, List[XAOmniOutlinerRow], None], optional</span>
+<span class="sd">        :type rows: Union[XAOmniOutlinerRow, XAOmniOutlinerRowList, list[XAOmniOutlinerRow], None], optional</span>
 
 <span class="sd">        .. versionadded:: 0.0.9</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -2026,11 +2026,11 @@
             <span class="c1"># Group an XAObject, which can be an XAList</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">group_</span><span class="p">(</span><span class="n">rows</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="XAOmniOutlinerRow.ungroup"><a class="viewcode-back" href="../../../reference/apps/omnioutliner.html#PyXA.apps.OmniOutliner.XAOmniOutlinerRow.ungroup">[docs]</a>    <span class="k">def</span> <span class="nf">ungroup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rows</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XAOmniOutlinerRow&#39;</span><span class="p">,</span> <span class="s1">&#39;XAOmniOutlinerRowList&#39;</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;XAOmniOutlinerRow&#39;</span><span class="p">],</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="XAOmniOutlinerRow.ungroup"><a class="viewcode-back" href="../../../reference/apps/omnioutliner.html#PyXA.apps.OmniOutliner.XAOmniOutlinerRow.ungroup">[docs]</a>    <span class="k">def</span> <span class="nf">ungroup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rows</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XAOmniOutlinerRow&#39;</span><span class="p">,</span> <span class="s1">&#39;XAOmniOutlinerRowList&#39;</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="s1">&#39;XAOmniOutlinerRow&#39;</span><span class="p">],</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Decrease the outline level of all children of a row, moving them left one step.</span>
 
 <span class="sd">        :param rows: The rows to ungroup, defaults to None</span>
-<span class="sd">        :type rows: Union[XAOmniOutlinerRow, XAOmniOutlinerRowList, List[XAOmniOutlinerRow], None], optional</span>
+<span class="sd">        :type rows: Union[XAOmniOutlinerRow, XAOmniOutlinerRowList, list[XAOmniOutlinerRow], None], optional</span>
 
 <span class="sd">        .. versionadded:: 0.0.9</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -2045,11 +2045,11 @@
             <span class="c1"># Ungroup an XAObject, which can be an XAList</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">ungroup_</span><span class="p">(</span><span class="n">rows</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="XAOmniOutlinerRow.hoist"><a class="viewcode-back" href="../../../reference/apps/omnioutliner.html#PyXA.apps.OmniOutliner.XAOmniOutlinerRow.hoist">[docs]</a>    <span class="k">def</span> <span class="nf">hoist</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rows</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XAOmniOutlinerRow&#39;</span><span class="p">,</span> <span class="s1">&#39;XAOmniOutlinerRowList&#39;</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;XAOmniOutlinerRow&#39;</span><span class="p">],</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="XAOmniOutlinerRow.hoist"><a class="viewcode-back" href="../../../reference/apps/omnioutliner.html#PyXA.apps.OmniOutliner.XAOmniOutlinerRow.hoist">[docs]</a>    <span class="k">def</span> <span class="nf">hoist</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rows</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XAOmniOutlinerRow&#39;</span><span class="p">,</span> <span class="s1">&#39;XAOmniOutlinerRowList&#39;</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="s1">&#39;XAOmniOutlinerRow&#39;</span><span class="p">],</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Hide all rows in the outline, except for the descendants of the row passed to this command.</span>
 
 <span class="sd">        :param rows: The rows to hoist, defaults to None</span>
-<span class="sd">        :type rows: Union[XAOmniOutlinerRow, XAOmniOutlinerRowList, List[XAOmniOutlinerRow], None], optional</span>
+<span class="sd">        :type rows: Union[XAOmniOutlinerRow, XAOmniOutlinerRowList, list[XAOmniOutlinerRow], None], optional</span>
 
 <span class="sd">        .. versionadded:: 0.0.9</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -2064,13 +2064,13 @@
             <span class="c1"># Hoist an XAObject, which can be an XAList</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">hoist_</span><span class="p">(</span><span class="n">rows</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="XAOmniOutlinerRow.pbcopy"><a class="viewcode-back" href="../../../reference/apps/omnioutliner.html#PyXA.apps.OmniOutliner.XAOmniOutlinerRow.pbcopy">[docs]</a>    <span class="k">def</span> <span class="nf">pbcopy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">items</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">],</span> <span class="nb">type</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">clipboard_name</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="XAOmniOutlinerRow.pbcopy"><a class="viewcode-back" href="../../../reference/apps/omnioutliner.html#PyXA.apps.OmniOutliner.XAOmniOutlinerRow.pbcopy">[docs]</a>    <span class="k">def</span> <span class="nf">pbcopy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">items</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">],</span> <span class="nb">type</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">clipboard_name</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Copies one or more nodes to the clipboard.</span>
 
 <span class="sd">        :param items: The list of items to copy to the clipboard</span>
-<span class="sd">        :type items: List[XABase.XAObject]</span>
+<span class="sd">        :type items: list[XABase.XAObject]</span>
 <span class="sd">        :param type: The list of type identifier to use when copying the trees. If omitted, all writable clipboard types are used, defaults to None</span>
-<span class="sd">        :type type: Union[str, List[str], None], optional</span>
+<span class="sd">        :type type: Union[str, list[str], None], optional</span>
 <span class="sd">        :param clipboard_name: The name of the clipboard to copy to, defaults to None</span>
 <span class="sd">        :type clipboard_name: Union[str, None], optional</span>
 
@@ -2581,8 +2581,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">style</span><span class="p">:</span> <span class="n">XAOmniOutlinerStyle</span> <span class="c1">#: The style to which the attribute refers</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">has_local_value</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: If true, the containing style defines a local value for this attribute</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">defining_style</span><span class="p">:</span> <span class="n">XAOmniOutlinerStyle</span> <span class="c1">#: The style responsible for the effective value in this attributes&#39;s style. This processes the local values, inherited styles and cascade chain</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">XAOmniOutlinerGenericColor</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAURL</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">XAOmniOutlinerPoint</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="c1">#: The value of the attribute in its style</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">default_value</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">XAOmniOutlinerGenericColor</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAURL</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">XAOmniOutlinerPoint</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="c1">#: The default value of the attribute in its style</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">XAOmniOutlinerGenericColor</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAURL</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">XAOmniOutlinerPoint</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="c1">#: The value of the attribute in its style</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">default_value</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">XAOmniOutlinerGenericColor</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAURL</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">XAOmniOutlinerPoint</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="c1">#: The default value of the attribute in its style</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
@@ -2605,20 +2605,20 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">definingStyle</span><span class="p">(),</span> <span class="n">XAOmniOutlinerStyle</span><span class="p">)</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">value</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XAOmniOutlinerGenericColor&#39;</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAURL</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">bool</span><span class="p">,</span> <span class="s1">&#39;XAOmniOutlinerPoint&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">value</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XAOmniOutlinerGenericColor&#39;</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAURL</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">bool</span><span class="p">,</span> <span class="s1">&#39;XAOmniOutlinerPoint&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
         <span class="c1"># TODO</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
 
     <span class="nd">@value</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span> <span class="nf">value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XAOmniOutlinerGenericColor&#39;</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAURL</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">bool</span><span class="p">,</span> <span class="s1">&#39;XAOmniOutlinerPoint&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]):</span>
+    <span class="k">def</span> <span class="nf">value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XAOmniOutlinerGenericColor&#39;</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAURL</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">bool</span><span class="p">,</span> <span class="s1">&#39;XAOmniOutlinerPoint&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;value&quot;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">default_value</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XAOmniOutlinerGenericColor&#39;</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAURL</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">bool</span><span class="p">,</span> <span class="s1">&#39;XAOmniOutlinerPoint&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">default_value</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XAOmniOutlinerGenericColor&#39;</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAURL</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">bool</span><span class="p">,</span> <span class="s1">&#39;XAOmniOutlinerPoint&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">defaultValue</span><span class="p">()</span>
 
     <span class="nd">@default_value</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span> <span class="nf">default_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default_value</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XAOmniOutlinerGenericColor&#39;</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAURL</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">bool</span><span class="p">,</span> <span class="s1">&#39;XAOmniOutlinerPoint&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]):</span>
+    <span class="k">def</span> <span class="nf">default_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default_value</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XAOmniOutlinerGenericColor&#39;</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAURL</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">bool</span><span class="p">,</span> <span class="s1">&#39;XAOmniOutlinerPoint&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;defaultValue&quot;</span><span class="p">,</span> <span class="n">default_value</span><span class="p">)</span>
 
 <div class="viewcode-block" id="XAOmniOutlinerAttribute.clear"><a class="viewcode-back" href="../../../reference/apps/omnioutliner.html#PyXA.apps.OmniOutliner.XAOmniOutlinerAttribute.clear">[docs]</a>    <span class="k">def</span> <span class="nf">clear</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -2914,7 +2914,7 @@
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The unique identifier of the domain. These should typically be in the reverse-DNS style of bundle identifiers (&quot;com.mycompany.myproduct&quot;)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]]</span> <span class="c1">#: Values must be strings or &#39;missing value&#39; (removes value). To set a single entry, concatenate the current value with the changes and then re-set it. Concatenating an empty and non-empty record crashes AppleScript, so &#39;missing value&#39; will be returned</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]]</span> <span class="c1">#: Values must be strings or &#39;missing value&#39; (removes value). To set a single entry, concatenate the current value with the changes and then re-set it. Concatenating an empty and non-empty record crashes AppleScript, so &#39;missing value&#39; will be returned</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">external_id</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: Identifies the conduit externally to OmniOutliner. This might be a record identifier in an external database. This will not get copied when duplicating the row, or if a &#39;save as&#39; or &#39;save to&#39; operation is performed instead of a normal &#39;save&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">container</span><span class="p">:</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span> <span class="c1">#: The row or document containing this group of conduit settings</span>
 
@@ -2923,11 +2923,11 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">id</span><span class="p">()</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">settings</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]]:</span>
+    <span class="k">def</span> <span class="nf">settings</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]]:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">settings</span><span class="p">()</span>
 
     <span class="nd">@settings</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span> <span class="nf">settings</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">settings</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]]):</span>
+    <span class="k">def</span> <span class="nf">settings</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">settings</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]]):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;settings&quot;</span><span class="p">,</span> <span class="n">settings</span><span class="p">)</span>
 
     <span class="nd">@property</span>

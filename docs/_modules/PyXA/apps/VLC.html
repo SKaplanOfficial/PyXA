@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PyXA.apps.VLC &mdash; PyXA 0.0.9 documentation</title>
+  <title>PyXA.apps.VLC &mdash; PyXA 0.1.0 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -14,7 +14,9 @@
         <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/jquery.js"></script>
         <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -70,7 +72,7 @@
   <h1>Source code for PyXA.apps.VLC</h1><div class="highlight"><pre>
 <span></span>
 <span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">sleep</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">List</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span>
 
 <span class="kn">import</span> <span class="nn">AppKit</span>
 
@@ -183,7 +185,7 @@
 <span class="sd">        :Example 1: Open files from file paths</span>
 
 <span class="sd">        &gt;&gt;&gt; import PyXA</span>
-<span class="sd">        &gt;&gt;&gt; app = PyXA.application(&quot;VLC&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; app = PyXA.Application(&quot;VLC&quot;)</span>
 <span class="sd">        &gt;&gt;&gt; app.open(&quot;/Users/exampleUser/Downloads/Example.avi&quot;)</span>
 <span class="sd">        &gt;&gt;&gt; </span>
 <span class="sd">        &gt;&gt;&gt; path = PyXA.XAPath(&quot;/Users/exampleUser/Documents/Example.m4v&quot;)</span>
@@ -192,7 +194,7 @@
 <span class="sd">        :Example 2: Open URLs</span>
 
 <span class="sd">        &gt;&gt;&gt; import PyXA</span>
-<span class="sd">        &gt;&gt;&gt; app = PyXA.application(&quot;VLC&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; app = PyXA.Application(&quot;VLC&quot;)</span>
 <span class="sd">        &gt;&gt;&gt; app.open(&quot;https://upload.wikimedia.org/wikipedia/commons/transcoded/0/0f/Baby_pelican.ogg/Baby_pelican.ogg.mp3&quot;)</span>
 <span class="sd">        &gt;&gt;&gt; </span>
 <span class="sd">        &gt;&gt;&gt; url = PyXA.XAURL(&quot;https://www.youtube.com/watch?v=e9B3E_DnnWw&quot;)</span>
@@ -360,31 +362,31 @@
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">XAVLCDocument</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
 
-<div class="viewcode-block" id="XAVLCDocumentList.name"><a class="viewcode-back" href="../../../reference/apps/vlc.html#PyXA.apps.VLC.XAVLCDocumentList.name">[docs]</a>    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAVLCDocumentList.name"><a class="viewcode-back" href="../../../reference/apps/vlc.html#PyXA.apps.VLC.XAVLCDocumentList.name">[docs]</a>    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the name of each document in the list.</span>
 
 <span class="sd">        :return: A list of document names</span>
-<span class="sd">        :rtype: List[str]</span>
+<span class="sd">        :rtype: list[str]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.9</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="XAVLCDocumentList.modified"><a class="viewcode-back" href="../../../reference/apps/vlc.html#PyXA.apps.VLC.XAVLCDocumentList.modified">[docs]</a>    <span class="k">def</span> <span class="nf">modified</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAVLCDocumentList.modified"><a class="viewcode-back" href="../../../reference/apps/vlc.html#PyXA.apps.VLC.XAVLCDocumentList.modified">[docs]</a>    <span class="k">def</span> <span class="nf">modified</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the modified status of each document in the list.</span>
 
 <span class="sd">        :return: A list of modified status booleans</span>
-<span class="sd">        :rtype: List[bool]</span>
+<span class="sd">        :rtype: list[bool]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.9</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;modified&quot;</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="XAVLCDocumentList.path"><a class="viewcode-back" href="../../../reference/apps/vlc.html#PyXA.apps.VLC.XAVLCDocumentList.path">[docs]</a>    <span class="k">def</span> <span class="nf">path</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAPath</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAVLCDocumentList.path"><a class="viewcode-back" href="../../../reference/apps/vlc.html#PyXA.apps.VLC.XAVLCDocumentList.path">[docs]</a>    <span class="k">def</span> <span class="nf">path</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAPath</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the file path of each document in the list.</span>
 
 <span class="sd">        :return: A list of file paths</span>
-<span class="sd">        :rtype: List[XABase.XAPath]</span>
+<span class="sd">        :rtype: list[XABase.XAPath]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.9</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -423,13 +425,13 @@
             <span class="n">path</span> <span class="o">=</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAPath</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;path&quot;</span><span class="p">,</span> <span class="n">path</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="XAVLCDocumentList.get_clipboard_representation"><a class="viewcode-back" href="../../../reference/apps/vlc.html#PyXA.apps.VLC.XAVLCDocumentList.get_clipboard_representation">[docs]</a>    <span class="k">def</span> <span class="nf">get_clipboard_representation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAVLCDocumentList.get_clipboard_representation"><a class="viewcode-back" href="../../../reference/apps/vlc.html#PyXA.apps.VLC.XAVLCDocumentList.get_clipboard_representation">[docs]</a>    <span class="k">def</span> <span class="nf">get_clipboard_representation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets a clipboard-codable representation of each document in the list.</span>
 
 <span class="sd">        When the clipboard content is set to a list of documents, the name of each document is added to the clipboard.</span>
 
 <span class="sd">        :return: A list of document names</span>
-<span class="sd">        :rtype: List[str]</span>
+<span class="sd">        :rtype: list[str]</span>
 
 <span class="sd">        .. versionadded:: 0.0.8</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -490,7 +492,7 @@
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
         
-        <span class="bp">self</span><span class="o">.</span><span class="n">bounds</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]</span> <span class="c1">#: The bounding rectangle of the window.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bounds</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]</span> <span class="c1">#: The bounding rectangle of the window.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">closeable</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether the window has a close box.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">document</span><span class="p">:</span> <span class="n">XAVLCDocument</span> <span class="c1">#: The document whose contents are being displayed in the window.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">floating</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether the window floats.</span>
@@ -507,14 +509,14 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">zoomed</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether the window is currently zoomed.</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">bounds</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">bounds</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
         <span class="n">bounds</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">bounds</span><span class="p">()</span>
         <span class="n">origin</span> <span class="o">=</span> <span class="n">bounds</span><span class="o">.</span><span class="n">origin</span>
         <span class="n">size</span> <span class="o">=</span> <span class="n">bounds</span><span class="o">.</span><span class="n">size</span>
         <span class="k">return</span> <span class="p">(</span><span class="n">origin</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">origin</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">size</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="n">size</span><span class="o">.</span><span class="n">height</span><span class="p">)</span>
 
     <span class="nd">@bounds</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span> <span class="nf">bounds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bounds</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]):</span>
+    <span class="k">def</span> <span class="nf">bounds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bounds</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]):</span>
         <span class="n">x</span> <span class="o">=</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">y</span> <span class="o">=</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
         <span class="n">w</span> <span class="o">=</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>

@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Drafts Module Reference &mdash; PyXA 0.0.9 documentation</title>
+  <title>Drafts Module Reference &mdash; PyXA 0.1.0 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
@@ -15,12 +15,14 @@
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Hammerspoon Module Reference" href="hammerspoon.html" />
-    <link rel="prev" title="Fantastical Module Reference" href="fantastical.html" /> 
+    <link rel="prev" title="Flow Module Reference" href="flow.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -45,14 +47,25 @@
 <li class="toctree-l1 current"><a class="reference internal" href="../index.html">Code Documentation and Reference</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../index.html#top-level-pyxa-modules">Top-level PyXA Modules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../index.html#pyxa-base-modules">PyXA Base Modules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../index.html#first-party-application-modules">First-Party Application Modules</a></li>
-<li class="toctree-l2 current"><a class="reference internal" href="../index.html#third-party-application-modules">Third-Party Application Modules</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../index.html#first-party-application-module-reference">First-Party Application Module Reference</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html#third-party-application-module-reference">Third-Party Application Module Reference</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="bike.html">Bike Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cardhop.html">Cardhop Module Reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="chromium.html">Chromium Module Reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="fantastical.html">Fantastical Module Reference</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">Drafts Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="flow.html">Flow Module Reference</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Drafts Module Reference</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.apps.Drafts.XADraftsApplication"><code class="docutils literal notranslate"><span class="pre">XADraftsApplication</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.apps.Drafts.XADraftsDraft"><code class="docutils literal notranslate"><span class="pre">XADraftsDraft</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.apps.Drafts.XADraftsDraftList"><code class="docutils literal notranslate"><span class="pre">XADraftsDraftList</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="hammerspoon.html">Hammerspoon Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="iterm.html">iTerm Module Reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="omnioutliner.html">OmniOutliner Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spotify.html">Spotify Module Reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="vlc.html">VLC Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rstudio.html">RStudio Module Reference</a></li>
 </ul>
 </li>
 </ul>
@@ -86,7 +99,7 @@
            <div itemprop="articleBody">
              
   <section id="module-PyXA.apps.Drafts">
-<span id="drafts-module-reference"></span><h1>Drafts Module Reference<a class="headerlink" href="#module-PyXA.apps.Drafts" title="Permalink to this headline"></a></h1>
+<span id="drafts-module-reference"></span><h1>Drafts Module Reference<a class="headerlink" href="#module-PyXA.apps.Drafts" title="Permalink to this heading"></a></h1>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.8.</span></p>
 </div>
@@ -112,7 +125,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.Drafts.XADraftsApplication">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Drafts.</span></span><span class="sig-name descname"><span class="pre">XADraftsApplication</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Drafts.html#XADraftsApplication"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Drafts.XADraftsApplication" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XASBApplication" title="PyXA.XABaseScriptable.XASBApplication"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABaseScriptable.XASBApplication</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XAProtocols.XACanOpenPath</span></code></p>
+<dd><p>Bases: <a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XASBApplication" title="PyXA.XABaseScriptable.XASBApplication"><code class="xref py py-class docutils literal notranslate"><span class="pre">XASBApplication</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">XACanOpenPath</span></code></p>
 <p>A class for managing and interacting with Drafts.app.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.8.</span></p>
@@ -152,7 +165,7 @@
 </table>
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Drafts.XADraftsApplication.drafts">
-<span class="sig-name descname"><span class="pre">drafts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Drafts.XADraftsDraftList" title="PyXA.apps.Drafts.XADraftsDraftList"><span class="pre">PyXA.apps.Drafts.XADraftsDraftList</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Drafts.html#XADraftsApplication.drafts"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Drafts.XADraftsApplication.drafts" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">drafts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Drafts.XADraftsDraftList" title="PyXA.apps.Drafts.XADraftsDraftList"><span class="pre">XADraftsDraftList</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Drafts.html#XADraftsApplication.drafts"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Drafts.XADraftsApplication.drafts" title="Permalink to this definition"></a></dt>
 <dd><p>Returns a list of drafts, as PyXA-wrapped objects, matching the given filter.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -172,7 +185,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Drafts.XADraftsApplication.make">
-<span class="sig-name descname"><span class="pre">make</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">specifier</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Drafts.html#XADraftsApplication.make"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Drafts.XADraftsApplication.make" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">make</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">specifier</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Drafts.html#XADraftsApplication.make"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Drafts.XADraftsApplication.make" title="Permalink to this definition"></a></dt>
 <dd><p>Creates a new element of the given specifier class without adding it to any list.</p>
 <p>Use <code class="xref py py-func docutils literal notranslate"><span class="pre">XABase.XAList.push()</span></code> to push the element onto a list.</p>
 <dl class="field-list simple">
@@ -202,7 +215,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Drafts.XADraftsApplication.new_draft">
-<span class="sig-name descname"><span class="pre">new_draft</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">content</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Drafts.XADraftsDraft" title="PyXA.apps.Drafts.XADraftsDraft"><span class="pre">PyXA.apps.Drafts.XADraftsDraft</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Drafts.html#XADraftsApplication.new_draft"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Drafts.XADraftsApplication.new_draft" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">new_draft</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">content</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Drafts.XADraftsDraft" title="PyXA.apps.Drafts.XADraftsDraft"><span class="pre">XADraftsDraft</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Drafts.html#XADraftsApplication.new_draft"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Drafts.XADraftsApplication.new_draft" title="Permalink to this definition"></a></dt>
 <dd><p>Creates a new draft with the given name and content</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -231,7 +244,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.Drafts.XADraftsDraft">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Drafts.</span></span><span class="sig-name descname"><span class="pre">XADraftsDraft</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Drafts.html#XADraftsDraft"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Drafts.XADraftsDraft" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAObject</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAObject</span></code></a></p>
 <p>A draft in Drafts.app.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.8.</span></p>
@@ -274,7 +287,7 @@
 </table>
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Drafts.XADraftsDraft.accessed_at">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">accessed_at</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">datetime.datetime</span></em><a class="headerlink" href="#PyXA.apps.Drafts.XADraftsDraft.accessed_at" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">accessed_at</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">datetime</span></em><a class="headerlink" href="#PyXA.apps.Drafts.XADraftsDraft.accessed_at" title="Permalink to this definition"></a></dt>
 <dd><p>The date the draft was last accessed</p>
 </dd></dl>
 
@@ -286,7 +299,7 @@
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Drafts.XADraftsDraft.created_at">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">created_at</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">datetime.datetime</span></em><a class="headerlink" href="#PyXA.apps.Drafts.XADraftsDraft.created_at" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">created_at</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">datetime</span></em><a class="headerlink" href="#PyXA.apps.Drafts.XADraftsDraft.created_at" title="Permalink to this definition"></a></dt>
 <dd><p>The date the draft was created</p>
 </dd></dl>
 
@@ -304,7 +317,7 @@
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Drafts.XADraftsDraft.modified_at">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">modified_at</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">datetime.datetime</span></em><a class="headerlink" href="#PyXA.apps.Drafts.XADraftsDraft.modified_at" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">modified_at</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">datetime</span></em><a class="headerlink" href="#PyXA.apps.Drafts.XADraftsDraft.modified_at" title="Permalink to this definition"></a></dt>
 <dd><p>The date the draft was last modified</p>
 </dd></dl>
 
@@ -322,7 +335,7 @@
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Drafts.XADraftsDraft.tags">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">tags</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#PyXA.apps.Drafts.XADraftsDraft.tags" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">tags</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#PyXA.apps.Drafts.XADraftsDraft.tags" title="Permalink to this definition"></a></dt>
 <dd><p>The tags assigned to the draft</p>
 </dd></dl>
 
@@ -331,7 +344,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.Drafts.XADraftsDraftList">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Drafts.</span></span><span class="sig-name descname"><span class="pre">XADraftsDraftList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Drafts.html#XADraftsDraftList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Drafts.XADraftsDraftList" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAList" title="PyXA.XABase.XAList"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAList</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAList" title="PyXA.XABase.XAList"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAList</span></code></a></p>
 <p>A wrapper around a list of drafts.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.8.</span></p>
@@ -401,14 +414,14 @@
 </table>
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Drafts.XADraftsDraftList.accessed_at">
-<span class="sig-name descname"><span class="pre">accessed_at</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">datetime.datetime</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Drafts.html#XADraftsDraftList.accessed_at"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Drafts.XADraftsDraftList.accessed_at" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">accessed_at</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">datetime.datetime</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Drafts.html#XADraftsDraftList.accessed_at"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Drafts.XADraftsDraftList.accessed_at" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the last access date of each draft in the list.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>A list of draft last access dates</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p>List[datetime]</p>
+<dd class="field-even"><p>list[datetime]</p>
 </dd>
 </dl>
 <div class="versionadded">
@@ -418,7 +431,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Drafts.XADraftsDraftList.by_accessed_at">
-<span class="sig-name descname"><span class="pre">by_accessed_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">accessed_at</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime.datetime</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Drafts.XADraftsDraft" title="PyXA.apps.Drafts.XADraftsDraft"><span class="pre">PyXA.apps.Drafts.XADraftsDraft</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Drafts.html#XADraftsDraftList.by_accessed_at"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Drafts.XADraftsDraftList.by_accessed_at" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">by_accessed_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">accessed_at</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Drafts.XADraftsDraft" title="PyXA.apps.Drafts.XADraftsDraft"><span class="pre">XADraftsDraft</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Drafts.html#XADraftsDraftList.by_accessed_at"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Drafts.XADraftsDraftList.by_accessed_at" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the draft whose last access date matches the given date, if one exists.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -435,7 +448,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Drafts.XADraftsDraftList.by_content">
-<span class="sig-name descname"><span class="pre">by_content</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">content</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Drafts.XADraftsDraft" title="PyXA.apps.Drafts.XADraftsDraft"><span class="pre">PyXA.apps.Drafts.XADraftsDraft</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Drafts.html#XADraftsDraftList.by_content"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Drafts.XADraftsDraftList.by_content" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">by_content</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">content</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Drafts.XADraftsDraft" title="PyXA.apps.Drafts.XADraftsDraft"><span class="pre">XADraftsDraft</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Drafts.html#XADraftsDraftList.by_content"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Drafts.XADraftsDraftList.by_content" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the draft whose content matches the given content, if one exists.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -452,7 +465,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Drafts.XADraftsDraftList.by_created_at">
-<span class="sig-name descname"><span class="pre">by_created_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">created_at</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime.datetime</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Drafts.XADraftsDraft" title="PyXA.apps.Drafts.XADraftsDraft"><span class="pre">PyXA.apps.Drafts.XADraftsDraft</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Drafts.html#XADraftsDraftList.by_created_at"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Drafts.XADraftsDraftList.by_created_at" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">by_created_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">created_at</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Drafts.XADraftsDraft" title="PyXA.apps.Drafts.XADraftsDraft"><span class="pre">XADraftsDraft</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Drafts.html#XADraftsDraftList.by_created_at"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Drafts.XADraftsDraftList.by_created_at" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the draft whose creation date matches the given date, if one exists.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -469,7 +482,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Drafts.XADraftsDraftList.by_flagged">
-<span class="sig-name descname"><span class="pre">by_flagged</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">flagged</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Drafts.XADraftsDraft" title="PyXA.apps.Drafts.XADraftsDraft"><span class="pre">PyXA.apps.Drafts.XADraftsDraft</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Drafts.html#XADraftsDraftList.by_flagged"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Drafts.XADraftsDraftList.by_flagged" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">by_flagged</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">flagged</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Drafts.XADraftsDraft" title="PyXA.apps.Drafts.XADraftsDraft"><span class="pre">XADraftsDraft</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Drafts.html#XADraftsDraftList.by_flagged"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Drafts.XADraftsDraftList.by_flagged" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the first draft whose flagged status matches the given boolean value, if one exists.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -486,7 +499,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Drafts.XADraftsDraftList.by_id">
-<span class="sig-name descname"><span class="pre">by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Drafts.XADraftsDraft" title="PyXA.apps.Drafts.XADraftsDraft"><span class="pre">PyXA.apps.Drafts.XADraftsDraft</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Drafts.html#XADraftsDraftList.by_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Drafts.XADraftsDraftList.by_id" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Drafts.XADraftsDraft" title="PyXA.apps.Drafts.XADraftsDraft"><span class="pre">XADraftsDraft</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Drafts.html#XADraftsDraftList.by_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Drafts.XADraftsDraftList.by_id" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the draft whose ID matches the given ID, if one exists.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -503,7 +516,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Drafts.XADraftsDraftList.by_modified_at">
-<span class="sig-name descname"><span class="pre">by_modified_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">modified_at</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime.datetime</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Drafts.XADraftsDraft" title="PyXA.apps.Drafts.XADraftsDraft"><span class="pre">PyXA.apps.Drafts.XADraftsDraft</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Drafts.html#XADraftsDraftList.by_modified_at"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Drafts.XADraftsDraftList.by_modified_at" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">by_modified_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">modified_at</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Drafts.XADraftsDraft" title="PyXA.apps.Drafts.XADraftsDraft"><span class="pre">XADraftsDraft</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Drafts.html#XADraftsDraftList.by_modified_at"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Drafts.XADraftsDraftList.by_modified_at" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the draft whose last modification date matches the given date, if one exists.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -520,7 +533,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Drafts.XADraftsDraftList.by_name">
-<span class="sig-name descname"><span class="pre">by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Drafts.XADraftsDraft" title="PyXA.apps.Drafts.XADraftsDraft"><span class="pre">PyXA.apps.Drafts.XADraftsDraft</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Drafts.html#XADraftsDraftList.by_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Drafts.XADraftsDraftList.by_name" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Drafts.XADraftsDraft" title="PyXA.apps.Drafts.XADraftsDraft"><span class="pre">XADraftsDraft</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Drafts.html#XADraftsDraftList.by_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Drafts.XADraftsDraftList.by_name" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the draft whose name matches the given name, if one exists.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -537,7 +550,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Drafts.XADraftsDraftList.by_permalink">
-<span class="sig-name descname"><span class="pre">by_permalink</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">permalink</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Drafts.XADraftsDraft" title="PyXA.apps.Drafts.XADraftsDraft"><span class="pre">PyXA.apps.Drafts.XADraftsDraft</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Drafts.html#XADraftsDraftList.by_permalink"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Drafts.XADraftsDraftList.by_permalink" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">by_permalink</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">permalink</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Drafts.XADraftsDraft" title="PyXA.apps.Drafts.XADraftsDraft"><span class="pre">XADraftsDraft</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Drafts.html#XADraftsDraftList.by_permalink"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Drafts.XADraftsDraftList.by_permalink" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the draft whose URL matches the given URL, if one exists.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -554,7 +567,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Drafts.XADraftsDraftList.by_tags">
-<span class="sig-name descname"><span class="pre">by_tags</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Drafts.XADraftsDraft" title="PyXA.apps.Drafts.XADraftsDraft"><span class="pre">PyXA.apps.Drafts.XADraftsDraft</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Drafts.html#XADraftsDraftList.by_tags"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Drafts.XADraftsDraftList.by_tags" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">by_tags</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Drafts.XADraftsDraft" title="PyXA.apps.Drafts.XADraftsDraft"><span class="pre">XADraftsDraft</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Drafts.html#XADraftsDraftList.by_tags"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Drafts.XADraftsDraftList.by_tags" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the first draft whose list of tags matches the given list, if one exists.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -571,14 +584,14 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Drafts.XADraftsDraftList.content">
-<span class="sig-name descname"><span class="pre">content</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Drafts.html#XADraftsDraftList.content"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Drafts.XADraftsDraftList.content" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">content</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Drafts.html#XADraftsDraftList.content"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Drafts.XADraftsDraftList.content" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the content of each draft in the list.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>A list of draft contents</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p>List[str]</p>
+<dd class="field-even"><p>list[str]</p>
 </dd>
 </dl>
 <div class="versionadded">
@@ -588,14 +601,14 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Drafts.XADraftsDraftList.created_at">
-<span class="sig-name descname"><span class="pre">created_at</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">datetime.datetime</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Drafts.html#XADraftsDraftList.created_at"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Drafts.XADraftsDraftList.created_at" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">created_at</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">datetime.datetime</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Drafts.html#XADraftsDraftList.created_at"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Drafts.XADraftsDraftList.created_at" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the creation date of each draft in the list.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>A list of draft creation dates</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p>List[datetime]</p>
+<dd class="field-even"><p>list[datetime]</p>
 </dd>
 </dl>
 <div class="versionadded">
@@ -605,14 +618,14 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Drafts.XADraftsDraftList.flagged">
-<span class="sig-name descname"><span class="pre">flagged</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Drafts.html#XADraftsDraftList.flagged"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Drafts.XADraftsDraftList.flagged" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">flagged</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Drafts.html#XADraftsDraftList.flagged"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Drafts.XADraftsDraftList.flagged" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the flagged status of each draft in the list.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>A list of draft flagged statuses</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p>List[bool]</p>
+<dd class="field-even"><p>list[bool]</p>
 </dd>
 </dl>
 <div class="versionadded">
@@ -622,14 +635,14 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Drafts.XADraftsDraftList.id">
-<span class="sig-name descname"><span class="pre">id</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Drafts.html#XADraftsDraftList.id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Drafts.XADraftsDraftList.id" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">id</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Drafts.html#XADraftsDraftList.id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Drafts.XADraftsDraftList.id" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the ID of each draft in the list.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>A list of draft IDs</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p>List[str]</p>
+<dd class="field-even"><p>list[str]</p>
 </dd>
 </dl>
 <div class="versionadded">
@@ -639,14 +652,14 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Drafts.XADraftsDraftList.modified_at">
-<span class="sig-name descname"><span class="pre">modified_at</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">datetime.datetime</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Drafts.html#XADraftsDraftList.modified_at"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Drafts.XADraftsDraftList.modified_at" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">modified_at</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">datetime.datetime</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Drafts.html#XADraftsDraftList.modified_at"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Drafts.XADraftsDraftList.modified_at" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the last modification date of each draft in the list.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>A list of draft modification dates</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p>List[datetime]</p>
+<dd class="field-even"><p>list[datetime]</p>
 </dd>
 </dl>
 <div class="versionadded">
@@ -656,14 +669,14 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Drafts.XADraftsDraftList.name">
-<span class="sig-name descname"><span class="pre">name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Drafts.html#XADraftsDraftList.name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Drafts.XADraftsDraftList.name" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Drafts.html#XADraftsDraftList.name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Drafts.XADraftsDraftList.name" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the name of each draft in the list.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>A list of draft names</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p>List[str]</p>
+<dd class="field-even"><p>list[str]</p>
 </dd>
 </dl>
 <div class="versionadded">
@@ -673,14 +686,14 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Drafts.XADraftsDraftList.permalink">
-<span class="sig-name descname"><span class="pre">permalink</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Drafts.html#XADraftsDraftList.permalink"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Drafts.XADraftsDraftList.permalink" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">permalink</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Drafts.html#XADraftsDraftList.permalink"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Drafts.XADraftsDraftList.permalink" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the URL of each draft in the list.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>A list of draft URLs</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p>List[str]</p>
+<dd class="field-even"><p>list[str]</p>
 </dd>
 </dl>
 <div class="versionadded">
@@ -690,14 +703,14 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Drafts.XADraftsDraftList.tags">
-<span class="sig-name descname"><span class="pre">tags</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Drafts.html#XADraftsDraftList.tags"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Drafts.XADraftsDraftList.tags" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">tags</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Drafts.html#XADraftsDraftList.tags"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Drafts.XADraftsDraftList.tags" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the tags of each draft in the list.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>A list of draft tags</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p>List[List[str]]</p>
+<dd class="field-even"><p>list[list[str]]</p>
 </dd>
 </dl>
 <div class="versionadded">
@@ -713,7 +726,7 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="fantastical.html" class="btn btn-neutral float-left" title="Fantastical Module Reference" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="flow.html" class="btn btn-neutral float-left" title="Flow Module Reference" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="hammerspoon.html" class="btn btn-neutral float-right" title="Hammerspoon Module Reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

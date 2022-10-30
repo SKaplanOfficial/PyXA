@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shortcuts Module Overview &mdash; PyXA 0.0.9 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Stocks Module Overview" href="../stocks/index.html" />
+    <link rel="prev" title="Safari Module Overview" href="../safari/index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> PyXA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../about/index.html">Project Overview</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">Tutorial</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../index.html#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../index.html#basic-usage">Basic Usage</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../../index.html#additional-tutorial-topics">Additional Tutorial Topics</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../index.html">Application Modules</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="../index.html#first-party-application-modules">First-Party Application Modules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../index.html#third-party-application-modules">Third-Party Application Modules</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../lists.html">Working With Lists</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../images.html">Working with Images</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../clipboard.html">Working With The Clipboard</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../user_input.html">Getting User Input</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../spotlight.html">Searching Spotlight</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ui_scripting.html">UI Scripting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../applescript.html">Running AppleScripts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../menubar.html">Add Items to the Menu Bar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../extensions/web/rssfeed.html">Reading RSS Feeds</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../appscript.html">Using Appscript to Work With Unsupported Applications</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tips_tricks.html">Tips and Tricks</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reference/index.html">Code Documentation and Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../bugs.html">Bugs</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">PyXA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../index.html">Tutorial</a> &raquo;</li>
+          <li><a href="../index.html">Application Modules</a> &raquo;</li>
+      <li>Shortcuts Module Overview</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/tutorial/apps/shortcuts/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="shortcuts-module-overview">
+<h1>Shortcuts Module Overview<a class="headerlink" href="#shortcuts-module-overview" title="Permalink to this heading"></a></h1>
+<div class="contents local topic" id="table-of-contents">
+<p class="topic-title">Table of Contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#shortcuts-tutorials" id="id1">Shortcuts Tutorials</a></p></li>
+<li><p><a class="reference internal" href="#shortcuts-examples" id="id2">Shortcuts Examples</a></p>
+<ul>
+<li><p><a class="reference internal" href="#example-1-run-shortcuts-and-receive-their-return-values" id="id3">Example 1 - Run shortcuts and receive their return values</a></p></li>
+<li><p><a class="reference internal" href="#example-2-combine-shortcut-output-with-python" id="id4">Example 2 - Combine shortcut output with Python</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#shortcuts-resources" id="id5">Shortcuts Resources</a></p></li>
+</ul>
+</div>
+<p>Most of Shortcuts.app’s scripting interface is available via PyXA, however some significant features are currently limited by sandboxing constraints. PyXA is able to interact with existing shortcuts, including run them, but it is currently unable to create new shortcuts or shortcut folders. That said, it is possible to use Shortcuts links to install new shortcuts. It would be feasible to use functional, atomically constructed shortcuts (i.e. each shortcut accomplishes a single task and returns a transformed value) to construct larger sequences of actions, effectively re-instituting an ability to create shortcuts. For now, that is left as an exercise for PyXA users. Future versions of PyXA may utilize the Shortcuts URI scheme, in combination with the Intents framework, to re-implement these features in a more straightforward way.</p>
+<section id="shortcuts-tutorials">
+<h2><a class="toc-backref" href="#id1">Shortcuts Tutorials</a><a class="headerlink" href="#shortcuts-tutorials" title="Permalink to this heading"></a></h2>
+<p>There are currently no tutorials for the Shortcuts module.</p>
+</section>
+<section id="shortcuts-examples">
+<h2><a class="toc-backref" href="#id2">Shortcuts Examples</a><a class="headerlink" href="#shortcuts-examples" title="Permalink to this heading"></a></h2>
+<p>The examples below provide an overview of the capabilities of the Shortcuts module. They do not provide any output. For more in-depth examples that show output and provide more detailed explanations, refer to the previous section (<a class="reference internal" href="#shortcuts-tutorials"><span class="std std-ref">Shortcuts Tutorials</span></a>).</p>
+<section id="example-1-run-shortcuts-and-receive-their-return-values">
+<h3><a class="toc-backref" href="#id3">Example 1 - Run shortcuts and receive their return values</a><a class="headerlink" href="#example-1-run-shortcuts-and-receive-their-return-values" title="Permalink to this heading"></a></h3>
+<p>The example below activates Chromium.app, opens Apple’s website in a new tab, waits for the tab to finish loading, then saves the site’s resources (e.g. HTML, CSS, JavaScript, and images) to a location on the disk. Note the use of a full URL, beginning with “http”, as well as a full file path, beginning with “/”. Both a full URL and full file path are necessary in order for this example to operate successfully.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="linenos"> 2</span><span class="n">app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;Shortcuts&quot;</span><span class="p">)</span>
+<span class="linenos"> 3</span>
+<span class="linenos"> 4</span><span class="c1"># Get shortcuts by name</span>
+<span class="linenos"> 5</span><span class="n">sqrt</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">shortcuts</span><span class="p">()</span><span class="o">.</span><span class="n">by_name</span><span class="p">(</span><span class="s2">&quot;sqrt(x)&quot;</span><span class="p">)</span>
+<span class="linenos"> 6</span><span class="n">sin</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">shortcuts</span><span class="p">()</span><span class="o">.</span><span class="n">by_name</span><span class="p">(</span><span class="s2">&quot;sin(x)&quot;</span><span class="p">)</span>
+<span class="linenos"> 7</span>
+<span class="linenos"> 8</span><span class="c1"># Run sqrt function, get first entry in output array</span>
+<span class="linenos"> 9</span><span class="n">root</span> <span class="o">=</span> <span class="n">sqrt</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="mi">81</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="linenos">10</span><span class="nb">print</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
+<span class="linenos">11</span>
+<span class="linenos">12</span><span class="c1"># Run sin function, get first entry in output array</span>
+<span class="linenos">13</span><span class="n">sin_root</span> <span class="o">=</span> <span class="n">sin</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">root</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="linenos">14</span><span class="nb">print</span><span class="p">(</span><span class="n">sin_root</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="example-2-combine-shortcut-output-with-python">
+<h3><a class="toc-backref" href="#id4">Example 2 - Combine shortcut output with Python</a><a class="headerlink" href="#example-2-combine-shortcut-output-with-python" title="Permalink to this heading"></a></h3>
+<p>This example highlights how you can intertwine PyXA, Shortcuts, and Python to carry out more complex processes. The example below uses a shortcut to obtain the source HTML of the Google homepage, then uses Python’s tempfile module alongside PyXA’s <code class="xref py py-func docutils literal notranslate"><span class="pre">PyXA.Safari.XASafariApplication.open()</span></code> method to display a local HTML file in the browser.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="linenos"> 2</span><span class="kn">import</span> <span class="nn">tempfile</span>
+<span class="linenos"> 3</span>
+<span class="linenos"> 4</span><span class="c1"># Get the source of webpage, using a shortcut</span>
+<span class="linenos"> 5</span><span class="n">app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;Shortcuts&quot;</span><span class="p">)</span>
+<span class="linenos"> 6</span><span class="n">s1</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">shortcuts</span><span class="p">()</span><span class="o">.</span><span class="n">by_name</span><span class="p">(</span><span class="s2">&quot;Get HTML&quot;</span><span class="p">)</span>
+<span class="linenos"> 7</span><span class="n">source</span> <span class="o">=</span> <span class="n">s1</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s2">&quot;http://google.com&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="linenos"> 8</span>
+<span class="linenos"> 9</span><span class="c1"># Create a temporary HTML file</span>
+<span class="linenos">10</span><span class="n">temp</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">NamedTemporaryFile</span><span class="p">(</span><span class="n">suffix</span><span class="o">=</span><span class="s2">&quot;.html&quot;</span><span class="p">)</span>
+<span class="linenos">11</span><span class="n">temp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="s2">&quot;UTF-8&quot;</span><span class="p">))</span>
+<span class="linenos">12</span>
+<span class="linenos">13</span><span class="c1"># Open the HTML file</span>
+<span class="linenos">14</span><span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;Safari&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">temp</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+<span class="linenos">15</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="linenos">16</span><span class="n">temp</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="shortcuts-resources">
+<h2><a class="toc-backref" href="#id5">Shortcuts Resources</a><a class="headerlink" href="#shortcuts-resources" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://support.apple.com/guide/shortcuts-mac/welcome/mac">Shortcuts for macOS User Guide - Apple Support</a></p></li>
+</ul>
+<p>For all classes, methods, and inherited members of the Shortcuts module, see the <a class="reference internal" href="../../../reference/apps/shortcuts.html#module-PyXA.apps.Shortcuts"><span class="std std-ref">Shortcuts Module Reference</span></a>.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../safari/index.html" class="btn btn-neutral float-left" title="Safari Module Overview" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../stocks/index.html" class="btn btn-neutral float-right" title="Stocks Module Overview" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Stephen Kaplan.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reading RSS Feeds &mdash; PyXA 0.0.9 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Using Appscript to Work With Unsupported Applications" href="../../appscript.html" />
+    <link rel="prev" title="Add Items to the Menu Bar" href="../../menubar.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> PyXA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../about/index.html">Project Overview</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">Tutorial</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../index.html#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../index.html#basic-usage">Basic Usage</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../../index.html#additional-tutorial-topics">Additional Tutorial Topics</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../../apps/index.html">Application Modules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../lists.html">Working With Lists</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../images.html">Working with Images</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../clipboard.html">Working With The Clipboard</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../user_input.html">Getting User Input</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../spotlight.html">Searching Spotlight</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ui_scripting.html">UI Scripting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../applescript.html">Running AppleScripts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../menubar.html">Add Items to the Menu Bar</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Reading RSS Feeds</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../appscript.html">Using Appscript to Work With Unsupported Applications</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tips_tricks.html">Tips and Tricks</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reference/index.html">Code Documentation and Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../bugs.html">Bugs</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">PyXA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../index.html">Tutorial</a> &raquo;</li>
+      <li>Reading RSS Feeds</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/tutorial/extensions/web/rssfeed.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="reading-rss-feeds">
+<h1>Reading RSS Feeds<a class="headerlink" href="#reading-rss-feeds" title="Permalink to this heading"></a></h1>
+<p>PyXA provides straightforward RSS reading capabilities through the <code class="xref py py-class docutils literal notranslate"><span class="pre">RSSFeed</span></code> class. In combination with the associated <code class="xref py py-class docutils literal notranslate"><span class="pre">RSSItem</span></code> and <code class="xref py py-class docutils literal notranslate"><span class="pre">RSSItemContent</span></code> classes, the <code class="xref py py-class docutils literal notranslate"><span class="pre">RSSFeed</span></code> class handles the details of parsing RSS feeds and makes their information accessible via object attributes and methods. These classes also automatically converts complex types, such as URLs and images, into their PyXA representations.</p>
+<p>To create a new RSS reader, instantiate an <code class="xref py py-class docutils literal notranslate"><span class="pre">RSSFeed</span></code> object and provide an RSS feed endpoint (i.e. URL) as an argument. You can then view the retrieved RSS items via the <code class="xref py py-func docutils literal notranslate"><span class="pre">items()</span></code> method. The example below obtains the top 10 songs on iTunes, at the of time of writing, from Apple’s public RSS feed.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="n">reader</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">RSSFeed</span><span class="p">(</span><span class="s2">&quot;http://ax.itunes.apple.com/WebObjects/MZStoreServices.woa/ws/RSS/topsongs/limit=10/xml&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">reader</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
+<span class="c1"># &lt;&lt;class &#39;PyXA.extensions.XAWeb.RSSItemList&#39;&gt;[&#39;Hold Me Closer - Elton John &amp; Britney Spears&#39;, &#39;Only Ever Wanted - Timcast&#39;, &quot;I Ain&#39;t Worried - OneRepublic&quot;, &#39;wait in the truck - HARDY &amp; Lainey Wilson&#39;, &#39;Bring Me to Life - Evanescence&#39;, &#39;Running Up That Hill (A Deal with God) - Kate Bush&#39;, &#39;Beer With My Friends - Kenny Chesney &amp; Old Dominion&#39;, &#39;American Pie (Full Length Version) - Don Mclean&#39;, &#39;She Had Me At Heads Carolina - Cole Swindell&#39;, &#39;You Proof - Morgan Wallen&#39;]&gt;</span>
+</pre></div>
+</div>
+<p>As you can see, the <code class="xref py py-func docutils literal notranslate"><span class="pre">items()</span></code> method returns an <code class="xref py py-class docutils literal notranslate"><span class="pre">RSSItemList</span></code> object, an instance of <a class="reference internal" href="../../../reference/xabase.html#PyXA.XABase.XAList" title="PyXA.XABase.XAList"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAList</span></code></a> – meaning that 1) the list supports bulk actions via method calls, and 2) the items are not fully evaluated until retrieved from the list by index. The latter is not significant when working with small amounts of items as in the example above, but it saves significant time when working with very large lists. The ability to perform bulk actions is present regardless of list size. The example below shows some of the bulk methods available for the <code class="xref py py-class docutils literal notranslate"><span class="pre">RSSItemList</span></code> class.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="n">reader</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">RSSFeed</span><span class="p">(</span><span class="s2">&quot;http://ax.itunes.apple.com/WebObjects/MZStoreServices.woa/ws/RSS/topsongs/limit=10/xml&quot;</span><span class="p">)</span>
+<span class="n">items</span> <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">items</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">items</span><span class="o">.</span><span class="n">title</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">items</span><span class="o">.</span><span class="n">link</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">items</span><span class="o">.</span><span class="n">shuffle</span><span class="p">())</span>
+
+<span class="c1"># &lt;&lt;class &#39;PyXA.extensions.XAWeb.RSSItemList&#39;&gt;[&#39;Hold Me Closer - Elton John &amp; Britney Spears&#39;, &#39;Only Ever Wanted - Timcast&#39;, &quot;I Ain&#39;t Worried - OneRepublic&quot;, &#39;Bring Me to Life - Evanescence&#39;, &#39;wait in the truck - HARDY &amp; Lainey Wilson&#39;, &#39;Running Up That Hill (A Deal with God) - Kate Bush&#39;, &#39;Beer With My Friends - Kenny Chesney &amp; Old Dominion&#39;, &#39;American Pie (Full Length Version) - Don Mclean&#39;, &#39;She Had Me At Heads Carolina - Cole Swindell&#39;, &quot;Summer of &#39;69 - Bryan Adams&quot;]&gt;</span>
+
+<span class="c1"># [&#39;Hold Me Closer - Elton John &amp; Britney Spears&#39;, &#39;Only Ever Wanted - Timcast&#39;, &quot;I Ain&#39;t Worried - OneRepublic&quot;, &#39;Bring Me to Life - Evanescence&#39;, &#39;wait in the truck - HARDY &amp; Lainey Wilson&#39;, &#39;Running Up That Hill (A Deal with God) - Kate Bush&#39;, &#39;Beer With My Friends - Kenny Chesney &amp; Old Dominion&#39;, &#39;American Pie (Full Length Version) - Don Mclean&#39;, &#39;She Had Me At Heads Carolina - Cole Swindell&#39;, &quot;Summer of &#39;69 - Bryan Adams&quot;]</span>
+
+<span class="c1"># [&lt;&lt;class &#39;PyXA.XABase.XAURL&#39;&gt;&gt;, &lt;&lt;class &#39;PyXA.XABase.XAURL&#39;&gt;&gt;, &lt;&lt;class &#39;PyXA.XABase.XAURL&#39;&gt;&gt;, &lt;&lt;class &#39;PyXA.XABase.XAURL&#39;&gt;&gt;, &lt;&lt;class &#39;PyXA.XABase.XAURL&#39;&gt;&gt;, &lt;&lt;class &#39;PyXA.XABase.XAURL&#39;&gt;&gt;, &lt;&lt;class &#39;PyXA.XABase.XAURL&#39;&gt;&gt;, &lt;&lt;class &#39;PyXA.XABase.XAURL&#39;&gt;&gt;, &lt;&lt;class &#39;PyXA.XABase.XAURL&#39;&gt;&gt;, &lt;&lt;class &#39;PyXA.XABase.XAURL&#39;&gt;&gt;]</span>
+
+<span class="c1"># &lt;&lt;class &#39;PyXA.extensions.XAWeb.RSSItemList&#39;&gt;[&#39;Bring Me to Life - Evanescence&#39;, &#39;American Pie (Full Length Version) - Don Mclean&#39;, &quot;I Ain&#39;t Worried - OneRepublic&quot;, &#39;Running Up That Hill (A Deal with God) - Kate Bush&#39;, &#39;Only Ever Wanted - Timcast&#39;, &#39;Beer With My Friends - Kenny Chesney &amp; Old Dominion&#39;, &#39;wait in the truck - HARDY &amp; Lainey Wilson&#39;, &#39;Hold Me Closer - Elton John &amp; Britney Spears&#39;, &quot;Summer of &#39;69 - Bryan Adams&quot;, &#39;She Had Me At Heads Carolina - Cole Swindell&#39;]&gt;</span>
+</pre></div>
+</div>
+<p>The combination of <a class="reference internal" href="../../../reference/xabase.html#PyXA.XABase.XAList" title="PyXA.XABase.XAList"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAList</span></code></a> objects and automatic conversion to PyXA-wrapped objects allows for highly streamlined code. For example, to open each image contained in the <cite>description</cite> element of each RSS item in preview, you can use bulk operations first to get the description of each item, then to get the images of each description, and finally to show each image.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="n">reader</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">RSSFeed</span><span class="p">(</span><span class="s2">&quot;https://www.nhc.noaa.gov/gtwo.xml&quot;</span><span class="p">)</span>
+<span class="n">descriptions</span> <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="n">items</span><span class="p">()</span><span class="o">.</span><span class="n">description</span><span class="p">()</span>
+<span class="n">descriptions</span><span class="o">.</span><span class="n">images</span><span class="p">()</span><span class="o">.</span><span class="n">show_in_preview</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>You could, of course, condense this further by taking full advantage of PyXA’s support for chaining method calls:</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="n">PyXA</span><span class="o">.</span><span class="n">RSSFeed</span><span class="p">(</span><span class="s2">&quot;https://www.nhc.noaa.gov/gtwo.xml&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">()</span><span class="o">.</span><span class="n">description</span><span class="p">()</span><span class="o">.</span><span class="n">images</span><span class="p">()</span><span class="o">.</span><span class="n">show_in_preview</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>In this case, the sacrifice to readability is not too extreme, but you can decide which form suites your tastes.</p>
+<p>The previous example utilized the <code class="xref py py-func docutils literal notranslate"><span class="pre">images()</span></code> method to obtain a list of <a class="reference internal" href="../../../reference/xabase.html#PyXA.XABase.XAImage" title="PyXA.XABase.XAImage"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAImage</span></code></a> objects. Another useful method is the <code class="xref py py-func docutils literal notranslate"><span class="pre">links()</span></code> method, which obtains a list of <a class="reference internal" href="../../../reference/xabase.html#PyXA.XABase.XAURL" title="PyXA.XABase.XAURL"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAURL</span></code></a> objects. Both of these methods work on lists of item content as well as on individual items. An example of using the <code class="xref py py-func docutils literal notranslate"><span class="pre">links()</span></code> method is shown below. The example also showcases how you can use interweave an RSS reader with other aspects of PyXA, in this case using the <a class="reference internal" href="../../../reference/xabase.html#PyXA.XABase.XASound" title="PyXA.XABase.XASound"><code class="xref py py-class docutils literal notranslate"><span class="pre">XASound</span></code></a> class to listen to m4a files stored at a web URL.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="n">reader</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">RSSFeed</span><span class="p">(</span><span class="s2">&quot;http://ax.itunes.apple.com/WebObjects/MZStoreServices.woa/ws/RSS/topsongs/limit=10/xml&quot;</span><span class="p">)</span>
+<span class="n">links</span> <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="n">items</span><span class="p">()</span><span class="o">.</span><span class="n">links</span><span class="p">()</span>
+<span class="n">m4as</span> <span class="o">=</span> <span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="s2">&quot;m4a&quot;</span> <span class="ow">in</span> <span class="n">x</span><span class="o">.</span><span class="n">url</span><span class="p">,</span> <span class="n">links</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">song</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">m4as</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Now playing: &quot;</span> <span class="o">+</span> <span class="n">reader</span><span class="o">.</span><span class="n">items</span><span class="p">()[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">title</span><span class="p">)</span>
+    <span class="n">sound</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XASound</span><span class="p">(</span><span class="n">song</span><span class="p">)</span>
+    <span class="n">sound</span><span class="o">.</span><span class="n">play</span><span class="p">()</span>
+    <span class="n">sleep</span><span class="p">(</span><span class="n">sound</span><span class="o">.</span><span class="n">duration</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../../menubar.html" class="btn btn-neutral float-left" title="Add Items to the Menu Bar" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../../appscript.html" class="btn btn-neutral float-right" title="Using Appscript to Work With Unsupported Applications" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Stephen Kaplan.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

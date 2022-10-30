@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PyXA.apps.Chromium &mdash; PyXA 0.0.9 documentation</title>
+  <title>PyXA.apps.Chromium &mdash; PyXA 0.1.0 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -14,7 +14,9 @@
         <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/jquery.js"></script>
         <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -73,8 +75,9 @@
 <span class="sd">Control Chromium using JXA-like syntax.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
-<span class="kn">from</span> <span class="nn">AppKit</span> <span class="kn">import</span> <span class="n">NSURL</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">import</span> <span class="nn">AppKit</span>
 
 <span class="kn">from</span> <span class="nn">PyXA</span> <span class="kn">import</span> <span class="n">XABase</span>
 <span class="kn">from</span> <span class="nn">PyXA</span> <span class="kn">import</span> <span class="n">XABaseScriptable</span>
@@ -105,6 +108,10 @@
     <span class="k">def</span> <span class="nf">frontmost</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">frontmost</span><span class="p">()</span>
 
+    <span class="nd">@frontmost</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">frontmost</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frontmost</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;frontmost&quot;</span><span class="p">,</span> <span class="n">frontmost</span><span class="p">)</span>
+
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">version</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">version</span><span class="p">()</span>
@@ -128,7 +135,7 @@
 <span class="sd">        :Example 1: Open a local or external URL</span>
 
 <span class="sd">           &gt;&gt;&gt; import PyXA</span>
-<span class="sd">           &gt;&gt;&gt; app = PyXA.application(&quot;Chromium&quot;)</span>
+<span class="sd">           &gt;&gt;&gt; app = PyXA.Application(&quot;Chromium&quot;)</span>
 <span class="sd">           &gt;&gt;&gt; app.open(&quot;https://www.google.com&quot;)</span>
 <span class="sd">           &gt;&gt;&gt; app.open(&quot;google.com&quot;)</span>
 <span class="sd">           &gt;&gt;&gt; app.open(&quot;/Users/exampleuser/Documents/WebPage.html&quot;)</span>
@@ -249,7 +256,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The full title of the window</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">:</span> <span class="nb">int</span> <span class="c1">#: The unique identifier for the window</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">index</span><span class="p">:</span> <span class="nb">int</span> <span class="c1">#: The index of the window in the front-to-back ordering</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">bounds</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]</span> <span class="c1">#: The bounding rectangle of the window</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bounds</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="c1">#: The bounding rectangle of the window</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">closeable</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether the window has a close button</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">minimizable</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether the window can be minimized</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">minimized</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether the window is currently minimized</span>
@@ -265,6 +272,10 @@
     <span class="k">def</span> <span class="nf">given_name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">givenName</span><span class="p">()</span>
 
+    <span class="nd">@given_name</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">given_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">given_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;givenName&quot;</span><span class="p">,</span> <span class="n">given_name</span><span class="p">)</span>
+
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">name</span><span class="p">()</span>
@@ -277,9 +288,25 @@
     <span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">index</span><span class="p">()</span>
 
+    <span class="nd">@index</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;index&quot;</span><span class="p">,</span> <span class="n">index</span><span class="p">)</span>
+
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">bounds</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">bounds</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">bounds</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+        <span class="n">rect</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">bounds</span><span class="p">()</span>
+        <span class="n">origin</span> <span class="o">=</span> <span class="n">rect</span><span class="o">.</span><span class="n">origin</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="n">rect</span><span class="o">.</span><span class="n">size</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">origin</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">origin</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">size</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="n">size</span><span class="o">.</span><span class="n">height</span><span class="p">)</span>
+
+    <span class="nd">@bounds</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">bounds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bounds</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">w</span> <span class="o">=</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">AppKit</span><span class="o">.</span><span class="n">NSValue</span><span class="o">.</span><span class="n">valueWithRect_</span><span class="p">(</span><span class="n">AppKit</span><span class="o">.</span><span class="n">NSMakeRect</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">h</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;bounds&quot;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">closeable</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
@@ -293,6 +320,10 @@
     <span class="k">def</span> <span class="nf">minimized</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">minimized</span><span class="p">()</span>
 
+    <span class="nd">@minimized</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">minimized</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">minimized</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;minimized&quot;</span><span class="p">,</span> <span class="n">minimized</span><span class="p">)</span>
+
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">resizable</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">resizable</span><span class="p">()</span>
@@ -300,6 +331,10 @@
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">visible</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">visible</span><span class="p">()</span>
+
+    <span class="nd">@visible</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">visible</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">visible</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;visible&quot;</span><span class="p">,</span> <span class="n">visible</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">zoomable</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
@@ -309,17 +344,33 @@
     <span class="k">def</span> <span class="nf">zoomed</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">zoomed</span><span class="p">()</span>
 
+    <span class="nd">@zoomed</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">zoomed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">zoomed</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;zoomed&quot;</span><span class="p">,</span> <span class="n">zoomed</span><span class="p">)</span>
+
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">mode</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">mode</span><span class="p">()</span>
+
+    <span class="nd">@mode</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">mode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;mode&quot;</span><span class="p">,</span> <span class="n">mode</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">active_tab_index</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">activeTabIndex</span><span class="p">()</span> 
 
+    <span class="nd">@active_tab_index</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">active_tab_index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">active_tab_index</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;activeTabIndex&quot;</span><span class="p">,</span> <span class="n">active_tab_index</span><span class="p">)</span>
+
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">active_tab</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAChromiumTab&#39;</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">activeTab</span><span class="p">(),</span> <span class="n">XAChromiumTab</span><span class="p">)</span>
+
+    <span class="nd">@active_tab</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">active_tab</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">active_tab</span><span class="p">:</span> <span class="s1">&#39;XAChromiumTab&#39;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;activeTab&quot;</span><span class="p">,</span> <span class="n">active_tab</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span>
 
 <div class="viewcode-block" id="XAChromiumWindow.new_tab"><a class="viewcode-back" href="../../../reference/apps/chromium.html#PyXA.apps.Chromium.XAChromiumWindow.new_tab">[docs]</a>    <span class="k">def</span> <span class="nf">new_tab</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAURL</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAChromiumTab&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Opens a new tab at the specified URL.</span>
@@ -364,42 +415,42 @@
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">XAChromiumTab</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
 
-<div class="viewcode-block" id="XAChromiumTabList.id"><a class="viewcode-back" href="../../../reference/apps/chromium.html#PyXA.apps.Chromium.XAChromiumTabList.id">[docs]</a>    <span class="k">def</span> <span class="nf">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAChromiumTabList.id"><a class="viewcode-back" href="../../../reference/apps/chromium.html#PyXA.apps.Chromium.XAChromiumTabList.id">[docs]</a>    <span class="k">def</span> <span class="nf">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the ID of each tab in the list.</span>
 
 <span class="sd">        :return: A list of tab IDs</span>
-<span class="sd">        :rtype: List[int]</span>
+<span class="sd">        :rtype: list[int]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="XAChromiumTabList.title"><a class="viewcode-back" href="../../../reference/apps/chromium.html#PyXA.apps.Chromium.XAChromiumTabList.title">[docs]</a>    <span class="k">def</span> <span class="nf">title</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAChromiumTabList.title"><a class="viewcode-back" href="../../../reference/apps/chromium.html#PyXA.apps.Chromium.XAChromiumTabList.title">[docs]</a>    <span class="k">def</span> <span class="nf">title</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the title of each tab in the list.</span>
 
 <span class="sd">        :return: A list of tab titles</span>
-<span class="sd">        :rtype: List[str]</span>
+<span class="sd">        :rtype: list[str]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;title&quot;</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="XAChromiumTabList.url"><a class="viewcode-back" href="../../../reference/apps/chromium.html#PyXA.apps.Chromium.XAChromiumTabList.url">[docs]</a>    <span class="k">def</span> <span class="nf">url</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAURL</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAChromiumTabList.url"><a class="viewcode-back" href="../../../reference/apps/chromium.html#PyXA.apps.Chromium.XAChromiumTabList.url">[docs]</a>    <span class="k">def</span> <span class="nf">url</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAURL</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the URL of each tab in the list.</span>
 
 <span class="sd">        :return: A list of tab URLS</span>
-<span class="sd">        :rtype: List[XABase.XAURL]</span>
+<span class="sd">        :rtype: list[XABase.XAURL]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">ls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;URL&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAURL</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">ls</span><span class="p">]</span></div>
 
-<div class="viewcode-block" id="XAChromiumTabList.loading"><a class="viewcode-back" href="../../../reference/apps/chromium.html#PyXA.apps.Chromium.XAChromiumTabList.loading">[docs]</a>    <span class="k">def</span> <span class="nf">loading</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAChromiumTabList.loading"><a class="viewcode-back" href="../../../reference/apps/chromium.html#PyXA.apps.Chromium.XAChromiumTabList.loading">[docs]</a>    <span class="k">def</span> <span class="nf">loading</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the loading state of each tab in the list.</span>
 
 <span class="sd">        :return: A list of loading states; a list of booleans.</span>
-<span class="sd">        :rtype: List[bool]</span>
+<span class="sd">        :rtype: list[bool]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -445,13 +496,13 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;loading&quot;</span><span class="p">,</span> <span class="n">loading</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="XAChromiumTabList.get_clipboard_representation"><a class="viewcode-back" href="../../../reference/apps/chromium.html#PyXA.apps.Chromium.XAChromiumTabList.get_clipboard_representation">[docs]</a>    <span class="k">def</span> <span class="nf">get_clipboard_representation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">NSURL</span><span class="p">]]:</span>
+<div class="viewcode-block" id="XAChromiumTabList.get_clipboard_representation"><a class="viewcode-back" href="../../../reference/apps/chromium.html#PyXA.apps.Chromium.XAChromiumTabList.get_clipboard_representation">[docs]</a>    <span class="k">def</span> <span class="nf">get_clipboard_representation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">AppKit</span><span class="o">.</span><span class="n">NSURL</span><span class="p">]]:</span>
         <span class="sd">&quot;&quot;&quot;Gets a clipboard-codable representation of each tab in the list.</span>
 
 <span class="sd">        When the clipboard content is set to a list of Chromium tabs, each tab&#39;s URL is added to the clipboard.</span>
 
 <span class="sd">        :return: A list of tab URLs</span>
-<span class="sd">        :rtype: List[Union[str, NSURL]]</span>
+<span class="sd">        :rtype: list[Union[str, AppKit.NSURL]]</span>
 
 <span class="sd">        .. versionadded:: 0.0.8</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -491,6 +542,10 @@
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">url</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAURL</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAURL</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">URL</span><span class="p">())</span>
+
+    <span class="nd">@url</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">url</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">:</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAURL</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;URL&quot;</span><span class="p">,</span> <span class="n">url</span><span class="o">.</span><span class="n">url</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">loading</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
@@ -592,9 +647,9 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">viewSource</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
-<div class="viewcode-block" id="XAChromiumTab.save"><a class="viewcode-back" href="../../../reference/apps/chromium.html#PyXA.apps.Chromium.XAChromiumTab.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">NSURL</span><span class="p">],</span> <span class="n">save_assets</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAChromiumTab&#39;</span><span class="p">:</span>
+<div class="viewcode-block" id="XAChromiumTab.save"><a class="viewcode-back" href="../../../reference/apps/chromium.html#PyXA.apps.Chromium.XAChromiumTab.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">AppKit</span><span class="o">.</span><span class="n">NSURL</span><span class="p">],</span> <span class="n">save_assets</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAChromiumTab&#39;</span><span class="p">:</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-            <span class="n">file_path</span> <span class="o">=</span> <span class="n">NSURL</span><span class="o">.</span><span class="n">alloc</span><span class="p">()</span><span class="o">.</span><span class="n">initFileURLWithPath_</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+            <span class="n">file_path</span> <span class="o">=</span> <span class="n">AppKit</span><span class="o">.</span><span class="n">NSURL</span><span class="o">.</span><span class="n">alloc</span><span class="p">()</span><span class="o">.</span><span class="n">initFileURLWithPath_</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">save_assets</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">saveIn_as_</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="s2">&quot;complete html&quot;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
@@ -627,9 +682,9 @@
 <span class="sd">        :Example 1: Move the current tab to the second window</span>
 
 <span class="sd">        &gt;&gt;&gt; import PyXA</span>
-<span class="sd">        &gt;&gt;&gt; app = PyXA.application(&quot;Chromium&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; app = PyXA.Application(&quot;Chromium&quot;)</span>
 <span class="sd">        &gt;&gt;&gt; tab = app.front_window.active_tab</span>
-<span class="sd">        &gt;&gt;&gt; window2 = app.window(1)</span>
+<span class="sd">        &gt;&gt;&gt; window2 = app.windows()[1]</span>
 <span class="sd">        &gt;&gt;&gt; tab.move_to(window2)</span>
 
 <span class="sd">        .. seealso:: :func:`duplicate_to`</span>
@@ -657,9 +712,9 @@
 <span class="sd">        :Example 1: Duplicate the current tab in the second window</span>
 
 <span class="sd">        &gt;&gt;&gt; import PyXA</span>
-<span class="sd">        &gt;&gt;&gt; app = PyXA.application(&quot;Chromium&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; app = PyXA.Application(&quot;Chromium&quot;)</span>
 <span class="sd">        &gt;&gt;&gt; tab = app.front_window.active_tab</span>
-<span class="sd">        &gt;&gt;&gt; window2 = app.window(1)</span>
+<span class="sd">        &gt;&gt;&gt; window2 = app.windows()[1]</span>
 <span class="sd">        &gt;&gt;&gt; tab.duplicate_to(window2)</span>
 
 <span class="sd">        .. seealso:: :func:`move_to`</span>
@@ -677,13 +732,13 @@
         <span class="n">window</span><span class="o">.</span><span class="n">tabs</span><span class="p">()</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="n">new_tab</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
-<div class="viewcode-block" id="XAChromiumTab.get_clipboard_representation"><a class="viewcode-back" href="../../../reference/apps/chromium.html#PyXA.apps.Chromium.XAChromiumTab.get_clipboard_representation">[docs]</a>    <span class="k">def</span> <span class="nf">get_clipboard_representation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">NSURL</span><span class="p">]]:</span>
+<div class="viewcode-block" id="XAChromiumTab.get_clipboard_representation"><a class="viewcode-back" href="../../../reference/apps/chromium.html#PyXA.apps.Chromium.XAChromiumTab.get_clipboard_representation">[docs]</a>    <span class="k">def</span> <span class="nf">get_clipboard_representation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">AppKit</span><span class="o">.</span><span class="n">NSURL</span><span class="p">]]:</span>
         <span class="sd">&quot;&quot;&quot;Gets a clipboard-codable representation of the tab.</span>
 
 <span class="sd">        When the clipboard content is set to a Chromium tab, the tab&#39;s title and URL are added to the clipboard.</span>
 
 <span class="sd">        :return: The tab&#39;s title and URL</span>
-<span class="sd">        :rtype: List[Union[str, NSURL]]</span>
+<span class="sd">        :rtype: list[Union[str, AppKit.NSURL]]</span>
 
 <span class="sd">        .. versionadded:: 0.0.8</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -705,31 +760,31 @@
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">XAChromiumBookmarkFolder</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
 
-<div class="viewcode-block" id="XAChromiumBookmarkFolderList.id"><a class="viewcode-back" href="../../../reference/apps/chromium.html#PyXA.apps.Chromium.XAChromiumBookmarkFolderList.id">[docs]</a>    <span class="k">def</span> <span class="nf">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAChromiumBookmarkFolderList.id"><a class="viewcode-back" href="../../../reference/apps/chromium.html#PyXA.apps.Chromium.XAChromiumBookmarkFolderList.id">[docs]</a>    <span class="k">def</span> <span class="nf">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the ID of each bookmark folder in the list.</span>
 
 <span class="sd">        :return: A list of bookmark folder IDs</span>
-<span class="sd">        :rtype: List[int]</span>
+<span class="sd">        :rtype: list[int]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="XAChromiumBookmarkFolderList.title"><a class="viewcode-back" href="../../../reference/apps/chromium.html#PyXA.apps.Chromium.XAChromiumBookmarkFolderList.title">[docs]</a>    <span class="k">def</span> <span class="nf">title</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAChromiumBookmarkFolderList.title"><a class="viewcode-back" href="../../../reference/apps/chromium.html#PyXA.apps.Chromium.XAChromiumBookmarkFolderList.title">[docs]</a>    <span class="k">def</span> <span class="nf">title</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the title of each bookmark folder in the list.</span>
 
 <span class="sd">        :return: A list of bookmark folder titles</span>
-<span class="sd">        :rtype: List[str]</span>
+<span class="sd">        :rtype: list[str]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;title&quot;</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="XAChromiumBookmarkFolderList.index"><a class="viewcode-back" href="../../../reference/apps/chromium.html#PyXA.apps.Chromium.XAChromiumBookmarkFolderList.index">[docs]</a>    <span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAChromiumBookmarkFolderList.index"><a class="viewcode-back" href="../../../reference/apps/chromium.html#PyXA.apps.Chromium.XAChromiumBookmarkFolderList.index">[docs]</a>    <span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the index of each bookmark folder in the list.</span>
 
 <span class="sd">        :return: A list of indexes</span>
-<span class="sd">        :rtype: List[int]</span>
+<span class="sd">        :rtype: list[int]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -765,13 +820,13 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;index&quot;</span><span class="p">,</span> <span class="n">index</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="XAChromiumBookmarkFolderList.get_clipboard_representation"><a class="viewcode-back" href="../../../reference/apps/chromium.html#PyXA.apps.Chromium.XAChromiumBookmarkFolderList.get_clipboard_representation">[docs]</a>    <span class="k">def</span> <span class="nf">get_clipboard_representation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAChromiumBookmarkFolderList.get_clipboard_representation"><a class="viewcode-back" href="../../../reference/apps/chromium.html#PyXA.apps.Chromium.XAChromiumBookmarkFolderList.get_clipboard_representation">[docs]</a>    <span class="k">def</span> <span class="nf">get_clipboard_representation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets a clipboard-codable representation of each bookmark folder in the list.</span>
 
 <span class="sd">        When the clipboard content is set to a list of bookmark folders, each folder&#39;s title is added to the clipboard.</span>
 
 <span class="sd">        :return: The list of each bookmark folder&#39;s title</span>
-<span class="sd">        :rtype: List[str]</span>
+<span class="sd">        :rtype: list[str]</span>
 
 <span class="sd">        .. versionadded:: 0.0.8</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -800,6 +855,10 @@
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">title</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">title</span><span class="p">()</span>
+
+    <span class="nd">@title</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">title</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;title&quot;</span><span class="p">,</span> <span class="n">title</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
@@ -864,42 +923,42 @@
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">XAChromiumBookmarkItem</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
 
-<div class="viewcode-block" id="XAChromiumBookmarkItemList.id"><a class="viewcode-back" href="../../../reference/apps/chromium.html#PyXA.apps.Chromium.XAChromiumBookmarkItemList.id">[docs]</a>    <span class="k">def</span> <span class="nf">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAChromiumBookmarkItemList.id"><a class="viewcode-back" href="../../../reference/apps/chromium.html#PyXA.apps.Chromium.XAChromiumBookmarkItemList.id">[docs]</a>    <span class="k">def</span> <span class="nf">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the ID of each item in the list.</span>
 
 <span class="sd">        :return: A list of bookmark item IDs</span>
-<span class="sd">        :rtype: List[int]</span>
+<span class="sd">        :rtype: list[int]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="XAChromiumBookmarkItemList.title"><a class="viewcode-back" href="../../../reference/apps/chromium.html#PyXA.apps.Chromium.XAChromiumBookmarkItemList.title">[docs]</a>    <span class="k">def</span> <span class="nf">title</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAChromiumBookmarkItemList.title"><a class="viewcode-back" href="../../../reference/apps/chromium.html#PyXA.apps.Chromium.XAChromiumBookmarkItemList.title">[docs]</a>    <span class="k">def</span> <span class="nf">title</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the title of each item in the list.</span>
 
 <span class="sd">        :return: A list of bookmark item titles</span>
-<span class="sd">        :rtype: List[str]</span>
+<span class="sd">        :rtype: list[str]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;title&quot;</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="XAChromiumBookmarkItemList.url"><a class="viewcode-back" href="../../../reference/apps/chromium.html#PyXA.apps.Chromium.XAChromiumBookmarkItemList.url">[docs]</a>    <span class="k">def</span> <span class="nf">url</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAURL</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAChromiumBookmarkItemList.url"><a class="viewcode-back" href="../../../reference/apps/chromium.html#PyXA.apps.Chromium.XAChromiumBookmarkItemList.url">[docs]</a>    <span class="k">def</span> <span class="nf">url</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAURL</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the url of each item in the list.</span>
 
 <span class="sd">        :return: A list of bookmark item URLs</span>
-<span class="sd">        :rtype: List[XABase.XAURL]</span>
+<span class="sd">        :rtype: list[XABase.XAURL]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">ls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;URL&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAURL</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">ls</span><span class="p">]</span></div>
 
-<div class="viewcode-block" id="XAChromiumBookmarkItemList.index"><a class="viewcode-back" href="../../../reference/apps/chromium.html#PyXA.apps.Chromium.XAChromiumBookmarkItemList.index">[docs]</a>    <span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAChromiumBookmarkItemList.index"><a class="viewcode-back" href="../../../reference/apps/chromium.html#PyXA.apps.Chromium.XAChromiumBookmarkItemList.index">[docs]</a>    <span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the index of each item in the list.</span>
 
 <span class="sd">        :return: A list of indexes</span>
-<span class="sd">        :rtype: List[int]</span>
+<span class="sd">        :rtype: list[int]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -945,13 +1004,13 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;index&quot;</span><span class="p">,</span> <span class="n">index</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="XAChromiumBookmarkItemList.get_clipboard_representation"><a class="viewcode-back" href="../../../reference/apps/chromium.html#PyXA.apps.Chromium.XAChromiumBookmarkItemList.get_clipboard_representation">[docs]</a>    <span class="k">def</span> <span class="nf">get_clipboard_representation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">NSURL</span><span class="p">]]:</span>
+<div class="viewcode-block" id="XAChromiumBookmarkItemList.get_clipboard_representation"><a class="viewcode-back" href="../../../reference/apps/chromium.html#PyXA.apps.Chromium.XAChromiumBookmarkItemList.get_clipboard_representation">[docs]</a>    <span class="k">def</span> <span class="nf">get_clipboard_representation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">AppKit</span><span class="o">.</span><span class="n">NSURL</span><span class="p">]]:</span>
         <span class="sd">&quot;&quot;&quot;Gets a clipboard-codable representation of each bookmark item in the list.</span>
 
 <span class="sd">        When the clipboard content is set to a list of bookmark items, each item&#39;s title and URL are added to the clipboard.</span>
 
 <span class="sd">        :return: The list of each bookmark items&#39;s title and URL</span>
-<span class="sd">        :rtype: List[Union[str, NSURL]]</span>
+<span class="sd">        :rtype: list[Union[str, AppKit.NSURL]]</span>
 
 <span class="sd">        .. versionadded:: 0.0.8</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -988,9 +1047,17 @@
     <span class="k">def</span> <span class="nf">title</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">title</span><span class="p">()</span>
 
+    <span class="nd">@title</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">title</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;title&quot;</span><span class="p">,</span> <span class="n">title</span><span class="p">)</span>
+
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">url</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAURL</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAURL</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">URL</span><span class="p">())</span>
+
+    <span class="nd">@url</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">url</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">:</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAURL</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;URL&quot;</span><span class="p">,</span> <span class="n">url</span><span class="o">.</span><span class="n">url</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
@@ -1003,13 +1070,13 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="XAChromiumBookmarkItem.get_clipboard_representation"><a class="viewcode-back" href="../../../reference/apps/chromium.html#PyXA.apps.Chromium.XAChromiumBookmarkItem.get_clipboard_representation">[docs]</a>    <span class="k">def</span> <span class="nf">get_clipboard_representation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">NSURL</span><span class="p">]]:</span>
+<div class="viewcode-block" id="XAChromiumBookmarkItem.get_clipboard_representation"><a class="viewcode-back" href="../../../reference/apps/chromium.html#PyXA.apps.Chromium.XAChromiumBookmarkItem.get_clipboard_representation">[docs]</a>    <span class="k">def</span> <span class="nf">get_clipboard_representation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">AppKit</span><span class="o">.</span><span class="n">NSURL</span><span class="p">]]:</span>
         <span class="sd">&quot;&quot;&quot;Gets a clipboard-codable representation of the bookmark item.</span>
 
 <span class="sd">        When the clipboard content is set to a bookmark item, the item&#39;s title and URL are added to the clipboard.</span>
 
 <span class="sd">        :return: The bookmark items&#39;s title and URL</span>
-<span class="sd">        :rtype: List[Union[str, NSURL]]</span>
+<span class="sd">        :rtype: list[Union[str, AppKit.NSURL]]</span>
 
 <span class="sd">        .. versionadded:: 0.0.8</span>
 <span class="sd">        &quot;&quot;&quot;</span>

@@ -1,0 +1,1081 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TextEdit Module Reference &mdash; PyXA 0.0.9 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="TV Module Reference" href="tv.html" />
+    <link rel="prev" title="Terminal Module Reference" href="terminal.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> PyXA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../about/index.html">Project Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial/index.html">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Code Documentation and Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../index.html#top-level-pyxa-modules">Top-level PyXA Modules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#pyxa-base-modules">PyXA Base Modules</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html#first-party-application-modules">First-Party Application Modules</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="automator.html">Automator Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="calculator.html">Calculator Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="calendar.html">Calendar Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="console.html">Console Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="contacts.html">Contacts Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dictionary.html">Dictionary Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="finder.html">Finder Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fontbook.html">FontBook Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="keynote.html">Keynote Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mail.html">Mail Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="maps.html">Maps Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="messages.html">Messages Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="music.html">Music Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notes.html">Notes Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="numbers.html">Numbers Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pages.html">Pages Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="photos.html">Photos Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="preview.html">Preview Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quicktimeplayer.html">QuickTime Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reminders.html">Reminders Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="safari.html">Safari Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="shortcuts.html">Shortcuts Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stocks.html">Stocks Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="systemevents.html">System Events Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="systempreferences.html">System Preferences Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="terminal.html">Terminal Module Reference</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">TextEdit Module Reference</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.apps.TextEdit.XATextEditApplication"><code class="docutils literal notranslate"><span class="pre">XATextEditApplication</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.apps.TextEdit.XATextEditDocument"><code class="docutils literal notranslate"><span class="pre">XATextEditDocument</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.apps.TextEdit.XATextEditDocumentList"><code class="docutils literal notranslate"><span class="pre">XATextEditDocumentList</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.apps.TextEdit.XATextEditWindow"><code class="docutils literal notranslate"><span class="pre">XATextEditWindow</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="tv.html">TV Module Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#third-party-application-modules">Third-Party Application Modules</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../bugs.html">Bugs</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">PyXA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">Code Documentation and Reference</a> &raquo;</li>
+      <li>TextEdit Module Reference</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/reference/apps/textedit.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-PyXA.apps.TextEdit">
+<span id="textedit-module-reference"></span><h1>TextEdit Module Reference<a class="headerlink" href="#module-PyXA.apps.TextEdit" title="Permalink to this heading"></a></h1>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.1.</span></p>
+</div>
+<p>Control the macOS TextEdit application using JXA-like syntax.</p>
+<p><strong>Classes:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.TextEdit.XATextEditApplication" title="PyXA.apps.TextEdit.XATextEditApplication"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XATextEditApplication</span></code></a>(properties)</p></td>
+<td><p>A class for managing and interacting with TextEdit.app.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.TextEdit.XATextEditDocument" title="PyXA.apps.TextEdit.XATextEditDocument"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XATextEditDocument</span></code></a>(properties)</p></td>
+<td><p>A class for managing and interacting with TextEdit documents.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.TextEdit.XATextEditDocumentList" title="PyXA.apps.TextEdit.XATextEditDocumentList"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XATextEditDocumentList</span></code></a>(properties[, filter])</p></td>
+<td><p>A wrapper around lists of documents that employs fast enumeration techniques.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.TextEdit.XATextEditWindow" title="PyXA.apps.TextEdit.XATextEditWindow"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XATextEditWindow</span></code></a>(properties)</p></td>
+<td><p>A class for managing and interacting with TextEdit windows.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.apps.TextEdit.XATextEditApplication">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.TextEdit.</span></span><span class="sig-name descname"><span class="pre">XATextEditApplication</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/TextEdit.html#XATextEditApplication"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.TextEdit.XATextEditApplication" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XASBApplication" title="PyXA.XABaseScriptable.XASBApplication"><code class="xref py py-class docutils literal notranslate"><span class="pre">XASBApplication</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">XACanOpenPath</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">XACanPrintPath</span></code></p>
+<p>A class for managing and interacting with TextEdit.app.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#PyXA.apps.TextEdit.XATextEditWindow" title="PyXA.apps.TextEdit.XATextEditWindow"><code class="xref py py-class docutils literal notranslate"><span class="pre">XATextEditWindow</span></code></a>, <a class="reference internal" href="#PyXA.apps.TextEdit.XATextEditDocument" title="PyXA.apps.TextEdit.XATextEditDocument"><code class="xref py py-class docutils literal notranslate"><span class="pre">XATextEditDocument</span></code></a></p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.1.</span></p>
+</div>
+<p><strong>Methods:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.TextEdit.XATextEditApplication.documents" title="PyXA.apps.TextEdit.XATextEditApplication.documents"><code class="xref py py-obj docutils literal notranslate"><span class="pre">documents</span></code></a>([filter])</p></td>
+<td><p>Returns a list of documents matching the filter.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.TextEdit.XATextEditApplication.make" title="PyXA.apps.TextEdit.XATextEditApplication.make"><code class="xref py py-obj docutils literal notranslate"><span class="pre">make</span></code></a>(specifier, properties)</p></td>
+<td><p>Creates a new element of the given specifier class without adding it to any list.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.TextEdit.XATextEditApplication.new_document" title="PyXA.apps.TextEdit.XATextEditApplication.new_document"><code class="xref py py-obj docutils literal notranslate"><span class="pre">new_document</span></code></a>([name, text, location])</p></td>
+<td><p>Creates a new document with the given name and initializes it with the supplied text.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.TextEdit.XATextEditApplication.open" title="PyXA.apps.TextEdit.XATextEditApplication.open"><code class="xref py py-obj docutils literal notranslate"><span class="pre">open</span></code></a>(path)</p></td>
+<td><p>Opens the file/website at the given filepath/URL.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.TextEdit.XATextEditApplication.print" title="PyXA.apps.TextEdit.XATextEditApplication.print"><code class="xref py py-obj docutils literal notranslate"><span class="pre">print</span></code></a>(file[, print_properties, show_prompt])</p></td>
+<td><p>Prints a TextEdit document.</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Attributes:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.TextEdit.XATextEditApplication.frontmost" title="PyXA.apps.TextEdit.XATextEditApplication.frontmost"><code class="xref py py-obj docutils literal notranslate"><span class="pre">frontmost</span></code></a></p></td>
+<td><p>Whether TextEdit is the active application</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.TextEdit.XATextEditApplication.name" title="PyXA.apps.TextEdit.XATextEditApplication.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a></p></td>
+<td><p>The name of the application</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.TextEdit.XATextEditApplication.version" title="PyXA.apps.TextEdit.XATextEditApplication.version"><code class="xref py py-obj docutils literal notranslate"><span class="pre">version</span></code></a></p></td>
+<td><p>The version of the TextEdit application</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.TextEdit.XATextEditApplication.documents">
+<span class="sig-name descname"><span class="pre">documents</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.TextEdit.XATextEditDocumentList" title="PyXA.apps.TextEdit.XATextEditDocumentList"><span class="pre">XATextEditDocumentList</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/TextEdit.html#XATextEditApplication.documents"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.TextEdit.XATextEditApplication.documents" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a list of documents matching the filter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>filter</strong> (<em>dict</em>) – A dictionary specifying property-value pairs that all returned documents will have</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The list of documents</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>List[<a class="reference internal" href="#PyXA.apps.TextEdit.XATextEditDocument" title="PyXA.apps.TextEdit.XATextEditDocument">XATextEditDocument</a>]</p>
+</dd>
+<dt class="field-even">Example 1</dt>
+<dd class="field-even"><p>Listing all documents</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;TextEdit&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">documents</span><span class="p">()))</span>
+<span class="go">[&lt;&lt;class &#39;PyXA.apps.TextEdit.XATextEditDocument&#39;&gt;Current Document.txt&gt;, &lt;&lt;class &#39;PyXA.apps.TextEdit.XATextEditDocument&#39;&gt;Another Document.txt&gt;, ...]</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Example 2</dt>
+<dd class="field-odd"><p>List documents after applying a filter</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;TextEdit&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">documents</span><span class="p">({</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Another Document.txt&quot;</span><span class="p">})))</span>
+<span class="go">[&lt;&lt;class &#39;PyXA.apps.TextEdit.XATextEditDocument&#39;&gt;Another Document.txt&gt;]</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Example 3</dt>
+<dd class="field-odd"><p>List all paragraphs, words, and characters in all currently open documents</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;TextEdit&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">documents</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">documents</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Paragraphs:&quot;</span><span class="p">,</span> <span class="n">documents</span><span class="o">.</span><span class="n">paragraphs</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Words:&quot;</span><span class="p">,</span> <span class="n">documents</span><span class="o">.</span><span class="n">words</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Characters:&quot;</span><span class="p">,</span> <span class="n">documents</span><span class="o">.</span><span class="n">characters</span><span class="p">())</span>
+<span class="go">Paragraphs: [This is note 1</span>
+<span class="go">, This is note 2</span>
+<span class="go">, This is note 3</span>
+<span class="go">]</span>
+<span class="go">Words: [This, is, note, 1, This, is, note, 2, This, is, note, 3]</span>
+<span class="go">Characters: [T, h, i, s,  , i, s, , n, o, t, e,  , 1, </span>
+<span class="go">, T, h, i, s, , i, s, , n, o, t, e, , 2, </span>
+<span class="go">, T, h, i, s, , i, s, , n, o, t, e, , 3, </span>
+<span class="go">]</span>
+</pre></div>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 0.0.4: </span>Now returns an object of <a class="reference internal" href="#PyXA.apps.TextEdit.XATextEditDocumentList" title="PyXA.apps.TextEdit.XATextEditDocumentList"><code class="xref py py-class docutils literal notranslate"><span class="pre">XATextEditDocumentList</span></code></a> instead of a default list.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.1.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.TextEdit.XATextEditApplication.frontmost">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">frontmost</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.TextEdit.XATextEditApplication.frontmost" title="Permalink to this definition"></a></dt>
+<dd><p>Whether TextEdit is the active application</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.TextEdit.XATextEditApplication.make">
+<span class="sig-name descname"><span class="pre">make</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">specifier</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/TextEdit.html#XATextEditApplication.make"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.TextEdit.XATextEditApplication.make" title="Permalink to this definition"></a></dt>
+<dd><p>Creates a new element of the given specifier class without adding it to any list.</p>
+<p>Use <code class="xref py py-func docutils literal notranslate"><span class="pre">XABase.XAList.push()</span></code> to push the element onto a list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>specifier</strong> (<em>str</em>) – The classname of the object to create</p></li>
+<li><p><strong>properties</strong> (<em>dict</em>) – The properties to give the object</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A PyXA wrapped form of the object</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject">XABase.XAObject</a></p>
+</dd>
+<dt class="field-even">Example 1</dt>
+<dd class="field-even"><p>Make a new document and push it onto the list of documents</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;TextEdit&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">properties</span> <span class="o">=</span> <span class="p">{</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Example.txt&quot;</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="s2">&quot;path&quot;</span><span class="p">:</span> <span class="s2">&quot;/Users/exampleuser/Downloads/Example.txt&quot;</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="s2">&quot;text&quot;</span><span class="p">:</span> <span class="s2">&quot;Some example text&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">new_doc</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">make</span><span class="p">(</span><span class="s2">&quot;document&quot;</span><span class="p">,</span> <span class="n">properties</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">app</span><span class="o">.</span><span class="n">documents</span><span class="p">()</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="n">new_doc</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.3.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.TextEdit.XATextEditApplication.name">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.TextEdit.XATextEditApplication.name" title="Permalink to this definition"></a></dt>
+<dd><p>The name of the application</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.TextEdit.XATextEditApplication.new_document">
+<span class="sig-name descname"><span class="pre">new_document</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'Untitled.txt'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">location</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.TextEdit.XATextEditDocument" title="PyXA.apps.TextEdit.XATextEditDocument"><span class="pre">XATextEditDocument</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/TextEdit.html#XATextEditApplication.new_document"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.TextEdit.XATextEditApplication.new_document" title="Permalink to this definition"></a></dt>
+<dd><p>Creates a new document with the given name and initializes it with the supplied text. If no location is provided, the document file is created in the user’s Documents folder.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>None</em><em>]</em><em>, </em><em>optional</em>) – The name (including file extension) of the document, defaults to “Untitled.txt”</p></li>
+<li><p><strong>text</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>None</em><em>]</em><em>, </em><em>optional</em>) – The initial text of the document, defaults to “”</p></li>
+<li><p><strong>location</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>None</em><em>]</em>) – The containing folder of the new document, defaults to None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A reference to the newly created document.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#PyXA.apps.TextEdit.XATextEditDocument" title="PyXA.apps.TextEdit.XATextEditDocument">XATextEditDocument</a></p>
+</dd>
+<dt class="field-even">Example 1</dt>
+<dd class="field-even"><p>Create a new document with a name and initial body content</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;TextEdit&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">doc</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">new_document</span><span class="p">(</span><span class="s2">&quot;New.txt&quot;</span><span class="p">,</span> <span class="s2">&quot;Example text&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">doc</span><span class="o">.</span><span class="n">properties</span><span class="p">)</span>
+<span class="go">{</span>
+<span class="go">    modified = 0;</span>
+<span class="go">    name = &quot;New.txt&quot;;</span>
+<span class="go">    objectClass = &quot;&lt;NSAppleEventDescriptor: &#39;docu&#39;&gt;&quot;;</span>
+<span class="go">    path = &quot;/Users/exampleuser/Documents/New.txt&quot;;</span>
+<span class="go">    text = &quot;Example text&quot;;</span>
+<span class="go">}</span>
+</pre></div>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#PyXA.apps.TextEdit.XATextEditDocument" title="PyXA.apps.TextEdit.XATextEditDocument"><code class="xref py py-class docutils literal notranslate"><span class="pre">XATextEditDocument</span></code></a></p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.1.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.TextEdit.XATextEditApplication.open">
+<span class="sig-name descname"><span class="pre">open</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.TextEdit.XATextEditDocument" title="PyXA.apps.TextEdit.XATextEditDocument"><span class="pre">XATextEditDocument</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/TextEdit.html#XATextEditApplication.open"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.TextEdit.XATextEditApplication.open" title="Permalink to this definition"></a></dt>
+<dd><p>Opens the file/website at the given filepath/URL.</p>
+<p>Child classes of XACanOpenPath should redefine this method as necessary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>target</strong> (<em>str</em>) – The path to a file or the URL to a website to open.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A reference to the opened document or element, or None if no document/element was created or it cannot be found</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Any</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.1.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.TextEdit.XATextEditApplication.print">
+<span class="sig-name descname"><span class="pre">print</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">NSURL</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.apps.TextEdit.XATextEditDocument" title="PyXA.apps.TextEdit.XATextEditDocument"><span class="pre">XATextEditDocument</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">print_properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_prompt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/TextEdit.html#XATextEditApplication.print"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.TextEdit.XATextEditApplication.print" title="Permalink to this definition"></a></dt>
+<dd><p>Prints a TextEdit document.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>file</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>AppKit.NSURL</em><em>, </em><a class="reference internal" href="#PyXA.apps.TextEdit.XATextEditDocument" title="PyXA.apps.TextEdit.XATextEditDocument"><em>XATextEditDocument</em></a><em>]</em>) – The document or path to a document to print</p></li>
+<li><p><strong>print_properties</strong> (<em>dict</em><em>, </em><em>optional</em>) – Settings to print with or to preset in the print dialog, defaults to None</p></li>
+<li><p><strong>show_prompt</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to show the print dialog, defaults to True</p></li>
+</ul>
+</dd>
+<dt class="field-even">Example 1</dt>
+<dd class="field-even"><p>Printing a document with print properties</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;TextEdit&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">doc</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">documents</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">print_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">+</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">minutes</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">properties</span> <span class="o">=</span> <span class="p">{</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="s2">&quot;copies&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="s2">&quot;collating&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="s2">&quot;startingPage&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="s2">&quot;endingPage&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="s2">&quot;pagesAcross&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="s2">&quot;pagesDown&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="s2">&quot;requestedPrintTime&quot;</span><span class="p">:</span> <span class="n">print_time</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="s2">&quot;errorHandling&quot;</span><span class="p">:</span> <span class="n">app</span><span class="o">.</span><span class="n">PrintErrorHandling</span><span class="o">.</span><span class="n">DETAILED</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="s2">&quot;faxNumber&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="s2">&quot;targetPrinter&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">app</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">doc</span><span class="p">,</span> <span class="n">print_properties</span><span class="o">=</span><span class="n">properties</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.3.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.TextEdit.XATextEditApplication.version">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">version</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.TextEdit.XATextEditApplication.version" title="Permalink to this definition"></a></dt>
+<dd><p>The version of the TextEdit application</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.apps.TextEdit.XATextEditDocument">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.TextEdit.</span></span><span class="sig-name descname"><span class="pre">XATextEditDocument</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/TextEdit.html#XATextEditDocument"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.TextEdit.XATextEditDocument" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XATextDocument" title="PyXA.XABase.XATextDocument"><code class="xref py py-class docutils literal notranslate"><span class="pre">XATextDocument</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">XAPrintable</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">XAClipboardCodable</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">XACloseable</span></code></p>
+<p>A class for managing and interacting with TextEdit documents.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#PyXA.apps.TextEdit.XATextEditApplication" title="PyXA.apps.TextEdit.XATextEditApplication"><code class="xref py py-class docutils literal notranslate"><span class="pre">XATextEditApplication</span></code></a></p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 0.0.2: </span>Added <code class="xref py py-func docutils literal notranslate"><span class="pre">close()</span></code>, <a class="reference internal" href="#PyXA.apps.TextEdit.XATextEditDocument.save" title="PyXA.apps.TextEdit.XATextEditDocument.save"><code class="xref py py-func docutils literal notranslate"><span class="pre">save()</span></code></a>, and <a class="reference internal" href="#PyXA.apps.TextEdit.XATextEditDocument.copy" title="PyXA.apps.TextEdit.XATextEditDocument.copy"><code class="xref py py-func docutils literal notranslate"><span class="pre">copy()</span></code></a></p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.1.</span></p>
+</div>
+<p><strong>Methods:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.TextEdit.XATextEditDocument.copy" title="PyXA.apps.TextEdit.XATextEditDocument.copy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">copy</span></code></a>()</p></td>
+<td><p>Copies the document file and its contents to the clipboard.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.TextEdit.XATextEditDocument.get_clipboard_representation" title="PyXA.apps.TextEdit.XATextEditDocument.get_clipboard_representation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_clipboard_representation</span></code></a>()</p></td>
+<td><p>Gets a clipboard-codable representation of the document.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.TextEdit.XATextEditDocument.print" title="PyXA.apps.TextEdit.XATextEditDocument.print"><code class="xref py py-obj docutils literal notranslate"><span class="pre">print</span></code></a>([print_properties, show_dialog])</p></td>
+<td><p>Prints the document.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.TextEdit.XATextEditDocument.save" title="PyXA.apps.TextEdit.XATextEditDocument.save"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save</span></code></a>([file_path])</p></td>
+<td><p>Saves the document.</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Attributes:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.TextEdit.XATextEditDocument.modified" title="PyXA.apps.TextEdit.XATextEditDocument.modified"><code class="xref py py-obj docutils literal notranslate"><span class="pre">modified</span></code></a></p></td>
+<td><p>Whether the document has been modified since the last save</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.TextEdit.XATextEditDocument.name" title="PyXA.apps.TextEdit.XATextEditDocument.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a></p></td>
+<td><p>The name of the document, including the file extension</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.TextEdit.XATextEditDocument.path" title="PyXA.apps.TextEdit.XATextEditDocument.path"><code class="xref py py-obj docutils literal notranslate"><span class="pre">path</span></code></a></p></td>
+<td><p>The path at which the document is stored</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.TextEdit.XATextEditDocument.properties" title="PyXA.apps.TextEdit.XATextEditDocument.properties"><code class="xref py py-obj docutils literal notranslate"><span class="pre">properties</span></code></a></p></td>
+<td><p>All properties of the document</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.TextEdit.XATextEditDocument.copy">
+<span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/TextEdit.html#XATextEditDocument.copy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.TextEdit.XATextEditDocument.copy" title="Permalink to this definition"></a></dt>
+<dd><p>Copies the document file and its contents to the clipboard.</p>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version 0.0.8: </span>Use the <code class="xref py py-class docutils literal notranslate"><span class="pre">XABase.XAClipboard</span></code> class instead.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.TextEdit.XATextEditDocument.get_clipboard_representation">
+<span class="sig-name descname"><span class="pre">get_clipboard_representation</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">NSURL</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/TextEdit.html#XATextEditDocument.get_clipboard_representation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.TextEdit.XATextEditDocument.get_clipboard_representation" title="Permalink to this definition"></a></dt>
+<dd><p>Gets a clipboard-codable representation of the document.</p>
+<p>When the clipboard content is set to a document, the documents’s file URL and body text are added to the clipboard.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The document’s file URL and body text</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>List[Union[str, AppKit.NSURL]]</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.8.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.TextEdit.XATextEditDocument.modified">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">modified</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.TextEdit.XATextEditDocument.modified" title="Permalink to this definition"></a></dt>
+<dd><p>Whether the document has been modified since the last save</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.TextEdit.XATextEditDocument.name">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.TextEdit.XATextEditDocument.name" title="Permalink to this definition"></a></dt>
+<dd><p>The name of the document, including the file extension</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.TextEdit.XATextEditDocument.path">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">path</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAPath" title="PyXA.XABase.XAPath"><span class="pre">XAPath</span></a></em><a class="headerlink" href="#PyXA.apps.TextEdit.XATextEditDocument.path" title="Permalink to this definition"></a></dt>
+<dd><p>The path at which the document is stored</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.TextEdit.XATextEditDocument.print">
+<span class="sig-name descname"><span class="pre">print</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">print_properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_dialog</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.TextEdit.XATextEditDocument" title="PyXA.apps.TextEdit.XATextEditDocument"><span class="pre">XATextEditDocument</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/TextEdit.html#XATextEditDocument.print"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.TextEdit.XATextEditDocument.print" title="Permalink to this definition"></a></dt>
+<dd><p>Prints the document.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>print_properties</strong> (<em>Union</em><em>[</em><em>dict</em><em>, </em><em>None</em><em>]</em><em>, </em><em>optional</em>) – Properties to set for printing, defaults to None</p></li>
+<li><p><strong>show_dialog</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to show the print dialog, defaults to True</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The document object</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#PyXA.apps.TextEdit.XATextEditDocument" title="PyXA.apps.TextEdit.XATextEditDocument">XATextEditDocument</a></p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.8.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.TextEdit.XATextEditDocument.properties">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">properties</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span></em><a class="headerlink" href="#PyXA.apps.TextEdit.XATextEditDocument.properties" title="Permalink to this definition"></a></dt>
+<dd><p>All properties of the document</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.TextEdit.XATextEditDocument.save">
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/TextEdit.html#XATextEditDocument.save"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.TextEdit.XATextEditDocument.save" title="Permalink to this definition"></a></dt>
+<dd><p>Saves the document.</p>
+<p>If a file path is provided, TextEdit will attempt to create a new file at the target location and of the specified file extension. If no file path is provided, and the document does not have a current path on the disk, a save dialog for the document will open.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>file_path</strong> (<em>str</em><em>, </em><em>optional</em>) – The path to save the document at, defaults to None</p>
+</dd>
+<dt class="field-even">Example 1</dt>
+<dd class="field-even"><p>Save all currently open documents</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;TextEdit&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">app</span><span class="o">.</span><span class="n">documents</span><span class="p">():</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">doc</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.2.</span></p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.apps.TextEdit.XATextEditDocumentList">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.TextEdit.</span></span><span class="sig-name descname"><span class="pre">XATextEditDocumentList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/TextEdit.html#XATextEditDocumentList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.TextEdit.XATextEditDocumentList" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XATextDocumentList" title="PyXA.XABase.XATextDocumentList"><code class="xref py py-class docutils literal notranslate"><span class="pre">XATextDocumentList</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">XAClipboardCodable</span></code></p>
+<p>A wrapper around lists of documents that employs fast enumeration techniques.</p>
+<p>All properties of documents can be called as methods on the wrapped list, returning a list containing each document’s value for the property.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.3.</span></p>
+</div>
+<p><strong>Methods:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.TextEdit.XATextEditDocumentList.append" title="PyXA.apps.TextEdit.XATextEditDocumentList.append"><code class="xref py py-obj docutils literal notranslate"><span class="pre">append</span></code></a>(text)</p></td>
+<td><p>Appends the provided text to the end of every document in the list.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.TextEdit.XATextEditDocumentList.by_modified" title="PyXA.apps.TextEdit.XATextEditDocumentList.by_modified"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_modified</span></code></a>(modified)</p></td>
+<td><p>Retrieves the first document whose modified status matches the given boolean value, if one exists.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.TextEdit.XATextEditDocumentList.by_name" title="PyXA.apps.TextEdit.XATextEditDocumentList.by_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_name</span></code></a>(name)</p></td>
+<td><p>Retrieves the first document whose name matches the given name, if one exists.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.TextEdit.XATextEditDocumentList.by_path" title="PyXA.apps.TextEdit.XATextEditDocumentList.by_path"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_path</span></code></a>(path)</p></td>
+<td><p>Retrieves the document whose path matches the given path, if one exists.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.TextEdit.XATextEditDocumentList.by_properties" title="PyXA.apps.TextEdit.XATextEditDocumentList.by_properties"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_properties</span></code></a>(properties)</p></td>
+<td><p>Retrieves the document whose properties match the given properties dictionary, if one exists.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.TextEdit.XATextEditDocumentList.get_clipboard_representation" title="PyXA.apps.TextEdit.XATextEditDocumentList.get_clipboard_representation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_clipboard_representation</span></code></a>()</p></td>
+<td><p>Gets a clipboard-codable representation of each document in the list.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.TextEdit.XATextEditDocumentList.modified" title="PyXA.apps.TextEdit.XATextEditDocumentList.modified"><code class="xref py py-obj docutils literal notranslate"><span class="pre">modified</span></code></a>()</p></td>
+<td><p>Gets the modified status of each document in the list.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.TextEdit.XATextEditDocumentList.name" title="PyXA.apps.TextEdit.XATextEditDocumentList.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a>()</p></td>
+<td><p>Gets the name of each document in the list.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.TextEdit.XATextEditDocumentList.path" title="PyXA.apps.TextEdit.XATextEditDocumentList.path"><code class="xref py py-obj docutils literal notranslate"><span class="pre">path</span></code></a>()</p></td>
+<td><p>Gets the path of each document in the list.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.TextEdit.XATextEditDocumentList.prepend" title="PyXA.apps.TextEdit.XATextEditDocumentList.prepend"><code class="xref py py-obj docutils literal notranslate"><span class="pre">prepend</span></code></a>(text)</p></td>
+<td><p>Inserts the provided text at the beginning of every document in the list.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.TextEdit.XATextEditDocumentList.properties" title="PyXA.apps.TextEdit.XATextEditDocumentList.properties"><code class="xref py py-obj docutils literal notranslate"><span class="pre">properties</span></code></a>()</p></td>
+<td><p>Gets the properties of each document in the list.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.TextEdit.XATextEditDocumentList.reverse" title="PyXA.apps.TextEdit.XATextEditDocumentList.reverse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reverse</span></code></a>()</p></td>
+<td><p>Reverses the text of every document in the list.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.TextEdit.XATextEditDocumentList.append">
+<span class="sig-name descname"><span class="pre">append</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.TextEdit.XATextEditDocumentList" title="PyXA.apps.TextEdit.XATextEditDocumentList"><span class="pre">XATextEditDocumentList</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/TextEdit.html#XATextEditDocumentList.append"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.TextEdit.XATextEditDocumentList.append" title="Permalink to this definition"></a></dt>
+<dd><p>Appends the provided text to the end of every document in the list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>text</strong> (<em>str</em>) – The text to append.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A reference to the document object.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="../xabase.html#PyXA.XABase.XATextDocument" title="PyXA.XABase.XATextDocument">XATextDocument</a></p>
+</dd>
+<dt class="field-even">Example 1</dt>
+<dd class="field-even"><p>Append a string at the end of every open document</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;TextEdit&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">documents</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">documents</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">documents</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">-- End Of Notes --&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#PyXA.apps.TextEdit.XATextEditDocumentList.prepend" title="PyXA.apps.TextEdit.XATextEditDocumentList.prepend"><code class="xref py py-func docutils literal notranslate"><span class="pre">prepend()</span></code></a></p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.4.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.TextEdit.XATextEditDocumentList.by_modified">
+<span class="sig-name descname"><span class="pre">by_modified</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">modified</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.TextEdit.XATextEditDocument" title="PyXA.apps.TextEdit.XATextEditDocument"><span class="pre">XATextEditDocument</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/TextEdit.html#XATextEditDocumentList.by_modified"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.TextEdit.XATextEditDocumentList.by_modified" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieves the first document whose modified status matches the given boolean value, if one exists.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The desired document, if it is found</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>Union[<a class="reference internal" href="#PyXA.apps.TextEdit.XATextEditDocument" title="PyXA.apps.TextEdit.XATextEditDocument">XATextEditDocument</a>, None]</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.3.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.TextEdit.XATextEditDocumentList.by_name">
+<span class="sig-name descname"><span class="pre">by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.TextEdit.XATextEditDocument" title="PyXA.apps.TextEdit.XATextEditDocument"><span class="pre">XATextEditDocument</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/TextEdit.html#XATextEditDocumentList.by_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.TextEdit.XATextEditDocumentList.by_name" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieves the first document whose name matches the given name, if one exists.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The desired document, if it is found</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>Union[<a class="reference internal" href="#PyXA.apps.TextEdit.XATextEditDocument" title="PyXA.apps.TextEdit.XATextEditDocument">XATextEditDocument</a>, None]</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.3.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.TextEdit.XATextEditDocumentList.by_path">
+<span class="sig-name descname"><span class="pre">by_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../xabase.html#PyXA.XABase.XAPath" title="PyXA.XABase.XAPath"><span class="pre">XAPath</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.TextEdit.XATextEditDocument" title="PyXA.apps.TextEdit.XATextEditDocument"><span class="pre">XATextEditDocument</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/TextEdit.html#XATextEditDocumentList.by_path"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.TextEdit.XATextEditDocumentList.by_path" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieves the document whose path matches the given path, if one exists.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The desired document, if it is found</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>Union[<a class="reference internal" href="#PyXA.apps.TextEdit.XATextEditDocument" title="PyXA.apps.TextEdit.XATextEditDocument">XATextEditDocument</a>, None]</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.3.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.TextEdit.XATextEditDocumentList.by_properties">
+<span class="sig-name descname"><span class="pre">by_properties</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../xabase.html#PyXA.XABase.XATextDocument" title="PyXA.XABase.XATextDocument"><span class="pre">XATextDocument</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/TextEdit.html#XATextEditDocumentList.by_properties"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.TextEdit.XATextEditDocumentList.by_properties" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieves the document whose properties match the given properties dictionary, if one exists.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The desired document, if it is found</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>Union[<a class="reference internal" href="../xabase.html#PyXA.XABase.XATextDocument" title="PyXA.XABase.XATextDocument">XATextDocument</a>, None]</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.1.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.TextEdit.XATextEditDocumentList.get_clipboard_representation">
+<span class="sig-name descname"><span class="pre">get_clipboard_representation</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">NSURL</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/TextEdit.html#XATextEditDocumentList.get_clipboard_representation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.TextEdit.XATextEditDocumentList.get_clipboard_representation" title="Permalink to this definition"></a></dt>
+<dd><p>Gets a clipboard-codable representation of each document in the list.</p>
+<p>When the clipboard content is set to a list of documents, each documents’s file URL and name are added to the clipboard.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A list of each document’s file URL and name</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>List[Union[str, AppKit.NSURL]]</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.8.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.TextEdit.XATextEditDocumentList.modified">
+<span class="sig-name descname"><span class="pre">modified</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/TextEdit.html#XATextEditDocumentList.modified"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.TextEdit.XATextEditDocumentList.modified" title="Permalink to this definition"></a></dt>
+<dd><p>Gets the modified status of each document in the list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A list of modified status booleans</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>List[bool]</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.3.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.TextEdit.XATextEditDocumentList.name">
+<span class="sig-name descname"><span class="pre">name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/TextEdit.html#XATextEditDocumentList.name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.TextEdit.XATextEditDocumentList.name" title="Permalink to this definition"></a></dt>
+<dd><p>Gets the name of each document in the list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A list of document names</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>List[str]</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.3.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.TextEdit.XATextEditDocumentList.path">
+<span class="sig-name descname"><span class="pre">path</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAPath" title="PyXA.XABase.XAPath"><span class="pre">XAPath</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/TextEdit.html#XATextEditDocumentList.path"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.TextEdit.XATextEditDocumentList.path" title="Permalink to this definition"></a></dt>
+<dd><p>Gets the path of each document in the list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A list of document paths</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>List[<a class="reference internal" href="../xabase.html#PyXA.XABase.XAPath" title="PyXA.XABase.XAPath">XABase.XAPath</a>]</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.3.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.TextEdit.XATextEditDocumentList.prepend">
+<span class="sig-name descname"><span class="pre">prepend</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.TextEdit.XATextEditDocumentList" title="PyXA.apps.TextEdit.XATextEditDocumentList"><span class="pre">XATextEditDocumentList</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/TextEdit.html#XATextEditDocumentList.prepend"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.TextEdit.XATextEditDocumentList.prepend" title="Permalink to this definition"></a></dt>
+<dd><p>Inserts the provided text at the beginning of every document in the list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>text</strong> (<em>str</em>) – The text to insert.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A reference to the document object.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="../xabase.html#PyXA.XABase.XATextDocument" title="PyXA.XABase.XATextDocument">XATextDocument</a></p>
+</dd>
+<dt class="field-even">Example 1</dt>
+<dd class="field-even"><p>Prepend a string at the beginning of every open document</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;TextEdit&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">documents</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">documents</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">documents</span><span class="o">.</span><span class="n">prepend</span><span class="p">(</span><span class="s2">&quot;-- PyXA Notes --</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#PyXA.apps.TextEdit.XATextEditDocumentList.append" title="PyXA.apps.TextEdit.XATextEditDocumentList.append"><code class="xref py py-func docutils literal notranslate"><span class="pre">append()</span></code></a></p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.4.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.TextEdit.XATextEditDocumentList.properties">
+<span class="sig-name descname"><span class="pre">properties</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/TextEdit.html#XATextEditDocumentList.properties"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.TextEdit.XATextEditDocumentList.properties" title="Permalink to this definition"></a></dt>
+<dd><p>Gets the properties of each document in the list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A list of document properties dictionaries</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>List[dict]</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.3.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.TextEdit.XATextEditDocumentList.reverse">
+<span class="sig-name descname"><span class="pre">reverse</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.TextEdit.XATextEditDocumentList" title="PyXA.apps.TextEdit.XATextEditDocumentList"><span class="pre">XATextEditDocumentList</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/TextEdit.html#XATextEditDocumentList.reverse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.TextEdit.XATextEditDocumentList.reverse" title="Permalink to this definition"></a></dt>
+<dd><p>Reverses the text of every document in the list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A reference to the document object.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="../xabase.html#PyXA.XABase.XATextDocument" title="PyXA.XABase.XATextDocument">XATextDocument</a></p>
+</dd>
+<dt class="field-odd">Example 1</dt>
+<dd class="field-odd"><p>Reverse the text of every open document</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;TextEdit&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">documents</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">documents</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">documents</span><span class="o">.</span><span class="n">reverse</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.4.</span></p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.apps.TextEdit.XATextEditWindow">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.TextEdit.</span></span><span class="sig-name descname"><span class="pre">XATextEditWindow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/TextEdit.html#XATextEditWindow"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.TextEdit.XATextEditWindow" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XASBPrintable" title="PyXA.XABaseScriptable.XASBPrintable"><code class="xref py py-class docutils literal notranslate"><span class="pre">XASBPrintable</span></code></a></p>
+<p>A class for managing and interacting with TextEdit windows.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#PyXA.apps.TextEdit.XATextEditApplication" title="PyXA.apps.TextEdit.XATextEditApplication"><code class="xref py py-class docutils literal notranslate"><span class="pre">XATextEditApplication</span></code></a></p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.1.</span></p>
+</div>
+<p><strong>Attributes:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.TextEdit.XATextEditWindow.bounds" title="PyXA.apps.TextEdit.XATextEditWindow.bounds"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bounds</span></code></a></p></td>
+<td><p>The bounding rectangle of the window</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.TextEdit.XATextEditWindow.closeable" title="PyXA.apps.TextEdit.XATextEditWindow.closeable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">closeable</span></code></a></p></td>
+<td><p>Whether the window has a close button</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.TextEdit.XATextEditWindow.document" title="PyXA.apps.TextEdit.XATextEditWindow.document"><code class="xref py py-obj docutils literal notranslate"><span class="pre">document</span></code></a></p></td>
+<td><p>The active document</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.TextEdit.XATextEditWindow.floating" title="PyXA.apps.TextEdit.XATextEditWindow.floating"><code class="xref py py-obj docutils literal notranslate"><span class="pre">floating</span></code></a></p></td>
+<td><p>Whether the window floats</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.TextEdit.XATextEditWindow.id" title="PyXA.apps.TextEdit.XATextEditWindow.id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">id</span></code></a></p></td>
+<td><p>The unique identifier for the window</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.TextEdit.XATextEditWindow.index" title="PyXA.apps.TextEdit.XATextEditWindow.index"><code class="xref py py-obj docutils literal notranslate"><span class="pre">index</span></code></a></p></td>
+<td><p>The index of the window in front-to-back ordering</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.TextEdit.XATextEditWindow.miniaturizable" title="PyXA.apps.TextEdit.XATextEditWindow.miniaturizable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">miniaturizable</span></code></a></p></td>
+<td><p>Whether the window can be minimized</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.TextEdit.XATextEditWindow.miniaturized" title="PyXA.apps.TextEdit.XATextEditWindow.miniaturized"><code class="xref py py-obj docutils literal notranslate"><span class="pre">miniaturized</span></code></a></p></td>
+<td><p>Whether the window is currently minimized</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.TextEdit.XATextEditWindow.modal" title="PyXA.apps.TextEdit.XATextEditWindow.modal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">modal</span></code></a></p></td>
+<td><p>Whether the window is a modal window</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.TextEdit.XATextEditWindow.name" title="PyXA.apps.TextEdit.XATextEditWindow.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a></p></td>
+<td><p>The full title of the window</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.TextEdit.XATextEditWindow.resizable" title="PyXA.apps.TextEdit.XATextEditWindow.resizable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">resizable</span></code></a></p></td>
+<td><p>Whether the window can be resized</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.TextEdit.XATextEditWindow.titled" title="PyXA.apps.TextEdit.XATextEditWindow.titled"><code class="xref py py-obj docutils literal notranslate"><span class="pre">titled</span></code></a></p></td>
+<td><p>Whether the window has a title bar</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.TextEdit.XATextEditWindow.visible" title="PyXA.apps.TextEdit.XATextEditWindow.visible"><code class="xref py py-obj docutils literal notranslate"><span class="pre">visible</span></code></a></p></td>
+<td><p>Whether the window is currently visible</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.TextEdit.XATextEditWindow.zoomable" title="PyXA.apps.TextEdit.XATextEditWindow.zoomable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">zoomable</span></code></a></p></td>
+<td><p>Whether the window can be zoomed</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.TextEdit.XATextEditWindow.zoomed" title="PyXA.apps.TextEdit.XATextEditWindow.zoomed"><code class="xref py py-obj docutils literal notranslate"><span class="pre">zoomed</span></code></a></p></td>
+<td><p>Whether the window is currently zoomed</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.TextEdit.XATextEditWindow.bounds">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">bounds</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#PyXA.apps.TextEdit.XATextEditWindow.bounds" title="Permalink to this definition"></a></dt>
+<dd><p>The bounding rectangle of the window</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.TextEdit.XATextEditWindow.closeable">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">closeable</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.TextEdit.XATextEditWindow.closeable" title="Permalink to this definition"></a></dt>
+<dd><p>Whether the window has a close button</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.TextEdit.XATextEditWindow.document">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">document</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.apps.TextEdit.XATextEditDocument" title="PyXA.apps.TextEdit.XATextEditDocument"><span class="pre">XATextEditDocument</span></a></em><a class="headerlink" href="#PyXA.apps.TextEdit.XATextEditWindow.document" title="Permalink to this definition"></a></dt>
+<dd><p>The active document</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.TextEdit.XATextEditWindow.floating">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">floating</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.TextEdit.XATextEditWindow.floating" title="Permalink to this definition"></a></dt>
+<dd><p>Whether the window floats</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.TextEdit.XATextEditWindow.id">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#PyXA.apps.TextEdit.XATextEditWindow.id" title="Permalink to this definition"></a></dt>
+<dd><p>The unique identifier for the window</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.TextEdit.XATextEditWindow.index">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">index</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#PyXA.apps.TextEdit.XATextEditWindow.index" title="Permalink to this definition"></a></dt>
+<dd><p>The index of the window in front-to-back ordering</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.TextEdit.XATextEditWindow.miniaturizable">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">miniaturizable</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.TextEdit.XATextEditWindow.miniaturizable" title="Permalink to this definition"></a></dt>
+<dd><p>Whether the window can be minimized</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.TextEdit.XATextEditWindow.miniaturized">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">miniaturized</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.TextEdit.XATextEditWindow.miniaturized" title="Permalink to this definition"></a></dt>
+<dd><p>Whether the window is currently minimized</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.TextEdit.XATextEditWindow.modal">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">modal</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.TextEdit.XATextEditWindow.modal" title="Permalink to this definition"></a></dt>
+<dd><p>Whether the window is a modal window</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.TextEdit.XATextEditWindow.name">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.TextEdit.XATextEditWindow.name" title="Permalink to this definition"></a></dt>
+<dd><p>The full title of the window</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.TextEdit.XATextEditWindow.resizable">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">resizable</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.TextEdit.XATextEditWindow.resizable" title="Permalink to this definition"></a></dt>
+<dd><p>Whether the window can be resized</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.TextEdit.XATextEditWindow.titled">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">titled</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.TextEdit.XATextEditWindow.titled" title="Permalink to this definition"></a></dt>
+<dd><p>Whether the window has a title bar</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.TextEdit.XATextEditWindow.visible">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">visible</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.TextEdit.XATextEditWindow.visible" title="Permalink to this definition"></a></dt>
+<dd><p>Whether the window is currently visible</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.TextEdit.XATextEditWindow.zoomable">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">zoomable</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.TextEdit.XATextEditWindow.zoomable" title="Permalink to this definition"></a></dt>
+<dd><p>Whether the window can be zoomed</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.TextEdit.XATextEditWindow.zoomed">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">zoomed</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.TextEdit.XATextEditWindow.zoomed" title="Permalink to this definition"></a></dt>
+<dd><p>Whether the window is currently zoomed</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="terminal.html" class="btn btn-neutral float-left" title="Terminal Module Reference" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="tv.html" class="btn btn-neutral float-right" title="TV Module Reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Stephen Kaplan.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

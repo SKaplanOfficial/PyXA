@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Spotify Module Reference &mdash; PyXA 0.1.0 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="VLC Module Reference" href="vlc.html" />
+    <link rel="prev" title="OmniOutliner Module Reference" href="omnioutliner.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> PyXA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../about/index.html">Project Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial/index.html">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Code Documentation and Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../index.html#top-level-pyxa-modules">Top-level PyXA Modules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#pyxa-base-modules">PyXA Base Modules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#first-party-application-module-reference">First-Party Application Module Reference</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html#third-party-application-module-reference">Third-Party Application Module Reference</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="bike.html">Bike Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cardhop.html">Cardhop Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chromium.html">Chromium Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fantastical.html">Fantastical Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="flow.html">Flow Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="drafts.html">Drafts Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="hammerspoon.html">Hammerspoon Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="iterm.html">iTerm Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="omnioutliner.html">OmniOutliner Module Reference</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Spotify Module Reference</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.apps.Spotify.XASpotifyApplication"><code class="docutils literal notranslate"><span class="pre">XASpotifyApplication</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.apps.Spotify.XASpotifyTrack"><code class="docutils literal notranslate"><span class="pre">XASpotifyTrack</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="vlc.html">VLC Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rstudio.html">RStudio Module Reference</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../bugs.html">Bugs</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">PyXA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">Code Documentation and Reference</a> &raquo;</li>
+      <li>Spotify Module Reference</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/reference/apps/spotify.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-PyXA.apps.Spotify">
+<span id="spotify-module-reference"></span><h1>Spotify Module Reference<a class="headerlink" href="#module-PyXA.apps.Spotify" title="Permalink to this heading"></a></h1>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.1.0.</span></p>
+</div>
+<p>Control Spotify using JXA-like syntax.</p>
+<p><strong>Classes:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Spotify.XASpotifyApplication" title="PyXA.apps.Spotify.XASpotifyApplication"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XASpotifyApplication</span></code></a>(properties)</p></td>
+<td><p>A class for managing and interacting with Spotify.app.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Spotify.XASpotifyTrack" title="PyXA.apps.Spotify.XASpotifyTrack"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XASpotifyTrack</span></code></a>(properties)</p></td>
+<td><p>A Spotify track.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.apps.Spotify.XASpotifyApplication">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Spotify.</span></span><span class="sig-name descname"><span class="pre">XASpotifyApplication</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Spotify.html#XASpotifyApplication"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Spotify.XASpotifyApplication" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XASBApplication" title="PyXA.XABaseScriptable.XASBApplication"><code class="xref py py-class docutils literal notranslate"><span class="pre">XASBApplication</span></code></a></p>
+<p>A class for managing and interacting with Spotify.app.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.1.0.</span></p>
+</div>
+<p><strong>Classes:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Spotify.XASpotifyApplication.PlayerState" title="PyXA.apps.Spotify.XASpotifyApplication.PlayerState"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PlayerState</span></code></a>(value[, names, module, ...])</p></td>
+<td><p>States of the Spotify track player.</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Attributes:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Spotify.XASpotifyApplication.current_track" title="PyXA.apps.Spotify.XASpotifyApplication.current_track"><code class="xref py py-obj docutils literal notranslate"><span class="pre">current_track</span></code></a></p></td>
+<td><p>The currently playing track</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Spotify.XASpotifyApplication.name" title="PyXA.apps.Spotify.XASpotifyApplication.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a></p></td>
+<td><p>The name of the application</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Spotify.XASpotifyApplication.player_position" title="PyXA.apps.Spotify.XASpotifyApplication.player_position"><code class="xref py py-obj docutils literal notranslate"><span class="pre">player_position</span></code></a></p></td>
+<td><p>The player’s position within the currently playing track in seconds</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Spotify.XASpotifyApplication.player_state" title="PyXA.apps.Spotify.XASpotifyApplication.player_state"><code class="xref py py-obj docutils literal notranslate"><span class="pre">player_state</span></code></a></p></td>
+<td><p>Is Spotify stopped, paused, or playing?</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Spotify.XASpotifyApplication.repeating" title="PyXA.apps.Spotify.XASpotifyApplication.repeating"><code class="xref py py-obj docutils literal notranslate"><span class="pre">repeating</span></code></a></p></td>
+<td><p>Whether repeating is on or off</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Spotify.XASpotifyApplication.repeating_enabled" title="PyXA.apps.Spotify.XASpotifyApplication.repeating_enabled"><code class="xref py py-obj docutils literal notranslate"><span class="pre">repeating_enabled</span></code></a></p></td>
+<td><p>Whether repeating is enabled in the current playback context</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Spotify.XASpotifyApplication.shuffling" title="PyXA.apps.Spotify.XASpotifyApplication.shuffling"><code class="xref py py-obj docutils literal notranslate"><span class="pre">shuffling</span></code></a></p></td>
+<td><p>Whether shuffling is on or off</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Spotify.XASpotifyApplication.shuffling_enabled" title="PyXA.apps.Spotify.XASpotifyApplication.shuffling_enabled"><code class="xref py py-obj docutils literal notranslate"><span class="pre">shuffling_enabled</span></code></a></p></td>
+<td><p>Whether shuffling is enabled in the current playback context</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Spotify.XASpotifyApplication.sound_volume" title="PyXA.apps.Spotify.XASpotifyApplication.sound_volume"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sound_volume</span></code></a></p></td>
+<td><p>The sound output volume (0 = minimum, 100 = maximum)</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Spotify.XASpotifyApplication.version" title="PyXA.apps.Spotify.XASpotifyApplication.version"><code class="xref py py-obj docutils literal notranslate"><span class="pre">version</span></code></a></p></td>
+<td><p>The version of Spotify.app</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Methods:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Spotify.XASpotifyApplication.next_track" title="PyXA.apps.Spotify.XASpotifyApplication.next_track"><code class="xref py py-obj docutils literal notranslate"><span class="pre">next_track</span></code></a>()</p></td>
+<td><p>Skips to the next track.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Spotify.XASpotifyApplication.pause" title="PyXA.apps.Spotify.XASpotifyApplication.pause"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pause</span></code></a>()</p></td>
+<td><p>Pauses playback.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Spotify.XASpotifyApplication.play" title="PyXA.apps.Spotify.XASpotifyApplication.play"><code class="xref py py-obj docutils literal notranslate"><span class="pre">play</span></code></a>()</p></td>
+<td><p>Resumes playback.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Spotify.XASpotifyApplication.play_track" title="PyXA.apps.Spotify.XASpotifyApplication.play_track"><code class="xref py py-obj docutils literal notranslate"><span class="pre">play_track</span></code></a>(track_uri[, context_uri])</p></td>
+<td><p>Starts playback of a track in the given context.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Spotify.XASpotifyApplication.playpause" title="PyXA.apps.Spotify.XASpotifyApplication.playpause"><code class="xref py py-obj docutils literal notranslate"><span class="pre">playpause</span></code></a>()</p></td>
+<td><p>Toggles play/pause.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Spotify.XASpotifyApplication.previous_track" title="PyXA.apps.Spotify.XASpotifyApplication.previous_track"><code class="xref py py-obj docutils literal notranslate"><span class="pre">previous_track</span></code></a>()</p></td>
+<td><p>Skips to the previous track.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Spotify.XASpotifyApplication.search" title="PyXA.apps.Spotify.XASpotifyApplication.search"><code class="xref py py-obj docutils literal notranslate"><span class="pre">search</span></code></a>([search_string, track, start_year, ...])</p></td>
+<td><p>Opens the search tab and searches for content matching given parameters.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.apps.Spotify.XASpotifyApplication.PlayerState">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">PlayerState</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qualname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Spotify.html#XASpotifyApplication.PlayerState"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Spotify.XASpotifyApplication.PlayerState" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
+<p>States of the Spotify track player.</p>
+<p><strong>Attributes:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Spotify.XASpotifyApplication.PlayerState.PAUSED" title="PyXA.apps.Spotify.XASpotifyApplication.PlayerState.PAUSED"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PAUSED</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Spotify.XASpotifyApplication.PlayerState.PLAYING" title="PyXA.apps.Spotify.XASpotifyApplication.PlayerState.PLAYING"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PLAYING</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Spotify.XASpotifyApplication.PlayerState.STOPPED" title="PyXA.apps.Spotify.XASpotifyApplication.PlayerState.STOPPED"><code class="xref py py-obj docutils literal notranslate"><span class="pre">STOPPED</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.Spotify.XASpotifyApplication.PlayerState.PAUSED">
+<span class="sig-name descname"><span class="pre">PAUSED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1800426352</span></em><a class="headerlink" href="#PyXA.apps.Spotify.XASpotifyApplication.PlayerState.PAUSED" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.Spotify.XASpotifyApplication.PlayerState.PLAYING">
+<span class="sig-name descname"><span class="pre">PLAYING</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1800426320</span></em><a class="headerlink" href="#PyXA.apps.Spotify.XASpotifyApplication.PlayerState.PLAYING" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.Spotify.XASpotifyApplication.PlayerState.STOPPED">
+<span class="sig-name descname"><span class="pre">STOPPED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1800426323</span></em><a class="headerlink" href="#PyXA.apps.Spotify.XASpotifyApplication.PlayerState.STOPPED" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Spotify.XASpotifyApplication.current_track">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">current_track</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.apps.Spotify.XASpotifyTrack" title="PyXA.apps.Spotify.XASpotifyTrack"><span class="pre">XASpotifyTrack</span></a></em><a class="headerlink" href="#PyXA.apps.Spotify.XASpotifyApplication.current_track" title="Permalink to this definition"></a></dt>
+<dd><p>The currently playing track</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.Spotify.XASpotifyApplication.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Spotify.XASpotifyApplication.name" title="Permalink to this definition"></a></dt>
+<dd><p>The name of the application</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Spotify.XASpotifyApplication.next_track">
+<span class="sig-name descname"><span class="pre">next_track</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Spotify.html#XASpotifyApplication.next_track"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Spotify.XASpotifyApplication.next_track" title="Permalink to this definition"></a></dt>
+<dd><p>Skips to the next track.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Example</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">Application</span><span class="p">(</span><span class="s2">&quot;Spotify&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">app</span><span class="o">.</span><span class="n">next_track</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.1.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Spotify.XASpotifyApplication.pause">
+<span class="sig-name descname"><span class="pre">pause</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Spotify.html#XASpotifyApplication.pause"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Spotify.XASpotifyApplication.pause" title="Permalink to this definition"></a></dt>
+<dd><p>Pauses playback.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Example</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">Application</span><span class="p">(</span><span class="s2">&quot;Spotify&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">app</span><span class="o">.</span><span class="n">pause</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.1.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Spotify.XASpotifyApplication.play">
+<span class="sig-name descname"><span class="pre">play</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Spotify.html#XASpotifyApplication.play"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Spotify.XASpotifyApplication.play" title="Permalink to this definition"></a></dt>
+<dd><p>Resumes playback.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Example</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">Application</span><span class="p">(</span><span class="s2">&quot;Spotify&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">app</span><span class="o">.</span><span class="n">play</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.1.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Spotify.XASpotifyApplication.play_track">
+<span class="sig-name descname"><span class="pre">play_track</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">track_uri</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context_uri</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Spotify.html#XASpotifyApplication.play_track"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Spotify.XASpotifyApplication.play_track" title="Permalink to this definition"></a></dt>
+<dd><p>Starts playback of a track in the given context.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>track_uri</strong> (<em>str</em>) – The URI of the track to play</p></li>
+<li><p><strong>context_uri</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>None</em><em>]</em><em>, </em><em>optional</em>) – The URI of the context to play in, defaults to None</p></li>
+</ul>
+</dd>
+<dt class="field-even">Example</dt>
+<dd class="field-even"><p></p></dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">Application</span><span class="p">(</span><span class="s2">&quot;Spotify&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">app</span><span class="o">.</span><span class="n">play_track</span><span class="p">(</span><span class="s2">&quot;spotify:track:4LRPiXqCikLlN15c3yImP7&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.1.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Spotify.XASpotifyApplication.player_position">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">player_position</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#PyXA.apps.Spotify.XASpotifyApplication.player_position" title="Permalink to this definition"></a></dt>
+<dd><p>The player’s position within the currently playing track in seconds</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Spotify.XASpotifyApplication.player_state">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">player_state</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.apps.Spotify.XASpotifyApplication.PlayerState" title="PyXA.apps.Spotify.XASpotifyApplication.PlayerState"><span class="pre">PlayerState</span></a></em><a class="headerlink" href="#PyXA.apps.Spotify.XASpotifyApplication.player_state" title="Permalink to this definition"></a></dt>
+<dd><p>Is Spotify stopped, paused, or playing?</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Spotify.XASpotifyApplication.playpause">
+<span class="sig-name descname"><span class="pre">playpause</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Spotify.html#XASpotifyApplication.playpause"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Spotify.XASpotifyApplication.playpause" title="Permalink to this definition"></a></dt>
+<dd><p>Toggles play/pause.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Example</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">Application</span><span class="p">(</span><span class="s2">&quot;Spotify&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">app</span><span class="o">.</span><span class="n">playpause</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.1.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Spotify.XASpotifyApplication.previous_track">
+<span class="sig-name descname"><span class="pre">previous_track</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Spotify.html#XASpotifyApplication.previous_track"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Spotify.XASpotifyApplication.previous_track" title="Permalink to this definition"></a></dt>
+<dd><p>Skips to the previous track.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Example</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">Application</span><span class="p">(</span><span class="s2">&quot;Spotify&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">app</span><span class="o">.</span><span class="n">previous_track</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.1.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.Spotify.XASpotifyApplication.properties">
+<span class="sig-name descname"><span class="pre">properties</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span></em><a class="headerlink" href="#PyXA.apps.Spotify.XASpotifyApplication.properties" title="Permalink to this definition"></a></dt>
+<dd><p>The scriptable properties dictionary for the object</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Spotify.XASpotifyApplication.repeating">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">repeating</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Spotify.XASpotifyApplication.repeating" title="Permalink to this definition"></a></dt>
+<dd><p>Whether repeating is on or off</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Spotify.XASpotifyApplication.repeating_enabled">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">repeating_enabled</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Spotify.XASpotifyApplication.repeating_enabled" title="Permalink to this definition"></a></dt>
+<dd><p>Whether repeating is enabled in the current playback context</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.apps.Spotify.XASpotifyApplication.search">
+<span class="sig-name descname"><span class="pre">search</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">search_string</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">track</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_year</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_year</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">genre</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">artist</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">album</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mood</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Spotify.html#XASpotifyApplication.search"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Spotify.XASpotifyApplication.search" title="Permalink to this definition"></a></dt>
+<dd><p>Opens the search tab and searches for content matching given parameters.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.1.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Spotify.XASpotifyApplication.shuffling">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">shuffling</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Spotify.XASpotifyApplication.shuffling" title="Permalink to this definition"></a></dt>
+<dd><p>Whether shuffling is on or off</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Spotify.XASpotifyApplication.shuffling_enabled">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">shuffling_enabled</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Spotify.XASpotifyApplication.shuffling_enabled" title="Permalink to this definition"></a></dt>
+<dd><p>Whether shuffling is enabled in the current playback context</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Spotify.XASpotifyApplication.sound_volume">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">sound_volume</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#PyXA.apps.Spotify.XASpotifyApplication.sound_volume" title="Permalink to this definition"></a></dt>
+<dd><p>The sound output volume (0 = minimum, 100 = maximum)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.apps.Spotify.XASpotifyApplication.version">
+<span class="sig-name descname"><span class="pre">version</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Spotify.XASpotifyApplication.version" title="Permalink to this definition"></a></dt>
+<dd><p>The version of Spotify.app</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.apps.Spotify.XASpotifyTrack">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Spotify.</span></span><span class="sig-name descname"><span class="pre">XASpotifyTrack</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Spotify.html#XASpotifyTrack"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Spotify.XASpotifyTrack" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAObject</span></code></a></p>
+<p>A Spotify track.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.1.0.</span></p>
+</div>
+<p><strong>Attributes:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Spotify.XASpotifyTrack.album" title="PyXA.apps.Spotify.XASpotifyTrack.album"><code class="xref py py-obj docutils literal notranslate"><span class="pre">album</span></code></a></p></td>
+<td><p>The album of the track</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Spotify.XASpotifyTrack.album_artist" title="PyXA.apps.Spotify.XASpotifyTrack.album_artist"><code class="xref py py-obj docutils literal notranslate"><span class="pre">album_artist</span></code></a></p></td>
+<td><p>The album artist of the track</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Spotify.XASpotifyTrack.artist" title="PyXA.apps.Spotify.XASpotifyTrack.artist"><code class="xref py py-obj docutils literal notranslate"><span class="pre">artist</span></code></a></p></td>
+<td><p>The artist of the track</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Spotify.XASpotifyTrack.artwork" title="PyXA.apps.Spotify.XASpotifyTrack.artwork"><code class="xref py py-obj docutils literal notranslate"><span class="pre">artwork</span></code></a></p></td>
+<td><p>The album artwork image</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Spotify.XASpotifyTrack.artwork_url" title="PyXA.apps.Spotify.XASpotifyTrack.artwork_url"><code class="xref py py-obj docutils literal notranslate"><span class="pre">artwork_url</span></code></a></p></td>
+<td><p>The URL of the track's album cover</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Spotify.XASpotifyTrack.disc_number" title="PyXA.apps.Spotify.XASpotifyTrack.disc_number"><code class="xref py py-obj docutils literal notranslate"><span class="pre">disc_number</span></code></a></p></td>
+<td><p>The disc number of the track</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Spotify.XASpotifyTrack.duration" title="PyXA.apps.Spotify.XASpotifyTrack.duration"><code class="xref py py-obj docutils literal notranslate"><span class="pre">duration</span></code></a></p></td>
+<td><p>The length of the track in milliseconds</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Spotify.XASpotifyTrack.id" title="PyXA.apps.Spotify.XASpotifyTrack.id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">id</span></code></a></p></td>
+<td><p>The ID of the track</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Spotify.XASpotifyTrack.name" title="PyXA.apps.Spotify.XASpotifyTrack.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a></p></td>
+<td><p>The name of the track</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Spotify.XASpotifyTrack.played_count" title="PyXA.apps.Spotify.XASpotifyTrack.played_count"><code class="xref py py-obj docutils literal notranslate"><span class="pre">played_count</span></code></a></p></td>
+<td><p>The number of times this track has been played</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Spotify.XASpotifyTrack.popularity" title="PyXA.apps.Spotify.XASpotifyTrack.popularity"><code class="xref py py-obj docutils literal notranslate"><span class="pre">popularity</span></code></a></p></td>
+<td><p>The popularity of this track, 0-100</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Spotify.XASpotifyTrack.spotify_url" title="PyXA.apps.Spotify.XASpotifyTrack.spotify_url"><code class="xref py py-obj docutils literal notranslate"><span class="pre">spotify_url</span></code></a></p></td>
+<td><p>The URL of the track</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Spotify.XASpotifyTrack.starred" title="PyXA.apps.Spotify.XASpotifyTrack.starred"><code class="xref py py-obj docutils literal notranslate"><span class="pre">starred</span></code></a></p></td>
+<td><p>Whether the track is starred</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Spotify.XASpotifyTrack.track_number" title="PyXA.apps.Spotify.XASpotifyTrack.track_number"><code class="xref py py-obj docutils literal notranslate"><span class="pre">track_number</span></code></a></p></td>
+<td><p>The index of the track in its album</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Spotify.XASpotifyTrack.album">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">album</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Spotify.XASpotifyTrack.album" title="Permalink to this definition"></a></dt>
+<dd><p>The album of the track</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Spotify.XASpotifyTrack.album_artist">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">album_artist</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Spotify.XASpotifyTrack.album_artist" title="Permalink to this definition"></a></dt>
+<dd><p>The album artist of the track</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Spotify.XASpotifyTrack.artist">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">artist</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Spotify.XASpotifyTrack.artist" title="Permalink to this definition"></a></dt>
+<dd><p>The artist of the track</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Spotify.XASpotifyTrack.artwork">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">artwork</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAImage" title="PyXA.XABase.XAImage"><span class="pre">XAImage</span></a></em><a class="headerlink" href="#PyXA.apps.Spotify.XASpotifyTrack.artwork" title="Permalink to this definition"></a></dt>
+<dd><p>The album artwork image</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Spotify.XASpotifyTrack.artwork_url">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">artwork_url</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAURL" title="PyXA.XABase.XAURL"><span class="pre">XAURL</span></a></em><a class="headerlink" href="#PyXA.apps.Spotify.XASpotifyTrack.artwork_url" title="Permalink to this definition"></a></dt>
+<dd><p>The URL of the track’s album cover</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Spotify.XASpotifyTrack.disc_number">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">disc_number</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#PyXA.apps.Spotify.XASpotifyTrack.disc_number" title="Permalink to this definition"></a></dt>
+<dd><p>The disc number of the track</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Spotify.XASpotifyTrack.duration">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">duration</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#PyXA.apps.Spotify.XASpotifyTrack.duration" title="Permalink to this definition"></a></dt>
+<dd><p>The length of the track in milliseconds</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Spotify.XASpotifyTrack.id">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Spotify.XASpotifyTrack.id" title="Permalink to this definition"></a></dt>
+<dd><p>The ID of the track</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Spotify.XASpotifyTrack.name">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Spotify.XASpotifyTrack.name" title="Permalink to this definition"></a></dt>
+<dd><p>The name of the track</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Spotify.XASpotifyTrack.played_count">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">played_count</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#PyXA.apps.Spotify.XASpotifyTrack.played_count" title="Permalink to this definition"></a></dt>
+<dd><p>The number of times this track has been played</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Spotify.XASpotifyTrack.popularity">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">popularity</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#PyXA.apps.Spotify.XASpotifyTrack.popularity" title="Permalink to this definition"></a></dt>
+<dd><p>The popularity of this track, 0-100</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Spotify.XASpotifyTrack.spotify_url">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">spotify_url</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">type</span></em><a class="headerlink" href="#PyXA.apps.Spotify.XASpotifyTrack.spotify_url" title="Permalink to this definition"></a></dt>
+<dd><p>The URL of the track</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Spotify.XASpotifyTrack.starred">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">starred</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Spotify.XASpotifyTrack.starred" title="Permalink to this definition"></a></dt>
+<dd><p>Whether the track is starred</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="PyXA.apps.Spotify.XASpotifyTrack.track_number">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">track_number</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#PyXA.apps.Spotify.XASpotifyTrack.track_number" title="Permalink to this definition"></a></dt>
+<dd><p>The index of the track in its album</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="omnioutliner.html" class="btn btn-neutral float-left" title="OmniOutliner Module Reference" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="vlc.html" class="btn btn-neutral float-right" title="VLC Module Reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Stephen Kaplan.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

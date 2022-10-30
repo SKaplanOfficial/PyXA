@@ -3815,24 +3815,6 @@ class XATextDocument(XAObject):
     def text(self, text: str):
         self.set_property("text", text)
 
-    def set_text(self, new_text: str) -> 'XATextDocument':
-        """Sets the text of the document.
-
-        :param new_text: The new text of the document
-        :type new_text: str
-        :return: A reference to the document object.
-        :rtype: XATextDocument
-
-        .. seealso:: :func:`prepend`, :func:`append`
-
-        .. deprecated:: 0.1.0
-           Directly set the text attribute instead.
-
-        .. versionadded:: 0.0.1
-        """
-        self.set_property("text", new_text)
-        return self
-
     def prepend(self, text: str) -> 'XATextDocument':
         """Inserts the provided text at the beginning of the document.
 

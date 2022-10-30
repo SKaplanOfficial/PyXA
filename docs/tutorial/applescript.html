@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Running AppleScripts &mdash; PyXA 0.0.9 documentation</title>
+  <title>Running AppleScripts &mdash; PyXA 0.1.0 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
@@ -15,7 +15,9 @@
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -45,8 +47,9 @@
 <li class="toctree-l2"><a class="reference internal" href="index.html#installation">Installation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="index.html#basic-usage">Basic Usage</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="index.html#additional-tutorial-topics">Additional Tutorial Topics</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="apps/index.html">Application Modules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="apps/index.html">Application Module Overviews</a></li>
 <li class="toctree-l3"><a class="reference internal" href="lists.html">Working With Lists</a></li>
+<li class="toctree-l3"><a class="reference internal" href="images.html">Working with Images</a></li>
 <li class="toctree-l3"><a class="reference internal" href="clipboard.html">Working With The Clipboard</a></li>
 <li class="toctree-l3"><a class="reference internal" href="user_input.html">Getting User Input</a></li>
 <li class="toctree-l3"><a class="reference internal" href="spotlight.html">Searching Spotlight</a></li>
@@ -59,6 +62,8 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="menubar.html">Add Items to the Menu Bar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="extensions/web/rssfeed.html">Reading RSS Feeds</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appscript.html">Using Appscript to Work With Unsupported Applications</a></li>
 <li class="toctree-l3"><a class="reference internal" href="tips_tricks.html">Tips and Tricks</a></li>
 </ul>
 </li>
@@ -94,10 +99,10 @@
            <div itemprop="articleBody">
              
   <section id="running-applescripts">
-<h1>Running AppleScripts<a class="headerlink" href="#running-applescripts" title="Permalink to this headline"></a></h1>
+<h1>Running AppleScripts<a class="headerlink" href="#running-applescripts" title="Permalink to this heading"></a></h1>
 <p>PyXA has a dedicated <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.AppleScript" title="PyXA.XABase.AppleScript"><code class="xref py py-class docutils literal notranslate"><span class="pre">AppleScript</span></code></a> class which supports several useful features for working with AppleScript scripts. This allows you to run any AppleScript you desire, thereby opening up the entirety of AppleScript’s capabilities to Python.</p>
 <section id="creating-and-running-applescript-code">
-<h2>Creating and Running AppleScript Code<a class="headerlink" href="#creating-and-running-applescript-code" title="Permalink to this headline"></a></h2>
+<h2>Creating and Running AppleScript Code<a class="headerlink" href="#creating-and-running-applescript-code" title="Permalink to this heading"></a></h2>
 <p>The easiest way to run AppleScript code on-the-fly is to instantiate an <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.AppleScript" title="PyXA.XABase.AppleScript"><code class="xref py py-class docutils literal notranslate"><span class="pre">AppleScript</span></code></a> object with the text of the script as an argument. You can run the script using the <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.AppleScript.run" title="PyXA.XABase.AppleScript.run"><code class="xref py py-func docutils literal notranslate"><span class="pre">run()</span></code></a> method, as seen in the code below. The script won’t run until you tell it to, allowing you to modify the script after instantiation but before execution.</p>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">PyXA</span>
 <span class="n">PyXA</span><span class="o">.</span><span class="n">AppleScript</span><span class="p">(</span><span class="s2">&quot;tell application </span><span class="se">\&quot;</span><span class="s2">Safari</span><span class="se">\&quot;</span><span class="s2"> to activate&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
@@ -134,7 +139,7 @@
 </div>
 </section>
 <section id="reading-execution-results">
-<h2>Reading Execution Results<a class="headerlink" href="#reading-execution-results" title="Permalink to this headline"></a></h2>
+<h2>Reading Execution Results<a class="headerlink" href="#reading-execution-results" title="Permalink to this heading"></a></h2>
 <p>The script contained within an <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.AppleScript" title="PyXA.XABase.AppleScript"><code class="xref py py-class docutils literal notranslate"><span class="pre">AppleScript</span></code></a> object will execute upon calling the <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.AppleScript.run" title="PyXA.XABase.AppleScript.run"><code class="xref py py-func docutils literal notranslate"><span class="pre">run()</span></code></a> method, returning a dictionary containing the execution return value of the script. This allows you to further intertwine Python logic with AppleScript. The returned dictionary is structured as follows:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
    <span class="s1">&#39;string&#39;</span><span class="p">:</span> <span class="s1">&#39;Example.txt&#39;</span><span class="p">,</span>
@@ -204,7 +209,7 @@
 <p>Still, the ability to convert between AppleScript return values and PyXA object types may be useful in some situations.</p>
 </section>
 <section id="loading-external-scripts">
-<h2>Loading External Scripts<a class="headerlink" href="#loading-external-scripts" title="Permalink to this headline"></a></h2>
+<h2>Loading External Scripts<a class="headerlink" href="#loading-external-scripts" title="Permalink to this heading"></a></h2>
 <p>PyXA provides a way to load existing AppleScript .scpt files using the <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.AppleScript.load" title="PyXA.XABase.AppleScript.load"><code class="xref py py-func docutils literal notranslate"><span class="pre">load()</span></code></a> method. Once loaded, the script can be treated like any other <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.AppleScript" title="PyXA.XABase.AppleScript"><code class="xref py py-class docutils literal notranslate"><span class="pre">AppleScript</span></code></a> object.</p>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">PyXA</span>
 <span class="n">script</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">AppleScript</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;/Users/exampleUser/Downloads/Test.scpt&quot;</span><span class="p">)</span>
@@ -222,7 +227,7 @@
 <p>This allows you to run your existing AppleScripts from Python. In combination with the ability to read execution results (see <cite>Reading Execution Results</cite>), the ability to load scripts makes PyXA a powerful yet convenient way to interface between Python and AppleScript, without losing access to your existing library of AppleScript automations.</p>
 </section>
 <section id="saving-scripts">
-<h2>Saving Scripts<a class="headerlink" href="#saving-scripts" title="Permalink to this headline"></a></h2>
+<h2>Saving Scripts<a class="headerlink" href="#saving-scripts" title="Permalink to this heading"></a></h2>
 <p>Once you’ve created and/or modified a script, you can save it to a .scpt file using the <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.AppleScript.save" title="PyXA.XABase.AppleScript.save"><code class="xref py py-func docutils literal notranslate"><span class="pre">save()</span></code></a> method. If the script was initially loaded from a file, you can call <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.AppleScript.save" title="PyXA.XABase.AppleScript.save"><code class="xref py py-func docutils literal notranslate"><span class="pre">save()</span></code></a> without any arguments – the script will be saved to the existing .scpt file. You can also provide a file path as an argument to instruct PyXA to save the script to a particular destination. Note that the script is compiled before it is saved, so specifying a path to anything other than a .scpt file will result in an unreadable document.</p>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">PyXA</span>
 <span class="n">script</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">AppleScript</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;/Users/steven/Downloads/Example.scpt&quot;</span><span class="p">)</span>

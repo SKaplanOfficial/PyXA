@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PyXA.apps.iTerm &mdash; PyXA 0.0.9 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> PyXA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../about/index.html">Project Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reference/index.html">Code Documentation and Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../bugs.html">Bugs</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">PyXA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      <li>PyXA.apps.iTerm</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for PyXA.apps.iTerm</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;.. versionadded:: 0.1.0</span>
+
+<span class="sd">Control iTerm using JXA-like syntax.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">import</span> <span class="nn">AppKit</span>
+<span class="kn">from</span> <span class="nn">PyXA</span> <span class="kn">import</span> <span class="n">XABaseScriptable</span><span class="p">,</span> <span class="n">XABase</span>
+<span class="kn">from</span> <span class="nn">PyXA.XAProtocols</span> <span class="kn">import</span> <span class="n">XACloseable</span><span class="p">,</span> <span class="n">XADeletable</span><span class="p">,</span> <span class="n">XAPrintable</span><span class="p">,</span> <span class="n">XASelectable</span>
+
+<div class="viewcode-block" id="XAiTermApplication"><a class="viewcode-back" href="../../../reference/apps/iterm.html#PyXA.apps.iTerm.XAiTermApplication">[docs]</a><span class="k">class</span> <span class="nc">XAiTermApplication</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBApplication</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A class for managing and interacting with iTerm.app.</span>
+
+<span class="sd">    .. versionadded:: 0.1.0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_wcls</span> <span class="o">=</span> <span class="n">XAiTermWindow</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">current_window</span><span class="p">:</span> <span class="n">XAiTermWindow</span> <span class="c1">#: The frontmost window</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The name of the application</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">frontmost</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether iTerm is the active application</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The version of iTerm.app</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">current_window</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAiTermWindow&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">current_window</span><span class="p">(),</span> <span class="n">XAiTermWindow</span><span class="p">)</span>
+
+    <span class="nd">@current_window</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">current_window</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">current_window</span><span class="p">:</span> <span class="s1">&#39;XAiTermWindow&#39;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s1">&#39;currentWindow&#39;</span><span class="p">,</span> <span class="n">current_window</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">name</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">frontmost</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">frontmost</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">version</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">version</span><span class="p">()</span>
+
+<div class="viewcode-block" id="XAiTermApplication.create_window"><a class="viewcode-back" href="../../../reference/apps/iterm.html#PyXA.apps.iTerm.XAiTermApplication.create_window">[docs]</a>    <span class="k">def</span> <span class="nf">create_window</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">profile</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">command</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAiTermWindow&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Creates a new window with the given profile, executing the specified command upon the window&#39;s creation.</span>
+
+<span class="sd">        :param profile: The profile to initialize the window with, defaults to None (default profile)</span>
+<span class="sd">        :type profile: Union[str, None], optional</span>
+<span class="sd">        :param command: The command to execute, defaults to None</span>
+<span class="sd">        :type command: Union[str, None], optional</span>
+<span class="sd">        :return: The newly created window object</span>
+<span class="sd">        :rtype: XAiTermWindow</span>
+
+<span class="sd">        .. versionadded:: 0.1.0</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">profile</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">window</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">createWindowWithDefaultProfileCommand_</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">window</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">createWindowWithProfile_command_</span><span class="p">(</span><span class="n">profile</span><span class="p">,</span> <span class="n">command</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="n">window</span><span class="p">,</span> <span class="n">XAiTermWindow</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XAiTermApplication.create_hotkey_window"><a class="viewcode-back" href="../../../reference/apps/iterm.html#PyXA.apps.iTerm.XAiTermApplication.create_hotkey_window">[docs]</a>    <span class="k">def</span> <span class="nf">create_hotkey_window</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">profile</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAiTermHotkeyWindow&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Creates a new hotkey window with the given profile.</span>
+
+<span class="sd">        :param profile: The profile to initialize the window with, defaults to None</span>
+<span class="sd">        :type profile: Union[str, None], optional</span>
+<span class="sd">        :return: The newly created hotkey window object</span>
+<span class="sd">        :rtype: XAiTermHotkeyWindow</span>
+
+<span class="sd">        .. versionadded:: 0.1.0</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">window</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">createHotkeyWindowWithProfile_</span><span class="p">(</span><span class="n">profile</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="n">window</span><span class="p">,</span> <span class="n">XAiTermHotkeyWindow</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XAiTermApplication.request_cookie_and_key"><a class="viewcode-back" href="../../../reference/apps/iterm.html#PyXA.apps.iTerm.XAiTermApplication.request_cookie_and_key">[docs]</a>    <span class="k">def</span> <span class="nf">request_cookie_and_key</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Requests a Python API cookie for the specified application.</span>
+
+<span class="sd">        :param app: The app to retrieve an API cookie for</span>
+<span class="sd">        :type app: str</span>
+<span class="sd">        :return: The API cookie</span>
+<span class="sd">        :rtype: str</span>
+
+<span class="sd">        .. versionadded:: 0.1.0</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">requestCookieAndKeyForAppNamed_</span><span class="p">(</span><span class="n">app</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XAiTermApplication.launch_api_script"><a class="viewcode-back" href="../../../reference/apps/iterm.html#PyXA.apps.iTerm.XAiTermApplication.launch_api_script">[docs]</a>    <span class="k">def</span> <span class="nf">launch_api_script</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">script_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">arguments</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Launches an API script by name, providing it with the given arguments.</span>
+
+<span class="sd">        :param script_name: The name of the script to launch</span>
+<span class="sd">        :type script_name: str</span>
+<span class="sd">        :param arguments: The arguments to pass to the script, defaults to None</span>
+<span class="sd">        :type arguments: Union[List[str], None], optional</span>
+
+<span class="sd">        .. versionadded:: 0.1.0</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">arguments</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">arguments</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">launchAPIScriptNamed_arguments_</span><span class="p">(</span><span class="n">script_name</span><span class="p">,</span> <span class="n">arguments</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XAiTermApplication.invoke_api_expression"><a class="viewcode-back" href="../../../reference/apps/iterm.html#PyXA.apps.iTerm.XAiTermApplication.invoke_api_expression">[docs]</a>    <span class="k">def</span> <span class="nf">invoke_api_expression</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expression</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Invokes an expression, such as a registered function.</span>
+
+<span class="sd">        :param expression: The expression to invoke</span>
+<span class="sd">        :type expression: str</span>
+
+<span class="sd">        .. versionadded:: 0.1.0</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">invokeAPIExpression_</span><span class="p">(</span><span class="n">expression</span><span class="p">)</span></div></div>
+
+
+
+
+<div class="viewcode-block" id="XAiTermWindow"><a class="viewcode-back" href="../../../reference/apps/iterm.html#PyXA.apps.iTerm.XAiTermWindow">[docs]</a><span class="k">class</span> <span class="nc">XAiTermWindow</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBWindow</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">,</span> <span class="n">XASelectable</span><span class="p">,</span> <span class="n">XACloseable</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A window of iTerm.app.</span>
+
+<span class="sd">    .. versionadded:: 0.1.0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">:</span> <span class="nb">int</span> <span class="c1">#: The unique identifier of the session</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">alternate_identifier</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The alternate unique identifier of the session</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The full title of the window</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">index</span><span class="p">:</span> <span class="nb">int</span> <span class="c1">#: The index of the window in the front-to-back ordering</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bounds</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="c1">#: The bounding rectangle of the window</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">closeable</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether the window has a close button</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">miniaturizable</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether the window can be minimized</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">miniaturized</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether the window is currently minimized</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">resizable</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether the window can be resized</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">visible</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether the window is currently visible</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">zoomable</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether the window can be zoomed</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">zoomed</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether the window is currently zoomed</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">frontmost</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether the window is currently the frontmost Terminal window</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">current_tab</span><span class="p">:</span> <span class="n">XAiTermTab</span> <span class="c1">#: The currently selected tab</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">current_session</span><span class="p">:</span> <span class="n">XAiTermSession</span> <span class="c1">#: The current session in a window</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">is_hotkey_window</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether the window is a hotkey window</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hotkey_window_profile</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: If the window is a hotkey window, this gives the name of the profile that created the window</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">position</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="c1">#: The position os the window, relative to the upper left corner of the screen</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_hotkey_window</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span> <span class="o">=</span> <span class="n">XAiTermHotkeyWindow</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">id</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">alternate_identifier</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">alternateIdentifier</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">name</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">index</span><span class="p">()</span>
+
+    <span class="nd">@index</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;index&quot;</span><span class="p">,</span> <span class="n">index</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">bounds</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+        <span class="n">rect</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">bounds</span><span class="p">()</span>
+        <span class="n">origin</span> <span class="o">=</span> <span class="n">rect</span><span class="o">.</span><span class="n">origin</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="n">rect</span><span class="o">.</span><span class="n">size</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">origin</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">origin</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">size</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="n">size</span><span class="o">.</span><span class="n">height</span><span class="p">)</span>
+
+    <span class="nd">@bounds</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">bounds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bounds</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">w</span> <span class="o">=</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">AppKit</span><span class="o">.</span><span class="n">NSValue</span><span class="o">.</span><span class="n">valueWithRect_</span><span class="p">(</span><span class="n">AppKit</span><span class="o">.</span><span class="n">NSMakeRect</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">h</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;bounds&quot;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">closeable</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">closeable</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">miniaturizable</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">miniaturizable</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">miniaturized</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">miniaturized</span><span class="p">()</span>
+
+    <span class="nd">@miniaturized</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">miniaturized</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">miniaturized</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;miniaturized&quot;</span><span class="p">,</span> <span class="n">miniaturized</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">resizable</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">resizable</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">visible</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">visible</span><span class="p">()</span>
+
+    <span class="nd">@visible</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">visible</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">visible</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;visible&quot;</span><span class="p">,</span> <span class="n">visible</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">zoomable</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">zoomable</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">zoomed</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">zoomed</span><span class="p">()</span>
+
+    <span class="nd">@zoomed</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">zoomed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">zoomed</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;zoomed&quot;</span><span class="p">,</span> <span class="n">zoomed</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">frontmost</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">frontmost</span><span class="p">()</span>
+
+    <span class="nd">@frontmost</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">frontmost</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frontmost</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s1">&#39;frontmost&#39;</span><span class="p">,</span> <span class="n">frontmost</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">current_tab</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAiTermTab&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">currentTab</span><span class="p">(),</span> <span class="n">XAiTermTab</span><span class="p">)</span>
+
+    <span class="nd">@current_tab</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">current_tab</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">current_tab</span><span class="p">:</span> <span class="s1">&#39;XAiTermTab&#39;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s1">&#39;currentTab&#39;</span><span class="p">,</span> <span class="n">current_tab</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">current_session</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAiTermSession&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">currentSession</span><span class="p">(),</span> <span class="n">XAiTermSession</span><span class="p">)</span>
+
+    <span class="nd">@current_session</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">current_session</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">current_session</span><span class="p">:</span> <span class="s1">&#39;XAiTermSession&#39;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s1">&#39;currentSession&#39;</span><span class="p">,</span> <span class="n">current_session</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">is_hotkey_window</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">isHotkeyWindow</span><span class="p">()</span>
+
+    <span class="nd">@is_hotkey_window</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">is_hotkey_window</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">is_hotkey_window</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s1">&#39;isHotkeyWindow&#39;</span><span class="p">,</span> <span class="n">is_hotkey_window</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">hotkey_window_profile</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">hotkeyWindowProfile</span><span class="p">()</span>
+
+    <span class="nd">@hotkey_window_profile</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">hotkey_window_profile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hotkey_window_profile</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s1">&#39;hotkeyWindowProfile&#39;</span><span class="p">,</span> <span class="n">hotkey_window_profile</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">position</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">position</span><span class="p">()</span>
+
+    <span class="nd">@position</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">position</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">position</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s1">&#39;position&#39;</span><span class="p">,</span> <span class="n">position</span><span class="p">)</span>
+
+<div class="viewcode-block" id="XAiTermWindow.create_tab"><a class="viewcode-back" href="../../../reference/apps/iterm.html#PyXA.apps.iTerm.XAiTermWindow.create_tab">[docs]</a>    <span class="k">def</span> <span class="nf">create_tab</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">profile</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">command</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Creates a new tab with the given profile, executing the specified command upon the tab&#39;s creation.</span>
+
+<span class="sd">        :param profile: The name of the profile to assign to the tab, if any, defaults to None (default profile)</span>
+<span class="sd">        :type profile: Union[str, None], optional</span>
+<span class="sd">        :param command: The command to run in the tab, if any, defaults to None</span>
+<span class="sd">        :type command: Union[str, None], optional</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">profile</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">createTabWithDefaultProfileCommand_</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">createTabWithProfile_command_</span><span class="p">(</span><span class="n">profile</span><span class="p">,</span> <span class="n">command</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XAiTermWindow.close"><a class="viewcode-back" href="../../../reference/apps/iterm.html#PyXA.apps.iTerm.XAiTermWindow.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Closes the window.</span>
+
+<span class="sd">        .. versionadded:: 0.1.0</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div></div>
+
+
+
+
+<div class="viewcode-block" id="XAiTermHotkeyWindow"><a class="viewcode-back" href="../../../reference/apps/iterm.html#PyXA.apps.iTerm.XAiTermHotkeyWindow">[docs]</a><span class="k">class</span> <span class="nc">XAiTermHotkeyWindow</span><span class="p">(</span><span class="n">XAiTermWindow</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A hotkey window of iTerm.app.</span>
+
+<span class="sd">    .. versionadded:: 0.1.0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
+
+<div class="viewcode-block" id="XAiTermHotkeyWindow.reveal_hotkey_window"><a class="viewcode-back" href="../../../reference/apps/iterm.html#PyXA.apps.iTerm.XAiTermHotkeyWindow.reveal_hotkey_window">[docs]</a>    <span class="k">def</span> <span class="nf">reveal_hotkey_window</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Reveals the hotkey window.</span>
+
+<span class="sd">        .. versionadded:: 0.1.0</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">revealHotkeyWindow</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="XAiTermHotkeyWindow.hide_hotkey_window"><a class="viewcode-back" href="../../../reference/apps/iterm.html#PyXA.apps.iTerm.XAiTermHotkeyWindow.hide_hotkey_window">[docs]</a>    <span class="k">def</span> <span class="nf">hide_hotkey_window</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Hides the hotkey window.</span>
+
+<span class="sd">        .. versionadded:: 0.1.0</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">hideHotkeyWindow</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="XAiTermHotkeyWindow.toggle_hotkey_window"><a class="viewcode-back" href="../../../reference/apps/iterm.html#PyXA.apps.iTerm.XAiTermHotkeyWindow.toggle_hotkey_window">[docs]</a>    <span class="k">def</span> <span class="nf">toggle_hotkey_window</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Toggles the hotkey window.</span>
+
+<span class="sd">        .. versionadded:: 0.1.0</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">toggleHotkeyWindow</span><span class="p">()</span></div></div>
+
+
+
+
+<div class="viewcode-block" id="XAiTermTab"><a class="viewcode-back" href="../../../reference/apps/iterm.html#PyXA.apps.iTerm.XAiTermTab">[docs]</a><span class="k">class</span> <span class="nc">XAiTermTab</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">,</span> <span class="n">XACloseable</span><span class="p">,</span> <span class="n">XASelectable</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A tab of iTerm.app.</span>
+
+<span class="sd">    .. versionadded:: 0.1.0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">current_session</span><span class="p">:</span> <span class="n">XAiTermSession</span> <span class="c1">#: The current session in a tab</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">index</span><span class="p">:</span> <span class="nb">int</span> <span class="c1">#: Index of tab in parent tab view control</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">current_session</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAiTermSession&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">currentSession</span><span class="p">(),</span> <span class="n">XAiTermSession</span><span class="p">)</span>
+
+    <span class="nd">@current_session</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">current_session</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">current_session</span><span class="p">:</span> <span class="s1">&#39;XAiTermSession&#39;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s1">&#39;currentSession&#39;</span><span class="p">,</span> <span class="n">current_session</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">index</span><span class="p">()</span>
+
+    <span class="nd">@index</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s1">&#39;index&#39;</span><span class="p">,</span> <span class="n">index</span><span class="p">)</span>
+
+<div class="viewcode-block" id="XAiTermTab.close"><a class="viewcode-back" href="../../../reference/apps/iterm.html#PyXA.apps.iTerm.XAiTermTab.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Closes the tab.</span>
+
+<span class="sd">        .. versionadded:: 0.1.0</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="XAiTermTab.move_to"><a class="viewcode-back" href="../../../reference/apps/iterm.html#PyXA.apps.iTerm.XAiTermTab.move_to">[docs]</a>    <span class="k">def</span> <span class="nf">move_to</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">window</span><span class="p">:</span> <span class="n">XAiTermWindow</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">moveTo_</span><span class="p">(</span><span class="n">window</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span></div></div>
+
+
+
+
+<div class="viewcode-block" id="XAiTermSession"><a class="viewcode-back" href="../../../reference/apps/iterm.html#PyXA.apps.iTerm.XAiTermSession">[docs]</a><span class="k">class</span> <span class="nc">XAiTermSession</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">,</span> <span class="n">XACloseable</span><span class="p">,</span> <span class="n">XASelectable</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A session of iTerm.app.</span>
+
+<span class="sd">    .. versionadded:: 0.1.0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The unique identifier of the session</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">is_processing</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether the session is currently processing</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">is_at_shell_prompt</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether the terminal is at the shell prompt</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span> <span class="nb">int</span> <span class="c1">#: The number of columns in the terminal window</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rows</span><span class="p">:</span> <span class="nb">int</span> <span class="c1">#: The number of rows in the terminal window</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tty</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The current TTY</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">contents</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The currently visible contents of the session.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The currently visible contents of the session.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">color_preset</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The color preset of the session</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">background_color</span><span class="p">:</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bold_color</span><span class="p">:</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cursor_color</span><span class="p">:</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cursor_text_color</span><span class="p">:</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">foreground_color</span><span class="p">:</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">selected_text_color</span><span class="p">:</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">selection_color</span><span class="p">:</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ansi_black_color</span><span class="p">:</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ansi_red_color</span><span class="p">:</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ansi_green_color</span><span class="p">:</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ansi_yellow_color</span><span class="p">:</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ansi_blue_color</span><span class="p">:</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ansi_magenta_color</span><span class="p">:</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ansi_cyan_color</span><span class="p">:</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ansi_white_color</span><span class="p">:</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ansi_bright_black_color</span><span class="p">:</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ansi_bright_red_color</span><span class="p">:</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ansi_bright_green_color</span><span class="p">:</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ansi_bright_yellow_color</span><span class="p">:</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ansi_bright_blue_color</span><span class="p">:</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ansi_bright_magenta_color</span><span class="p">:</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ansi_bright_cyan_color</span><span class="p">:</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ansi_bright_white_color</span><span class="p">:</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">underline_color</span><span class="p">:</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">use_underline_color</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether to use a dedicated color for underlining</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">background_image</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The path of the background image file</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The name of the session</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">transparency</span><span class="p">:</span> <span class="nb">float</span> <span class="c1">#: The transparency of the session window</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">unique_id</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The unique identifier of the session</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">profile_name</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The session&#39;s profile name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">answerback_string</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: ENQ Answerback string</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">id</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">is_processing</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">isProcessing</span><span class="p">()</span>
+
+    <span class="nd">@is_processing</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">is_processing</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">is_processing</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s1">&#39;isProcessing&#39;</span><span class="p">,</span> <span class="n">is_processing</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">is_at_shell_prompt</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">isAtShellPrompt</span><span class="p">()</span>
+
+    <span class="nd">@is_at_shell_prompt</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">is_at_shell_prompt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">is_at_shell_prompt</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s1">&#39;isAtShellPrompt&#39;</span><span class="p">,</span> <span class="n">is_at_shell_prompt</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">columns</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">columns</span><span class="p">()</span>
+
+    <span class="nd">@columns</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">columns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">columns</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s1">&#39;columns&#39;</span><span class="p">,</span> <span class="n">columns</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">rows</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">rows</span><span class="p">()</span>
+
+    <span class="nd">@rows</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">rows</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rows</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s1">&#39;rows&#39;</span><span class="p">,</span> <span class="n">rows</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">tty</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">tty</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">contents</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">contents</span><span class="p">()</span>
+
+    <span class="nd">@contents</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">contents</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">contents</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s1">&#39;contents&#39;</span><span class="p">,</span> <span class="n">contents</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">text</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">text</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">color_preset</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">colorPreset</span><span class="p">()</span>
+
+    <span class="nd">@color_preset</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">color_preset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">color_preset</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s1">&#39;colorPreset&#39;</span><span class="p">,</span> <span class="n">color_preset</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">background_color</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">backgroundColor</span><span class="p">())</span>
+
+    <span class="nd">@background_color</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">background_color</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">background_color</span><span class="p">:</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s1">&#39;backgroundColor&#39;</span><span class="p">,</span> <span class="n">background_color</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">bold_color</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">boldColor</span><span class="p">())</span>
+
+    <span class="nd">@bold_color</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">bold_color</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bold_color</span><span class="p">:</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s1">&#39;boldColor&#39;</span><span class="p">,</span> <span class="n">bold_color</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">cursor_color</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">cursorColor</span><span class="p">())</span>
+
+    <span class="nd">@cursor_color</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">cursor_color</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cursor_color</span><span class="p">:</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s1">&#39;cursorColor&#39;</span><span class="p">,</span> <span class="n">cursor_color</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">cursor_text_color</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">cursorTextColor</span><span class="p">())</span>
+
+    <span class="nd">@cursor_text_color</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">cursor_text_color</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cursor_text_color</span><span class="p">:</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s1">&#39;cursorTextColor&#39;</span><span class="p">,</span> <span class="n">cursor_text_color</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">foreground_color</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">foregroundColor</span><span class="p">())</span>
+
+    <span class="nd">@foreground_color</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">foreground_color</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">foreground_color</span><span class="p">:</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s1">&#39;foregroundColor&#39;</span><span class="p">,</span> <span class="n">foreground_color</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">selected_text_color</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">selectedTextColor</span><span class="p">())</span>
+
+    <span class="nd">@selected_text_color</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">selected_text_color</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">selected_text_color</span><span class="p">:</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s1">&#39;selectedTextColor&#39;</span><span class="p">,</span> <span class="n">selected_text_color</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">selection_color</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">selectionColor</span><span class="p">())</span>
+
+    <span class="nd">@selection_color</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">selection_color</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">selection_color</span><span class="p">:</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s1">&#39;selectionColor&#39;</span><span class="p">,</span> <span class="n">selection_color</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">ansi_black_color</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">ANSIBlackColor</span><span class="p">())</span>
+
+    <span class="nd">@ansi_black_color</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">ansi_black_color</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ansi_black_color</span><span class="p">:</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s1">&#39;ANSIBlackColor&#39;</span><span class="p">,</span> <span class="n">ansi_black_color</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">ansi_red_color</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">ANSIRedColor</span><span class="p">())</span>
+
+    <span class="nd">@ansi_red_color</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">ansi_black_color</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ansi_red_color</span><span class="p">:</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s1">&#39;ANSIRedColor&#39;</span><span class="p">,</span> <span class="n">ansi_red_color</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">ansi_green_color</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">ANSIGreenColor</span><span class="p">())</span>
+
+    <span class="nd">@ansi_green_color</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">ansi_green_color</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ansi_green_color</span><span class="p">:</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s1">&#39;ANSIGreenColor&#39;</span><span class="p">,</span> <span class="n">ansi_green_color</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">ansi_yellow_color</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">ANSIYellowColor</span><span class="p">())</span>
+
+    <span class="nd">@ansi_yellow_color</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">ansi_yellow_color</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ansi_yellow_color</span><span class="p">:</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s1">&#39;ANSIYellowColor&#39;</span><span class="p">,</span> <span class="n">ansi_yellow_color</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">ansi_blue_color</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">ANSIBlueColor</span><span class="p">())</span>
+
+    <span class="nd">@ansi_blue_color</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">ansi_blue_color</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ansi_blue_color</span><span class="p">:</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s1">&#39;ANSIBlueColor&#39;</span><span class="p">,</span> <span class="n">ansi_blue_color</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">ansi_magenta_color</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">ANSIMagentaColor</span><span class="p">())</span>
+
+    <span class="nd">@ansi_magenta_color</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">ansi_magenta_color</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ansi_magenta_color</span><span class="p">:</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s1">&#39;ANSIMagentaColor&#39;</span><span class="p">,</span> <span class="n">ansi_magenta_color</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">ansi_cyan_color</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">ANSICyanColor</span><span class="p">())</span>
+
+    <span class="nd">@ansi_cyan_color</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">ansi_cyan_color</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ansi_cyan_color</span><span class="p">:</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s1">&#39;ANSICyanColor&#39;</span><span class="p">,</span> <span class="n">ansi_cyan_color</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">ansi_white_color</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">ANSIWhiteColor</span><span class="p">())</span>
+
+    <span class="nd">@ansi_white_color</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">ansi_white_color</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ansi_white_color</span><span class="p">:</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s1">&#39;ANSIWhiteColor&#39;</span><span class="p">,</span> <span class="n">ansi_white_color</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">ansi_bright_black_color</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">ANSIBrightBlackColor</span><span class="p">())</span>
+
+    <span class="nd">@ansi_bright_black_color</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">ansi_bright_black_color</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ansi_bright_black_color</span><span class="p">:</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s1">&#39;ANSIBrightBlackColor&#39;</span><span class="p">,</span> <span class="n">ansi_bright_black_color</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">ansi_bright_red_color</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">ANSIBrightRedColor</span><span class="p">())</span>
+
+    <span class="nd">@ansi_bright_red_color</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">ansi_bright_red_color</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ansi_bright_red_color</span><span class="p">:</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s1">&#39;ANSIBrightRedColor&#39;</span><span class="p">,</span> <span class="n">ansi_bright_red_color</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">ansi_bright_green_color</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">ANSIBrightGreenColor</span><span class="p">())</span>
+
+    <span class="nd">@ansi_bright_green_color</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">ansi_bright_green_color</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ansi_bright_green_color</span><span class="p">:</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s1">&#39;ANSIBrightGreenColor&#39;</span><span class="p">,</span> <span class="n">ansi_bright_green_color</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">ansi_bright_yellow_color</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">ANSIBrightYellowColor</span><span class="p">())</span>
+
+    <span class="nd">@ansi_bright_yellow_color</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">ansi_bright_yellow_color</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ansi_bright_yellow_color</span><span class="p">:</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s1">&#39;ANSIBrightYellowColor&#39;</span><span class="p">,</span> <span class="n">ansi_bright_yellow_color</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">ansi_bright_blue_color</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">ANSIBrightBlueColor</span><span class="p">())</span>
+
+    <span class="nd">@ansi_bright_blue_color</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">ansi_bright_blue_color</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ansi_bright_blue_color</span><span class="p">:</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s1">&#39;ANSIBrightBlueColor&#39;</span><span class="p">,</span> <span class="n">ansi_bright_blue_color</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">ansi_bright_magenta_color</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">ANSIBrightMagentaColor</span><span class="p">())</span>
+
+    <span class="nd">@ansi_bright_magenta_color</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">ansi_bright_magenta_color</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ansi_bright_magenta_color</span><span class="p">:</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s1">&#39;ANSIBrightMagentaColor&#39;</span><span class="p">,</span> <span class="n">ansi_bright_magenta_color</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">ansi_bright_cyan_color</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">ANSIBrightCyanColor</span><span class="p">())</span>
+
+    <span class="nd">@ansi_bright_cyan_color</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">ansi_bright_cyan_color</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ansi_bright_cyan_color</span><span class="p">:</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s1">&#39;ANSIBrightCyanColor&#39;</span><span class="p">,</span> <span class="n">ansi_bright_cyan_color</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">ansi_bright_white_color</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">ANSIBrightWhiteColor</span><span class="p">())</span>
+
+    <span class="nd">@ansi_bright_white_color</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">ansi_bright_white_color</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ansi_bright_white_color</span><span class="p">:</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s1">&#39;ANSIBrightWhiteColor&#39;</span><span class="p">,</span> <span class="n">ansi_bright_white_color</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">underline_color</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">underlineColor</span><span class="p">())</span>
+
+    <span class="nd">@underline_color</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">underline_color</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">underline_color</span><span class="p">:</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s1">&#39;underlineColor&#39;</span><span class="p">,</span> <span class="n">underline_color</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">use_underline_color</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">useUnderlineColor</span><span class="p">()</span>
+
+    <span class="nd">@use_underline_color</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">use_underline_color</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">use_underline_color</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s1">&#39;useUnderlineColor&#39;</span><span class="p">,</span> <span class="n">use_underline_color</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">background_image</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">backgroundImage</span><span class="p">()</span>
+
+    <span class="nd">@background_image</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">background_image</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">background_image</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s1">&#39;backgroundImage&#39;</span><span class="p">,</span> <span class="n">background_image</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">name</span><span class="p">()</span>
+
+    <span class="nd">@name</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">transparency</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">transparency</span><span class="p">()</span>
+
+    <span class="nd">@transparency</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">transparency</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">transparency</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s1">&#39;transparency&#39;</span><span class="p">,</span> <span class="n">transparency</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">unique_id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">uniqueID</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">profile_name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">profileName</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">answerback_string</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">answerbackString</span><span class="p">()</span>
+
+    <span class="nd">@answerback_string</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">answerback_string</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">answerback_string</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s1">&#39;answerbackString&#39;</span><span class="p">,</span> <span class="n">answerback_string</span><span class="p">)</span>
+
+<div class="viewcode-block" id="XAiTermSession.split_vertically"><a class="viewcode-back" href="../../../reference/apps/iterm.html#PyXA.apps.iTerm.XAiTermSession.split_vertically">[docs]</a>    <span class="k">def</span> <span class="nf">split_vertically</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">profile</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">command</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Splits the session vertically, instantiating a new session with the specified profile.</span>
+
+<span class="sd">        :param profile: The profile to instantiate the new session with, defaults to None (current profile)</span>
+<span class="sd">        :type profile: Union[str, None], optional</span>
+<span class="sd">        :param command: The command to run in the newly created session upon its creation, defaults to None</span>
+<span class="sd">        :type command: Union[str, None], optional</span>
+
+<span class="sd">        .. versionadded:: 0.1.0</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">profile</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">splitVerticallyWithSameProfileCommand_</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">splitVerticallyWithProfile_command_</span><span class="p">(</span><span class="n">profile</span><span class="p">,</span> <span class="n">command</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XAiTermSession.split_vertically_with_default_profile"><a class="viewcode-back" href="../../../reference/apps/iterm.html#PyXA.apps.iTerm.XAiTermSession.split_vertically_with_default_profile">[docs]</a>    <span class="k">def</span> <span class="nf">split_vertically_with_default_profile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">command</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]):</span>
+        <span class="sd">&quot;&quot;&quot;Splits the session vertically, instantiating a new session with the default profile.</span>
+
+<span class="sd">        :param command: The command to run in the newly created session upon its creation, defaults to None</span>
+<span class="sd">        :type command: Union[str, None]</span>
+
+<span class="sd">        .. versionadded:: 0.1.0</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">splitVerticallyWithDefaultProfileCommand_</span><span class="p">(</span><span class="n">command</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XAiTermSession.split_horizontally"><a class="viewcode-back" href="../../../reference/apps/iterm.html#PyXA.apps.iTerm.XAiTermSession.split_horizontally">[docs]</a>    <span class="k">def</span> <span class="nf">split_horizontally</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">profile</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">command</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Splits the session horizontally, instantiating a new session with the specified profile.</span>
+
+<span class="sd">        :param profile: The profile to instantiate the new session with, defaults to None (current profile)</span>
+<span class="sd">        :type profile: Union[str, None], optional</span>
+<span class="sd">        :param command: The command to run in the newly created session upon its creation, defaults to None</span>
+<span class="sd">        :type command: Union[str, None], optional</span>
+
+<span class="sd">        .. versionadded:: 0.1.0</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">profile</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">splitHorizontallyWithSameProfileCommand_</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">splitHorizontallyWithProfile_command_</span><span class="p">(</span><span class="n">profile</span><span class="p">,</span> <span class="n">command</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XAiTermSession.split_horizontally_with_default_profile"><a class="viewcode-back" href="../../../reference/apps/iterm.html#PyXA.apps.iTerm.XAiTermSession.split_horizontally_with_default_profile">[docs]</a>    <span class="k">def</span> <span class="nf">split_horizontally_with_default_profile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">command</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Splits the session horizontally, instantiating a new session with the default profile.</span>
+
+<span class="sd">        :param command: The command to run in the newly created session upon its creation, defaults to None</span>
+<span class="sd">        :type command: Union[str, None]</span>
+
+<span class="sd">        .. versionadded:: 0.1.0</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">splitHorizontallyWithDefaultProfileCommand_</span><span class="p">(</span><span class="n">command</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XAiTermSession.variable"><a class="viewcode-back" href="../../../reference/apps/iterm.html#PyXA.apps.iTerm.XAiTermSession.variable">[docs]</a>    <span class="k">def</span> <span class="nf">variable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variable_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Returns the value of a session variable with the given name.</span>
+
+<span class="sd">        :param variable_name: The name of the variable to retrieve the value on</span>
+<span class="sd">        :type variable_name: str</span>
+<span class="sd">        :return: The value of the variable</span>
+<span class="sd">        :rtype: str</span>
+
+<span class="sd">        .. versionadded:: 0.1.0</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">variableNamed_</span><span class="p">(</span><span class="n">variable_name</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XAiTermSession.set_variable"><a class="viewcode-back" href="../../../reference/apps/iterm.html#PyXA.apps.iTerm.XAiTermSession.set_variable">[docs]</a>    <span class="k">def</span> <span class="nf">set_variable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variable_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Sets the value of a session variable.</span>
+
+<span class="sd">        :param variable_name: The name of the variable to set</span>
+<span class="sd">        :type variable_name: str</span>
+<span class="sd">        :param value: The value to give the variable</span>
+<span class="sd">        :type value: str</span>
+<span class="sd">        :return: The new value of the variable</span>
+<span class="sd">        :rtype: str</span>
+
+<span class="sd">        .. versionadded:: 0.1.0</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">setVariableNamed_to_</span><span class="p">(</span><span class="n">variable_name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XAiTermSession.write"><a class="viewcode-back" href="../../../reference/apps/iterm.html#PyXA.apps.iTerm.XAiTermSession.write">[docs]</a>    <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">file</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAPath</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">add_newline</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Writes a string or file contents to the session.</span>
+
+<span class="sd">        :param text: The text to input into the session, defaults to None</span>
+<span class="sd">        :type text: Union[str, None], optional</span>
+<span class="sd">        :param file: The file whose contents to input into the session, defaults to None</span>
+<span class="sd">        :type file: Union[XABase.XAPath, str, None], optional</span>
+<span class="sd">        :param add_newline: Whether to add a new line after inputting the specified content, defaults to True</span>
+<span class="sd">        :type add_newline: bool, optional</span>
+
+<span class="sd">        .. versionadded:: 0.1.0</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">file</span> <span class="o">=</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAPath</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">file</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">writeContentsOfFile_text_newline_</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">add_newline</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">writeContentsOfFile_text_newline_</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">add_newline</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XAiTermSession.close"><a class="viewcode-back" href="../../../reference/apps/iterm.html#PyXA.apps.iTerm.XAiTermSession.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Closes the session.</span>
+
+<span class="sd">        .. versionadded:: 0.1.0</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Stephen Kaplan.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

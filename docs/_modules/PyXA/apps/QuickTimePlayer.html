@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PyXA.apps.QuickTimePlayer &mdash; PyXA 0.0.9 documentation</title>
+  <title>PyXA.apps.QuickTimePlayer &mdash; PyXA 0.1.0 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -14,7 +14,9 @@
         <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/jquery.js"></script>
         <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -72,12 +74,9 @@
 
 <span class="sd">Control the macOS QuickTime application using JXA-like syntax.</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
-<span class="kn">from</span> <span class="nn">re</span> <span class="kn">import</span> <span class="n">S</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
-<span class="kn">from</span> <span class="nn">AppKit</span> <span class="kn">import</span> <span class="n">NSFileManager</span><span class="p">,</span> <span class="n">NSURL</span><span class="p">,</span> <span class="n">NSSet</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Union</span>
 
-<span class="kn">from</span> <span class="nn">AppKit</span> <span class="kn">import</span> <span class="n">NSPredicate</span><span class="p">,</span> <span class="n">NSMutableArray</span><span class="p">,</span> <span class="n">NSValue</span><span class="p">,</span> <span class="n">NSMakeRect</span>
+<span class="kn">import</span> <span class="nn">AppKit</span>
 
 <span class="kn">from</span> <span class="nn">PyXA</span> <span class="kn">import</span> <span class="n">XABase</span>
 <span class="kn">from</span> <span class="nn">PyXA</span> <span class="kn">import</span> <span class="n">XABaseScriptable</span>
@@ -112,6 +111,10 @@
     <span class="k">def</span> <span class="nf">frontmost</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">frontmost</span><span class="p">()</span>
 
+    <span class="nd">@frontmost</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">frontmost</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frontmost</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;frontmost&quot;</span><span class="p">,</span> <span class="n">frontmost</span><span class="p">)</span>
+
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">version</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">version</span><span class="p">()</span>
@@ -120,23 +123,23 @@
     <span class="k">def</span> <span class="nf">current_document</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAQuickTimeDocument&#39;</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">front_window</span><span class="o">.</span><span class="n">document</span>
 
-<div class="viewcode-block" id="XAQuickTimeApplication.open"><a class="viewcode-back" href="../../../reference/apps/quicktimeplayer.html#PyXA.apps.QuickTimePlayer.XAQuickTimeApplication.open">[docs]</a>    <span class="k">def</span> <span class="nf">open</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">NSURL</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAQuickTimeDocument&#39;</span><span class="p">:</span>
+<div class="viewcode-block" id="XAQuickTimeApplication.open"><a class="viewcode-back" href="../../../reference/apps/quicktimeplayer.html#PyXA.apps.QuickTimePlayer.XAQuickTimeApplication.open">[docs]</a>    <span class="k">def</span> <span class="nf">open</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">AppKit</span><span class="o">.</span><span class="n">NSURL</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAQuickTimeDocument&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Opens the file at the given filepath.</span>
 
 <span class="sd">        :param target: The path of a file to open.</span>
-<span class="sd">        :type target: Union[str, NSURL]</span>
+<span class="sd">        :type target: Union[str, AppKit.NSURL]</span>
 <span class="sd">        :return: A reference to the newly opened document.</span>
 <span class="sd">        :rtype: XAQuickTimeDocument</span>
 
 <span class="sd">        .. versionadded:: 0.0.6</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">NSURL</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">AppKit</span><span class="o">.</span><span class="n">NSURL</span><span class="p">):</span>
             <span class="k">if</span> <span class="s2">&quot;://&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">path</span><span class="p">:</span>
                 <span class="n">path</span> <span class="o">=</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAPath</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">xa_wksp</span><span class="o">.</span><span class="n">openURLs_withAppBundleIdentifier_options_additionalEventParamDescriptor_launchIdentifiers_</span><span class="p">([</span><span class="n">path</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">bundleIdentifier</span><span class="p">(),</span> <span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">front_window</span><span class="o">.</span><span class="n">document</span><span class="p">,</span> <span class="n">XAQuickTimeDocument</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="XAQuickTimeApplication.open_url"><a class="viewcode-back" href="../../../reference/apps/quicktimeplayer.html#PyXA.apps.QuickTimePlayer.XAQuickTimeApplication.open_url">[docs]</a>    <span class="k">def</span> <span class="nf">open_url</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">NSURL</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAQuickTimeDocument&#39;</span><span class="p">:</span>
+<div class="viewcode-block" id="XAQuickTimeApplication.open_url"><a class="viewcode-back" href="../../../reference/apps/quicktimeplayer.html#PyXA.apps.QuickTimePlayer.XAQuickTimeApplication.open_url">[docs]</a>    <span class="k">def</span> <span class="nf">open_url</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">AppKit</span><span class="o">.</span><span class="n">NSURL</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAQuickTimeDocument&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Opens the file at the given (remote) URL.</span>
 
 <span class="sd">        :param target: The path of a file to stream.</span>
@@ -146,7 +149,7 @@
 
 <span class="sd">        .. versionadded:: 0.0.6</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">NSURL</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">AppKit</span><span class="o">.</span><span class="n">NSURL</span><span class="p">):</span>
             <span class="k">if</span> <span class="s2">&quot;://&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">url</span><span class="p">:</span>
                 <span class="n">url</span> <span class="o">=</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAURL</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">openURL_</span><span class="p">(</span><span class="n">url</span><span class="p">)</span></div>
@@ -266,7 +269,7 @@
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">:</span> <span class="nb">int</span> <span class="c1">#: The unique identifier for the window</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">bounds</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]</span> <span class="c1">#: The boundary rectangle for the window</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bounds</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="c1">#: The boundary rectangle for the window</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The name of the window</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">index</span><span class="p">:</span> <span class="nb">int</span> <span class="c1">#: The index of the window in the front-to-back order of Finder windows</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">closeable</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether the window has a close button</span>
@@ -284,16 +287,20 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">id</span><span class="p">()</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">position</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">position</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">bounds</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+        <span class="n">rect</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">bounds</span><span class="p">()</span>
+        <span class="n">origin</span> <span class="o">=</span> <span class="n">rect</span><span class="o">.</span><span class="n">origin</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="n">rect</span><span class="o">.</span><span class="n">size</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">origin</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">origin</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">size</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="n">size</span><span class="o">.</span><span class="n">height</span><span class="p">)</span>
 
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">bounds</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">bounds</span><span class="p">()</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">titled</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">titled</span><span class="p">()</span>
+    <span class="nd">@bounds</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">bounds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bounds</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">w</span> <span class="o">=</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">AppKit</span><span class="o">.</span><span class="n">NSValue</span><span class="o">.</span><span class="n">valueWithRect_</span><span class="p">(</span><span class="n">AppKit</span><span class="o">.</span><span class="n">NSMakeRect</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">h</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;bounds&quot;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
@@ -303,17 +310,13 @@
     <span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">index</span><span class="p">()</span>
 
+    <span class="nd">@index</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;index&quot;</span><span class="p">,</span> <span class="n">index</span><span class="p">)</span>
+
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">closeable</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">closeable</span><span class="p">()</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">floating</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">floating</span><span class="p">()</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">modal</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">modal</span><span class="p">()</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">resizable</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
@@ -327,13 +330,29 @@
     <span class="k">def</span> <span class="nf">zoomed</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">zoomed</span><span class="p">()</span>
 
+    <span class="nd">@zoomed</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">zoomed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">zoomed</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;zoomed&quot;</span><span class="p">,</span> <span class="n">zoomed</span><span class="p">)</span>
+
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">visible</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">visible</span><span class="p">()</span>
 
+    <span class="nd">@visible</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">visible</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">visible</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;visible&quot;</span><span class="p">,</span> <span class="n">visible</span><span class="p">)</span>
+
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">collapsed</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">collapsed</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">miniaturizable</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">miniaturizable</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">miniaturized</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">miniaturized</span><span class="p">()</span>
+
+    <span class="nd">@miniaturized</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">miniaturized</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">miniaturized</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;miniaturized&quot;</span><span class="p">,</span> <span class="n">miniaturized</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">properties</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
@@ -351,7 +370,7 @@
                 <span class="n">y</span> <span class="o">=</span> <span class="n">value</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
                 <span class="n">w</span> <span class="o">=</span> <span class="n">value</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
                 <span class="n">h</span> <span class="o">=</span> <span class="n">value</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
-                <span class="n">value</span> <span class="o">=</span> <span class="n">NSValue</span><span class="o">.</span><span class="n">valueWithRect_</span><span class="p">(</span><span class="n">NSMakeRect</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">h</span><span class="p">))</span>
+                <span class="n">value</span> <span class="o">=</span> <span class="n">AppKit</span><span class="o">.</span><span class="n">NSValue</span><span class="o">.</span><span class="n">valueWithRect_</span><span class="p">(</span><span class="n">AppKit</span><span class="o">.</span><span class="n">NSMakeRect</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">h</span><span class="p">))</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="n">property_name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span></div></div>
 
 
@@ -367,121 +386,121 @@
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">XAQuickTimeDocument</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
 
-<div class="viewcode-block" id="XAQuickTimeDocumentList.properties"><a class="viewcode-back" href="../../../reference/apps/quicktimeplayer.html#PyXA.apps.QuickTimePlayer.XAQuickTimeDocumentList.properties">[docs]</a>    <span class="k">def</span> <span class="nf">properties</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAQuickTimeDocumentList.properties"><a class="viewcode-back" href="../../../reference/apps/quicktimeplayer.html#PyXA.apps.QuickTimePlayer.XAQuickTimeDocumentList.properties">[docs]</a>    <span class="k">def</span> <span class="nf">properties</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the properties of each document in the list.</span>
 
 <span class="sd">        :return: The list of property dictionaries</span>
-<span class="sd">        :rtype: List[dict]</span>
+<span class="sd">        :rtype: list[dict]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.6</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;properties&quot;</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="XAQuickTimeDocumentList.audio_volume"><a class="viewcode-back" href="../../../reference/apps/quicktimeplayer.html#PyXA.apps.QuickTimePlayer.XAQuickTimeDocumentList.audio_volume">[docs]</a>    <span class="k">def</span> <span class="nf">audio_volume</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAQuickTimeDocumentList.audio_volume"><a class="viewcode-back" href="../../../reference/apps/quicktimeplayer.html#PyXA.apps.QuickTimePlayer.XAQuickTimeDocumentList.audio_volume">[docs]</a>    <span class="k">def</span> <span class="nf">audio_volume</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the audio volume of each document in the list.</span>
 
 <span class="sd">        :return: The list of audio volumes</span>
-<span class="sd">        :rtype: List[float]</span>
+<span class="sd">        :rtype: list[float]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.6</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;audioVolume&quot;</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="XAQuickTimeDocumentList.current_time"><a class="viewcode-back" href="../../../reference/apps/quicktimeplayer.html#PyXA.apps.QuickTimePlayer.XAQuickTimeDocumentList.current_time">[docs]</a>    <span class="k">def</span> <span class="nf">current_time</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAQuickTimeDocumentList.current_time"><a class="viewcode-back" href="../../../reference/apps/quicktimeplayer.html#PyXA.apps.QuickTimePlayer.XAQuickTimeDocumentList.current_time">[docs]</a>    <span class="k">def</span> <span class="nf">current_time</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the current time of each document in the list.</span>
 
 <span class="sd">        :return: The list of current times</span>
-<span class="sd">        :rtype: List[float]</span>
+<span class="sd">        :rtype: list[float]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.6</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;currentTime&quot;</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="XAQuickTimeDocumentList.data_rate"><a class="viewcode-back" href="../../../reference/apps/quicktimeplayer.html#PyXA.apps.QuickTimePlayer.XAQuickTimeDocumentList.data_rate">[docs]</a>    <span class="k">def</span> <span class="nf">data_rate</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAQuickTimeDocumentList.data_rate"><a class="viewcode-back" href="../../../reference/apps/quicktimeplayer.html#PyXA.apps.QuickTimePlayer.XAQuickTimeDocumentList.data_rate">[docs]</a>    <span class="k">def</span> <span class="nf">data_rate</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the data rate of each document in the list.</span>
 
 <span class="sd">        :return: The list of data rates</span>
-<span class="sd">        :rtype: List[int]</span>
+<span class="sd">        :rtype: list[int]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.6</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;dataRate&quot;</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="XAQuickTimeDocumentList.data_size"><a class="viewcode-back" href="../../../reference/apps/quicktimeplayer.html#PyXA.apps.QuickTimePlayer.XAQuickTimeDocumentList.data_size">[docs]</a>    <span class="k">def</span> <span class="nf">data_size</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAQuickTimeDocumentList.data_size"><a class="viewcode-back" href="../../../reference/apps/quicktimeplayer.html#PyXA.apps.QuickTimePlayer.XAQuickTimeDocumentList.data_size">[docs]</a>    <span class="k">def</span> <span class="nf">data_size</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the data size of each document in the list.</span>
 
 <span class="sd">        :return: The list of data sizes</span>
-<span class="sd">        :rtype: List[int]</span>
+<span class="sd">        :rtype: list[int]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.6</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;dataSize&quot;</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="XAQuickTimeDocumentList.duration"><a class="viewcode-back" href="../../../reference/apps/quicktimeplayer.html#PyXA.apps.QuickTimePlayer.XAQuickTimeDocumentList.duration">[docs]</a>    <span class="k">def</span> <span class="nf">duration</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAQuickTimeDocumentList.duration"><a class="viewcode-back" href="../../../reference/apps/quicktimeplayer.html#PyXA.apps.QuickTimePlayer.XAQuickTimeDocumentList.duration">[docs]</a>    <span class="k">def</span> <span class="nf">duration</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the duration of each document in the list.</span>
 
 <span class="sd">        :return: The list of durations</span>
-<span class="sd">        :rtype: List[float]</span>
+<span class="sd">        :rtype: list[float]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.6</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;duration&quot;</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="XAQuickTimeDocumentList.looping"><a class="viewcode-back" href="../../../reference/apps/quicktimeplayer.html#PyXA.apps.QuickTimePlayer.XAQuickTimeDocumentList.looping">[docs]</a>    <span class="k">def</span> <span class="nf">looping</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAQuickTimeDocumentList.looping"><a class="viewcode-back" href="../../../reference/apps/quicktimeplayer.html#PyXA.apps.QuickTimePlayer.XAQuickTimeDocumentList.looping">[docs]</a>    <span class="k">def</span> <span class="nf">looping</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the looping status of each document in the list.</span>
 
 <span class="sd">        :return: The list of looping status boolean values</span>
-<span class="sd">        :rtype: List[bool]</span>
+<span class="sd">        :rtype: list[bool]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.6</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;looping&quot;</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="XAQuickTimeDocumentList.muted"><a class="viewcode-back" href="../../../reference/apps/quicktimeplayer.html#PyXA.apps.QuickTimePlayer.XAQuickTimeDocumentList.muted">[docs]</a>    <span class="k">def</span> <span class="nf">muted</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAQuickTimeDocumentList.muted"><a class="viewcode-back" href="../../../reference/apps/quicktimeplayer.html#PyXA.apps.QuickTimePlayer.XAQuickTimeDocumentList.muted">[docs]</a>    <span class="k">def</span> <span class="nf">muted</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the muted status of each document in the list.</span>
 
 <span class="sd">        :return: The list of muted status boolean values</span>
-<span class="sd">        :rtype: List[bool]</span>
+<span class="sd">        :rtype: list[bool]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.6</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;muted&quot;</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="XAQuickTimeDocumentList.natural_dimensions"><a class="viewcode-back" href="../../../reference/apps/quicktimeplayer.html#PyXA.apps.QuickTimePlayer.XAQuickTimeDocumentList.natural_dimensions">[docs]</a>    <span class="k">def</span> <span class="nf">natural_dimensions</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]:</span>
+<div class="viewcode-block" id="XAQuickTimeDocumentList.natural_dimensions"><a class="viewcode-back" href="../../../reference/apps/quicktimeplayer.html#PyXA.apps.QuickTimePlayer.XAQuickTimeDocumentList.natural_dimensions">[docs]</a>    <span class="k">def</span> <span class="nf">natural_dimensions</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the natural dimensions of each document in the list.</span>
 
 <span class="sd">        :return: The list of document dimensions</span>
-<span class="sd">        :rtype: List[Tuple[int, int]]</span>
+<span class="sd">        :rtype: list[tuple[int, int]]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.6</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;naturalDimensions&quot;</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="XAQuickTimeDocumentList.playing"><a class="viewcode-back" href="../../../reference/apps/quicktimeplayer.html#PyXA.apps.QuickTimePlayer.XAQuickTimeDocumentList.playing">[docs]</a>    <span class="k">def</span> <span class="nf">playing</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAQuickTimeDocumentList.playing"><a class="viewcode-back" href="../../../reference/apps/quicktimeplayer.html#PyXA.apps.QuickTimePlayer.XAQuickTimeDocumentList.playing">[docs]</a>    <span class="k">def</span> <span class="nf">playing</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the playing status of each document in the list.</span>
 
 <span class="sd">        :return: The list of playing status boolean values</span>
-<span class="sd">        :rtype: List[bool]</span>
+<span class="sd">        :rtype: list[bool]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.6</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;playing&quot;</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="XAQuickTimeDocumentList.rate"><a class="viewcode-back" href="../../../reference/apps/quicktimeplayer.html#PyXA.apps.QuickTimePlayer.XAQuickTimeDocumentList.rate">[docs]</a>    <span class="k">def</span> <span class="nf">rate</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAQuickTimeDocumentList.rate"><a class="viewcode-back" href="../../../reference/apps/quicktimeplayer.html#PyXA.apps.QuickTimePlayer.XAQuickTimeDocumentList.rate">[docs]</a>    <span class="k">def</span> <span class="nf">rate</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the rate of each document in the list.</span>
 
 <span class="sd">        :return: The list of rates</span>
-<span class="sd">        :rtype: List[float]</span>
+<span class="sd">        :rtype: list[float]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.6</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;rate&quot;</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="XAQuickTimeDocumentList.presenting"><a class="viewcode-back" href="../../../reference/apps/quicktimeplayer.html#PyXA.apps.QuickTimePlayer.XAQuickTimeDocumentList.presenting">[docs]</a>    <span class="k">def</span> <span class="nf">presenting</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAQuickTimeDocumentList.presenting"><a class="viewcode-back" href="../../../reference/apps/quicktimeplayer.html#PyXA.apps.QuickTimePlayer.XAQuickTimeDocumentList.presenting">[docs]</a>    <span class="k">def</span> <span class="nf">presenting</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the presenting status of each document in the list.</span>
 
 <span class="sd">        :return: The list of presenting status boolean values</span>
-<span class="sd">        :rtype: List[bool]</span>
+<span class="sd">        :rtype: list[bool]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.6</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -622,7 +641,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;muted&quot;</span><span class="p">,</span> <span class="n">muted</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="XAQuickTimeDocumentList.by_natural_dimensions"><a class="viewcode-back" href="../../../reference/apps/quicktimeplayer.html#PyXA.apps.QuickTimePlayer.XAQuickTimeDocumentList.by_natural_dimensions">[docs]</a>    <span class="k">def</span> <span class="nf">by_natural_dimensions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">natural_dimensions</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAQuickTimeDocument&#39;</span><span class="p">:</span>
+<div class="viewcode-block" id="XAQuickTimeDocumentList.by_natural_dimensions"><a class="viewcode-back" href="../../../reference/apps/quicktimeplayer.html#PyXA.apps.QuickTimePlayer.XAQuickTimeDocumentList.by_natural_dimensions">[docs]</a>    <span class="k">def</span> <span class="nf">by_natural_dimensions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">natural_dimensions</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAQuickTimeDocument&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Retrieves the document whose natural dimensions match the given dimensions, if one exists.</span>
 
 <span class="sd">        :return: The desired document, if it is found</span>
@@ -729,7 +748,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">duration</span><span class="p">:</span> <span class="nb">float</span> <span class="c1">#: The duration of the movie in seconds</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">looping</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether the movie plays in a loop</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">muted</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether the movie is muted</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">natural_dimensions</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="c1">#: The national dimensions of the movie</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">natural_dimensions</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="c1">#: The national dimensions of the movie</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">playing</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether the movie is currently playing</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">rate</span><span class="p">:</span> <span class="nb">float</span> <span class="c1">#: The current rate of the movie</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">presenting</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether the movie is presented in full screen</span>
@@ -747,9 +766,17 @@
     <span class="k">def</span> <span class="nf">audio_volume</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">audioVolume</span><span class="p">()</span>
 
+    <span class="nd">@audio_volume</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">audio_volume</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">audio_volume</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;audioVolume&quot;</span><span class="p">,</span> <span class="n">audio_volume</span><span class="p">)</span>
+
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">current_time</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">currentTime</span><span class="p">()</span>
+
+    <span class="nd">@current_time</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">current_time</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">current_time</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;currentTime&quot;</span><span class="p">,</span> <span class="n">current_time</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">data_rate</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
@@ -767,12 +794,20 @@
     <span class="k">def</span> <span class="nf">looping</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">looping</span><span class="p">()</span>
 
+    <span class="nd">@looping</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">looping</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">looping</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;looping&quot;</span><span class="p">,</span> <span class="n">looping</span><span class="p">)</span>
+
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">muted</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">muted</span><span class="p">()</span>
 
+    <span class="nd">@muted</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">muted</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">muted</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;muted&quot;</span><span class="p">,</span> <span class="n">muted</span><span class="p">)</span>
+
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">natural_dimensions</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">natural_dimensions</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">naturalDimensions</span><span class="p">()</span>
 
     <span class="nd">@property</span>
@@ -783,29 +818,57 @@
     <span class="k">def</span> <span class="nf">rate</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">rate</span><span class="p">()</span>
 
+    <span class="nd">@rate</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">rate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rate</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;rate&quot;</span><span class="p">,</span> <span class="n">rate</span><span class="p">)</span>
+
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">presenting</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">presenting</span><span class="p">()</span>
+
+    <span class="nd">@presenting</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">presenting</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">presenting</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;presenting&quot;</span><span class="p">,</span> <span class="n">presenting</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">current_microphone</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAQuickTimeAudioRecordingDevice&#39;</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">currentMicrophone</span><span class="p">(),</span> <span class="n">XAQuickTimeAudioRecordingDevice</span><span class="p">)</span>
 
+    <span class="nd">@current_microphone</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">current_microphone</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">current_microphone</span><span class="p">:</span> <span class="s1">&#39;XAQuickTimeAudioRecordingDevice&#39;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;currentMicrophone&quot;</span><span class="p">,</span> <span class="n">current_microphone</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span>
+
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">current_camera</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAQuickTimeVideoRecordingDevice&#39;</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">currentCamera</span><span class="p">(),</span> <span class="n">XAQuickTimeVideoRecordingDevice</span><span class="p">)</span>
+
+    <span class="nd">@current_camera</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">current_camera</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">current_camera</span><span class="p">:</span> <span class="s1">&#39;XAQuickTimeVideoRecordingDevice&#39;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;currentCamera&quot;</span><span class="p">,</span> <span class="n">current_camera</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">current_audio_compression</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAQuickTimeAudioCompressionPreset&#39;</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">currentAudioCompression</span><span class="p">(),</span> <span class="n">XAQuickTimeAudioCompressionPreset</span><span class="p">)</span>
 
+    <span class="nd">@current_audio_compression</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">current_audio_compression</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">current_audio_compression</span><span class="p">:</span> <span class="s1">&#39;XAQuickTimeAudioCompressionPreset&#39;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;currentAudioCompression&quot;</span><span class="p">,</span> <span class="n">current_audio_compression</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span>
+
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">current_movie_compression</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAQuickTimeMovieCompressionPreset&#39;</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">currentMovieCompression</span><span class="p">(),</span> <span class="n">XAQuickTimeMovieCompressionPreset</span><span class="p">)</span>
 
+    <span class="nd">@current_movie_compression</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">current_movie_compression</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">current_movie_compression</span><span class="p">:</span> <span class="s1">&#39;XAQuickTimeMovieCompressionPreset&#39;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;currentMovieCompression&quot;</span><span class="p">,</span> <span class="n">current_movie_compression</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span>
+
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">current_screen_compression</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAQuickTimeScreenCompressionPreset&#39;</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">currentScreenCompression</span><span class="p">(),</span> <span class="n">XAQuickTimeScreenCompressionPreset</span><span class="p">)</span>
+
+    <span class="nd">@current_screen_compression</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">current_screen_compression</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">current_screen_compression</span><span class="p">:</span> <span class="s1">&#39;XAQuickTimeScreenCompressionPreset&#39;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;currentScreenCompression&quot;</span><span class="p">,</span> <span class="n">current_screen_compression</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span>
 
 <div class="viewcode-block" id="XAQuickTimeDocument.play"><a class="viewcode-back" href="../../../reference/apps/quicktimeplayer.html#PyXA.apps.QuickTimePlayer.XAQuickTimeDocument.play">[docs]</a>    <span class="k">def</span> <span class="nf">play</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAQuickTimeDocument&#39;</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">play</span><span class="p">()</span>
@@ -856,31 +919,31 @@
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">XAQuickTimeAudioRecordingDevice</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
 
-<div class="viewcode-block" id="XAQuickTimeAudioRecordingDeviceList.properties"><a class="viewcode-back" href="../../../reference/apps/quicktimeplayer.html#PyXA.apps.QuickTimePlayer.XAQuickTimeAudioRecordingDeviceList.properties">[docs]</a>    <span class="k">def</span> <span class="nf">properties</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAQuickTimeAudioRecordingDeviceList.properties"><a class="viewcode-back" href="../../../reference/apps/quicktimeplayer.html#PyXA.apps.QuickTimePlayer.XAQuickTimeAudioRecordingDeviceList.properties">[docs]</a>    <span class="k">def</span> <span class="nf">properties</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the properties of each device in the list.</span>
 
 <span class="sd">        :return: The list of property dictionaries</span>
-<span class="sd">        :rtype: List[dict]</span>
+<span class="sd">        :rtype: list[dict]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.6</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;properties&quot;</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="XAQuickTimeAudioRecordingDeviceList.name"><a class="viewcode-back" href="../../../reference/apps/quicktimeplayer.html#PyXA.apps.QuickTimePlayer.XAQuickTimeAudioRecordingDeviceList.name">[docs]</a>    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAQuickTimeAudioRecordingDeviceList.name"><a class="viewcode-back" href="../../../reference/apps/quicktimeplayer.html#PyXA.apps.QuickTimePlayer.XAQuickTimeAudioRecordingDeviceList.name">[docs]</a>    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the name of each device in the list.</span>
 
 <span class="sd">        :return: The list of names</span>
-<span class="sd">        :rtype: List[str]</span>
+<span class="sd">        :rtype: list[str]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.6</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="XAQuickTimeAudioRecordingDeviceList.id"><a class="viewcode-back" href="../../../reference/apps/quicktimeplayer.html#PyXA.apps.QuickTimePlayer.XAQuickTimeAudioRecordingDeviceList.id">[docs]</a>    <span class="k">def</span> <span class="nf">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAQuickTimeAudioRecordingDeviceList.id"><a class="viewcode-back" href="../../../reference/apps/quicktimeplayer.html#PyXA.apps.QuickTimePlayer.XAQuickTimeAudioRecordingDeviceList.id">[docs]</a>    <span class="k">def</span> <span class="nf">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the ID of each device in the list.</span>
 
 <span class="sd">        :return: The list of IDs</span>
-<span class="sd">        :rtype: List[str]</span>
+<span class="sd">        :rtype: list[str]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.6</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -924,31 +987,31 @@
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">XAQuickTimeVideoRecordingDevice</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
 
-<div class="viewcode-block" id="XAQuickTimeVideoRecordingDeviceList.properties"><a class="viewcode-back" href="../../../reference/apps/quicktimeplayer.html#PyXA.apps.QuickTimePlayer.XAQuickTimeVideoRecordingDeviceList.properties">[docs]</a>    <span class="k">def</span> <span class="nf">properties</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAQuickTimeVideoRecordingDeviceList.properties"><a class="viewcode-back" href="../../../reference/apps/quicktimeplayer.html#PyXA.apps.QuickTimePlayer.XAQuickTimeVideoRecordingDeviceList.properties">[docs]</a>    <span class="k">def</span> <span class="nf">properties</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the properties of each device in the list.</span>
 
 <span class="sd">        :return: The list of property dictionaries</span>
-<span class="sd">        :rtype: List[dict]</span>
+<span class="sd">        :rtype: list[dict]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.6</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;properties&quot;</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="XAQuickTimeVideoRecordingDeviceList.name"><a class="viewcode-back" href="../../../reference/apps/quicktimeplayer.html#PyXA.apps.QuickTimePlayer.XAQuickTimeVideoRecordingDeviceList.name">[docs]</a>    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAQuickTimeVideoRecordingDeviceList.name"><a class="viewcode-back" href="../../../reference/apps/quicktimeplayer.html#PyXA.apps.QuickTimePlayer.XAQuickTimeVideoRecordingDeviceList.name">[docs]</a>    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the name of each device in the list.</span>
 
 <span class="sd">        :return: The list of names</span>
-<span class="sd">        :rtype: List[str]</span>
+<span class="sd">        :rtype: list[str]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.6</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="XAQuickTimeVideoRecordingDeviceList.id"><a class="viewcode-back" href="../../../reference/apps/quicktimeplayer.html#PyXA.apps.QuickTimePlayer.XAQuickTimeVideoRecordingDeviceList.id">[docs]</a>    <span class="k">def</span> <span class="nf">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAQuickTimeVideoRecordingDeviceList.id"><a class="viewcode-back" href="../../../reference/apps/quicktimeplayer.html#PyXA.apps.QuickTimePlayer.XAQuickTimeVideoRecordingDeviceList.id">[docs]</a>    <span class="k">def</span> <span class="nf">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the ID of each device in the list.</span>
 
 <span class="sd">        :return: The list of IDs</span>
-<span class="sd">        :rtype: List[str]</span>
+<span class="sd">        :rtype: list[str]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.6</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -992,31 +1055,31 @@
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">XAQuickTimeAudioCompressionPreset</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
 
-<div class="viewcode-block" id="XAQuickTimeAudioCompressionPresetList.properties"><a class="viewcode-back" href="../../../reference/apps/quicktimeplayer.html#PyXA.apps.QuickTimePlayer.XAQuickTimeAudioCompressionPresetList.properties">[docs]</a>    <span class="k">def</span> <span class="nf">properties</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAQuickTimeAudioCompressionPresetList.properties"><a class="viewcode-back" href="../../../reference/apps/quicktimeplayer.html#PyXA.apps.QuickTimePlayer.XAQuickTimeAudioCompressionPresetList.properties">[docs]</a>    <span class="k">def</span> <span class="nf">properties</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the properties of each preset in the list.</span>
 
 <span class="sd">        :return: The list of property dictionaries</span>
-<span class="sd">        :rtype: List[dict]</span>
+<span class="sd">        :rtype: list[dict]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.6</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;properties&quot;</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="XAQuickTimeAudioCompressionPresetList.name"><a class="viewcode-back" href="../../../reference/apps/quicktimeplayer.html#PyXA.apps.QuickTimePlayer.XAQuickTimeAudioCompressionPresetList.name">[docs]</a>    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAQuickTimeAudioCompressionPresetList.name"><a class="viewcode-back" href="../../../reference/apps/quicktimeplayer.html#PyXA.apps.QuickTimePlayer.XAQuickTimeAudioCompressionPresetList.name">[docs]</a>    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the name of each preset in the list.</span>
 
 <span class="sd">        :return: The list of names</span>
-<span class="sd">        :rtype: List[str]</span>
+<span class="sd">        :rtype: list[str]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.6</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="XAQuickTimeAudioCompressionPresetList.id"><a class="viewcode-back" href="../../../reference/apps/quicktimeplayer.html#PyXA.apps.QuickTimePlayer.XAQuickTimeAudioCompressionPresetList.id">[docs]</a>    <span class="k">def</span> <span class="nf">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAQuickTimeAudioCompressionPresetList.id"><a class="viewcode-back" href="../../../reference/apps/quicktimeplayer.html#PyXA.apps.QuickTimePlayer.XAQuickTimeAudioCompressionPresetList.id">[docs]</a>    <span class="k">def</span> <span class="nf">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the ID of each preset in the list.</span>
 
 <span class="sd">        :return: The list of IDs</span>
-<span class="sd">        :rtype: List[str]</span>
+<span class="sd">        :rtype: list[str]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.6</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -1060,31 +1123,31 @@
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">XAQuickTimeMovieCompressionPreset</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
 
-<div class="viewcode-block" id="XAQuickTimeMovieCompressionPresetList.properties"><a class="viewcode-back" href="../../../reference/apps/quicktimeplayer.html#PyXA.apps.QuickTimePlayer.XAQuickTimeMovieCompressionPresetList.properties">[docs]</a>    <span class="k">def</span> <span class="nf">properties</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAQuickTimeMovieCompressionPresetList.properties"><a class="viewcode-back" href="../../../reference/apps/quicktimeplayer.html#PyXA.apps.QuickTimePlayer.XAQuickTimeMovieCompressionPresetList.properties">[docs]</a>    <span class="k">def</span> <span class="nf">properties</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the properties of each preset in the list.</span>
 
 <span class="sd">        :return: The list of property dictionaries</span>
-<span class="sd">        :rtype: List[dict]</span>
+<span class="sd">        :rtype: list[dict]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.6</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;properties&quot;</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="XAQuickTimeMovieCompressionPresetList.name"><a class="viewcode-back" href="../../../reference/apps/quicktimeplayer.html#PyXA.apps.QuickTimePlayer.XAQuickTimeMovieCompressionPresetList.name">[docs]</a>    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAQuickTimeMovieCompressionPresetList.name"><a class="viewcode-back" href="../../../reference/apps/quicktimeplayer.html#PyXA.apps.QuickTimePlayer.XAQuickTimeMovieCompressionPresetList.name">[docs]</a>    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the name of each preset in the list.</span>
 
 <span class="sd">        :return: The list of names</span>
-<span class="sd">        :rtype: List[str]</span>
+<span class="sd">        :rtype: list[str]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.6</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="XAQuickTimeMovieCompressionPresetList.id"><a class="viewcode-back" href="../../../reference/apps/quicktimeplayer.html#PyXA.apps.QuickTimePlayer.XAQuickTimeMovieCompressionPresetList.id">[docs]</a>    <span class="k">def</span> <span class="nf">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAQuickTimeMovieCompressionPresetList.id"><a class="viewcode-back" href="../../../reference/apps/quicktimeplayer.html#PyXA.apps.QuickTimePlayer.XAQuickTimeMovieCompressionPresetList.id">[docs]</a>    <span class="k">def</span> <span class="nf">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the ID of each preset in the list.</span>
 
 <span class="sd">        :return: The list of IDs</span>
-<span class="sd">        :rtype: List[str]</span>
+<span class="sd">        :rtype: list[str]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.6</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -1128,31 +1191,31 @@
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">XAQuickTimeScreenCompressionPreset</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
 
-<div class="viewcode-block" id="XAQuickTimeScreenCompressionPresetList.properties"><a class="viewcode-back" href="../../../reference/apps/quicktimeplayer.html#PyXA.apps.QuickTimePlayer.XAQuickTimeScreenCompressionPresetList.properties">[docs]</a>    <span class="k">def</span> <span class="nf">properties</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAQuickTimeScreenCompressionPresetList.properties"><a class="viewcode-back" href="../../../reference/apps/quicktimeplayer.html#PyXA.apps.QuickTimePlayer.XAQuickTimeScreenCompressionPresetList.properties">[docs]</a>    <span class="k">def</span> <span class="nf">properties</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the properties of each preset in the list.</span>
 
 <span class="sd">        :return: The list of property dictionaries</span>
-<span class="sd">        :rtype: List[dict]</span>
+<span class="sd">        :rtype: list[dict]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.6</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;properties&quot;</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="XAQuickTimeScreenCompressionPresetList.name"><a class="viewcode-back" href="../../../reference/apps/quicktimeplayer.html#PyXA.apps.QuickTimePlayer.XAQuickTimeScreenCompressionPresetList.name">[docs]</a>    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAQuickTimeScreenCompressionPresetList.name"><a class="viewcode-back" href="../../../reference/apps/quicktimeplayer.html#PyXA.apps.QuickTimePlayer.XAQuickTimeScreenCompressionPresetList.name">[docs]</a>    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the name of each preset in the list.</span>
 
 <span class="sd">        :return: The list of names</span>
-<span class="sd">        :rtype: List[str]</span>
+<span class="sd">        :rtype: list[str]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.6</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="XAQuickTimeScreenCompressionPresetList.id"><a class="viewcode-back" href="../../../reference/apps/quicktimeplayer.html#PyXA.apps.QuickTimePlayer.XAQuickTimeScreenCompressionPresetList.id">[docs]</a>    <span class="k">def</span> <span class="nf">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAQuickTimeScreenCompressionPresetList.id"><a class="viewcode-back" href="../../../reference/apps/quicktimeplayer.html#PyXA.apps.QuickTimePlayer.XAQuickTimeScreenCompressionPresetList.id">[docs]</a>    <span class="k">def</span> <span class="nf">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the ID of each preset in the list.</span>
 
 <span class="sd">        :return: The list of IDs</span>
-<span class="sd">        :rtype: List[str]</span>
+<span class="sd">        :rtype: list[str]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.6</span>
 <span class="sd">        &quot;&quot;&quot;</span>

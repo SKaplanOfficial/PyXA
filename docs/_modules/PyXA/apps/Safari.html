@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PyXA.apps.Safari &mdash; PyXA 0.0.9 documentation</title>
+  <title>PyXA.apps.Safari &mdash; PyXA 0.1.0 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -14,7 +14,9 @@
         <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/jquery.js"></script>
         <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -74,14 +76,17 @@
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Self</span>
 <span class="kn">import</span> <span class="nn">threading</span>
 
-<span class="kn">from</span> <span class="nn">AppKit</span> <span class="kn">import</span> <span class="n">NSURL</span>
+<span class="kn">import</span> <span class="nn">AppKit</span>
+<span class="kn">import</span> <span class="nn">logging</span>
 
 <span class="kn">from</span> <span class="nn">PyXA</span> <span class="kn">import</span> <span class="n">XABase</span>
 <span class="kn">from</span> <span class="nn">PyXA</span> <span class="kn">import</span> <span class="n">XABaseScriptable</span>
 <span class="kn">from</span> <span class="nn">..XAProtocols</span> <span class="kn">import</span> <span class="n">XACanOpenPath</span><span class="p">,</span> <span class="n">XAClipboardCodable</span><span class="p">,</span> <span class="n">XACloseable</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s2">&quot;safari&quot;</span><span class="p">)</span>
 
 <div class="viewcode-block" id="XASafariApplication"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariApplication">[docs]</a><span class="k">class</span> <span class="nc">XASafariApplication</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBApplication</span><span class="p">,</span> <span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBPrintable</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">,</span> <span class="n">XACanOpenPath</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A class for interacting with Safari.app.</span>
@@ -90,19 +95,6 @@
 
 <span class="sd">    .. versionadded:: 0.0.1</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-<div class="viewcode-block" id="XASafariApplication.SaveOption"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariApplication.SaveOption">[docs]</a>    <span class="k">class</span> <span class="nc">SaveOption</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Options for whether to save documents when closing them.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">YES</span> <span class="o">=</span> <span class="n">XABase</span><span class="o">.</span><span class="n">OSType</span><span class="p">(</span><span class="s1">&#39;yes &#39;</span><span class="p">)</span> <span class="c1">#: Save the file</span>
-        <span class="n">NO</span>  <span class="o">=</span> <span class="n">XABase</span><span class="o">.</span><span class="n">OSType</span><span class="p">(</span><span class="s1">&#39;no  &#39;</span><span class="p">)</span> <span class="c1">#: Do not save the file</span>
-        <span class="n">ASK</span> <span class="o">=</span> <span class="n">XABase</span><span class="o">.</span><span class="n">OSType</span><span class="p">(</span><span class="s1">&#39;ask &#39;</span><span class="p">)</span> <span class="c1">#: Ask user whether to save the file (bring up dialog)</span></div>
-
-<div class="viewcode-block" id="XASafariApplication.PrintErrorHandling"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariApplication.PrintErrorHandling">[docs]</a>    <span class="k">class</span> <span class="nc">PrintErrorHandling</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Options for how to handle errors while printing.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">STANDARD</span> <span class="o">=</span> <span class="s1">&#39;lwst&#39;</span> <span class="c1">#: Standard PostScript error handling</span>
-        <span class="n">DETAILED</span> <span class="o">=</span> <span class="s1">&#39;lwdt&#39;</span> <span class="c1">#: Print a detailed report of PostScript errors</span></div>
-
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">xa_wcls</span> <span class="o">=</span> <span class="n">XASafariWindow</span>
@@ -111,10 +103,17 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The name of the application</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The version of Safari.app</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">current_document</span><span class="p">:</span> <span class="n">XASafariDocument</span> <span class="c1">#: The currently displayed document in the active tab</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">current_tab</span><span class="p">:</span> <span class="n">XASafariTab</span> <span class="c1">#: The currently active tab</span>
+
+        <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Initialized XASafariApplication&quot;</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">frontmost</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">frontmost</span><span class="p">()</span>
+
+    <span class="nd">@frontmost</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">frontmost</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frontmost</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;frontmost&quot;</span><span class="p">,</span> <span class="n">frontmost</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
@@ -128,47 +127,62 @@
     <span class="k">def</span> <span class="nf">current_document</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XASafariDocument&#39;</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">documents</span><span class="p">()[</span><span class="mi">0</span><span class="p">],</span> <span class="n">XASafariDocument</span><span class="p">)</span>
 
-<div class="viewcode-block" id="XASafariApplication.open"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariApplication.open">[docs]</a>    <span class="k">def</span> <span class="nf">open</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;https://google.com&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XASafariApplication&#39;</span><span class="p">:</span>
+    <span class="nd">@current_document</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">current_document</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">current_document</span><span class="p">:</span> <span class="s1">&#39;XASafariDocument&#39;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">activate</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">front_window</span><span class="o">.</span><span class="n">document</span> <span class="o">=</span> <span class="n">current_document</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">current_tab</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XASafariTab&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">front_window</span><span class="o">.</span><span class="n">current_tab</span>
+
+    <span class="nd">@current_tab</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">current_tab</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">current_tab</span><span class="p">:</span> <span class="s1">&#39;XASafariTab&#39;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">front_window</span><span class="o">.</span><span class="n">current_tab</span> <span class="o">=</span> <span class="n">current_tab</span>
+
+<div class="viewcode-block" id="XASafariApplication.open"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariApplication.open">[docs]</a>    <span class="k">def</span> <span class="nf">open</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAURL</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAPath</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;https://google.com&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XASafariTab&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Opens a URL in new tab.</span>
 
-<span class="sd">        :param url: _description_, defaults to &quot;http://google.com&quot;</span>
-<span class="sd">        :type url: str, optional</span>
-<span class="sd">        :return: A reference to the Safari application object.</span>
-<span class="sd">        :rtype: XASafariApplication</span>
+<span class="sd">        :param url: The URL or path to open, defaults to &quot;http://google.com&quot;</span>
+<span class="sd">        :type url: Union[str, XABase.XAURL, XABase.XAPath], optional</span>
+<span class="sd">        :return: A reference to the newly created tab object</span>
+<span class="sd">        :rtype: XASafariTab</span>
 
 <span class="sd">        :Example 1: Open local and external URLs</span>
 
 <span class="sd">        &gt;&gt;&gt; import PyXA</span>
-<span class="sd">        &gt;&gt;&gt; app = PyXA.application(&quot;Safari&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; app = PyXA.Application(&quot;Safari&quot;)</span>
 <span class="sd">        &gt;&gt;&gt; app.open(&quot;https://www.google.com&quot;)</span>
 <span class="sd">        &gt;&gt;&gt; app.open(&quot;google.com&quot;)</span>
 <span class="sd">        &gt;&gt;&gt; app.open(&quot;/Users/exampleuser/Documents/WebPage.html&quot;)</span>
 
 <span class="sd">        .. versionadded:: 0.0.1</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">url</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">):</span>
-            <span class="c1"># URL is a path to file</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">xa_wksp</span><span class="o">.</span><span class="n">openFile_</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
-            <span class="k">return</span> <span class="bp">self</span>
-        <span class="c1"># Otherwise, URL is web address</span>
-        <span class="k">elif</span> <span class="ow">not</span> <span class="n">url</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;http&quot;</span><span class="p">):</span>
-            <span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;http://&quot;</span> <span class="o">+</span> <span class="n">url</span>
-        <span class="n">url</span> <span class="o">=</span> <span class="n">XABase</span><span class="o">.</span><span class="n">xa_url</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">xa_wksp</span><span class="o">.</span><span class="n">openURL_</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span></div>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Attempting to open url of type </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">url</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">url</span> <span class="o">=</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAURL</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">activate</span><span class="p">()</span>
+        <span class="n">new_tab</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">make</span><span class="p">(</span><span class="s2">&quot;tab&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;URL&quot;</span><span class="p">:</span> <span class="n">url</span><span class="o">.</span><span class="n">url</span><span class="p">})</span>
+        <span class="n">tab</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">front_window</span><span class="o">.</span><span class="n">tabs</span><span class="p">()</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="n">new_tab</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">front_window</span><span class="o">.</span><span class="n">current_tab</span> <span class="o">=</span> <span class="n">tab</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Opened URL&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">tab</span></div>
 
 <div class="viewcode-block" id="XASafariApplication.show_bookmarks"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariApplication.show_bookmarks">[docs]</a>    <span class="k">def</span> <span class="nf">show_bookmarks</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XASafariApplication&#39;</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Opens Safari&#39;s bookmarks page.</span>
+        <span class="sd">&quot;&quot;&quot;Activates Safari and opens Safari&#39;s bookmarks page.</span>
 
-<span class="sd">        :return: A reference to the Safari application object.</span>
-<span class="sd">        :rtype: XASafariApplication</span>
+<span class="sd">        :return: A reference to the newly opened Bookmarks tab  </span>
+<span class="sd">        :rtype: XASafariTab</span>
 
 <span class="sd">        .. versionadded:: 0.0.1</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">activate</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">showBookmarks</span><span class="p">();</span>
-        <span class="k">return</span> <span class="bp">self</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">front_window</span><span class="o">.</span><span class="n">current_tab</span></div>
 
-<div class="viewcode-block" id="XASafariApplication.add_to_reading_list"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariApplication.add_to_reading_list">[docs]</a>    <span class="k">def</span> <span class="nf">add_to_reading_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="s1">&#39;XASafariTab&#39;</span><span class="p">,</span> <span class="s1">&#39;XASafariDocument&#39;</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s1">&#39;XASafariApplication&#39;</span><span class="p">:</span>
+<div class="viewcode-block" id="XASafariApplication.add_to_reading_list"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariApplication.add_to_reading_list">[docs]</a>    <span class="k">def</span> <span class="nf">add_to_reading_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAURL</span><span class="p">,</span> <span class="s1">&#39;XASafariTab&#39;</span><span class="p">,</span> <span class="s1">&#39;XASafariDocument&#39;</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s1">&#39;XASafariApplication&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Adds a URL to the reading list.</span>
 
 <span class="sd">        :param item: A URL string or a Safari tab or document containing the URL to add to the reading list.</span>
@@ -179,7 +193,7 @@
 <span class="sd">        :Example:</span>
 
 <span class="sd">        &gt;&gt;&gt; import PyXA</span>
-<span class="sd">        &gt;&gt;&gt; app = PyXA.application(&quot;Safari&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; app = PyXA.Application(&quot;Safari&quot;)</span>
 <span class="sd">        &gt;&gt;&gt; window = app.front_window</span>
 <span class="sd">        &gt;&gt;&gt; doc = app.current_document</span>
 <span class="sd">        &gt;&gt;&gt; tab = window.current_tab</span>
@@ -188,31 +202,35 @@
 
 <span class="sd">        .. versionadded:: 0.0.1</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAURL</span><span class="p">):</span>
+            <span class="n">item</span> <span class="o">=</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAURL</span><span class="p">(</span><span class="n">item</span><span class="p">)</span><span class="o">.</span><span class="n">xa_elem</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">XASafariTab</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">XASafariDocument</span><span class="p">):</span>
             <span class="n">item</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">URL</span><span class="p">()</span>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">addReadingListItem_andPreviewText_withTitle_</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
 <div class="viewcode-block" id="XASafariApplication.search"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariApplication.search">[docs]</a>    <span class="k">def</span> <span class="nf">search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">term</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XASafariApplication&#39;</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Searches the specified string in a new tab of the frontmost Safari window. Uses the default search engine.</span>
+        <span class="sd">&quot;&quot;&quot;Activates Safari and searches the specified string in a new tab of the frontmost Safari window. Uses the default search engine.</span>
 
-<span class="sd">        :param term: The string to search.</span>
+<span class="sd">        :param term: The string to search</span>
 <span class="sd">        :type term: str</span>
-<span class="sd">        :return: A reference to the Safari application object.</span>
-<span class="sd">        :rtype: XASafariApplication</span>
+<span class="sd">        :return: A reference to the newly opened Search tab</span>
+<span class="sd">        :rtype: XASafariTab</span>
 
 <span class="sd">        :Example:</span>
 
 <span class="sd">        &gt;&gt;&gt; import PyXA</span>
-<span class="sd">        &gt;&gt;&gt; app = PyXA.application(&quot;Safari&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; app = PyXA.Application(&quot;Safari&quot;)</span>
 <span class="sd">        &gt;&gt;&gt; app.search(&quot;What is PyXA?&quot;)</span>
 
 <span class="sd">        .. seealso:: :func:`search_in_tab`</span>
 
 <span class="sd">        .. versionadded:: 0.0.1</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">activate</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">searchTheWebIn_for_</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">windows</span><span class="p">()[</span><span class="mi">0</span><span class="p">],</span> <span class="n">term</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">front_window</span><span class="o">.</span><span class="n">current_tab</span></div>
 
 <div class="viewcode-block" id="XASafariApplication.search_in_tab"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariApplication.search_in_tab">[docs]</a>    <span class="k">def</span> <span class="nf">search_in_tab</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tab</span><span class="p">:</span> <span class="s1">&#39;XASafariTab&#39;</span><span class="p">,</span> <span class="n">term</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XASafariApplication&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Searches the given search string in the specified tab. Uses the default search engine.</span>
@@ -221,13 +239,13 @@
 <span class="sd">        :type tab: XASafariTab</span>
 <span class="sd">        :param term: The string to search.</span>
 <span class="sd">        :type term: str</span>
-<span class="sd">        :return: A reference to the Safari application object.</span>
-<span class="sd">        :rtype: XASafariApplication</span>
+<span class="sd">        :return: A reference to the tab object</span>
+<span class="sd">        :rtype: XASafariTab</span>
 
 <span class="sd">        :Example:</span>
 
 <span class="sd">        &gt;&gt;&gt; import PyXA</span>
-<span class="sd">        &gt;&gt;&gt; app = PyXA.application(&quot;Safari&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; app = PyXA.Application(&quot;Safari&quot;)</span>
 <span class="sd">        &gt;&gt;&gt; tab = app.front_window.current_tab</span>
 <span class="sd">        &gt;&gt;&gt; app.search_in_tab(tab, &quot;What is PyXA?&quot;)</span>
 
@@ -236,7 +254,7 @@
 <span class="sd">        .. versionadded:: 0.0.1</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">searchTheWebIn_for_</span><span class="p">(</span><span class="n">tab</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">,</span> <span class="n">term</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span></div>
+        <span class="k">return</span> <span class="n">tab</span></div>
 
 <div class="viewcode-block" id="XASafariApplication.do_javascript"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariApplication.do_javascript">[docs]</a>    <span class="k">def</span> <span class="nf">do_javascript</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">script</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">tab</span><span class="p">:</span> <span class="s1">&#39;XASafariTab&#39;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Runs JavaScript in the specified tab. If no tab is specified, the script is run in the current tab of the frontmost Safari window.</span>
@@ -251,7 +269,7 @@
 <span class="sd">        :Example:</span>
 
 <span class="sd">        &gt;&gt;&gt; import PyXA</span>
-<span class="sd">        &gt;&gt;&gt; app = PyXA.application(&quot;Safari&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; app = PyXA.Application(&quot;Safari&quot;)</span>
 <span class="sd">        &gt;&gt;&gt; tab = app.front_window.current_tab</span>
 <span class="sd">        &gt;&gt;&gt; script = &quot;(function example() { return 1 + 1 })()&quot;</span>
 <span class="sd">        &gt;&gt;&gt; print(app.do_javascript(script, tab))</span>
@@ -287,6 +305,23 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">documents</span><span class="p">(),</span> <span class="n">XASafariDocumentList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
 
+<div class="viewcode-block" id="XASafariApplication.new_tab"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariApplication.new_tab">[docs]</a>    <span class="k">def</span> <span class="nf">new_tab</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAURL</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAPath</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s1">&#39;XASafariTab&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Activates Safari to a new tab at the specified URL or path.</span>
+
+<span class="sd">        :param url: The URL or path to open in a new tab</span>
+<span class="sd">        :type url: Union[str, XABase.XAURL, XABase.XAPath]</span>
+<span class="sd">        :return: A reference to the newly opened tab</span>
+<span class="sd">        :rtype: XASafariTab</span>
+
+<span class="sd">        .. versionadded:: 0.1.0</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAURL</span><span class="p">(</span><span class="n">url</span><span class="p">)</span><span class="o">.</span><span class="n">url</span>
+        <span class="n">new_tab</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">make</span><span class="p">(</span><span class="s2">&quot;tab&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;URL&quot;</span><span class="p">:</span> <span class="n">url</span><span class="p">})</span>
+        <span class="n">tab</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">front_window</span><span class="o">.</span><span class="n">tabs</span><span class="p">()</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="n">new_tab</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">front_window</span><span class="o">.</span><span class="n">current_tab</span> <span class="o">=</span> <span class="n">tab</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">activate</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">tab</span></div>
+
 <div class="viewcode-block" id="XASafariApplication.make"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariApplication.make">[docs]</a>    <span class="k">def</span> <span class="nf">make</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">specifier</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Creates a new element of the given specifier class without adding it to any list.</span>
 
@@ -302,31 +337,42 @@
 <span class="sd">        :Example 1: Make a new tab in Safari&#39;s front window</span>
 
 <span class="sd">        &gt;&gt;&gt; import PyXA</span>
-<span class="sd">        &gt;&gt;&gt; app = PyXA.application(&quot;Safari&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; app = PyXA.Application(&quot;Safari&quot;)</span>
 <span class="sd">        &gt;&gt;&gt; new_tab = app.make(&quot;tab&quot;, {&quot;URL&quot;: &quot;http://google.com&quot;})</span>
 <span class="sd">        &gt;&gt;&gt; app.front_window.tabs().push(new_tab)</span>
 
 <span class="sd">        :Example 2: Open a page in a new window by making a new document</span>
 
 <span class="sd">        &gt;&gt;&gt; import PyXA</span>
-<span class="sd">        &gt;&gt;&gt; app = PyXA.application(&quot;Safari&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; app = PyXA.Application(&quot;Safari&quot;)</span>
 <span class="sd">        &gt;&gt;&gt; new_doc = app.make(&quot;document&quot;, {&quot;URL&quot;: &quot;http://google.com&quot;})</span>
 <span class="sd">        &gt;&gt;&gt; app.documents().push(new_doc)</span>
 
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">classForScriptingClass_</span><span class="p">(</span><span class="n">specifier</span><span class="p">)</span><span class="o">.</span><span class="n">alloc</span><span class="p">()</span><span class="o">.</span><span class="n">initWithProperties_</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
+        <span class="n">adjusted_properties</span> <span class="o">=</span> <span class="n">properties</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+        <span class="c1"># Get URLs in a common format</span>
+        <span class="k">if</span> <span class="s2">&quot;URL&quot;</span> <span class="ow">in</span> <span class="n">adjusted_properties</span><span class="p">:</span>
+            <span class="n">url</span> <span class="o">=</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAURL</span><span class="p">(</span><span class="n">adjusted_properties</span><span class="p">[</span><span class="s2">&quot;URL&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">url</span>
+            <span class="n">adjusted_properties</span><span class="p">[</span><span class="s2">&quot;URL&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">url</span>
+        <span class="k">elif</span> <span class="s2">&quot;url&quot;</span> <span class="ow">in</span> <span class="n">adjusted_properties</span><span class="p">:</span>
+            <span class="n">url</span> <span class="o">=</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAURL</span><span class="p">(</span><span class="n">adjusted_properties</span><span class="p">[</span><span class="s2">&quot;url&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">url</span>
+            <span class="n">adjusted_properties</span><span class="p">[</span><span class="s2">&quot;URL&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">url</span>
+            <span class="n">adjusted_properties</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;URL&quot;</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">specifier</span> <span class="o">==</span> <span class="s2">&quot;document&quot;</span><span class="p">:</span>
+            <span class="n">obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">classForScriptingClass_</span><span class="p">(</span><span class="n">specifier</span><span class="p">)</span><span class="o">.</span><span class="n">alloc</span><span class="p">()</span><span class="o">.</span><span class="n">initWithProperties_</span><span class="p">(</span><span class="n">adjusted_properties</span><span class="p">)</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">XASafariDocument</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">specifier</span> <span class="o">==</span> <span class="s2">&quot;tab&quot;</span><span class="p">:</span>
+            <span class="n">obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">classForScriptingClass_</span><span class="p">(</span><span class="n">specifier</span><span class="p">)</span><span class="o">.</span><span class="n">alloc</span><span class="p">()</span><span class="o">.</span><span class="n">initWithProperties_</span><span class="p">(</span><span class="n">adjusted_properties</span><span class="p">)</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">XASafariTab</span><span class="p">)</span></div></div>
 
 
 
 
 <div class="viewcode-block" id="XASafariWindow"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariWindow">[docs]</a><span class="k">class</span> <span class="nc">XASafariWindow</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBWindow</span><span class="p">,</span> <span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBPrintable</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;A class for interacting with Safari windows.</span>
+    <span class="sd">&quot;&quot;&quot;A window of Safari.app.</span>
 
 <span class="sd">    .. versionadded:: 0.0.1</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -335,7 +381,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The title of the window</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">:</span> <span class="nb">int</span> <span class="c1">#: The unique identifier for the window</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">index</span><span class="p">:</span> <span class="nb">int</span> <span class="c1">#: The index of the window in the front-to-back ordering</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">bounds</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]</span> <span class="c1">#: The bounding rectangle of the window</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bounds</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="c1">#: The bounding rectangle of the window</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">closeable</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether the window has a close button</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">miniaturizable</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether the window can be minimized</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">miniaturized</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether the window is currently minimized</span>
@@ -348,47 +394,75 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">name</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">name</span><span class="p">()</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">id</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">id</span><span class="p">()</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">index</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">index</span><span class="p">()</span>
+
+    <span class="nd">@index</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;index&quot;</span><span class="p">,</span> <span class="n">index</span><span class="p">)</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">bounds</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">bounds</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">bounds</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+        <span class="n">rect</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">bounds</span><span class="p">()</span>
+        <span class="n">origin</span> <span class="o">=</span> <span class="n">rect</span><span class="o">.</span><span class="n">origin</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="n">rect</span><span class="o">.</span><span class="n">size</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">origin</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">origin</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">size</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="n">size</span><span class="o">.</span><span class="n">height</span><span class="p">)</span>
+
+    <span class="nd">@bounds</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">bounds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bounds</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">w</span> <span class="o">=</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">AppKit</span><span class="o">.</span><span class="n">NSValue</span><span class="o">.</span><span class="n">valueWithRect_</span><span class="p">(</span><span class="n">AppKit</span><span class="o">.</span><span class="n">NSMakeRect</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">h</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;bounds&quot;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">closeable</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">closeable</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">closeable</span><span class="p">()</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">miniaturizable</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">miniaturizable</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">miniaturizable</span><span class="p">()</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">miniaturized</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">miniaturized</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">miniaturized</span><span class="p">()</span>
+
+    <span class="nd">@miniaturized</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">miniaturized</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">miniaturized</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;miniaturized&quot;</span><span class="p">,</span> <span class="n">miniaturized</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">resizable</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">resizable</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">resizable</span><span class="p">()</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">visible</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">visible</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">visible</span><span class="p">()</span>
+
+    <span class="nd">@visible</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">visible</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">visible</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;visible&quot;</span><span class="p">,</span> <span class="n">visible</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">zoomable</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">zoomable</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">zoomable</span><span class="p">()</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">zoomed</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">zoomed</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">zoomed</span><span class="p">()</span>
+
+    <span class="nd">@zoomed</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">zoomed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">zoomed</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;zoomed&quot;</span><span class="p">,</span> <span class="n">zoomed</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">document</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XASafariDocument&#39;</span><span class="p">:</span>
@@ -397,6 +471,10 @@
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">current_tab</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XASafariTab&#39;</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">currentTab</span><span class="p">(),</span> <span class="n">XASafariTab</span><span class="p">)</span>
+
+    <span class="nd">@current_tab</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">current_tab</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">current_tab</span><span class="p">:</span> <span class="s1">&#39;XASafariTab&#39;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;currentTab&quot;</span><span class="p">,</span> <span class="n">current_tab</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span>
 
 <div class="viewcode-block" id="XASafariWindow.tabs"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariWindow.tabs">[docs]</a>    <span class="k">def</span> <span class="nf">tabs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XASafariTabList&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Returns a list of tabs matching the given filter.</span>
@@ -407,7 +485,10 @@
 
 <span class="sd">        .. versionadded:: 0.0.1</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">tabs</span><span class="p">(),</span> <span class="n">XASafariTabList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">tabs</span><span class="p">(),</span> <span class="n">XASafariTabList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;&lt;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span></div>
 
 
 
@@ -419,24 +500,28 @@
 
 <span class="sd">    .. versionadded:: 0.0.1</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-<div class="viewcode-block" id="XASafariGeneric.search"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariGeneric.search">[docs]</a>    <span class="k">def</span> <span class="nf">search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">term</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XASafariGeneric&#39;</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Initialized XASafariGeneric&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="XASafariGeneric.search"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariGeneric.search">[docs]</a>    <span class="k">def</span> <span class="nf">search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">term</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Searches for the specified term in the current tab or document.</span>
 
-<span class="sd">        :param term: The term to search.</span>
+<span class="sd">        :param term: The term to search</span>
 <span class="sd">        :type term: str</span>
-<span class="sd">        :return: A reference to the object that called this method.</span>
-<span class="sd">        :rtype: XASafariGeneric</span>
+<span class="sd">        :return: A reference to the object that called this method</span>
+<span class="sd">        :rtype: Self</span>
 
 <span class="sd">        .. versionadded:: 0.0.1</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">searchTheWebIn_for_</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">,</span> <span class="n">term</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
-<div class="viewcode-block" id="XASafariGeneric.add_to_reading_list"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariGeneric.add_to_reading_list">[docs]</a>    <span class="k">def</span> <span class="nf">add_to_reading_list</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XASafariGeneric&#39;</span><span class="p">:</span>
+<div class="viewcode-block" id="XASafariGeneric.add_to_reading_list"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariGeneric.add_to_reading_list">[docs]</a>    <span class="k">def</span> <span class="nf">add_to_reading_list</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Adds the URL of a tab or document to the reading list.</span>
 
 <span class="sd">        :return: A reference to the object that called this method.</span>
-<span class="sd">        :rtype: XASafariGeneric</span>
+<span class="sd">        :rtype: Self</span>
 
 <span class="sd">        .. versionadded:: 0.0.1</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -446,29 +531,36 @@
 <div class="viewcode-block" id="XASafariGeneric.do_javascript"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariGeneric.do_javascript">[docs]</a>    <span class="k">def</span> <span class="nf">do_javascript</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">script</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Runs JavaScript in a tab or document.</span>
 
-<span class="sd">        :return: The value returned from the script after it completes execution.</span>
+<span class="sd">        :return: The value returned from the script after it completes execution</span>
 <span class="sd">        :rtype: Any</span>
 
 <span class="sd">        .. versionadded:: 0.0.1</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">doJavaScript_in_</span><span class="p">(</span><span class="n">script</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="XASafariGeneric.email"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariGeneric.email">[docs]</a>    <span class="k">def</span> <span class="nf">email</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="XASafariGeneric.email"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariGeneric.email">[docs]</a>    <span class="k">def</span> <span class="nf">email</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Opens a new email draft with the content of a tab or document.</span>
 
 <span class="sd">        :param item: The object to email</span>
 <span class="sd">        :type item: Union[XASafariDocument, XASafariTab]</span>
+<span class="sd">        :return: A reference to the object that called this method.</span>
+<span class="sd">        :rtype: Self</span>
 
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">emailContentsOf_</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">emailContentsOf_</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
 
-<div class="viewcode-block" id="XASafariGeneric.reload"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariGeneric.reload">[docs]</a>    <span class="k">def</span> <span class="nf">reload</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="XASafariGeneric.reload"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariGeneric.reload">[docs]</a>    <span class="k">def</span> <span class="nf">reload</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Reloads the tab or document.</span>
 
+<span class="sd">        :return: A reference to the object that called this method.</span>
+<span class="sd">        :rtype: Self</span>
+
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;URL&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="p">)</span></div></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;URL&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span></div></div>
 
 
 
@@ -483,68 +575,71 @@
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">XASafariDocument</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
 
-<div class="viewcode-block" id="XASafariDocumentList.name"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariDocumentList.name">[docs]</a>    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Initialized XASafariDocumentList&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="XASafariDocumentList.name"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariDocumentList.name">[docs]</a>    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the name of each document in the list.</span>
 
 <span class="sd">        :return: A list of document names</span>
-<span class="sd">        :rtype: List[str]</span>
+<span class="sd">        :rtype: list[str]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="XASafariDocumentList.modified"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariDocumentList.modified">[docs]</a>    <span class="k">def</span> <span class="nf">modified</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
+<div class="viewcode-block" id="XASafariDocumentList.modified"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariDocumentList.modified">[docs]</a>    <span class="k">def</span> <span class="nf">modified</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the modified status of each document in the list.</span>
 
 <span class="sd">        :return: A list of modified status booleans</span>
-<span class="sd">        :rtype: List[bool]</span>
+<span class="sd">        :rtype: list[bool]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;modified&quot;</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="XASafariDocumentList.file"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariDocumentList.file">[docs]</a>    <span class="k">def</span> <span class="nf">file</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<div class="viewcode-block" id="XASafariDocumentList.file"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariDocumentList.file">[docs]</a>    <span class="k">def</span> <span class="nf">file</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the file path of each document in the list.</span>
 
 <span class="sd">        :return: A list of file paths</span>
-<span class="sd">        :rtype: List[str]</span>
+<span class="sd">        :rtype: list[str]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;file&quot;</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="XASafariDocumentList.source"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariDocumentList.source">[docs]</a>    <span class="k">def</span> <span class="nf">source</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<div class="viewcode-block" id="XASafariDocumentList.source"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariDocumentList.source">[docs]</a>    <span class="k">def</span> <span class="nf">source</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the source HTML of each document in the list.</span>
 
 <span class="sd">        :return: A list of document source HTML</span>
-<span class="sd">        :rtype: List[str]</span>
+<span class="sd">        :rtype: list[str]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;source&quot;</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="XASafariDocumentList.url"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariDocumentList.url">[docs]</a>    <span class="k">def</span> <span class="nf">url</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAURL</span><span class="p">]:</span>
+<div class="viewcode-block" id="XASafariDocumentList.url"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariDocumentList.url">[docs]</a>    <span class="k">def</span> <span class="nf">url</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAURL</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the file URL of each document in the list.</span>
 
 <span class="sd">        :return: A list of document URLs</span>
-<span class="sd">        :rtype: List[XABase.XAURL]</span>
+<span class="sd">        :rtype: list[XABase.XAURL]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">ls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;URL&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAURL</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">ls</span><span class="p">]</span></div>
 
-<div class="viewcode-block" id="XASafariDocumentList.text"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariDocumentList.text">[docs]</a>    <span class="k">def</span> <span class="nf">text</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<div class="viewcode-block" id="XASafariDocumentList.text"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariDocumentList.text">[docs]</a>    <span class="k">def</span> <span class="nf">text</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAText</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the visible text of each document in the list.</span>
 
 <span class="sd">        :return: A list of document text</span>
-<span class="sd">        :rtype: List[str]</span>
+<span class="sd">        :rtype: list[XABase.XAText]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">))</span></div>
+        <span class="n">ls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAText</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">ls</span><span class="p">]</span></div>
 
-<div class="viewcode-block" id="XASafariDocumentList.by_name"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariDocumentList.by_name">[docs]</a>    <span class="k">def</span> <span class="nf">by_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XASafariDocument&#39;</span><span class="p">:</span>
+<div class="viewcode-block" id="XASafariDocumentList.by_name"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariDocumentList.by_name">[docs]</a>    <span class="k">def</span> <span class="nf">by_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XASafariDocument&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Retrieves the document whose name matches the given name, if one exists.</span>
 
 <span class="sd">        :return: The desired document, if it is found</span>
@@ -554,7 +649,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="XASafariDocumentList.by_modified"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariDocumentList.by_modified">[docs]</a>    <span class="k">def</span> <span class="nf">by_modified</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">modified</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XASafariDocument&#39;</span><span class="p">:</span>
+<div class="viewcode-block" id="XASafariDocumentList.by_modified"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariDocumentList.by_modified">[docs]</a>    <span class="k">def</span> <span class="nf">by_modified</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">modified</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XASafariDocument&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Retrieves the tab whose modified status matches the given boolean value, if one exists.</span>
 
 <span class="sd">        :return: The desired document, if it is found</span>
@@ -564,7 +659,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;modified&quot;</span><span class="p">,</span> <span class="n">modified</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="XASafariDocumentList.by_file"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariDocumentList.by_file">[docs]</a>    <span class="k">def</span> <span class="nf">by_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XASafariDocument&#39;</span><span class="p">:</span>
+<div class="viewcode-block" id="XASafariDocumentList.by_file"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariDocumentList.by_file">[docs]</a>    <span class="k">def</span> <span class="nf">by_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XASafariDocument&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Retrieves the tab whose file matches the given file path, if one exists.</span>
 
 <span class="sd">        :return: The desired document, if it is found</span>
@@ -574,7 +669,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;file&quot;</span><span class="p">,</span> <span class="n">file</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="XASafariDocumentList.by_source"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariDocumentList.by_source">[docs]</a>    <span class="k">def</span> <span class="nf">by_source</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XASafariDocument&#39;</span><span class="p">:</span>
+<div class="viewcode-block" id="XASafariDocumentList.by_source"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariDocumentList.by_source">[docs]</a>    <span class="k">def</span> <span class="nf">by_source</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XASafariDocument&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Retrieves the tab whose source HTML matches the given HTML, if one exists.</span>
 
 <span class="sd">        :return: The desired document, if it is found</span>
@@ -584,7 +679,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;source&quot;</span><span class="p">,</span> <span class="n">source</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="XASafariDocumentList.by_url"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariDocumentList.by_url">[docs]</a>    <span class="k">def</span> <span class="nf">by_url</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">:</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAURL</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XASafariDocument&#39;</span><span class="p">:</span>
+<div class="viewcode-block" id="XASafariDocumentList.by_url"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariDocumentList.by_url">[docs]</a>    <span class="k">def</span> <span class="nf">by_url</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">:</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAURL</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XASafariDocument&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Retrieves the tab whose URL matches the given URL, if one exists.</span>
 
 <span class="sd">        :return: The desired document, if it is found</span>
@@ -594,7 +689,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;URL&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">url</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">))</span></div>
     
-<div class="viewcode-block" id="XASafariDocumentList.by_text"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariDocumentList.by_text">[docs]</a>    <span class="k">def</span> <span class="nf">by_text</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XASafariDocument&#39;</span><span class="p">:</span>
+<div class="viewcode-block" id="XASafariDocumentList.by_text"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariDocumentList.by_text">[docs]</a>    <span class="k">def</span> <span class="nf">by_text</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAText</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XASafariDocument&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Retrieves the tab whose visible text matches the given text, if one exists.</span>
 
 <span class="sd">        :return: The desired document, if it is found</span>
@@ -602,13 +697,15 @@
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span></div>
+        <span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">doc</span><span class="o">.</span><span class="n">text</span><span class="p">()</span> <span class="o">==</span> <span class="nb">str</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="n">doc</span><span class="p">,</span> <span class="n">XASafariDocument</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="XASafariDocumentList.reload"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariDocumentList.reload">[docs]</a>    <span class="k">def</span> <span class="nf">reload</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XASafariDocumentList&#39;</span><span class="p">:</span>
+<div class="viewcode-block" id="XASafariDocumentList.reload"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariDocumentList.reload">[docs]</a>    <span class="k">def</span> <span class="nf">reload</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Reloads all documents in the list.</span>
 
 <span class="sd">        :return: A reference to the document list object.</span>
-<span class="sd">        :rtype: XASafariDocumentList</span>
+<span class="sd">        :rtype: Self</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -616,11 +713,11 @@
             <span class="n">document</span><span class="o">.</span><span class="n">setValue_forKey_</span><span class="p">(</span><span class="n">document</span><span class="o">.</span><span class="n">URL</span><span class="p">(),</span> <span class="s2">&quot;URL&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
-<div class="viewcode-block" id="XASafariDocumentList.add_to_reading_list"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariDocumentList.add_to_reading_list">[docs]</a>    <span class="k">def</span> <span class="nf">add_to_reading_list</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XASafariDocumentList&#39;</span><span class="p">:</span>
+<div class="viewcode-block" id="XASafariDocumentList.add_to_reading_list"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariDocumentList.add_to_reading_list">[docs]</a>    <span class="k">def</span> <span class="nf">add_to_reading_list</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Adds the URL of all documents in the list to the reading list.</span>
 
 <span class="sd">        :return: A reference to the document list object.</span>
-<span class="sd">        :rtype: XASafariDocumentList</span>
+<span class="sd">        :rtype: Self</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.5</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -628,11 +725,11 @@
             <span class="n">document</span><span class="o">.</span><span class="n">add_to_reading_list</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
-<div class="viewcode-block" id="XASafariDocumentList.email"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariDocumentList.email">[docs]</a>    <span class="k">def</span> <span class="nf">email</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XASafariDocumentList&#39;</span><span class="p">:</span>
+<div class="viewcode-block" id="XASafariDocumentList.email"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariDocumentList.email">[docs]</a>    <span class="k">def</span> <span class="nf">email</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Opens a new email draft with embedded links to the URL of each document in the list.</span>
 
 <span class="sd">        :return: A reference to the document list object.</span>
-<span class="sd">        :rtype: XASafariDocumentList</span>
+<span class="sd">        :rtype: Self</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.5</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -640,11 +737,11 @@
             <span class="n">document</span><span class="o">.</span><span class="n">email</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
-<div class="viewcode-block" id="XASafariDocumentList.do_javascript"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariDocumentList.do_javascript">[docs]</a>    <span class="k">def</span> <span class="nf">do_javascript</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">script</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XASafariDocumentList&#39;</span><span class="p">:</span>
+<div class="viewcode-block" id="XASafariDocumentList.do_javascript"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariDocumentList.do_javascript">[docs]</a>    <span class="k">def</span> <span class="nf">do_javascript</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">script</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Runs a given JavaScript script in each document in the list.</span>
 
 <span class="sd">        :return: A reference to the document list object.</span>
-<span class="sd">        :rtype: XASafariDocumentList</span>
+<span class="sd">        :rtype: Self</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.5</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -652,11 +749,11 @@
             <span class="n">document</span><span class="o">.</span><span class="n">do_javascript</span><span class="p">(</span><span class="n">script</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
-<div class="viewcode-block" id="XASafariDocumentList.search"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariDocumentList.search">[docs]</a>    <span class="k">def</span> <span class="nf">search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">term</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XASafariDocumentList&#39;</span><span class="p">:</span>
+<div class="viewcode-block" id="XASafariDocumentList.search"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariDocumentList.search">[docs]</a>    <span class="k">def</span> <span class="nf">search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">term</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Searches for the given term in each document in the list, using the default search engine.</span>
 
 <span class="sd">        :return: A reference to the document list object.</span>
-<span class="sd">        :rtype: XASafariDocumentList</span>
+<span class="sd">        :rtype: Self</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.5</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -673,13 +770,13 @@
         <span class="k">for</span> <span class="n">_index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">length</span><span class="p">):</span>
             <span class="bp">self</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="XASafariDocumentList.get_clipboard_representation"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariDocumentList.get_clipboard_representation">[docs]</a>    <span class="k">def</span> <span class="nf">get_clipboard_representation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">NSURL</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]]:</span>
+<div class="viewcode-block" id="XASafariDocumentList.get_clipboard_representation"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariDocumentList.get_clipboard_representation">[docs]</a>    <span class="k">def</span> <span class="nf">get_clipboard_representation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">AppKit</span><span class="o">.</span><span class="n">NSURL</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets a clipboard-codable representation of each document in the list.</span>
 
 <span class="sd">        When the clipboard content is set to a list of Safari documents, each document&#39;s URL is added to the clipboard.</span>
 
 <span class="sd">        :return: A list of document URLs</span>
-<span class="sd">        :rtype: List[List[Union[NSURL, str]]]</span>
+<span class="sd">        :rtype: list[AppKit.NSURL]</span>
 
 <span class="sd">        .. versionadded:: 0.0.8</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -700,10 +797,12 @@
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The title of the document</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">modified</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether the document has been modified since its last save</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The location of the document on the disk, if there is one</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAPath</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="c1">#: The location of the document on the disk, if there is one</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The HTML source of the web page currently loaded in the document</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="p">:</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAURL</span> <span class="c1">#: The current URL of the document</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The text of the web page currently loaded in the document</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">text</span><span class="p">:</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAText</span> <span class="c1">#: The text of the web page currently loaded in the document</span>
+
+        <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Initialized XASafariDocument&quot;</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
@@ -715,7 +814,9 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">file</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">file</span><span class="p">()</span>
+        <span class="n">file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">file</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">file</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAPath</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">source</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
@@ -725,9 +826,15 @@
     <span class="k">def</span> <span class="nf">url</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAURL</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAURL</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">URL</span><span class="p">())</span>
 
+    <span class="nd">@url</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">url</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAURL</span><span class="p">]):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">url</span> <span class="o">=</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAURL</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;URL&quot;</span><span class="p">,</span> <span class="n">url</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span>
+
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">text</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">text</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">text</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAText</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">text</span><span class="p">(),</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAText</span><span class="p">)</span>
 
 <div class="viewcode-block" id="XASafariDocument.print"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariDocument.print">[docs]</a>    <span class="k">def</span> <span class="nf">print</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">show_dialog</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Prints or opens the print dialog for the document.</span>
@@ -745,17 +852,17 @@
         <span class="n">print_thread</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">printWithProperties_printDialog_</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">show_dialog</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Print Document&quot;</span><span class="p">)</span>
         <span class="n">print_thread</span><span class="o">.</span><span class="n">start</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="XASafariDocument.get_clipboard_representation"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariDocument.get_clipboard_representation">[docs]</a>    <span class="k">def</span> <span class="nf">get_clipboard_representation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">NSURL</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]:</span>
+<div class="viewcode-block" id="XASafariDocument.get_clipboard_representation"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariDocument.get_clipboard_representation">[docs]</a>    <span class="k">def</span> <span class="nf">get_clipboard_representation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AppKit</span><span class="o">.</span><span class="n">NSURL</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Gets a clipboard-codable representation of the document.</span>
 
-<span class="sd">        When the clipboard content is set to a Safari document, the document&#39;s URL and source code are added to the clipboard.</span>
+<span class="sd">        When the clipboard content is set to a Safari document, the document&#39;s URL is added to the clipboard.</span>
 
-<span class="sd">        :return: The document&#39;s URL and source code</span>
-<span class="sd">        :rtype: List[Union[NSURL, str]]</span>
+<span class="sd">        :return: The document&#39;s URL</span>
+<span class="sd">        :rtype: AppKit.NSURL</span>
 
 <span class="sd">        .. versionadded:: 0.0.8</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="p">]</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="o">.</span><span class="n">xa_elem</span></div>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s2">&quot;&lt;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span></div>
@@ -771,63 +878,82 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">XASafariTab</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Initialized XASafariTabList&quot;</span><span class="p">)</span>
 
-<div class="viewcode-block" id="XASafariTabList.source"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariTabList.source">[docs]</a>    <span class="k">def</span> <span class="nf">source</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<div class="viewcode-block" id="XASafariTabList.source"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariTabList.source">[docs]</a>    <span class="k">def</span> <span class="nf">source</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the source HTML of each tab in the list.</span>
 
+<span class="sd">        This will activate Safari, individually focus each tab, refocus the original tab, then return a list of all tabs&#39; source HTML.</span>
+
 <span class="sd">        :return: A list of source HTML</span>
-<span class="sd">        :rtype: List[str]</span>
+<span class="sd">        :rtype: list[str]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;source&quot;</span><span class="p">))</span></div>
+        <span class="n">current_tab</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_prnt</span><span class="o">.</span><span class="n">current_tab</span><span class="o">.</span><span class="n">index</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="n">sources</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_aref</span><span class="o">.</span><span class="n">activateWithOptions_</span><span class="p">(</span><span class="n">AppKit</span><span class="o">.</span><span class="n">NSApplicationActivateIgnoringOtherApps</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">tab</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">xa_prnt</span><span class="o">.</span><span class="n">current_tab</span> <span class="o">=</span> <span class="n">tab</span>
+            <span class="n">sources</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">tab</span><span class="o">.</span><span class="n">source</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_prnt</span><span class="o">.</span><span class="n">current_tab</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_prnt</span><span class="o">.</span><span class="n">tabs</span><span class="p">()[</span><span class="n">current_tab</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">sources</span></div>
 
-<div class="viewcode-block" id="XASafariTabList.url"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariTabList.url">[docs]</a>    <span class="k">def</span> <span class="nf">url</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAURL</span><span class="p">]:</span>
+<div class="viewcode-block" id="XASafariTabList.url"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariTabList.url">[docs]</a>    <span class="k">def</span> <span class="nf">url</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAURL</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the current URL of each tab in the list.</span>
 
 <span class="sd">        :return: A list of web URLs</span>
-<span class="sd">        :rtype: List[XABase.XAURL]</span>
+<span class="sd">        :rtype: list[XABase.XAURL]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">ls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;URL&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAURL</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">ls</span><span class="p">]</span></div>
 
-<div class="viewcode-block" id="XASafariTabList.index"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariTabList.index">[docs]</a>    <span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+<div class="viewcode-block" id="XASafariTabList.index"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariTabList.index">[docs]</a>    <span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the index of each tab in the list.</span>
 
 <span class="sd">        :return: A list of indices</span>
-<span class="sd">        :rtype: List[int]</span>
+<span class="sd">        :rtype: list[int]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;index&quot;</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="XASafariTabList.text"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariTabList.text">[docs]</a>    <span class="k">def</span> <span class="nf">text</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<div class="viewcode-block" id="XASafariTabList.text"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariTabList.text">[docs]</a>    <span class="k">def</span> <span class="nf">text</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAText</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the visible text of each tab in the list.</span>
 
+<span class="sd">        This will activate Safari, individually focus each tab, refocus the original tab, then return a list of all tabs&#39; visible text.</span>
+
 <span class="sd">        :return: A list of visible text</span>
-<span class="sd">        :rtype: List[str]</span>
+<span class="sd">        :rtype: list[XABase.XAText]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">))</span></div>
+        <span class="n">current_tab</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_prnt</span><span class="o">.</span><span class="n">current_tab</span><span class="o">.</span><span class="n">index</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="n">texts</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_aref</span><span class="o">.</span><span class="n">activateWithOptions_</span><span class="p">(</span><span class="n">AppKit</span><span class="o">.</span><span class="n">NSApplicationActivateIgnoringOtherApps</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">tab</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">xa_prnt</span><span class="o">.</span><span class="n">current_tab</span> <span class="o">=</span> <span class="n">tab</span>
+            <span class="n">texts</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">tab</span><span class="o">.</span><span class="n">text</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_prnt</span><span class="o">.</span><span class="n">current_tab</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_prnt</span><span class="o">.</span><span class="n">tabs</span><span class="p">()[</span><span class="n">current_tab</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">texts</span></div>
 
-<div class="viewcode-block" id="XASafariTabList.visible"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariTabList.visible">[docs]</a>    <span class="k">def</span> <span class="nf">visible</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
+<div class="viewcode-block" id="XASafariTabList.visible"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariTabList.visible">[docs]</a>    <span class="k">def</span> <span class="nf">visible</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the visible status of each tab in the list.</span>
 
 <span class="sd">        :return: A list of visible status booleans</span>
-<span class="sd">        :rtype: List[str]</span>
+<span class="sd">        :rtype: list[str]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;visible&quot;</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="XASafariTabList.name"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariTabList.name">[docs]</a>    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<div class="viewcode-block" id="XASafariTabList.name"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariTabList.name">[docs]</a>    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the name of each tab in the list.</span>
 
 <span class="sd">        :return: A list of tab names</span>
-<span class="sd">        :rtype: List[str]</span>
+<span class="sd">        :rtype: list[str]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -841,7 +967,9 @@
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;source&quot;</span><span class="p">,</span> <span class="n">source</span><span class="p">)</span></div>
+        <span class="k">for</span> <span class="n">tab</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">tab</span><span class="o">.</span><span class="n">source</span><span class="p">()</span> <span class="o">==</span> <span class="n">source</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="n">tab</span><span class="p">,</span> <span class="n">XASafariTab</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="XASafariTabList.by_url"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariTabList.by_url">[docs]</a>    <span class="k">def</span> <span class="nf">by_url</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">:</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAURL</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XASafariTab&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Retrieves the tab whose URL matches the given URL, if one exists.</span>
@@ -863,7 +991,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;index&quot;</span><span class="p">,</span> <span class="n">index</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="XASafariTabList.by_text"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariTabList.by_text">[docs]</a>    <span class="k">def</span> <span class="nf">by_text</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XASafariTab&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+<div class="viewcode-block" id="XASafariTabList.by_text"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariTabList.by_text">[docs]</a>    <span class="k">def</span> <span class="nf">by_text</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAText</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XASafariTab&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Retrieves the tab whose visible text matches the given text, if one exists.</span>
 
 <span class="sd">        :return: The desired tab, if it is found</span>
@@ -871,7 +999,9 @@
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span></div>
+        <span class="k">for</span> <span class="n">tab</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">tab</span><span class="o">.</span><span class="n">text</span><span class="p">()</span> <span class="o">==</span> <span class="nb">str</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="n">tab</span><span class="p">,</span> <span class="n">XASafariTab</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="XASafariTabList.by_visible"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariTabList.by_visible">[docs]</a>    <span class="k">def</span> <span class="nf">by_visible</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">visible</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XASafariTab&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Retrieves the tab whose visible status matches the given boolean, if one exists.</span>
@@ -893,11 +1023,11 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="XASafariTabList.reload"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariTabList.reload">[docs]</a>    <span class="k">def</span> <span class="nf">reload</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XASafariTabList&#39;</span><span class="p">:</span>
+<div class="viewcode-block" id="XASafariTabList.reload"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariTabList.reload">[docs]</a>    <span class="k">def</span> <span class="nf">reload</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Reloads all tabs in the list.</span>
 
 <span class="sd">        :return: A reference to the tab list object.</span>
-<span class="sd">        :rtype: XASafariTabList</span>
+<span class="sd">        :rtype: Self</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -905,11 +1035,11 @@
             <span class="n">tab</span><span class="o">.</span><span class="n">setValue_forKey_</span><span class="p">(</span><span class="n">tab</span><span class="o">.</span><span class="n">URL</span><span class="p">(),</span> <span class="s2">&quot;URL&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
-<div class="viewcode-block" id="XASafariTabList.add_to_reading_list"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariTabList.add_to_reading_list">[docs]</a>    <span class="k">def</span> <span class="nf">add_to_reading_list</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XASafariTabList&#39;</span><span class="p">:</span>
+<div class="viewcode-block" id="XASafariTabList.add_to_reading_list"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariTabList.add_to_reading_list">[docs]</a>    <span class="k">def</span> <span class="nf">add_to_reading_list</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Adds the URL of all tabs in the list to the reading list.</span>
 
 <span class="sd">        :return: A reference to the tab list object.</span>
-<span class="sd">        :rtype: XASafariTabList</span>
+<span class="sd">        :rtype: Self</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.5</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -917,11 +1047,11 @@
             <span class="n">tab</span><span class="o">.</span><span class="n">add_to_reading_list</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
-<div class="viewcode-block" id="XASafariTabList.email"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariTabList.email">[docs]</a>    <span class="k">def</span> <span class="nf">email</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XASafariTabList&#39;</span><span class="p">:</span>
+<div class="viewcode-block" id="XASafariTabList.email"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariTabList.email">[docs]</a>    <span class="k">def</span> <span class="nf">email</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Opens a new email draft with embedded links to the URL of each tab in the list.</span>
 
 <span class="sd">        :return: A reference to the tab list object.</span>
-<span class="sd">        :rtype: XASafariTabList</span>
+<span class="sd">        :rtype: Self</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.5</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -929,11 +1059,11 @@
             <span class="n">tab</span><span class="o">.</span><span class="n">email</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
-<div class="viewcode-block" id="XASafariTabList.do_javascript"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariTabList.do_javascript">[docs]</a>    <span class="k">def</span> <span class="nf">do_javascript</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">script</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XASafariTabList&#39;</span><span class="p">:</span>
+<div class="viewcode-block" id="XASafariTabList.do_javascript"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariTabList.do_javascript">[docs]</a>    <span class="k">def</span> <span class="nf">do_javascript</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">script</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Runs a given JavaScript script in each tab in the list.</span>
 
 <span class="sd">        :return: A reference to the tab list object.</span>
-<span class="sd">        :rtype: XASafariTabList</span>
+<span class="sd">        :rtype: Self</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.5</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -941,11 +1071,11 @@
             <span class="n">tab</span><span class="o">.</span><span class="n">do_javascript</span><span class="p">(</span><span class="n">script</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
-<div class="viewcode-block" id="XASafariTabList.search"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariTabList.search">[docs]</a>    <span class="k">def</span> <span class="nf">search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">term</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XASafariTabList&#39;</span><span class="p">:</span>
+<div class="viewcode-block" id="XASafariTabList.search"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariTabList.search">[docs]</a>    <span class="k">def</span> <span class="nf">search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">term</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Searches for the given term in each tab in the list, using the default search engine.</span>
 
 <span class="sd">        :return: A reference to the tab list object.</span>
-<span class="sd">        :rtype: XASafariTabList</span>
+<span class="sd">        :rtype: Self</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.5</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -953,13 +1083,13 @@
             <span class="n">tab</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">term</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
-<div class="viewcode-block" id="XASafariTabList.move_to"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariTabList.move_to">[docs]</a>    <span class="k">def</span> <span class="nf">move_to</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">window</span><span class="p">:</span> <span class="n">XASafariWindow</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XASafariTabList&#39;</span><span class="p">:</span>
+<div class="viewcode-block" id="XASafariTabList.move_to"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariTabList.move_to">[docs]</a>    <span class="k">def</span> <span class="nf">move_to</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">window</span><span class="p">:</span> <span class="n">XASafariWindow</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Moves all tabs in the list to the specified window.</span>
 
 <span class="sd">        :param window: The window to move tabs to</span>
 <span class="sd">        :type window: XASafariWindow</span>
 <span class="sd">        :return: The tab list object</span>
-<span class="sd">        :rtype: XASafariTabList</span>
+<span class="sd">        :rtype: Self</span>
 
 <span class="sd">        .. seealso:: :func:`duplicate_to`</span>
 
@@ -970,13 +1100,13 @@
             <span class="n">tab</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
-<div class="viewcode-block" id="XASafariTabList.duplicate_to"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariTabList.duplicate_to">[docs]</a>    <span class="k">def</span> <span class="nf">duplicate_to</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">window</span><span class="p">:</span> <span class="n">XASafariWindow</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XASafariTabList&#39;</span><span class="p">:</span>
+<div class="viewcode-block" id="XASafariTabList.duplicate_to"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariTabList.duplicate_to">[docs]</a>    <span class="k">def</span> <span class="nf">duplicate_to</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">window</span><span class="p">:</span> <span class="n">XASafariWindow</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Duplicate all tabs in the list in the specified window.</span>
 
 <span class="sd">        :param window: The window to duplicate tabs in</span>
 <span class="sd">        :type window: XASafariWindow</span>
 <span class="sd">        :return: The tab list object</span>
-<span class="sd">        :rtype: XASafariTabList</span>
+<span class="sd">        :rtype: Self</span>
 
 <span class="sd">        .. seealso:: :func:`move_to`</span>
 
@@ -995,13 +1125,13 @@
         <span class="k">for</span> <span class="n">_index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">length</span><span class="p">):</span>
             <span class="bp">self</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="XASafariTabList.get_clipboard_representation"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariTabList.get_clipboard_representation">[docs]</a>    <span class="k">def</span> <span class="nf">get_clipboard_representation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">NSURL</span><span class="p">]:</span>
+<div class="viewcode-block" id="XASafariTabList.get_clipboard_representation"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariTabList.get_clipboard_representation">[docs]</a>    <span class="k">def</span> <span class="nf">get_clipboard_representation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">AppKit</span><span class="o">.</span><span class="n">NSURL</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets a clipboard-codable representation of each tab in the list.</span>
 
 <span class="sd">        When the clipboard content is set to a list of Safari tabs, each tabs&#39;s URL is added to the clipboard. Pasting the copied list into an app such as Numbers will place each URL in a separate cell of a column.</span>
 
 <span class="sd">        :return: A list of tab URLs</span>
-<span class="sd">        :rtype: List[NSURL]</span>
+<span class="sd">        :rtype: list[AppKit.NSURL]</span>
 
 <span class="sd">        .. versionadded:: 0.0.8</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -1023,9 +1153,11 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The HTML source of the web page currently loaded in the tab</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="p">:</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAURL</span> <span class="c1">#: The current URL of the tab</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">index</span><span class="p">:</span> <span class="nb">int</span> <span class="c1">#: The index of the tab, ordered left to right</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The text of the web page currently loaded in the tab</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">text</span><span class="p">:</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAText</span> <span class="c1">#: The text of the web page currently loaded in the tab</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">visible</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether the tab is currently visible</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The title of the tab</span>
+
+        <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Initialized XASafariTab&quot;</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">source</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
@@ -1035,13 +1167,19 @@
     <span class="k">def</span> <span class="nf">url</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAURL</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAURL</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">URL</span><span class="p">())</span>
 
+    <span class="nd">@url</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">url</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAURL</span><span class="p">]):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">url</span> <span class="o">=</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAURL</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;URL&quot;</span><span class="p">,</span> <span class="n">url</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span>
+
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">index</span><span class="p">()</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">text</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">text</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">text</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAText</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">text</span><span class="p">(),</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAText</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">visible</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
@@ -1051,18 +1189,18 @@
     <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">name</span><span class="p">()</span>
 
-<div class="viewcode-block" id="XASafariTab.move_to"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariTab.move_to">[docs]</a>    <span class="k">def</span> <span class="nf">move_to</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">window</span><span class="p">:</span> <span class="s1">&#39;XASafariWindow&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XASafariTab&#39;</span><span class="p">:</span>
+<div class="viewcode-block" id="XASafariTab.move_to"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariTab.move_to">[docs]</a>    <span class="k">def</span> <span class="nf">move_to</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">window</span><span class="p">:</span> <span class="s1">&#39;XASafariWindow&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Moves the tab to the specified window. After, the tab will exist in only one location.</span>
 
 <span class="sd">        :param window: The window to move the tab to.</span>
 <span class="sd">        :type window: XASafariWindow</span>
 <span class="sd">        :return: A reference to the tab object.</span>
-<span class="sd">        :rtype: XASafariGeneric</span>
+<span class="sd">        :rtype: Self</span>
 
 <span class="sd">        :Example:</span>
 
 <span class="sd">        &gt;&gt;&gt; import PyXA</span>
-<span class="sd">        &gt;&gt;&gt; app = PyXA.application(&quot;Safari&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; app = PyXA.Application(&quot;Safari&quot;)</span>
 <span class="sd">        &gt;&gt;&gt; tab = app.front_window.current_tab</span>
 <span class="sd">        &gt;&gt;&gt; window2 = app.window(1)</span>
 <span class="sd">        &gt;&gt;&gt; tab.move_to(window2)</span>
@@ -1075,18 +1213,18 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
-<div class="viewcode-block" id="XASafariTab.duplicate_to"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariTab.duplicate_to">[docs]</a>    <span class="k">def</span> <span class="nf">duplicate_to</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">window</span><span class="p">:</span> <span class="s1">&#39;XASafariWindow&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XASafariTab&#39;</span><span class="p">:</span>
+<div class="viewcode-block" id="XASafariTab.duplicate_to"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariTab.duplicate_to">[docs]</a>    <span class="k">def</span> <span class="nf">duplicate_to</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">window</span><span class="p">:</span> <span class="s1">&#39;XASafariWindow&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Duplicates the tab in the specified window. The tab will then exist in two locations.</span>
 
 <span class="sd">        :param window: The window to duplicate the tab in.</span>
 <span class="sd">        :type window: XASafariWindow</span>
 <span class="sd">        :return: A reference to the tab object.</span>
-<span class="sd">        :rtype: XASafariTab</span>
+<span class="sd">        :rtype: Self</span>
 
 <span class="sd">        :Example:</span>
 
 <span class="sd">        &gt;&gt;&gt; import PyXA</span>
-<span class="sd">        &gt;&gt;&gt; app = PyXA.application(&quot;Safari&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; app = PyXA.Application(&quot;Safari&quot;)</span>
 <span class="sd">        &gt;&gt;&gt; tab = app.front_window.current_tab</span>
 <span class="sd">        &gt;&gt;&gt; window2 = app.window(1)</span>
 <span class="sd">        &gt;&gt;&gt; tab.duplicate_to(window2)</span>
@@ -1098,13 +1236,13 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">moveTo_</span><span class="p">(</span><span class="n">window</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
-<div class="viewcode-block" id="XASafariTab.get_clipboard_representation"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariTab.get_clipboard_representation">[docs]</a>    <span class="k">def</span> <span class="nf">get_clipboard_representation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NSURL</span><span class="p">:</span>
+<div class="viewcode-block" id="XASafariTab.get_clipboard_representation"><a class="viewcode-back" href="../../../reference/apps/safari.html#PyXA.apps.Safari.XASafariTab.get_clipboard_representation">[docs]</a>    <span class="k">def</span> <span class="nf">get_clipboard_representation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AppKit</span><span class="o">.</span><span class="n">NSURL</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Gets a clipboard-codable representation of the tab.</span>
 
 <span class="sd">        When the clipboard content is set to a Safari tab, the tab&#39;s URL is added to the clipboard.</span>
 
 <span class="sd">        :return: The tabs&#39;s URL</span>
-<span class="sd">        :rtype: NSURL</span>
+<span class="sd">        :rtype: AppKit.NSURL</span>
 
 <span class="sd">        .. versionadded:: 0.0.8</span>
 <span class="sd">        &quot;&quot;&quot;</span>

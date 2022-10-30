@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Add Items to the Menu Bar &mdash; PyXA 0.0.9 documentation</title>
+  <title>Add Items to the Menu Bar &mdash; PyXA 0.1.0 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
@@ -15,11 +15,13 @@
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Tips and Tricks" href="tips_tricks.html" />
+    <link rel="next" title="Reading RSS Feeds" href="extensions/web/rssfeed.html" />
     <link rel="prev" title="Running AppleScripts" href="applescript.html" /> 
 </head>
 
@@ -45,8 +47,9 @@
 <li class="toctree-l2"><a class="reference internal" href="index.html#installation">Installation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="index.html#basic-usage">Basic Usage</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="index.html#additional-tutorial-topics">Additional Tutorial Topics</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="apps/index.html">Application Modules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="apps/index.html">Application Module Overviews</a></li>
 <li class="toctree-l3"><a class="reference internal" href="lists.html">Working With Lists</a></li>
+<li class="toctree-l3"><a class="reference internal" href="images.html">Working with Images</a></li>
 <li class="toctree-l3"><a class="reference internal" href="clipboard.html">Working With The Clipboard</a></li>
 <li class="toctree-l3"><a class="reference internal" href="user_input.html">Getting User Input</a></li>
 <li class="toctree-l3"><a class="reference internal" href="spotlight.html">Searching Spotlight</a></li>
@@ -57,6 +60,8 @@
 <li class="toctree-l4"><a class="reference internal" href="#customization">Customization</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="extensions/web/rssfeed.html">Reading RSS Feeds</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appscript.html">Using Appscript to Work With Unsupported Applications</a></li>
 <li class="toctree-l3"><a class="reference internal" href="tips_tricks.html">Tips and Tricks</a></li>
 </ul>
 </li>
@@ -92,9 +97,9 @@
            <div itemprop="articleBody">
              
   <section id="add-items-to-the-menu-bar">
-<h1>Add Items to the Menu Bar<a class="headerlink" href="#add-items-to-the-menu-bar" title="Permalink to this headline"></a></h1>
+<h1>Add Items to the Menu Bar<a class="headerlink" href="#add-items-to-the-menu-bar" title="Permalink to this heading"></a></h1>
 <section id="the-basics">
-<h2>The Basics<a class="headerlink" href="#the-basics" title="Permalink to this headline"></a></h2>
+<h2>The Basics<a class="headerlink" href="#the-basics" title="Permalink to this heading"></a></h2>
 <p>PyXA provides a straightforward way to add interactive items to the top menu bar of your Mac. Using the <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAMenuBar" title="PyXA.XABase.XAMenuBar"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAMenuBar</span></code></a> class, you can add new menus, attach items and actions to them, and customize them in just a few lines of code. For example, the four line code below creates a new menu titled “Hello” and places it on the right side of the menu bar, to the left of any existing items.</p>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">PyXA</span>
 <span class="n">menu_bar</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XAMenuBar</span><span class="p">()</span>
@@ -130,7 +135,7 @@
 <img alt="../_images/PrintHiImage.png" src="../_images/PrintHiImage.png" />
 <p>You can easily add additional menus and menu items, further extending the functionality of your menu bar. A few examples are provided below.</p>
 <section id="example-1-application-launcher">
-<h3>Example 1 - Application Launcher<a class="headerlink" href="#example-1-application-launcher" title="Permalink to this headline"></a></h3>
+<h3>Example 1 - Application Launcher<a class="headerlink" href="#example-1-application-launcher" title="Permalink to this heading"></a></h3>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">PyXA</span>
 <span class="n">menu_bar</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XAMenuBar</span><span class="p">()</span>
 <span class="n">menu_bar</span><span class="o">.</span><span class="n">add_item</span><span class="p">(</span><span class="n">menu</span><span class="o">=</span><span class="s2">&quot;Apps&quot;</span><span class="p">,</span> <span class="n">item_name</span><span class="o">=</span><span class="s2">&quot;Safari&quot;</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="k">lambda</span> <span class="p">:</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;Safari&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">activate</span><span class="p">())</span>
@@ -145,7 +150,7 @@
 </div>
 </section>
 <section id="example-2-emoji-bookmarks">
-<h3>Example 2 - Emoji Bookmarks<a class="headerlink" href="#example-2-emoji-bookmarks" title="Permalink to this headline"></a></h3>
+<h3>Example 2 - Emoji Bookmarks<a class="headerlink" href="#example-2-emoji-bookmarks" title="Permalink to this heading"></a></h3>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">PyXA</span>
 <span class="n">menu_bar</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XAMenuBar</span><span class="p">()</span>
 <span class="n">menu_bar</span><span class="o">.</span><span class="n">add_item</span><span class="p">(</span><span class="s2">&quot;🌦&quot;</span><span class="p">,</span> <span class="s2">&quot;Weather.gov&quot;</span><span class="p">,</span> <span class="k">lambda</span> <span class="p">:</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XAURL</span><span class="p">(</span><span class="s2">&quot;https://www.weather.gov&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">open</span><span class="p">())</span>
@@ -164,7 +169,7 @@
 </div>
 </section>
 <section id="example-3-application-controller">
-<h3>Example 3 - Application Controller<a class="headerlink" href="#example-3-application-controller" title="Permalink to this headline"></a></h3>
+<h3>Example 3 - Application Controller<a class="headerlink" href="#example-3-application-controller" title="Permalink to this heading"></a></h3>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">PyXA</span>
 
 <span class="k">def</span> <span class="nf">minimize_all</span><span class="p">():</span>
@@ -182,7 +187,7 @@
 </section>
 </section>
 <section id="customization">
-<h2>Customization<a class="headerlink" href="#customization" title="Permalink to this headline"></a></h2>
+<h2>Customization<a class="headerlink" href="#customization" title="Permalink to this heading"></a></h2>
 <p>You can customize your menu bar items by adding images to them, as well as by adjusting the width and height of the images. Additional customization options might be added in the future.</p>
 <p>To display an image on the menu bar, create an <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAImage" title="PyXA.XABase.XAImage"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAImage</span></code></a> object and set it as the image argument when calling <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAMenuBar.add_menu" title="PyXA.XABase.XAMenuBar.add_menu"><code class="xref py py-func docutils literal notranslate"><span class="pre">add_menu()</span></code></a>. The example below shows this in action – and it even draws the image from an online source (though you could just as easily use a local source instead). When calling <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAMenuBar.add_menu" title="PyXA.XABase.XAMenuBar.add_menu"><code class="xref py py-func docutils literal notranslate"><span class="pre">add_menu()</span></code></a>, you can also specify the <cite>img_width</cite> and <cite>img_height</cite> arguments to customize the size of the image.</p>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">PyXA</span>
@@ -259,7 +264,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="applescript.html" class="btn btn-neutral float-left" title="Running AppleScripts" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="tips_tricks.html" class="btn btn-neutral float-right" title="Tips and Tricks" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="extensions/web/rssfeed.html" class="btn btn-neutral float-right" title="Reading RSS Feeds" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

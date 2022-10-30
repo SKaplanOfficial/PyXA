@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Calculator Module Reference &mdash; PyXA 0.0.9 documentation</title>
+  <title>Calculator Module Reference &mdash; PyXA 0.1.0 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
@@ -15,7 +15,9 @@
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -45,15 +47,19 @@
 <li class="toctree-l1 current"><a class="reference internal" href="../index.html">Code Documentation and Reference</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../index.html#top-level-pyxa-modules">Top-level PyXA Modules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../index.html#pyxa-base-modules">PyXA Base Modules</a></li>
-<li class="toctree-l2 current"><a class="reference internal" href="../index.html#first-party-application-modules">First-Party Application Modules</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html#first-party-application-module-reference">First-Party Application Module Reference</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="automator.html">Automator Module Reference</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">Calculator Module Reference</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Calculator Module Reference</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.apps.Calculator.XACalculatorApplication"><code class="docutils literal notranslate"><span class="pre">XACalculatorApplication</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="calendar.html">Calendar Module Reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="console.html">Console Module Reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="contacts.html">Contacts Module Reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="dictionary.html">Dictionary Module Reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="finder.html">Finder Module Reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="fontbook.html">FontBook Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="imageevents.html">Image Events Module Reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="keynote.html">Keynote Module Reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="mail.html">Mail Module Reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="maps.html">Maps Module Reference</a></li>
@@ -69,13 +75,14 @@
 <li class="toctree-l3"><a class="reference internal" href="safari.html">Safari Module Reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="shortcuts.html">Shortcuts Module Reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="stocks.html">Stocks Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="systemevents.html">System Events Module Reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="systempreferences.html">System Preferences Module Reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="terminal.html">Terminal Module Reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="textedit.html">TextEdit Module Reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="tv.html">TV Module Reference</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../index.html#third-party-application-modules">Third-Party Application Modules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#third-party-application-module-reference">Third-Party Application Module Reference</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../bugs.html">Bugs</a></li>
@@ -107,7 +114,7 @@
            <div itemprop="articleBody">
              
   <section id="module-PyXA.apps.Calculator">
-<span id="calculator-module-reference"></span><h1>Calculator Module Reference<a class="headerlink" href="#module-PyXA.apps.Calculator" title="Permalink to this headline"></a></h1>
+<span id="calculator-module-reference"></span><h1>Calculator Module Reference<a class="headerlink" href="#module-PyXA.apps.Calculator" title="Permalink to this heading"></a></h1>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.2.</span></p>
 </div>
@@ -127,7 +134,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.Calculator.XACalculatorApplication">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Calculator.</span></span><span class="sig-name descname"><span class="pre">XACalculatorApplication</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Calculator.html#XACalculatorApplication"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Calculator.XACalculatorApplication" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAApplication" title="PyXA.XABase.XAApplication"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAApplication</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAApplication" title="PyXA.XABase.XAApplication"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAApplication</span></code></a></p>
 <p>A class for managing and interacting with Calculator.app.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.2.</span></p>
@@ -242,7 +249,7 @@
 <dd class="field-even"><p></p></dd>
 </dl>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;Calculator&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">Application</span><span class="p">(</span><span class="s2">&quot;Calculator&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">app</span><span class="o">.</span><span class="n">input</span><span class="p">(</span><span class="s2">&quot;c2*3.14*5*5=&quot;</span><span class="p">)</span>
 <span class="go">34.54</span>
 </pre></div>

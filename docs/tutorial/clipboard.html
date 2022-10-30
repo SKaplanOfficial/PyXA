@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Working With The Clipboard &mdash; PyXA 0.0.9 documentation</title>
+  <title>Working With The Clipboard &mdash; PyXA 0.1.0 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
@@ -15,12 +15,14 @@
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Getting User Input" href="user_input.html" />
-    <link rel="prev" title="Working With Lists" href="lists.html" /> 
+    <link rel="prev" title="Working with Images" href="images.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -45,8 +47,9 @@
 <li class="toctree-l2"><a class="reference internal" href="index.html#installation">Installation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="index.html#basic-usage">Basic Usage</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="index.html#additional-tutorial-topics">Additional Tutorial Topics</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="apps/index.html">Application Modules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="apps/index.html">Application Module Overviews</a></li>
 <li class="toctree-l3"><a class="reference internal" href="lists.html">Working With Lists</a></li>
+<li class="toctree-l3"><a class="reference internal" href="images.html">Working with Images</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">Working With The Clipboard</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#reading-clipboard-content">Reading Clipboard Content</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#writing-content-to-the-clipboard">Writing Content to the Clipboard</a></li>
@@ -57,6 +60,8 @@
 <li class="toctree-l3"><a class="reference internal" href="ui_scripting.html">UI Scripting</a></li>
 <li class="toctree-l3"><a class="reference internal" href="applescript.html">Running AppleScripts</a></li>
 <li class="toctree-l3"><a class="reference internal" href="menubar.html">Add Items to the Menu Bar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="extensions/web/rssfeed.html">Reading RSS Feeds</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appscript.html">Using Appscript to Work With Unsupported Applications</a></li>
 <li class="toctree-l3"><a class="reference internal" href="tips_tricks.html">Tips and Tricks</a></li>
 </ul>
 </li>
@@ -92,10 +97,10 @@
            <div itemprop="articleBody">
              
   <section id="working-with-the-clipboard">
-<h1>Working With The Clipboard<a class="headerlink" href="#working-with-the-clipboard" title="Permalink to this headline"></a></h1>
+<h1>Working With The Clipboard<a class="headerlink" href="#working-with-the-clipboard" title="Permalink to this heading"></a></h1>
 <p>PyXA affords full access to the system clipboard (or pasteboard, in Objective-C terms), making it easy to read content from or write content to the clipboard from within Python. PyXA provides a convenient <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAClipboard" title="PyXA.XABase.XAClipboard"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAClipboard</span></code></a> class to handle clipboard-related actions.</p>
 <section id="reading-clipboard-content">
-<h2>Reading Clipboard Content<a class="headerlink" href="#reading-clipboard-content" title="Permalink to this headline"></a></h2>
+<h2>Reading Clipboard Content<a class="headerlink" href="#reading-clipboard-content" title="Permalink to this heading"></a></h2>
 <p>To read content from the clipboard, you need only to instantiate an instance of <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAClipboard" title="PyXA.XABase.XAClipboard"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAClipboard</span></code></a> and access its <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAClipboard.content" title="PyXA.XABase.XAClipboard.content"><code class="xref py py-attr docutils literal notranslate"><span class="pre">content</span></code></a> property. This will provide a dictionary containing the raw NSData object, property list, and string associated with each object type in the clipboard. The example below shows this in action. In this case, the text “Testing 1 2 3…” was copied from a plaintext file, where no formatting data is present.</p>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">PyXA</span>
 <span class="n">cb</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XAClipboard</span><span class="p">()</span>
@@ -131,7 +136,7 @@
 </div>
 </section>
 <section id="writing-content-to-the-clipboard">
-<h2>Writing Content to the Clipboard<a class="headerlink" href="#writing-content-to-the-clipboard" title="Permalink to this headline"></a></h2>
+<h2>Writing Content to the Clipboard<a class="headerlink" href="#writing-content-to-the-clipboard" title="Permalink to this heading"></a></h2>
 <p>To write content to the clipboard, set the <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAClipboard.content" title="PyXA.XABase.XAClipboard.content"><code class="xref py py-attr docutils literal notranslate"><span class="pre">content</span></code></a> property of the <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAClipboard" title="PyXA.XABase.XAClipboard"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAClipboard</span></code></a> object. This works for Python’s base literal classes, some general Python classes, and all PyXA classes. The example below highlights how this functionality can be used for different data types.</p>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">PyXA</span>
 <span class="n">cb</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XAClipboard</span><span class="p">()</span>
@@ -167,7 +172,7 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="lists.html" class="btn btn-neutral float-left" title="Working With Lists" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="images.html" class="btn btn-neutral float-left" title="Working with Images" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="user_input.html" class="btn btn-neutral float-right" title="Getting User Input" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Maps Module Reference &mdash; PyXA 0.0.9 documentation</title>
+  <title>Maps Module Reference &mdash; PyXA 0.1.0 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
@@ -15,7 +15,9 @@
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -45,7 +47,7 @@
 <li class="toctree-l1 current"><a class="reference internal" href="../index.html">Code Documentation and Reference</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../index.html#top-level-pyxa-modules">Top-level PyXA Modules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../index.html#pyxa-base-modules">PyXA Base Modules</a></li>
-<li class="toctree-l2 current"><a class="reference internal" href="../index.html#first-party-application-modules">First-Party Application Modules</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html#first-party-application-module-reference">First-Party Application Module Reference</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="automator.html">Automator Module Reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="calculator.html">Calculator Module Reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="calendar.html">Calendar Module Reference</a></li>
@@ -54,9 +56,19 @@
 <li class="toctree-l3"><a class="reference internal" href="dictionary.html">Dictionary Module Reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="finder.html">Finder Module Reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="fontbook.html">FontBook Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="imageevents.html">Image Events Module Reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="keynote.html">Keynote Module Reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="mail.html">Mail Module Reference</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">Maps Module Reference</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Maps Module Reference</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.apps.Maps.XAMapsApplication"><code class="docutils literal notranslate"><span class="pre">XAMapsApplication</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.apps.Maps.XAMapsDirections"><code class="docutils literal notranslate"><span class="pre">XAMapsDirections</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.apps.Maps.XAMapsDirectionsList"><code class="docutils literal notranslate"><span class="pre">XAMapsDirectionsList</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.apps.Maps.XAMapsSidebarLocation"><code class="docutils literal notranslate"><span class="pre">XAMapsSidebarLocation</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.apps.Maps.XAMapsSidebarLocationList"><code class="docutils literal notranslate"><span class="pre">XAMapsSidebarLocationList</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.apps.Maps.XAMapsTab"><code class="docutils literal notranslate"><span class="pre">XAMapsTab</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.apps.Maps.XAMapsTabList"><code class="docutils literal notranslate"><span class="pre">XAMapsTabList</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="messages.html">Messages Module Reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="music.html">Music Module Reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="notes.html">Notes Module Reference</a></li>
@@ -69,13 +81,14 @@
 <li class="toctree-l3"><a class="reference internal" href="safari.html">Safari Module Reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="shortcuts.html">Shortcuts Module Reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="stocks.html">Stocks Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="systemevents.html">System Events Module Reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="systempreferences.html">System Preferences Module Reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="terminal.html">Terminal Module Reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="textedit.html">TextEdit Module Reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="tv.html">TV Module Reference</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../index.html#third-party-application-modules">Third-Party Application Modules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#third-party-application-module-reference">Third-Party Application Module Reference</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../bugs.html">Bugs</a></li>
@@ -107,7 +120,7 @@
            <div itemprop="articleBody">
              
   <section id="module-PyXA.apps.Maps">
-<span id="maps-module-reference"></span><h1>Maps Module Reference<a class="headerlink" href="#module-PyXA.apps.Maps" title="Permalink to this headline"></a></h1>
+<span id="maps-module-reference"></span><h1>Maps Module Reference<a class="headerlink" href="#module-PyXA.apps.Maps" title="Permalink to this heading"></a></h1>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.6.</span></p>
 </div>
@@ -145,7 +158,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.Maps.XAMapsApplication">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Maps.</span></span><span class="sig-name descname"><span class="pre">XAMapsApplication</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Maps.html#XAMapsApplication"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Maps.XAMapsApplication" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAApplication" title="PyXA.XABase.XAApplication"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAApplication</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAApplication" title="PyXA.XABase.XAApplication"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAApplication</span></code></a></p>
 <p>A class for managing and interacting with Maps.app.</p>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
@@ -259,7 +272,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Maps.XAMapsApplication.orient_north">
-<span class="sig-name descname"><span class="pre">orient_north</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Maps.XAMapsApplication" title="PyXA.apps.Maps.XAMapsApplication"><span class="pre">PyXA.apps.Maps.XAMapsApplication</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Maps.html#XAMapsApplication.orient_north"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Maps.XAMapsApplication.orient_north" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">orient_north</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Maps.XAMapsApplication" title="PyXA.apps.Maps.XAMapsApplication"><span class="pre">XAMapsApplication</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Maps.html#XAMapsApplication.orient_north"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Maps.XAMapsApplication.orient_north" title="Permalink to this definition"></a></dt>
 <dd><p>Orients the map with North facing upward.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.6.</span></p>
@@ -318,7 +331,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Maps.XAMapsApplication.sidebar_locations">
-<span class="sig-name descname"><span class="pre">sidebar_locations</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Maps.XAMapsSidebarLocationList" title="PyXA.apps.Maps.XAMapsSidebarLocationList"><span class="pre">PyXA.apps.Maps.XAMapsSidebarLocationList</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Maps.html#XAMapsApplication.sidebar_locations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Maps.XAMapsApplication.sidebar_locations" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">sidebar_locations</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Maps.XAMapsSidebarLocationList" title="PyXA.apps.Maps.XAMapsSidebarLocationList"><span class="pre">XAMapsSidebarLocationList</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Maps.html#XAMapsApplication.sidebar_locations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Maps.XAMapsApplication.sidebar_locations" title="Permalink to this definition"></a></dt>
 <dd><p>Gets a list of sidebar locations.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -341,7 +354,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Maps.XAMapsApplication.tabs">
-<span class="sig-name descname"><span class="pre">tabs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Maps.XAMapsTabList" title="PyXA.apps.Maps.XAMapsTabList"><span class="pre">PyXA.apps.Maps.XAMapsTabList</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Maps.html#XAMapsApplication.tabs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Maps.XAMapsApplication.tabs" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">tabs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Maps.XAMapsTabList" title="PyXA.apps.Maps.XAMapsTabList"><span class="pre">XAMapsTabList</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Maps.html#XAMapsApplication.tabs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Maps.XAMapsApplication.tabs" title="Permalink to this definition"></a></dt>
 <dd><p>Gets a list of tabs.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -367,7 +380,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Maps.XAMapsApplication.zoom_in">
-<span class="sig-name descname"><span class="pre">zoom_in</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Maps.XAMapsApplication" title="PyXA.apps.Maps.XAMapsApplication"><span class="pre">PyXA.apps.Maps.XAMapsApplication</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Maps.html#XAMapsApplication.zoom_in"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Maps.XAMapsApplication.zoom_in" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">zoom_in</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Maps.XAMapsApplication" title="PyXA.apps.Maps.XAMapsApplication"><span class="pre">XAMapsApplication</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Maps.html#XAMapsApplication.zoom_in"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Maps.XAMapsApplication.zoom_in" title="Permalink to this definition"></a></dt>
 <dd><p>Zoom in on the currently centered location of the map.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.6.</span></p>
@@ -376,7 +389,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Maps.XAMapsApplication.zoom_out">
-<span class="sig-name descname"><span class="pre">zoom_out</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Maps.XAMapsApplication" title="PyXA.apps.Maps.XAMapsApplication"><span class="pre">PyXA.apps.Maps.XAMapsApplication</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Maps.html#XAMapsApplication.zoom_out"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Maps.XAMapsApplication.zoom_out" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">zoom_out</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Maps.XAMapsApplication" title="PyXA.apps.Maps.XAMapsApplication"><span class="pre">XAMapsApplication</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Maps.html#XAMapsApplication.zoom_out"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Maps.XAMapsApplication.zoom_out" title="Permalink to this definition"></a></dt>
 <dd><p>Zoom out on the currently centered location of the map.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.6.</span></p>
@@ -388,7 +401,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.Maps.XAMapsDirections">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Maps.</span></span><span class="sig-name descname"><span class="pre">XAMapsDirections</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Maps.html#XAMapsDirections"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Maps.XAMapsDirections" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAObject</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAObject</span></code></a></p>
 <p>A class for interacting with directions in Maps.app.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.6.</span></p>
@@ -458,7 +471,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.Maps.XAMapsDirectionsList">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Maps.</span></span><span class="sig-name descname"><span class="pre">XAMapsDirectionsList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Maps.html#XAMapsDirectionsList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Maps.XAMapsDirectionsList" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAList" title="PyXA.XABase.XAList"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAList</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAList" title="PyXA.XABase.XAList"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAList</span></code></a></p>
 <p>A wrapper around a list of directions.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.3.</span></p>
@@ -468,7 +481,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.Maps.XAMapsSidebarLocation">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Maps.</span></span><span class="sig-name descname"><span class="pre">XAMapsSidebarLocation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Maps.html#XAMapsSidebarLocation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Maps.XAMapsSidebarLocation" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAObject</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAObject</span></code></a></p>
 <p>A class for interacting with sidebar locations in Maps.app.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.6.</span></p>
@@ -531,7 +544,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.Maps.XAMapsSidebarLocationList">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Maps.</span></span><span class="sig-name descname"><span class="pre">XAMapsSidebarLocationList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Maps.html#XAMapsSidebarLocationList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Maps.XAMapsSidebarLocationList" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAList" title="PyXA.XABase.XAList"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAList</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAList" title="PyXA.XABase.XAList"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAList</span></code></a></p>
 <p>A wrapper around a list of sidebar locations.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.3.</span></p>
@@ -550,7 +563,7 @@
 </table>
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Maps.XAMapsSidebarLocationList.name">
-<span class="sig-name descname"><span class="pre">name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Maps.html#XAMapsSidebarLocationList.name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Maps.XAMapsSidebarLocationList.name" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Maps.html#XAMapsSidebarLocationList.name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Maps.XAMapsSidebarLocationList.name" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -558,7 +571,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.Maps.XAMapsTab">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Maps.</span></span><span class="sig-name descname"><span class="pre">XAMapsTab</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Maps.html#XAMapsTab"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Maps.XAMapsTab" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAObject</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAObject</span></code></a></p>
 <p>A class for interacting with sidebar locations in Maps.app.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.6.</span></p>
@@ -621,7 +634,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.Maps.XAMapsTabList">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Maps.</span></span><span class="sig-name descname"><span class="pre">XAMapsTabList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Maps.html#XAMapsTabList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Maps.XAMapsTabList" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAList" title="PyXA.XABase.XAList"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAList</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAList" title="PyXA.XABase.XAList"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAList</span></code></a></p>
 <p>A wrapper around a list of locations.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.3.</span></p>

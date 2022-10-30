@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PyXA.apps.SystemPreferences &mdash; PyXA 0.0.9 documentation</title>
+  <title>PyXA.apps.SystemPreferences &mdash; PyXA 0.1.0 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -14,7 +14,9 @@
         <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/jquery.js"></script>
         <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -73,7 +75,7 @@
 <span class="sd">Control the macOS System Preferences application using JXA-like syntax.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span>
 
 <span class="kn">from</span> <span class="nn">PyXA</span> <span class="kn">import</span> <span class="n">XABase</span>
 <span class="kn">from</span> <span class="nn">PyXA</span> <span class="kn">import</span> <span class="n">XABaseScriptable</span>
@@ -102,6 +104,10 @@
     <span class="k">def</span> <span class="nf">frontmost</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">frontmost</span><span class="p">()</span>
 
+    <span class="nd">@frontmost</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">frontmost</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frontmost</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;frontmost&quot;</span><span class="p">,</span> <span class="n">frontmost</span><span class="p">)</span>
+
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">version</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">version</span><span class="p">()</span>
@@ -110,9 +116,17 @@
     <span class="k">def</span> <span class="nf">show_all</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">showAll</span><span class="p">()</span>
 
+    <span class="nd">@show_all</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">show_all</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">show_all</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;showAll&quot;</span><span class="p">,</span> <span class="n">show_all</span><span class="p">)</span>
+
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">current_pane</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAPreferencePane&#39;</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">currentPane</span><span class="p">(),</span> <span class="n">XAPreferencePane</span><span class="p">)</span>
+
+    <span class="nd">@current_pane</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">current_pane</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">current_pane</span><span class="p">:</span> <span class="s1">&#39;XAPreferencePane&#39;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;currentPane&quot;</span><span class="p">,</span> <span class="n">current_pane</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">preferences_window</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBWindow</span><span class="p">:</span>
@@ -124,19 +138,19 @@
 <span class="sd">        :param filter: A dictionary specifying property-value pairs that all returned preference panes will have, or None</span>
 <span class="sd">        :type filter: Union[dict, None]</span>
 <span class="sd">        :return: The list of preference panes</span>
-<span class="sd">        :rtype: List[XAPreferencePane]</span>
+<span class="sd">        :rtype: list[XAPreferencePane]</span>
 
 <span class="sd">        :Example 1: List all preference panes</span>
 
 <span class="sd">        &gt;&gt;&gt; import PyXA</span>
-<span class="sd">        &gt;&gt;&gt; app = PyXA.application(&quot;System Preferences&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; app = PyXA.Application(&quot;System Preferences&quot;)</span>
 <span class="sd">        &gt;&gt;&gt; print(app.panes())</span>
 <span class="sd">        &lt;&lt;class &#39;PyXA.apps.SystemPreferences.XAPreferencePaneList&#39;&gt;[&#39;Accessibility&#39;, &#39;Apple ID&#39;, &#39;Battery&#39;, ...]&gt;</span>
 
 <span class="sd">        :Example 2: List preference panes after applying a filter</span>
 
 <span class="sd">        &gt;&gt;&gt; import PyXA</span>
-<span class="sd">        &gt;&gt;&gt; app = PyXA.application(&quot;System Preferences&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; app = PyXA.Application(&quot;System Preferences&quot;)</span>
 <span class="sd">        &gt;&gt;&gt; print(app.panes({&quot;name&quot;: &quot;Battery&quot;}))</span>
 <span class="sd">        &lt;&lt;class &#39;PyXA.apps.SystemPreferences.XAPreferencePaneList&#39;&gt;[&#39;Battery&#39;]&gt;</span>
 
@@ -157,14 +171,14 @@
 <span class="sd">    :Example 1: List the name of each preference pane</span>
 
 <span class="sd">    &gt;&gt;&gt; import PyXA</span>
-<span class="sd">    &gt;&gt;&gt; app = PyXA.application(&quot;System Preferences&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; app = PyXA.Application(&quot;System Preferences&quot;)</span>
 <span class="sd">    &gt;&gt;&gt; print(app.panes().name())</span>
 <span class="sd">    [&#39;Accessibility&#39;, &#39;Apple ID&#39;, &#39;Battery&#39;, &#39;Bluetooth&#39;, ...]</span>
 
 <span class="sd">    :Example 2: Get a preference pane by name (two ways)</span>
 
 <span class="sd">    &gt;&gt;&gt; import PyXA</span>
-<span class="sd">    &gt;&gt;&gt; app = PyXA.application(&quot;System Preferences&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; app = PyXA.Application(&quot;System Preferences&quot;)</span>
 <span class="sd">    &gt;&gt;&gt; pane1 = app.panes().by_name(&quot;Battery&quot;)</span>
 <span class="sd">    &gt;&gt;&gt; pane2 = app.panes({&quot;name&quot;: &quot;Battery&quot;})[0]</span>
 <span class="sd">    &gt;&gt;&gt; print(pane1 == pane2)</span>
@@ -175,13 +189,13 @@
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">XAPreferencePane</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
 
-<div class="viewcode-block" id="XAPreferencePaneList.id"><a class="viewcode-back" href="../../../reference/apps/systempreferences.html#PyXA.apps.SystemPreferences.XAPreferencePaneList.id">[docs]</a>    <span class="k">def</span> <span class="nf">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAPreferencePaneList.id"><a class="viewcode-back" href="../../../reference/apps/systempreferences.html#PyXA.apps.SystemPreferences.XAPreferencePaneList.id">[docs]</a>    <span class="k">def</span> <span class="nf">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="XAPreferencePaneList.localized_name"><a class="viewcode-back" href="../../../reference/apps/systempreferences.html#PyXA.apps.SystemPreferences.XAPreferencePaneList.localized_name">[docs]</a>    <span class="k">def</span> <span class="nf">localized_name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAPreferencePaneList.localized_name"><a class="viewcode-back" href="../../../reference/apps/systempreferences.html#PyXA.apps.SystemPreferences.XAPreferencePaneList.localized_name">[docs]</a>    <span class="k">def</span> <span class="nf">localized_name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;localizedName&quot;</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="XAPreferencePaneList.name"><a class="viewcode-back" href="../../../reference/apps/systempreferences.html#PyXA.apps.SystemPreferences.XAPreferencePaneList.name">[docs]</a>    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAPreferencePaneList.name"><a class="viewcode-back" href="../../../reference/apps/systempreferences.html#PyXA.apps.SystemPreferences.XAPreferencePaneList.name">[docs]</a>    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="XAPreferencePaneList.by_id"><a class="viewcode-back" href="../../../reference/apps/systempreferences.html#PyXA.apps.SystemPreferences.XAPreferencePaneList.by_id">[docs]</a>    <span class="k">def</span> <span class="nf">by_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAPreferencePane&#39;</span><span class="p">:</span>
@@ -227,12 +241,12 @@
 <span class="sd">        :param filter: A dictionary specifying property-value pairs that all returned anchors will have, or None</span>
 <span class="sd">        :type filter: Union[dict, None]</span>
 <span class="sd">        :return: The list of anchors</span>
-<span class="sd">        :rtype: List[XAPreferenceAnchor]</span>
+<span class="sd">        :rtype: list[XAPreferenceAnchor]</span>
 
 <span class="sd">        :Example 1: Listing all anchors</span>
 <span class="sd">        </span>
 <span class="sd">        &gt;&gt;&gt; import PyXA</span>
-<span class="sd">        &gt;&gt;&gt; app = PyXA.application(&quot;System Preferences&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; app = PyXA.Application(&quot;System Preferences&quot;)</span>
 <span class="sd">        &gt;&gt;&gt; pane = app.panes()[0]</span>
 <span class="sd">        &gt;&gt;&gt; print(pane.anchors())</span>
 <span class="sd">        &lt;&lt;class &#39;PyXA.apps.SystemPreferences.XAPreferenceAnchorList&#39;&gt;[&#39;Accessibility_Shortcut&#39;, &#39;Seeing_Cursor&#39;, ...]&gt;</span>
@@ -254,7 +268,7 @@
 <span class="sd">        :Example 1: Reveal the `Displays` preference pane</span>
 
 <span class="sd">        &gt;&gt;&gt; import PyXA</span>
-<span class="sd">        &gt;&gt;&gt; app = PyXA.application(&quot;System Preferences&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; app = PyXA.Application(&quot;System Preferences&quot;)</span>
 <span class="sd">        &gt;&gt;&gt; app.activate()</span>
 <span class="sd">        &gt;&gt;&gt; app.panes().by_name(&quot;Displays&quot;).reveal()</span>
 
@@ -273,7 +287,7 @@
 
 <span class="sd">        &gt;&gt;&gt; import PyXA</span>
 <span class="sd">        &gt;&gt;&gt; from time import sleep</span>
-<span class="sd">        &gt;&gt;&gt; app = PyXA.application(&quot;System Preferences&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; app = PyXA.Application(&quot;System Preferences&quot;)</span>
 <span class="sd">        &gt;&gt;&gt; app.activate()</span>
 <span class="sd">        &gt;&gt;&gt; pane = app.panes().by_name(&quot;Date &amp; Time&quot;)</span>
 <span class="sd">        &gt;&gt;&gt; pane.reveal()</span>
@@ -286,10 +300,7 @@
         <span class="k">return</span> <span class="bp">self</span></div>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s2">&quot;&lt;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;, id=&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span>
-
-    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s1">&#39;XAPreferencePane&#39;</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">id</span></div>
+        <span class="k">return</span> <span class="s2">&quot;&lt;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;, id=&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span></div>
 
 
 <div class="viewcode-block" id="XAPreferenceAnchorList"><a class="viewcode-back" href="../../../reference/apps/systempreferences.html#PyXA.apps.SystemPreferences.XAPreferenceAnchorList">[docs]</a><span class="k">class</span> <span class="nc">XAPreferenceAnchorList</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAList</span><span class="p">):</span>
@@ -302,7 +313,7 @@
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">XAPreferenceAnchor</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
 
-<div class="viewcode-block" id="XAPreferenceAnchorList.name"><a class="viewcode-back" href="../../../reference/apps/systempreferences.html#PyXA.apps.SystemPreferences.XAPreferenceAnchorList.name">[docs]</a>    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAPreferenceAnchorList.name"><a class="viewcode-back" href="../../../reference/apps/systempreferences.html#PyXA.apps.SystemPreferences.XAPreferenceAnchorList.name">[docs]</a>    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="XAPreferenceAnchorList.by_name"><a class="viewcode-back" href="../../../reference/apps/systempreferences.html#PyXA.apps.SystemPreferences.XAPreferenceAnchorList.by_name">[docs]</a>    <span class="k">def</span> <span class="nf">by_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAPreferenceAnchor&#39;</span><span class="p">:</span>
@@ -333,7 +344,7 @@
 <span class="sd">        :Example 1: Reveal the `Siri` anchor in the `Accessibility` pane</span>
 
 <span class="sd">        &gt;&gt;&gt; import PyXA</span>
-<span class="sd">        &gt;&gt;&gt; app = PyXA.application(&quot;System Preferences&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; app = PyXA.Application(&quot;System Preferences&quot;)</span>
 <span class="sd">        &gt;&gt;&gt; pane = app.panes().by_name(&quot;Accessibility&quot;)</span>
 <span class="sd">        &gt;&gt;&gt; anchor = pane.anchors().by_name(&quot;Siri&quot;)</span>
 <span class="sd">        &gt;&gt;&gt; anchor.reveal()</span>
@@ -344,10 +355,7 @@
         <span class="k">return</span> <span class="bp">self</span></div>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s2">&quot;&lt;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span>
-
-    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s1">&#39;XAPreferenceAnchor&#39;</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">name</span></div>
+        <span class="k">return</span> <span class="s2">&quot;&lt;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span></div>
 </pre></div>
 
            </div>

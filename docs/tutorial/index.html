@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tutorial &mdash; PyXA 0.0.9 documentation</title>
+  <title>Tutorial &mdash; PyXA 0.1.0 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
@@ -15,11 +15,13 @@
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Application Modules" href="apps/index.html" />
+    <link rel="next" title="Application Module Overviews" href="apps/index.html" />
     <link rel="prev" title="Project Overview" href="../about/index.html" /> 
 </head>
 
@@ -45,14 +47,17 @@
 <li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#basic-usage">Basic Usage</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#additional-tutorial-topics">Additional Tutorial Topics</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="apps/index.html">Application Modules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="apps/index.html">Application Module Overviews</a></li>
 <li class="toctree-l3"><a class="reference internal" href="lists.html">Working With Lists</a></li>
+<li class="toctree-l3"><a class="reference internal" href="images.html">Working with Images</a></li>
 <li class="toctree-l3"><a class="reference internal" href="clipboard.html">Working With The Clipboard</a></li>
 <li class="toctree-l3"><a class="reference internal" href="user_input.html">Getting User Input</a></li>
 <li class="toctree-l3"><a class="reference internal" href="spotlight.html">Searching Spotlight</a></li>
 <li class="toctree-l3"><a class="reference internal" href="ui_scripting.html">UI Scripting</a></li>
 <li class="toctree-l3"><a class="reference internal" href="applescript.html">Running AppleScripts</a></li>
 <li class="toctree-l3"><a class="reference internal" href="menubar.html">Add Items to the Menu Bar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="extensions/web/rssfeed.html">Reading RSS Feeds</a></li>
+<li class="toctree-l3"><a class="reference internal" href="appscript.html">Using Appscript to Work With Unsupported Applications</a></li>
 <li class="toctree-l3"><a class="reference internal" href="tips_tricks.html">Tips and Tricks</a></li>
 </ul>
 </li>
@@ -87,9 +92,9 @@
            <div itemprop="articleBody">
              
   <section id="tutorial">
-<h1>Tutorial<a class="headerlink" href="#tutorial" title="Permalink to this headline"></a></h1>
+<h1>Tutorial<a class="headerlink" href="#tutorial" title="Permalink to this heading"></a></h1>
 <section id="installation">
-<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline"></a></h2>
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this heading"></a></h2>
 <p>Before you get started with PyXA, you’ll need to install it. The easiest way to do so is through Pip using the following command:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python -m pip install mac-pyxa
 </pre></div>
@@ -97,7 +102,7 @@
 <p>Alternatively, you can install PyXA on a per-project basis by cloning the GitHub repository in the project’s main directory.</p>
 </section>
 <section id="basic-usage">
-<h2>Basic Usage<a class="headerlink" href="#basic-usage" title="Permalink to this headline"></a></h2>
+<h2>Basic Usage<a class="headerlink" href="#basic-usage" title="Permalink to this heading"></a></h2>
 <p>Let’s walk through some examples to introduce you to the ins and outs of PyXA. Create a new folder in a location of your choice and name it <cite>PyXA Examples</cite>. Then, in that folder, create a new file called <cite>basics.py</cite>, then open the file in your favorite code editor. If you have the Visual Studio Code <cite>code</cite> command installed and enabled, the following command accomplishes all of the above in one fell swoop:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir <span class="s2">&quot;PyXA Examples&quot;</span> <span class="o">&amp;&amp;</span> <span class="nb">cd</span> <span class="s2">&quot;PyXA Examples&quot;</span> <span class="o">&amp;&amp;</span> touch basics.py <span class="o">&amp;&amp;</span> code basics.py
 </pre></div>
@@ -161,13 +166,13 @@ https://www.google.com
 </pre></div>
 </div>
 <p>With that, our script is complete! You can run the script from your Terminal at any time, but you might want to save the workflow as an executable for greater convenience. The easiest way to do this is to add a <cite>shebang</cite> to the top of the script that instructs the Terminal to run the code using the Python interpreter:</p>
-<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env python</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env python</span>
 
-<span class="kn">import</span> <span class="nn">PyXA</span>
-<span class="n">current_tab</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;Safari&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">front_window</span><span class="o">.</span><span class="n">current_tab</span>
-<span class="n">current_url</span> <span class="o">=</span> <span class="s2">&quot;&lt;a href=&quot;</span> <span class="o">+</span> <span class="n">current_tab</span><span class="o">.</span><span class="n">url</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span> <span class="o">+</span> <span class="n">current_tab</span><span class="o">.</span><span class="n">url</span> <span class="o">+</span> <span class="s2">&quot;&lt;/a&gt;&quot;</span>
-<span class="n">current_name</span> <span class="o">=</span> <span class="n">current_tab</span><span class="o">.</span><span class="n">name</span>
-<span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;Notes&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">new_note</span><span class="p">(</span><span class="n">current_name</span><span class="p">,</span> <span class="n">current_url</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+import PyXA
+<span class="nv">current_tab</span> <span class="o">=</span> PyXA.application<span class="o">(</span><span class="s2">&quot;Safari&quot;</span><span class="o">)</span>.front_window.current_tab
+<span class="nv">current_url</span> <span class="o">=</span> <span class="s2">&quot;&lt;a href=&quot;</span> + current_tab.url + <span class="s2">&quot;&gt;&quot;</span> + current_tab.url + <span class="s2">&quot;&lt;/a&gt;&quot;</span>
+<span class="nv">current_name</span> <span class="o">=</span> current_tab.name
+PyXA.application<span class="o">(</span><span class="s2">&quot;Notes&quot;</span><span class="o">)</span>.new_note<span class="o">(</span>current_name, current_url<span class="o">)</span>.show<span class="o">()</span>
 </pre></div>
 </div>
 <p>You then need to remove the .py extension from the script and grant the file execution privileges. Both these actions can be accomplished using the following Terminal command:</p>
@@ -177,17 +182,20 @@ https://www.google.com
 <p>When you double click on the script from within Finder, or when you run <cite>./basics</cite> in the Terminal, the workflow should execute as it did before. If you want, you can <a class="reference external" href="https://support.apple.com/en-gb/guide/mac-help/mchlp2313/mac">change the icon of the file</a> to give your automation a distinct look. You can then move the file to your desktop, the dock, or anywhere you want.</p>
 </section>
 <section id="additional-tutorial-topics">
-<h2>Additional Tutorial Topics<a class="headerlink" href="#additional-tutorial-topics" title="Permalink to this headline"></a></h2>
+<h2>Additional Tutorial Topics<a class="headerlink" href="#additional-tutorial-topics" title="Permalink to this heading"></a></h2>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="apps/index.html">Application Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apps/index.html">Application Module Overviews</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lists.html">Working With Lists</a></li>
+<li class="toctree-l1"><a class="reference internal" href="images.html">Working with Images</a></li>
 <li class="toctree-l1"><a class="reference internal" href="clipboard.html">Working With The Clipboard</a></li>
 <li class="toctree-l1"><a class="reference internal" href="user_input.html">Getting User Input</a></li>
 <li class="toctree-l1"><a class="reference internal" href="spotlight.html">Searching Spotlight</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ui_scripting.html">UI Scripting</a></li>
 <li class="toctree-l1"><a class="reference internal" href="applescript.html">Running AppleScripts</a></li>
 <li class="toctree-l1"><a class="reference internal" href="menubar.html">Add Items to the Menu Bar</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensions/web/rssfeed.html">Reading RSS Feeds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="appscript.html">Using Appscript to Work With Unsupported Applications</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tips_tricks.html">Tips and Tricks</a></li>
 </ul>
 </div>
@@ -199,7 +207,7 @@ https://www.google.com
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="../about/index.html" class="btn btn-neutral float-left" title="Project Overview" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="apps/index.html" class="btn btn-neutral float-right" title="Application Modules" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="apps/index.html" class="btn btn-neutral float-right" title="Application Module Overviews" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

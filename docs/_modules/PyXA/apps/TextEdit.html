@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PyXA.apps.TextEdit &mdash; PyXA 0.0.9 documentation</title>
+  <title>PyXA.apps.TextEdit &mdash; PyXA 0.1.0 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -14,7 +14,9 @@
         <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/jquery.js"></script>
         <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -73,12 +75,12 @@
 <span class="sd">Control the macOS TextEdit application using JXA-like syntax.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
-<span class="kn">from</span> <span class="nn">AppKit</span> <span class="kn">import</span> <span class="n">NSFileManager</span><span class="p">,</span> <span class="n">NSURL</span>
+<span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">sleep</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Self</span>
+
+<span class="kn">import</span> <span class="nn">AppKit</span>
 
 <span class="kn">from</span> <span class="nn">PyXA</span> <span class="kn">import</span> <span class="n">XABase</span>
-<span class="kn">from</span> <span class="nn">PyXA.XABase</span> <span class="kn">import</span> <span class="n">OSType</span>
 <span class="kn">from</span> <span class="nn">PyXA</span> <span class="kn">import</span> <span class="n">XABaseScriptable</span>
 <span class="kn">from</span> <span class="nn">..XAProtocols</span> <span class="kn">import</span> <span class="n">XACanOpenPath</span><span class="p">,</span> <span class="n">XACanPrintPath</span><span class="p">,</span> <span class="n">XAClipboardCodable</span><span class="p">,</span> <span class="n">XACloseable</span><span class="p">,</span> <span class="n">XAPrintable</span>
 
@@ -102,6 +104,10 @@
     <span class="k">def</span> <span class="nf">frontmost</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">frontmost</span><span class="p">()</span>
 
+    <span class="nd">@frontmost</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">frontmost</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frontmost</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;frontmost&quot;</span><span class="p">,</span> <span class="n">frontmost</span><span class="p">)</span>
+
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">name</span><span class="p">()</span>
@@ -114,11 +120,11 @@
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">front_window</span><span class="o">.</span><span class="n">document</span></div>
 
-<div class="viewcode-block" id="XATextEditApplication.print"><a class="viewcode-back" href="../../../reference/apps/textedit.html#PyXA.apps.TextEdit.XATextEditApplication.print">[docs]</a>    <span class="k">def</span> <span class="nf">print</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">NSURL</span><span class="p">,</span> <span class="s1">&#39;XATextEditDocument&#39;</span><span class="p">],</span> <span class="n">print_properties</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">show_prompt</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+<div class="viewcode-block" id="XATextEditApplication.print"><a class="viewcode-back" href="../../../reference/apps/textedit.html#PyXA.apps.TextEdit.XATextEditApplication.print">[docs]</a>    <span class="k">def</span> <span class="nf">print</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">AppKit</span><span class="o">.</span><span class="n">NSURL</span><span class="p">,</span> <span class="s1">&#39;XATextEditDocument&#39;</span><span class="p">],</span> <span class="n">print_properties</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">show_prompt</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Prints a TextEdit document.</span>
 
 <span class="sd">        :param file: The document or path to a document to print</span>
-<span class="sd">        :type file: Union[str, NSURL, XATextEditDocument]</span>
+<span class="sd">        :type file: Union[str, AppKit.NSURL, XATextEditDocument]</span>
 <span class="sd">        :param print_properties: Settings to print with or to preset in the print dialog, defaults to None</span>
 <span class="sd">        :type print_properties: dict, optional</span>
 <span class="sd">        :param show_prompt: Whether to show the print dialog, defaults to True</span>
@@ -128,7 +134,7 @@
 
 <span class="sd">        &gt;&gt;&gt; import PyXA</span>
 <span class="sd">        &gt;&gt;&gt; from datetime import datetime, timedelta</span>
-<span class="sd">        &gt;&gt;&gt; app = PyXA.application(&quot;TextEdit&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; app = PyXA.Application(&quot;TextEdit&quot;)</span>
 <span class="sd">        &gt;&gt;&gt; doc = app.documents()[0]</span>
 <span class="sd">        &gt;&gt;&gt; print_time = datetime.now() + timedelta(minutes=1)</span>
 <span class="sd">        &gt;&gt;&gt; properties = {</span>
@@ -148,9 +154,9 @@
 <span class="sd">        .. versionadded:: 0.0.3</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-            <span class="n">file</span> <span class="o">=</span> <span class="n">NSURL</span><span class="o">.</span><span class="n">alloc</span><span class="p">()</span><span class="o">.</span><span class="n">initFileURLWithPath_</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+            <span class="n">file</span> <span class="o">=</span> <span class="n">AppKit</span><span class="o">.</span><span class="n">NSURL</span><span class="o">.</span><span class="n">alloc</span><span class="p">()</span><span class="o">.</span><span class="n">initFileURLWithPath_</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">XATextEditDocument</span><span class="p">):</span>
-            <span class="n">file</span> <span class="o">=</span> <span class="n">NSURL</span><span class="o">.</span><span class="n">alloc</span><span class="p">()</span><span class="o">.</span><span class="n">initFileURLWithPath_</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
+            <span class="n">file</span> <span class="o">=</span> <span class="n">AppKit</span><span class="o">.</span><span class="n">NSURL</span><span class="o">.</span><span class="n">alloc</span><span class="p">()</span><span class="o">.</span><span class="n">initFileURLWithPath_</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">print_printDialog_withProperties_</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">show_prompt</span><span class="p">,</span> <span class="n">print_properties</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="XATextEditApplication.documents"><a class="viewcode-back" href="../../../reference/apps/textedit.html#PyXA.apps.TextEdit.XATextEditApplication.documents">[docs]</a>    <span class="k">def</span> <span class="nf">documents</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XATextEditDocumentList&#39;</span><span class="p">:</span>
@@ -159,26 +165,26 @@
 <span class="sd">        :param filter: A dictionary specifying property-value pairs that all returned documents will have</span>
 <span class="sd">        :type filter: dict</span>
 <span class="sd">        :return: The list of documents</span>
-<span class="sd">        :rtype: List[XATextEditDocument]</span>
+<span class="sd">        :rtype: list[XATextEditDocument]</span>
 
 <span class="sd">        :Example 1: Listing all documents</span>
 
 <span class="sd">        &gt;&gt;&gt; import PyXA</span>
-<span class="sd">        &gt;&gt;&gt; app = PyXA.application(&quot;TextEdit&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; app = PyXA.Application(&quot;TextEdit&quot;)</span>
 <span class="sd">        &gt;&gt;&gt; print(list(app.documents()))</span>
 <span class="sd">        [&lt;&lt;class &#39;PyXA.apps.TextEdit.XATextEditDocument&#39;&gt;Current Document.txt&gt;, &lt;&lt;class &#39;PyXA.apps.TextEdit.XATextEditDocument&#39;&gt;Another Document.txt&gt;, ...]</span>
 
 <span class="sd">        :Example 2: List documents after applying a filter</span>
 
 <span class="sd">        &gt;&gt;&gt; import PyXA</span>
-<span class="sd">        &gt;&gt;&gt; app = PyXA.application(&quot;TextEdit&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; app = PyXA.Application(&quot;TextEdit&quot;)</span>
 <span class="sd">        &gt;&gt;&gt; print(list(app.documents({&quot;name&quot;: &quot;Another Document.txt&quot;})))</span>
 <span class="sd">        [&lt;&lt;class &#39;PyXA.apps.TextEdit.XATextEditDocument&#39;&gt;Another Document.txt&gt;]</span>
 
 <span class="sd">        :Example 3: List all paragraphs, words, and characters in all currently open documents</span>
 
 <span class="sd">        &gt;&gt;&gt; import PyXA</span>
-<span class="sd">        &gt;&gt;&gt; app = PyXA.application(&quot;TextEdit&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; app = PyXA.Application(&quot;TextEdit&quot;)</span>
 <span class="sd">        &gt;&gt;&gt; documents = app.documents()</span>
 <span class="sd">        &gt;&gt;&gt; print(&quot;Paragraphs:&quot;, documents.paragraphs())</span>
 <span class="sd">        &gt;&gt;&gt; print(&quot;Words:&quot;, documents.words())</span>
@@ -216,7 +222,7 @@
 <span class="sd">        :Example 1: Create a new document with a name and initial body content</span>
 
 <span class="sd">        &gt;&gt;&gt; import PyXA</span>
-<span class="sd">        &gt;&gt;&gt; app = PyXA.application(&quot;TextEdit&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; app = PyXA.Application(&quot;TextEdit&quot;)</span>
 <span class="sd">        &gt;&gt;&gt; doc = app.new_document(&quot;New.txt&quot;, &quot;Example text&quot;)</span>
 <span class="sd">        &gt;&gt;&gt; print(doc.properties)</span>
 <span class="sd">        {</span>
@@ -232,12 +238,14 @@
 <span class="sd">        .. versionadded:: 0.0.1</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">location</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">location</span> <span class="o">=</span> <span class="n">NSFileManager</span><span class="o">.</span><span class="n">alloc</span><span class="p">()</span><span class="o">.</span><span class="n">homeDirectoryForCurrentUser</span><span class="p">()</span><span class="o">.</span><span class="n">relativePath</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;/Documents/&quot;</span> <span class="o">+</span> <span class="n">name</span>
+            <span class="n">location</span> <span class="o">=</span> <span class="n">AppKit</span><span class="o">.</span><span class="n">NSFileManager</span><span class="o">.</span><span class="n">alloc</span><span class="p">()</span><span class="o">.</span><span class="n">homeDirectoryForCurrentUser</span><span class="p">()</span><span class="o">.</span><span class="n">relativePath</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;/Documents/&quot;</span> <span class="o">+</span> <span class="n">name</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">location</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">):</span>
                 <span class="n">location</span> <span class="o">=</span> <span class="n">location</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span>
             <span class="n">location</span> <span class="o">=</span> <span class="n">location</span> <span class="o">+</span> <span class="n">name</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="s2">&quot;document&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span> <span class="s2">&quot;text&quot;</span><span class="p">:</span> <span class="n">text</span><span class="p">,</span> <span class="s2">&quot;path&quot;</span><span class="p">:</span> <span class="n">location</span><span class="p">},</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">documents</span><span class="p">(),</span> <span class="n">XATextEditDocument</span><span class="p">)</span></div>
+        <span class="n">new_doc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">make</span><span class="p">(</span><span class="s2">&quot;document&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span> <span class="s2">&quot;text&quot;</span><span class="p">:</span> <span class="n">text</span><span class="p">,</span> <span class="s2">&quot;path&quot;</span><span class="p">:</span> <span class="n">location</span><span class="p">})</span>
+        <span class="n">doc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">documents</span><span class="p">()</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="n">new_doc</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">doc</span></div>
 
 <div class="viewcode-block" id="XATextEditApplication.make"><a class="viewcode-back" href="../../../reference/apps/textedit.html#PyXA.apps.TextEdit.XATextEditApplication.make">[docs]</a>    <span class="k">def</span> <span class="nf">make</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">specifier</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Creates a new element of the given specifier class without adding it to any list.</span>
@@ -254,7 +262,7 @@
 <span class="sd">        :Example 1: Make a new document and push it onto the list of documents</span>
 
 <span class="sd">        &gt;&gt;&gt; import PyXA</span>
-<span class="sd">        &gt;&gt;&gt; app = PyXA.application(&quot;TextEdit&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; app = PyXA.Application(&quot;TextEdit&quot;)</span>
 <span class="sd">        &gt;&gt;&gt; properties = {</span>
 <span class="sd">        &gt;&gt;&gt;     &quot;name&quot;: &quot;Example.txt&quot;,</span>
 <span class="sd">        &gt;&gt;&gt;     &quot;path&quot;: &quot;/Users/exampleuser/Downloads/Example.txt&quot;,</span>
@@ -271,6 +279,8 @@
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">XATextEditDocument</span><span class="p">)</span></div></div>
 
 
+
+
 <div class="viewcode-block" id="XATextEditWindow"><a class="viewcode-back" href="../../../reference/apps/textedit.html#PyXA.apps.TextEdit.XATextEditWindow">[docs]</a><span class="k">class</span> <span class="nc">XATextEditWindow</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBPrintable</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A class for managing and interacting with TextEdit windows.</span>
 
@@ -280,7 +290,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">bounds</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]</span> <span class="c1">#: The bounding rectangle of the window</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bounds</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="c1">#: The bounding rectangle of the window</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">closeable</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether the window has a close button</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">document</span><span class="p">:</span> <span class="n">XATextEditDocument</span> <span class="c1">#: The active document</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">floating</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether the window floats</span>
@@ -297,8 +307,20 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">zoomed</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether the window is currently zoomed</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">bounds</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">bounds</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">bounds</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+        <span class="n">rect</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">bounds</span><span class="p">()</span>
+        <span class="n">origin</span> <span class="o">=</span> <span class="n">rect</span><span class="o">.</span><span class="n">origin</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="n">rect</span><span class="o">.</span><span class="n">size</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">origin</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">origin</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">size</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="n">size</span><span class="o">.</span><span class="n">height</span><span class="p">)</span>
+
+    <span class="nd">@bounds</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">bounds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bounds</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">w</span> <span class="o">=</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">AppKit</span><span class="o">.</span><span class="n">NSValue</span><span class="o">.</span><span class="n">valueWithRect_</span><span class="p">(</span><span class="n">AppKit</span><span class="o">.</span><span class="n">NSMakeRect</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">h</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;bounds&quot;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">closeable</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
@@ -308,6 +330,10 @@
     <span class="k">def</span> <span class="nf">document</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XATextEditDocument&#39;</span><span class="p">:</span>
         <span class="n">doc_obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">document</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="n">doc_obj</span><span class="p">,</span> <span class="n">XATextEditDocument</span><span class="p">)</span>
+
+    <span class="nd">@document</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">document</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">document</span><span class="p">:</span> <span class="s1">&#39;XATextEditDocument&#39;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;document&quot;</span><span class="p">,</span> <span class="n">document</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">floating</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
@@ -321,6 +347,10 @@
     <span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">index</span><span class="p">()</span>
 
+    <span class="nd">@index</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;index&quot;</span><span class="p">,</span> <span class="n">index</span><span class="p">)</span>
+
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">miniaturizable</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">miniaturizable</span><span class="p">()</span>
@@ -329,6 +359,10 @@
     <span class="k">def</span> <span class="nf">miniaturized</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">miniaturized</span><span class="p">()</span>
 
+    <span class="nd">@miniaturized</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">miniaturized</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">miniaturized</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;miniaturized&quot;</span><span class="p">,</span> <span class="n">miniaturized</span><span class="p">)</span>
+
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">modal</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">modal</span><span class="p">()</span>
@@ -336,6 +370,10 @@
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">name</span><span class="p">()</span>
+
+    <span class="nd">@name</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">resizable</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
@@ -349,16 +387,26 @@
     <span class="k">def</span> <span class="nf">visible</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">visible</span><span class="p">()</span>
 
+    <span class="nd">@visible</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">visible</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">visible</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;visible&quot;</span><span class="p">,</span> <span class="n">visible</span><span class="p">)</span>
+
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">zoomable</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">zoomable</span><span class="p">()</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">zoomed</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">zoomed</span><span class="p">()</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">zoomed</span><span class="p">()</span>
+
+    <span class="nd">@zoomed</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">zoomed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">zoomed</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;zoomed&quot;</span><span class="p">,</span> <span class="n">zoomed</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="XATextEditDocumentList"><a class="viewcode-back" href="../../../reference/apps/textedit.html#PyXA.apps.TextEdit.XATextEditDocumentList">[docs]</a><span class="k">class</span> <span class="nc">XATextEditDocumentList</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAList</span><span class="p">,</span> <span class="n">XAClipboardCodable</span><span class="p">):</span>
+
+
+<div class="viewcode-block" id="XATextEditDocumentList"><a class="viewcode-back" href="../../../reference/apps/textedit.html#PyXA.apps.TextEdit.XATextEditDocumentList">[docs]</a><span class="k">class</span> <span class="nc">XATextEditDocumentList</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XATextDocumentList</span><span class="p">,</span> <span class="n">XAClipboardCodable</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A wrapper around lists of documents that employs fast enumeration techniques.</span>
 
 <span class="sd">    All properties of documents can be called as methods on the wrapped list, returning a list containing each document&#39;s value for the property.</span>
@@ -366,126 +414,76 @@
 <span class="sd">    .. versionadded:: 0.0.3</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">XATextEditDocument</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">XATextEditDocument</span><span class="p">)</span>
 
-<div class="viewcode-block" id="XATextEditDocumentList.properties"><a class="viewcode-back" href="../../../reference/apps/textedit.html#PyXA.apps.TextEdit.XATextEditDocumentList.properties">[docs]</a>    <span class="k">def</span> <span class="nf">properties</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
+<div class="viewcode-block" id="XATextEditDocumentList.properties"><a class="viewcode-back" href="../../../reference/apps/textedit.html#PyXA.apps.TextEdit.XATextEditDocumentList.properties">[docs]</a>    <span class="k">def</span> <span class="nf">properties</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the properties of each document in the list.</span>
 
 <span class="sd">        :return: A list of document properties dictionaries</span>
-<span class="sd">        :rtype: List[dict]</span>
+<span class="sd">        :rtype: list[dict]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.3</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;properties&quot;</span><span class="p">))</span></div>
+        <span class="n">raw_dicts</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;properties&quot;</span><span class="p">))</span>
+        <span class="k">return</span> <span class="p">[{</span>
+            <span class="s2">&quot;modified&quot;</span><span class="p">:</span> <span class="n">raw_dict</span><span class="p">[</span><span class="s2">&quot;modified&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">raw_dict</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="s2">&quot;document&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;path&quot;</span><span class="p">:</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAPath</span><span class="p">(</span><span class="n">raw_dict</span><span class="p">[</span><span class="s2">&quot;path&quot;</span><span class="p">])</span> <span class="k">if</span> <span class="n">raw_dict</span><span class="p">[</span><span class="s2">&quot;path&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="s2">&quot;text&quot;</span><span class="p">:</span> <span class="n">raw_dict</span><span class="p">[</span><span class="s2">&quot;text&quot;</span><span class="p">]</span>
+        <span class="p">}</span> <span class="k">for</span> <span class="n">raw_dict</span> <span class="ow">in</span> <span class="n">raw_dicts</span><span class="p">]</span></div>
 
-<div class="viewcode-block" id="XATextEditDocumentList.path"><a class="viewcode-back" href="../../../reference/apps/textedit.html#PyXA.apps.TextEdit.XATextEditDocumentList.path">[docs]</a>    <span class="k">def</span> <span class="nf">path</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAPath</span><span class="p">]:</span>
+<div class="viewcode-block" id="XATextEditDocumentList.path"><a class="viewcode-back" href="../../../reference/apps/textedit.html#PyXA.apps.TextEdit.XATextEditDocumentList.path">[docs]</a>    <span class="k">def</span> <span class="nf">path</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAPath</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the path of each document in the list.</span>
 
 <span class="sd">        :return: A list of document paths</span>
-<span class="sd">        :rtype: List[XABase.XAPath]</span>
+<span class="sd">        :rtype: list[XABase.XAPath]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.3</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">ls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;path&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAPath</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">ls</span><span class="p">]</span></div>
 
-<div class="viewcode-block" id="XATextEditDocumentList.name"><a class="viewcode-back" href="../../../reference/apps/textedit.html#PyXA.apps.TextEdit.XATextEditDocumentList.name">[docs]</a>    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<div class="viewcode-block" id="XATextEditDocumentList.name"><a class="viewcode-back" href="../../../reference/apps/textedit.html#PyXA.apps.TextEdit.XATextEditDocumentList.name">[docs]</a>    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the name of each document in the list.</span>
 
 <span class="sd">        :return: A list of document names</span>
-<span class="sd">        :rtype: List[str]</span>
+<span class="sd">        :rtype: list[str]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.3</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="XATextEditDocumentList.text"><a class="viewcode-back" href="../../../reference/apps/textedit.html#PyXA.apps.TextEdit.XATextEditDocumentList.text">[docs]</a>    <span class="k">def</span> <span class="nf">text</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAText</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;Gets the text of each document in the list.</span>
-
-<span class="sd">        :return: A list of document texts</span>
-<span class="sd">        :rtype: List[str]</span>
-<span class="sd">        </span>
-<span class="sd">        .. versionadded:: 0.0.3</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">ls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAText</span><span class="p">)</span> <span class="k">for</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">ls</span><span class="p">]</span></div>
-
-<div class="viewcode-block" id="XATextEditDocumentList.paragraphs"><a class="viewcode-back" href="../../../reference/apps/textedit.html#PyXA.apps.TextEdit.XATextEditDocumentList.paragraphs">[docs]</a>    <span class="k">def</span> <span class="nf">paragraphs</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAParagraph</span><span class="p">]]:</span>
-        <span class="sd">&quot;&quot;&quot;Gets the paragraphs of each document in the list.</span>
-
-<span class="sd">        :return: A list of lists of paragraphs</span>
-<span class="sd">        :rtype: List[List[XABase.XAParagraph]]</span>
-<span class="sd">        </span>
-<span class="sd">        .. versionadded:: 0.0.3</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">ls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;paragraphs&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="n">paragraph</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAParagraph</span><span class="p">)</span> <span class="k">for</span> <span class="n">paragraph</span> <span class="ow">in</span> <span class="p">[</span><span class="n">plist</span> <span class="k">for</span> <span class="n">plist</span> <span class="ow">in</span> <span class="n">ls</span><span class="p">]]</span></div>
-
-<div class="viewcode-block" id="XATextEditDocumentList.words"><a class="viewcode-back" href="../../../reference/apps/textedit.html#PyXA.apps.TextEdit.XATextEditDocumentList.words">[docs]</a>    <span class="k">def</span> <span class="nf">words</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAWord</span><span class="p">]]:</span>
-        <span class="sd">&quot;&quot;&quot;Gets the words of each document in the list.</span>
-
-<span class="sd">        :return: A list of lists of words</span>
-<span class="sd">        :rtype: List[List[XABase.XAWord]]</span>
-<span class="sd">        </span>
-<span class="sd">        .. versionadded:: 0.0.3</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">ls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;words&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="n">word</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAWord</span><span class="p">)</span> <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="p">[</span><span class="n">wordlist</span> <span class="k">for</span> <span class="n">wordlist</span> <span class="ow">in</span> <span class="n">ls</span><span class="p">]]</span></div>
-
-<div class="viewcode-block" id="XATextEditDocumentList.characters"><a class="viewcode-back" href="../../../reference/apps/textedit.html#PyXA.apps.TextEdit.XATextEditDocumentList.characters">[docs]</a>    <span class="k">def</span> <span class="nf">characters</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">XABase</span><span class="o">.</span><span class="n">XACharacter</span><span class="p">]]:</span>
-        <span class="sd">&quot;&quot;&quot;Gets the characters of each document in the list.</span>
-
-<span class="sd">        :return: A list of lists of characters</span>
-<span class="sd">        :rtype: List[List[XABase.XACharacter]]</span>
-<span class="sd">        </span>
-<span class="sd">        .. versionadded:: 0.0.3</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">ls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;characters&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="n">character</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XACharacter</span><span class="p">)</span> <span class="k">for</span> <span class="n">character</span> <span class="ow">in</span> <span class="p">[</span><span class="n">charlist</span> <span class="k">for</span> <span class="n">charlist</span> <span class="ow">in</span> <span class="n">ls</span><span class="p">]]</span></div>
-
-<div class="viewcode-block" id="XATextEditDocumentList.attribute_runs"><a class="viewcode-back" href="../../../reference/apps/textedit.html#PyXA.apps.TextEdit.XATextEditDocumentList.attribute_runs">[docs]</a>    <span class="k">def</span> <span class="nf">attribute_runs</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAAttributeRun</span><span class="p">]]:</span>
-        <span class="sd">&quot;&quot;&quot;Gets the attribute runs of each document in the list.</span>
-
-<span class="sd">        :return: A list of lists of attribute runs</span>
-<span class="sd">        :rtype: List[List[XABase.XAAttributeRun]]</span>
-<span class="sd">        </span>
-<span class="sd">        .. versionadded:: 0.0.3</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">ls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;attributeRuns&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="n">attribute_run</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAAttributeRun</span><span class="p">)</span> <span class="k">for</span> <span class="n">attribute_run</span> <span class="ow">in</span> <span class="p">[</span><span class="n">runlist</span> <span class="k">for</span> <span class="n">runlist</span> <span class="ow">in</span> <span class="n">ls</span><span class="p">]]</span></div>
-
-<div class="viewcode-block" id="XATextEditDocumentList.attachments"><a class="viewcode-back" href="../../../reference/apps/textedit.html#PyXA.apps.TextEdit.XATextEditDocumentList.attachments">[docs]</a>    <span class="k">def</span> <span class="nf">attachments</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAAttachment</span><span class="p">]]:</span>
-        <span class="sd">&quot;&quot;&quot;Gets the attachments of each document in the list.</span>
-
-<span class="sd">        :return: A list of lists of attachments</span>
-<span class="sd">        :rtype: List[List[XABase.XAAttachment]]</span>
-<span class="sd">        </span>
-<span class="sd">        .. versionadded:: 0.0.3</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">ls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;attachments&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="n">attachment</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAAttributeRun</span><span class="p">)</span> <span class="k">for</span> <span class="n">attachment</span> <span class="ow">in</span> <span class="p">[</span><span class="n">attachmentlist</span> <span class="k">for</span> <span class="n">attachmentlist</span> <span class="ow">in</span> <span class="n">ls</span><span class="p">]]</span></div>
-
-<div class="viewcode-block" id="XATextEditDocumentList.modified"><a class="viewcode-back" href="../../../reference/apps/textedit.html#PyXA.apps.TextEdit.XATextEditDocumentList.modified">[docs]</a>    <span class="k">def</span> <span class="nf">modified</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<div class="viewcode-block" id="XATextEditDocumentList.modified"><a class="viewcode-back" href="../../../reference/apps/textedit.html#PyXA.apps.TextEdit.XATextEditDocumentList.modified">[docs]</a>    <span class="k">def</span> <span class="nf">modified</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the modified status of each document in the list.</span>
 
 <span class="sd">        :return: A list of modified status booleans</span>
-<span class="sd">        :rtype: List[bool]</span>
+<span class="sd">        :rtype: list[bool]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.3</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;modified&quot;</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="XATextEditDocumentList.by_properties"><a class="viewcode-back" href="../../../reference/apps/textedit.html#PyXA.apps.TextEdit.XATextEditDocumentList.by_properties">[docs]</a>    <span class="k">def</span> <span class="nf">by_properties</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XATextEditDocument&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+<div class="viewcode-block" id="XATextEditDocumentList.by_properties"><a class="viewcode-back" href="../../../reference/apps/textedit.html#PyXA.apps.TextEdit.XATextEditDocumentList.by_properties">[docs]</a>    <span class="k">def</span> <span class="nf">by_properties</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XABase.XATextDocument&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Retrieves the document whose properties match the given properties dictionary, if one exists.</span>
 
 <span class="sd">        :return: The desired document, if it is found</span>
-<span class="sd">        :rtype: Union[XATextEditDocument, None]</span>
+<span class="sd">        :rtype: Union[XATextDocument, None]</span>
 <span class="sd">        </span>
-<span class="sd">        .. versionadded:: 0.0.3</span>
+<span class="sd">        .. versionadded:: 0.1.0</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;properties&quot;</span><span class="p">,</span> <span class="n">properties</span><span class="p">)</span></div>
+        <span class="k">for</span> <span class="n">document</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">:</span>
+            <span class="n">doc_props</span> <span class="o">=</span> <span class="n">document</span><span class="o">.</span><span class="n">properties</span><span class="p">()</span>
+            <span class="n">conditions</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">doc_props</span><span class="p">[</span><span class="s2">&quot;modified&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">properties</span><span class="p">[</span><span class="s2">&quot;modified&quot;</span><span class="p">],</span>
+                <span class="n">doc_props</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">properties</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">],</span>
+                <span class="n">doc_props</span><span class="p">[</span><span class="s2">&quot;path&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="p">(</span><span class="n">properties</span><span class="p">[</span><span class="s2">&quot;path&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">path</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">properties</span><span class="p">[</span><span class="s2">&quot;path&quot;</span><span class="p">],</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAPath</span><span class="p">)</span> <span class="k">else</span> <span class="n">properties</span><span class="p">[</span><span class="s2">&quot;path&quot;</span><span class="p">]),</span>
+                <span class="n">doc_props</span><span class="p">[</span><span class="s2">&quot;text&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">properties</span><span class="p">[</span><span class="s2">&quot;text&quot;</span><span class="p">]</span>
+            <span class="p">]</span>
+            <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="n">conditions</span><span class="p">):</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="n">document</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_ocls</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="XATextEditDocumentList.by_path"><a class="viewcode-back" href="../../../reference/apps/textedit.html#PyXA.apps.TextEdit.XATextEditDocumentList.by_path">[docs]</a>    <span class="k">def</span> <span class="nf">by_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAPath</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XATextEditDocument&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+<div class="viewcode-block" id="XATextEditDocumentList.by_path"><a class="viewcode-back" href="../../../reference/apps/textedit.html#PyXA.apps.TextEdit.XATextEditDocumentList.by_path">[docs]</a>    <span class="k">def</span> <span class="nf">by_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAPath</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XATextEditDocument&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Retrieves the document whose path matches the given path, if one exists.</span>
 
 <span class="sd">        :return: The desired document, if it is found</span>
@@ -493,7 +491,9 @@
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.3</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;path&quot;</span><span class="p">,</span> <span class="n">path</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span></div>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAPath</span><span class="p">):</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">path</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;path&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="XATextEditDocumentList.by_name"><a class="viewcode-back" href="../../../reference/apps/textedit.html#PyXA.apps.TextEdit.XATextEditDocumentList.by_name">[docs]</a>    <span class="k">def</span> <span class="nf">by_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XATextEditDocument&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Retrieves the first document whose name matches the given name, if one exists.</span>
@@ -526,7 +526,7 @@
 <span class="sd">        :Example 1: Prepend a string at the beginning of every open document</span>
 
 <span class="sd">        &gt;&gt;&gt; import PyXA</span>
-<span class="sd">        &gt;&gt;&gt; app = PyXA.application(&quot;TextEdit&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; app = PyXA.Application(&quot;TextEdit&quot;)</span>
 <span class="sd">        &gt;&gt;&gt; documents = app.documents()</span>
 <span class="sd">        &gt;&gt;&gt; documents.prepend(&quot;-- PyXA Notes --\\n\\n&quot;)</span>
 
@@ -550,7 +550,7 @@
 <span class="sd">        :Example 1: Append a string at the end of every open document</span>
 
 <span class="sd">        &gt;&gt;&gt; import PyXA</span>
-<span class="sd">        &gt;&gt;&gt; app = PyXA.application(&quot;TextEdit&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; app = PyXA.Application(&quot;TextEdit&quot;)</span>
 <span class="sd">        &gt;&gt;&gt; documents = app.documents()</span>
 <span class="sd">        &gt;&gt;&gt; documents.append(&quot;\\n\\n-- End Of Notes --&quot;)</span>
 
@@ -572,7 +572,7 @@
 <span class="sd">        :Example 1: Reverse the text of every open document</span>
 
 <span class="sd">        &gt;&gt;&gt; import PyXA</span>
-<span class="sd">        &gt;&gt;&gt; app = PyXA.application(&quot;TextEdit&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; app = PyXA.Application(&quot;TextEdit&quot;)</span>
 <span class="sd">        &gt;&gt;&gt; documents = app.documents()</span>
 <span class="sd">        &gt;&gt;&gt; documents.reverse()</span>
 
@@ -582,13 +582,13 @@
             <span class="n">doc</span><span class="o">.</span><span class="n">setValue_forKey_</span><span class="p">(</span><span class="n">doc</span><span class="o">.</span><span class="n">text</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">()[::</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;text&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
-<div class="viewcode-block" id="XATextEditDocumentList.get_clipboard_representation"><a class="viewcode-back" href="../../../reference/apps/textedit.html#PyXA.apps.TextEdit.XATextEditDocumentList.get_clipboard_representation">[docs]</a>    <span class="k">def</span> <span class="nf">get_clipboard_representation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">NSURL</span><span class="p">]]:</span>
+<div class="viewcode-block" id="XATextEditDocumentList.get_clipboard_representation"><a class="viewcode-back" href="../../../reference/apps/textedit.html#PyXA.apps.TextEdit.XATextEditDocumentList.get_clipboard_representation">[docs]</a>    <span class="k">def</span> <span class="nf">get_clipboard_representation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">AppKit</span><span class="o">.</span><span class="n">NSURL</span><span class="p">]]:</span>
         <span class="sd">&quot;&quot;&quot;Gets a clipboard-codable representation of each document in the list.</span>
 
 <span class="sd">        When the clipboard content is set to a list of documents, each documents&#39;s file URL and name are added to the clipboard.</span>
 
 <span class="sd">        :return: A list of each document&#39;s file URL and name</span>
-<span class="sd">        :rtype: List[Union[str, NSURL]]</span>
+<span class="sd">        :rtype: list[Union[str, AppKit.NSURL]]</span>
 
 <span class="sd">        .. versionadded:: 0.0.8</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -596,9 +596,10 @@
         <span class="n">texts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">text</span><span class="p">()</span>
         <span class="n">paths</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">text</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">texts</span><span class="p">):</span>
-            <span class="n">items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">text</span><span class="p">),</span> <span class="n">paths</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span>
+            <span class="n">items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">text</span><span class="p">))</span>
+            <span class="n">items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">paths</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">items</span></div>
-
+        
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s2">&quot;&lt;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">())</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span></div>
 
@@ -625,18 +626,26 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">properties</span><span class="p">()</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">path</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">path</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAPath</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAPath</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">path</span><span class="p">())</span>
+
+    <span class="nd">@path</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAPath</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;path&quot;</span><span class="p">,</span> <span class="n">path</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">name</span><span class="p">()</span>
 
+    <span class="nd">@name</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">modified</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">modified</span><span class="p">()</span>
 
-<div class="viewcode-block" id="XATextEditDocument.print"><a class="viewcode-back" href="../../../reference/apps/textedit.html#PyXA.apps.TextEdit.XATextEditDocument.print">[docs]</a>    <span class="k">def</span> <span class="nf">print</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">print_properties</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">show_dialog</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XATextEditDocument&#39;</span><span class="p">:</span>
+<div class="viewcode-block" id="XATextEditDocument.print"><a class="viewcode-back" href="../../../reference/apps/textedit.html#PyXA.apps.TextEdit.XATextEditDocument.print">[docs]</a>    <span class="k">def</span> <span class="nf">print</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">print_properties</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">show_dialog</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Prints the document.</span>
 
 <span class="sd">        :param print_properties: Properties to set for printing, defaults to None</span>
@@ -644,7 +653,7 @@
 <span class="sd">        :param show_dialog: Whether to show the print dialog, defaults to True</span>
 <span class="sd">        :type show_dialog: bool, optional</span>
 <span class="sd">        :return: The document object</span>
-<span class="sd">        :rtype: XATextEditDocument</span>
+<span class="sd">        :rtype: Self</span>
 
 <span class="sd">        .. versionadded:: 0.0.8</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -664,44 +673,36 @@
 <span class="sd">        :Example 1: Save all currently open documents</span>
 
 <span class="sd">        &gt;&gt;&gt; import PyXA</span>
-<span class="sd">        &gt;&gt;&gt; app = PyXA.application(&quot;TextEdit&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; app = PyXA.Application(&quot;TextEdit&quot;)</span>
 <span class="sd">        &gt;&gt;&gt; for doc in app.documents():</span>
 <span class="sd">        &gt;&gt;&gt;     doc.save()</span>
 
 <span class="sd">        .. versionadded:: 0.0.2</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">file_path</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">url</span> <span class="o">=</span> <span class="n">NSURL</span><span class="o">.</span><span class="n">alloc</span><span class="p">()</span><span class="o">.</span><span class="n">initFileURLWithPath_</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+            <span class="n">url</span> <span class="o">=</span> <span class="n">AppKit</span><span class="o">.</span><span class="n">NSURL</span><span class="o">.</span><span class="n">alloc</span><span class="p">()</span><span class="o">.</span><span class="n">initFileURLWithPath_</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">saveAs_in_</span><span class="p">(</span><span class="s2">&quot;txt&quot;</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">url</span> <span class="o">=</span> <span class="n">NSURL</span><span class="o">.</span><span class="n">alloc</span><span class="p">()</span><span class="o">.</span><span class="n">initFileURLWithPath_</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
+            <span class="n">url</span> <span class="o">=</span> <span class="n">AppKit</span><span class="o">.</span><span class="n">NSURL</span><span class="o">.</span><span class="n">alloc</span><span class="p">()</span><span class="o">.</span><span class="n">initFileURLWithPath_</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">saveAs_in_</span><span class="p">(</span><span class="s2">&quot;txt&quot;</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="XATextEditDocument.copy"><a class="viewcode-back" href="../../../reference/apps/textedit.html#PyXA.apps.TextEdit.XATextEditDocument.copy">[docs]</a>    <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Copies the document file and its contents to the clipboard.</span>
-
-<span class="sd">        .. deprecated:: 0.0.8</span>
-<span class="sd">           Use :class:`XABase.XAClipboard` methods instead.</span>
-
-<span class="sd">        .. versionadded:: 0.0.2</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">url</span> <span class="o">=</span>  <span class="n">NSURL</span><span class="o">.</span><span class="n">alloc</span><span class="p">()</span><span class="o">.</span><span class="n">initFileURLWithPath_</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">set_clipboard</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="n">url</span><span class="p">])</span></div>
-
-<div class="viewcode-block" id="XATextEditDocument.get_clipboard_representation"><a class="viewcode-back" href="../../../reference/apps/textedit.html#PyXA.apps.TextEdit.XATextEditDocument.get_clipboard_representation">[docs]</a>    <span class="k">def</span> <span class="nf">get_clipboard_representation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">NSURL</span><span class="p">]]:</span>
+<div class="viewcode-block" id="XATextEditDocument.get_clipboard_representation"><a class="viewcode-back" href="../../../reference/apps/textedit.html#PyXA.apps.TextEdit.XATextEditDocument.get_clipboard_representation">[docs]</a>    <span class="k">def</span> <span class="nf">get_clipboard_representation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">AppKit</span><span class="o">.</span><span class="n">NSURL</span><span class="p">]]:</span>
         <span class="sd">&quot;&quot;&quot;Gets a clipboard-codable representation of the document.</span>
 
 <span class="sd">        When the clipboard content is set to a document, the documents&#39;s file URL and body text are added to the clipboard.</span>
 
 <span class="sd">        :return: The document&#39;s file URL and body text</span>
-<span class="sd">        :rtype: List[Union[str, NSURL]]</span>
+<span class="sd">        :rtype: list[Union[str, AppKit.NSURL]]</span>
 
 <span class="sd">        .. versionadded:: 0.0.8</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">text</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">]</span></div>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s2">&quot;&lt;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span></div>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;&lt;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;&lt;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span></div>
 </pre></div>
 
            </div>

@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Terminal Module Reference &mdash; PyXA 0.0.9 documentation</title>
+  <title>Terminal Module Reference &mdash; PyXA 0.1.0 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
@@ -15,7 +15,9 @@
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -45,7 +47,7 @@
 <li class="toctree-l1 current"><a class="reference internal" href="../index.html">Code Documentation and Reference</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../index.html#top-level-pyxa-modules">Top-level PyXA Modules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../index.html#pyxa-base-modules">PyXA Base Modules</a></li>
-<li class="toctree-l2 current"><a class="reference internal" href="../index.html#first-party-application-modules">First-Party Application Modules</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html#first-party-application-module-reference">First-Party Application Module Reference</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="automator.html">Automator Module Reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="calculator.html">Calculator Module Reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="calendar.html">Calendar Module Reference</a></li>
@@ -54,6 +56,7 @@
 <li class="toctree-l3"><a class="reference internal" href="dictionary.html">Dictionary Module Reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="finder.html">Finder Module Reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="fontbook.html">FontBook Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="imageevents.html">Image Events Module Reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="keynote.html">Keynote Module Reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="mail.html">Mail Module Reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="maps.html">Maps Module Reference</a></li>
@@ -69,13 +72,22 @@
 <li class="toctree-l3"><a class="reference internal" href="safari.html">Safari Module Reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="shortcuts.html">Shortcuts Module Reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="stocks.html">Stocks Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="systemevents.html">System Events Module Reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="systempreferences.html">System Preferences Module Reference</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">Terminal Module Reference</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Terminal Module Reference</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalApplication"><code class="docutils literal notranslate"><span class="pre">XATerminalApplication</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSet"><code class="docutils literal notranslate"><span class="pre">XATerminalSettingsSet</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSetList"><code class="docutils literal notranslate"><span class="pre">XATerminalSettingsSetList</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalTab"><code class="docutils literal notranslate"><span class="pre">XATerminalTab</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalTabList"><code class="docutils literal notranslate"><span class="pre">XATerminalTabList</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalWindow"><code class="docutils literal notranslate"><span class="pre">XATerminalWindow</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="textedit.html">TextEdit Module Reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="tv.html">TV Module Reference</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../index.html#third-party-application-modules">Third-Party Application Modules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#third-party-application-module-reference">Third-Party Application Module Reference</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../bugs.html">Bugs</a></li>
@@ -107,7 +119,7 @@
            <div itemprop="articleBody">
              
   <section id="module-PyXA.apps.Terminal">
-<span id="terminal-module-reference"></span><h1>Terminal Module Reference<a class="headerlink" href="#module-PyXA.apps.Terminal" title="Permalink to this headline"></a></h1>
+<span id="terminal-module-reference"></span><h1>Terminal Module Reference<a class="headerlink" href="#module-PyXA.apps.Terminal" title="Permalink to this heading"></a></h1>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.1.</span></p>
 </div>
@@ -142,7 +154,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalApplication">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Terminal.</span></span><span class="sig-name descname"><span class="pre">XATerminalApplication</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalApplication"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalApplication" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XASBApplication" title="PyXA.XABaseScriptable.XASBApplication"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABaseScriptable.XASBApplication</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XAProtocols.XACanOpenPath</span></code></p>
+<dd><p>Bases: <a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XASBApplication" title="PyXA.XABaseScriptable.XASBApplication"><code class="xref py py-class docutils literal notranslate"><span class="pre">XASBApplication</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">XACanOpenPath</span></code></p>
 <p>A class for managing and interacting with Messages.app</p>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
@@ -195,18 +207,18 @@
 </table>
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalApplication.current_tab">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">current_tab</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalTab" title="PyXA.apps.Terminal.XATerminalTab"><span class="pre">PyXA.apps.Terminal.XATerminalTab</span></a></em><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalApplication.current_tab" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">current_tab</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalTab" title="PyXA.apps.Terminal.XATerminalTab"><span class="pre">XATerminalTab</span></a></em><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalApplication.current_tab" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalApplication.default_settings">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">default_settings</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSet" title="PyXA.apps.Terminal.XATerminalSettingsSet"><span class="pre">PyXA.apps.Terminal.XATerminalSettingsSet</span></a></em><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalApplication.default_settings" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">default_settings</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSet" title="PyXA.apps.Terminal.XATerminalSettingsSet"><span class="pre">XATerminalSettingsSet</span></a></em><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalApplication.default_settings" title="Permalink to this definition"></a></dt>
 <dd><p>The settings set used for new windows</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalApplication.do_script">
-<span class="sig-name descname"><span class="pre">do_script</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">script</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">window_tab</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalWindow" title="PyXA.apps.Terminal.XATerminalWindow"><span class="pre">PyXA.apps.Terminal.XATerminalWindow</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalTab" title="PyXA.apps.Terminal.XATerminalTab"><span class="pre">PyXA.apps.Terminal.XATerminalTab</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_result</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalApplication" title="PyXA.apps.Terminal.XATerminalApplication"><span class="pre">PyXA.apps.Terminal.XATerminalApplication</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalApplication.do_script"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalApplication.do_script" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">do_script</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">script</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">window_tab</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalWindow" title="PyXA.apps.Terminal.XATerminalWindow"><span class="pre">XATerminalWindow</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalTab" title="PyXA.apps.Terminal.XATerminalTab"><span class="pre">XATerminalTab</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_result</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalApplication" title="PyXA.apps.Terminal.XATerminalApplication"><span class="pre">XATerminalApplication</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalApplication.do_script"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalApplication.do_script" title="Permalink to this definition"></a></dt>
 <dd><p>Executes a Terminal script in the specified window or tab.</p>
 <p>If no window or tab is provided, the script will run in a new tab of the frontmost window. If return_result is True, the script will be run in a new tab no regardless of the value of window_tab.</p>
 <dl class="field-list simple">
@@ -246,7 +258,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalApplication.settings_sets">
-<span class="sig-name descname"><span class="pre">settings_sets</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSetList" title="PyXA.apps.Terminal.XATerminalSettingsSetList"><span class="pre">PyXA.apps.Terminal.XATerminalSettingsSetList</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalApplication.settings_sets"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalApplication.settings_sets" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">settings_sets</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSetList" title="PyXA.apps.Terminal.XATerminalSettingsSetList"><span class="pre">XATerminalSettingsSetList</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalApplication.settings_sets"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalApplication.settings_sets" title="Permalink to this definition"></a></dt>
 <dd><p>Returns a list of settings sets, as PyXA-wrapped objects, matching the given filter.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -266,7 +278,7 @@
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalApplication.startup_settings">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">startup_settings</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSet" title="PyXA.apps.Terminal.XATerminalSettingsSet"><span class="pre">PyXA.apps.Terminal.XATerminalSettingsSet</span></a></em><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalApplication.startup_settings" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">startup_settings</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSet" title="PyXA.apps.Terminal.XATerminalSettingsSet"><span class="pre">XATerminalSettingsSet</span></a></em><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalApplication.startup_settings" title="Permalink to this definition"></a></dt>
 <dd><p>The settings set used for the window created on application startup</p>
 </dd></dl>
 
@@ -281,7 +293,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSet">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Terminal.</span></span><span class="sig-name descname"><span class="pre">XATerminalSettingsSet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSet" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAObject</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XAProtocols.XAClipboardCodable</span></code></p>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAObject</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">XAClipboardCodable</span></code></p>
 <p>A class for managing and interacting with settings sets in Terminal.app.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.1.</span></p>
@@ -363,25 +375,25 @@
 </table>
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSet.background_color">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">background_color</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><span class="pre">PyXA.XABase.XAColor</span></a></em><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSet.background_color" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">background_color</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><span class="pre">XAColor</span></a></em><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSet.background_color" title="Permalink to this definition"></a></dt>
 <dd><p>The background color for the tab</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSet.bold_text_color">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">bold_text_color</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><span class="pre">PyXA.XABase.XAColor</span></a></em><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSet.bold_text_color" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">bold_text_color</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><span class="pre">XAColor</span></a></em><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSet.bold_text_color" title="Permalink to this definition"></a></dt>
 <dd><p>The bold text color for the tab</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSet.clean_commands">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">clean_commands</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSet.clean_commands" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">clean_commands</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSet.clean_commands" title="Permalink to this definition"></a></dt>
 <dd><p>The processes which will be ignored when checking whether a tab can be closed without showing a prompt</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSet.cursor_color">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">cursor_color</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><span class="pre">PyXA.XABase.XAColor</span></a></em><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSet.cursor_color" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">cursor_color</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><span class="pre">XAColor</span></a></em><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSet.cursor_color" title="Permalink to this definition"></a></dt>
 <dd><p>The cursor color for the tab</p>
 </dd></dl>
 
@@ -441,7 +453,7 @@
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSet.normal_text_color">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">normal_text_color</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><span class="pre">PyXA.XABase.XAColor</span></a></em><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSet.normal_text_color" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">normal_text_color</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><span class="pre">XAColor</span></a></em><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSet.normal_text_color" title="Permalink to this definition"></a></dt>
 <dd><p>The normal text color for the tab</p>
 </dd></dl>
 
@@ -492,7 +504,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSetList">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Terminal.</span></span><span class="sig-name descname"><span class="pre">XATerminalSettingsSetList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAList" title="PyXA.XABase.XAList"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAList</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XAProtocols.XAClipboardCodable</span></code></p>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAList" title="PyXA.XABase.XAList"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAList</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">XAClipboardCodable</span></code></p>
 <p>A wrapper around lists of Terminal settings sets that employs fast enumeration techniques.</p>
 <p>All properties of settings sets can be called as methods on the wrapped list, returning a list containing each settings set’s value for the property.</p>
 <div class="versionadded">
@@ -620,14 +632,14 @@
 </table>
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSetList.background_color">
-<span class="sig-name descname"><span class="pre">background_color</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><span class="pre">PyXA.XABase.XAColor</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.background_color"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.background_color" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">background_color</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><span class="pre">PyXA.XABase.XAColor</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.background_color"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.background_color" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the background color of each settings set in the list.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>A list of settings set background colors</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p>List[<a class="reference internal" href="../xabase.html#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor">XABase.XAColor</a>]</p>
+<dd class="field-even"><p>list[<a class="reference internal" href="../xabase.html#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor">XABase.XAColor</a>]</p>
 </dd>
 </dl>
 <div class="versionadded">
@@ -637,14 +649,14 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSetList.bold_text_color">
-<span class="sig-name descname"><span class="pre">bold_text_color</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><span class="pre">PyXA.XABase.XAColor</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.bold_text_color"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.bold_text_color" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">bold_text_color</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><span class="pre">PyXA.XABase.XAColor</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.bold_text_color"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.bold_text_color" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the bold text color of each settings set in the list.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>A list of settings set bold text colors</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p>List[<a class="reference internal" href="../xabase.html#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor">XABase.XAColor</a>]</p>
+<dd class="field-even"><p>list[<a class="reference internal" href="../xabase.html#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor">XABase.XAColor</a>]</p>
 </dd>
 </dl>
 <div class="versionadded">
@@ -654,7 +666,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSetList.by_background_color">
-<span class="sig-name descname"><span class="pre">by_background_color</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">background_color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../xabase.html#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><span class="pre">PyXA.XABase.XAColor</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSet" title="PyXA.apps.Terminal.XATerminalSettingsSet"><span class="pre">PyXA.apps.Terminal.XATerminalSettingsSet</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.by_background_color"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.by_background_color" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">by_background_color</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">background_color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../xabase.html#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><span class="pre">XAColor</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSet" title="PyXA.apps.Terminal.XATerminalSettingsSet"><span class="pre">XATerminalSettingsSet</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.by_background_color"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.by_background_color" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the first settings set whose background color matches the given color, if one exists.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -671,7 +683,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSetList.by_bold_text_color">
-<span class="sig-name descname"><span class="pre">by_bold_text_color</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bold_text_color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../xabase.html#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><span class="pre">PyXA.XABase.XAColor</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSet" title="PyXA.apps.Terminal.XATerminalSettingsSet"><span class="pre">PyXA.apps.Terminal.XATerminalSettingsSet</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.by_bold_text_color"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.by_bold_text_color" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">by_bold_text_color</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bold_text_color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../xabase.html#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><span class="pre">XAColor</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSet" title="PyXA.apps.Terminal.XATerminalSettingsSet"><span class="pre">XATerminalSettingsSet</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.by_bold_text_color"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.by_bold_text_color" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the first settings set whose bold text color matches the given color, if one exists.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -688,7 +700,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSetList.by_clean_commands">
-<span class="sig-name descname"><span class="pre">by_clean_commands</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">clean_commands</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSet" title="PyXA.apps.Terminal.XATerminalSettingsSet"><span class="pre">PyXA.apps.Terminal.XATerminalSettingsSet</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.by_clean_commands"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.by_clean_commands" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">by_clean_commands</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">clean_commands</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSet" title="PyXA.apps.Terminal.XATerminalSettingsSet"><span class="pre">XATerminalSettingsSet</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.by_clean_commands"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.by_clean_commands" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the first settings set whose list of clean commands matches the given list, if one exists.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -705,7 +717,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSetList.by_cursor_color">
-<span class="sig-name descname"><span class="pre">by_cursor_color</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cursor_color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../xabase.html#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><span class="pre">PyXA.XABase.XAColor</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSet" title="PyXA.apps.Terminal.XATerminalSettingsSet"><span class="pre">PyXA.apps.Terminal.XATerminalSettingsSet</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.by_cursor_color"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.by_cursor_color" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">by_cursor_color</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cursor_color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../xabase.html#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><span class="pre">XAColor</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSet" title="PyXA.apps.Terminal.XATerminalSettingsSet"><span class="pre">XATerminalSettingsSet</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.by_cursor_color"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.by_cursor_color" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the first settings set whose cursor color matches the given color, if one exists.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -722,7 +734,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSetList.by_custom_title">
-<span class="sig-name descname"><span class="pre">by_custom_title</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">custom_title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSet" title="PyXA.apps.Terminal.XATerminalSettingsSet"><span class="pre">PyXA.apps.Terminal.XATerminalSettingsSet</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.by_custom_title"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.by_custom_title" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">by_custom_title</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">custom_title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSet" title="PyXA.apps.Terminal.XATerminalSettingsSet"><span class="pre">XATerminalSettingsSet</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.by_custom_title"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.by_custom_title" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the settings set whose custom title matches the given title, if one exists.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -739,7 +751,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSetList.by_font_antialiasing">
-<span class="sig-name descname"><span class="pre">by_font_antialiasing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">font_antialiasing</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSet" title="PyXA.apps.Terminal.XATerminalSettingsSet"><span class="pre">PyXA.apps.Terminal.XATerminalSettingsSet</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.by_font_antialiasing"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.by_font_antialiasing" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">by_font_antialiasing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">font_antialiasing</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSet" title="PyXA.apps.Terminal.XATerminalSettingsSet"><span class="pre">XATerminalSettingsSet</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.by_font_antialiasing"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.by_font_antialiasing" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the first settings set whose font antialiasing status matches the given boolean value, if one exists.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -756,7 +768,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSetList.by_font_name">
-<span class="sig-name descname"><span class="pre">by_font_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">font_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSet" title="PyXA.apps.Terminal.XATerminalSettingsSet"><span class="pre">PyXA.apps.Terminal.XATerminalSettingsSet</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.by_font_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.by_font_name" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">by_font_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">font_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSet" title="PyXA.apps.Terminal.XATerminalSettingsSet"><span class="pre">XATerminalSettingsSet</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.by_font_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.by_font_name" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the first settings set whose font name matches the given font name, if one exists.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -773,7 +785,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSetList.by_font_size">
-<span class="sig-name descname"><span class="pre">by_font_size</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">font_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSet" title="PyXA.apps.Terminal.XATerminalSettingsSet"><span class="pre">PyXA.apps.Terminal.XATerminalSettingsSet</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.by_font_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.by_font_size" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">by_font_size</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">font_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSet" title="PyXA.apps.Terminal.XATerminalSettingsSet"><span class="pre">XATerminalSettingsSet</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.by_font_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.by_font_size" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the first settings set whose font size matches the given font size, if one exists.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -790,7 +802,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSetList.by_id">
-<span class="sig-name descname"><span class="pre">by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSet" title="PyXA.apps.Terminal.XATerminalSettingsSet"><span class="pre">PyXA.apps.Terminal.XATerminalSettingsSet</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.by_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.by_id" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSet" title="PyXA.apps.Terminal.XATerminalSettingsSet"><span class="pre">XATerminalSettingsSet</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.by_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.by_id" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the settings set whose ID matches the given ID, if one exists.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -807,7 +819,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSetList.by_name">
-<span class="sig-name descname"><span class="pre">by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSet" title="PyXA.apps.Terminal.XATerminalSettingsSet"><span class="pre">PyXA.apps.Terminal.XATerminalSettingsSet</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.by_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.by_name" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSet" title="PyXA.apps.Terminal.XATerminalSettingsSet"><span class="pre">XATerminalSettingsSet</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.by_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.by_name" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the settings set whose name matches the given name, if one exists.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -824,7 +836,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSetList.by_normal_text_color">
-<span class="sig-name descname"><span class="pre">by_normal_text_color</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">normal_text_color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../xabase.html#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><span class="pre">PyXA.XABase.XAColor</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSet" title="PyXA.apps.Terminal.XATerminalSettingsSet"><span class="pre">PyXA.apps.Terminal.XATerminalSettingsSet</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.by_normal_text_color"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.by_normal_text_color" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">by_normal_text_color</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">normal_text_color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../xabase.html#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><span class="pre">XAColor</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSet" title="PyXA.apps.Terminal.XATerminalSettingsSet"><span class="pre">XATerminalSettingsSet</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.by_normal_text_color"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.by_normal_text_color" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the first settings set whose normal text color matches the given color, if one exists.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -841,7 +853,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSetList.by_number_of_columns">
-<span class="sig-name descname"><span class="pre">by_number_of_columns</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">number_of_columns</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSet" title="PyXA.apps.Terminal.XATerminalSettingsSet"><span class="pre">PyXA.apps.Terminal.XATerminalSettingsSet</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.by_number_of_columns"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.by_number_of_columns" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">by_number_of_columns</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">number_of_columns</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSet" title="PyXA.apps.Terminal.XATerminalSettingsSet"><span class="pre">XATerminalSettingsSet</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.by_number_of_columns"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.by_number_of_columns" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the first settings set whose number of columns matches the given number, if one exists.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -858,7 +870,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSetList.by_number_of_rows">
-<span class="sig-name descname"><span class="pre">by_number_of_rows</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">number_of_rows</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSet" title="PyXA.apps.Terminal.XATerminalSettingsSet"><span class="pre">PyXA.apps.Terminal.XATerminalSettingsSet</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.by_number_of_rows"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.by_number_of_rows" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">by_number_of_rows</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">number_of_rows</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSet" title="PyXA.apps.Terminal.XATerminalSettingsSet"><span class="pre">XATerminalSettingsSet</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.by_number_of_rows"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.by_number_of_rows" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the first settings set whose number of rows matches the given number, if one exists.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -875,7 +887,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSetList.by_title_displays_custom_title">
-<span class="sig-name descname"><span class="pre">by_title_displays_custom_title</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">title_displays_custom_title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSet" title="PyXA.apps.Terminal.XATerminalSettingsSet"><span class="pre">PyXA.apps.Terminal.XATerminalSettingsSet</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.by_title_displays_custom_title"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.by_title_displays_custom_title" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">by_title_displays_custom_title</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">title_displays_custom_title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSet" title="PyXA.apps.Terminal.XATerminalSettingsSet"><span class="pre">XATerminalSettingsSet</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.by_title_displays_custom_title"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.by_title_displays_custom_title" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the first settings set whose custom title in title status matches the given boolean value, if one exists.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -892,7 +904,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSetList.by_title_displays_device_name">
-<span class="sig-name descname"><span class="pre">by_title_displays_device_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">title_displays_device_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSet" title="PyXA.apps.Terminal.XATerminalSettingsSet"><span class="pre">PyXA.apps.Terminal.XATerminalSettingsSet</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.by_title_displays_device_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.by_title_displays_device_name" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">by_title_displays_device_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">title_displays_device_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSet" title="PyXA.apps.Terminal.XATerminalSettingsSet"><span class="pre">XATerminalSettingsSet</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.by_title_displays_device_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.by_title_displays_device_name" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the first settings set whose device name in title status matches the given boolean value, if one exists.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -909,7 +921,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSetList.by_title_displays_settings_name">
-<span class="sig-name descname"><span class="pre">by_title_displays_settings_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">title_displays_settings_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSet" title="PyXA.apps.Terminal.XATerminalSettingsSet"><span class="pre">PyXA.apps.Terminal.XATerminalSettingsSet</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.by_title_displays_settings_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.by_title_displays_settings_name" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">by_title_displays_settings_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">title_displays_settings_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSet" title="PyXA.apps.Terminal.XATerminalSettingsSet"><span class="pre">XATerminalSettingsSet</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.by_title_displays_settings_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.by_title_displays_settings_name" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the first settings set whose settings name in title status matches the given boolean value, if one exists.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -926,7 +938,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSetList.by_title_displays_shell_path">
-<span class="sig-name descname"><span class="pre">by_title_displays_shell_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">title_displays_shell_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSet" title="PyXA.apps.Terminal.XATerminalSettingsSet"><span class="pre">PyXA.apps.Terminal.XATerminalSettingsSet</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.by_title_displays_shell_path"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.by_title_displays_shell_path" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">by_title_displays_shell_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">title_displays_shell_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSet" title="PyXA.apps.Terminal.XATerminalSettingsSet"><span class="pre">XATerminalSettingsSet</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.by_title_displays_shell_path"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.by_title_displays_shell_path" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the first settings set whose shell path in title status matches the given boolean value, if one exists.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -943,7 +955,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSetList.by_title_displays_windows_size">
-<span class="sig-name descname"><span class="pre">by_title_displays_windows_size</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">title_displays_windows_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSet" title="PyXA.apps.Terminal.XATerminalSettingsSet"><span class="pre">PyXA.apps.Terminal.XATerminalSettingsSet</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.by_title_displays_windows_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.by_title_displays_windows_size" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">by_title_displays_windows_size</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">title_displays_windows_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSet" title="PyXA.apps.Terminal.XATerminalSettingsSet"><span class="pre">XATerminalSettingsSet</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.by_title_displays_windows_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.by_title_displays_windows_size" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the first settings set whose window size in title status matches the given boolean value, if one exists.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -960,14 +972,14 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSetList.clean_commands">
-<span class="sig-name descname"><span class="pre">clean_commands</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.clean_commands"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.clean_commands" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">clean_commands</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.clean_commands"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.clean_commands" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the clean commands of each settings set in the list.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>A list of settings set clean commands</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p>List[List[str]]</p>
+<dd class="field-even"><p>list[list[str]]</p>
 </dd>
 </dl>
 <div class="versionadded">
@@ -977,14 +989,14 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSetList.cursor_color">
-<span class="sig-name descname"><span class="pre">cursor_color</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><span class="pre">PyXA.XABase.XAColor</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.cursor_color"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.cursor_color" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">cursor_color</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><span class="pre">PyXA.XABase.XAColor</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.cursor_color"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.cursor_color" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the cursor color of each settings set in the list.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>A list of settings set cursor colors</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p>List[<a class="reference internal" href="../xabase.html#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor">XABase.XAColor</a>]</p>
+<dd class="field-even"><p>list[<a class="reference internal" href="../xabase.html#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor">XABase.XAColor</a>]</p>
 </dd>
 </dl>
 <div class="versionadded">
@@ -994,14 +1006,14 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSetList.custom_title">
-<span class="sig-name descname"><span class="pre">custom_title</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.custom_title"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.custom_title" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">custom_title</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.custom_title"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.custom_title" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the custom title of each settings set in the list.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>A list of settings set custom titles</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p>List[str]</p>
+<dd class="field-even"><p>list[str]</p>
 </dd>
 </dl>
 <div class="versionadded">
@@ -1011,14 +1023,14 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSetList.font_antialiasing">
-<span class="sig-name descname"><span class="pre">font_antialiasing</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.font_antialiasing"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.font_antialiasing" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">font_antialiasing</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.font_antialiasing"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.font_antialiasing" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the font antialiasing status of each settings set in the list.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>A list of settings set font antialiasing statuses</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p>List[bool]</p>
+<dd class="field-even"><p>list[bool]</p>
 </dd>
 </dl>
 <div class="versionadded">
@@ -1028,14 +1040,14 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSetList.font_name">
-<span class="sig-name descname"><span class="pre">font_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.font_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.font_name" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">font_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.font_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.font_name" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the font name of each settings set in the list.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>A list of settings set font names</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p>List[str]</p>
+<dd class="field-even"><p>list[str]</p>
 </dd>
 </dl>
 <div class="versionadded">
@@ -1045,14 +1057,14 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSetList.font_size">
-<span class="sig-name descname"><span class="pre">font_size</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.font_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.font_size" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">font_size</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.font_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.font_size" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the font size of each settings set in the list.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>A list of settings set font sizes</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p>List[int]</p>
+<dd class="field-even"><p>list[int]</p>
 </dd>
 </dl>
 <div class="versionadded">
@@ -1062,7 +1074,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSetList.get_clipboard_representation">
-<span class="sig-name descname"><span class="pre">get_clipboard_representation</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.get_clipboard_representation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.get_clipboard_representation" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_clipboard_representation</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.get_clipboard_representation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.get_clipboard_representation" title="Permalink to this definition"></a></dt>
 <dd><p>Gets a clipboard-codable representation of each settings set in the list.</p>
 <p>When the clipboard content is set to a list of settings sets, each setting set’s name is added to the clipboard.</p>
 <dl class="field-list simple">
@@ -1070,7 +1082,7 @@
 <dd class="field-odd"><p>The list of setting set names</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p>List[str]</p>
+<dd class="field-even"><p>list[str]</p>
 </dd>
 </dl>
 <div class="versionadded">
@@ -1080,14 +1092,14 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSetList.id">
-<span class="sig-name descname"><span class="pre">id</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.id" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">id</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.id" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the ID of each settings set in the list.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>A list of settings set IDs</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p>List[int]</p>
+<dd class="field-even"><p>list[int]</p>
 </dd>
 </dl>
 <div class="versionadded">
@@ -1097,14 +1109,14 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSetList.name">
-<span class="sig-name descname"><span class="pre">name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.name" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.name" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the name of each settings set in the list.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>A list of settings set names</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p>List[str]</p>
+<dd class="field-even"><p>list[str]</p>
 </dd>
 </dl>
 <div class="versionadded">
@@ -1114,14 +1126,14 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSetList.normal_text_color">
-<span class="sig-name descname"><span class="pre">normal_text_color</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><span class="pre">PyXA.XABase.XAColor</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.normal_text_color"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.normal_text_color" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">normal_text_color</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor"><span class="pre">PyXA.XABase.XAColor</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.normal_text_color"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.normal_text_color" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the normal text color of each settings set in the list.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>A list of settings set normal text colors</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p>List[<a class="reference internal" href="../xabase.html#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor">XABase.XAColor</a>]</p>
+<dd class="field-even"><p>list[<a class="reference internal" href="../xabase.html#PyXA.XABase.XAColor" title="PyXA.XABase.XAColor">XABase.XAColor</a>]</p>
 </dd>
 </dl>
 <div class="versionadded">
@@ -1131,14 +1143,14 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSetList.number_of_columns">
-<span class="sig-name descname"><span class="pre">number_of_columns</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.number_of_columns"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.number_of_columns" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">number_of_columns</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.number_of_columns"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.number_of_columns" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the number of columns of each settings set in the list.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>A list of settings set column counts</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p>List[int]</p>
+<dd class="field-even"><p>list[int]</p>
 </dd>
 </dl>
 <div class="versionadded">
@@ -1148,14 +1160,14 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSetList.number_of_rows">
-<span class="sig-name descname"><span class="pre">number_of_rows</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.number_of_rows"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.number_of_rows" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">number_of_rows</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.number_of_rows"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.number_of_rows" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the number of rows of each settings set in the list.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>A list of settings set row counts</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p>List[int]</p>
+<dd class="field-even"><p>list[int]</p>
 </dd>
 </dl>
 <div class="versionadded">
@@ -1165,14 +1177,14 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSetList.title_displays_custom_title">
-<span class="sig-name descname"><span class="pre">title_displays_custom_title</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.title_displays_custom_title"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.title_displays_custom_title" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">title_displays_custom_title</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.title_displays_custom_title"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.title_displays_custom_title" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the custom title in title status of each settings set in the list.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>A list of settings set custom title in title statuses</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p>List[bool]</p>
+<dd class="field-even"><p>list[bool]</p>
 </dd>
 </dl>
 <div class="versionadded">
@@ -1182,14 +1194,14 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSetList.title_displays_device_name">
-<span class="sig-name descname"><span class="pre">title_displays_device_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.title_displays_device_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.title_displays_device_name" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">title_displays_device_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.title_displays_device_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.title_displays_device_name" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the device name in title status of each settings set in the list.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>A list of settings set device name in title statuses</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p>List[bool]</p>
+<dd class="field-even"><p>list[bool]</p>
 </dd>
 </dl>
 <div class="versionadded">
@@ -1199,14 +1211,14 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSetList.title_displays_settings_name">
-<span class="sig-name descname"><span class="pre">title_displays_settings_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.title_displays_settings_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.title_displays_settings_name" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">title_displays_settings_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.title_displays_settings_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.title_displays_settings_name" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the settings name in title status of each settings set in the list.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>A list of settings set settings name in title statuses</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p>List[bool]</p>
+<dd class="field-even"><p>list[bool]</p>
 </dd>
 </dl>
 <div class="versionadded">
@@ -1216,14 +1228,14 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSetList.title_displays_shell_path">
-<span class="sig-name descname"><span class="pre">title_displays_shell_path</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.title_displays_shell_path"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.title_displays_shell_path" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">title_displays_shell_path</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.title_displays_shell_path"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.title_displays_shell_path" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the shell path in title status of each settings set in the list.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>A list of settings set shell path in title statuses</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p>List[bool]</p>
+<dd class="field-even"><p>list[bool]</p>
 </dd>
 </dl>
 <div class="versionadded">
@@ -1233,14 +1245,14 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalSettingsSetList.title_displays_window_size">
-<span class="sig-name descname"><span class="pre">title_displays_window_size</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.title_displays_window_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.title_displays_window_size" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">title_displays_window_size</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalSettingsSetList.title_displays_window_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalSettingsSetList.title_displays_window_size" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the window size in title status of each settings set in the list.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>A list of settings set window size in title statuses</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p>List[bool]</p>
+<dd class="field-even"><p>list[bool]</p>
 </dd>
 </dl>
 <div class="versionadded">
@@ -1253,7 +1265,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalTab">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Terminal.</span></span><span class="sig-name descname"><span class="pre">XATerminalTab</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalTab"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalTab" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAObject</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XAProtocols.XAClipboardCodable</span></code></p>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAObject</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">XAClipboardCodable</span></code></p>
 <p>A class for managing and interacting with tabs in Terminal.app.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.1.</span></p>
@@ -1326,7 +1338,7 @@
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalTab.current_settings">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">current_settings</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSet" title="PyXA.apps.Terminal.XATerminalSettingsSet"><span class="pre">PyXA.apps.Terminal.XATerminalSettingsSet</span></a></em><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalTab.current_settings" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">current_settings</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSet" title="PyXA.apps.Terminal.XATerminalSettingsSet"><span class="pre">XATerminalSettingsSet</span></a></em><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalTab.current_settings" title="Permalink to this definition"></a></dt>
 <dd><p>The set of settings which control the tab’s behavior and appearance</p>
 </dd></dl>
 
@@ -1338,7 +1350,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalTab.get_clipboard_representation">
-<span class="sig-name descname"><span class="pre">get_clipboard_representation</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalTab.get_clipboard_representation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalTab.get_clipboard_representation" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_clipboard_representation</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalTab.get_clipboard_representation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalTab.get_clipboard_representation" title="Permalink to this definition"></a></dt>
 <dd><p>Gets a clipboard-codable representation of the tab.</p>
 <p>When the clipboard content is set to a Terminal tab, the tab’s custom title and its history are added to the clipboard.</p>
 <dl class="field-list simple">
@@ -1346,7 +1358,7 @@
 <dd class="field-odd"><p>The tab’s custom title and history</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p>List[str]</p>
+<dd class="field-even"><p>list[str]</p>
 </dd>
 </dl>
 <div class="versionadded">
@@ -1374,7 +1386,7 @@
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalTab.processes">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">processes</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalTab.processes" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">processes</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalTab.processes" title="Permalink to this definition"></a></dt>
 <dd><p>The processes currently running in the tab</p>
 </dd></dl>
 
@@ -1401,7 +1413,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalTabList">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Terminal.</span></span><span class="sig-name descname"><span class="pre">XATerminalTabList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalTabList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalTabList" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAList" title="PyXA.XABase.XAList"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAList</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XAProtocols.XAClipboardCodable</span></code></p>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAList" title="PyXA.XABase.XAList"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAList</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">XAClipboardCodable</span></code></p>
 <p>A wrapper around lists of Terminal tabs that employs fast enumeration techniques.</p>
 <p>All properties of tabs can be called as methods on the wrapped list, returning a list containing each tab’s value for the property.</p>
 <div class="versionadded">
@@ -1487,14 +1499,14 @@
 </table>
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalTabList.busy">
-<span class="sig-name descname"><span class="pre">busy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalTabList.busy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalTabList.busy" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">busy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalTabList.busy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalTabList.busy" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the busy status of each tab in the list.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>A list of tab busy statuses</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p>List[bool]</p>
+<dd class="field-even"><p>list[bool]</p>
 </dd>
 </dl>
 <div class="versionadded">
@@ -1504,7 +1516,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalTabList.by_busy">
-<span class="sig-name descname"><span class="pre">by_busy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">busy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalTab" title="PyXA.apps.Terminal.XATerminalTab"><span class="pre">PyXA.apps.Terminal.XATerminalTab</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalTabList.by_busy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalTabList.by_busy" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">by_busy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">busy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalTab" title="PyXA.apps.Terminal.XATerminalTab"><span class="pre">XATerminalTab</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalTabList.by_busy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalTabList.by_busy" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the tab whose busy status matches the given boolean value, if one exists.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -1521,7 +1533,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalTabList.by_contents">
-<span class="sig-name descname"><span class="pre">by_contents</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">contents</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalTab" title="PyXA.apps.Terminal.XATerminalTab"><span class="pre">PyXA.apps.Terminal.XATerminalTab</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalTabList.by_contents"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalTabList.by_contents" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">by_contents</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">contents</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalTab" title="PyXA.apps.Terminal.XATerminalTab"><span class="pre">XATerminalTab</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalTabList.by_contents"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalTabList.by_contents" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the tab whose contents matches the given string, if one exists.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -1538,7 +1550,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalTabList.by_current_settings">
-<span class="sig-name descname"><span class="pre">by_current_settings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">current_settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSet" title="PyXA.apps.Terminal.XATerminalSettingsSet"><span class="pre">PyXA.apps.Terminal.XATerminalSettingsSet</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalTab" title="PyXA.apps.Terminal.XATerminalTab"><span class="pre">PyXA.apps.Terminal.XATerminalTab</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalTabList.by_current_settings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalTabList.by_current_settings" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">by_current_settings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">current_settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSet" title="PyXA.apps.Terminal.XATerminalSettingsSet"><span class="pre">XATerminalSettingsSet</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalTab" title="PyXA.apps.Terminal.XATerminalTab"><span class="pre">XATerminalTab</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalTabList.by_current_settings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalTabList.by_current_settings" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the tab whose current settings matches the given settings set object, if one exists.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -1555,7 +1567,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalTabList.by_custom_title">
-<span class="sig-name descname"><span class="pre">by_custom_title</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">custom_title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalTab" title="PyXA.apps.Terminal.XATerminalTab"><span class="pre">PyXA.apps.Terminal.XATerminalTab</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalTabList.by_custom_title"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalTabList.by_custom_title" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">by_custom_title</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">custom_title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalTab" title="PyXA.apps.Terminal.XATerminalTab"><span class="pre">XATerminalTab</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalTabList.by_custom_title"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalTabList.by_custom_title" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the tab whose custom title matches the given title, if one exists.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -1572,7 +1584,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalTabList.by_history">
-<span class="sig-name descname"><span class="pre">by_history</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">history</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalTab" title="PyXA.apps.Terminal.XATerminalTab"><span class="pre">PyXA.apps.Terminal.XATerminalTab</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalTabList.by_history"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalTabList.by_history" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">by_history</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">history</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalTab" title="PyXA.apps.Terminal.XATerminalTab"><span class="pre">XATerminalTab</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalTabList.by_history"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalTabList.by_history" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the tab whose history matches the given string, if one exists.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -1589,7 +1601,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalTabList.by_number_of_columns">
-<span class="sig-name descname"><span class="pre">by_number_of_columns</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">number_of_columns</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalTab" title="PyXA.apps.Terminal.XATerminalTab"><span class="pre">PyXA.apps.Terminal.XATerminalTab</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalTabList.by_number_of_columns"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalTabList.by_number_of_columns" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">by_number_of_columns</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">number_of_columns</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalTab" title="PyXA.apps.Terminal.XATerminalTab"><span class="pre">XATerminalTab</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalTabList.by_number_of_columns"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalTabList.by_number_of_columns" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the tab whose number of columns matches the given number, if one exists.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -1606,7 +1618,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalTabList.by_number_of_rows">
-<span class="sig-name descname"><span class="pre">by_number_of_rows</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">number_of_rows</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalTab" title="PyXA.apps.Terminal.XATerminalTab"><span class="pre">PyXA.apps.Terminal.XATerminalTab</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalTabList.by_number_of_rows"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalTabList.by_number_of_rows" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">by_number_of_rows</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">number_of_rows</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalTab" title="PyXA.apps.Terminal.XATerminalTab"><span class="pre">XATerminalTab</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalTabList.by_number_of_rows"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalTabList.by_number_of_rows" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the tab whose number of rows matches the given number, if one exists.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -1623,7 +1635,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalTabList.by_processes">
-<span class="sig-name descname"><span class="pre">by_processes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">processes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalTab" title="PyXA.apps.Terminal.XATerminalTab"><span class="pre">PyXA.apps.Terminal.XATerminalTab</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalTabList.by_processes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalTabList.by_processes" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">by_processes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">processes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalTab" title="PyXA.apps.Terminal.XATerminalTab"><span class="pre">XATerminalTab</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalTabList.by_processes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalTabList.by_processes" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the tab whose list of processes matches the given list, if one exists.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -1640,7 +1652,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalTabList.by_selected">
-<span class="sig-name descname"><span class="pre">by_selected</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">selected</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalTab" title="PyXA.apps.Terminal.XATerminalTab"><span class="pre">PyXA.apps.Terminal.XATerminalTab</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalTabList.by_selected"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalTabList.by_selected" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">by_selected</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">selected</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalTab" title="PyXA.apps.Terminal.XATerminalTab"><span class="pre">XATerminalTab</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalTabList.by_selected"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalTabList.by_selected" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the tab whose selected status matches the given boolean value, if one exists.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -1657,7 +1669,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalTabList.by_title_displays_custom_title">
-<span class="sig-name descname"><span class="pre">by_title_displays_custom_title</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">title_displays_custom_title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalTab" title="PyXA.apps.Terminal.XATerminalTab"><span class="pre">PyXA.apps.Terminal.XATerminalTab</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalTabList.by_title_displays_custom_title"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalTabList.by_title_displays_custom_title" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">by_title_displays_custom_title</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">title_displays_custom_title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalTab" title="PyXA.apps.Terminal.XATerminalTab"><span class="pre">XATerminalTab</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalTabList.by_title_displays_custom_title"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalTabList.by_title_displays_custom_title" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the tab whose custom title status matches the given boolean value, if one exists.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -1674,7 +1686,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalTabList.by_tty">
-<span class="sig-name descname"><span class="pre">by_tty</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tty</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalTab" title="PyXA.apps.Terminal.XATerminalTab"><span class="pre">PyXA.apps.Terminal.XATerminalTab</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalTabList.by_tty"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalTabList.by_tty" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">by_tty</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tty</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalTab" title="PyXA.apps.Terminal.XATerminalTab"><span class="pre">XATerminalTab</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalTabList.by_tty"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalTabList.by_tty" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the tab whose TTY name matches the given TTY name, if one exists.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -1691,14 +1703,14 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalTabList.contents">
-<span class="sig-name descname"><span class="pre">contents</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalTabList.contents"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalTabList.contents" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">contents</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalTabList.contents"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalTabList.contents" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the contents of each tab in the list.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>A list of tab contents</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p>List[str]</p>
+<dd class="field-even"><p>list[str]</p>
 </dd>
 </dl>
 <div class="versionadded">
@@ -1708,7 +1720,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalTabList.current_settings">
-<span class="sig-name descname"><span class="pre">current_settings</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSetList" title="PyXA.apps.Terminal.XATerminalSettingsSetList"><span class="pre">PyXA.apps.Terminal.XATerminalSettingsSetList</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalTabList.current_settings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalTabList.current_settings" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">current_settings</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalSettingsSetList" title="PyXA.apps.Terminal.XATerminalSettingsSetList"><span class="pre">XATerminalSettingsSetList</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalTabList.current_settings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalTabList.current_settings" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the current settings of each tab in the list.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -1725,14 +1737,14 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalTabList.custom_title">
-<span class="sig-name descname"><span class="pre">custom_title</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalTabList.custom_title"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalTabList.custom_title" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">custom_title</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalTabList.custom_title"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalTabList.custom_title" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the custom title of each tab in the list.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>A list of tab custom titles</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p>List[str]</p>
+<dd class="field-even"><p>list[str]</p>
 </dd>
 </dl>
 <div class="versionadded">
@@ -1742,7 +1754,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalTabList.get_clipboard_representation">
-<span class="sig-name descname"><span class="pre">get_clipboard_representation</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalTabList.get_clipboard_representation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalTabList.get_clipboard_representation" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_clipboard_representation</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalTabList.get_clipboard_representation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalTabList.get_clipboard_representation" title="Permalink to this definition"></a></dt>
 <dd><p>Gets a clipboard-codable representation of each tab in the list.</p>
 <p>When the clipboard content is set to a list of Terminal tabs, each tab’s custom title and history are added to the clipboard.</p>
 <dl class="field-list simple">
@@ -1750,7 +1762,7 @@
 <dd class="field-odd"><p>The list of each tab’s custom title and history</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p>List[str]</p>
+<dd class="field-even"><p>list[str]</p>
 </dd>
 </dl>
 <div class="versionadded">
@@ -1760,14 +1772,14 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalTabList.history">
-<span class="sig-name descname"><span class="pre">history</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalTabList.history"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalTabList.history" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">history</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalTabList.history"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalTabList.history" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the history f each tab in the list.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>A list of tab histories</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p>List[str]</p>
+<dd class="field-even"><p>list[str]</p>
 </dd>
 </dl>
 <div class="versionadded">
@@ -1777,14 +1789,14 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalTabList.number_of_columns">
-<span class="sig-name descname"><span class="pre">number_of_columns</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalTabList.number_of_columns"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalTabList.number_of_columns" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">number_of_columns</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalTabList.number_of_columns"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalTabList.number_of_columns" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the number of columns of each tab in the list.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>A list of tab column counts</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p>List[int]</p>
+<dd class="field-even"><p>list[int]</p>
 </dd>
 </dl>
 <div class="versionadded">
@@ -1794,14 +1806,14 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalTabList.number_of_rows">
-<span class="sig-name descname"><span class="pre">number_of_rows</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalTabList.number_of_rows"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalTabList.number_of_rows" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">number_of_rows</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalTabList.number_of_rows"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalTabList.number_of_rows" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the number of rows of each tab in the list.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>A list of tab row counts</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p>List[int]</p>
+<dd class="field-even"><p>list[int]</p>
 </dd>
 </dl>
 <div class="versionadded">
@@ -1811,14 +1823,14 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalTabList.processes">
-<span class="sig-name descname"><span class="pre">processes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalTabList.processes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalTabList.processes" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">processes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalTabList.processes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalTabList.processes" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the processes of each tab in the list.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>A list of tab process lists</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p>List[List[str]]</p>
+<dd class="field-even"><p>list[list[str]]</p>
 </dd>
 </dl>
 <div class="versionadded">
@@ -1828,14 +1840,14 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalTabList.selected">
-<span class="sig-name descname"><span class="pre">selected</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalTabList.selected"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalTabList.selected" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">selected</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalTabList.selected"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalTabList.selected" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the selected status of each tab in the list.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>A list of tab selected statuses</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p>List[bool]</p>
+<dd class="field-even"><p>list[bool]</p>
 </dd>
 </dl>
 <div class="versionadded">
@@ -1845,14 +1857,14 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalTabList.title_displays_custom_title">
-<span class="sig-name descname"><span class="pre">title_displays_custom_title</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalTabList.title_displays_custom_title"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalTabList.title_displays_custom_title" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">title_displays_custom_title</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalTabList.title_displays_custom_title"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalTabList.title_displays_custom_title" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the custom title status of each tab in the list.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>A list of tab custom title statuses</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p>List[bool]</p>
+<dd class="field-even"><p>list[bool]</p>
 </dd>
 </dl>
 <div class="versionadded">
@@ -1862,14 +1874,14 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalTabList.tty">
-<span class="sig-name descname"><span class="pre">tty</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalTabList.tty"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalTabList.tty" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">tty</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalTabList.tty"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalTabList.tty" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the TTY name of each tab in the list.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>A list of tab TTY names</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p>List[str]</p>
+<dd class="field-even"><p>list[str]</p>
 </dd>
 </dl>
 <div class="versionadded">
@@ -1882,7 +1894,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalWindow">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Terminal.</span></span><span class="sig-name descname"><span class="pre">XATerminalWindow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalWindow"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalWindow" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XASBWindow" title="PyXA.XABaseScriptable.XASBWindow"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABaseScriptable.XASBWindow</span></code></a>, <a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XASBPrintable" title="PyXA.XABaseScriptable.XASBPrintable"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABaseScriptable.XASBPrintable</span></code></a>, <a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAObject</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XASBWindow" title="PyXA.XABaseScriptable.XASBWindow"><code class="xref py py-class docutils literal notranslate"><span class="pre">XASBWindow</span></code></a>, <a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XASBPrintable" title="PyXA.XABaseScriptable.XASBPrintable"><code class="xref py py-class docutils literal notranslate"><span class="pre">XASBPrintable</span></code></a>, <a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAObject</span></code></a></p>
 <p>A class for managing and interacting with windows in Terminal.app.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.1.</span></p>
@@ -1952,7 +1964,7 @@
 </table>
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalWindow.bounds">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">bounds</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalWindow.bounds" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">bounds</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalWindow.bounds" title="Permalink to this definition"></a></dt>
 <dd><p>The bounding rectangle of the window</p>
 </dd></dl>
 
@@ -2000,7 +2012,7 @@
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalWindow.position">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">position</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalWindow.position" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">position</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalWindow.position" title="Permalink to this definition"></a></dt>
 <dd><p>The position of the top-left corner of the window</p>
 </dd></dl>
 
@@ -2012,13 +2024,13 @@
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalWindow.selected_tab">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">selected_tab</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalTab" title="PyXA.apps.Terminal.XATerminalTab"><span class="pre">PyXA.apps.Terminal.XATerminalTab</span></a></em><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalWindow.selected_tab" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">selected_tab</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalTab" title="PyXA.apps.Terminal.XATerminalTab"><span class="pre">XATerminalTab</span></a></em><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalWindow.selected_tab" title="Permalink to this definition"></a></dt>
 <dd><p>The Terminal tab currently displayed in the window</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Terminal.XATerminalWindow.tabs">
-<span class="sig-name descname"><span class="pre">tabs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalTabList" title="PyXA.apps.Terminal.XATerminalTabList"><span class="pre">PyXA.apps.Terminal.XATerminalTabList</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalWindow.tabs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalWindow.tabs" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">tabs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Terminal.XATerminalTabList" title="PyXA.apps.Terminal.XATerminalTabList"><span class="pre">XATerminalTabList</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Terminal.html#XATerminalWindow.tabs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Terminal.XATerminalWindow.tabs" title="Permalink to this definition"></a></dt>
 <dd><p>Returns a list of tabs, as PyXA-wrapped objects, matching the given filter.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>

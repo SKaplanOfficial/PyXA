@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PyXA.apps.Automator &mdash; PyXA 0.0.9 documentation</title>
+  <title>PyXA.apps.Automator &mdash; PyXA 0.1.0 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -14,7 +14,9 @@
         <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/jquery.js"></script>
         <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -74,11 +76,9 @@
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
-<span class="kn">from</span> <span class="nn">turtle</span> <span class="kn">import</span> <span class="n">st</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
-<span class="kn">from</span> <span class="nn">AppKit</span> <span class="kn">import</span> <span class="n">NSFileManager</span><span class="p">,</span> <span class="n">NSURL</span><span class="p">,</span> <span class="n">NSSet</span><span class="p">,</span> <span class="n">NSValue</span><span class="p">,</span> <span class="n">NSMakeRect</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Union</span>
 
-<span class="kn">from</span> <span class="nn">AppKit</span> <span class="kn">import</span> <span class="n">NSPredicate</span><span class="p">,</span> <span class="n">NSMutableArray</span><span class="p">,</span> <span class="n">NSFileManager</span>
+<span class="kn">import</span> <span class="nn">AppKit</span>
 
 <span class="kn">from</span> <span class="nn">PyXA</span> <span class="kn">import</span> <span class="n">XABase</span>
 <span class="kn">from</span> <span class="nn">PyXA</span> <span class="kn">import</span> <span class="n">XABaseScriptable</span>
@@ -114,11 +114,15 @@
     <span class="k">def</span> <span class="nf">frontmost</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">frontmost</span><span class="p">()</span>
 
+    <span class="nd">@frontmost</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">frontmost</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frontmost</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s1">&#39;frontmost&#39;</span><span class="p">,</span> <span class="n">frontmost</span><span class="p">)</span>
+
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">version</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">version</span><span class="p">()</span>
 
-<div class="viewcode-block" id="XAAutomatorApplication.open"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorApplication.open">[docs]</a>    <span class="k">def</span> <span class="nf">open</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">NSURL</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAAutomatorWorkflow&#39;</span><span class="p">:</span>
+<div class="viewcode-block" id="XAAutomatorApplication.open"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorApplication.open">[docs]</a>    <span class="k">def</span> <span class="nf">open</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">AppKit</span><span class="o">.</span><span class="n">NSURL</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAAutomatorWorkflow&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Opens the file at the given filepath.</span>
 
 <span class="sd">        :param target: The path to a file or the URL to a website to open.</span>
@@ -128,7 +132,7 @@
 
 <span class="sd">        .. versionadded:: 0.0.1</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">NSURL</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">AppKit</span><span class="o">.</span><span class="n">NSURL</span><span class="p">):</span>
             <span class="n">path</span> <span class="o">=</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAPath</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">xa_wksp</span><span class="o">.</span><span class="n">openURLs_withAppBundleIdentifier_options_additionalEventParamDescriptor_launchIdentifiers_</span><span class="p">([</span><span class="n">path</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">bundleIdentifier</span><span class="p">(),</span> <span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">workflows</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span></div>
@@ -217,7 +221,7 @@
 
         <span class="k">if</span> <span class="n">specifier</span> <span class="o">==</span> <span class="s2">&quot;workflow&quot;</span><span class="p">:</span>
             <span class="k">if</span> <span class="s2">&quot;path&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">properties</span> <span class="ow">and</span> <span class="s2">&quot;name&quot;</span> <span class="ow">in</span> <span class="n">properties</span><span class="p">:</span>
-                <span class="n">fm</span> <span class="o">=</span> <span class="n">NSFileManager</span><span class="o">.</span><span class="n">defaultManager</span><span class="p">()</span>
+                <span class="n">fm</span> <span class="o">=</span> <span class="n">AppKit</span><span class="o">.</span><span class="n">NSFileManager</span><span class="o">.</span><span class="n">defaultManager</span><span class="p">()</span>
                 <span class="n">properties</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;path&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fm</span><span class="o">.</span><span class="n">homeDirectoryForCurrentUser</span><span class="p">()</span><span class="o">.</span><span class="n">path</span><span class="p">()</span><span class="si">}</span><span class="s2">/Downloads/</span><span class="si">{</span><span class="n">properties</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">.workflow&quot;</span><span class="p">})</span>
             <span class="k">elif</span> <span class="ow">not</span> <span class="n">properties</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;path&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.workflow&quot;</span><span class="p">):</span>
                 <span class="n">properties</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;path&quot;</span><span class="p">:</span> <span class="n">properties</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;path&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;.workflow&quot;</span><span class="p">})</span>
@@ -235,6 +239,9 @@
         <span class="k">elif</span> <span class="n">specifier</span> <span class="o">==</span> <span class="s2">&quot;setting&quot;</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">XAAutomatorSetting</span><span class="p">)</span></div></div>
 
+
+
+
 <div class="viewcode-block" id="XAAutomatorWindow"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorWindow">[docs]</a><span class="k">class</span> <span class="nc">XAAutomatorWindow</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBWindow</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A class for managing and interacting with Automator windows.</span>
 
@@ -247,7 +254,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The full title of the window</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">:</span> <span class="nb">int</span> <span class="c1">#: The unique identifier for the window</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">index</span><span class="p">:</span> <span class="nb">int</span> <span class="c1">#: The index of the window in the front-to-back ordering</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">bounds</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]</span> <span class="c1">#: The bounding rectangle of the window</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bounds</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="c1">#: The bounding rectangle of the window</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">floating</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether the window float</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">modal</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether the window is a modal window</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">closeable</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether the window has a close button</span>
@@ -281,16 +288,19 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;index&quot;</span><span class="p">,</span> <span class="n">index</span><span class="p">)</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">bounds</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">bounds</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">bounds</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+        <span class="n">rect</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">bounds</span><span class="p">()</span>
+        <span class="n">origin</span> <span class="o">=</span> <span class="n">rect</span><span class="o">.</span><span class="n">origin</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="n">rect</span><span class="o">.</span><span class="n">size</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">origin</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">origin</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">size</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="n">size</span><span class="o">.</span><span class="n">height</span><span class="p">)</span>
 
     <span class="nd">@bounds</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span> <span class="nf">bounds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bounds</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]):</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
-        <span class="n">y</span> <span class="o">=</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
-        <span class="n">w</span> <span class="o">=</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
-        <span class="n">h</span> <span class="o">=</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
-        <span class="n">value</span> <span class="o">=</span> <span class="n">NSValue</span><span class="o">.</span><span class="n">valueWithRect_</span><span class="p">(</span><span class="n">NSMakeRect</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">h</span><span class="p">))</span>
+    <span class="k">def</span> <span class="nf">bounds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bounds</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">w</span> <span class="o">=</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">AppKit</span><span class="o">.</span><span class="n">NSValue</span><span class="o">.</span><span class="n">valueWithRect_</span><span class="p">(</span><span class="n">AppKit</span><span class="o">.</span><span class="n">NSMakeRect</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">h</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;bounds&quot;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
 
     <span class="nd">@property</span>
@@ -362,31 +372,31 @@
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">XAAutomatorDocument</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
 
-<div class="viewcode-block" id="XAAutomatorDocumentList.id"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorDocumentList.id">[docs]</a>    <span class="k">def</span> <span class="nf">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAAutomatorDocumentList.id"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorDocumentList.id">[docs]</a>    <span class="k">def</span> <span class="nf">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Retrieves the ID of each document in the list.</span>
 
 <span class="sd">        :return: The list of document IDs.</span>
-<span class="sd">        :rtype: List[int]</span>
+<span class="sd">        :rtype: list[int]</span>
 
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="XAAutomatorDocumentList.title"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorDocumentList.title">[docs]</a>    <span class="k">def</span> <span class="nf">title</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAAutomatorDocumentList.title"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorDocumentList.title">[docs]</a>    <span class="k">def</span> <span class="nf">title</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Retrieves the title of each document in the list.</span>
 
 <span class="sd">        :return: The list of document titles.</span>
-<span class="sd">        :rtype: List[str]</span>
+<span class="sd">        :rtype: list[str]</span>
 
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;title&quot;</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="XAAutomatorDocumentList.index"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorDocumentList.index">[docs]</a>    <span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAAutomatorDocumentList.index"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorDocumentList.index">[docs]</a>    <span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Retrieves the index of each document in the list.</span>
 
 <span class="sd">        :return: The list of document indexes.</span>
-<span class="sd">        :rtype: List[int]</span>
+<span class="sd">        :rtype: list[int]</span>
 
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -451,12 +461,14 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">path</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">path</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">path</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAPath</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAPath</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">path</span><span class="p">())</span>
 
     <span class="nd">@path</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span> <span class="nf">path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;path&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAPath</span><span class="p">]):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAPath</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;path&quot;</span><span class="p">,</span> <span class="n">path</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s2">&quot;&lt;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span></div>
@@ -474,141 +486,141 @@
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">XAAutomatorAction</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
 
-<div class="viewcode-block" id="XAAutomatorActionList.bundle_id"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.bundle_id">[docs]</a>    <span class="k">def</span> <span class="nf">bundle_id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAAutomatorActionList.bundle_id"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.bundle_id">[docs]</a>    <span class="k">def</span> <span class="nf">bundle_id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Retrieves the bundle identifier of each action in the list.</span>
 
 <span class="sd">        :return: The list of bundle identifiers.</span>
-<span class="sd">        :rtype: List[str]</span>
+<span class="sd">        :rtype: list[str]</span>
 
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;bundleId&quot;</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="XAAutomatorActionList.category"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.category">[docs]</a>    <span class="k">def</span> <span class="nf">category</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
+<div class="viewcode-block" id="XAAutomatorActionList.category"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.category">[docs]</a>    <span class="k">def</span> <span class="nf">category</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
         <span class="sd">&quot;&quot;&quot;Retrieves the category/categories of each action in the list.</span>
 
 <span class="sd">        :return: The list of categories.</span>
-<span class="sd">        :rtype: List[List[str]]</span>
+<span class="sd">        :rtype: list[list[str]]</span>
 
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;category&quot;</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="XAAutomatorActionList.comment"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.comment">[docs]</a>    <span class="k">def</span> <span class="nf">comment</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAAutomatorActionList.comment"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.comment">[docs]</a>    <span class="k">def</span> <span class="nf">comment</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Retrieves the comments of each action in the list.</span>
 
 <span class="sd">        :return: The list of comments.</span>
-<span class="sd">        :rtype: List[str]</span>
+<span class="sd">        :rtype: list[str]</span>
 
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;comment&quot;</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="XAAutomatorActionList.enabled"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.enabled">[docs]</a>    <span class="k">def</span> <span class="nf">enabled</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAAutomatorActionList.enabled"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.enabled">[docs]</a>    <span class="k">def</span> <span class="nf">enabled</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Retrieves the enabled status of each action in the list.</span>
 
 <span class="sd">        :return: The list of enabled status booleans.</span>
-<span class="sd">        :rtype: List[bool]</span>
+<span class="sd">        :rtype: list[bool]</span>
 
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;enabled&quot;</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="XAAutomatorActionList.execution_error_message"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.execution_error_message">[docs]</a>    <span class="k">def</span> <span class="nf">execution_error_message</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAAutomatorActionList.execution_error_message"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.execution_error_message">[docs]</a>    <span class="k">def</span> <span class="nf">execution_error_message</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Retrieves the execution error message of each action in the list.</span>
 
 <span class="sd">        :return: The list of error messages.</span>
-<span class="sd">        :rtype: List[str]</span>
+<span class="sd">        :rtype: list[str]</span>
 
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;executionErrorMessage&quot;</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="XAAutomatorActionList.execution_error_number"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.execution_error_number">[docs]</a>    <span class="k">def</span> <span class="nf">execution_error_number</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAAutomatorActionList.execution_error_number"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.execution_error_number">[docs]</a>    <span class="k">def</span> <span class="nf">execution_error_number</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Retrieves the execution error number of each action in the list.</span>
 
 <span class="sd">        :return: The list of error numbers.</span>
-<span class="sd">        :rtype: List[int]</span>
+<span class="sd">        :rtype: list[int]</span>
 
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;executionErrorNumber&quot;</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="XAAutomatorActionList.execution_result"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.execution_result">[docs]</a>    <span class="k">def</span> <span class="nf">execution_result</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAAutomatorActionList.execution_result"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.execution_result">[docs]</a>    <span class="k">def</span> <span class="nf">execution_result</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Any</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Retrieves the result value of each action in the list.</span>
 
 <span class="sd">        :return: The list of results.</span>
-<span class="sd">        :rtype: List[Any]</span>
+<span class="sd">        :rtype: list[Any]</span>
 
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;executionResult&quot;</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="XAAutomatorActionList.icon_name"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.icon_name">[docs]</a>    <span class="k">def</span> <span class="nf">icon_name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAAutomatorActionList.icon_name"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.icon_name">[docs]</a>    <span class="k">def</span> <span class="nf">icon_name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Retrieves the icon name of each action in the list.</span>
 
 <span class="sd">        :return: The list of icon names.</span>
-<span class="sd">        :rtype: List[str]</span>
+<span class="sd">        :rtype: list[str]</span>
 
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;iconName&quot;</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="XAAutomatorActionList.ignores_input"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.ignores_input">[docs]</a>    <span class="k">def</span> <span class="nf">ignores_input</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAAutomatorActionList.ignores_input"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.ignores_input">[docs]</a>    <span class="k">def</span> <span class="nf">ignores_input</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Retrieves the ignore input status of each action in the list.</span>
 
 <span class="sd">        :return: The list of ignore input status booleans.</span>
-<span class="sd">        :rtype: List[bool]</span>
+<span class="sd">        :rtype: list[bool]</span>
 
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;ignoresInput&quot;</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="XAAutomatorActionList.index"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.index">[docs]</a>    <span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAAutomatorActionList.index"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.index">[docs]</a>    <span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Retrieves the index of each action in the list.</span>
 
 <span class="sd">        :return: The list of action indices.</span>
-<span class="sd">        :rtype: List[int]</span>
+<span class="sd">        :rtype: list[int]</span>
 
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;index&quot;</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="XAAutomatorActionList.input_types"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.input_types">[docs]</a>    <span class="k">def</span> <span class="nf">input_types</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
+<div class="viewcode-block" id="XAAutomatorActionList.input_types"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.input_types">[docs]</a>    <span class="k">def</span> <span class="nf">input_types</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
         <span class="sd">&quot;&quot;&quot;Retrieves the input types of each action in the list.</span>
 
 <span class="sd">        :return: The list of input types.</span>
-<span class="sd">        :rtype: List[List[str]]</span>
+<span class="sd">        :rtype: list[list[str]]</span>
 
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;inputTypes&quot;</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="XAAutomatorActionList.keywords"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.keywords">[docs]</a>    <span class="k">def</span> <span class="nf">keywords</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
+<div class="viewcode-block" id="XAAutomatorActionList.keywords"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.keywords">[docs]</a>    <span class="k">def</span> <span class="nf">keywords</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
         <span class="sd">&quot;&quot;&quot;Retrieves the keywords of each action in the list.</span>
 
 <span class="sd">        :return: The list of keywords.</span>
-<span class="sd">        :rtype: List[List[str]]</span>
+<span class="sd">        :rtype: list[list[str]]</span>
 
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;keywords&quot;</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="XAAutomatorActionList.name"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.name">[docs]</a>    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAAutomatorActionList.name"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.name">[docs]</a>    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Retrieves the name of each action in the list.</span>
 
 <span class="sd">        :return: The list of names.</span>
-<span class="sd">        :rtype: List[str]</span>
+<span class="sd">        :rtype: list[str]</span>
 
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="XAAutomatorActionList.output_types"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.output_types">[docs]</a>    <span class="k">def</span> <span class="nf">output_types</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
+<div class="viewcode-block" id="XAAutomatorActionList.output_types"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.output_types">[docs]</a>    <span class="k">def</span> <span class="nf">output_types</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
         <span class="sd">&quot;&quot;&quot;Retrieves the output types of each action in the list.</span>
 
 <span class="sd">        :return: The list of output types.</span>
-<span class="sd">        :rtype: List[List[str]]</span>
+<span class="sd">        :rtype: list[list[str]]</span>
 
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -625,72 +637,72 @@
         <span class="n">ls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;parentWorkflow&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="n">ls</span><span class="p">,</span> <span class="n">XAAutomatorWorkflowList</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="XAAutomatorActionList.path"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.path">[docs]</a>    <span class="k">def</span> <span class="nf">path</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAAutomatorActionList.path"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.path">[docs]</a>    <span class="k">def</span> <span class="nf">path</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Retrieves the file path of each action in the list.</span>
 
 <span class="sd">        :return: The list of paths.</span>
-<span class="sd">        :rtype: List[str]</span>
+<span class="sd">        :rtype: list[str]</span>
 
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;path&quot;</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="XAAutomatorActionList.show_action_when_run"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.show_action_when_run">[docs]</a>    <span class="k">def</span> <span class="nf">show_action_when_run</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAAutomatorActionList.show_action_when_run"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.show_action_when_run">[docs]</a>    <span class="k">def</span> <span class="nf">show_action_when_run</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Retrieves the status of the show action when run setting of each action in the list.</span>
 
 <span class="sd">        :return: The list of boolean statuses.</span>
-<span class="sd">        :rtype: List[bool]</span>
+<span class="sd">        :rtype: list[bool]</span>
 
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;showActionWhenRun&quot;</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="XAAutomatorActionList.target_application"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.target_application">[docs]</a>    <span class="k">def</span> <span class="nf">target_application</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
+<div class="viewcode-block" id="XAAutomatorActionList.target_application"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.target_application">[docs]</a>    <span class="k">def</span> <span class="nf">target_application</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
         <span class="sd">&quot;&quot;&quot;Retrieves the target application name of each action in the list.</span>
 
 <span class="sd">        :return: The list of target application names.</span>
-<span class="sd">        :rtype: List[List[str]]</span>
+<span class="sd">        :rtype: list[list[str]]</span>
 
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;targetApplication&quot;</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="XAAutomatorActionList.version"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.version">[docs]</a>    <span class="k">def</span> <span class="nf">version</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAAutomatorActionList.version"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.version">[docs]</a>    <span class="k">def</span> <span class="nf">version</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Retrieves the version of each action in the list.</span>
 
 <span class="sd">        :return: The list of versions.</span>
-<span class="sd">        :rtype: List[str]</span>
+<span class="sd">        :rtype: list[str]</span>
 
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;version&quot;</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="XAAutomatorActionList.warning_action"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.warning_action">[docs]</a>    <span class="k">def</span> <span class="nf">warning_action</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAAutomatorActionList.warning_action"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.warning_action">[docs]</a>    <span class="k">def</span> <span class="nf">warning_action</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Retrieves the warning action of each action in the list.</span>
 
 <span class="sd">        :return: The list of warning actions.</span>
-<span class="sd">        :rtype: List[str]</span>
+<span class="sd">        :rtype: list[str]</span>
 
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;warningAction&quot;</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="XAAutomatorActionList.warning_level"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.warning_level">[docs]</a>    <span class="k">def</span> <span class="nf">warning_level</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">XAAutomatorApplication</span><span class="o">.</span><span class="n">WarningLevel</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAAutomatorActionList.warning_level"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.warning_level">[docs]</a>    <span class="k">def</span> <span class="nf">warning_level</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">XAAutomatorApplication</span><span class="o">.</span><span class="n">WarningLevel</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Retrieves the warning level of each action in the list.</span>
 
 <span class="sd">        :return: The list of warning levels.</span>
-<span class="sd">        :rtype: List[XAAutomatorApplication.WarningLevel]</span>
+<span class="sd">        :rtype: list[XAAutomatorApplication.WarningLevel]</span>
 
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">ls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;warningLevel&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">XAAutomatorApplication</span><span class="o">.</span><span class="n">WarningLevel</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">ls</span><span class="p">]</span></div>
 
-<div class="viewcode-block" id="XAAutomatorActionList.warning_message"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.warning_message">[docs]</a>    <span class="k">def</span> <span class="nf">warning_message</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAAutomatorActionList.warning_message"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.warning_message">[docs]</a>    <span class="k">def</span> <span class="nf">warning_message</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Retrieves the warning message of each action in the list.</span>
 
 <span class="sd">        :return: The list of warning messages.</span>
-<span class="sd">        :rtype: List[str]</span>
+<span class="sd">        :rtype: list[str]</span>
 
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -706,7 +718,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;bundleId&quot;</span><span class="p">,</span> <span class="n">bundle_id</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="XAAutomatorActionList.by_category"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.by_category">[docs]</a>    <span class="k">def</span> <span class="nf">by_category</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">category</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XAAutomatorAction&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAAutomatorActionList.by_category"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.by_category">[docs]</a>    <span class="k">def</span> <span class="nf">by_category</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">category</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XAAutomatorAction&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Retrieves the first action whose category matches the given category, if one exists.</span>
 
 <span class="sd">        :return: The desired action, if it is found</span>
@@ -796,7 +808,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;ignoresInput&quot;</span><span class="p">,</span> <span class="n">ignores_input</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="XAAutomatorActionList.by_input_types"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.by_input_types">[docs]</a>    <span class="k">def</span> <span class="nf">by_input_types</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_types</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XAAutomatorAction&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAAutomatorActionList.by_input_types"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.by_input_types">[docs]</a>    <span class="k">def</span> <span class="nf">by_input_types</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_types</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XAAutomatorAction&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Retrieves the first action whose input types match the given input types, if one exists.</span>
 
 <span class="sd">        :return: The desired action, if it is found</span>
@@ -806,7 +818,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;inputTypes&quot;</span><span class="p">,</span> <span class="n">input_types</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="XAAutomatorActionList.by_keywords"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.by_keywords">[docs]</a>    <span class="k">def</span> <span class="nf">by_keywords</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">keywords</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XAAutomatorAction&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAAutomatorActionList.by_keywords"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.by_keywords">[docs]</a>    <span class="k">def</span> <span class="nf">by_keywords</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">keywords</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XAAutomatorAction&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Retrieves the first action whose keywords match the given keywords, if one exists.</span>
 
 <span class="sd">        :return: The desired action, if it is found</span>
@@ -826,7 +838,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="XAAutomatorActionList.by_output_types"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.by_output_types">[docs]</a>    <span class="k">def</span> <span class="nf">by_output_types</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output_types</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XAAutomatorAction&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAAutomatorActionList.by_output_types"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.by_output_types">[docs]</a>    <span class="k">def</span> <span class="nf">by_output_types</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output_types</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XAAutomatorAction&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Retrieves the first action whose output types match the given output types, if one exists.</span>
 
 <span class="sd">        :return: The desired action, if it is found</span>
@@ -866,7 +878,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;show_action_when_run&quot;</span><span class="p">,</span> <span class="n">show_action_when_run</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="XAAutomatorActionList.by_target_application"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.by_target_application">[docs]</a>    <span class="k">def</span> <span class="nf">by_target_application</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target_application</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XAAutomatorAction&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAAutomatorActionList.by_target_application"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorActionList.by_target_application">[docs]</a>    <span class="k">def</span> <span class="nf">by_target_application</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target_application</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XAAutomatorAction&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Retrieves the first action whose target application matches the given application name, if one exists.</span>
 
 <span class="sd">        :return: The desired action, if it is found</span>
@@ -929,7 +941,7 @@
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">bundle_id</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The bundle identifier for the action</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">category</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="c1">#: The category that contains the action</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">category</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="c1">#: The category that contains the action</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">comment</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The comment for the name of the action</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">enabled</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether the action is enabled</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">execution_error_message</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The text error message generated by execution of the action</span>
@@ -939,14 +951,14 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The unique identifier for the action</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ignores_input</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether the action ignores input when run</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">index</span><span class="p">:</span> <span class="nb">int</span> <span class="c1">#: The index of the action from the first action in the workflow</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">input_types</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="c1">#: The input types accepted by the action</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">keywords</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="c1">#: The keywords that describe the action</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_types</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="c1">#: The input types accepted by the action</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">keywords</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="c1">#: The keywords that describe the action</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The localized name of the action</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">output_types</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="c1">#: The output types produces by the action</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">output_types</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="c1">#: The output types produces by the action</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">parent_workflow</span><span class="p">:</span> <span class="n">XAAutomatorWorkflow</span> <span class="c1">#: The workflow that contains the action</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The path of the file that contains the action</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">show_action_when_run</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether the action should show its user interface when run</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">target_application</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="c1">#: The application(s) with which the action communicates</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">target_application</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="c1">#: The application(s) with which the action communicates</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The version of the action</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">warning_action</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The action suggested by the warning, if any</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">warning_level</span><span class="p">:</span> <span class="n">XAAutomatorApplication</span><span class="o">.</span><span class="n">WarningLevel</span> <span class="c1">#: The level of the warning, increasing in likelihood of data loss</span>
@@ -957,7 +969,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">bundleId</span><span class="p">()</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">category</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">category</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">category</span><span class="p">()</span>
 
     <span class="nd">@property</span>
@@ -1013,11 +1025,11 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;index&quot;</span><span class="p">,</span> <span class="n">index</span><span class="p">)</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">input_types</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">input_types</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">inputTypes</span><span class="p">()</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">keywords</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">keywords</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">keywords</span><span class="p">()</span>
 
     <span class="nd">@property</span>
@@ -1025,7 +1037,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">name</span><span class="p">()</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">output_types</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">output_types</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">outputTypes</span><span class="p">()</span>
 
     <span class="nd">@property</span>
@@ -1033,8 +1045,8 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">parentWorkflow</span><span class="p">(),</span> <span class="n">XAAutomatorWorkflow</span><span class="p">)</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">path</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">path</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">path</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAPath</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAPath</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">path</span><span class="p">())</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">show_action_when_run</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
@@ -1045,7 +1057,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;showActionWhenRun&quot;</span><span class="p">,</span> <span class="n">show_action_when_run</span><span class="p">)</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">target_application</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">target_application</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">targetApplication</span><span class="p">()</span>
 
     <span class="nd">@property</span>
@@ -1104,41 +1116,41 @@
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">XAAutomatorRequiredResource</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
 
-<div class="viewcode-block" id="XAAutomatorRequiredResourceList.kind"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorRequiredResourceList.kind">[docs]</a>    <span class="k">def</span> <span class="nf">kind</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAAutomatorRequiredResourceList.kind"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorRequiredResourceList.kind">[docs]</a>    <span class="k">def</span> <span class="nf">kind</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Retrieves the resource type of each resource in the list.</span>
 
 <span class="sd">        :return: The list of resource types.</span>
-<span class="sd">        :rtype: List[str]</span>
+<span class="sd">        :rtype: list[str]</span>
 
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;kind&quot;</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="XAAutomatorRequiredResourceList.name"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorRequiredResourceList.name">[docs]</a>    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAAutomatorRequiredResourceList.name"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorRequiredResourceList.name">[docs]</a>    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Retrieves the name of each resource in the list.</span>
 
 <span class="sd">        :return: The list of resource names.</span>
-<span class="sd">        :rtype: List[str]</span>
+<span class="sd">        :rtype: list[str]</span>
 
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="XAAutomatorRequiredResourceList.resource"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorRequiredResourceList.resource">[docs]</a>    <span class="k">def</span> <span class="nf">resource</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAAutomatorRequiredResourceList.resource"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorRequiredResourceList.resource">[docs]</a>    <span class="k">def</span> <span class="nf">resource</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Retrieves the specification of each resource in the list.</span>
 
 <span class="sd">        :return: The list of resource specifications.</span>
-<span class="sd">        :rtype: List[str]</span>
+<span class="sd">        :rtype: list[str]</span>
 
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;resource&quot;</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="XAAutomatorRequiredResourceList.version"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorRequiredResourceList.version">[docs]</a>    <span class="k">def</span> <span class="nf">version</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAAutomatorRequiredResourceList.version"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorRequiredResourceList.version">[docs]</a>    <span class="k">def</span> <span class="nf">version</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Retrieves the version of each resource in the list.</span>
 
 <span class="sd">        :return: The list of resource versions.</span>
-<span class="sd">        :rtype: List[int]</span>
+<span class="sd">        :rtype: list[int]</span>
 
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -1233,31 +1245,31 @@
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">XAAutomatorSetting</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
 
-<div class="viewcode-block" id="XAAutomatorSettingList.default_value"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorSettingList.default_value">[docs]</a>    <span class="k">def</span> <span class="nf">default_value</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAAutomatorSettingList.default_value"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorSettingList.default_value">[docs]</a>    <span class="k">def</span> <span class="nf">default_value</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Any</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Retrieves the default value of each setting in the list.</span>
 
 <span class="sd">        :return: The list of default values.</span>
-<span class="sd">        :rtype: List[Any]</span>
+<span class="sd">        :rtype: list[Any]</span>
 
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;defaultValue&quot;</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="XAAutomatorSettingList.name"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorSettingList.name">[docs]</a>    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAAutomatorSettingList.name"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorSettingList.name">[docs]</a>    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Retrieves the name of each setting in the list.</span>
 
 <span class="sd">        :return: The list of setting names.</span>
-<span class="sd">        :rtype: List[str]</span>
+<span class="sd">        :rtype: list[str]</span>
 
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="XAAutomatorSettingList.value"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorSettingList.value">[docs]</a>    <span class="k">def</span> <span class="nf">value</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAAutomatorSettingList.value"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorSettingList.value">[docs]</a>    <span class="k">def</span> <span class="nf">value</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Any</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Retrieves the current value of each setting in the list.</span>
 
 <span class="sd">        :return: The list of current values.</span>
-<span class="sd">        :rtype: List[Any]</span>
+<span class="sd">        :rtype: list[Any]</span>
 
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -1345,31 +1357,31 @@
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">XAAutomatorVariable</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
 
-<div class="viewcode-block" id="XAAutomatorVariableList.name"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorVariableList.name">[docs]</a>    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAAutomatorVariableList.name"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorVariableList.name">[docs]</a>    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Retrieves the name of each variable in the list.</span>
 
 <span class="sd">        :return: The list of variable names.</span>
-<span class="sd">        :rtype: List[Any]</span>
+<span class="sd">        :rtype: list[Any]</span>
 
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="XAAutomatorVariableList.settable"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorVariableList.settable">[docs]</a>    <span class="k">def</span> <span class="nf">settable</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAAutomatorVariableList.settable"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorVariableList.settable">[docs]</a>    <span class="k">def</span> <span class="nf">settable</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Retrieves the value of the settable attribute of each variable in the list.</span>
 
 <span class="sd">        :return: The list of settable status booleans.</span>
-<span class="sd">        :rtype: List[bool]</span>
+<span class="sd">        :rtype: list[bool]</span>
 
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;settable&quot;</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="XAAutomatorVariableList.value"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorVariableList.value">[docs]</a>    <span class="k">def</span> <span class="nf">value</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAAutomatorVariableList.value"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorVariableList.value">[docs]</a>    <span class="k">def</span> <span class="nf">value</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Any</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Retrieves the current value of each variable in the list.</span>
 
 <span class="sd">        :return: The list of current values.</span>
-<span class="sd">        :rtype: List[Any]</span>
+<span class="sd">        :rtype: list[Any]</span>
 
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -1470,51 +1482,51 @@
         <span class="n">ls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;currentAction&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="n">ls</span><span class="p">,</span> <span class="n">XAAutomatorActionList</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="XAAutomatorWorkflowList.execution_error_message"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorWorkflowList.execution_error_message">[docs]</a>    <span class="k">def</span> <span class="nf">execution_error_message</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAAutomatorWorkflowList.execution_error_message"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorWorkflowList.execution_error_message">[docs]</a>    <span class="k">def</span> <span class="nf">execution_error_message</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Retrieves the execution error message of each workflow in the list.</span>
 
 <span class="sd">        :return: The list of error messages.</span>
-<span class="sd">        :rtype: List[str]</span>
+<span class="sd">        :rtype: list[str]</span>
 
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;executionErrorMessage&quot;</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="XAAutomatorWorkflowList.execution_error_number"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorWorkflowList.execution_error_number">[docs]</a>    <span class="k">def</span> <span class="nf">execution_error_number</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAAutomatorWorkflowList.execution_error_number"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorWorkflowList.execution_error_number">[docs]</a>    <span class="k">def</span> <span class="nf">execution_error_number</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Retrieves the execution error numbers of each workflow in the list.</span>
 
 <span class="sd">        :return: The list of error numbers.</span>
-<span class="sd">        :rtype: List[int]</span>
+<span class="sd">        :rtype: list[int]</span>
 
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;executionErrorNumber&quot;</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="XAAutomatorWorkflowList.execution_id"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorWorkflowList.execution_id">[docs]</a>    <span class="k">def</span> <span class="nf">execution_id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAAutomatorWorkflowList.execution_id"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorWorkflowList.execution_id">[docs]</a>    <span class="k">def</span> <span class="nf">execution_id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Retrieves the execution ID of each workflow in the list.</span>
 
 <span class="sd">        :return: The list of execution IDs.</span>
-<span class="sd">        :rtype: List[str]</span>
+<span class="sd">        :rtype: list[str]</span>
 
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;executionId&quot;</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="XAAutomatorWorkflowList.execution_result"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorWorkflowList.execution_result">[docs]</a>    <span class="k">def</span> <span class="nf">execution_result</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAAutomatorWorkflowList.execution_result"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorWorkflowList.execution_result">[docs]</a>    <span class="k">def</span> <span class="nf">execution_result</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Any</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Retrieves the execution result of each workflow in the list.</span>
 
 <span class="sd">        :return: The list of results.</span>
-<span class="sd">        :rtype: List[Any]</span>
+<span class="sd">        :rtype: list[Any]</span>
 
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;executionResult&quot;</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="XAAutomatorWorkflowList.name"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorWorkflowList.name">[docs]</a>    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAAutomatorWorkflowList.name"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorWorkflowList.name">[docs]</a>    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Retrieves the name of each workflow in the list.</span>
 
 <span class="sd">        :return: The list of workflow names.</span>
-<span class="sd">        :rtype: List[str]</span>
+<span class="sd">        :rtype: list[str]</span>
 
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -1622,10 +1634,6 @@
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">name</span><span class="p">()</span>
-
-    <span class="nd">@name</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
 
 <div class="viewcode-block" id="XAAutomatorWorkflow.execute"><a class="viewcode-back" href="../../../reference/apps/automator.html#PyXA.apps.Automator.XAAutomatorWorkflow.execute">[docs]</a>    <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Executes the workflow.</span>

@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>System Preferences Module Reference &mdash; PyXA 0.0.9 documentation</title>
+  <title>System Preferences Module Reference &mdash; PyXA 0.1.0 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
@@ -15,12 +15,14 @@
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Terminal Module Reference" href="terminal.html" />
-    <link rel="prev" title="Stocks Module Reference" href="stocks.html" /> 
+    <link rel="prev" title="System Events Module Reference" href="systemevents.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -45,7 +47,7 @@
 <li class="toctree-l1 current"><a class="reference internal" href="../index.html">Code Documentation and Reference</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../index.html#top-level-pyxa-modules">Top-level PyXA Modules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../index.html#pyxa-base-modules">PyXA Base Modules</a></li>
-<li class="toctree-l2 current"><a class="reference internal" href="../index.html#first-party-application-modules">First-Party Application Modules</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html#first-party-application-module-reference">First-Party Application Module Reference</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="automator.html">Automator Module Reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="calculator.html">Calculator Module Reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="calendar.html">Calendar Module Reference</a></li>
@@ -54,6 +56,7 @@
 <li class="toctree-l3"><a class="reference internal" href="dictionary.html">Dictionary Module Reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="finder.html">Finder Module Reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="fontbook.html">FontBook Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="imageevents.html">Image Events Module Reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="keynote.html">Keynote Module Reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="mail.html">Mail Module Reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="maps.html">Maps Module Reference</a></li>
@@ -69,13 +72,21 @@
 <li class="toctree-l3"><a class="reference internal" href="safari.html">Safari Module Reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="shortcuts.html">Shortcuts Module Reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="stocks.html">Stocks Module Reference</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">System Preferences Module Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="systemevents.html">System Events Module Reference</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">System Preferences Module Reference</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.apps.SystemPreferences.XAPreferenceAnchor"><code class="docutils literal notranslate"><span class="pre">XAPreferenceAnchor</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.apps.SystemPreferences.XAPreferenceAnchorList"><code class="docutils literal notranslate"><span class="pre">XAPreferenceAnchorList</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.apps.SystemPreferences.XAPreferencePane"><code class="docutils literal notranslate"><span class="pre">XAPreferencePane</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.apps.SystemPreferences.XAPreferencePaneList"><code class="docutils literal notranslate"><span class="pre">XAPreferencePaneList</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.apps.SystemPreferences.XASystemPreferencesApplication"><code class="docutils literal notranslate"><span class="pre">XASystemPreferencesApplication</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="terminal.html">Terminal Module Reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="textedit.html">TextEdit Module Reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="tv.html">TV Module Reference</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../index.html#third-party-application-modules">Third-Party Application Modules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#third-party-application-module-reference">Third-Party Application Module Reference</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../bugs.html">Bugs</a></li>
@@ -107,7 +118,7 @@
            <div itemprop="articleBody">
              
   <section id="module-PyXA.apps.SystemPreferences">
-<span id="system-preferences-module-reference"></span><h1>System Preferences Module Reference<a class="headerlink" href="#module-PyXA.apps.SystemPreferences" title="Permalink to this headline"></a></h1>
+<span id="system-preferences-module-reference"></span><h1>System Preferences Module Reference<a class="headerlink" href="#module-PyXA.apps.SystemPreferences" title="Permalink to this heading"></a></h1>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.2.</span></p>
 </div>
@@ -139,7 +150,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.SystemPreferences.XAPreferenceAnchor">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.SystemPreferences.</span></span><span class="sig-name descname"><span class="pre">XAPreferenceAnchor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/SystemPreferences.html#XAPreferenceAnchor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.SystemPreferences.XAPreferenceAnchor" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAObject</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAObject</span></code></a></p>
 <p>A class for managing and interacting with anchors in System Preferences.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.2.</span></p>
@@ -176,7 +187,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.SystemPreferences.XAPreferenceAnchor.reveal">
-<span class="sig-name descname"><span class="pre">reveal</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.SystemPreferences.XAPreferenceAnchor" title="PyXA.apps.SystemPreferences.XAPreferenceAnchor"><span class="pre">PyXA.apps.SystemPreferences.XAPreferenceAnchor</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/SystemPreferences.html#XAPreferenceAnchor.reveal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.SystemPreferences.XAPreferenceAnchor.reveal" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">reveal</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.SystemPreferences.XAPreferenceAnchor" title="PyXA.apps.SystemPreferences.XAPreferenceAnchor"><span class="pre">XAPreferenceAnchor</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/SystemPreferences.html#XAPreferenceAnchor.reveal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.SystemPreferences.XAPreferenceAnchor.reveal" title="Permalink to this definition"></a></dt>
 <dd><p>Reveals the anchor in the System Preferences window.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -190,7 +201,7 @@
 </dd>
 </dl>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;System Preferences&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">Application</span><span class="p">(</span><span class="s2">&quot;System Preferences&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">pane</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">panes</span><span class="p">()</span><span class="o">.</span><span class="n">by_name</span><span class="p">(</span><span class="s2">&quot;Accessibility&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">anchor</span> <span class="o">=</span> <span class="n">pane</span><span class="o">.</span><span class="n">anchors</span><span class="p">()</span><span class="o">.</span><span class="n">by_name</span><span class="p">(</span><span class="s2">&quot;Siri&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">anchor</span><span class="o">.</span><span class="n">reveal</span><span class="p">()</span>
@@ -206,7 +217,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.SystemPreferences.XAPreferenceAnchorList">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.SystemPreferences.</span></span><span class="sig-name descname"><span class="pre">XAPreferenceAnchorList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/SystemPreferences.html#XAPreferenceAnchorList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.SystemPreferences.XAPreferenceAnchorList" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAList" title="PyXA.XABase.XAList"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAList</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAList" title="PyXA.XABase.XAList"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAList</span></code></a></p>
 <p>A wrapper around lists of preference anchors that employs fast enumeration techniques.</p>
 <p>All properties of anchors can be called as methods on the wrapped list, returning a list containing each anchor’s value for the property.</p>
 <div class="versionadded">
@@ -229,12 +240,12 @@
 </table>
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.SystemPreferences.XAPreferenceAnchorList.by_name">
-<span class="sig-name descname"><span class="pre">by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.SystemPreferences.XAPreferenceAnchor" title="PyXA.apps.SystemPreferences.XAPreferenceAnchor"><span class="pre">PyXA.apps.SystemPreferences.XAPreferenceAnchor</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/SystemPreferences.html#XAPreferenceAnchorList.by_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.SystemPreferences.XAPreferenceAnchorList.by_name" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.SystemPreferences.XAPreferenceAnchor" title="PyXA.apps.SystemPreferences.XAPreferenceAnchor"><span class="pre">XAPreferenceAnchor</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/SystemPreferences.html#XAPreferenceAnchorList.by_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.SystemPreferences.XAPreferenceAnchorList.by_name" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.SystemPreferences.XAPreferenceAnchorList.name">
-<span class="sig-name descname"><span class="pre">name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/SystemPreferences.html#XAPreferenceAnchorList.name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.SystemPreferences.XAPreferenceAnchorList.name" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/SystemPreferences.html#XAPreferenceAnchorList.name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.SystemPreferences.XAPreferenceAnchorList.name" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -242,7 +253,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.SystemPreferences.XAPreferencePane">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.SystemPreferences.</span></span><span class="sig-name descname"><span class="pre">XAPreferencePane</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/SystemPreferences.html#XAPreferencePane"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.SystemPreferences.XAPreferencePane" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAObject</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAObject</span></code></a></p>
 <p>A class for managing and interacting with preference panes in System Preferences.</p>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
@@ -289,7 +300,7 @@
 </table>
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.SystemPreferences.XAPreferencePane.anchors">
-<span class="sig-name descname"><span class="pre">anchors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.SystemPreferences.XAPreferenceAnchorList" title="PyXA.apps.SystemPreferences.XAPreferenceAnchorList"><span class="pre">PyXA.apps.SystemPreferences.XAPreferenceAnchorList</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/SystemPreferences.html#XAPreferencePane.anchors"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.SystemPreferences.XAPreferencePane.anchors" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">anchors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.SystemPreferences.XAPreferenceAnchorList" title="PyXA.apps.SystemPreferences.XAPreferenceAnchorList"><span class="pre">XAPreferenceAnchorList</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/SystemPreferences.html#XAPreferencePane.anchors"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.SystemPreferences.XAPreferencePane.anchors" title="Permalink to this definition"></a></dt>
 <dd><p>Returns a list of anchors, as PyXA objects, matching the given filter.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -299,14 +310,14 @@
 <dd class="field-even"><p>The list of anchors</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>List[<a class="reference internal" href="#PyXA.apps.SystemPreferences.XAPreferenceAnchor" title="PyXA.apps.SystemPreferences.XAPreferenceAnchor">XAPreferenceAnchor</a>]</p>
+<dd class="field-odd"><p>list[<a class="reference internal" href="#PyXA.apps.SystemPreferences.XAPreferenceAnchor" title="PyXA.apps.SystemPreferences.XAPreferenceAnchor">XAPreferenceAnchor</a>]</p>
 </dd>
 <dt class="field-even">Example 1</dt>
 <dd class="field-even"><p>Listing all anchors</p>
 </dd>
 </dl>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;System Preferences&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">Application</span><span class="p">(</span><span class="s2">&quot;System Preferences&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">pane</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">panes</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">pane</span><span class="o">.</span><span class="n">anchors</span><span class="p">())</span>
 <span class="go">&lt;&lt;class &#39;PyXA.apps.SystemPreferences.XAPreferenceAnchorList&#39;&gt;[&#39;Accessibility_Shortcut&#39;, &#39;Seeing_Cursor&#39;, ...]&gt;</span>
@@ -322,7 +333,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.SystemPreferences.XAPreferencePane.authorize">
-<span class="sig-name descname"><span class="pre">authorize</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.SystemPreferences.XAPreferencePane" title="PyXA.apps.SystemPreferences.XAPreferencePane"><span class="pre">PyXA.apps.SystemPreferences.XAPreferencePane</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/SystemPreferences.html#XAPreferencePane.authorize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.SystemPreferences.XAPreferencePane.authorize" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">authorize</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.SystemPreferences.XAPreferencePane" title="PyXA.apps.SystemPreferences.XAPreferencePane"><span class="pre">XAPreferencePane</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/SystemPreferences.html#XAPreferencePane.authorize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.SystemPreferences.XAPreferencePane.authorize" title="Permalink to this definition"></a></dt>
 <dd><p>Prompts for authorization for the preference pane.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -337,7 +348,7 @@
 </dl>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">sleep</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;System Preferences&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">Application</span><span class="p">(</span><span class="s2">&quot;System Preferences&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">app</span><span class="o">.</span><span class="n">activate</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">pane</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">panes</span><span class="p">()</span><span class="o">.</span><span class="n">by_name</span><span class="p">(</span><span class="s2">&quot;Date &amp; Time&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">pane</span><span class="o">.</span><span class="n">reveal</span><span class="p">()</span>
@@ -370,7 +381,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.SystemPreferences.XAPreferencePane.reveal">
-<span class="sig-name descname"><span class="pre">reveal</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.SystemPreferences.XAPreferencePane" title="PyXA.apps.SystemPreferences.XAPreferencePane"><span class="pre">PyXA.apps.SystemPreferences.XAPreferencePane</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/SystemPreferences.html#XAPreferencePane.reveal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.SystemPreferences.XAPreferencePane.reveal" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">reveal</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.SystemPreferences.XAPreferencePane" title="PyXA.apps.SystemPreferences.XAPreferencePane"><span class="pre">XAPreferencePane</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/SystemPreferences.html#XAPreferencePane.reveal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.SystemPreferences.XAPreferencePane.reveal" title="Permalink to this definition"></a></dt>
 <dd><p>Reveals the preference pane in the System Preferences window.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -384,7 +395,7 @@
 </dd>
 </dl>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;System Preferences&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">Application</span><span class="p">(</span><span class="s2">&quot;System Preferences&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">app</span><span class="o">.</span><span class="n">activate</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">app</span><span class="o">.</span><span class="n">panes</span><span class="p">()</span><span class="o">.</span><span class="n">by_name</span><span class="p">(</span><span class="s2">&quot;Displays&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">reveal</span><span class="p">()</span>
 </pre></div>
@@ -399,7 +410,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.SystemPreferences.XAPreferencePaneList">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.SystemPreferences.</span></span><span class="sig-name descname"><span class="pre">XAPreferencePaneList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/SystemPreferences.html#XAPreferencePaneList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.SystemPreferences.XAPreferencePaneList" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAList" title="PyXA.XABase.XAList"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABase.XAList</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAList" title="PyXA.XABase.XAList"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAList</span></code></a></p>
 <p>A wrapper around lists of preference panes that employs fast enumeration techniques.</p>
 <p>All properties of panes can be called as methods on the wrapped list, returning a list containing each pane’s value for the property.</p>
 <dl class="field-list simple">
@@ -408,7 +419,7 @@
 </dd>
 </dl>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;System Preferences&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">Application</span><span class="p">(</span><span class="s2">&quot;System Preferences&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">panes</span><span class="p">()</span><span class="o">.</span><span class="n">name</span><span class="p">())</span>
 <span class="go">[&#39;Accessibility&#39;, &#39;Apple ID&#39;, &#39;Battery&#39;, &#39;Bluetooth&#39;, ...]</span>
 </pre></div>
@@ -419,7 +430,7 @@
 </dd>
 </dl>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;System Preferences&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">Application</span><span class="p">(</span><span class="s2">&quot;System Preferences&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">pane1</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">panes</span><span class="p">()</span><span class="o">.</span><span class="n">by_name</span><span class="p">(</span><span class="s2">&quot;Battery&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">pane2</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">panes</span><span class="p">({</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Battery&quot;</span><span class="p">})[</span><span class="mi">0</span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">pane1</span> <span class="o">==</span> <span class="n">pane2</span><span class="p">)</span>
@@ -458,32 +469,32 @@
 </table>
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.SystemPreferences.XAPreferencePaneList.by_id">
-<span class="sig-name descname"><span class="pre">by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.SystemPreferences.XAPreferencePane" title="PyXA.apps.SystemPreferences.XAPreferencePane"><span class="pre">PyXA.apps.SystemPreferences.XAPreferencePane</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/SystemPreferences.html#XAPreferencePaneList.by_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.SystemPreferences.XAPreferencePaneList.by_id" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.SystemPreferences.XAPreferencePane" title="PyXA.apps.SystemPreferences.XAPreferencePane"><span class="pre">XAPreferencePane</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/SystemPreferences.html#XAPreferencePaneList.by_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.SystemPreferences.XAPreferencePaneList.by_id" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.SystemPreferences.XAPreferencePaneList.by_localized_name">
-<span class="sig-name descname"><span class="pre">by_localized_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">localized_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.SystemPreferences.XAPreferencePane" title="PyXA.apps.SystemPreferences.XAPreferencePane"><span class="pre">PyXA.apps.SystemPreferences.XAPreferencePane</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/SystemPreferences.html#XAPreferencePaneList.by_localized_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.SystemPreferences.XAPreferencePaneList.by_localized_name" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">by_localized_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">localized_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.SystemPreferences.XAPreferencePane" title="PyXA.apps.SystemPreferences.XAPreferencePane"><span class="pre">XAPreferencePane</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/SystemPreferences.html#XAPreferencePaneList.by_localized_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.SystemPreferences.XAPreferencePaneList.by_localized_name" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.SystemPreferences.XAPreferencePaneList.by_name">
-<span class="sig-name descname"><span class="pre">by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.SystemPreferences.XAPreferencePane" title="PyXA.apps.SystemPreferences.XAPreferencePane"><span class="pre">PyXA.apps.SystemPreferences.XAPreferencePane</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/SystemPreferences.html#XAPreferencePaneList.by_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.SystemPreferences.XAPreferencePaneList.by_name" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.SystemPreferences.XAPreferencePane" title="PyXA.apps.SystemPreferences.XAPreferencePane"><span class="pre">XAPreferencePane</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/SystemPreferences.html#XAPreferencePaneList.by_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.SystemPreferences.XAPreferencePaneList.by_name" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.SystemPreferences.XAPreferencePaneList.id">
-<span class="sig-name descname"><span class="pre">id</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/SystemPreferences.html#XAPreferencePaneList.id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.SystemPreferences.XAPreferencePaneList.id" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">id</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/SystemPreferences.html#XAPreferencePaneList.id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.SystemPreferences.XAPreferencePaneList.id" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.SystemPreferences.XAPreferencePaneList.localized_name">
-<span class="sig-name descname"><span class="pre">localized_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/SystemPreferences.html#XAPreferencePaneList.localized_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.SystemPreferences.XAPreferencePaneList.localized_name" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">localized_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/SystemPreferences.html#XAPreferencePaneList.localized_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.SystemPreferences.XAPreferencePaneList.localized_name" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.SystemPreferences.XAPreferencePaneList.name">
-<span class="sig-name descname"><span class="pre">name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/SystemPreferences.html#XAPreferencePaneList.name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.SystemPreferences.XAPreferencePaneList.name" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/SystemPreferences.html#XAPreferencePaneList.name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.SystemPreferences.XAPreferencePaneList.name" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -491,7 +502,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.SystemPreferences.XASystemPreferencesApplication">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.SystemPreferences.</span></span><span class="sig-name descname"><span class="pre">XASystemPreferencesApplication</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/SystemPreferences.html#XASystemPreferencesApplication"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.SystemPreferences.XASystemPreferencesApplication" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XASBApplication" title="PyXA.XABaseScriptable.XASBApplication"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyXA.XABaseScriptable.XASBApplication</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XASBApplication" title="PyXA.XABaseScriptable.XASBApplication"><code class="xref py py-class docutils literal notranslate"><span class="pre">XASBApplication</span></code></a></p>
 <p>A class for interacting with System Preferences.app.</p>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
@@ -541,7 +552,7 @@
 </table>
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.SystemPreferences.XASystemPreferencesApplication.current_pane">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">current_pane</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.apps.SystemPreferences.XAPreferencePane" title="PyXA.apps.SystemPreferences.XAPreferencePane"><span class="pre">PyXA.apps.SystemPreferences.XAPreferencePane</span></a></em><a class="headerlink" href="#PyXA.apps.SystemPreferences.XASystemPreferencesApplication.current_pane" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">current_pane</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.apps.SystemPreferences.XAPreferencePane" title="PyXA.apps.SystemPreferences.XAPreferencePane"><span class="pre">XAPreferencePane</span></a></em><a class="headerlink" href="#PyXA.apps.SystemPreferences.XASystemPreferencesApplication.current_pane" title="Permalink to this definition"></a></dt>
 <dd><p>The currently selected preference pane</p>
 </dd></dl>
 
@@ -559,7 +570,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.SystemPreferences.XASystemPreferencesApplication.panes">
-<span class="sig-name descname"><span class="pre">panes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.SystemPreferences.XAPreferencePaneList" title="PyXA.apps.SystemPreferences.XAPreferencePaneList"><span class="pre">PyXA.apps.SystemPreferences.XAPreferencePaneList</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/SystemPreferences.html#XASystemPreferencesApplication.panes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.SystemPreferences.XASystemPreferencesApplication.panes" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">panes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.SystemPreferences.XAPreferencePaneList" title="PyXA.apps.SystemPreferences.XAPreferencePaneList"><span class="pre">XAPreferencePaneList</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/SystemPreferences.html#XASystemPreferencesApplication.panes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.SystemPreferences.XASystemPreferencesApplication.panes" title="Permalink to this definition"></a></dt>
 <dd><p>Returns a list of preference panes, as PyXA objects, matching the given filter.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -569,14 +580,14 @@
 <dd class="field-even"><p>The list of preference panes</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>List[<a class="reference internal" href="#PyXA.apps.SystemPreferences.XAPreferencePane" title="PyXA.apps.SystemPreferences.XAPreferencePane">XAPreferencePane</a>]</p>
+<dd class="field-odd"><p>list[<a class="reference internal" href="#PyXA.apps.SystemPreferences.XAPreferencePane" title="PyXA.apps.SystemPreferences.XAPreferencePane">XAPreferencePane</a>]</p>
 </dd>
 <dt class="field-even">Example 1</dt>
 <dd class="field-even"><p>List all preference panes</p>
 </dd>
 </dl>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;System Preferences&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">Application</span><span class="p">(</span><span class="s2">&quot;System Preferences&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">panes</span><span class="p">())</span>
 <span class="go">&lt;&lt;class &#39;PyXA.apps.SystemPreferences.XAPreferencePaneList&#39;&gt;[&#39;Accessibility&#39;, &#39;Apple ID&#39;, &#39;Battery&#39;, ...]&gt;</span>
 </pre></div>
@@ -587,7 +598,7 @@
 </dd>
 </dl>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;System Preferences&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">Application</span><span class="p">(</span><span class="s2">&quot;System Preferences&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">panes</span><span class="p">({</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Battery&quot;</span><span class="p">}))</span>
 <span class="go">&lt;&lt;class &#39;PyXA.apps.SystemPreferences.XAPreferencePaneList&#39;&gt;[&#39;Battery&#39;]&gt;</span>
 </pre></div>
@@ -602,7 +613,7 @@
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.SystemPreferences.XASystemPreferencesApplication.preferences_window">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">preferences_window</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XASBWindow" title="PyXA.XABaseScriptable.XASBWindow"><span class="pre">PyXA.XABaseScriptable.XASBWindow</span></a></em><a class="headerlink" href="#PyXA.apps.SystemPreferences.XASystemPreferencesApplication.preferences_window" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">preferences_window</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XASBWindow" title="PyXA.XABaseScriptable.XASBWindow"><span class="pre">XASBWindow</span></a></em><a class="headerlink" href="#PyXA.apps.SystemPreferences.XASystemPreferencesApplication.preferences_window" title="Permalink to this definition"></a></dt>
 <dd><p>The main preferences window</p>
 </dd></dl>
 
@@ -626,7 +637,7 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="stocks.html" class="btn btn-neutral float-left" title="Stocks Module Reference" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="systemevents.html" class="btn btn-neutral float-left" title="System Events Module Reference" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="terminal.html" class="btn btn-neutral float-right" title="Terminal Module Reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

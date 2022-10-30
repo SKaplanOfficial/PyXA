@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PyXA.apps.Shortcuts &mdash; PyXA 0.0.9 documentation</title>
+  <title>PyXA.apps.Shortcuts &mdash; PyXA 0.1.0 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -14,7 +14,9 @@
         <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/jquery.js"></script>
         <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -72,8 +74,9 @@
 
 <span class="sd">Control the macOS Shortcuts application using JXA-like syntax.</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span>
-<span class="kn">from</span> <span class="nn">AppKit</span> <span class="kn">import</span> <span class="n">NSImage</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">import</span> <span class="nn">AppKit</span>
 
 <span class="kn">from</span> <span class="nn">PyXA</span> <span class="kn">import</span> <span class="n">XABase</span>
 <span class="kn">from</span> <span class="nn">PyXA</span> <span class="kn">import</span> <span class="n">XABaseScriptable</span>
@@ -82,12 +85,31 @@
 <div class="viewcode-block" id="XAShortcutsApplication"><a class="viewcode-back" href="../../../reference/apps/shortcuts.html#PyXA.apps.Shortcuts.XAShortcutsApplication">[docs]</a><span class="k">class</span> <span class="nc">XAShortcutsApplication</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBApplication</span><span class="p">,</span> <span class="n">XACanOpenPath</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A class for managing and interacting with Shortcuts.app.</span>
 
-<span class="sd">    .. seealso:: :class:`XATextEditWindow`, :class:`XATextEditDocument`</span>
-
 <span class="sd">    .. versionadded:: 0.0.2</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_wcls</span> <span class="o">=</span> <span class="n">XAShortcutsWindow</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The name of the application</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">frontmost</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether Shortcuts is the active application</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The version number of Shortcuts.app</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">name</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">frontmost</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">frontmost</span><span class="p">()</span>
+
+    <span class="nd">@frontmost</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">frontmost</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frontmost</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;frontmost&quot;</span><span class="p">,</span> <span class="n">frontmost</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">version</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">version</span><span class="p">()</span>
 
 <div class="viewcode-block" id="XAShortcutsApplication.run"><a class="viewcode-back" href="../../../reference/apps/shortcuts.html#PyXA.apps.Shortcuts.XAShortcutsApplication.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">shortcut</span><span class="p">:</span> <span class="s1">&#39;XAShortcut&#39;</span><span class="p">,</span> <span class="nb">input</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Runs the shortcut with the provided input.</span>
@@ -109,14 +131,14 @@
 <span class="sd">        :Example 1: Get all folders</span>
 
 <span class="sd">        &gt;&gt;&gt; import PyXA</span>
-<span class="sd">        &gt;&gt;&gt; app = PyXA.application(&quot;Shortcuts&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; app = PyXA.Application(&quot;Shortcuts&quot;)</span>
 <span class="sd">        &gt;&gt;&gt; print(app.folders())</span>
 <span class="sd">        &lt;&lt;class &#39;PyXA.apps.Shortcuts.XAShortcutFolderList&#39;&gt;[&#39;Starter Shortcuts&#39;, &#39;Window Management&#39;, &#39;Dev Tools&#39;, ...]&gt;</span>
 
 <span class="sd">        :Example 2: Get the number of shortcuts contained in each folder</span>
 
 <span class="sd">        &gt;&gt;&gt; import PyXA</span>
-<span class="sd">        &gt;&gt;&gt; app = PyXA.application(&quot;Shortcuts&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; app = PyXA.Application(&quot;Shortcuts&quot;)</span>
 <span class="sd">        &gt;&gt;&gt; all_shortcuts = app.folders().shortcuts()</span>
 <span class="sd">        &gt;&gt;&gt; lengths = [len(ls) for ls in all_shortcuts]</span>
 <span class="sd">        &gt;&gt;&gt; print(lengths)</span>
@@ -136,7 +158,7 @@
 <span class="sd">        :Example 1: Get all shortcuts</span>
 
 <span class="sd">        &gt;&gt;&gt; import PyXA</span>
-<span class="sd">        &gt;&gt;&gt; app = PyXA.application(&quot;Shortcuts&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; app = PyXA.Application(&quot;Shortcuts&quot;)</span>
 <span class="sd">        &gt;&gt;&gt; print(app.shortcuts())</span>
 <span class="sd">        &lt;&lt;class &#39;PyXA.apps.Shortcuts.XAShortcutList&#39;&gt;[&#39;Combine Screenshots &amp; Share&#39;, &#39;Travel plans&#39;, &#39;Paywall Bypasser via Facebook&#39;, &#39;Display Notification&#39;, &#39;Text Converter For iMessage&#39;, ...]&gt;</span>
 
@@ -149,6 +171,105 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">shortcuts</span><span class="p">(),</span> <span class="n">XAShortcutList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span></div></div>
 
 
+
+
+<div class="viewcode-block" id="XAShortcutsWindow"><a class="viewcode-back" href="../../../reference/apps/shortcuts.html#PyXA.apps.Shortcuts.XAShortcutsWindow">[docs]</a><span class="k">class</span> <span class="nc">XAShortcutsWindow</span><span class="p">(</span><span class="n">XABaseScriptable</span><span class="o">.</span><span class="n">XASBWindow</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A window of Shortcuts.app.</span>
+
+<span class="sd">    .. seealso:: :class:`XAShortcutsApplication`</span>
+
+<span class="sd">    .. versionadded:: 0.1.0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The title of the window</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">:</span> <span class="nb">int</span> <span class="c1">#: The unique identifier for the window</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">index</span><span class="p">:</span> <span class="nb">int</span> <span class="c1">#: The index of the window in the front-to-back ordering</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bounds</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="c1">#: The bounding rectangle of the window</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">closeable</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether the window has a close button</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">miniaturizable</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether the window can be minimized</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">miniaturized</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether the window is currently minimized</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">resizable</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether the window can be resized</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">visible</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether the window is currently visible</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">zoomable</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether the window can be zoomed</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">zoomed</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether the window is currently zoomed</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">name</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">id</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">index</span><span class="p">()</span>
+
+    <span class="nd">@index</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;index&quot;</span><span class="p">,</span> <span class="n">index</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">bounds</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+        <span class="n">rect</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">bounds</span><span class="p">()</span>
+        <span class="n">origin</span> <span class="o">=</span> <span class="n">rect</span><span class="o">.</span><span class="n">origin</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="n">rect</span><span class="o">.</span><span class="n">size</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">origin</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">origin</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">size</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="n">size</span><span class="o">.</span><span class="n">height</span><span class="p">)</span>
+
+    <span class="nd">@bounds</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">bounds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bounds</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">w</span> <span class="o">=</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">AppKit</span><span class="o">.</span><span class="n">NSValue</span><span class="o">.</span><span class="n">valueWithRect_</span><span class="p">(</span><span class="n">AppKit</span><span class="o">.</span><span class="n">NSMakeRect</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">h</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;bounds&quot;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">closeable</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">closeable</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">miniaturizable</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">miniaturizable</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">miniaturized</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">miniaturized</span><span class="p">()</span>
+
+    <span class="nd">@miniaturized</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">miniaturized</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">miniaturized</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;miniaturized&quot;</span><span class="p">,</span> <span class="n">miniaturized</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">resizable</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">resizable</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">visible</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">visible</span><span class="p">()</span>
+
+    <span class="nd">@visible</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">visible</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">visible</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;visible&quot;</span><span class="p">,</span> <span class="n">visible</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">zoomable</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">zoomable</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">zoomed</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">zoomed</span><span class="p">()</span>
+
+    <span class="nd">@zoomed</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">zoomed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">zoomed</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;zoomed&quot;</span><span class="p">,</span> <span class="n">zoomed</span><span class="p">)</span></div>
+
+
+
+
 <div class="viewcode-block" id="XAShortcutFolderList"><a class="viewcode-back" href="../../../reference/apps/shortcuts.html#PyXA.apps.Shortcuts.XAShortcutFolderList">[docs]</a><span class="k">class</span> <span class="nc">XAShortcutFolderList</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAList</span><span class="p">,</span> <span class="n">XAClipboardCodable</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A wrapper around lists of shortcuts folders that employs fast enumeration techniques.</span>
 
@@ -159,21 +280,21 @@
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">XAShortcutFolder</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
 
-<div class="viewcode-block" id="XAShortcutFolderList.id"><a class="viewcode-back" href="../../../reference/apps/shortcuts.html#PyXA.apps.Shortcuts.XAShortcutFolderList.id">[docs]</a>    <span class="k">def</span> <span class="nf">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAShortcutFolderList.id"><a class="viewcode-back" href="../../../reference/apps/shortcuts.html#PyXA.apps.Shortcuts.XAShortcutFolderList.id">[docs]</a>    <span class="k">def</span> <span class="nf">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the ID of each folder in the list.</span>
 
 <span class="sd">        :return: A list of folder IDs</span>
-<span class="sd">        :rtype: List[str]</span>
+<span class="sd">        :rtype: list[str]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="XAShortcutFolderList.name"><a class="viewcode-back" href="../../../reference/apps/shortcuts.html#PyXA.apps.Shortcuts.XAShortcutFolderList.name">[docs]</a>    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAShortcutFolderList.name"><a class="viewcode-back" href="../../../reference/apps/shortcuts.html#PyXA.apps.Shortcuts.XAShortcutFolderList.name">[docs]</a>    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the name of each folder in the list.</span>
 
 <span class="sd">        :return: A list of folder names</span>
-<span class="sd">        :rtype: List[str]</span>
+<span class="sd">        :rtype: list[str]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -199,24 +320,24 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="XAShortcutFolderList.shortcuts"><a class="viewcode-back" href="../../../reference/apps/shortcuts.html#PyXA.apps.Shortcuts.XAShortcutFolderList.shortcuts">[docs]</a>    <span class="k">def</span> <span class="nf">shortcuts</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;XAShortcutList&#39;</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAShortcutFolderList.shortcuts"><a class="viewcode-back" href="../../../reference/apps/shortcuts.html#PyXA.apps.Shortcuts.XAShortcutFolderList.shortcuts">[docs]</a>    <span class="k">def</span> <span class="nf">shortcuts</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="s1">&#39;XAShortcutList&#39;</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the shortcuts within each folder in the list.</span>
 
 <span class="sd">        :return: A list of lists of shortcuts.</span>
-<span class="sd">        :rtype: List[XAShortcutList]</span>
+<span class="sd">        :rtype: list[XAShortcutList]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">ls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;shortcuts&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">XAShortcutList</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">ls</span><span class="o">.</span><span class="n">get</span><span class="p">()]</span></div>
 
-<div class="viewcode-block" id="XAShortcutFolderList.get_clipboard_representation"><a class="viewcode-back" href="../../../reference/apps/shortcuts.html#PyXA.apps.Shortcuts.XAShortcutFolderList.get_clipboard_representation">[docs]</a>    <span class="k">def</span> <span class="nf">get_clipboard_representation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAShortcutFolderList.get_clipboard_representation"><a class="viewcode-back" href="../../../reference/apps/shortcuts.html#PyXA.apps.Shortcuts.XAShortcutFolderList.get_clipboard_representation">[docs]</a>    <span class="k">def</span> <span class="nf">get_clipboard_representation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets a clipboard-codable representation of each folder in the list.</span>
 
 <span class="sd">        When the clipboard content is set to a list of shortcut folders, each folders&#39;s name is added to the clipboard.</span>
 
 <span class="sd">        :return: The list of folder names</span>
-<span class="sd">        :rtype: List[str]</span>
+<span class="sd">        :rtype: list[str]</span>
 
 <span class="sd">        .. versionadded:: 0.0.8</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -234,6 +355,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: A unique identifier for the folder</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The name string for the folder</span>
 
@@ -245,14 +367,13 @@
     <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">name</span><span class="p">()</span>
 
-    <span class="c1"># Shortcuts</span>
 <div class="viewcode-block" id="XAShortcutFolder.shortcuts"><a class="viewcode-back" href="../../../reference/apps/shortcuts.html#PyXA.apps.Shortcuts.XAShortcutFolder.shortcuts">[docs]</a>    <span class="k">def</span> <span class="nf">shortcuts</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAShortcutList&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Returns a list of shortcuts matching the given filter.</span>
 
 <span class="sd">        :Example 1: Get all shortcuts in a folder</span>
 
 <span class="sd">        &gt;&gt;&gt; import PyXA</span>
-<span class="sd">        &gt;&gt;&gt; app = PyXA.application(&quot;Shortcuts&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; app = PyXA.Application(&quot;Shortcuts&quot;)</span>
 <span class="sd">        &gt;&gt;&gt; folder = app.folders()[0]</span>
 <span class="sd">        &gt;&gt;&gt; print(folder.shortcuts())</span>
 <span class="sd">        &lt;&lt;class &#39;PyXA.apps.Shortcuts.XAShortcutList&#39;&gt;[&#39;Text Last Image&#39;, &#39;Shazam shortcut&#39;, &#39;Make QR Code&#39;, &#39;Music Quiz&#39;, ...]&gt;</span>
@@ -260,7 +381,7 @@
 <span class="sd">        :Example 2: Get a list of shortcut colors in a folder</span>
 
 <span class="sd">        &gt;&gt;&gt; import PyXA</span>
-<span class="sd">        &gt;&gt;&gt; app = PyXA.application(&quot;Shortcuts&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; app = PyXA.Application(&quot;Shortcuts&quot;)</span>
 <span class="sd">        &gt;&gt;&gt; folder = app.folders()[0]</span>
 <span class="sd">        &gt;&gt;&gt; print(folder.shortcuts().color())</span>
 <span class="sd">        [&lt;&lt;class &#39;PyXA.XABase.XAColor&#39;&gt;r=0.21521323919296265, g=0.7715266942977905, b=0.32515448331832886, a=0.0&gt;, &lt;&lt;class &#39;PyXA.XABase.XAColor&#39;&gt;r=0.2379034161567688, g=0.3681696951389313, b=0.7627069354057312, a=0.0&gt;, ...]&gt;</span>
@@ -286,12 +407,15 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span></div>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s2">&quot;&lt;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;, id=&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span>
+        <span class="k">return</span> <span class="s2">&quot;&lt;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;, id=&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s1">&#39;XAShortcutFolder&#39;</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">other</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__eq__</span><span class="p">(</span><span class="n">other</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">True</span>
+
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">id</span></div>
+
+
 
 
 <div class="viewcode-block" id="XAShortcutList"><a class="viewcode-back" href="../../../reference/apps/shortcuts.html#PyXA.apps.Shortcuts.XAShortcutList">[docs]</a><span class="k">class</span> <span class="nc">XAShortcutList</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAList</span><span class="p">,</span> <span class="n">XAClipboardCodable</span><span class="p">):</span>
@@ -304,31 +428,31 @@
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">XAShortcut</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
 
-<div class="viewcode-block" id="XAShortcutList.id"><a class="viewcode-back" href="../../../reference/apps/shortcuts.html#PyXA.apps.Shortcuts.XAShortcutList.id">[docs]</a>    <span class="k">def</span> <span class="nf">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAShortcutList.id"><a class="viewcode-back" href="../../../reference/apps/shortcuts.html#PyXA.apps.Shortcuts.XAShortcutList.id">[docs]</a>    <span class="k">def</span> <span class="nf">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the ID of each shortcut in the list.</span>
 
 <span class="sd">        :return: A list of shortcut IDs</span>
-<span class="sd">        :rtype: List[str]</span>
+<span class="sd">        :rtype: list[str]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="XAShortcutList.name"><a class="viewcode-back" href="../../../reference/apps/shortcuts.html#PyXA.apps.Shortcuts.XAShortcutList.name">[docs]</a>    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAShortcutList.name"><a class="viewcode-back" href="../../../reference/apps/shortcuts.html#PyXA.apps.Shortcuts.XAShortcutList.name">[docs]</a>    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the name of each shortcut in the list.</span>
 
 <span class="sd">        :return: A list of shortcut names</span>
-<span class="sd">        :rtype: List[str]</span>
+<span class="sd">        :rtype: list[str]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="XAShortcutList.subtitle"><a class="viewcode-back" href="../../../reference/apps/shortcuts.html#PyXA.apps.Shortcuts.XAShortcutList.subtitle">[docs]</a>    <span class="k">def</span> <span class="nf">subtitle</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAShortcutList.subtitle"><a class="viewcode-back" href="../../../reference/apps/shortcuts.html#PyXA.apps.Shortcuts.XAShortcutList.subtitle">[docs]</a>    <span class="k">def</span> <span class="nf">subtitle</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the subtitle of each shortcut in the list.</span>
 
 <span class="sd">        :return: A list of shortcut subtitles</span>
-<span class="sd">        :rtype: List[str]</span>
+<span class="sd">        :rtype: list[str]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -345,11 +469,11 @@
         <span class="n">ls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="n">ls</span><span class="p">,</span> <span class="n">XAShortcutFolderList</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="XAShortcutList.color"><a class="viewcode-back" href="../../../reference/apps/shortcuts.html#PyXA.apps.Shortcuts.XAShortcutList.color">[docs]</a>    <span class="k">def</span> <span class="nf">color</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAShortcutList.color"><a class="viewcode-back" href="../../../reference/apps/shortcuts.html#PyXA.apps.Shortcuts.XAShortcutList.color">[docs]</a>    <span class="k">def</span> <span class="nf">color</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the color of each shortcut in the list.</span>
 
 <span class="sd">        :return: A list of colors</span>
-<span class="sd">        :rtype: List[XABase.XAColor]</span>
+<span class="sd">        :rtype: list[XABase.XAColor]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -367,113 +491,113 @@
         <span class="n">ls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;icon&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAImage</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">ls</span><span class="p">]</span></div>
 
-<div class="viewcode-block" id="XAShortcutList.accepts_input"><a class="viewcode-back" href="../../../reference/apps/shortcuts.html#PyXA.apps.Shortcuts.XAShortcutList.accepts_input">[docs]</a>    <span class="k">def</span> <span class="nf">accepts_input</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAShortcutList.accepts_input"><a class="viewcode-back" href="../../../reference/apps/shortcuts.html#PyXA.apps.Shortcuts.XAShortcutList.accepts_input">[docs]</a>    <span class="k">def</span> <span class="nf">accepts_input</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the accept input status of each shortcut in the list.</span>
 
 <span class="sd">        :return: A list of accept input statuses</span>
-<span class="sd">        :rtype: List[bool]</span>
+<span class="sd">        :rtype: list[bool]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;acceptsInput&quot;</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="XAShortcutList.action_count"><a class="viewcode-back" href="../../../reference/apps/shortcuts.html#PyXA.apps.Shortcuts.XAShortcutList.action_count">[docs]</a>    <span class="k">def</span> <span class="nf">action_count</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+<div class="viewcode-block" id="XAShortcutList.action_count"><a class="viewcode-back" href="../../../reference/apps/shortcuts.html#PyXA.apps.Shortcuts.XAShortcutList.action_count">[docs]</a>    <span class="k">def</span> <span class="nf">action_count</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the action count of each shortcut in the list.</span>
 
 <span class="sd">        :return: A list of each shortcut&#39;s action count</span>
-<span class="sd">        :rtype: List[int]</span>
+<span class="sd">        :rtype: list[int]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;actionCount&quot;</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="XAShortcutList.by_id"><a class="viewcode-back" href="../../../reference/apps/shortcuts.html#PyXA.apps.Shortcuts.XAShortcutList.by_id">[docs]</a>    <span class="k">def</span> <span class="nf">by_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAShortcut&#39;</span><span class="p">:</span>
+<div class="viewcode-block" id="XAShortcutList.by_id"><a class="viewcode-back" href="../../../reference/apps/shortcuts.html#PyXA.apps.Shortcuts.XAShortcutList.by_id">[docs]</a>    <span class="k">def</span> <span class="nf">by_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XAShortcut&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the shortcut whose ID matches the given ID, if one exists.</span>
 
 <span class="sd">        :return: The desired shortcut, if it is found</span>
-<span class="sd">        :rtype: XAShortcut</span>
+<span class="sd">        :rtype: Union[XAShortcut, None]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="nb">id</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="XAShortcutList.by_name"><a class="viewcode-back" href="../../../reference/apps/shortcuts.html#PyXA.apps.Shortcuts.XAShortcutList.by_name">[docs]</a>    <span class="k">def</span> <span class="nf">by_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAShortcut&#39;</span><span class="p">:</span>
+<div class="viewcode-block" id="XAShortcutList.by_name"><a class="viewcode-back" href="../../../reference/apps/shortcuts.html#PyXA.apps.Shortcuts.XAShortcutList.by_name">[docs]</a>    <span class="k">def</span> <span class="nf">by_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XAShortcut&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the first shortcut whose name matches the given name, if one exists.</span>
 
 <span class="sd">        :return: The desired shortcut, if it is found</span>
-<span class="sd">        :rtype: XAShortcut</span>
+<span class="sd">        :rtype: Union[XAShortcut, None]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="XAShortcutList.by_subtitle"><a class="viewcode-back" href="../../../reference/apps/shortcuts.html#PyXA.apps.Shortcuts.XAShortcutList.by_subtitle">[docs]</a>    <span class="k">def</span> <span class="nf">by_subtitle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">subtitle</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAShortcut&#39;</span><span class="p">:</span>
+<div class="viewcode-block" id="XAShortcutList.by_subtitle"><a class="viewcode-back" href="../../../reference/apps/shortcuts.html#PyXA.apps.Shortcuts.XAShortcutList.by_subtitle">[docs]</a>    <span class="k">def</span> <span class="nf">by_subtitle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">subtitle</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XAShortcut&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the first shortcut whose subtitle matches the given subtitle, if one exists.</span>
 
 <span class="sd">        :return: The desired shortcut, if it is found</span>
-<span class="sd">        :rtype: XAShortcut</span>
+<span class="sd">        :rtype: Union[XAShortcut, None]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;subtitle&quot;</span><span class="p">,</span> <span class="n">subtitle</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="XAShortcutList.by_folder"><a class="viewcode-back" href="../../../reference/apps/shortcuts.html#PyXA.apps.Shortcuts.XAShortcutList.by_folder">[docs]</a>    <span class="k">def</span> <span class="nf">by_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">folder</span><span class="p">:</span> <span class="n">XAShortcutFolder</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAShortcut&#39;</span><span class="p">:</span>
+<div class="viewcode-block" id="XAShortcutList.by_folder"><a class="viewcode-back" href="../../../reference/apps/shortcuts.html#PyXA.apps.Shortcuts.XAShortcutList.by_folder">[docs]</a>    <span class="k">def</span> <span class="nf">by_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">folder</span><span class="p">:</span> <span class="n">XAShortcutFolder</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XAShortcut&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the first shortcut whose parent folder matches the given folder, if one exists.</span>
 
 <span class="sd">        :return: The desired shortcut, if it is found</span>
-<span class="sd">        :rtype: XAShortcut</span>
+<span class="sd">        :rtype: Union[XAShortcut, None]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;folder&quot;</span><span class="p">,</span> <span class="n">folder</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="XAShortcutList.by_color"><a class="viewcode-back" href="../../../reference/apps/shortcuts.html#PyXA.apps.Shortcuts.XAShortcutList.by_color">[docs]</a>    <span class="k">def</span> <span class="nf">by_color</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">color</span><span class="p">:</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAShortcut&#39;</span><span class="p">:</span>
+<div class="viewcode-block" id="XAShortcutList.by_color"><a class="viewcode-back" href="../../../reference/apps/shortcuts.html#PyXA.apps.Shortcuts.XAShortcutList.by_color">[docs]</a>    <span class="k">def</span> <span class="nf">by_color</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">color</span><span class="p">:</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XAShortcut&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the first shortcut whose color matches the given color, if one exists.</span>
 
 <span class="sd">        :return: The desired shortcut, if it is found</span>
-<span class="sd">        :rtype: XAShortcut</span>
+<span class="sd">        :rtype: Union[XAShortcut, None]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;color&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="XAShortcutList.by_icon"><a class="viewcode-back" href="../../../reference/apps/shortcuts.html#PyXA.apps.Shortcuts.XAShortcutList.by_icon">[docs]</a>    <span class="k">def</span> <span class="nf">by_icon</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">icon</span><span class="p">:</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAImage</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAShortcut&#39;</span><span class="p">:</span>
+<div class="viewcode-block" id="XAShortcutList.by_icon"><a class="viewcode-back" href="../../../reference/apps/shortcuts.html#PyXA.apps.Shortcuts.XAShortcutList.by_icon">[docs]</a>    <span class="k">def</span> <span class="nf">by_icon</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">icon</span><span class="p">:</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAImage</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XAShortcut&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the first shortcut whose icon matches the given icon, if one exists.</span>
 
 <span class="sd">        :return: The desired shortcut, if it is found</span>
-<span class="sd">        :rtype: XAShortcut</span>
+<span class="sd">        :rtype: Union[XAShortcut, None]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;icon&quot;</span><span class="p">,</span> <span class="n">icon</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="XAShortcutList.by_accepts_input"><a class="viewcode-back" href="../../../reference/apps/shortcuts.html#PyXA.apps.Shortcuts.XAShortcutList.by_accepts_input">[docs]</a>    <span class="k">def</span> <span class="nf">by_accepts_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">accepts_input</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAShortcut&#39;</span><span class="p">:</span>
+<div class="viewcode-block" id="XAShortcutList.by_accepts_input"><a class="viewcode-back" href="../../../reference/apps/shortcuts.html#PyXA.apps.Shortcuts.XAShortcutList.by_accepts_input">[docs]</a>    <span class="k">def</span> <span class="nf">by_accepts_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">accepts_input</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XAShortcut&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the first shortcut whose accepts input status matches the given boolean value, if one exists.</span>
 
 <span class="sd">        :return: The desired shortcut, if it is found</span>
-<span class="sd">        :rtype: XAShortcut</span>
+<span class="sd">        :rtype: Union[XAShortcut, None]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;acceptsInput&quot;</span><span class="p">,</span> <span class="n">accepts_input</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="XAShortcutList.by_action_count"><a class="viewcode-back" href="../../../reference/apps/shortcuts.html#PyXA.apps.Shortcuts.XAShortcutList.by_action_count">[docs]</a>    <span class="k">def</span> <span class="nf">by_action_count</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action_count</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAShortcut&#39;</span><span class="p">:</span>
+<div class="viewcode-block" id="XAShortcutList.by_action_count"><a class="viewcode-back" href="../../../reference/apps/shortcuts.html#PyXA.apps.Shortcuts.XAShortcutList.by_action_count">[docs]</a>    <span class="k">def</span> <span class="nf">by_action_count</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action_count</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XAShortcut&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Gets the first shortcut whose action count matches the given number, if one exists.</span>
 
 <span class="sd">        :return: The desired shortcut, if it is found</span>
-<span class="sd">        :rtype: XAShortcut</span>
+<span class="sd">        :rtype: Union[XAShortcut, None]</span>
 <span class="sd">        </span>
 <span class="sd">        .. versionadded:: 0.0.4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;actionCount&quot;</span><span class="p">,</span> <span class="n">action_count</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="XAShortcutList.get_clipboard_representation"><a class="viewcode-back" href="../../../reference/apps/shortcuts.html#PyXA.apps.Shortcuts.XAShortcutList.get_clipboard_representation">[docs]</a>    <span class="k">def</span> <span class="nf">get_clipboard_representation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">NSImage</span><span class="p">]]]:</span>
+<div class="viewcode-block" id="XAShortcutList.get_clipboard_representation"><a class="viewcode-back" href="../../../reference/apps/shortcuts.html#PyXA.apps.Shortcuts.XAShortcutList.get_clipboard_representation">[docs]</a>    <span class="k">def</span> <span class="nf">get_clipboard_representation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="nb">list</span><span class="p">[</span><span class="n">AppKit</span><span class="o">.</span><span class="n">NSImage</span><span class="p">]]]:</span>
         <span class="sd">&quot;&quot;&quot;Gets a clipboard-codable representation of each shortcut in the list.</span>
 
 <span class="sd">        When the clipboard content is set to a list of shortcuts, each shortcut&#39;s name, subtitle, and icon are added to the clipboard.</span>
 
 <span class="sd">        :return: A list of each shortcut&#39;s name, subtitle, and icon</span>
-<span class="sd">        :rtype: List[Union[List[str], List[str], List[NSImage]]]</span>
+<span class="sd">        :rtype: list[Union[list[str], list[str], list[AppKit.NSImage]]]</span>
 
 <span class="sd">        .. versionadded:: 0.0.8</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -551,7 +675,7 @@
 <span class="sd">        :Example 1: Run a shortcut without inputs</span>
 
 <span class="sd">        &gt;&gt;&gt; import PyXA</span>
-<span class="sd">        &gt;&gt;&gt; app = PyXA.application(&quot;Shortcuts&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; app = PyXA.Application(&quot;Shortcuts&quot;)</span>
 <span class="sd">        &gt;&gt;&gt; folder = app.folders().by_name(&quot;Dev Tools&quot;)</span>
 <span class="sd">        &gt;&gt;&gt; shortcut = folder.shortcuts().by_name(&quot;Show IP Address&quot;)</span>
 <span class="sd">        &gt;&gt;&gt; shortcut.run()</span>
@@ -559,15 +683,15 @@
 <span class="sd">        :Example 2: Run a shortcut with text input</span>
 
 <span class="sd">        &gt;&gt;&gt; import PyXA</span>
-<span class="sd">        &gt;&gt;&gt; app = PyXA.application(&quot;Shortcuts&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; app = PyXA.Application(&quot;Shortcuts&quot;)</span>
 <span class="sd">        &gt;&gt;&gt; shortcut = app.shortcuts().by_name(&quot;Show Notification&quot;)</span>
 <span class="sd">        &gt;&gt;&gt; shortcut.run(&quot;Testing 1 2 3...&quot;)</span>
 
 <span class="sd">        :Example 3: Run a shortcut with URL input</span>
 
 <span class="sd">        &gt;&gt;&gt; import PyXA</span>
-<span class="sd">        &gt;&gt;&gt; app = PyXA.application(&quot;Shortcuts&quot;)</span>
-<span class="sd">        &gt;&gt;&gt; safari = PyXA.application(&quot;Safari&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; app = PyXA.Application(&quot;Shortcuts&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; safari = PyXA.Application(&quot;Safari&quot;)</span>
 <span class="sd">        &gt;&gt;&gt; document = safari.document(0)</span>
 <span class="sd">        &gt;&gt;&gt; shortcut = app.shortcuts().by_name(&quot;Save URL as PDF&quot;)</span>
 <span class="sd">        &gt;&gt;&gt; shortcut.run(document.url)</span>
@@ -578,13 +702,13 @@
             <span class="nb">input</span> <span class="o">=</span> <span class="nb">input</span><span class="o">.</span><span class="n">xa_elem</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">runWithInput_</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="XAShortcut.get_clipboard_representation"><a class="viewcode-back" href="../../../reference/apps/shortcuts.html#PyXA.apps.Shortcuts.XAShortcut.get_clipboard_representation">[docs]</a>    <span class="k">def</span> <span class="nf">get_clipboard_representation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">NSImage</span><span class="p">]]:</span>
+<div class="viewcode-block" id="XAShortcut.get_clipboard_representation"><a class="viewcode-back" href="../../../reference/apps/shortcuts.html#PyXA.apps.Shortcuts.XAShortcut.get_clipboard_representation">[docs]</a>    <span class="k">def</span> <span class="nf">get_clipboard_representation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">AppKit</span><span class="o">.</span><span class="n">NSImage</span><span class="p">]]:</span>
         <span class="sd">&quot;&quot;&quot;Gets a clipboard-codable representation of the shortcut.</span>
 
 <span class="sd">        When the clipboard content is set to a shortcut, the shortcut&#39;s name, subtitle, and icon are added to the clipboard.</span>
 
 <span class="sd">        :return: The shortcut&#39;s name, subtitle, and icon</span>
-<span class="sd">        :rtype: List[Union[str, str, NSImage]]</span>
+<span class="sd">        :rtype: list[Union[str, str, AppKit.NSImage]]</span>
 
 <span class="sd">        .. versionadded:: 0.0.8</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -594,8 +718,8 @@
         <span class="k">return</span> <span class="s2">&quot;&lt;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;, id=&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s1">&#39;XAShortcut&#39;</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">other</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__eq__</span><span class="p">(</span><span class="n">other</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">True</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">id</span></div>
 </pre></div>
 

@@ -4,15 +4,20 @@ Control the macOS Keynote application using JXA-like syntax.
 """
 from datetime import datetime
 from enum import Enum
+from pprint import pprint
 from time import sleep
-from typing import Any, List, Tuple, Union
+from typing import Any, Union, Self
 
-import AppKit
+import AppKit, ScriptingBridge
+import logging
 
 from PyXA import XABase
+from PyXA import XAEvents
 from PyXA.XABase import OSType
 from PyXA import XABaseScriptable
 from ..XAProtocols import XACanOpenPath, XACloseable
+
+logger = logging.getLogger("keynote")
 
 class XAKeynoteApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
     """A class for managing and interacting with Keynote.app.
@@ -226,9 +231,18 @@ class XAKeynoteApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         self.frontmost: bool #: Whether Keynote is the active application
         self.version: str #: The Keynote version number
 
+        logger.debug("Initialized XAKeynoteApplication")
+
     @property
     def properties(self) -> dict:
-        return self.xa_scel.properties()
+        raw_dict = self.xa_scel.properties()
+        return {
+            "slide_switcher_visible": raw_dict["slideSwitcherVisible"] == 1,
+            "frontmost": self.frontmost,
+            "playing": self.playing,
+            "version": self.version,
+            "name": self.name,
+        }
 
     @property
     def name(self) -> str:
@@ -241,6 +255,14 @@ class XAKeynoteApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
     @property
     def version(self) -> str:
         return self.xa_scel.version()
+
+    @property
+    def playing(self) -> bool:
+        return self.xa_scel.playing()
+
+    @property
+    def slide_switcher_visible(self) -> bool:
+        return self.xa_scel.slideSwitcherVisible()
 
     def show_next(self) -> 'XAKeynoteApplication':
         """Advance one slide or animation build.
@@ -255,7 +277,7 @@ class XAKeynoteApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         return self
 
     def print(self, item: Union['XAKeynoteDocument', XABaseScriptable.XASBWindow]) -> 'XAKeynoteApplication':
-        self.xa_scel.print_withProperties_printDialog_(item.xa_elem, {"copies": 2}, True)
+        self.xa_scel.print_withProperties_printDialog_(item.xa_elem, {}, True)
         return self
 
     def documents(self, filter: Union[dict, None] = None) -> 'XAKeynoteDocumentList':
@@ -264,7 +286,7 @@ class XAKeynoteApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         :param filter: A dictionary specifying property-value pairs that all returned documents will have, or None
         :type filter: Union[dict, None]
         :return: The list of documents
-        :rtype: List[XAKeynoteDocument]
+        :rtype: XAKeynoteDocumentList
 
         :Example 1: List the name of every open Keynote document
 
@@ -293,13 +315,13 @@ class XAKeynoteApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
     def new_slide(self, document: 'XAKeynoteDocument', properties: dict):
         return self.push("slide", properties, document.xa_elem.slides())
 
-    def themes(self, filter: Union[dict, None] = None) -> List['XAKeynoteTheme']:
+    def themes(self, filter: Union[dict, None] = None) -> 'XAKeynoteThemeList':
         """Returns a list of themes, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned themes will have, or None
         :type filter: Union[dict, None]
         :return: The list of themes
-        :rtype: List[XAKeynoteTheme]
+        :rtype: XAKeynoteThemeList
 
         :Example 1: List the name of each theme
 
@@ -346,10 +368,6 @@ class XAKeynoteApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
             return self._new_element(obj, XAKeynoteImage)
         elif specifier == "slide":
             return self._new_element(obj, XAKeynoteSlide)
-        # elif specifier == "column":
-        #     return self._new_element(obj, XAKeynoteColumn)
-        # elif specifier == "row":
-        #     return self._new_element(obj, XAKeynoteRow)
         elif specifier == "line":
             return self._new_element(obj, XAKeynoteLine)
         elif specifier == "movie":
@@ -362,6 +380,8 @@ class XAKeynoteApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
             return self._new_element(obj, XAKeynoteSlide)
         elif specifier == "iWorkItem":
             return self._new_element(obj, XAKeynoteiWorkItem)
+        elif specifier == "TransitionSettings":
+            return self._new_element(obj, XAKeynoteTransitionSettings)
 
 
 
@@ -376,7 +396,7 @@ class XAKeynoteWindow(XABaseScriptable.XASBWindow, XABaseScriptable.XASBPrintabl
         self.name: str #: The title of the window
         self.id: int #: The unique identifier for the window
         self.index: int #: The index of the window in the front-to-back ordering
-        self.bounds: Tuple[int, int, int, int] #: The bounding rectangle of the window
+        self.bounds: tuple[int, int, int, int] #: The bounding rectangle of the window
         self.closeable: bool #: Whether the window has a close button
         self.miniaturizable: bool #: Whether the window can be minimized
         self.miniaturized: bool #: Whether the window is currently minimized
@@ -388,29 +408,29 @@ class XAKeynoteWindow(XABaseScriptable.XASBWindow, XABaseScriptable.XASBPrintabl
 
     @property
     def name(self) -> str:
-        return self.xa_scel.name()
+        return self.xa_elem.name()
 
     @property
     def id(self) -> int:
-        return self.xa_scel.id()
+        return self.xa_elem.id()
 
     @property
     def index(self) -> int:
-        return self.xa_scel.index()
+        return self.xa_elem.index()
 
     @index.setter
     def index(self, index: int):
         self.set_property('index', index)
 
     @property
-    def bounds(self) -> Tuple[int, int, int, int]:
+    def bounds(self) -> tuple[int, int, int, int]:
         rect = self.xa_elem.bounds()
         origin = rect.origin
         size = rect.size
         return (origin.x, origin.y, size.width, size.height)
 
     @bounds.setter
-    def bounds(self, bounds: Tuple[int, int, int, int]):
+    def bounds(self, bounds: tuple[int, int, int, int]):
         x = bounds[0]
         y = bounds[1]
         w = bounds[2]
@@ -420,15 +440,15 @@ class XAKeynoteWindow(XABaseScriptable.XASBWindow, XABaseScriptable.XASBPrintabl
 
     @property
     def closeable(self) -> bool:
-        return self.xa_scel.closeable()
+        return self.xa_elem.closeable()
 
     @property
     def miniaturizable(self) -> bool:
-        return self.xa_scel.miniaturizable()
+        return self.xa_elem.miniaturizable()
 
     @property
     def miniaturized(self) -> bool:
-        return self.xa_scel.miniaturized()
+        return self.xa_elem.miniaturized()
 
     @miniaturized.setter
     def miniaturized(self, miniaturized: bool):
@@ -436,11 +456,11 @@ class XAKeynoteWindow(XABaseScriptable.XASBWindow, XABaseScriptable.XASBPrintabl
 
     @property
     def resizable(self) -> bool:
-        return self.xa_scel.resizable()
+        return self.xa_elem.resizable()
 
     @property
     def visible(self) -> bool:
-        return self.xa_scel.visible()
+        return self.xa_elem.visible()
 
     @visible.setter
     def visible(self, visible: bool):
@@ -448,11 +468,11 @@ class XAKeynoteWindow(XABaseScriptable.XASBWindow, XABaseScriptable.XASBPrintabl
 
     @property
     def zoomable(self) -> bool:
-        return self.xa_scel.zoomable()
+        return self.xa_elem.zoomable()
 
     @property
     def zoomed(self) -> bool:
-        return self.xa_scel.zoomed()
+        return self.xa_elem.zoomed()
 
     @zoomed.setter
     def zoomed(self, zoomed: bool):
@@ -460,7 +480,7 @@ class XAKeynoteWindow(XABaseScriptable.XASBWindow, XABaseScriptable.XASBPrintabl
 
     @property
     def document(self) -> 'XAKeynoteDocument':
-        return self._new_element(self.xa_scel.document(), XAKeynoteDocument)
+        return self._new_element(self.xa_elem.document(), XAKeynoteDocument)
 
 
 
@@ -474,105 +494,168 @@ class XAKeynoteDocumentList(XABase.XAList):
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XAKeynoteDocument, filter)
+        logger.debug("Got list of documents")
 
-    def properties(self) -> List[dict]:
-        return list(self.xa_elem.arrayByApplyingSelector_("properties"))
+    def properties(self) -> list[dict]:
+        pyxa_dicts = [None] * len(self.xa_elem)
+        for index, document in enumerate(self.xa_elem):
+            pyxa_dicts[index] = {
+                "name": document.name(),
+                "modified": document.modified(),
+                "file": XABase.XAPath(document.file()),
+                "id": document.id(),
+                "slide_numbers_showing": document.slideNumbersShowing(),
+                "document_theme": self._new_element(document.documentTheme(), XAKeynoteTheme),
+                "auto_loop": document.autoLoop(),
+                "auto_play": document.autoPlay(),
+                "auto_restart": document.autoRestart(),
+                "maximum_idle_duration": document.maximumIdleDuration(),
+                "current_slide": self._new_element(document.currentSlide(), XAKeynoteSlide),
+                "height": document.height(),
+                "width": document.width(),
+                "selection": [self._new_element(x, XAKeynoteiWorkItem) for x in document.selection()],
+                "password_protected": document.passwordProtected(),
+            }
+        return pyxa_dicts
 
-    def name(self) -> List[str]:
+    def name(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
-    def modified(self) -> List[bool]:
+    def modified(self) -> list[bool]:
         return list(self.xa_elem.arrayByApplyingSelector_("modified"))
 
-    def file(self) -> List[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("file"))
+    def file(self) -> list[XABase.XAPath]:
+        ls = self.xa_elem.arrayByApplyingSelector_("file")
+        return [XABase.XAPath(x) for x in ls]
 
-    def id(self) -> List[str]:
+    def id(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("id"))
 
-    def slide_numbers_showing(self) -> List[bool]:
+    def slide_numbers_showing(self) -> list[bool]:
         return list(self.xa_elem.arrayByApplyingSelector_("slideNumbersShowing"))
 
     def document_theme(self) -> 'XAKeynoteThemeList':
         ls = self.xa_elem.arrayByApplyingSelector_("documentTheme")
         return self._new_element(ls, XAKeynoteThemeList)
 
-    def auto_loop(self) -> List[bool]:
+    def auto_loop(self) -> list[bool]:
         return list(self.xa_elem.arrayByApplyingSelector_("autoLoop"))
 
-    def auto_play(self) -> List[bool]:
+    def auto_play(self) -> list[bool]:
         return list(self.xa_elem.arrayByApplyingSelector_("autoPlay"))
 
-    def auto_restart(self) -> List[bool]:
+    def auto_restart(self) -> list[bool]:
         return list(self.xa_elem.arrayByApplyingSelector_("autoRestart"))
 
-    def maximum_idle_duration(self) -> List[int]:
+    def maximum_idle_duration(self) -> list[int]:
         return list(self.xa_elem.arrayByApplyingSelector_("maximumIdleDuration"))
 
     def current_slide(self) -> 'XAKeynoteSlideList':
         ls = self.xa_elem.arrayByApplyingSelector_("currentSlide")
         return self._new_element(ls, XAKeynoteSlideList)
 
-    def height(self) -> List[int]:
+    def height(self) -> list[int]:
         return list(self.xa_elem.arrayByApplyingSelector_("height"))
 
-    def width(self) -> List[int]:
+    def width(self) -> list[int]:
         return list(self.xa_elem.arrayByApplyingSelector_("width"))
 
     def selection(self) -> 'XAKeynoteiWorkItemList':
-        ls = self.xa_elem.arrayByApplyingSelector_("selection")
+        ls = [x for y in self.xa_elem.arrayByApplyingSelector_("selection") for x in y]
         return self._new_element(ls, XAKeynoteiWorkItemList)
 
-    def password_protected(self) -> List[bool]:
+    def password_protected(self) -> list[bool]:
         return list(self.xa_elem.arrayByApplyingSelector_("passwordProtected"))
 
-    def by_properties(self, properties: dict) -> 'XAKeynoteDocument':
-        return self.by_property("properties", properties)
+    def by_properties(self, properties: dict) -> Union['XAKeynoteDocument', None]:
+        raw_dict = {}
 
-    def by_name(self, name: str) -> 'XAKeynoteDocument':
+        if "name" in properties:
+            raw_dict["name"] = properties["name"]
+
+        if "file" in properties:
+            if isinstance(properties["file"], str):
+                raw_dict["file"] = properties["file"]
+            else:
+                raw_dict["file"] = properties["file"].xa_elem
+
+        if "slide_numbers_showing" in properties:
+            raw_dict["slideNumbersShowing"] = properties["slide_numbers_showing"]
+
+        if "document_theme" in properties:
+            raw_dict["documentTheme"] = properties["document_theme"].xa_elem
+
+        if "auto_loop" in properties:
+            raw_dict["autoLoop"] = properties["auto_loop"]
+
+        if "auto_play" in properties:
+            raw_dict["autoPlay"] = properties["auto_play"]
+
+        if "auto_restart" in properties:
+            raw_dict["autoRestart"] = properties["auto_restart"]
+
+        if "maximum_idle_duration" in properties:
+            raw_dict["maximumIdleDuration"] = properties["maximum_idle_duration"]
+
+        if "height" in properties:
+            raw_dict["height"] = properties["height"]
+
+        if "width" in properties:
+            raw_dict["width"] = properties["width"]
+
+        for document in self.xa_elem:
+            if all(raw_dict[x] == document.properties()[x] for x in raw_dict):
+                return self._new_element(document, XAKeynoteDocument)
+
+    def by_name(self, name: str) -> Union['XAKeynoteDocument', None]:
         return self.by_property("name", name)
 
-    def by_modified(self, modified: bool) -> 'XAKeynoteDocument':
+    def by_modified(self, modified: bool) -> Union['XAKeynoteDocument', None]:
         return self.by_property("modified", modified)
 
-    def by_file(self, file: str) -> 'XAKeynoteDocument':
+    def by_file(self, file: Union[XABase.XAPath, str]) -> Union['XAKeynoteDocument', None]:
+        if isinstance(file, XABase.XAPath):
+            file = file.path
         return self.by_property("file", file)
 
-    def by_id(self, id: str) -> 'XAKeynoteDocument':
+    def by_id(self, id: str) -> Union['XAKeynoteDocument', None]:
         return self.by_property("id", id)
 
-    def by_slide_numbers_showing(self, slide_numbers_showing: bool) -> 'XAKeynoteDocument':
+    def by_slide_numbers_showing(self, slide_numbers_showing: bool) -> Union['XAKeynoteDocument', None]:
         return self.by_property("slideNumbersShowing", slide_numbers_showing)
 
-    def by_document_theme(self, document_theme: 'XAKeynoteTheme') -> 'XAKeynoteDocument':
+    def by_document_theme(self, document_theme: 'XAKeynoteTheme') -> Union['XAKeynoteDocument', None]:
         return self.by_property("documentTheme", document_theme.xa_elem)
 
-    def by_auto_loop(self, auto_loop: bool) -> 'XAKeynoteDocument':
+    def by_auto_loop(self, auto_loop: bool) -> Union['XAKeynoteDocument', None]:
         return self.by_property("autoLoop", auto_loop)
 
-    def by_auto_play(self, auto_play: bool) -> 'XAKeynoteDocument':
+    def by_auto_play(self, auto_play: bool) -> Union['XAKeynoteDocument', None]:
         return self.by_property("autoPlay", auto_play)
 
-    def by_auto_restart(self, auto_restart: bool) -> 'XAKeynoteDocument':
+    def by_auto_restart(self, auto_restart: bool) -> Union['XAKeynoteDocument', None]:
         return self.by_property("autoRestart", auto_restart)
 
-    def by_maximum_idle_duration(self, maximum_idle_duration: int) -> 'XAKeynoteDocument':
+    def by_maximum_idle_duration(self, maximum_idle_duration: int) -> Union['XAKeynoteDocument', None]:
         return self.by_property("maxmimumIdleDuration", maximum_idle_duration)
 
-    def by_current_slide(self, current_slide: 'XAKeynoteSlide') -> 'XAKeynoteDocument':
+    def by_current_slide(self, current_slide: 'XAKeynoteSlide') -> Union['XAKeynoteDocument', None]:
         return self.by_property("currentSlide", current_slide.xa_elem)
 
-    def by_height(self, height: int) -> 'XAKeynoteDocument':
+    def by_height(self, height: int) -> Union['XAKeynoteDocument', None]:
         return self.by_property("height", height)
 
-    def by_width(self, width: int) -> 'XAKeynoteDocument':
+    def by_width(self, width: int) -> Union['XAKeynoteDocument', None]:
         return self.by_property("width", width)
 
-    def by_selection(self, selection: 'XAKeynoteiWorkItemList') -> 'XAKeynoteDocument':
+    def by_selection(self, selection: 'XAKeynoteiWorkItemList') -> Union['XAKeynoteDocument', None]:
         return self.by_property("selection", selection.xa_elem)
 
-    def by_password_protected(self, password_protected: bool) -> 'XAKeynoteDocument':
+    def by_password_protected(self, password_protected: bool) -> Union['XAKeynoteDocument', None]:
         return self.by_property("passwordProtected", password_protected)
+
+    def __repr__(self):
+        return f"<{str(type(self))}{self.name()}>"
 
 class XAKeynoteDocument(XABaseScriptable.XASBPrintable, XACloseable):
     """A class for managing and interacting with TextEdit documents.
@@ -586,7 +669,7 @@ class XAKeynoteDocument(XABaseScriptable.XASBPrintable, XACloseable):
         self.properties: dict #: All properties of the document
         self.name: str #: The name of the document
         self.modified: bool #: Whether the document has been modified since its last save
-        self.file: str #: The location of the document on the disk, if one exists
+        self.file: XABase.XAPath #: The location of the document on the disk, if one exists
         self.id: str #: The unique identifier for the document
         self.slide_numbers_showing: bool #: Whether slide numbers are displayed
         self.document_theme: XAKeynoteTheme #: The theme assigned to the document
@@ -603,7 +686,24 @@ class XAKeynoteDocument(XABaseScriptable.XASBPrintable, XACloseable):
 
     @property
     def properties(self) -> dict:
-        return self.xa_elem.properties()
+        pyxa_dict = {
+            "name": self.xa_elem.name(),
+            "modified": self.xa_elem.modified(),
+            "file": XABase.XAPath(self.xa_elem.file()),
+            "id": self.xa_elem.id(),
+            "slide_numbers_showing": self.xa_elem.slideNumbersShowing(),
+            "document_theme": self._new_element(self.xa_elem.documentTheme(), XAKeynoteTheme),
+            "auto_loop": self.xa_elem.autoLoop(),
+            "auto_play": self.xa_elem.autoPlay(),
+            "auto_restart": self.xa_elem.autoRestart(),
+            "maximum_idle_duration": self.xa_elem.maximumIdleDuration(),
+            "current_slide": self._new_element(self.xa_elem.currentSlide(), XAKeynoteSlide),
+            "height": self.xa_elem.height(),
+            "width": self.xa_elem.width(),
+            "selection": self._new_element(self.xa_elem.selection(), XAKeynoteiWorkItemList),
+            "password_protected": self.xa_elem.passwordProtected(),
+        }
+        return pyxa_dict
 
     @property
     def name(self) -> str:
@@ -698,7 +798,7 @@ class XAKeynoteDocument(XABaseScriptable.XASBPrintable, XACloseable):
         return self._new_element(self.xa_elem.selection(), XAKeynoteiWorkItemList)
 
     @selection.setter
-    def selection(self, selection: Union['XAKeynoteiWorkItemList', List['XAKeynoteiWorkItem']]):
+    def selection(self, selection: Union['XAKeynoteiWorkItemList', list['XAKeynoteiWorkItem']]):
         if isinstance(selection, list):
             selection = [x.xa_elem for x in selection]
             self.set_property('selection', selection)
@@ -774,11 +874,11 @@ class XAKeynoteDocument(XABaseScriptable.XASBPrintable, XACloseable):
         export_format = XAKeynoteApplication.ExportFormat.KEYNOTE.value
         self.xa_elem.saveIn_as_(self.file, export_format)
 
-    def export(self, file_path: Union[str, AppKit.NSURL] = None, format: XAKeynoteApplication.ExportFormat = XAKeynoteApplication.ExportFormat.PDF):
+    def export(self, file_path: Union[str, XABase.XAPath] = None, format: XAKeynoteApplication.ExportFormat = XAKeynoteApplication.ExportFormat.PDF):
         """Exports the slideshow in the specified format.
 
         :param file_path: The path to save the exported file at, defaults to None
-        :type file_path: Union[str, AppKit.NSURL], optional
+        :type file_path: Union[str, XABase.XAPath], optional
         :param format: The format to export the file in, defaults to XAKeynoteApplication.ExportFormat.PDF
         :type format: XAKeynoteApplication.ExportFormat, optional
 
@@ -787,16 +887,16 @@ class XAKeynoteDocument(XABaseScriptable.XASBPrintable, XACloseable):
         if file_path is None:
             file_path = self.file.path()[:-4] + ".pdf"
         if isinstance(file_path, str):
-            file_path = AppKit.NSURL.alloc().initFileURLWithPath_(file_path)
-        self.xa_elem.exportTo_as_withProperties_(file_path, format.value, None)
+            file_path = XABase.XAPath(file_path)
+        self.xa_elem.exportTo_as_withProperties_(file_path.xa_elem, format.value, None)
 
-    def make_image_slides(self, files: List[Union[str, AppKit.NSURL]], set_titles: bool = False, slide_layout: 'XAKeynoteSlideLayout' = None) -> 'XAKeynoteDocument':
+    def make_image_slides(self, files: list[Union[str, XABase.XAPath]], set_titles: bool = False, slide_layout: 'XAKeynoteSlideLayout' = None) -> 'XAKeynoteDocument':
         """Creates slides out of image files.
 
         Creates a new slide for each image file path in the files list, if the image can be found.
 
         :param files: A list of paths to image files
-        :type files: List[Union[str, AppKit.NSURL]]
+        :type files: list[Union[str, XABase.XAPath]]
         :param set_titles: Whether to set the slide titles to the image file name, defaults to False
         :type set_titles: bool, optional
         :param slide_layout: The base slide layout to use for the new slides, defaults to None
@@ -809,18 +909,18 @@ class XAKeynoteDocument(XABaseScriptable.XASBPrintable, XACloseable):
         urls = []
         for file in files:
             if isinstance(file, str):
-                file = AppKit.NSURL.alloc().initFileURLWithPath_(file)
-            urls.append(file)
+                file = XABase.XAPath(file)
+            urls.append(file.xa_elem)
         self.xa_elem.makeImageSlidesFiles_setTitles_slideLayout_(urls, set_titles, slide_layout)
         return self
 
-    def slides(self, filter: Union[dict, None] = None) -> List['XAKeynoteSlide']:
+    def slides(self, filter: Union[dict, None] = None) -> 'XAKeynoteSlideList':
         """Returns a list of slides, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned slides will have, or None
         :type filter: Union[dict, None]
         :return: The list of slides
-        :rtype: List[XAKeynoteSlide]
+        :rtype: XAKeynoteSlideList
 
         :Example 1: List all slides
 
@@ -850,14 +950,13 @@ class XAKeynoteDocument(XABaseScriptable.XASBPrintable, XACloseable):
         """
         return self.xa_prnt.xa_prnt.new_slide(self, properties)
 
-    # Slide Layouts
-    def slide_layouts(self, filter: Union[dict, None] = None) -> List['XAKeynoteSlideLayout']:
+    def slide_layouts(self, filter: Union[dict, None] = None) -> 'XAKeynoteSlideLayoutList':
         """Returns a list of slide_layouts, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned slide_layouts will have, or None
         :type filter: Union[dict, None]
         :return: The list of slide_layouts
-        :rtype: List[XAKeynoteSlideLayout]
+        :rtype: XAKeynoteSlideLayoutList
 
         :Example 1: List all slide_layouts
 
@@ -875,6 +974,9 @@ class XAKeynoteDocument(XABaseScriptable.XASBPrintable, XACloseable):
         """
         return self._new_element(self.xa_elem.slideLayouts(), XAKeynoteSlideLayoutList, filter)
 
+    def __repr__(self):
+        return f"<{str(type(self))}{self.name}>"
+
 
 
 
@@ -887,18 +989,37 @@ class XAKeynoteThemeList(XABase.XAList):
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, XAKeynoteTheme, filter)
+        logger.debug("Got list of themes")
 
-    def id(self) -> List[str]:
+    def properties(self) -> list[str]:
+        # TODO
+        pyxa_dicts = [None] * len(self.xa_elem)
+        for index, theme in enumerate(self.xa_elem):
+            pyxa_dicts[index] = {
+                "id": theme.id(),
+                "name": theme.name()
+            }
+        return pyxa_dicts
+
+    def id(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("id"))
 
-    def name(self) -> List[str]:
+    def name(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
-    def by_id(self, id: str) -> 'XAKeynoteTheme':
+    def by_properties(self, properties: dict) -> Union['XAKeynoteTheme', None]:
+        for theme in self.xa_elem:
+            if all(properties[x] == theme.properties()[x] for x in properties):
+                return self._new_element(theme, XAKeynoteTheme)
+
+    def by_id(self, id: str) -> Union['XAKeynoteTheme', None]:
         return self.by_property("id", id)
 
-    def by_name(self, name: str) -> 'XAKeynoteTheme':
+    def by_name(self, name: str) -> Union['XAKeynoteTheme', None]:
         return self.by_property("name", name)
+
+    def __repr__(self):
+        return f"<{str(type(self))}{self.name()}>"
 
 class XAKeynoteTheme(XABase.XAObject):
     """A class for managing and interacting with Keynote themes.
@@ -909,8 +1030,16 @@ class XAKeynoteTheme(XABase.XAObject):
     """
     def __init__(self, properties):
         super().__init__(properties)
+        self.properties: dict #: All properties of the theme
         self.id: str #: The unique identifier for the theme
         self.name: str #: The name of the theme
+
+    @property
+    def properties(self) -> dict:
+        return {
+            "id": self.xa_elem.id(),
+            "name": self.xa_elem.name()
+        }
 
     @property
     def id(self) -> str:
@@ -935,6 +1064,24 @@ class XAKeynoteContainerList(XABase.XAList):
         if obj_class is None:
             obj_class = XAKeynoteContainer
         super().__init__(properties, obj_class, filter)
+        logger.debug("Got list of containers")
+
+        # Specialize to XAKeynoteGroupList or XAKeynoteSlideList object
+        if self.__class__ == XAKeynoteContainerList:
+            if all([x.parent().get() == None for x in self.xa_elem]):
+                new_self = self._new_element(self.xa_elem, XAKeynoteSlideList)
+                self.__class__ = new_self.__class__
+                self.__dict__.update(new_self.__dict__)
+                logger.debug("Specialized XAKeynoteContainerList to XAKeynoteSlideList")
+
+            elif all([x.parent().get() != None for x in self.xa_elem]):
+                new_self = self._new_element(self.xa_elem, XAKeynoteGroupList)
+                self.__class__ = new_self.__class__
+                self.__dict__.update(new_self.__dict__)
+                logger.debug("Specialized XAKeynoteContainerList to XAKeynoteGroupList")
+
+    def __repr__(self):
+        return "<" + str(type(self)) + "length: " + str(len(self.xa_elem)) + ">"
 
 class XAKeynoteContainer(XABase.XAObject):
     """A class for managing and interacting with containers in Keynote.
@@ -946,121 +1093,135 @@ class XAKeynoteContainer(XABase.XAObject):
     def __init__(self, properties):
         super().__init__(properties)
 
-    def iwork_items(self, filter: Union[dict, None] = None) -> List['XAKeynoteiWorkItem']:
+        # Specialize to XAKeynoteGroup or XAKeynoteSlide object
+        if self.__class__ == XAKeynoteContainer:
+            if self.xa_elem.baseLayout().get() is not None:
+                new_self = self._new_element(self.xa_elem, XAKeynoteSlide)
+                self.__class__ = new_self.__class__
+                self.__dict__.update(new_self.__dict__)
+                logger.debug("Specialized XAKeynoteContainer to XAKeynoteSlide")
+
+            elif self.xa_elem.parent().get() is not None:
+                new_self = self._new_element(self.xa_elem, XAKeynoteGroup)
+                self.__class__ = new_self.__class__
+                self.__dict__.update(new_self.__dict__)
+                logger.debug("Specialized XAKeynoteContainer to XAKeynoteGroup")
+
+    def iwork_items(self, filter: Union[dict, None] = None) -> 'XAKeynoteiWorkItemList':
         """Returns a list of iWork items, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned iWork items will have, or None
         :type filter: Union[dict, None]
         :return: The list of iWork items
-        :rtype: List[XAKeynoteiWorkItem]
+        :rtype: XAKeynoteiWorkItemList
 
         .. versionadded:: 0.0.2
         """
         return self._new_element(self.xa_elem.iWorkItems(), XAKeynoteiWorkItemList, filter)
 
-    def audio_clips(self, filter: Union[dict, None] = None) -> List['XAKeynoteAudioClip']:
+    def audio_clips(self, filter: Union[dict, None] = None) -> 'XAKeynoteAudioClipList':
         """Returns a list of audio clips, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned audio clips will have, or None
         :type filter: Union[dict, None]
         :return: The list of audio clips
-        :rtype: List[XAKeynoteAudioClip]
+        :rtype: XAKeynoteAudioClipList
 
         .. versionadded:: 0.0.2
         """
         return self._new_element(self.xa_elem.audioClips(), XAKeynoteAudioClipList, filter)
 
-    def charts(self, filter: Union[dict, None] = None) -> List['XAKeynoteChart']:
+    def charts(self, filter: Union[dict, None] = None) -> 'XAKeynoteChartList':
         """Returns a list of charts, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned charts will have, or None
         :type filter: Union[dict, None]
         :return: The list of charts
-        :rtype: List[XAKeynoteChart]
+        :rtype: XAKeynoteChartList
 
         .. versionadded:: 0.0.2
         """
         return self._new_element(self.xa_elem.charts(), XAKeynoteChartList, filter)
 
-    def images(self, filter: Union[dict, None] = None) -> List['XAKeynoteImage']:
+    def images(self, filter: Union[dict, None] = None) -> 'XAKeynoteImageList':
         """Returns a list of images, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned images will have, or None
         :type filter: Union[dict, None]
         :return: The list of images
-        :rtype: List[XAKeynoteImage]
+        :rtype: XAKeynoteImageList
 
         .. versionadded:: 0.0.2
         """
         return self._new_element(self.xa_elem.images(), XAKeynoteImageList, filter)
 
-    def groups(self, filter: Union[dict, None] = None) -> List['XAKeynoteGroup']:
+    def groups(self, filter: Union[dict, None] = None) -> 'XAKeynoteGroupList':
         """Returns a list of groups, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned groups will have, or None
         :type filter: Union[dict, None]
         :return: The list of groups
-        :rtype: List[XAKeynoteGroup]
+        :rtype: XAKeynoteGroupList
 
         .. versionadded:: 0.0.2
         """
         return self._new_element(self.xa_elem.groups(), XAKeynoteGroupList, filter)
 
-    def lines(self, filter: Union[dict, None] = None) -> List['XAKeynoteLine']:
+    def lines(self, filter: Union[dict, None] = None) -> 'XAKeynoteLineList':
         """Returns a list of lines, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned lines will have, or None
         :type filter: Union[dict, None]
         :return: The list of lines
-        :rtype: List[XAKeynoteLine]
+        :rtype: XAKeynoteLineList
 
         .. versionadded:: 0.0.2
         """
         return self._new_element(self.xa_elem.lines(), XAKeynoteLineList, filter)
 
-    def movies(self, filter: Union[dict, None] = None) -> List['XAKeynoteMovie']:
+    def movies(self, filter: Union[dict, None] = None) -> 'XAKeynoteMovieList':
         """Returns a list of movies, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned movies will have, or None
         :type filter: Union[dict, None]
         :return: The list of movies
-        :rtype: List[XAKeynoteMovie]
+        :rtype: XAKeynoteMovieList
 
         .. versionadded:: 0.0.2
         """
         return self._new_element(self.xa_elem.movies(), XAKeynoteMovieList, filter)
 
-    def shapes(self, filter: Union[dict, None] = None) -> List['XAKeynoteShape']:
+    def shapes(self, filter: Union[dict, None] = None) -> 'XAKeynoteShapeList':
         """Returns a list of shapes, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned shapes will have, or None
         :type filter: Union[dict, None]
         :return: The list of shapes
-        :rtype: List[XAKeynoteShape]
+        :rtype: XAKeynoteShapeList
 
         .. versionadded:: 0.0.2
         """
         return self._new_element(self.xa_elem.shapes(), XAKeynoteShapeList, filter)
 
-    def tables(self, filter: Union[dict, None] = None) -> List['XAKeynoteTable']:
+    def tables(self, filter: Union[dict, None] = None) -> 'XAKeynoteTableList':
         """Returns a list of tables, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned tables will have, or None
         :type filter: Union[dict, None]
         :return: The list of tables
-        :rtype: List[XAKeynoteTable]
+        :rtype: XAKeynoteTableList
 
         .. versionadded:: 0.0.2
         """
         return self._new_element(self.xa_elem.tables(), XAKeynoteTableList, filter)
 
-    def text_items(self, filter: Union[dict, None] = None) -> List['XAKeynoteTextItem']:
+    def text_items(self, filter: Union[dict, None] = None) -> 'XAKeynoteTextItemList':
         """Returns a list of text_items, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned text_items will have, or None
         :type filter: Union[dict, None]
         :return: The list of text_items
-        :rtype: List[XAKeynoteTextItem]
+        :rtype: XAKeynoteTextItemList
 
         .. versionadded:: 0.0.2
         """
@@ -1078,24 +1239,53 @@ class XAKeynoteSlideList(XAKeynoteContainerList):
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, filter, XAKeynoteSlide)
+        logger.debug("Got list of slides")
 
-    def properties(self) -> List[dict]:
-        return list(self.xa_elem.arrayByApplyingSelector_("properties"))
+    def properties(self) -> list[dict]:
+        raw_dicts = self.xa_elem.arrayByApplyingSelector_("properties")
+        pyxa_dicts = [None] * len(self.xa_elem)
+        for index, raw_dict in enumerate(raw_dicts):
+            pyxa_dicts[index] = {
+                "default_title_item": self._new_element(raw_dict["defaultTitleItem"], XAKeynoteShape),
+                "slide_number": raw_dict["slideNumber"],
+                "default_body_item": self._new_element(raw_dict["defaultBodyItem"], XAKeynoteShape),
+                "skipped": raw_dict["skipped"] == 1,
+                "body_showing": raw_dict["bodyShowing"] == 1,
+                "presenter_notes": self._new_element(raw_dict["presenterNotes"], XABase.XAText),
+                "title_showing": raw_dict["titleShowing"] == 1,
+                "transition_properties": XAKeynoteTransitionSettings({
+                    "automatic_transition": raw_dict["transitionProperties"]["automaticTransition"] == 1,
+                    "transition_delay": raw_dict["transitionProperties"]["transitionDelay"],
+                    "transtion_duration": raw_dict["transitionProperties"]["transitionDuration"],
+                    "transition_effect": XAKeynoteApplication.Transition(XABase.OSType(raw_dict["transitionProperties"]["transitionEffect"].stringValue()))
+                }, self._new_element(self.xa_elem[index], XAKeynoteSlide)),
+                "base_layout": self._new_element(raw_dict["baseLayout"], XAKeynoteSlideLayout)
+            }
+        return pyxa_dicts
 
-    def body_showing(self) -> List[bool]:
+    def body_showing(self) -> list[bool]:
         return list(self.xa_elem.arrayByApplyingSelector_("bodyShowing"))
 
-    def skipped(self) -> List[bool]:
+    def skipped(self) -> list[bool]:
         return list(self.xa_elem.arrayByApplyingSelector_("skipped"))
 
-    def slide_number(self) -> List[int]:
+    def slide_number(self) -> list[int]:
         return list(self.xa_elem.arrayByApplyingSelector_("slideNumber"))
 
-    def title_showing(self) -> List[bool]:
+    def title_showing(self) -> list[bool]:
         return list(self.xa_elem.arrayByApplyingSelector_("titleShowing"))
 
-    def transition_properties(self) -> List[dict]:
-        return list(self.xa_elem.arrayByApplyingSelector_("transitionProperties"))
+    def transition_properties(self) -> list[dict]:
+        raw_dicts = self.xa_elem.arrayByApplyingSelector_("transitionProperties")
+        pyxa_dicts = [None] * len(self.xa_elem)
+        for index, raw_dict in enumerate(raw_dicts):
+            pyxa_dicts[index] = XAKeynoteTransitionSettings({
+                "automatic_transition": raw_dict["automaticTransition"] == 1,
+                "transition_delay": raw_dict["transitionDelay"],
+                "transtion_duration": raw_dict["transitionDuration"],
+                "transition_effect": XAKeynoteApplication.Transition(XABase.OSType(raw_dict["transitionEffect"].stringValue()))
+            }, self._new_element(self.xa_elem[index], XAKeynoteSlide))
+        return pyxa_dicts
 
     def base_layout(self) -> 'XAKeynoteSlideLayoutList':
         ls = self.xa_elem.arrayByApplyingSelector_("baseLayout")
@@ -1114,7 +1304,55 @@ class XAKeynoteSlideList(XAKeynoteContainerList):
         return self._new_element(ls, XABase.XATextList)
 
     def by_properties(self, properties: dict) -> 'XAKeynoteSlide':
-        return self.by_property("properties", properties)
+        raw_dict = {}
+
+        if "default_title_item" in properties:
+            raw_dict["defaultTitleItem"] = properties["default_title_item"].xa_elem
+
+        if "slide_number" in properties:
+            raw_dict["slideNumber"] = properties["slide_number"]
+        
+        if "default_body_item" in properties:
+            raw_dict["defaultBodyItem"] = properties["default_body_item"].xa_elem
+
+        if "skipped" in properties:
+            raw_dict["skipped"] = properties["skipped"]
+
+        if "body_showing" in properties:
+            raw_dict["bodyShowing"] = properties["body_showing"]
+
+        if "presenter_notes" in properties:
+            if isinstance(properties["presenter_notes"], str):
+                raw_dict["presenterNotes"] = properties["presenter_notes"]
+            else:
+                raw_dict["presenterNotes"] = properties["presenter_notes"].xa_elem
+
+        if "title_showing" in properties:
+            raw_dict["titleShowing"] = properties["title_showing"]
+
+        if "transition_properties" in properties:
+            raw_dict["transitionProperties"] = {}
+            if isinstance(properties["transition_properties"], XAKeynoteTransitionSettings):
+                properties["transition_properties"] = properties["transition_properties"]._pyxa_dict
+
+            if "automatic_transition" in properties["transition_properties"]:
+                raw_dict["transitionProperties"]["automaticTransition"] = properties["transition_properties"]["automatic_transition"]
+
+            if "transition_delay" in properties["transition_properties"]:
+                raw_dict["transitionProperties"]["transitionDelay"] = properties["transition_properties"]["transition_delay"]
+                
+            if "transtion_duration" in properties["transition_properties"]:
+                raw_dict["transitionProperties"]["transitionDuration"] = properties["transition_properties"]["transtion_duration"]
+                
+            if "transition_effect" in properties["transition_properties"]:
+                raw_dict["transitionProperties"]["transitionEffect"] = XAEvents.event_from_type_code(properties["transition_properties"]["transition_effect"].value)
+
+        if "base_layout" in properties:
+            raw_dict["baseLayout"] = properties["base_layout"].xa_elem
+
+        for slide in self.xa_elem:
+            if all(raw_dict[x] == slide.properties()[x] for x in raw_dict):
+                return self._new_element(slide, XAKeynoteSlide)
 
     def by_body_showing(self, body_showing: bool) -> 'XAKeynoteSlide':
         return self.by_property("bodyShowing", body_showing)
@@ -1128,14 +1366,30 @@ class XAKeynoteSlideList(XAKeynoteContainerList):
     def by_title_showing(self, title_showing: bool) -> 'XAKeynoteSlide':
         return self.by_property("titleShowing", title_showing)
 
-    def by_transition_properties(self, transition_properties: dict) -> 'XAKeynoteSlide':
-        return self.by_property("transitionProperties", transition_properties)
+    def by_transition_properties(self, transition_properties: Union['XAKeynoteTransitionSettings', dict]) -> 'XAKeynoteSlide':
+        properties = {}
+        if isinstance(transition_properties, XAKeynoteTransitionSettings):
+            transition_properties = transition_properties._pyxa_dict
+
+        if "automatic_transition" in transition_properties:
+            properties["automaticTransition"] = transition_properties["automatic_transition"]
+
+        if "transition_delay" in transition_properties:
+            properties["transitionDelay"] = transition_properties["transition_delay"]
+            
+        if "transtion_duration" in transition_properties:
+            properties["transitionDuration"] = transition_properties["transtion_duration"]
+            
+        if "transition_effect" in transition_properties:
+            properties["transitionEffect"] = XAEvents.event_from_type_code(transition_properties["transition_effect"].value)
+
+        return self.by_property("transitionProperties", properties)
 
     def by_base_layout(self, base_layout: 'XAKeynoteSlideLayout') -> 'XAKeynoteSlide':
         return self.by_property("baseLayout", base_layout.xa_elem)
 
     def by_default_body_item(self, default_body_item: 'XAKeynoteShape') -> 'XAKeynoteSlide':
-        return self.by_property("defaultBodyItem", default_body_item)
+        return self.by_property("defaultBodyItem", default_body_item.xa_elem)
 
     def by_default_text_item(self, default_text_item: 'XAKeynoteShape') -> 'XAKeynoteSlide':
         return self.by_property("defaultTextItem", default_text_item.xa_elem)
@@ -1145,6 +1399,9 @@ class XAKeynoteSlideList(XAKeynoteContainerList):
             self.by_property('presenterNotes', presenter_notes)
         else:
             self.by_property('presenterNotes', presenter_notes.xa_elem)
+
+    def __repr__(self):
+        return "<" + str(type(self)) + "length: " + str(len(self.xa_elem)) + ">"
 
 class XAKeynoteSlide(XAKeynoteContainer):
     """A class for managing and interacting with Keynote slides.
@@ -1168,7 +1425,24 @@ class XAKeynoteSlide(XAKeynoteContainer):
 
     @property
     def properties(self) -> dict:
-        return self.xa_elem.properties()
+        raw_dict = self.xa_elem.properties()
+        pyxa_dict = {
+            "default_title_item": self._new_element(raw_dict["defaultTitleItem"], XAKeynoteShape),
+            "slide_number": raw_dict["slideNumber"],
+            "default_body_item": self._new_element(raw_dict["defaultBodyItem"], XAKeynoteShape),
+            "skipped": raw_dict["skipped"] == 1,
+            "body_showing": raw_dict["bodyShowing"] == 1,
+            "presenter_notes": self._new_element(raw_dict["presenterNotes"], XABase.XAText),
+            "title_showing": raw_dict["titleShowing"] == 1,
+            "transition_properties": XAKeynoteTransitionSettings({
+                "automatic_transition": raw_dict["transitionProperties"]["automaticTransition"] == 1,
+                "transition_delay": raw_dict["transitionProperties"]["transitionDelay"],
+                "transition_duration": raw_dict["transitionProperties"]["transitionDuration"],
+                "transition_effect": XAKeynoteApplication.Transition(XABase.OSType(raw_dict["transitionProperties"]["transitionEffect"].stringValue()))
+            }, self),
+            "base_layout": self._new_element(raw_dict["baseLayout"], XAKeynoteSlideLayout)
+        }
+        return pyxa_dict
 
     @property
     def body_showing(self) -> bool:
@@ -1180,7 +1454,7 @@ class XAKeynoteSlide(XAKeynoteContainer):
 
     @property
     def skipped(self) -> bool:
-        return self.xa_elem.shipped()
+        return self.xa_elem.skipped()
 
     @skipped.setter
     def skipped(self, skipped: bool):
@@ -1200,11 +1474,34 @@ class XAKeynoteSlide(XAKeynoteContainer):
 
     @property
     def transition_properties(self) -> dict:
-        return self.xa_elem.transitionProperties()
+        raw_dict = self.xa_elem.transitionProperties()
+        pyxa_dict = {
+            "automatic_transition": raw_dict["automaticTransition"] == 1,
+            "transition_delay": raw_dict["transitionDelay"],
+            "transition_duration": raw_dict["transitionDuration"],
+            "transition_effect": XAKeynoteApplication.Transition(XABase.OSType(raw_dict["transitionEffect"].stringValue()))
+        }
+        return XAKeynoteTransitionSettings(pyxa_dict, self)
 
     @transition_properties.setter
-    def transition_properties(self, transition_properties: 'XAKeynoteTransitionSettings'):
-        self.set_property('transitionProperties', transition_properties.xa_elem)
+    def transition_properties(self, transition_properties: Union['XAKeynoteTransitionSettings', dict]):
+        properties = {}
+        if isinstance(transition_properties, XAKeynoteTransitionSettings):
+            transition_properties = transition_properties._pyxa_dict
+
+        if "automatic_transition" in transition_properties:
+            properties["automaticTransition"] = transition_properties["automatic_transition"]
+
+        if "transition_delay" in transition_properties:
+            properties["transitionDelay"] = transition_properties["transition_delay"]
+            
+        if "transtion_duration" in transition_properties:
+            properties["transitionDuration"] = transition_properties["transtion_duration"]
+            
+        if "transition_effect" in transition_properties:
+            properties["transitionEffect"] = XAEvents.event_from_type_code(transition_properties["transition_effect"].value)
+        
+        self.set_property('transitionProperties', properties)
 
     @property
     def base_layout(self) -> 'XAKeynoteSlideLayout':
@@ -1236,13 +1533,22 @@ class XAKeynoteSlide(XAKeynoteContainer):
     def duplicate(self) -> 'XAKeynoteSlide':
         """Duplicates the slide, mimicking the action of copying and pasting the slide manually.
 
-        :return: A reference to the PyXA slide object that called this command.
+        :return: A reference to newly created (duplicate) slide object.
         :rtype: XAKeynoteSlide
 
         .. versionadded:: 0.0.2
         """
-        self.xa_elem.duplicateTo_withProperties_(self.xa_elem.positionAfter(), None)
-        return self
+        new_slide = None
+        if isinstance(self.xa_prnt, XAKeynoteSlideList):
+            # Parent is an XAList object -- we can natively use positionAfter()
+            self.xa_elem.duplicateTo_withProperties_(self.xa_elem.positionAfter(), None)
+            new_slide = self._new_element(self.xa_prnt.xa_prnt.xa_elem.slides()[-1], XAKeynoteSlide)
+        else:
+            # Parent is an XADocument object -- we have to get an NSArray instance
+            slide = self.xa_prnt.xa_elem.slides()[self.slide_number - 1]
+            slide.duplicateTo_withProperties_(slide.positionAfter(), None)
+            new_slide = self._new_element(self.xa_prnt.xa_elem.slides()[-1], XAKeynoteSlide)
+        return new_slide
 
     def delete(self):
         """Deletes the slide.
@@ -1251,11 +1557,11 @@ class XAKeynoteSlide(XAKeynoteContainer):
         """
         self.xa_elem.delete()
 
-    def add_image(self, file_path: Union[str, AppKit.NSURL]) -> 'XAKeynoteImage':
+    def add_image(self, file_path: Union[str, XABase.XAPath, XABase.XAURL]) -> 'XAKeynoteImage':
         """Adds the image at the specified path to the slide.
 
         :param file_path: The path to the image file.
-        :type file_path: Union[str, AppKit.NSURL]
+        :type file_path: Union[str, XABase.XAPath, XABase.XAURL]
         :return: The newly created image object.
         :rtype: XAKeynoteImage
 
@@ -1263,32 +1569,34 @@ class XAKeynoteSlide(XAKeynoteContainer):
         """
         url = file_path
         if isinstance(url, str):
-            url = AppKit.NSURL.alloc().initFileURLWithPath_(file_path)
-        image = self.xa_prnt.xa_prnt.construct("image", {
-            "file": url,
-        })
-        self.xa_elem.images().addObject_(image)
-        properties = {
-            "parent": self,
-            "appspace": self.xa_apsp,
-            "workspace": self.xa_wksp,
-            "element": image,
-            "appref": self.xa_aref,
-            "system_events": self.xa_sevt,
-        }
-        return XAKeynoteImage(properties)
+            if "://" in url:
+                url = XABase.XAURL(url)
+            else:
+                url = XABase.XAPath(url)
 
-    def add_chart(self, row_names: List[str], column_names: List[str], data: List[List[Any]], type: int = XAKeynoteApplication.ChartType.LINE_2D.value, group_by: int = XAKeynoteApplication.ChartGrouping.ROW.value) -> 'XAKeynoteChart':
+        image = None
+
+        parent = self.xa_prnt.xa_prnt
+        max_backtracks = 6 # this -> slidelist -> document -> document list -> window -> window list -> application
+        num_backtracks = 0
+        while not hasattr(parent, "make") and num_backtracks < max_backtracks:
+            parent = parent.xa_prnt
+            num_backtracks += 1
+
+        image = parent.make("image", { "file": url.xa_elem })
+        return self.images().push(image)
+
+    def add_chart(self, row_names: list[str], column_names: list[str], data: list[list[Any]], type: int = XAKeynoteApplication.ChartType.LINE_2D.value, group_by: int = XAKeynoteApplication.ChartGrouping.ROW.value) -> 'XAKeynoteChart':
         """_summary_
 
         _extended_summary_
 
         :param row_names: A list of row names.
-        :type row_names: List[str]
+        :type row_names: list[str]
         :param column_names: A list of column names.
-        :type column_names: List[str]
+        :type column_names: list[str]
         :param data: A 2d array 
-        :type data: List[List[Any]]
+        :type data: list[list[Any]]
         :param type: The chart type, defaults to _KeynoteLegacyChartType.KeynoteLegacyChartTypeLine_2d.value
         :type type: int, optional
         :param group_by: The grouping schema, defaults to _KeynoteLegacyChartGrouping.KeynoteLegacyChartGroupingChartRow.value
@@ -1298,18 +1606,20 @@ class XAKeynoteSlide(XAKeynoteContainer):
 
         .. versionadded:: 0.0.2
         """
+        parent = self.xa_prnt
+        max_backtracks = 2 # this -> slidelist -> document
+        num_backtracks = 0
+        while not isinstance(parent, XAKeynoteDocument) and num_backtracks < max_backtracks:
+            parent = parent.xa_prnt
+            num_backtracks += 1
+
         self.xa_prnt.set_property("currentSlide", self.xa_elem)
         self.xa_elem.addChartRowNames_columnNames_data_type_groupBy_(row_names, column_names, data, type, group_by)
         chart = self.xa_elem.charts()[-1].get()
-        properties = {
-            "parent": self,
-            "appspace": self.xa_apsp,
-            "workspace": self.xa_wksp,
-            "element": chart,
-            "appref": self.xa_aref,
-            "system_events": self.xa_sevt,
-        }
-        return XAKeynoteChart(properties)
+        return self._new_element(chart, XAKeynoteChart)
+
+    def __repr__(self):
+        return "<" + str(type(self)) + "slide number: " + str(self.slide_number) + ">"
 
 
 
@@ -1322,13 +1632,17 @@ class XAKeynoteSlideLayoutList(XABase.XAList):
     .. versionadded:: 0.0.5
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, XAKeynoteTheme, filter)
+        super().__init__(properties, XAKeynoteSlideLayout, filter)
+        logger.debug("Got list of slide layouts")
 
-    def name(self) -> List[str]:
+    def name(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
-    def by_name(self, name: str) -> 'XAKeynoteTheme':
+    def by_name(self, name: str) -> 'XAKeynoteSlideLayout':
         return self.by_property("name", name)
+
+    def __repr__(self):
+        return "<" + str(type(self)) + str(self.name()) + ">"
 
 class XAKeynoteSlideLayout(XAKeynoteSlide):
     """A class for managing and interacting with Keynote slide layouts.
@@ -1345,6 +1659,9 @@ class XAKeynoteSlideLayout(XAKeynoteSlide):
     def name(self) -> str:
         return self.xa_elem.name()
 
+    def __repr__(self):
+        return "<" + str(type(self)) + str(self.name) + ">"
+
 
 
 
@@ -1357,22 +1674,23 @@ class XAKeynoteiWorkItemList(XABase.XAList):
         if obj_class is None:
             obj_class = XAKeynoteiWorkItem
         super().__init__(properties, obj_class, filter)
+        logger.debug("Got list of iWork items")
 
-    def height(self) -> List[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("height"))
+    def height(self) -> list[int]:
+        return [x.height() for x in self.xa_elem]
 
-    def locked(self) -> List[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("locked"))
+    def locked(self) -> list[bool]:
+        return [x.locked() for x in self.xa_elem]
 
-    def width(self) -> List[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("width"))
+    def width(self) -> list[int]:
+        return [x.width() for x in self.xa_elem]
 
     def parent(self) -> XAKeynoteContainerList:
         ls = self.xa_elem.arrayByApplyingSelector_("parent")
         return self._new_element(ls, XAKeynoteContainerList)
 
-    def position(self) -> List[Tuple[int, int]]:
-        return list(self.xa_elem.arrayByApplyingSelector_("position"))
+    def position(self) -> list[tuple[int, int]]:
+        return [tuple(x.position()) for x in self.xa_elem]
 
     def by_height(self, height: int) -> 'XAKeynoteiWorkItem':
         return self.by_property("height", height)
@@ -1386,8 +1704,11 @@ class XAKeynoteiWorkItemList(XABase.XAList):
     def by_parent(self, parent: XAKeynoteContainer) -> 'XAKeynoteiWorkItem':
         return self.by_property("parent", parent.xa_elem)
 
-    def by_position(self, position: Tuple[int, int]) -> 'XAKeynoteiWorkItem':
+    def by_position(self, position: tuple[int, int]) -> 'XAKeynoteiWorkItem':
         return self.by_property("position", position)
+
+    def __repr__(self):
+        return "<" + str(type(self)) + "positions: " + str(self.position()) + ">"
 
 class XAKeynoteiWorkItem(XABase.XAObject):
     """A class for managing and interacting with text, shapes, images, and other elements in Keynote.
@@ -1402,7 +1723,47 @@ class XAKeynoteiWorkItem(XABase.XAObject):
         self.locked: bool #: Whether the object is locked
         self.width: int #: The width of the iWork item
         self.parent: XAKeynoteContainer #: The iWork container that contains the iWork item
-        self.position: Tuple[int, int] #: The horizontal and vertical coordinates of the top left point of the iWork item
+        self.position: tuple[int, int] #: The horizontal and vertical coordinates of the top left point of the iWork item
+
+        if self.__class__ == XAKeynoteiWorkItem:
+            description = self.xa_elem.get().description()
+
+            # Specialize to some iWork Item type
+            new_self = None
+            if ": defaultTitleItem" in description or ": defaultBodyItem" in description or ": <class 'sshp'>" in description:
+                new_self = self._new_element(self.xa_elem, XAKeynoteShape)
+                logger.debug("Specialized XAKeynoteiWorkItem to XAKeynoteShape")
+            elif ": <class 'imag'>" in description:
+                new_self = self._new_element(self.xa_elem, XAKeynoteImage)
+                logger.debug("Specialized XAKeynoteiWorkItem to XAKeynoteImage")
+            elif ": <class 'igrp'>" in description:
+                new_self = self._new_element(self.xa_elem, XAKeynoteGroup)
+                logger.debug("Specialized XAKeynoteiWorkItem to XAKeynoteGroup")
+            elif ": <class 'shtx'>" in description:
+                new_self = self._new_element(self.xa_elem, XAKeynoteTextItem)
+                logger.debug("Specialized XAKeynoteiWorkItem to XAKeynoteTextItem")
+            elif ": <class 'NmTb'>" in description:
+                new_self = self._new_element(self.xa_elem, XAKeynoteTable)
+                logger.debug("Specialized XAKeynoteiWorkItem to XAKeynoteTable")
+            elif ": <class 'iWln'>" in description:
+                new_self = self._new_element(self.xa_elem, XAKeynoteLine)
+                logger.debug("Specialized XAKeynoteiWorkItem to XAKeynoteLine")
+            elif ": <class 'shmv'>" in description:
+                new_self = self._new_element(self.xa_elem, XAKeynoteMovie)
+                logger.debug("Specialized XAKeynoteiWorkItem to XAKeynoteMovie")
+            elif ": <class 'shau'>" in description:
+                new_self = self._new_element(self.xa_elem, XAKeynoteAudioClip)
+                logger.debug("Specialized XAKeynoteiWorkItem to XAKeynoteAudioClip")
+            elif ": <class 'shct'>" in description:
+                new_self = self._new_element(self.xa_elem, XAKeynoteChart)
+                logger.debug("Specialized XAKeynoteiWorkItem to XAKeynoteChart")
+
+            if new_self is not None:
+                new_self.xa_prnt = self.xa_prnt
+                self.__class__ = new_self.__class__
+                self.__dict__.update(new_self.__dict__)
+            else:
+                print(description)
 
     @property
     def height(self) -> int:
@@ -1433,11 +1794,11 @@ class XAKeynoteiWorkItem(XABase.XAObject):
         return self._new_element(self.xa_elem.parent(), XAKeynoteContainer)
 
     @property
-    def position(self) -> Tuple[int, int]:
-        return self.xa_elem.position()
+    def position(self) -> tuple[int, int]:
+        return tuple(self.xa_elem.position())
 
     @position.setter
-    def position(self, position: Tuple[int, int]):
+    def position(self, position: tuple[int, int]):
         self.set_property('position', position)
 
     def delete(self):
@@ -1455,7 +1816,10 @@ class XAKeynoteiWorkItem(XABase.XAObject):
 
         .. versionadded:: 0.0.2
         """
-        self.xa_elem.duplicateTo_withProperties_(self.xa_prnt.xa_elem.iWorkItems(), None)
+        if isinstance(self.xa_prnt, XAKeynoteiWorkItemList):
+            self.xa_elem.duplicateTo_withProperties_(self.xa_elem.positionAfter(), {})
+        else:
+            self.xa_elem.duplicateTo_withProperties_(self.xa_prnt.xa_elem.iWorkItems(), {})
         return self
 
     def resize(self, width: int, height: int) -> 'XAKeynoteiWorkItem':
@@ -1502,6 +1866,9 @@ class XAKeynoteiWorkItem(XABase.XAObject):
         position = AppKit.NSValue.valueWithPoint_(AppKit.NSPoint(x, y))
         self.xa_elem.setValue_forKey_(position, "position")
 
+    def __repr__(self):
+        return "<" + str(type(self)) + "position: " + str(self.position) + ">"
+
 
 
 
@@ -1515,17 +1882,19 @@ class XAKeynoteGroupList(XAKeynoteContainerList):
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, filter, XAKeynoteGroup)
+        logger.debug("Got list of groups")
 
-    def height(self) -> List[int]:
+    def height(self) -> list[int]:
         return list(self.xa_elem.arrayByApplyingSelector_("height"))
 
-    def position(self) -> List[Tuple[int, int]]:
-        return list(self.xa_elem.arrayByApplyingSelector_("position"))
+    def position(self) -> list[tuple[int, int]]:
+        ls = self.xa_elem.arrayByApplyingSelector_("position")
+        return [tuple(point.pointValue()) for point in ls]
 
-    def width(self) -> List[int]:
+    def width(self) -> list[int]:
         return list(self.xa_elem.arrayByApplyingSelector_("width"))
 
-    def rotation(self) -> List[int]:
+    def rotation(self) -> list[int]:
         return list(self.xa_elem.arrayByApplyingSelector_("rotation"))
 
     def parent(self) -> XAKeynoteContainerList:
@@ -1535,7 +1904,7 @@ class XAKeynoteGroupList(XAKeynoteContainerList):
     def by_height(self, height: int) -> 'XAKeynoteGroup':
         return self.by_property("height", height)
 
-    def by_position(self, position: Tuple[int, int]) -> 'XAKeynoteGroup':
+    def by_position(self, position: tuple[int, int]) -> 'XAKeynoteGroup':
         return self.by_property("position", position)
 
     def by_width(self, width: int) -> 'XAKeynoteGroup':
@@ -1555,7 +1924,7 @@ class XAKeynoteGroup(XAKeynoteContainer):
     def __init__(self, properties):
         super().__init__(properties)
         self.height: int #: The height of the group
-        self.position: Tuple[int, int] #: The horizontal and vertical coordinates of the top left point of the group
+        self.position: tuple[int, int] #: The horizontal and vertical coordinates of the top left point of the group
         self.width: int #: The widht of the group
         self.rotation: int #: The rotation of the group, in degrees from 0 to 359
         self.parent: XAKeynoteContainer #: The container which contains the group
@@ -1569,11 +1938,11 @@ class XAKeynoteGroup(XAKeynoteContainer):
         self.set_property('height', height)
 
     @property
-    def position(self) -> Tuple[int, int]:
+    def position(self) -> tuple[int, int]:
         return self.xa_elem.position()
 
     @position.setter
-    def position(self, position: Tuple[int, int]):
+    def position(self, position: tuple[int, int]):
         self.set_property('position', position)
 
     @property
@@ -1608,30 +1977,31 @@ class XAKeynoteImageList(XAKeynoteiWorkItemList):
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, filter, XAKeynoteImage)
+        logger.debug("Got list of images")
 
-    def object_description(self) -> List[str]:
+    def description(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("objectDescription"))
 
-    def file(self) -> List[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("file"))
+    def file(self) -> list[str]:
+        return [x.file() for x in self.xa_elem]
 
-    def file_name(self) -> List[str]:
+    def file_name(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("fileName"))
 
-    def opacity(self) -> List[int]:
+    def opacity(self) -> list[int]:
         return list(self.xa_elem.arrayByApplyingSelector_("opacity"))
 
-    def reflection_showing(self) -> List[bool]:
+    def reflection_showing(self) -> list[bool]:
         return list(self.xa_elem.arrayByApplyingSelector_("reflectionShowing"))
 
-    def reflection_value(self) -> List[int]:
+    def reflection_value(self) -> list[int]:
         return list(self.xa_elem.arrayByApplyingSelector_("reflectionValue"))
 
-    def rotation(self) -> List[int]:
+    def rotation(self) -> list[int]:
         return list(self.xa_elem.arrayByApplyingSelector_("rotation"))
 
-    def by_object_description(self, object_description: str) -> 'XAKeynoteImage':
-        return self.by_property("objectDescription", object_description)
+    def by_description(self, description: str) -> 'XAKeynoteImage':
+        return self.by_property("objectDescription", description)
 
     def by_file(self, file: str) -> 'XAKeynoteImage':
         return self.by_property("file", file)
@@ -1651,6 +2021,9 @@ class XAKeynoteImageList(XAKeynoteiWorkItemList):
     def by_rotation(self, rotation: int) -> 'XAKeynoteImage':
         return self.by_property("rotation", rotation)
 
+    def __repr__(self):
+        return "<" + str(type(self)) + str(self.file_name()) + ">"
+
 class XAKeynoteImage(XAKeynoteiWorkItem):
     """A class for managing and interacting with images in Keynote.
 
@@ -1658,7 +2031,7 @@ class XAKeynoteImage(XAKeynoteiWorkItem):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.object_description: str #: Text associated with the image, read aloud by VoiceOVer
+        self.description: str #: Text associated with the image, read aloud by VoiceOVer
         self.file: str #: The image file
         self.file_name: str #: The name of the image file
         self.opacity: int #: The opacity of the image, in percent from 0 to 100
@@ -1680,7 +2053,7 @@ class XAKeynoteImage(XAKeynoteiWorkItem):
 
     @property
     def file_name(self) -> str:
-        return self.xa_elem.fileName()
+        return self.xa_elem.fileName().get()
 
     @file_name.setter
     def file_name(self, file_name: str):
@@ -1726,23 +2099,40 @@ class XAKeynoteImage(XAKeynoteiWorkItem):
         :return: The image.
         :rtype: XAKeynoteImage
 
+        .. deprecated:: 0.1.0
+
+           Set the :attr:`rotation` attribute directly instead.
+
         .. versionadded:: 0.0.2
         """
         self.set_property("rotation", self.rotation + degrees)
         return self
 
-    def replace_with(self, img_path: Union[str, AppKit.NSURL]) -> 'XAKeynoteImage':
+    def replace_with(self, img_path: Union[str, XABase.XAPath, XABase.XAURL]) -> 'XAKeynoteImage':
         """Removes the image and inserts another in its place with the same width and height.
 
         :param img_path: The path to the new image file.
-        :type img_path: Union[str, AppKit.NSURL]
+        :type img_path: Union[str, XABase.XAPath, XABase.XAURL]
         :return: A reference to the new PyXA image object.
         :rtype: XAKeynoteImage
 
         .. versionadded:: 0.0.2
         """
         self.delete()
-        return self.xa_prnt.add_image(img_path)
+        if isinstance(img_path, str):
+            if "://" in img_path:
+                img_path = XABase.XAURL(img_path)
+            else:
+                img_path = XABase.XAPath(img_path)
+
+        parent = self.xa_prnt
+        while not isinstance(parent, XAKeynoteSlide):
+            parent = parent.xa_prnt
+
+        return parent.add_image(img_path)
+
+    def __repr__(self):
+        return "<" + str(type(self)) + str(self.file_name) + ">"
 
 
 
@@ -1756,16 +2146,17 @@ class XAKeynoteAudioClipList(XAKeynoteiWorkItemList):
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, filter, XAKeynoteAudioClip)
+        logger.debug("Got list of audio clips")
 
-    def file_name(self) -> List[str]:
+    def file_name(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("fileName"))
 
-    def clip_volume(self) -> List[int]:
+    def clip_volume(self) -> list[int]:
         return list(self.xa_elem.arrayByApplyingSelector_("clipVolume"))
 
-    def repetition_method(self) -> List[XAKeynoteApplication.RepetitionMethod]:
+    def repetition_method(self) -> list[XAKeynoteApplication.RepetitionMethod]:
         ls = self.xa_elem.arrayByApplyingSelector_("repetitionMethod")
-        return [XAKeynoteApplication.RepetitionMethod(x) for x in ls]
+        return [XAKeynoteApplication.RepetitionMethod(XABase.OSType(x.stringValue())) for x in ls]
 
     def by_file_name(self, file_name: str) -> 'XAKeynoteAudioClip':
         return self.by_property("fileName", file_name)
@@ -1774,7 +2165,12 @@ class XAKeynoteAudioClipList(XAKeynoteiWorkItemList):
         return self.by_property("clipVolume", clip_volume)
 
     def by_repetition_method(self, repetition_method: XAKeynoteApplication.RepetitionMethod) -> 'XAKeynoteAudioClip':
-        return self.by_property("repetitionMethod", repetition_method.value)
+        for audio_clip in self.xa_elem:
+            if audio_clip.repetitionMethod() == repetition_method.value:
+                return self._new_element(audio_clip, XAKeynoteAudioClip)
+
+    def __repr__(self):
+        return "<" + str(type(self)) + str(self.file_name()) + ">"
 
 class XAKeynoteAudioClip(XAKeynoteiWorkItem):
     """A class for managing and interacting with audio clips in Keynote.
@@ -1789,7 +2185,7 @@ class XAKeynoteAudioClip(XAKeynoteiWorkItem):
 
     @property
     def file_name(self) -> str:
-        return self.xa_elem.fileName()
+        return self.xa_elem.fileName().get()
 
     @file_name.setter
     def file_name(self, file_name: str):
@@ -1811,6 +2207,9 @@ class XAKeynoteAudioClip(XAKeynoteiWorkItem):
     def repetition_method(self, repetition_method: XAKeynoteApplication.RepetitionMethod):
         self.set_property('repetitionMethod', repetition_method.value)
 
+    def __repr__(self):
+        return "<" + str(type(self)) + str(self.file_name) + ">"
+
 
 
 
@@ -1823,52 +2222,104 @@ class XAKeynoteShapeList(XAKeynoteiWorkItemList):
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, filter, XAKeynoteShape)
+        logger.debug("Got list of shapes")
 
-    def properties(self) -> List[dict]:
-        return list(self.xa_elem.arrayByApplyingSelector_("properties"))
+    def properties(self) -> list[dict]:
+        return [{
+            "reflection_showing": shape.reflectionShowing(),
+            "rotation": shape.rotation(),
+            "position": tuple(shape.position()),
+            "parent": self._new_element(shape.parent(), XAKeynoteContainer),
+            "width": shape.width(),
+            "opacity": shape.opacity(),
+            "locked": shape.locked(),
+            "height": shape.height(),
+            "background_fill_type": XAKeynoteApplication.FillOption(shape.backgroundFillType()),
+            "reflection_value": shape.reflectionValue(),
+            "object_text": shape.objectText().get()
+        } for shape in self.xa_elem]
 
-    def background_fill_type(self) -> List[XAKeynoteApplication.FillOption]:
-        ls = self.xa_elem.arrayByApplyingSelector_("fileName")
-        return [XAKeynoteApplication.FillOption(x) for x in ls]
+    def background_fill_type(self) -> list[XAKeynoteApplication.FillOption]:
+        ls = self.xa_elem.arrayByApplyingSelector_("backgroundFillType")
+        return [XAKeynoteApplication.FillOption(XABase.OSType(x.stringValue())) for x in ls]
 
     def object_text(self) -> XABase.XATextList:
         ls = self.xa_elem.arrayByApplyingSelector_("objectText")
         return self._new_element(ls, XABase.XATextList)
 
-    def opacity(self) -> List[int]:
+    def opacity(self) -> list[int]:
         return list(self.xa_elem.arrayByApplyingSelector_("opacity"))
 
-    def reflection_showing(self) -> List[bool]:
+    def reflection_showing(self) -> list[bool]:
         return list(self.xa_elem.arrayByApplyingSelector_("reflectionShowing"))
 
-    def reflection_value(self) -> List[int]:
+    def reflection_value(self) -> list[int]:
         return list(self.xa_elem.arrayByApplyingSelector_("reflectionValue"))
 
-    def rotation(self) -> List[int]:
+    def rotation(self) -> list[int]:
         return list(self.xa_elem.arrayByApplyingSelector_("rotation"))
 
-    def by_properties(self, properties: dict) -> 'XAKeynoteShape':
-        return self.by_property("properties", properties)
+    def by_properties(self, properties: dict) -> Union['XAKeynoteShape', None]:
+        raw_dict = {}
 
-    def by_background_fill_type(self, background_fill_type: XAKeynoteApplication.FillOption) -> 'XAKeynoteShape':
-        return self.by_property("backgroundFillType", background_fill_type.value)
+        if "reflection_show" in properties:
+            raw_dict["reflectionShowing"] = properties["reflection_showing"]
 
-    def by_object_text(self, object_text: Union[str, XABase.XAText]) -> 'XAKeynoteShape':
+        if "rotation" in properties:
+            raw_dict["rotation"] = properties["rotation"]
+
+        if "position" in properties:
+            raw_dict["position"] = properties["position"]
+
+        if "parent" in properties:
+            raw_dict["parent"] = properties["parent"].xa_elem
+
+        if "width" in properties:
+            raw_dict["width"] = properties["width"]
+
+        if "opacity" in properties:
+            raw_dict["opacity"] = properties["opacity"]
+
+        if "locked" in properties:
+            raw_dict["locked"] = properties["lockedv"]
+
+        if "height" in properties:
+            raw_dict["height"] = properties["height"]
+
+        if "background_fill_type" in properties:
+            raw_dict["backgroundFillType"] = properties["background_fill_type"]
+
+        if "reflection_value" in properties:
+            raw_dict["reflectionValue"] = properties["reflection_value"]
+
+        if "object_text" in properties:
+            raw_dict["objectText"] = properties["object_text"]
+
+        for shape in self.xa_elem:
+            if all([raw_dict[x] == shape.properties()[x] for x in raw_dict]):
+                return self._new_element(shape, XAKeynoteShape)
+
+    def by_background_fill_type(self, background_fill_type: XAKeynoteApplication.FillOption) -> Union['XAKeynoteShape', None]:
+        for shape in self.xa_elem:
+            if shape.backgroundFillType() == background_fill_type.value:
+                return self._new_element(shape, XAKeynoteShape)
+
+    def by_object_text(self, object_text: Union[str, XABase.XAText]) -> Union['XAKeynoteShape', None]:
         if isinstance(object_text, str):
-            self.by_property('objectText', object_text)
+            return self.by_property('objectText', object_text)
         else:
-            self.by_property('objectText', object_text.xa_elem)
+            return self.by_property('objectText', object_text.xa_elem)
 
-    def by_opacity(self, opacity: int) -> 'XAKeynoteShape':
+    def by_opacity(self, opacity: int) -> Union['XAKeynoteShape', None]:
         return self.by_property("opacity", opacity)
 
-    def by_reflection_showing(self, reflection_showing: bool) -> 'XAKeynoteShape':
+    def by_reflection_showing(self, reflection_showing: bool) -> Union['XAKeynoteShape', None]:
         return self.by_property("reflectionShowing", reflection_showing)
 
-    def by_reflection_value(self, reflection_value: int) -> 'XAKeynoteShape':
+    def by_reflection_value(self, reflection_value: int) -> Union['XAKeynoteShape', None]:
         return self.by_property("reflectionValue", reflection_value)
 
-    def by_rotation(self, rotation: int) -> 'XAKeynoteShape':
+    def by_rotation(self, rotation: int) -> Union['XAKeynoteShape', None]:
         return self.by_property("rotation", rotation)
 
 class XAKeynoteShape(XAKeynoteiWorkItem):
@@ -1895,7 +2346,7 @@ class XAKeynoteShape(XAKeynoteiWorkItem):
         return XAKeynoteApplication.FillOption(self.xa_elem.backgroundFillType())
 
     @property
-    def object_text(self) -> XABase.XAtext:
+    def object_text(self) -> XABase.XAText:
         return self._new_element(self.xa_elem.objectText(), XABase.XAText)
 
     @object_text.setter
@@ -1945,6 +2396,10 @@ class XAKeynoteShape(XAKeynoteiWorkItem):
         :return: The shape.
         :rtype: XAKeynoteShape
 
+        .. deprecated:: 0.1.0
+
+           Set the :attr:`rotation` attribute directly instead.
+
         .. versionadded:: 0.0.2
         """
         self.set_property("rotation", self.rotation + degrees)
@@ -1969,6 +2424,7 @@ class XAKeynoteChartList(XAKeynoteiWorkItemList):
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, filter, XAKeynoteChart)
+        logger.debug("Got list of charts")
 
 class XAKeynoteChart(XAKeynoteiWorkItem):
     """A class for managing and interacting with charts in Keynote.
@@ -1990,23 +2446,24 @@ class XAKeynoteLineList(XAKeynoteiWorkItemList):
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, filter, XAKeynoteLine)
+        logger.debug("Got list of lines")
 
-    def end_point(self) -> List[Tuple[int, int]]:
+    def end_point(self) -> list[tuple[int, int]]:
         return list(self.xa_elem.arrayByApplyingSelector_("end_point"))
 
-    def reflection_showing(self) -> List[bool]:
+    def reflection_showing(self) -> list[bool]:
         return list(self.xa_elem.arrayByApplyingSelector_("reflectionShowing"))
 
-    def reflection_value(self) -> List[int]:
+    def reflection_value(self) -> list[int]:
         return list(self.xa_elem.arrayByApplyingSelector_("reflectionValue"))
 
-    def rotation(self) -> List[int]:
+    def rotation(self) -> list[int]:
         return list(self.xa_elem.arrayByApplyingSelector_("rotation"))
 
-    def start_point(self) -> List[Tuple[int, int]]:
+    def start_point(self) -> list[tuple[int, int]]:
         return list(self.xa_elem.arrayByApplyingSelector_("start_point"))
 
-    def by_end_point(self, end_point: Tuple[int, int]) -> 'XAKeynoteLine':
+    def by_end_point(self, end_point: tuple[int, int]) -> 'XAKeynoteLine':
         return self.by_property("endPoint", end_point)
 
     def by_reflection_showing(self, reflection_showing: bool) -> 'XAKeynoteLine':
@@ -2018,7 +2475,7 @@ class XAKeynoteLineList(XAKeynoteiWorkItemList):
     def by_rotation(self, rotation: int) -> 'XAKeynoteLine':
         return self.by_property("rotation", rotation)
 
-    def by_start_point(self, start_point: Tuple[int, int]) -> 'XAKeynoteLine':
+    def by_start_point(self, start_point: tuple[int, int]) -> 'XAKeynoteLine':
         return self.by_property("startPoint", start_point)
 
 class XAKeynoteLine(XAKeynoteiWorkItem):
@@ -2028,18 +2485,18 @@ class XAKeynoteLine(XAKeynoteiWorkItem):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.end_point: Tuple[int, int] #: A list of two numbers indicating the horizontal and vertical position of the line ending point
+        self.end_point: tuple[int, int] #: A list of two numbers indicating the horizontal and vertical position of the line ending point
         self.reflection_showing: bool #: Whether the line displays a reflection
         self.reflection_value: int #: The reflection of reflection of the line, from 0 to 100
         self.rotation: int #: The rotation of the line, in degrees from 0 to 359
-        self.start_point: Tuple[int, int] #: A list of two numbers indicating the horizontal and vertical position of the line starting point
+        self.start_point: tuple[int, int] #: A list of two numbers indicating the horizontal and vertical position of the line starting point
 
     @property
-    def end_point(self) -> Tuple[int, int]:
+    def end_point(self) -> tuple[int, int]:
         return self.xa_elem.endPoint()
 
     @end_point.setter
-    def end_point(self, end_point: Tuple[int, int]):
+    def end_point(self, end_point: tuple[int, int]):
         self.set_property('endPoint', end_point)
 
     @property
@@ -2067,11 +2524,11 @@ class XAKeynoteLine(XAKeynoteiWorkItem):
         self.set_property('rotation', rotation)
 
     @property
-    def start_point(self) -> Tuple[int, int]:
+    def start_point(self) -> tuple[int, int]:
         return self.xa_elem.startPoint()
 
     @start_point.setter
-    def start_point(self, start_point: Tuple[int, int]):
+    def start_point(self, start_point: tuple[int, int]):
         self.set_property('startPoint', start_point)
 
 
@@ -2086,27 +2543,28 @@ class XAKeynoteMovieList(XAKeynoteiWorkItemList):
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, filter, XAKeynoteMovie)
+        logger.debug("Got list of movies")
 
-    def file_name(self) -> List[str]:
+    def file_name(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("fileName"))
 
-    def movie_volume(self) -> List[int]:
+    def movie_volume(self) -> list[int]:
         return list(self.xa_elem.arrayByApplyingSelector_("movieVolume"))
 
-    def opacity(self) -> List[int]:
+    def opacity(self) -> list[int]:
         return list(self.xa_elem.arrayByApplyingSelector_("opacity"))
 
-    def reflection_showing(self) -> List[bool]:
+    def reflection_showing(self) -> list[bool]:
         return list(self.xa_elem.arrayByApplyingSelector_("reflectionShowing"))
 
-    def reflection_value(self) -> List[int]:
+    def reflection_value(self) -> list[int]:
         return list(self.xa_elem.arrayByApplyingSelector_("reflectionValue"))
 
-    def reflection_value(self) -> List[XAKeynoteApplication.RepetitionMethod]:
+    def reflection_value(self) -> list[XAKeynoteApplication.RepetitionMethod]:
         ls = self.xa_elem.arrayByApplyingSelector_("repetitionMethod")
         return [XAKeynoteApplication.RepetitionMethod(x) for x in ls]
 
-    def rotation(self) -> List[int]:
+    def rotation(self) -> list[int]:
         return list(self.xa_elem.arrayByApplyingSelector_("rotation"))
 
     def by_file_name(self, file_name: str) -> 'XAKeynoteMovie':
@@ -2213,8 +2671,9 @@ class XAKeynoteTextItemList(XAKeynoteiWorkItemList):
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, filter, XAKeynoteTextItem)
+        logger.debug("Got list of text items")
 
-    def background_fill_type(self) -> List[XAKeynoteApplication.FillOption]:
+    def background_fill_type(self) -> list[XAKeynoteApplication.FillOption]:
         ls = self.xa_elem.arrayByApplyingSelector_("fileName")
         return [XAKeynoteApplication.FillOption(x) for x in ls]
 
@@ -2222,16 +2681,16 @@ class XAKeynoteTextItemList(XAKeynoteiWorkItemList):
         ls = self.xa_elem.arrayByApplyingSelector_("text")
         return self._new_element(ls, XABase.XATextList)
 
-    def opacity(self) -> List[int]:
+    def opacity(self) -> list[int]:
         return list(self.xa_elem.arrayByApplyingSelector_("opacity"))
 
-    def reflection_showing(self) -> List[bool]:
+    def reflection_showing(self) -> list[bool]:
         return list(self.xa_elem.arrayByApplyingSelector_("reflectionShowing"))
 
-    def reflection_value(self) -> List[int]:
+    def reflection_value(self) -> list[int]:
         return list(self.xa_elem.arrayByApplyingSelector_("reflectionValue"))
 
-    def rotation(self) -> List[int]:
+    def rotation(self) -> list[int]:
         return list(self.xa_elem.arrayByApplyingSelector_("rotation"))
 
     def by_background_fill_type(self, background_fill_type: XAKeynoteApplication.FillOption) -> 'XAKeynoteTextItem':
@@ -2329,55 +2788,170 @@ class XAKeynoteTableList(XAKeynoteiWorkItemList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, filter, XAKeynoteTable)
 
-    def name(self) -> List[str]:
+    def name(self) -> list[str]:
+        """Gets the name of each table in the list.
+
+        :return: A list of table names
+        :rtype: list[str]
+        
+        .. versionadded:: 0.0.5
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
-    def row_count(self) -> List[int]:
+    def row_count(self) -> list[int]:
+        """Gets the row count of each table in the list.
+
+        :return: A list of table row counts
+        :rtype: list[int]
+        
+        .. versionadded:: 0.0.5
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("rowCount"))
 
-    def column_count(self) -> List[int]:
+    def column_count(self) -> list[int]:
+        """Gets the column count of each table in the list.
+
+        :return: A list of table column counts
+        :rtype: list[int]
+        
+        .. versionadded:: 0.0.7
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("columnCount"))
 
-    def header_row_count(self) -> List[int]:
+    def header_row_count(self) -> list[int]:
+        """Gets the header row count of each table in the list.
+
+        :return: A list of table header row counts
+        :rtype: list[int]
+        
+        .. versionadded:: 0.0.5
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("headerRowCount"))
 
-    def header_column_count(self) -> List[int]:
+    def header_column_count(self) -> list[int]:
+        """Gets the header column count of each table in the list.
+
+        :return: A list of table header column counts
+        :rtype: list[int]
+        
+        .. versionadded:: 0.0.5
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("headerColumnCount"))
 
-    def footer_row_count(self) -> List[int]:
+    def footer_row_count(self) -> list[int]:
+        """Gets the footer row count of each table in the list.
+
+        :return: A list of table footer row counts
+        :rtype: list[int]
+        
+        .. versionadded:: 0.0.5
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("footerRowCount"))
 
     def cell_range(self) -> 'XAKeynoteRangeList':
+        """Gets the total cell range of each table in the list.
+
+        :return: A list of table cell ranges
+        :rtype: XAKeynoteRangeList
+        
+        .. versionadded:: 0.0.5
+        """
         ls = self.xa_elem.arrayByApplyingSelector_("cellRange")
         return self._new_element(ls, XAKeynoteRangeList)
 
     def selection_range(self) -> 'XAKeynoteRangeList':
+        """Gets the selected cell range of each table in the list.
+
+        :return: A list of selected table cell ranges
+        :rtype: XAKeynoteRangeList
+        
+        .. versionadded:: 0.0.5
+        """
         ls = self.xa_elem.arrayByApplyingSelector_("selectionRange")
         return self._new_element(ls, XAKeynoteRangeList)
 
-    def by_name(self, name: str) -> 'XAKeynoteTable':
+    def by_name(self, name: str) -> Union['XAKeynoteTable', None]:
+        """Retrieves the first table whose name matches the given name, if one exists.
+
+        :return: The desired table, if it is found
+        :rtype: Union[XAKeynoteTable, None]
+        
+        .. versionadded:: 0.0.5
+        """
         return self.by_property("name", name)
 
-    def by_row_count(self, row_count: int) -> 'XAKeynoteTable':
+    def by_row_count(self, row_count: int) -> Union['XAKeynoteTable', None]:
+        """Retrieves the first table whose row count matches the given number, if one exists.
+
+        :return: The desired table, if it is found
+        :rtype: Union[XAKeynoteTable, None]
+        
+        .. versionadded:: 0.0.5
+        """
         return self.by_property("rowCount", row_count)
 
-    def by_column_count(self, column_count: int) -> 'XAKeynoteTable':
+    def by_column_count(self, column_count: int) -> Union['XAKeynoteTable', None]:
+        """Retrieves the first table whose column count matches the given number, if one exists.
+
+        :return: The desired table, if it is found
+        :rtype: Union[XAKeynoteTable, None]
+        
+        .. versionadded:: 0.0.5
+        """
         return self.by_property("columnCount", column_count)
 
-    def by_header_row_count(self, header_row_count: int) -> 'XAKeynoteTable':
+    def by_header_row_count(self, header_row_count: int) -> Union['XAKeynoteTable', None]:
+        """Retrieves the first table whose header row count matches the given number, if one exists.
+
+        :return: The desired table, if it is found
+        :rtype: Union[XAKeynoteTable, None]
+        
+        .. versionadded:: 0.0.5
+        """
         return self.by_property("headerRowCount", header_row_count)
 
-    def by_header_column_count(self, header_column_count: int) -> 'XAKeynoteTable':
+    def by_header_column_count(self, header_column_count: int) -> Union['XAKeynoteTable', None]:
+        """Retrieves the first table whose header column count matches the given number, if one exists.
+
+        :return: The desired table, if it is found
+        :rtype: Union[XAKeynoteTable, None]
+        
+        .. versionadded:: 0.0.5
+        """
         return self.by_property("headerColumnCount", header_column_count)
 
-    def by_footer_row_count(self, footer_row_count: int) -> 'XAKeynoteTable':
+    def by_footer_row_count(self, footer_row_count: int) -> Union['XAKeynoteTable', None]:
+        """Retrieves the first table whose footer row count matches the given number, if one exists.
+
+        :return: The desired table, if it is found
+        :rtype: Union[XAKeynoteTable, None]
+        
+        .. versionadded:: 0.0.5
+        """
         return self.by_property("footerRowCount", footer_row_count)
 
-    def by_cell_range(self, cell_range: 'XAKeynoteRange') -> 'XAKeynoteTable':
+    def by_cell_range(self, cell_range: 'XAKeynoteRange') -> Union['XAKeynoteTable', None]:
+        """Retrieves the first table whose cell range matches the given range, if one exists.
+
+        :return: The desired table, if it is found
+        :rtype: Union[XAKeynoteTable, None]
+        
+        .. versionadded:: 0.0.5
+        """
         return self.by_property("cellRange", cell_range.xa_elem)
 
-    def by_selection_range(self, selection_range: 'XAKeynoteRange') -> 'XAKeynoteTable':
+    def by_selection_range(self, selection_range: 'XAKeynoteRange') -> Union['XAKeynoteTable', None]:
+        """Retrieves the first table whose selection range matches the given range, if one exists.
+
+        :return: The desired table, if it is found
+        :rtype: Union[XAKeynoteTable, None]
+        
+        .. versionadded:: 0.0.5
+        """
         return self.by_property("selectionRange", selection_range.xa_elem)
+
+    def __repr__(self):
+        return "<" + str(type(self)) + str(self.name()) + ">"
 
 class XAKeynoteTable(XAKeynoteiWorkItem):
     """A class for managing and interacting with tables in Keynote.
@@ -2455,60 +3029,82 @@ class XAKeynoteTable(XAKeynoteiWorkItem):
     def selection_range(self, selection_range: 'XAKeynoteRange'):
         self.set_property('selectionRange', selection_range.xa_elem)
 
-    # TODO
-    def sort(self, columns: List['XAKeynoteColumn'], rows: List['XAKeynoteRow'], direction: XAKeynoteApplication.SortDirection = XAKeynoteApplication.SortDirection.ASCENDING) -> 'XAKeynoteTable':
-        column_objs = [column.xa_elem for column in columns]
-        row_objs = [row.xa_elem for row in rows]
-        self.xa_elem.sortBy_direction_inRows_(column_objs[0], direction.value, row_objs)
+    def sort(self, by_column: 'XAKeynoteColumn', in_rows: Union[list['XAKeynoteRow'], 'XAKeynoteRowList', None] = None, direction: XAKeynoteApplication.SortDirection = XAKeynoteApplication.SortDirection.ASCENDING) -> Self:
+        """Sorts the table according to the specified column, in the specified sorting direction.
+
+        :param by_column: The column to sort by
+        :type by_column: XAKeynoteColumn
+        :param in_rows: The rows to sort, or None to sort the whole table, defaults to None
+        :type in_rows: Union[list[XAKeynoteRow], XAKeynoteRowList, None], optional
+        :param direction: The direction to sort in, defaults to XAKeynoteApplication.SortDirection.ASCENDING
+        :type direction: XAKeynoteApplication.SortDirection, optional
+        :return: The table object
+        :rtype: Self
+
+        .. versionadded:: 0.1.0
+        """
+        if isinstance(in_rows, list):
+            in_rows = [row.xa_elem for row in in_rows]
+        elif isinstance(in_rows, XABase.XAList):
+            in_rows = in_rows.xa_elem
+
+        self.xa_elem.sortBy_direction_inRows_(by_column.xa_elem, direction.value, in_rows)
         return self
 
-    def cells(self, filter: Union[dict, None] = None) -> List['XAKeynoteCell']:
+    def cells(self, filter: Union[dict, None] = None) -> 'XAKeynoteCellList':
         """Returns a list of cells, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned cells will have, or None
         :type filter: Union[dict, None]
         :return: The list of cells
-        :rtype: List[XAKeynoteCell]
+        :rtype: XAKeynoteCellList
 
         .. versionadded:: 0.0.2
         """
         return self._new_element(self.xa_elem.cells(), XAKeynoteCellList, filter)
 
-    def columns(self, filter: Union[dict, None] = None) -> List['XAKeynoteColumn']:
+    def columns(self, filter: Union[dict, None] = None) -> 'XAKeynoteColumnList':
         """Returns a list of columns, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned columns will have, or None
         :type filter: Union[dict, None]
         :return: The list of columns
-        :rtype: List[XAKeynoteColumn]
+        :rtype: XAKeynoteColumnList
 
         .. versionadded:: 0.0.2
         """
         return self._new_element(self.xa_elem.columns(), XAKeynoteColumnList, filter)
 
-    def rows(self, filter: Union[dict, None] = None) -> List['XAKeynoteRow']:
+    def rows(self, filter: Union[dict, None] = None) -> 'XAKeynoteRowList':
         """Returns a list of rows, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned rows will have, or None
         :type filter: Union[dict, None]
         :return: The list of rows
-        :rtype: List[XAKeynoteRow]
+        :rtype: XAKeynoteRowList
 
         .. versionadded:: 0.0.2
         """
         return self._new_element(self.xa_elem.rows(), XAKeynoteRowList, filter)
 
-    def ranges(self, filter: Union[dict, None] = None) -> List['XAKeynoteRange']:
+    def ranges(self, filter: Union[dict, None] = None) -> 'XAKeynoteRangeList':
         """Returns a list of ranges, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned ranges will have, or None
         :type filter: Union[dict, None]
         :return: The list of ranges
-        :rtype: List[XAKeynoteRange]
+        :rtype: XAKeynoteRangeList
 
         .. versionadded:: 0.0.2
         """
         return self._new_element(self.xa_elem.ranges(), XAKeynoteRangeList, filter)
+
+    def __repr__(self):
+        try:
+            return "<" + str(type(self)) + str(self.name) + ">"
+        except AttributeError:
+            # Probably dealing with a proxy object created via make()
+            return "<" + str(type(self)) + str(self.xa_elem) + ">"
 
 
 
@@ -2525,70 +3121,255 @@ class XAKeynoteRangeList(XABase.XAList):
             obj_class = XAKeynoteRange
         super().__init__(properties, obj_class, filter)
 
-    def properties(self) -> List[dict]:
-        return list(self.xa_elem.arrayByApplyingSelector_("properties"))
+    def properties(self) -> list[dict]:
+        """Gets the properties dictionary of each range in the list.
 
-    def font_name(self) -> List[str]:
+        :return: A list of range properties dictionaries
+        :rtype: list[dict]
+        
+        .. versionadded:: 0.0.5
+        """
+        raw_dicts = self.xa_elem.arrayByApplyingSelector_("properties")
+        pyxa_dicts = [None] * len(self.xa_elem)
+        for index, raw_dict in enumerate(raw_dicts):
+            pyxa_dicts[index] = {
+                "background_color": XABase.XAColor(raw_dict["backgroundColor"]) if raw_dict["backgroundColor"] is not None else None,
+                "font_size": raw_dict["fontSize"],
+                "name": raw_dict["name"],
+                "format": XAKeynoteApplication.CellFormat(XABase.OSType(raw_dict["format"].stringValue())),
+                "vertical_alignment": XAKeynoteApplication.Alignment(XABase.OSType(raw_dict["verticalAlignment"].stringValue())),
+                "font_name": raw_dict["fontName"],
+                "alignment": XAKeynoteApplication.Alignment(XABase.OSType(raw_dict["alignment"].stringValue())),
+                "text_wrap": raw_dict["textWrap"],
+                "text_color": XABase.XAColor(raw_dict["textColor"]),
+            }
+        return pyxa_dicts
+
+    def font_name(self) -> list[str]:
+        """Gets the font name of each range in the list.
+
+        :return: A list of range font names
+        :rtype: list[str]
+        
+        .. versionadded:: 0.0.5
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("fontName"))
 
-    def font_size(self) -> List[float]:
+    def font_size(self) -> list[float]:
+        """Gets the font size of each range in the list.
+
+        :return: A list of range font sizes
+        :rtype: list[float]
+        
+        .. versionadded:: 0.0.5
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("fontSize"))
 
-    def format(self) -> List[XAKeynoteApplication.CellFormat]:
+    def format(self) -> list[XAKeynoteApplication.CellFormat]:
+        """Gets the cell format of each range in the list.
+
+        :return: A list of range cell formats
+        :rtype: list[XAKeynoteApplication.CellFormat]
+        
+        .. versionadded:: 0.0.5
+        """
         ls = self.xa_elem.arrayByApplyingSelector_("format")
         return [XAKeynoteApplication.CellFormat(x) for x in ls]
 
-    def alignment(self) -> List[XAKeynoteApplication.Alignment]:
-        ls = self.xa_elem.arrayByApplyingSelector_("alignment")
-        return [XAKeynoteApplication.Alignment(x) for x in ls]
+    def alignment(self) -> list[XAKeynoteApplication.Alignment]:
+        """Gets the alignment setting of each range in the list.
 
-    def name(self) -> List[str]:
+        :return: A list of range alignment settings
+        :rtype: list[XAKeynoteApplication.Alignment]
+        
+        .. versionadded:: 0.0.5
+        """
+        ls = self.xa_elem.arrayByApplyingSelector_("alignment")
+        return [XAKeynoteApplication.Alignment(XABase.OSType(x.stringValue())) for x in ls]
+
+    def name(self) -> list[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
-    def text_color(self) -> List[XABase.XAColor]:
-        ls = self.xa_elem.arrayByApplyingSelector_("textColor")
-        return [self._new_element(x, XABase.XAColor) for x in ls]
+    def text_color(self) -> list[XABase.XAColor]:
+        """Gets the text color of each range in the list.
 
-    def text_wrap(self) -> List[bool]:
+        :return: A list of range text colors
+        :rtype: list[XABase.XAColor]
+        
+        .. versionadded:: 0.0.5
+        """
+        ls = self.xa_elem.arrayByApplyingSelector_("textColor")
+        return [XABase.XAColor(x) for x in ls]
+
+    def text_wrap(self) -> list[bool]:
+        """Gets the text wrap setting of each range in the list.
+
+        :return: A list of range text wrap settings
+        :rtype: list[bool]
+        
+        .. versionadded:: 0.0.5
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("textWrap"))
 
-    def background_color(self) -> List[XABase.XAColor]:
+    def background_color(self) -> list[XABase.XAColor]:
+        """Gets the background color of each range in the list.
+
+        :return: A list of range background colors
+        :rtype: list[XABase.XAColor]
+        
+        .. versionadded:: 0.0.5
+        """
         ls = self.xa_elem.arrayByApplyingSelector_("backgroundColor")
-        return [self._new_element(x, XABase.XAColor) for x in ls]
+        return [XABase.XAColor(x) for x in ls]
 
-    def vertical_alignment(self) -> List[XAKeynoteApplication.Alignment]:
+    def vertical_alignment(self) -> list[XAKeynoteApplication.Alignment]:
+        """Gets the vertical alignment setting of each range in the list.
+
+        :return: A list of range vertical alignment settings
+        :rtype: list[XAKeynoteApplication.Alignment]
+        
+        .. versionadded:: 0.0.5
+        """
         ls = self.xa_elem.arrayByApplyingSelector_("verticalAlignment")
-        return [XAKeynoteApplication.Alignment(x) for x in ls]
+        return [XAKeynoteApplication.Alignment(XABase.OSType(x.stringValue())) for x in ls]
 
-    def by_properties(self, properties: dict) -> 'XAKeynoteRange':
-        return self.by_property("properties", properties)
+    def by_properties(self, properties: dict) -> Union['XAKeynoteRange', None]:
+        """Retrieves the first range whose properties dictionary matches the given properties dictionary, if one exists.
 
-    def by_font_name(self, font_name: str) -> 'XAKeynoteRange':
+        :return: The desired range, if it is found
+        :rtype: Union[XAKeynoteRange, None]
+        
+        .. versionadded:: 0.1.0
+        """
+        raw_dict = {}
+
+        if "background_color" in properties:
+            raw_dict["backgroundColor"] = properties["background_color"].xa_elem
+
+        if "font_size" in properties:
+            raw_dict["fontSize"] = properties["font_size"]
+
+        if "name" in properties:
+            raw_dict["name"] = properties["name"]
+
+        if "format" in properties:
+            raw_dict["format"] = properties["format"].value
+
+        if "vertical_alignment" in properties:
+            raw_dict["verticalAlignment"] = XAEvents.event_from_type_code(properties["vertical_alignment"].value)
+
+        if "font_name" in properties:
+            raw_dict["fontName"] = properties["font_name"]
+
+        if "alignment" in properties:
+            raw_dict["alignment"] = XAEvents.event_from_type_code(properties["alignment"].value)
+
+        if "text_wrap" in properties:
+            raw_dict["textWrap"] = properties["text_wrap"]
+
+        if "text_color" in properties:
+            raw_dict["textColor"] = properties["text_color"].xa_elem
+
+        for page_range in self.xa_elem:
+            if all([raw_dict[x] == page_range.properties()[x] for x in raw_dict]):
+                return self._new_element(page_range, XAKeynoteRange)
+
+    def by_font_name(self, font_name: str) -> Union['XAKeynoteRange', None]:
+        """Retrieves the first range whose font name matches the given font name, if one exists.
+
+        :return: The desired range, if it is found
+        :rtype: Union[XAKeynoteRange, None]
+        
+        .. versionadded:: 0.0.5
+        """
         return self.by_property("fontName", font_name)
 
-    def by_font_size(self, font_size: float) -> 'XAKeynoteRange':
+    def by_font_size(self, font_size: float) -> Union['XAKeynoteRange', None]:
+        """Retrieves the first range whose font size matches the given font size, if one exists.
+
+        :return: The desired range, if it is found
+        :rtype: Union[XAKeynoteRange, None]
+        
+        .. versionadded:: 0.0.5
+        """
         return self.by_property("fontSize", font_size)
 
-    def by_format(self, format: XAKeynoteApplication.CellFormat) -> 'XAKeynoteRange':
+    def by_format(self, format: XAKeynoteApplication.CellFormat) -> Union['XAKeynoteRange', None]:
+        """Retrieves the first range whose cell format matches the given format, if one exists.
+
+        :return: The desired range, if it is found
+        :rtype: Union[XAKeynoteRange, None]
+        
+        .. versionadded:: 0.0.5
+        """
         return self.by_property("format", format.value)
 
-    def by_alignment(self, alignment: XAKeynoteApplication.Alignment) -> 'XAKeynoteRange':
-        return self.by_property("alignment", alignment.value)
+    def by_alignment(self, alignment: XAKeynoteApplication.Alignment) -> Union['XAKeynoteRange', None]:
+        """Retrieves the first range whose alignment setting matches the given alignment, if one exists.
 
-    def by_name(self, name: str) -> 'XAKeynoteRange':
+        :return: The desired range, if it is found
+        :rtype: Union[XAKeynoteRange, None]
+        
+        .. versionadded:: 0.0.5
+        """
+        for page_range in self.xa_elem:
+            if page_range.alignment() == alignment.value:
+                return self._new_element(page_range, XAKeynoteRange)
+
+    def by_name(self, name: str) -> Union['XAKeynoteRange', None]:
+        """Retrieves the first range whose name matches the given name, if one exists.
+
+        :return: The desired range, if it is found
+        :rtype: Union[XAKeynoteRange, None]
+        
+        .. versionadded:: 0.0.5
+        """
         return self.by_property("name", name)
 
-    def by_text_color(self, text_color: XABase.XAColor) -> 'XAKeynoteRange':
+    def by_text_color(self, text_color: XABase.XAColor) -> Union['XAKeynoteRange', None]:
+        """Retrieves the first range whose text color matches the given color, if one exists.
+
+        :return: The desired range, if it is found
+        :rtype: Union[XAKeynoteRange, None]
+        
+        .. versionadded:: 0.0.5
+        """
         return self.by_property("textColor", text_color.xa_elem)
 
-    def by_text_wrap(self, text_wrap: bool) -> 'XAKeynoteRange':
+    def by_text_wrap(self, text_wrap: bool) -> Union['XAKeynoteRange', None]:
+        """Retrieves the first range whose text wrap setting matches the given boolean value, if one exists.
+
+        :return: The desired range, if it is found
+        :rtype: Union[XAKeynoteRange, None]
+        
+        .. versionadded:: 0.0.5
+        """
         return self.by_property("textWrap", text_wrap)
 
-    def by_background_color(self, background_color: XABase.XAColor) -> 'XAKeynoteRange':
+    def by_background_color(self, background_color: XABase.XAColor) -> Union['XAKeynoteRange', None]:
+        """Retrieves the first range whose background color matches the given color, if one exists.
+
+        :return: The desired range, if it is found
+        :rtype: Union[XAKeynoteRange, None]
+        
+        .. versionadded:: 0.0.5
+        """
         return self.by_property("backgroundColor", background_color.xa_elem)
 
-    def by_vertical_alignment(self, vertical_alignment: XAKeynoteApplication.Alignment) -> 'XAKeynoteRange':
-        return self.by_property("verticalAlignment", vertical_alignment.value)
+    def by_vertical_alignment(self, vertical_alignment: XAKeynoteApplication.Alignment) -> Union['XAKeynoteRange', None]:
+        """Retrieves the first range whose vertical alignment setting matches the given alignment, if one exists.
+
+        :return: The desired range, if it is found
+        :rtype: Union[XAKeynoteRange, None]
+        
+        .. versionadded:: 0.0.5
+        """
+        for page_range in self.xa_elem:
+            if page_range.verticalAlignment() == vertical_alignment.value:
+                return self._new_element(page_range, XAKeynoteRange)
+
+    def __repr__(self):
+        return "<" + str(type(self)) + str(self.name()) + ">"
 
 class XAKeynoteRange(XABase.XAObject):
     """A class for managing and interacting with ranges of table cells in Keynote.
@@ -2610,7 +3391,18 @@ class XAKeynoteRange(XABase.XAObject):
 
     @property
     def properties(self) -> dict:
-        return self.xa_elem.dict()
+        raw_dict = self.xa_elem.properties()
+        return {
+            "background_color": XABase.XAColor(raw_dict["backgroundColor"]),
+            "font_size": raw_dict["fontSize"],
+            "name": raw_dict["name"],
+            "format": XAKeynoteApplication.CellFormat(XABase.OSType(raw_dict["format"].stringValue())),
+            "vertical_alignment": XAKeynoteApplication.Alignment(XABase.OSType(raw_dict["verticalAlignment"].stringValue())),
+            "font_name": raw_dict["fontName"],
+            "alignment": XAKeynoteApplication.Alignment(XABase.OSType(raw_dict["alignment"].stringValue())),
+            "text_wrap": raw_dict["textWrap"],
+            "text_color": XABase.XAColor(raw_dict["textColor"])
+        }
 
     @property
     def font_name(self) -> str:
@@ -2621,11 +3413,11 @@ class XAKeynoteRange(XABase.XAObject):
         self.set_property('fontName', font_name)
 
     @property
-    def font_size(self) -> int:
+    def font_size(self) -> float:
         return self.xa_elem.fontSize()
 
     @font_size.setter
-    def font_size(self, font_size: int):
+    def font_size(self, font_size: float):
         self.set_property('fontSize', font_size)
 
     @property
@@ -2638,7 +3430,7 @@ class XAKeynoteRange(XABase.XAObject):
 
     @property
     def alignment(self) -> XAKeynoteApplication.Alignment:
-        return XAKeynoteApplication.Alignment(self.xa_elem.alighment())
+        return XAKeynoteApplication.Alignment(self.xa_elem.alignment())
 
     @alignment.setter
     def alignment(self, alignment: XAKeynoteApplication.Alignment):
@@ -2647,6 +3439,10 @@ class XAKeynoteRange(XABase.XAObject):
     @property
     def name(self) -> str:
         return self.xa_elem.name()
+
+    @name.setter
+    def name(self, name: str):
+        self.set_property("name", name)
 
     @property
     def text_color(self) -> XABase.XAColor:
@@ -2680,21 +3476,24 @@ class XAKeynoteRange(XABase.XAObject):
     def vertical_alignment(self, vertical_alignment: XAKeynoteApplication.Alignment):
         self.set_property('verticalAlignment', vertical_alignment.value)
 
-    def clear(self) -> 'XAKeynoteRange':
+    def clear(self) -> Self:
         """Clears the content of every cell in the range.
+
+        :return: The range object
+        :rtype: Self
 
         :Example 1: Clear all cells in a table
 
         >>> import PyXA
-        >>> app = PyXA.application("Keynote")
-        >>> range = app.document(0).slide(0).table(0).cell_range
+        >>> app = PyXA.Application("Keynote")
+        >>> range = app.documents()[0].slides()[0].tables()[0].cell_range
         >>> range.clear()
 
         :Example 2: Clear all cells whose value is 3
 
         >>> import PyXA
-        >>> app = PyXA.application("Keynote")
-        >>> cells = app.document(0).slide(0).table(0).cells()
+        >>> app = PyXA.Application("Keynote")
+        >>> cells = app.documents()[0].slides()[0].tables()[0].cells()
         >>> for cell in cells:
         >>>     if cell.value == 3:
         >>>         cell.clear()
@@ -2704,23 +3503,26 @@ class XAKeynoteRange(XABase.XAObject):
         self.xa_elem.clear()
         return self
 
-    def merge(self) -> 'XAKeynoteRange':
+    def merge(self) -> Self:
         """Merges all cells in the range.
+
+        :return: The range object
+        :rtype: Self
 
         :Example 1: Merge all cells in the first row of a table
 
         >>> import PyXA
-        >>> app = PyXA.application("Keynote")
-        >>> table = app.document(0).slide(0).table(0)
-        >>> row = table.row(0)
+        >>> app = PyXA.Application("Keynote")
+        >>> table = app.documents()[0].slides()[0].tables()[0]
+        >>> row = table.rows()[0]
         >>> row.merge()
 
         :Example 2: Merge all cells in the first column of a table
 
         >>> import PyXA
-        >>> app = PyXA.application("Keynote")
-        >>> table = app.document(0).slide(0).table(0)
-        >>> col = table.column(0)
+        >>> app = PyXA.Application("Keynote")
+        >>> table = app.documents()[0].slides()[0].tables()[0]
+        >>> col = table.columns()[0]
         >>> col.merge()
 
         .. note::
@@ -2732,14 +3534,17 @@ class XAKeynoteRange(XABase.XAObject):
         self.xa_elem.merge()
         return self
 
-    def unmerge(self) -> 'XAKeynoteRange':
+    def unmerge(self) -> Self:
         """Unmerges all cells in the range.
+
+        :return: The range object
+        :rtype: Self
 
         :Example 1: Unmerge all merged cells
 
         >>> import PyXA
-        >>> app = PyXA.application("Keynote")
-        >>> range = app.document(0).slide(0).table(0).cell_range
+        >>> app = PyXA.Application("Keynote")
+        >>> range = app.documents()[0].slides()[0].tables()[0].cell_range
         >>> range.unmerge()
 
         .. versionadded:: 0.0.3
@@ -2747,41 +3552,44 @@ class XAKeynoteRange(XABase.XAObject):
         self.xa_elem.unmerge()
         return self
 
-    def cells(self, filter: Union[dict, None] = None) -> List['XAKeynoteCell']:
+    def cells(self, filter: Union[dict, None] = None) -> 'XAKeynoteCellList':
         """Returns a list of cells, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned cells will have, or None
         :type filter: Union[dict, None]
         :return: The list of cells
-        :rtype: List[XAKeynoteCell]
+        :rtype: XAKeynoteCellList
 
         .. versionadded:: 0.0.2
         """
         return self._new_element(self.xa_elem.cells(), XAKeynoteCellList, filter)
 
-    def columns(self, filter: Union[dict, None] = None) -> List['XAKeynoteColumn']:
+    def columns(self, filter: Union[dict, None] = None) -> 'XAKeynoteColumnList':
         """Returns a list of columns, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned columns will have, or None
         :type filter: Union[dict, None]
         :return: The list of columns
-        :rtype: List[XAKeynoteColumn]
+        :rtype: XAKeynoteColumnList
 
         .. versionadded:: 0.0.2
         """
         return self._new_element(self.xa_elem.columns(), XAKeynoteColumnList, filter)
 
-    def rows(self, filter: Union[dict, None] = None) -> List['XAKeynoteRow']:
+    def rows(self, filter: Union[dict, None] = None) -> 'XAKeynoteRowList':
         """Returns a list of rows, as PyXA objects, matching the given filter.
 
         :param filter: A dictionary specifying property-value pairs that all returned rows will have, or None
         :type filter: Union[dict, None]
         :return: The list of rows
-        :rtype: List[XAKeynoteRow]
+        :rtype: XAKeynoteRowList
 
         .. versionadded:: 0.0.2
         """
         return self._new_element(self.xa_elem.rows(), XAKeynoteRowList, filter)
+
+    def __repr__(self):
+        return "<" + str(type(self)) + str(self.name) + ">"
 
 
 
@@ -2795,18 +3603,110 @@ class XAKeynoteRowList(XAKeynoteRangeList):
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, filter, XAKeynoteRow)
+        logger.debug("Got list of table rows")
 
-    def address(self) -> List[float]:
+    def properties(self) -> list[dict]:
+        """Gets the properties dictionary of each row in the list.
+
+        :return: A list of row properties dictionaries
+        :rtype: list[dict]
+        
+        .. versionadded:: 0.1.0
+        """
+        raw_dicts = self.xa_elem.arrayByApplyingSelector_("properties")
+        pyxa_dicts = super().properties()
+        for index, raw_dict in enumerate(raw_dicts):
+            properties = pyxa_dicts[index]
+            properties["address"] = raw_dict["address"]
+            properties["height"] = raw_dict["height"]
+        return pyxa_dicts
+
+    def address(self) -> list[float]:
+        """Gets the address of each row in the list.
+
+        :return: A list of row addresses
+        :rtype: list[float]
+        
+        .. versionadded:: 0.0.5
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("address"))
 
-    def width(self) -> List[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("width"))
+    def height(self) -> list[int]:
+        """Gets the height of each row in the list.
 
-    def by_address(self, address: float) -> 'XAKeynoteRow':
+        :return: A list of row heights
+        :rtype: list[int]
+        
+        .. versionadded:: 0.0.5
+        """
+        return list(self.xa_elem.arrayByApplyingSelector_("height"))
+
+    def by_properties(self, properties: dict) -> Union['XAKeynoteRow', None]:
+        """Retrieves the first row whose properties dictionary matches the given properties dictionary, if one exists.
+
+        :return: The desired row, if it is found
+        :rtype: Union[XAKeynoteRow, None]
+        
+        .. versionadded:: 0.1.0
+        """
+        raw_dict = {}
+
+        if "background_color" in properties:
+            raw_dict["backgroundColor"] = properties["background_color"].xa_elem
+
+        if "font_size" in properties:
+            raw_dict["fontSize"] = properties["font_size"]
+
+        if "name" in properties:
+            raw_dict["name"] = properties["name"]
+
+        if "format" in properties:
+            raw_dict["format"] = properties["format"].value
+
+        if "vertical_alignment" in properties:
+            raw_dict["verticalAlignment"] = XAEvents.event_from_type_code(properties["vertical_alignment"].value)
+
+        if "font_name" in properties:
+            raw_dict["fontName"] = properties["font_name"]
+
+        if "alignment" in properties:
+            raw_dict["alignment"] = XAEvents.event_from_type_code(properties["alignment"].value)
+
+        if "text_wrap" in properties:
+            raw_dict["textWrap"] = properties["text_wrap"]
+
+        if "text_color" in properties:
+            raw_dict["textColor"] = properties["text_color"].xa_elem
+
+        if "address" in properties:
+            raw_dict["address"] = properties["address"]
+
+        if "height" in properties:
+            raw_dict["height"] = properties["height"]
+
+        for page_range in self.xa_elem:
+            if all([raw_dict[x] == page_range.properties()[x] for x in raw_dict]):
+                return self._new_element(page_range, XAKeynoteRow)
+
+    def by_address(self, address: float) -> Union['XAKeynoteRow', None]:
+        """Retrieves the first row whose address matches the given address, if one exists.
+
+        :return: The desired row, if it is found
+        :rtype: Union[XAKeynoteRow, None]
+        
+        .. versionadded:: 0.0.5
+        """
         return self.by_property("address", address)
 
-    def by_width(self, width: int) -> 'XAKeynoteRow':
-        return self.by_property("width", width)
+    def by_height(self, height: int) -> Union['XAKeynoteRow', None]:
+        """Retrieves the first row whose height matches the given height, if one exists.
+
+        :return: The desired row, if it is found
+        :rtype: Union[XAKeynoteRow, None]
+        
+        .. versionadded:: 0.0.5
+        """
+        return self.by_property("height", height)
 
 class XAKeynoteRow(XAKeynoteRange):
     """A class for managing and interacting with table rows in Keynote.
@@ -2817,6 +3717,14 @@ class XAKeynoteRow(XAKeynoteRange):
         super().__init__(properties)
         self.address: int #: The index of the row in the table
         self.height: float #: The height of the row in pixels
+
+    @property
+    def properties(self) -> dict:
+        raw_dict = self.xa_elem.properties()
+        properties = super().properties
+        properties["address"] = raw_dict["address"]
+        properties["height"] = raw_dict["height"]
+        return properties
 
     @property
     def address(self) -> int:
@@ -2842,17 +3750,109 @@ class XAKeynoteColumnList(XAKeynoteRangeList):
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, filter, XAKeynoteColumn)
+        logger.debug("Got list of table columns")
 
-    def address(self) -> List[float]:
+    def properties(self) -> list[dict]:
+        """Gets the properties dictionary of each column in the list.
+
+        :return: A list of column properties dictionaries
+        :rtype: list[dict]
+        
+        .. versionadded:: 0.1.0
+        """
+        raw_dicts = self.xa_elem.arrayByApplyingSelector_("properties")
+        pyxa_dicts = super().properties()
+        for index, raw_dict in enumerate(raw_dicts):
+            properties = pyxa_dicts[index]
+            properties["address"] = raw_dict["address"]
+            properties["width"] = raw_dict["width"]
+        return pyxa_dicts
+
+    def address(self) -> list[float]:
+        """Gets the address of each column in the list.
+
+        :return: A list of column addresses
+        :rtype: list[float]
+        
+        .. versionadded:: 0.0.5
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("address"))
 
-    def width(self) -> List[int]:
+    def width(self) -> list[int]:
+        """Gets the width of each column in the list.
+
+        :return: A list of column widths
+        :rtype: list[int]
+        
+        .. versionadded:: 0.0.5
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("width"))
 
-    def by_address(self, address: float) -> 'XAKeynoteColumn':
+    def by_properties(self, properties: dict) -> Union['XAKeynoteColumn', None]:
+        """Retrieves the first column whose properties dictionary matches the given properties dictionary, if one exists.
+
+        :return: The desired column, if it is found
+        :rtype: Union[XAKeynoteColumn, None]
+        
+        .. versionadded:: 0.1.0
+        """
+        raw_dict = {}
+
+        if "background_color" in properties:
+            raw_dict["backgroundColor"] = properties["background_color"].xa_elem
+
+        if "font_size" in properties:
+            raw_dict["fontSize"] = properties["font_size"]
+
+        if "name" in properties:
+            raw_dict["name"] = properties["name"]
+
+        if "format" in properties:
+            raw_dict["format"] = properties["format"].value
+
+        if "vertical_alignment" in properties:
+            raw_dict["verticalAlignment"] = XAEvents.event_from_type_code(properties["vertical_alignment"].value)
+
+        if "font_name" in properties:
+            raw_dict["fontName"] = properties["font_name"]
+
+        if "alignment" in properties:
+            raw_dict["alignment"] = XAEvents.event_from_type_code(properties["alignment"].value)
+
+        if "text_wrap" in properties:
+            raw_dict["textWrap"] = properties["text_wrap"]
+
+        if "text_color" in properties:
+            raw_dict["textColor"] = properties["text_color"].xa_elem
+
+        if "address" in properties:
+            raw_dict["address"] = properties["address"]
+
+        if "width" in properties:
+            raw_dict["width"] = properties["width"]
+
+        for page_range in self.xa_elem:
+            if all([raw_dict[x] == page_range.properties()[x] for x in raw_dict]):
+                return self._new_element(page_range, XAKeynoteColumn)
+
+    def by_address(self, address: float) -> Union['XAKeynoteColumn', None]:
+        """Retrieves the first column whose address matches the given address, if one exists.
+
+        :return: The desired column, if it is found
+        :rtype: Union[XAKeynoteColumn, None]
+        
+        .. versionadded:: 0.0.5
+        """
         return self.by_property("address", address)
 
-    def by_width(self, width: int) -> 'XAKeynoteColumn':
+    def by_width(self, width: int) -> Union['XAKeynoteColumn', None]:
+        """Retrieves the first column whose width matches the given width, if one exists.
+
+        :return: The desired column, if it is found
+        :rtype: Union[XAKeynoteColumn, None]
+        
+        .. versionadded:: 0.0.5
+        """
         return self.by_property("width", width)
 
 class XAKeynoteColumn(XAKeynoteRange):
@@ -2864,6 +3864,14 @@ class XAKeynoteColumn(XAKeynoteRange):
         super().__init__(properties)
         self.address: int #: The index of the column in the tabel
         self.width: float #: The width of the column in pixels
+
+    @property
+    def properties(self) -> dict:
+        raw_dict = self.xa_elem.properties()
+        properties = super().properties
+        properties["address"] = raw_dict["address"]
+        properties["width"] = raw_dict["width"]
+        return properties
 
     @property
     def address(self) -> int:
@@ -2889,37 +3897,183 @@ class XAKeynoteCellList(XAKeynoteRangeList):
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, filter, XAKeynoteCell)
+        logger.debug("Got list of table cells")
 
-    def formatted_value(self) -> List[str]:
+    def properties(self) -> list[dict]:
+        """Gets the properties dictionary of each cell in the list.
+
+        :return: A list of cell properties dictionaries
+        :rtype: list[dict]
+        
+        .. versionadded:: 0.1.0
+        """
+        raw_dicts = self.xa_elem.arrayByApplyingSelector_("properties")
+        pyxa_dicts = super().properties()
+        for index, raw_dict in enumerate(raw_dicts):
+            properties = pyxa_dicts[index]
+            properties["formatted_value"] = raw_dict["formattedValue"]
+            properties["formula"] = raw_dict["formula"]
+            properties["value"] = raw_dict["value"]
+            properties["column"] = self._new_element(raw_dict["column"], XAKeynoteColumn)
+            properties["row"] = self._new_element(raw_dict["row"], XAKeynoteRow)
+        return pyxa_dicts
+
+    def formatted_value(self) -> list[str]:
+        """Gets the formatted value of each cell in the list.
+
+        :return: A list of cell formatted values
+        :rtype: list[str]
+        
+        .. versionadded:: 0.0.5
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("formattedValue"))
 
-    def formula(self) -> List[str]:
+    def formula(self) -> list[str]:
+        """Gets the formula of each cell in the list.
+
+        :return: A list of cell formulae
+        :rtype: list[str]
+        
+        .. versionadded:: 0.0.5
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("formula"))
 
-    def value(self) -> List[Any]:
+    def value(self) -> list[Any]:
+        """Gets the value of each cell in the list.
+
+        :return: A list of cell values
+        :rtype: list[Any]
+        
+        .. versionadded:: 0.0.5
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("value"))
 
     def column(self) -> XAKeynoteColumnList:
+        """Gets the column of each cell in the list.
+
+        :return: A list of cell columns
+        :rtype: XAKeynoteColumnList
+        
+        .. versionadded:: 0.0.5
+        """
         ls = self.xa_elem.arrayByApplyingSelector_("column")
         return self._new_element(ls, XAKeynoteColumnList)
 
     def row(self) -> XAKeynoteRowList:
+        """Gets the row of each cell in the list.
+
+        :return: A list of cell rows
+        :rtype: XAKeynoteRowList
+        
+        .. versionadded:: 0.0.5
+        """
         ls = self.xa_elem.arrayByApplyingSelector_("row")
         return self._new_element(ls, XAKeynoteRowList)
 
-    def by_formatted_value(self, formatted_value: str) -> 'XAKeynoteCell':
+    def by_properties(self, properties: dict) -> Union['XAKeynoteCell', None]:
+        """Retrieves the first cell whose properties dictionary matches the given properties dictionary, if one exists.
+
+        :return: The desired cell, if it is found
+        :rtype: Union[XAKeynoteCell, None]
+        
+        .. versionadded:: 0.1.0
+        """
+        raw_dict = {}
+
+        if "background_color" in properties:
+            raw_dict["backgroundColor"] = properties["background_color"].xa_elem
+
+        if "font_size" in properties:
+            raw_dict["fontSize"] = properties["font_size"]
+
+        if "name" in properties:
+            raw_dict["name"] = properties["name"]
+
+        if "format" in properties:
+            raw_dict["format"] = properties["format"].value
+
+        if "vertical_alignment" in properties:
+            raw_dict["verticalAlignment"] = XAEvents.event_from_type_code(properties["vertical_alignment"].value)
+
+        if "font_name" in properties:
+            raw_dict["fontName"] = properties["font_name"]
+
+        if "alignment" in properties:
+            raw_dict["alignment"] = XAEvents.event_from_type_code(properties["alignment"].value)
+
+        if "text_wrap" in properties:
+            raw_dict["textWrap"] = properties["text_wrap"]
+
+        if "text_color" in properties:
+            raw_dict["textColor"] = properties["text_color"].xa_elem
+
+        if "formatted_value" in properties:
+            raw_dict["formattedValue"] = properties["formatted_value"]
+
+        if "formula" in properties:
+            raw_dict["formula"] = properties["formula"]
+
+        if "value" in properties:
+            raw_dict["value"] = properties["value"]
+
+        if "column" in properties:
+            raw_dict["column"] = properties["column"].xa_elem
+
+        if "row" in properties:
+            raw_dict["row"] = properties["row"].xa_elem
+
+        for page_range in self.xa_elem:
+            if all([raw_dict[x] == page_range.properties()[x] for x in raw_dict]):
+                return self._new_element(page_range, XAKeynoteCell)
+
+    def by_formatted_value(self, formatted_value: str) -> Union['XAKeynoteCell', None]:
+        """Retrieves the first cell whose formatted value matches the given value, if one exists.
+
+        :return: The desired cell, if it is found
+        :rtype: Union[XAKeynoteCell, None]
+        
+        .. versionadded:: 0.0.5
+        """
         return self.by_property("formattedValue", formatted_value)
 
-    def by_formula(self, formula: str) -> 'XAKeynoteCell':
+    def by_formula(self, formula: str) -> Union['XAKeynoteCell', None]:
+        """Retrieves the first cell whose formula matches the given formula, if one exists.
+
+        :return: The desired cell, if it is found
+        :rtype: Union[XAKeynoteCell, None]
+        
+        .. versionadded:: 0.0.5
+        """
         return self.by_property("formula", formula)
 
-    def by_value(self, value: Any) -> 'XAKeynoteCell':
+    def by_value(self, value: Any) -> Union['XAKeynoteCell', None]:
+        """Retrieves the first cell whose value matches the given value, if one exists.
+
+        :return: The desired cell, if it is found
+        :rtype: Union[XAKeynoteCell, None]
+        
+        .. versionadded:: 0.0.5
+        """
         return self.by_property("value", value)
 
-    def by_column(self, column: XAKeynoteColumn) -> 'XAKeynoteCell':
+    def by_column(self, column: XAKeynoteColumn) -> Union['XAKeynoteCell', None]:
+        """Retrieves the first cell whose column matches the given column, if one exists.
+
+        :return: The desired cell, if it is found
+        :rtype: Union[XAKeynoteCell, None]
+        
+        .. versionadded:: 0.0.5
+        """
         return self.by_property("column", column.xa_elem)
 
-    def by_row(self, row: XAKeynoteRow) -> 'XAKeynoteCell':
+    def by_row(self, row: XAKeynoteRow) -> Union['XAKeynoteCell', None]:
+        """Retrieves the first cell whose row matches the given row, if one exists.
+
+        :return: The desired cell, if it is found
+        :rtype: Union[XAKeynoteCell, None]
+        
+        .. versionadded:: 0.0.5
+        """
         return self.by_property("row", row.xa_elem)
 
 class XAKeynoteCell(XAKeynoteRange):
@@ -2934,6 +4088,17 @@ class XAKeynoteCell(XAKeynoteRange):
         self.value: Any #: The value stored in the cell
         self.column: XAKeynoteColumn #: The cell's column
         self.row: XAKeynoteRow #: The cell's row
+
+    @property
+    def properties(self) -> dict:
+        raw_dict = self.xa_elem.properties()
+        properties = super().properties
+        properties["formatted_value"] = raw_dict["formattedValue"]
+        properties["formula"] = raw_dict["formula"]
+        properties["value"] = raw_dict["value"]
+        properties["column"] = self._new_element(raw_dict["column"], XAKeynoteColumn)
+        properties["row"] = self._new_element(raw_dict["row"], XAKeynoteRow)
+        return properties
 
     @property
     def formatted_value(self) -> str:
@@ -2967,42 +4132,61 @@ class XAKeynoteTransitionSettings(XABase.XAObject):
 
     .. versionadded:: 0.1.0
     """
-    def __init__(self, properties):
-        super().__init__(properties)
+    def __init__(self, properties: dict, parent: XABase.XAObject = None):
+        self.__automatic_transition: bool = properties["automatic_transition"]
+        self.__transition_delay: float = properties["transition_delay"]
+        self.__transition_duration: float = properties["transition_duration"]
+        self.__transition_effect: XAKeynoteApplication.Transition = properties["transition_effect"]
+        self.__parent = parent
 
-        self.automatic_transition: bool
-        self.transition_delay: float
-        self.transition_duration: float
-        self.transition_effect: XAKeynoteApplication.Transition
+    @property
+    def _pyxa_dict(self):
+        return {
+            "automatic_transition": self.__automatic_transition,
+            "transition_telay": self.__transition_delay,
+            "transition_duration": self.__transition_duration,
+            "transition_effect": self.__transition_effect
+        }
 
     @property
     def automatic_transition(self) -> bool:
-        return self.xa_elem.automatic_transition()
+        return self.__automatic_transition
 
     @automatic_transition.setter
     def automatic_transition(self, automatic_transition: bool):
-        self.set_property('automaticTransition', automatic_transition)
+        self.__automatic_transition = automatic_transition
+        if self.__parent is not None:
+            self.__parent.transition_properties = self._pyxa_dict
 
     @property
     def transition_delay(self) -> float:
-        return self.xa_elem.transition_delay()
+        return self.__transition_delay
 
     @transition_delay.setter
-    def transition_delay(self, transition_delay: float):
-        self.set_property('transitionDelay', transition_delay)
+    def automatic_transition(self, transition_delay: float):
+        self.__transition_delay = transition_delay
+        if self.__parent is not None:
+            self.__parent.transition_properties = self._pyxa_dict
 
     @property
     def transition_duration(self) -> float:
-        return self.xa_elem.transition_duration()
+        return self.__transition_duration
 
     @transition_duration.setter
-    def transition_duration(self, transition_duration: float):
-        self.set_property('transitionDuration', transition_duration)
+    def automatic_transition(self, transition_duration: float):
+        self.__transition_duration = transition_duration
+        if self.__parent is not None:
+            self.__parent.transition_properties = self._pyxa_dict
 
     @property
     def transition_effect(self) -> XAKeynoteApplication.Transition:
-        return XAKeynoteApplication.Transition(self.xa_elem.transition_effect())
+        return self.__transition_effect
 
     @transition_effect.setter
     def transition_effect(self, transition_effect: XAKeynoteApplication.Transition):
-        self.set_property('transitionEffect', transition_effect.value)
+        self.__transition_effect = transition_effect
+        if self.__parent is not None:
+            self.__parent.transition_properties = self._pyxa_dict
+
+    def __repr__(self):
+        return "<" + str(type(self)) + str(self._pyxa_dict) + ">"

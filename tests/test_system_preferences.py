@@ -8,7 +8,8 @@ class TestSystemPreferences(unittest.TestCase):
         self.app = PyXA.Application("System Preferences")
         self.panes = self.app.panes()
 
-    def test_application_type(self):
+    def test_system_preferences_application_type(self):
+        self.assertIsInstance(self.app, PyXA.apps.SystemPreferences.XASystemPreferencesApplication)
         self.assertIsInstance(self.app, PyXA.XABaseScriptable.XASBApplication)
 
     def test_panes_type(self):

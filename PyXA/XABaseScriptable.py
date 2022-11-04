@@ -1,45 +1,13 @@
 from enum import Enum
 from pprint import pprint
-from typing import List, Tuple, Union
+from typing import Union, Self
 import threading
+import AppKit
 import ScriptingBridge
 
 from PyXA import XABase
 
-import signal
-
 from .XAProtocols import XACloseable
-
-class timeout:
-    def __init__(self, seconds=1, error_message='Timeout'):
-        self.seconds = seconds
-        self.error_message = error_message
-    def handle_timeout(self, signum, frame):
-        raise TimeoutError(self.error_message)
-    def __enter__(self):
-        signal.signal(signal.SIGALRM, self.handle_timeout)
-        signal.alarm(self.seconds)
-    def __exit__(self, type, value, traceback):
-        signal.alarm(0)
-
-class XASBObject(XABase.XAObject):
-    """A class for PyXA objects scriptable with AppleScript/JXA.
-
-    .. seealso:: :class:`XABase.XAObject`
-    """
-    def __init__(self, properties):
-        super().__init__(properties)
-
-    def set_property(self, property_name, value):
-        parts = property_name.split("_")
-        titled_parts = [part.title() for part in parts[1:]]
-        property_name = parts[0] + "".join(titled_parts)
-        if self.xa_scel is not None:
-            self.xa_scel.setValue_forKey_(value, property_name)
-        else:
-            self.xa_elem.setValue_forKey_(value, property_name)
-
-
 
 
 class XASBPrintable(XABase.XAObject):
@@ -80,7 +48,7 @@ class XASBPrintable(XABase.XAObject):
 
 
 
-class XASBApplication(XASBObject, XABase.XAApplication):
+class XASBApplication(XABase.XAApplication):
     """An application class for scriptable applications.
 
     .. seealso:: :class:`XABase.XAApplication`, :class:`XABase.XAWindow`
@@ -100,7 +68,7 @@ class XASBApplication(XASBObject, XABase.XAApplication):
 
     def __init__(self, properties):
         super().__init__(properties)
-        self.xa_scel = ScriptingBridge.SBApplication.alloc().initWithURL_(self.xa_elem.bundleURL())
+        self.xa_scel = ScriptingBridge.SBApplication.applicationWithURL_(self.xa_elem.bundleURL())
         self.xa_wcls = XASBWindow
 
     @property
@@ -111,11 +79,38 @@ class XASBApplication(XASBObject, XABase.XAApplication):
         """
         return self._new_element(self.xa_scel.windows()[0], self.xa_wcls)
 
+    def activate(self) -> Self:
+        """Activates the application.
+
+        :return: The application object
+        :rtype: Self
+
+        .. versionadded:: 0.1.0.2
+        """
+        self.xa_scel.activate()
+        return self
+
     def windows(self, filter: dict = None) -> 'XASBWindowList':
+        """Returns a list of windows, as PyXA objects, matching the given filter.
+
+        :param filter: A dictionary specifying property-value pairs that all returned windows will have, or None
+        :type filter: Union[dict, None]
+        :return: The list of windows
+        :rtype: XASBWindowList
+
+        .. versionadded:: 0.0.4
+        """
         try:
             return self._new_element(self.xa_scel.windows(), XASBWindowList)
         except AttributeError:
             return self._new_element([], XASBWindowList)
+
+    def set_property(self, property_name, value):
+        if "_" in property_name:
+            parts = property_name.split("_")
+            titled_parts = [part.title() for part in parts[1:]]
+            property_name = parts[0] + "".join(titled_parts)
+        self.xa_scel.setValue_forKey_(value, property_name)
 
 
 
@@ -129,10 +124,192 @@ class XASBWindowList(XABase.XAList):
         super().__init__(properties, None, filter)
         self.xa_ocls = self.xa_prnt.xa_wcls
 
-    def name(self) -> List[str]:
+    def name(self) -> list[str]:
+        """Gets the name of each window in the list.
+
+        :return: A list of window names
+        :rtype: list[str]
+        
+        .. versionadded:: 0.1.0.2
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
-    # TODO
+    def id(self) -> list[int]:
+        """Gets the ID of each window in the list.
+
+        :return: A list of window IDs
+        :rtype: list[int]
+        
+        .. versionadded:: 0.1.0.2
+        """
+        return list(self.xa_elem.arrayByApplyingSelector_("id") or [])
+
+    def index(self) -> list[int]:
+        """Gets the index of each window in the list.
+
+        :return: A list of window indices
+        :rtype: list[str]
+        
+        .. versionadded:: 0.1.0.2
+        """
+        return list(self.xa_elem.arrayByApplyingSelector_("index") or [])
+
+    def bounds(self) -> list[tuple[int, int, int, int]]:
+        """Gets the bounding rectangle of each window in the list.
+
+        :return: A list of window bounding rectangles
+        :rtype: list[tuple[int, int, int, int]]
+        
+        .. versionadded:: 0.1.0.2
+        """
+        ls = self.xa_elem.arrayByApplyingSelector_("bounds") or []
+        points = [rect.rectValue() for rect in ls]
+        return [(rect.origin.x, rect.origin.y, rect.size.width, rect.size.height) for rect in points]
+
+    def closeable(self) -> list[bool]:
+        """Gets the closeable status of each window in the list.
+
+        :return: A list of window closeable status booleans
+        :rtype: list[bool]
+        
+        .. versionadded:: 0.1.0.2
+        """
+        return list(self.xa_elem.arrayByApplyingSelector_("closeable") or [])
+
+    def resizable(self) -> list[bool]:
+        """Gets the resizable status of each window in the list.
+
+        :return: A list of window resizable status booleans
+        :rtype: list[bool]
+        
+        .. versionadded:: 0.1.0.2
+        """
+        return list(self.xa_elem.arrayByApplyingSelector_("resizable") or [])
+
+    def visible(self) -> list[bool]:
+        """Gets the visible status of each window in the list.
+
+        :return: A list of window visible status booleans
+        :rtype: list[bool]
+        
+        .. versionadded:: 0.1.0.2
+        """
+        return list(self.xa_elem.arrayByApplyingSelector_("visible") or [])
+
+    def zoomable(self) -> list[bool]:
+        """Gets the zoomable status of each window in the list.
+
+        :return: A list of window zoomable status booleans
+        :rtype: list[bool]
+        
+        .. versionadded:: 0.1.0.2
+        """
+        return list(self.xa_elem.arrayByApplyingSelector_("zoomable") or [])
+
+    def zoomed(self) -> list[bool]:
+        """Gets the zoomed status of each window in the list.
+
+        :return: A list of window zoomed status booleans
+        :rtype: list[bool]
+        
+        .. versionadded:: 0.1.0.2
+        """
+        return list(self.xa_elem.arrayByApplyingSelector_("zoomed") or [])
+
+    def by_name(self, name: str) -> Union['XASBWindow', None]:
+        """Retrieves the first window whose name matches the given name, if one exists.
+
+        :return: The desired window, if it is found
+        :rtype: Union[XASBWindow, None]
+        
+        .. versionadded:: 0.1.0.2
+        """
+        return self.by_property("name", name)
+    
+    def by_id(self, id: int) -> Union['XASBWindow', None]:
+        """Retrieves the first window whose ID matches the given ID, if one exists.
+
+        :return: The desired window, if it is found
+        :rtype: Union[XASBWindow, None]
+        
+        .. versionadded:: 0.1.0.2
+        """
+        return self.by_property("id", id)
+
+    def by_index(self, index: int) -> Union['XASBWindow', None]:
+        """Retrieves the first window whose index matches the given index, if one exists.
+
+        :return: The desired window, if it is found
+        :rtype: Union[XASBWindow, None]
+        
+        .. versionadded:: 0.1.0.2
+        """
+        return self.by_property("index", index)
+
+    def by_bounds(self, bounds: tuple[int, int, int, int]) -> Union['XASBWindow', None]:
+        """Retrieves the first window whose bounding rectangle has the specified origin point and dimensions, if one exists.
+
+        :return: The desired window, if it is found
+        :rtype: Union[XASBWindow, None]
+        
+        .. versionadded:: 0.1.0.2
+        """
+        x = bounds[0]
+        y = bounds[1]
+        w = bounds[2]
+        h = bounds[3]
+        bounds = AppKit.NSValue.valueWithRect_(AppKit.NSMakeRect(x, y, w, h))
+        return self.by_property("bounds", bounds)
+
+    def by_closeable(self, closeable: bool) -> Union['XASBWindow', None]:
+        """Retrieves the first window whose closeable status matches the given boolean value, if one exists.
+
+        :return: The desired window, if it is found
+        :rtype: Union[XASBWindow, None]
+        
+        .. versionadded:: 0.1.0.2
+        """
+        return self.by_property("closeable", closeable)
+
+    def by_resizable(self, resizable: bool) -> Union['XASBWindow', None]:
+        """Retrieves the first window whose resizable status matches the given boolean value, if one exists.
+
+        :return: The desired window, if it is found
+        :rtype: Union[XASBWindow, None]
+        
+        .. versionadded:: 0.1.0.2
+        """
+        return self.by_property("resizable", resizable)
+
+    def by_visible(self, visible: bool) -> Union['XASBWindow', None]:
+        """Retrieves the first window whose visible status matches the given boolean value, if one exists.
+
+        :return: The desired window, if it is found
+        :rtype: Union[XASBWindow, None]
+        
+        .. versionadded:: 0.1.0.2
+        """
+        return self.by_property("visible", visible)
+
+    def by_zoomable(self, zoomable: bool) -> Union['XASBWindow', None]:
+        """Retrieves the first window whose zoomable status matches the given boolean value, if one exists.
+
+        :return: The desired window, if it is found
+        :rtype: Union[XASBWindow, None]
+        
+        .. versionadded:: 0.1.0.2
+        """
+        return self.by_property("zoomable", zoomable)
+
+    def by_zoomed(self, zoomed: bool) -> Union['XASBWindow', None]:
+        """Retrieves the first window whose zoomed status matches the given boolean value, if one exists.
+
+        :return: The desired window, if it is found
+        :rtype: Union[XASBWindow, None]
+        
+        .. versionadded:: 0.1.0.2
+        """
+        return self.by_property("zoomed", zoomed)
 
     def collapse(self):
         """Collapses all windows in the list.
@@ -141,6 +318,14 @@ class XASBWindowList(XABase.XAList):
         """
         for window in self:
             window.collapse()
+
+    def uncollapse(self):
+        """Uncollapses all windows in the list.
+
+        .. versionadded:: 0.0.5
+        """
+        for window in self:
+            window.uncollapse()
 
     def get_clipboard_representation(self) -> str:
         """Gets a clipboard-codable representation of each window in the list.
@@ -157,60 +342,113 @@ class XASBWindowList(XABase.XAList):
     def __repr__(self):
         return "<" + str(type(self)) + str(self.name()) + ">"
 
-class XASBWindow(XASBObject, XACloseable):
+class XASBWindow(XABase.XAObject, XACloseable):
     def __init__(self, properties):
         super().__init__(properties)
-        self.name: str #: The title of the window
-        self.id: str #: The unique identifier for the window
-        self.index: int #: The index of the window, ordered front to back
-        self.bounds: Tuple[Tuple[int, int]] #: The bounding rectangle of the window
-        self.closeable: bool #: Whether the window has a close button
-        self.resizable: bool #: Whether the window can be resized
-        self.visible: bool #: Whether the window is currently visible
-        self.zoomable: bool #: Whether the window has a zoom button
-        self.zoomed: bool  #: Whether the window is currently zoomed
 
     @property
     def name(self) -> str:
+        """The title of the window.
+
+        .. versionadded:: 0.0.1
+        """
         return self.xa_elem.name()
 
     @property
-    def id(self) -> str:
+    def id(self) -> int:
+        """The unique identifier for the window.
+
+        .. versionadded:: 0.0.1
+        """
         return self.xa_elem.id()
 
     @property
     def index(self) -> int:
+        """The index of the window, ordered front to back.
+
+        .. versionadded:: 0.0.1
+        """
         return self.xa_elem.index()
 
+    @index.setter
+    def index(self, index: int):
+        self.set_property('index', index)
+
     @property
-    def bounds(self) -> Tuple[Tuple[int, int]]:
-        return self.xa_elem.bounds()
+    def bounds(self) -> tuple[int, int, int, int]:
+        """The bounding rectangle of the window.
+
+        .. versionadded:: 0.0.4
+        """
+        rect = self.xa_elem.bounds()
+        origin = rect.origin
+        size = rect.size
+        return (origin.x, origin.y, size.width, size.height)
+
+    @bounds.setter
+    def bounds(self, bounds: tuple[int, int, int, int]):
+        x = bounds[0]
+        y = bounds[1]
+        w = bounds[2]
+        h = bounds[3]
+        value = AppKit.NSValue.valueWithRect_(AppKit.NSMakeRect(x, y, w, h))
+        self.set_property("bounds", value)
 
     @property
     def closeable(self) -> bool:
+        """Whether the window has a close button.
+
+        .. versionadded:: 0.0.1
+        """
         return self.xa_elem.closeable()
 
     @property
     def resizable(self) -> bool:
+        """Whether the window can be resized.
+
+        .. versionadded:: 0.0.1
+        """
         return self.xa_elem.resizable()
 
     @property
     def visible(self) -> bool:
+        """Whether the window is currently visible.
+
+        .. versionadded:: 0.0.1
+        """
         return self.xa_elem.visible()
+
+    @visible.setter
+    def visible(self, visible: bool):
+        self.set_property('visible', visible)
 
     @property
     def zoomable(self) -> bool:
+        """Whether the window has a zoom button.
+
+        .. versionadded:: 0.0.1
+        """
         return self.xa_elem.zoomable()
 
     @property
     def zoomed(self) -> bool:
+        """Whether the window is currently zoomed.
+
+        .. versionadded:: 0.0.1
+        """
         return self.xa_elem.zoomed()
 
-    def collapse(self) -> 'XABase.XAWindow':
+    @zoomed.setter
+    def zoomed(self, zoomed: bool):
+        self.set_property('zoomed', zoomed)
+
+    def collapse(self) -> Self:
         """Collapses (minimizes) the window.
 
         :return: A reference to the now-collapsed window object.
-        :rtype: XABase.XAWindow
+        :rtype: Self
+
+        .. versionadded:: 0.0.4
         """
         try:
             self.set_property("miniaturized", True)
@@ -221,11 +459,13 @@ class XASBWindow(XASBObject, XACloseable):
                 self.set_property("collapsed", True)
         return self
 
-    def uncollapse(self) -> 'XABase.XAWindow':
+    def uncollapse(self) -> Self:
         """Uncollapses (unminimizes/expands) the window.
 
         :return: A reference to the uncollapsed window object.
-        :rtype: XABase.XAWindow
+        :rtype: Self
+
+        .. versionadded:: 0.0.4
         """
         try:
             self.set_property("miniaturized", False)
@@ -241,14 +481,16 @@ class XASBWindow(XASBObject, XACloseable):
 
         :return: A reference to the uncollapsed window object.
         :rtype: XABase.XAWindow
+
+        .. deprecated:: 0.1.0.2
+
+           Set the :attr:`zoomed` attribute instead.
+
+        .. versionadded:: 0.0.4
         """
         self.zoomed = not self.zoomed
         self.set_property("zoomed", self.zoomed)
         return self
-
-    # TODO:
-    # def fullscreen(self):
-    #     print(dir(self.element))
 
     def get_clipboard_representation(self) -> str:
         """Gets a clipboard-codable representation of the window.

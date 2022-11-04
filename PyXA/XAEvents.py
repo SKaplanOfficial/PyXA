@@ -1029,8 +1029,8 @@ def event_from_str(s: str) -> ApplicationServices.NSAppleEventDescriptor:
     """
     return ApplicationServices.NSAppleEventDescriptor.descriptorWithString_(s)
 
-def event_from_type_code(s: str):
-    return ApplicationServices.NSAppleEventDescriptor.descriptorWithTypeCode_(s)
+def event_from_type_code(code: int):
+    return ApplicationServices.NSAppleEventDescriptor.descriptorWithTypeCode_(code)
 
 
 def event_from_bool(b: bool) -> ApplicationServices.NSAppleEventDescriptor:

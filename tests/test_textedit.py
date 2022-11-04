@@ -8,7 +8,8 @@ class TestTextEdit(unittest.TestCase):
     def setUp(self):
         self.app = PyXA.Application("TextEdit")
 
-    def test_application_type(self):
+    def test_textedit_application_type(self):
+        self.assertIsInstance(self.app, PyXA.apps.TextEdit.XATextEditApplication)
         self.assertIsInstance(self.app, PyXA.XABaseScriptable.XASBApplication)
 
     def test_textedit_app_attributes(self):

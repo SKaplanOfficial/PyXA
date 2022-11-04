@@ -12,6 +12,7 @@ class TestSafari(unittest.TestCase):
         self.tabs = self.app.front_window.tabs()
 
     def test_application_type(self):
+        self.assertIsInstance(self.app, PyXA.apps.Safari.XASafariApplication)
         self.assertIsInstance(self.app, PyXA.XABaseScriptable.XASBApplication)
 
     def test_safari_list_types(self):
@@ -26,20 +27,20 @@ class TestSafari(unittest.TestCase):
         self.assertIsInstance(self.tabs[0], PyXA.apps.Safari.XASafariGeneric)
         self.assertIsInstance(self.tabs[0], PyXA.apps.Safari.XASafariTab)
 
-    def text_safari_doc_list_attribute_methods(self):
+    def test_safari_doc_list_attribute_methods(self):
         l1 = self.docs.name()
         l2 = self.docs.modified()
         l3 = self.docs.source()
         l4 = self.docs.text()
 
-        self.assertEqual(all(isinstance(x, list) for x in [l1, l2, l3, l4]), list)
+        self.assertEqual(all(isinstance(x, list) for x in [l1, l2, l3, l4]), True)
 
         d1 = self.docs.by_name(l1[0])
         d2 = self.docs.by_modified(l2[0])
         d3 = self.docs.by_source(l3[0])
         d4 = self.docs.by_text(l4[0])
 
-        self.assertEqual(all(isinstance(x, PyXA.apps.Safari.XASafariDocument) for x in [d1, d2, d3, d4]), list)
+        self.assertEqual(all(isinstance(x, PyXA.apps.Safari.XASafariDocument) for x in [d1, d2, d3, d4]), True)
 
         self.assertIsInstance(l1[0], str)
         self.assertIsInstance(l2[0], bool)

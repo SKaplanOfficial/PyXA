@@ -8,7 +8,8 @@ class TestShortcuts(unittest.TestCase):
         self.folders = self.app.folders()
         self.shortcuts = self.app.shortcuts()
 
-    def test_application_type(self):
+    def test_shortcuts_application_type(self):
+        self.assertIsInstance(self.app, PyXA.apps.Shortcuts.XAShortcutsApplication)
         self.assertIsInstance(self.app, PyXA.XABaseScriptable.XASBApplication)
 
     def test_folders_type(self):

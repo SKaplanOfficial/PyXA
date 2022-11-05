@@ -55,11 +55,6 @@ class XASafariApplication(XABaseScriptable.XASBApplication, XABaseScriptable.XAS
     def current_document(self) -> 'XASafariDocument':
         return self._new_element(self.xa_scel.documents()[0], XASafariDocument)
 
-    @current_document.setter
-    def current_document(self, current_document: 'XASafariDocument'):
-        self.activate()
-        self.front_window.document = current_document
-
     @property
     def current_tab(self) -> 'XASafariTab':
         return self.front_window.current_tab
@@ -543,7 +538,7 @@ class XASafariDocumentList(XABase.XAList, XAClipboardCodable):
         
         .. versionadded:: 0.0.4
         """
-        return list(self.xa_elem.arrayByApplyingSelector_("source"))
+        return [x.source() for x in self.xa_elem]
 
     def url(self) -> list[XABase.XAURL]:
         """Gets the file URL of each document in the list.
@@ -564,7 +559,7 @@ class XASafariDocumentList(XABase.XAList, XAClipboardCodable):
         
         .. versionadded:: 0.0.4
         """
-        ls = self.xa_elem.arrayByApplyingSelector_("text")
+        ls = [x.text() for x in self.xa_elem]
         return [XABase.XAText(x) for x in ls]
 
     def by_name(self, name: str) -> Union['XASafariDocument', None]:
@@ -605,7 +600,9 @@ class XASafariDocumentList(XABase.XAList, XAClipboardCodable):
         
         .. versionadded:: 0.0.4
         """
-        return self.by_property("source", source)
+        for doc in self.xa_elem:
+            if doc.source() == source:
+                return self._new_element(doc, XASafariDocument)
 
     def by_url(self, url: XABase.XAURL) -> Union['XASafariDocument', None]:
         """Retrieves the tab whose URL matches the given URL, if one exists.

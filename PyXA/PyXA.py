@@ -282,10 +282,11 @@ class Application(XAObject):
             res = obj.localizedName().lower() == app_identifier_l
             return res, res
 
-        idx_set = self.workspace.runningApplications().indexesOfObjectsPassingTest_(_match_open_app)
+        running_apps = self.workspace.runningApplications()
+        idx_set = running_apps.indexesOfObjectsPassingTest_(_match_open_app)
         if idx_set.count() == 1:
             index = idx_set.firstIndex()
-            app = self.workspace.runningApplications()[index]
+            app = running_apps[index]
             properties = {
                 "parent": None,
                 "appspace": self.shared_app,

@@ -18,14 +18,12 @@ class XARemindersApplication(XABaseScriptable.XASBApplication):
 
     .. seealso:: :class:`XARemindersAccount`, :class:`XARemindersList`, :class:`XARemindersReminder`
 
-    .. versionchanged:: 0.0.6
-       Added XARemindersAccount class
-
     .. versionadded:: 0.0.1
     """
     def __init__(self, properties):
         super().__init__(properties)
         self.xa_wcls = XARemindersWindow
+
         self.pasteboard_types = {
             "com.apple.reminders.reminderCopyPaste": self._get_clipboard_reminder,
         }
@@ -39,23 +37,23 @@ class XARemindersApplication(XABaseScriptable.XASBApplication):
 
     @property
     def name(self) -> str:
-        return self.xa_elem.name()
+        return self.xa_scel.name()
 
     @property
     def frontmost(self) -> bool:
-        return self.xa_elem.frontmost()
+        return self.xa_scel.frontmost()
 
     @property
     def version(self) -> str:
-        return self.xa_elem.version()
+        return self.xa_scel.version()
 
     @property
     def default_account(self) -> 'XARemindersAccount':
-        return self._new_element(self.xa_elem.defaultAccount(), XARemindersAccount)
+        return self._new_element(self.xa_scel.defaultAccount(), XARemindersAccount)
 
     @property
     def default_list(self) -> 'XARemindersList':
-        return self._new_element(self.xa_elem.defaultList(), XARemindersList)
+        return self._new_element(self.xa_scel.defaultList(), XARemindersList)
 
     def _get_clipboard_reminder(self, reminder_name: str) -> 'XARemindersReminder':
         return self.reminders({"name": reminder_name})[0]
@@ -191,7 +189,7 @@ class XARemindersApplication(XABaseScriptable.XASBApplication):
             return self._new_element(obj, XARemindersReminder)
 
 
-class XARemindersWindow(XABaseScriptable.XASBObject):
+class XARemindersWindow(XABaseScriptable.XASBWindow):
     """A window of the Reminders application.
 
     .. versionadded:: 0.0.6
@@ -334,7 +332,7 @@ class XARemindersWindow(XABaseScriptable.XASBObject):
 
         .. versionadded:: 0.0.6
         """
-        return self._new_element(self.xa_scel.lists(), XARemindersListList, filter)
+        return self._new_element(self.xa_elem.lists(), XARemindersListList, filter)
 
     def reminders(self, filter: Union[dict, None] = None) -> 'XARemindersReminderList':
         """Returns a list of reminders, as PyXA objects, matching the given filter.
@@ -346,7 +344,7 @@ class XARemindersWindow(XABaseScriptable.XASBObject):
 
         .. versionadded:: 0.0.6
         """
-        return self._new_element(self.xa_scel.reminders(), XARemindersReminderList, filter)
+        return self._new_element(self.xa_elem.reminders(), XARemindersReminderList, filter)
 
 
 
@@ -445,7 +443,7 @@ class XARemindersDocumentList(XABase.XAList):
     def __repr__(self):
         return "<" + str(type(self)) + str(self.name()) + ">"
 
-class XARemindersDocument(XABaseScriptable.XASBObject):
+class XARemindersDocument(XABase.XAObject):
     """A document in the Reminders application.
 
     .. versionadded:: 0.0.6
@@ -581,7 +579,7 @@ class XARemindersAccountList(XABase.XAList):
     def __repr__(self):
         return "<" + str(type(self)) + str(self.name()) + ">"
 
-class XARemindersAccount(XABaseScriptable.XASBObject):
+class XARemindersAccount(XABase.XAObject):
     """An account in the Reminders application.
     """
     def __init__(self, properties):
@@ -768,7 +766,7 @@ class XARemindersListList(XABase.XAList):
     def __repr__(self):
         return "<" + str(type(self)) + str(self.name()) + ">"
 
-class XARemindersList(XABaseScriptable.XASBObject):
+class XARemindersList(XABase.XAObject):
     """A class for...
     """
     def __init__(self, properties):
@@ -1184,7 +1182,7 @@ class XARemindersReminderList(XABase.XAList):
     def __repr__(self):
         return "<" + str(type(self)) + str(self.name()) + ">"
 
-class XARemindersReminder(XABaseScriptable.XASBObject):
+class XARemindersReminder(XABase.XAObject):
     """A reminder in Reminders.app.
 
     .. versionadded:: 0.0.6
@@ -1469,7 +1467,7 @@ class XARemindersReminder(XABaseScriptable.XASBObject):
 
 
 
-class XARemindersRecurrenceRule(XABaseScriptable.XASBObject):
+class XARemindersRecurrenceRule(XABase.XAObject):
     """A class for interacting with Reminders.
 
     .. seealso:: :class:`XARemindersReminder`
@@ -1642,7 +1640,7 @@ class XARemindersAlarmList(XABase.XAList):
     def __repr__(self):
         return "<" + str(type(self)) + str(self.id()) + ">"
 
-class XARemindersAlarm(XABaseScriptable.XASBObject):
+class XARemindersAlarm(XABase.XAObject):
     """An alarm attached to a reminder.
 
     .. seealso:: :class:`XARemindersReminder`

@@ -18,13 +18,10 @@ class XAiTermApplication(XABaseScriptable.XASBApplication):
         super().__init__(properties)
         self.xa_wcls = XAiTermWindow
 
-        self.current_window: XAiTermWindow #: The frontmost window
-        self.name: str #: The name of the application
-        self.frontmost: bool #: Whether iTerm is the active application
-        self.version: str #: The version of iTerm.app
-
     @property
     def current_window(self) -> 'XAiTermWindow':
+        """The frontmost window.
+        """
         return self._new_element(self.xa_scel.current_window(), XAiTermWindow)
 
     @current_window.setter
@@ -33,14 +30,20 @@ class XAiTermApplication(XABaseScriptable.XASBApplication):
 
     @property
     def name(self) -> str:
+        """The name of the application.
+        """
         return self.xa_scel.name()
 
     @property
     def frontmost(self) -> bool:
+        """Whether iTerm is the active application.
+        """
         return self.xa_scel.frontmost()
 
     @property
     def version(self) -> str:
+        """The version of iTerm.app.
+        """
         return self.xa_scel.version()
 
     def create_window(self, profile: Union[str, None] = None, command: Union[str, None] = None) -> 'XAiTermWindow':
@@ -121,42 +124,31 @@ class XAiTermWindow(XABaseScriptable.XASBWindow, XABase.XAObject, XASelectable, 
     def __init__(self, properties):
         super().__init__(properties)
 
-        self.id: int #: The unique identifier of the session
-        self.alternate_identifier: str #: The alternate unique identifier of the session
-        self.name: str #: The full title of the window
-        self.index: int #: The index of the window in the front-to-back ordering
-        self.bounds: tuple[int, int, int, int] #: The bounding rectangle of the window
-        self.closeable: bool #: Whether the window has a close button
-        self.miniaturizable: bool #: Whether the window can be minimized
-        self.miniaturized: bool #: Whether the window is currently minimized
-        self.resizable: bool #: Whether the window can be resized
-        self.visible: bool #: Whether the window is currently visible
-        self.zoomable: bool #: Whether the window can be zoomed
-        self.zoomed: bool #: Whether the window is currently zoomed
-        self.frontmost: bool #: Whether the window is currently the frontmost Terminal window
-        self.current_tab: XAiTermTab #: The currently selected tab
-        self.current_session: XAiTermSession #: The current session in a window
-        self.is_hotkey_window: bool #: Whether the window is a hotkey window
-        self.hotkey_window_profile: str #: If the window is a hotkey window, this gives the name of the profile that created the window
-        self.position: tuple[int, int] #: The position os the window, relative to the upper left corner of the screen
-
         if self.is_hotkey_window:
             self.__class__ = XAiTermHotkeyWindow
 
     @property
     def id(self) -> int:
+        """The unique identifier of the session
+        """
         return self.xa_elem.id()
 
     @property
     def alternate_identifier(self) -> str:
+        """The alternate unique identifier of the session.
+        """
         return self.xa_elem.alternateIdentifier()
 
     @property
     def name(self) -> str:
+        """The full title of the window.
+        """
         return self.xa_elem.name()
 
     @property
     def index(self) -> int:
+        """The index of the window in the front-to-back ordering.
+        """
         return self.xa_elem.index()
 
     @index.setter
@@ -165,6 +157,8 @@ class XAiTermWindow(XABaseScriptable.XASBWindow, XABase.XAObject, XASelectable, 
 
     @property
     def bounds(self) -> tuple[int, int, int, int]:
+        """The bounding rectangle of the window.
+        """
         rect = self.xa_elem.bounds()
         origin = rect.origin
         size = rect.size
@@ -181,14 +175,20 @@ class XAiTermWindow(XABaseScriptable.XASBWindow, XABase.XAObject, XASelectable, 
 
     @property
     def closeable(self) -> bool:
+        """Whether the window has a close button.
+        """
         return self.xa_elem.closeable()
 
     @property
     def miniaturizable(self) -> bool:
+        """Whether the window can be minimized.
+        """
         return self.xa_elem.miniaturizable()
 
     @property
     def miniaturized(self) -> bool:
+        """Whether the window is currently minimized.
+        """
         return self.xa_elem.miniaturized()
 
     @miniaturized.setter
@@ -197,10 +197,14 @@ class XAiTermWindow(XABaseScriptable.XASBWindow, XABase.XAObject, XASelectable, 
 
     @property
     def resizable(self) -> bool:
+        """Whether the window can be resized.
+        """
         return self.xa_elem.resizable()
 
     @property
     def visible(self) -> bool:
+        """Whether the window is currently visible.
+        """
         return self.xa_elem.visible()
 
     @visible.setter
@@ -209,10 +213,14 @@ class XAiTermWindow(XABaseScriptable.XASBWindow, XABase.XAObject, XASelectable, 
 
     @property
     def zoomable(self) -> bool:
+        """Whether the window can be zoomed.
+        """
         return self.xa_elem.zoomable()
 
     @property
     def zoomed(self) -> bool:
+        """Whether the window is currently zoomed.
+        """
         return self.xa_elem.zoomed()
 
     @zoomed.setter
@@ -221,6 +229,8 @@ class XAiTermWindow(XABaseScriptable.XASBWindow, XABase.XAObject, XASelectable, 
 
     @property
     def frontmost(self) -> bool:
+        """Whether the window is currently the frontmost iTerm window.
+        """
         return self.xa_elem.frontmost()
 
     @frontmost.setter
@@ -229,6 +239,8 @@ class XAiTermWindow(XABaseScriptable.XASBWindow, XABase.XAObject, XASelectable, 
 
     @property
     def current_tab(self) -> 'XAiTermTab':
+        """The currently selected tab.
+        """
         return self._new_element(self.xa_elem.currentTab(), XAiTermTab)
 
     @current_tab.setter
@@ -237,6 +249,8 @@ class XAiTermWindow(XABaseScriptable.XASBWindow, XABase.XAObject, XASelectable, 
 
     @property
     def current_session(self) -> 'XAiTermSession':
+        """The current session in a window.
+        """
         return self._new_element(self.xa_elem.currentSession(), XAiTermSession)
 
     @current_session.setter
@@ -245,6 +259,8 @@ class XAiTermWindow(XABaseScriptable.XASBWindow, XABase.XAObject, XASelectable, 
 
     @property
     def is_hotkey_window(self) -> bool:
+        """Whether the window is a hotkey window.
+        """
         return self.xa_elem.isHotkeyWindow()
 
     @is_hotkey_window.setter
@@ -253,6 +269,8 @@ class XAiTermWindow(XABaseScriptable.XASBWindow, XABase.XAObject, XASelectable, 
 
     @property
     def hotkey_window_profile(self) -> str:
+        """If the window is a hotkey window, this gives the name of the profile that created the window.
+        """
         return self.xa_elem.hotkeyWindowProfile()
 
     @hotkey_window_profile.setter
@@ -261,6 +279,8 @@ class XAiTermWindow(XABaseScriptable.XASBWindow, XABase.XAObject, XASelectable, 
 
     @property
     def position(self) -> tuple[int, int]:
+        """The position of the window, relative to the upper left corner of the screen.
+        """
         return self.xa_elem.position()
 
     @position.setter
@@ -330,11 +350,10 @@ class XAiTermTab(XABase.XAObject, XACloseable, XASelectable):
     def __init__(self, properties):
         super().__init__(properties)
 
-        self.current_session: XAiTermSession #: The current session in a tab
-        self.index: int #: Index of tab in parent tab view control
-
     @property
     def current_session(self) -> 'XAiTermSession':
+        """The current session in a tab.
+        """
         return self._new_element(self.xa_elem.currentSession(), XAiTermSession)
 
     @current_session.setter
@@ -343,6 +362,8 @@ class XAiTermTab(XABase.XAObject, XACloseable, XASelectable):
 
     @property
     def index(self) -> int:
+        """Index of tab in parent tab view control.
+        """
         return self.xa_elem.index()
 
     @index.setter
@@ -370,53 +391,16 @@ class XAiTermSession(XABase.XAObject, XACloseable, XASelectable):
     def __init__(self, properties):
         super().__init__(properties)
 
-        self.id: str #: The unique identifier of the session
-        self.is_processing: bool #: Whether the session is currently processing
-        self.is_at_shell_prompt: bool #: Whether the terminal is at the shell prompt
-        self.columns: int #: The number of columns in the terminal window
-        self.rows: int #: The number of rows in the terminal window
-        self.tty: str #: The current TTY
-        self.contents: str #: The currently visible contents of the session.
-        self.text: str #: The currently visible contents of the session.
-        self.color_preset: str #: The color preset of the session
-        self.background_color: XABase.XAColor
-        self.bold_color: XABase.XAColor
-        self.cursor_color: XABase.XAColor
-        self.cursor_text_color: XABase.XAColor
-        self.foreground_color: XABase.XAColor
-        self.selected_text_color: XABase.XAColor
-        self.selection_color: XABase.XAColor
-        self.ansi_black_color: XABase.XAColor
-        self.ansi_red_color: XABase.XAColor
-        self.ansi_green_color: XABase.XAColor
-        self.ansi_yellow_color: XABase.XAColor
-        self.ansi_blue_color: XABase.XAColor
-        self.ansi_magenta_color: XABase.XAColor
-        self.ansi_cyan_color: XABase.XAColor
-        self.ansi_white_color: XABase.XAColor
-        self.ansi_bright_black_color: XABase.XAColor
-        self.ansi_bright_red_color: XABase.XAColor
-        self.ansi_bright_green_color: XABase.XAColor
-        self.ansi_bright_yellow_color: XABase.XAColor
-        self.ansi_bright_blue_color: XABase.XAColor
-        self.ansi_bright_magenta_color: XABase.XAColor
-        self.ansi_bright_cyan_color: XABase.XAColor
-        self.ansi_bright_white_color: XABase.XAColor
-        self.underline_color: XABase.XAColor
-        self.use_underline_color: bool #: Whether to use a dedicated color for underlining
-        self.background_image: str #: The path of the background image file
-        self.name: str #: The name of the session
-        self.transparency: float #: The transparency of the session window
-        self.unique_id: str #: The unique identifier of the session
-        self.profile_name: str #: The session's profile name
-        self.answerback_string: str #: ENQ Answerback string
-
     @property
     def id(self) -> str:
+        """The unique identifier of the session.
+        """
         return self.xa_elem.id()
 
     @property
     def is_processing(self) -> bool:
+        """Whether the session is currently processing.
+        """
         return self.xa_elem.isProcessing()
 
     @is_processing.setter
@@ -425,6 +409,8 @@ class XAiTermSession(XABase.XAObject, XACloseable, XASelectable):
 
     @property
     def is_at_shell_prompt(self) -> bool:
+        """Whether the terminal is at the shell prompt.
+        """
         return self.xa_elem.isAtShellPrompt()
 
     @is_at_shell_prompt.setter
@@ -433,6 +419,8 @@ class XAiTermSession(XABase.XAObject, XACloseable, XASelectable):
 
     @property
     def columns(self) -> int:
+        """The number of columns in the terminal window.
+        """
         return self.xa_elem.columns()
 
     @columns.setter
@@ -441,6 +429,8 @@ class XAiTermSession(XABase.XAObject, XACloseable, XASelectable):
 
     @property
     def rows(self) -> int:
+        """The number of rows in the terminal window.
+        """
         return self.xa_elem.rows()
 
     @rows.setter
@@ -449,10 +439,14 @@ class XAiTermSession(XABase.XAObject, XACloseable, XASelectable):
 
     @property
     def tty(self) -> str:
+        """The current TTY.
+        """
         return self.xa_elem.tty()
 
     @property
     def contents(self) -> str:
+        """The currently visible contents of the session.
+        """
         return self.xa_elem.contents()
 
     @contents.setter
@@ -461,10 +455,14 @@ class XAiTermSession(XABase.XAObject, XACloseable, XASelectable):
 
     @property
     def text(self) -> str:
+        """The currently visible contents of the session.
+        """
         return self.xa_elem.text()
 
     @property
     def color_preset(self) -> str:
+        """The color preset of the session.
+        """
         return self.xa_elem.colorPreset()
 
     @color_preset.setter
@@ -665,6 +663,8 @@ class XAiTermSession(XABase.XAObject, XACloseable, XASelectable):
 
     @property
     def use_underline_color(self) -> bool:
+        """Whether to use a dedicated color for underlining.
+        """
         return self.xa_elem.useUnderlineColor()
 
     @use_underline_color.setter
@@ -673,6 +673,8 @@ class XAiTermSession(XABase.XAObject, XACloseable, XASelectable):
 
     @property
     def background_image(self) -> str:
+        """The path of the background image file.
+        """
         return self.xa_elem.backgroundImage()
 
     @background_image.setter
@@ -681,6 +683,8 @@ class XAiTermSession(XABase.XAObject, XACloseable, XASelectable):
 
     @property
     def name(self) -> str:
+        """The name of the session.
+        """
         return self.xa_elem.name()
 
     @name.setter
@@ -689,6 +693,8 @@ class XAiTermSession(XABase.XAObject, XACloseable, XASelectable):
 
     @property
     def transparency(self) -> float:
+        """The transparency of the session window.
+        """
         return self.xa_elem.transparency()
 
     @transparency.setter
@@ -697,14 +703,20 @@ class XAiTermSession(XABase.XAObject, XACloseable, XASelectable):
 
     @property
     def unique_id(self) -> str:
+        """The unique identifier of the session.
+        """
         return self.xa_elem.uniqueID()
 
     @property
     def profile_name(self) -> str:
+        """The session's profile name.
+        """
         return self.xa_elem.profileName()
 
     @property
     def answerback_string(self) -> str:
+        """ENQ Answerback string.
+        """
         return self.xa_elem.answerbackString()
 
     @answerback_string.setter

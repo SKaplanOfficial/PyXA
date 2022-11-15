@@ -123,69 +123,28 @@ class XASystemEventsApplication(XABase.XAEventsApplication, XABaseScriptable.XAS
     def __init__(self, properties):
         super().__init__(properties)
 
-        self.name: str #: The name of the application.
-        self.frontmost: bool #: Is this the active application?
-        self.version: str #: The version number of the application.
-        self.quit_delay: int #: the time in seconds the application will idle before quitting; if set to zero, idle time will not cause the application to quit
-        self.script_menu_enabled: bool #: Is the Script menu installed in the menu bar?
-        self.current_user: XASystemEventsUser #: the currently logged in user
-        self.appearance_preferences: XASystemEventsAppearancePreferencesObject #: a collection of appearance preferences
-        self.cd_and_dvd_preferences: XASystemEventsCDAndDVDPreferencesObject #: the preferences for the current user when a CD or DVD is inserted
-        self.current_desktop: XASystemEventsDesktop #: the primary desktop
-        self.dock_preferences: XASystemEventsDockPreferencesObject #: the preferences for the current user's dock
-        self.network_preferences: XASystemEventsNetworkPreferencesObject #: the preferences for the current user's network
-        self.current_screen_saver: XASystemEventsScreenSaver #: the currently selected screen saver
-        self.screen_saver_preferences: XASystemEventsScreenSaverPreferencesObject #: the preferences common to all screen savers
-        self.security_preferences: XASystemEventsSecurityPreferencesObject #: a collection of security preferences
-        self.application_support_folder: XABase.XAFolder #: The Application Support folder
-        self.applications_folder: XABase.XAFolder #: The user's Applications folder
-        self.classic_domain: XABase.XAClassicDomainObject #: the collection of folders belonging to the Classic System
-        self.desktop_folder: XABase.XAFolder #: The user's Desktop folder
-        self.desktop_pictures_folder: XABase.XAFolder #: The Desktop Pictures folder
-        self.documents_folder: XABase.XAFolder #: The user's Documents folder
-        self.downloads_folder: XABase.XAFolder #: The user's Downloads folder
-        self.favorites_folder: XABase.XAFolder #: The user's Favorites folder
-        self.folder_action_scripts_folder: XABase.XAFolder #: The user's Folder Action Scripts folder
-        self.fonts_folder: XABase.XAFolder #: The Fonts folder
-        self.home_folder: XABase.XAFolder #: The Home folder of the currently logged in user
-        self.library_folder: XABase.XAFolder #: The Library folder
-        self.local_domain: XABase.XALocalDomainObject #: the collection of folders residing on the Local machine
-        self.movies_folder: XABase.XAFolder #: The user's Movies folder
-        self.music_folder: XABase.XAFolder #: The user's Music folder
-        self.network_domain: XABase.XANetworkDomainObject #: the collection of folders residing on the Network
-        self.pictures_folder: XABase.XAFolder #: The user's Pictures folder
-        self.preferences_folder: XABase.XAFolder #: The user's Preferences folder
-        self.public_folder: XABase.XAFolder #: The user's Public folder
-        self.scripting_additions_folder: XABase.XAFolder #: The Scripting Additions folder
-        self.scripts_folder: XABase.XAFolder #: The user's Scripts folder
-        self.shared_documents_folder: XABase.XAFolder #: The Shared Documents folder
-        self.sites_folder: XABase.XAFolder #: The user's Sites folder
-        self.speakable_items_folder: XABase.XAFolder #: The Speakable Items folder
-        self.startup_disk: XABase.XADisk #: the disk from which Mac OS X was loaded
-        self.system_domain: XABase.XASystemDomainObject #: the collection of folders belonging to the System
-        self.temporary_items_folder: XABase.XAFolder #: The Temporary Items folder
-        self.trash: XABase.XAFolder #: The user's Trash folder
-        self.user_domain: XABase.XAUserDomainObject #: the collection of folders belonging to the User
-        self.utilities_folder: XABase.XAFolder #: The Utilities folder
-        self.workflows_folder: XABase.XAFolder #: The Automator Workflows folder
-        self.folder_actions_enabled: bool #: Are Folder Actions currently being processed?
-        self.ui_elements_enabled: bool #: Are UI element events currently being processed?
-        self.scripting_definition: XASystemEventsScriptingDefinitionObject #: The scripting definition of the System Events application
-
     @property
     def name(self) -> str:
+        """The name of the application.
+        """
         return self.xa_scel.name()
 
     @property
     def frontmost(self) -> bool:
+        """Is this the active application?
+        """
         return self.xa_scel.frontmost()
 
     @property
     def version(self) -> str:
+        """The version number of the application.
+        """
         return self.xa_scel.version()
 
     @property
     def quit_delay(self) -> int:
+        """The time in seconds the application will idle before quitting; if set to zero, idle time will not cause the application to quit.
+        """
         return self.xa_scel.quitDelay()
 
     @quit_delay.setter
@@ -194,14 +153,20 @@ class XASystemEventsApplication(XABase.XAEventsApplication, XABaseScriptable.XAS
 
     @property
     def script_menu_enabled(self) -> bool:
+        """Is the Script menu installed in the menu bar?
+        """
         return self.xa_scel.scriptMenuEnabled()
 
     @property
     def current_user(self) -> 'XASystemEventsUser':
+        """The currently logged in user.
+        """
         return self._new_element(self.xa_scel.currentUser(), XASystemEventsUser)
 
     @property
     def appearance_preferences(self) -> 'XASystemEventsAppearancePreferencesObject':
+        """A collection of appearance preferences.
+        """
         return self._new_element(self.xa_scel.appearancePreferences(), XASystemEventsAppearancePreferencesObject)
 
     @appearance_preferences.setter
@@ -210,6 +175,8 @@ class XASystemEventsApplication(XABase.XAEventsApplication, XABaseScriptable.XAS
 
     @property
     def cd_and_dvd_preferences(self) -> 'XASystemEventsCDAndDVDPreferencesObject':
+        """The preferences for the current user when a CD or DVD is inserted.
+        """
         return self._new_element(self.xa_scel.CDAndDVDPreferences(), XASystemEventsCDAndDVDPreferencesObject)
 
     @cd_and_dvd_preferences.setter
@@ -218,10 +185,14 @@ class XASystemEventsApplication(XABase.XAEventsApplication, XABaseScriptable.XAS
 
     @property
     def current_desktop(self) -> 'XASystemEventsDesktop':
+        """The primary desktop.
+        """
         return self._new_element(self.xa_scel.currentDesktop(), XASystemEventsDesktop)
 
     @property
     def dock_preferences(self) -> 'XASystemEventsDockPreferencesObject':
+        """The preferences for the current user's dock.
+        """
         return self._new_element(self.xa_scel.dockPreferences(), XASystemEventsDockPreferencesObject)
 
     @dock_preferences.setter
@@ -230,6 +201,8 @@ class XASystemEventsApplication(XABase.XAEventsApplication, XABaseScriptable.XAS
 
     @property
     def network_preferences(self) -> 'XASystemEventsNetworkPreferencesObject':
+        """The preferences for the current user's network.
+        """
         return self._new_element(self.xa_scel.networkPreferences(), XASystemEventsNetworkPreferencesObject)
 
     @network_preferences.setter
@@ -238,6 +211,8 @@ class XASystemEventsApplication(XABase.XAEventsApplication, XABaseScriptable.XAS
 
     @property
     def current_screen_saver(self) -> 'XASystemEventsScreenSaver':
+        """The currently selected screen saver.
+        """
         return self._new_element(self.xa_scel.currentScreenSaver(), XASystemEventsScreenSaver)
 
     @current_screen_saver.setter
@@ -246,6 +221,8 @@ class XASystemEventsApplication(XABase.XAEventsApplication, XABaseScriptable.XAS
 
     @property
     def screen_saver_preferences(self) -> 'XASystemEventsScreenSaverPreferencesObject':
+        """The preferences common to all screen savers.
+        """
         return self._new_element(self.xa_scel.screenSaverPreferences(), XASystemEventsScreenSaverPreferencesObject)
 
     @screen_saver_preferences.setter
@@ -254,6 +231,8 @@ class XASystemEventsApplication(XABase.XAEventsApplication, XABaseScriptable.XAS
 
     @property
     def security_preferences(self) -> 'XASystemEventsSecurityPreferencesObject':
+        """A collection of security preferences.
+        """
         return self._new_element(self.xa_scel.securityPreferences(), XASystemEventsSecurityPreferencesObject)
 
     @security_preferences.setter
@@ -262,130 +241,194 @@ class XASystemEventsApplication(XABase.XAEventsApplication, XABaseScriptable.XAS
 
     @property
     def application_support_folder(self) -> 'XABase.XAFolder':
+        """The Application Support folder.
+        """
         return self._new_element(self.xa_scel.applicationSupportFolder(), XABase.XAFolder)
 
     @property
     def applications_folder(self) -> 'XABase.XAFolder':
+        """The user's Applications folder.
+        """
         return self._new_element(self.xa_scel.applicationsFolder(), XABase.XAFolder)
 
     @property
     def classic_domain(self) -> 'XABase.XAClassicDomainObject':
+        """The collection of folders belonging to the Classic System.
+        """
         return self._new_element(self.xa_scel.ClassicDomain(), XABase.XAClassicDomainObject)
 
     @property
     def desktop_folder(self) -> 'XABase.XAFolder':
+        """The user's Desktop folder.
+        """
         return self._new_element(self.xa_scel.desktopFolder(), XABase.XAFolder)
 
     @property
     def desktop_pictures_folder(self) -> 'XABase.XAFolder':
+        """The Desktop Pictures folder.
+        """
         return self._new_element(self.xa_scel.desktopPicturesFolder(), XABase.XAFolder)
 
     @property
     def documents_folder(self) -> 'XABase.XAFolder':
+        """The user's Documents folder.
+        """
         return self._new_element(self.xa_scel.documentsFolder(), XABase.XAFolder)
 
     @property
     def downloads_folder(self) -> 'XABase.XAFolder':
+        """The user's Downloads folder.
+        """
         return self._new_element(self.xa_scel.downloadsFolder(), XABase.XAFolder)
 
     @property
     def favorites_folder(self) -> 'XABase.XAFolder':
+        """The user's Favorites folder.
+        """
         return self._new_element(self.xa_scel.favoritesFolder(), XABase.XAFolder)
 
     @property
     def folder_action_scripts_folder(self) -> 'XABase.XAFolder':
+        """The user's Folder Action Scripts folder.
+        """
         return self._new_element(self.xa_scel.FolderActionScriptsFolder(), XABase.XAFolder)
 
     @property
     def fonts_folder(self) -> 'XABase.XAFolder':
+        """The Fonts folder.
+        """
         return self._new_element(self.xa_scel.fontsFolder(), XABase.XAFolder)
 
     @property
     def home_folder(self) -> 'XABase.XAFolder':
+        """The Home folder of the currently logged in user.
+        """
         return self._new_element(self.xa_scel.homeFolder(), XABase.XAFolder)
 
     @property
     def library_folder(self) -> 'XABase.XAFolder':
+        """The Library folder.
+        """
         return self._new_element(self.xa_scel.libraryFolder(), XABase.XAFolder)
 
     @property
     def local_domain(self) -> 'XABase.XALocalDomainObject':
+        """The collection of folders residing on the Local machine.
+        """
         return self._new_element(self.xa_scel.localDomain(), XABase.XALocalDomainObject)
 
     @property
     def movies_folder(self) -> 'XABase.XAFolder':
+        """The user's Movies folder.
+        """
         return self._new_element(self.xa_scel.moviesFolder(), XABase.XALocalDomainObject)
 
     @property
     def music_folder(self) -> 'XABase.XAFolder':
+        """The user's Music folder.
+        """
         return self._new_element(self.xa_scel.musicFolder(), XABase.XAFolder)
 
     @property
     def network_domain(self) -> 'XABase.XANetworkDomainObject':
+        """The collection of folders residing on the Network.
+        """
         return self._new_element(self.xa_scel.networkDomain(), XABase.XANetworkDomainObject)
 
     @property
     def pictures_folder(self) -> 'XABase.XAFolder':
+        """The user's Pictures folder.
+        """
         return self._new_element(self.xa_scel.picturesFolder(), XABase.XAFolder)
 
     @property
     def preferences_folder(self) -> 'XABase.XAFolder':
+        """The user's Preferences folder.
+        """
         return self._new_element(self.xa_scel.preferencesFolder(), XABase.XAFolder)
 
     @property
     def public_folder(self) -> 'XABase.XAFolder':
+        """The user's Public folder.
+        """
         return self._new_element(self.xa_scel.publicFolder(), XABase.XAFolder)
 
     @property
     def scripting_additions_folder(self) -> 'XABase.XAFolder':
+        """The Scripting Additions folder.
+        """
         return self._new_element(self.xa_scel.scriptingAdditionsFolder(), XABase.XAFolder)
 
     @property
     def scripts_folder(self) -> 'XABase.XAFolder':
+        """The user's Scripts folder.
+        """
         return self._new_element(self.xa_scel.scriptsFolder(), XABase.XAFolder)
 
     @property
     def shared_documents_folder(self) -> 'XABase.XAFolder':
+        """The Shared Documents folder.
+        """
         return self._new_element(self.xa_scel.sharedDocumentsFolder(), XABase.XAFolder)
 
     @property
     def sites_folder(self) -> 'XABase.XAFolder':
+        """The user's Sites folder.
+        """
         return self._new_element(self.xa_scel.sitesFolder(), XABase.XAFolder)
 
     @property
     def speakable_items_folder(self) -> 'XABase.XAFolder':
+        """The Speakable Items folder.
+        """
         return self._new_element(self.xa_scel.speakableItemsFolder(), XABase.XAFolder)
 
     @property
     def startup_disk(self) -> 'XABase.XADisk':
+        """The disk from which Mac OS X was loaded.
+        """
         return self._new_element(self.xa_scel.startupDisk(), XABase.XADisk)
 
     @property
     def system_domain(self) -> 'XABase.XASystemDomainObject':
+        """The collection of folders belonging to the System.
+        """
         return self._new_element(self.xa_scel.systemDomain(), XABase.XASystemDomainObject)
 
     @property
     def temporary_items_folder(self) -> 'XABase.XAFolder':
+        """The Temporary Items folder.
+        """
         return self._new_element(self.xa_scel.temporaryItemsFolder(), XABase.XAFolder)
 
     @property
     def trash(self) -> 'XABase.XAFolder':
+        """The user's Trash folder.
+        """
         return self._new_element(self.xa_scel.trash(), XABase.XAFolder)
 
     @property
     def user_domain(self) -> 'XABase.XAUserDomainObject':
+        """The collection of folders belonging to the User.
+        """
         return self._new_element(self.xa_scel.userDomain(), XABase.XAUserDomainObject)
 
     @property
     def utilities_folder(self) -> 'XABase.XAFolder':
+        """The Utilities folder.
+        """
         return self._new_element(self.xa_scel.utilitiesFolder(), XABase.XAFolder)
 
     @property
     def workflows_folder(self) -> 'XABase.XAFolder':
+        """The Automator Workflows folder.
+        """
         return self._new_element(self.xa_scel.workflowsFolder(), XABase.XAFolder)
 
     @property
     def folder_actions_enabled(self) -> bool:
+        """Are Folder Actions currently being processed?
+        """
         return self.xa_scel.folderActionsEnabled()
 
     @folder_actions_enabled.setter
@@ -394,10 +437,14 @@ class XASystemEventsApplication(XABase.XAEventsApplication, XABaseScriptable.XAS
 
     @property
     def ui_elements_enabled(self) -> bool:
+        """Are UI element events currently being processed?
+        """
         return self.xa_scel.UIElementsEnabled()
 
     @property
     def scripting_definition(self) -> 'XASystemEventsScriptingDefinitionObject':
+        """The scripting definition of the System Events application.
+        """
         return self._new_element(self.xa_scel.scriptingDefinition(), XASystemEventsScriptingDefinitionObject)
 
     def log_out(self):
@@ -844,21 +891,23 @@ class XASystemEventsDocument(XABase.XAObject, XACloseable, XAPrintable):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        
-        self.name: str #: Its name.
-        self.modified: bool #: Has it been modified since the last save?
-        self.file: XABase.XAFile #: Its location on disk, if it has one.
 
     @property
     def name(self) -> str:
+        """Its name.
+        """
         return self.xa_elem.name()
 
     @property
     def modified(self) -> bool:
+        """Has it been modified since the last save?
+        """
         return self.xa_elem.modified()
 
     @property
     def file(self) -> 'XABase.XAFile':
+        """Its location on disk, if it has one.
+        """
         return self._new_element(self.xa_elem.file(), XABase.XAFile)
 
     def save(self, path: Union[str, XABase.XAPath, None] = None):
@@ -884,47 +933,23 @@ class XASystemEventsWindow(XABaseScriptable.XASBWindow, XASelectable):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.name: str #: The title of the window
-        self.id: int #: The unique identifier for the window
-        self.index: int #: The index of the window in the front-to-back ordering
-        self.bounds: tuple[int, int, int, int] #: The bounding rectangle of the window
-        self.closeable: bool #: Whether the window has a close button
-        self.miniaturizable: bool #: Whether the window can be minimized
-        self.miniaturized: bool #: Whether the window is currently minimized
-        self.resizable: bool #: Whether the window can be resized
-        self.visible: bool #: Whether the window is currently visible
-        self.zoomable: bool #: Whether the window can be zoomed
-        self.zoomed: bool #: Whether the window is currently zoomed
-        self.document: XASystemEventsDocument #: The document whose contents are displayed in the window
-        self.accessibility_description: Union[str, None] #: a more complete description of the window and its capabilities
-        self.object_description: Union[str, None] #: the accessibility description, if available; otherwise, the role description
-        self.enabled: Union[bool, None] #: Is the window enabled? ( Does it accept clicks? )
-        self.entire_contents: list[XABase.XAObject] #: A list of every UI element contained in this window and its child UI elements, to the limits of the tree
-        self.focused: Union[bool, None] #: Is the focus on this window?
-        self.help: Union[str, None] #: an elaborate description of the window and its capabilities
-        self.maximum_value: Union[int, float, None] #: the maximum value that the UI element can take on
-        self.minimum_value: Union[int, float, None] #: the minimum value that the UI element can take on
-        self.name: str #: the name of the window, which identifies it within its container
-        self.orientation: Union[str, None] #: the orientation of the window
-        self.position: Union[list[Union[int, float]], None] #: the position of the window
-        self.role: str #: an encoded description of the window and its capabilities
-        self.role_description: str #: a more complete description of the window's role
-        self.selected: Union[bool, None] #: Is the window selected?
-        self.size: Union[list[Union[int, float]], None] #: the size of the window
-        self.subrole: Union[str, None] #: an encoded description of the window and its capabilities
-        self.title: str #: the title of the window as it appears on the screen
-        self.value: Any #: the current value of the window
 
     @property
     def name(self) -> str:
+        """The title of the window.
+        """
         return self.xa_elem.name()
 
     @property
     def id(self) -> int:
+        """The unique identifier for the window.
+        """
         return self.xa_elem.id()
 
     @property
     def index(self) -> int:
+        """The index of the window in the front-to-back ordering.
+        """
         return self.xa_elem.index()
 
     @index.setter
@@ -933,6 +958,8 @@ class XASystemEventsWindow(XABaseScriptable.XASBWindow, XASelectable):
 
     @property
     def bounds(self) -> tuple[int, int, int, int]:
+        """The bounding rectangle of the window.
+        """
         rect = self.xa_elem.bounds()
         origin = rect.origin
         size = rect.size
@@ -949,14 +976,20 @@ class XASystemEventsWindow(XABaseScriptable.XASBWindow, XASelectable):
 
     @property
     def closeable(self) -> bool:
+        """Whether the window has a close button.
+        """
         return self.xa_elem.closeable()
 
     @property
     def miniaturizable(self) -> bool:
+        """Whether the window can be minimized.
+        """
         return self.xa_elem.miniaturizable()
 
     @property
     def miniaturized(self) -> bool:
+        """Whether the window is currently minimized.
+        """
         return self.xa_elem.miniaturized()
 
     @miniaturized.setter
@@ -965,10 +998,14 @@ class XASystemEventsWindow(XABaseScriptable.XASBWindow, XASelectable):
 
     @property
     def resizable(self) -> bool:
+        """Whether the window can be resized.
+        """
         return self.xa_elem.resizable()
 
     @property
     def visible(self) -> bool:
+        """Whether the window is currently visible.
+        """
         return self.xa_elem.visible()
 
     @visible.setter
@@ -977,10 +1014,14 @@ class XASystemEventsWindow(XABaseScriptable.XASBWindow, XASelectable):
 
     @property
     def zoomable(self) -> bool:
+        """Whether the window can be zoomed.
+        """
         return self.xa_elem.zoomable()
 
     @property
     def zoomed(self) -> bool:
+        """Whether the window is currently zoomed.
+        """
         return self.xa_elem.zoomed()
 
     @zoomed.setter
@@ -989,26 +1030,38 @@ class XASystemEventsWindow(XABaseScriptable.XASBWindow, XASelectable):
 
     @property
     def document(self) -> XASystemEventsDocument:
+        """The document whose contents are displayed in the window.
+        """
         return self._new_element(self.xa_elem.document(), XASystemEventsDocument)
 
     @property
     def accessibility_description(self) -> Union[str, None]:
+        """A more complete description of the window and its capabilities.
+        """
         return self.xa_elem.accessibilityDescription()
 
     @property
     def object_description(self) -> Union[str, None]:
+        """The accessibility description, if available; otherwise, the role description.
+        """
         return self.xa_elem.objectDescription()
 
     @property
     def enabled(self) -> Union[bool, None]:
+        """Is the window enabled? (Does it accept clicks?)
+        """
         return self.xa_elem.enabled()
 
     @property
     def entire_contents(self) -> list[XABase.XAObject]:
+        """A list of every UI element contained in this window and its child UI elements, to the limits of the tree.
+        """
         return self.xa_elem.entireContents()
 
     @property
     def focused(self) -> Union[bool, None]:
+        """Is the focus on this window?
+        """
         return self.xa_elem.focused()
 
     @focused.setter
@@ -1017,26 +1070,38 @@ class XASystemEventsWindow(XABaseScriptable.XASBWindow, XASelectable):
 
     @property
     def help(self) -> Union[str, None]:
+        """An elaborate description of the window and its capabilities.
+        """
         return self.xa_elem.help()
 
     @property
     def maximum_value(self) -> Union[int, float, None]:
+        """The maximum value that the UI element can take on.
+        """
         return self.xa_elem.maximumValue()
 
     @property
     def minimum_value(self) -> Union[int, float, None]:
+        """The minimum value that the UI element can take on.
+        """
         return self.xa_elem.minimumValue()
 
     @property
     def name(self) -> str:
+        """The name of the window, which identifies it within its container.
+        """
         return self.xa_elem.name()
 
     @property
     def orientation(self) -> Union[str, None]:
+        """The orientation of the window.
+        """
         return self.xa_elem.orientation()
 
     @property
     def position(self) -> Union[list[Union[int, float]], None]:
+        """The position of the window.
+        """
         return self.xa_elem.position()
 
     @position.setter
@@ -1045,14 +1110,20 @@ class XASystemEventsWindow(XABaseScriptable.XASBWindow, XASelectable):
 
     @property
     def role(self) -> str:
+        """An encoded description of the window and its capabilities.
+        """
         return self.xa_elem.role()
 
     @property
     def role_description(self) -> str:
+        """A more complete description of the window's role.
+        """
         return self.xa_elem.roleDescription()
 
     @property
     def selected(self) -> Union[bool, None]:
+        """Is the window selected?
+        """
         return self.xa_elem.selected()
 
     @selected.setter
@@ -1061,6 +1132,8 @@ class XASystemEventsWindow(XABaseScriptable.XASBWindow, XASelectable):
 
     @property
     def size(self) -> Union[list[Union[int, float]], None]:
+        """The size of the window.
+        """
         return self.xa_elem.size()
 
     @size.setter
@@ -1069,14 +1142,20 @@ class XASystemEventsWindow(XABaseScriptable.XASBWindow, XASelectable):
 
     @property
     def subrole(self) -> Union[str, None]:
+        """An encoded description of the window and its capabilities.
+        """
         return self.xa_elem.subrole()
 
     @property
     def title(self) -> Union[str, None]:
+        """The title of the window as it appears on the screen.
+        """
         return self.xa_elem.title()
 
     @property
     def value(self) -> Any:
+        """The current value of the window.
+        """
         return self.xa_elem.value()
 
     def actions(self, filter: dict = None) -> Union['XASystemEventsActionList', None]:
@@ -1653,26 +1732,29 @@ class XASystemEventsUser(XABase.XAObject):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        
-        self.full_name: str #: user's full name
-        self.home_directory: XABase.XAPath #: path to user's home directory
-        self.name: str #: user's short name
-        self.picture_path: XABase.XAPath #: path to user's picture. Can be set for current user only!
 
     @property
     def full_name(self) -> str:
+        """The user's full name.
+        """
         return self.xa_elem.fullName()
 
     @property
     def home_directory(self) -> XABase.XAPath:
+        """The path to user's home directory.
+        """
         return XABase.XAPath(self.xa_elem.homeDirectory())
 
     @property
     def name(self) -> str:
+        """The user's short name.
+        """
         return self.xa_elem.name()
 
     @property
     def picture_path(self) -> XABase.XAPath:
+        """Path to user's picture. Can be set for current user only!
+        """
         return XABase.XAPath(self.xa_elem.picturePath())
 
     @picture_path.setter
@@ -1692,20 +1774,11 @@ class XASystemEventsAppearancePreferencesObject(XABase.XAObject):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        
-        self.appearance: XASystemEventsApplication.Appearance #: the overall look of buttons, menus and windows
-        self.font_smoothing: bool #: Is font smoothing on?
-        self.font_smoothing_style: XASystemEventsApplication.FontSmoothingStyle #: the method used for smoothing fonts
-        self.highlight_color: XASystemEventsApplication.HighlightColor #: color used for hightlighting selected text and lists
-        self.recent_applications_limit: int #: the number of recent applications to track
-        self.recent_documents_limit: int #: the number of recent documents to track
-        self.recent_servers_limit: int #: the number of recent servers to track
-        self.scroll_bar_action: XASystemEventsApplication.ScrollPageBehavior #: the action performed by clicking the scroll bar
-        self.smooth_scrolling: bool #: Is smooth scrolling used?
-        self.dark_mode: bool #: use dark menu bar and dock
 
     @property
     def appearance(self) -> XASystemEventsApplication.Appearance:
+        """The overall look of buttons, menus and windows.
+        """
         return XASystemEventsApplication.Appearance(self.xa_elem.appearance())
 
     @appearance.setter
@@ -1714,6 +1787,8 @@ class XASystemEventsAppearancePreferencesObject(XABase.XAObject):
 
     @property
     def font_smoothing(self) -> bool:
+        """Is font smoothing on?
+        """
         return self.xa_elem.fontSmoothing()
 
     @font_smoothing.setter
@@ -1722,6 +1797,8 @@ class XASystemEventsAppearancePreferencesObject(XABase.XAObject):
 
     @property
     def font_smoothing_style(self) -> XASystemEventsApplication.FontSmoothingStyle:
+        """The method used for smoothing fonts.
+        """
         return XASystemEventsApplication.FontSmoothingStyle(self.xa_elem.fontSmoothingStyle())
 
     @font_smoothing_style.setter
@@ -1730,6 +1807,8 @@ class XASystemEventsAppearancePreferencesObject(XABase.XAObject):
 
     @property
     def highlight_color(self) -> XASystemEventsApplication.HighlightColor:
+        """The color used for hightlighting selected text and lists.
+        """
         return XASystemEventsApplication.HighlightColor(self.xa_elem.highlightColor())
 
     @highlight_color.setter
@@ -1738,6 +1817,8 @@ class XASystemEventsAppearancePreferencesObject(XABase.XAObject):
 
     @property
     def recent_applications_limit(self) -> int:
+        """The number of recent applications to track.
+        """
         return self.xa_elem.recentApplicationsLimit()
 
     @recent_applications_limit.setter
@@ -1746,6 +1827,8 @@ class XASystemEventsAppearancePreferencesObject(XABase.XAObject):
 
     @property
     def recent_documents_limit(self) -> int:
+        """The number of recent documents to track.
+        """
         return self.xa_elem.recentDocumentsLimit()
 
     @recent_documents_limit.setter
@@ -1754,6 +1837,8 @@ class XASystemEventsAppearancePreferencesObject(XABase.XAObject):
 
     @property
     def recent_servers_limit(self) -> int:
+        """The number of recent servers to track.
+        """
         return self.xa_elem.recentServersLimit()
 
     @recent_servers_limit.setter
@@ -1762,6 +1847,8 @@ class XASystemEventsAppearancePreferencesObject(XABase.XAObject):
 
     @property
     def scroll_bar_action(self) -> XASystemEventsApplication.ScrollPageBehavior:
+        """The action performed by clicking the scroll bar.
+        """
         return XASystemEventsApplication.ScrollPageBehavior(self.xa_elem.scrollBarAction())
 
     @scroll_bar_action.setter
@@ -1770,6 +1857,8 @@ class XASystemEventsAppearancePreferencesObject(XABase.XAObject):
 
     @property
     def smooth_scrolling(self) -> bool:
+        """Is smooth scrolling used?
+        """
         return self.xa_elem.smoothScrolling()
 
     @smooth_scrolling.setter
@@ -1778,6 +1867,8 @@ class XASystemEventsAppearancePreferencesObject(XABase.XAObject):
 
     @property
     def dark_mode(self) -> bool:
+        """Whether to use dark menu bar and dock.
+        """
         return self.xa_elem.darkMode()
 
     @dark_mode.setter
@@ -1794,41 +1885,47 @@ class XASystemEventsCDAndDVDPreferencesObject(XABase.XAObject):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        
-        self.blank_cd: XASystemEventsInsertionPreference #: the blank CD insertion preference
-        self.blank_dvd: XASystemEventsInsertionPreference #: the blank DVD insertion preference
-        self.blank_bd: XASystemEventsInsertionPreference #: the blank BD insertion preference
-        self.music_cd: XASystemEventsInsertionPreference #: the music CD insertion preference
-        self.picture_cd: XASystemEventsInsertionPreference #: the picture CD insertion preference
-        self.video_dvd: XASystemEventsInsertionPreference #: the video DVD insertion preference
-        self.video_bd: XASystemEventsInsertionPreference #: the video BD insertion preference
 
     @property
     def blank_cd(self) -> 'XASystemEventsInsertionPreference':
+        """The blank CD insertion preference.
+        """
         return self._new_element(self.xa_elem.blankCD(), XASystemEventsInsertionPreference)
 
     @property
     def blank_dvd(self) -> 'XASystemEventsInsertionPreference':
+        """The blank DVD insertion preference.
+        """
         return self._new_element(self.xa_elem.blankDVD(), XASystemEventsInsertionPreference)
 
     @property
     def blank_bd(self) -> 'XASystemEventsInsertionPreference':
+        """The blank BD insertion preference.
+        """
         return self._new_element(self.xa_elem.blankBD(), XASystemEventsInsertionPreference)
 
     @property
     def music_cd(self) -> 'XASystemEventsInsertionPreference':
+        """The music CD insertion preference.
+        """
         return self._new_element(self.xa_elem.musicCD(), XASystemEventsInsertionPreference)
 
     @property
     def picture_cd(self) -> 'XASystemEventsInsertionPreference':
+        """The picture CD insertion preference.
+        """
         return self._new_element(self.xa_elem.pictureCD(), XASystemEventsInsertionPreference)
 
     @property
     def video_dvd(self) -> 'XASystemEventsInsertionPreference':
+        """The video DVD insertion preference.
+        """
         return self._new_element(self.xa_elem.videoDVD(), XASystemEventsInsertionPreference)
 
     @property
     def video_bd(self) -> 'XASystemEventsInsertionPreference':
+        """The video BD insertion preference.
+        """
         return self._new_element(self.xa_elem.videoBD(), XASystemEventsInsertionPreference)
     
 
@@ -1841,13 +1938,11 @@ class XASystemEventsInsertionPreference(XABase.XAObject):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        
-        self.custom_application: Union[str, None] #: application to launch or activate on the insertion of media
-        self.custom_script: Union[str, None] #: AppleScript to launch or activate on the insertion of media
-        self.insertion_action: XASystemEventsApplication.MediaInsertionAction #: action to perform on media insertion
 
     @property
     def custom_application(self) -> Union[str, None]:
+        """Application to launch or activate on the insertion of media.
+        """
         return self.xa_elem.customApplication()
 
     @custom_application.setter
@@ -1856,6 +1951,8 @@ class XASystemEventsInsertionPreference(XABase.XAObject):
 
     @property
     def custom_script(self) -> Union[str, None]:
+        """AppleScript to launch or activate on the insertion of media.
+        """
         return self.xa_elem.customScript()
 
     @custom_script.setter
@@ -1864,6 +1961,8 @@ class XASystemEventsInsertionPreference(XABase.XAObject):
 
     @property
     def insertion_action(self) -> XASystemEventsApplication.MediaInsertionAction:
+        """The action to perform on media insertion.
+        """
         return XASystemEventsApplication.MediaInsertionAction(self.xa_elem.insertionAction())
 
     @insertion_action.setter
@@ -2101,28 +2200,23 @@ class XASystemEventsDesktop(XABase.XAObject):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        
-        self.name: str #: name of the desktop
-        self.id: int #: unique identifier of the desktop
-        self.change_interval: float #: number of seconds to wait between changing the desktop picture
-        self.display_name: str #: name of display on which this desktop appears
-        self.picture: XABase.XAPath #: path to file used as desktop picture
-        self.picture_rotation: XASystemEventsApplication.PictureRotation #: never, using interval, using login, after sleep
-        self.pictures_folder: XABase.XAPath #: path to folder containing pictures for changing desktop background
-        self.random_order: bool #: turn on for random ordering of changing desktop pictures
-        self.translucent_menu_bar: bool #: indicates whether the menu bar is translucent
-        self.dynamic_style: XASystemEventsApplication.DynamicStyle #: desktop picture dynamic style
 
     @property
     def name(self) -> str:
+        """The name of the desktop.
+        """
         return self.xa_elem.name()
 
     @property
     def id(self) -> int:
+        """The unique identifier of the desktop.
+        """
         return self.xa_elem.id()
 
     @property
     def change_interval(self) -> float:
+        """The number of seconds to wait between changing the desktop picture.
+        """
         return self.xa_elem.changeInterval()
 
     @change_interval.setter
@@ -2131,10 +2225,14 @@ class XASystemEventsDesktop(XABase.XAObject):
 
     @property
     def display_name(self) -> str:
+        """The name of display on which this desktop appears.
+        """
         return self.xa_elem.displayName()
 
     @property
     def picture(self) -> XABase.XAPath:
+        """The path to file used as desktop picture.
+        """
         return XABase.XAPath(self.xa_elem.picture().get())
 
     @picture.setter
@@ -2145,6 +2243,8 @@ class XASystemEventsDesktop(XABase.XAObject):
 
     @property
     def picture_rotation(self) -> XASystemEventsApplication.PictureRotation:
+        """Never, using interval, using login, after sleep.
+        """
         return XASystemEventsApplication.PictureRotation(self.xa_elem.pictureRotation())
 
     @picture_rotation.setter
@@ -2153,6 +2253,8 @@ class XASystemEventsDesktop(XABase.XAObject):
 
     @property
     def pictures_folder(self) -> XABase.XAPath:
+        """The path to folder containing pictures for changing desktop background.
+        """
         return XABase.XAPath(self.xa_elem.picturesFolder())
 
     @pictures_folder.setter
@@ -2163,6 +2265,8 @@ class XASystemEventsDesktop(XABase.XAObject):
 
     @property
     def random_order(self) -> bool:
+        """Turn on for random ordering of changing desktop pictures.
+        """
         return self.xa_elem.randomOrder()
 
     @random_order.setter
@@ -2171,6 +2275,8 @@ class XASystemEventsDesktop(XABase.XAObject):
 
     @property
     def translucent_menu_bar(self) -> bool:
+        """Indicates whether the menu bar is translucent.
+        """
         return self.xa_elem.translucentMenuBar()
 
     @translucent_menu_bar.setter
@@ -2179,6 +2285,8 @@ class XASystemEventsDesktop(XABase.XAObject):
 
     @property
     def dynamic_style(self) -> XASystemEventsApplication.DynamicStyle:
+        """The desktop picture dynamic style.
+        """
         # TODO - check
         return XASystemEventsApplication.DynamicStyle(XABase.OSType(self.xa_elem.dynamicStyle().stringValue()))
 
@@ -2196,22 +2304,11 @@ class XASystemEventsDockPreferencesObject(XABase.XAObject):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        
-        self.animate: bool #: is the animation of opening applications on or off?
-        self.autohide: bool #: is autohiding the dock on or off?
-        self.dock_size: float #: size/height of the items (between 0.0 (minimum) and 1.0 (maximum))
-        self.autohide_menu_bar: bool #: is autohiding the menu bar on or off?
-        self.double_click_behavior: XASystemEventsApplication.DoubleClickBehavior #: behaviour when double clicking window a title bar
-        self.magnification: bool #: is magnification on or off?
-        self.magnification_size: float #: maximum magnification size when magnification is on (between 0.0 (minimum) and 1.0 (maximum))
-        self.minimize_effect: XASystemEventsApplication.MinimizeEffect #: minimization effect
-        self.minimize_into_application: bool #: minimize window into its application?
-        self.screen_edge: XASystemEventsApplication.ScreenLocation #: location on screen
-        self.show_indicators: bool #: show indicators for open applications?
-        self.show_recents: bool #: show recent applications?
 
     @property
     def animate(self) -> bool:
+        """Is the animation of opening applications on or off?
+        """
         return self.xa_elem.animate()
 
     @animate.setter
@@ -2220,6 +2317,8 @@ class XASystemEventsDockPreferencesObject(XABase.XAObject):
 
     @property
     def autohide(self) -> bool:
+        """Is autohiding the dock on or off?
+        """
         return self.xa_elem.autohide()
 
     @autohide.setter
@@ -2228,6 +2327,8 @@ class XASystemEventsDockPreferencesObject(XABase.XAObject):
 
     @property
     def dock_size(self) -> float:
+        """Size/height of the items (between 0.0 (minimum) and 1.0 (maximum)).
+        """
         return self.xa_elem.dockSize()
 
     @dock_size.setter
@@ -2236,6 +2337,8 @@ class XASystemEventsDockPreferencesObject(XABase.XAObject):
 
     @property
     def autohide_menu_bar(self) -> bool:
+        """Is autohiding the menu bar on or off?
+        """
         return self.xa_elem.autohideMenuBar()
 
     @autohide_menu_bar.setter
@@ -2244,6 +2347,8 @@ class XASystemEventsDockPreferencesObject(XABase.XAObject):
 
     @property
     def double_click_behavior(self) -> XASystemEventsApplication.DoubleClickBehavior:
+        """Behavior when double clicking window a title bar.
+        """
         # TODO - check
         return XASystemEventsApplication.DoubleClickBehavior(XABase.OSType(self.xa_elem.doubleClickBehavior().stringValue()))
 
@@ -2253,6 +2358,8 @@ class XASystemEventsDockPreferencesObject(XABase.XAObject):
 
     @property
     def magnification(self) -> bool:
+        """Is magnification on or off?
+        """
         return self.xa_elem.magnification()
 
     @magnification.setter
@@ -2261,6 +2368,8 @@ class XASystemEventsDockPreferencesObject(XABase.XAObject):
 
     @property
     def magnification_size(self) -> float:
+        """Maximum magnification size when magnification is on (between 0.0 (minimum) and 1.0 (maximum)).
+        """
         return self.xa_elem.magnificationSize()
 
     @magnification_size.setter
@@ -2269,6 +2378,8 @@ class XASystemEventsDockPreferencesObject(XABase.XAObject):
 
     @property
     def minimize_effect(self) -> XASystemEventsApplication.MinimizeEffect:
+        """Minimization effect.
+        """
         # TODO - check
         return XASystemEventsApplication.MinimizeEffect(XABase.OSType(self.xa_elem.minimizeEffect().stringValue()))
 
@@ -2278,6 +2389,8 @@ class XASystemEventsDockPreferencesObject(XABase.XAObject):
 
     @property
     def minimize_into_application(self) -> bool:
+        """Minimize window into its application?
+        """
         return self.xa_elem.minimizeIntoApplication()
 
     @minimize_into_application.setter
@@ -2286,6 +2399,8 @@ class XASystemEventsDockPreferencesObject(XABase.XAObject):
 
     @property
     def screen_edge(self) -> XASystemEventsApplication.ScreenLocation:
+        """Location on screen.
+        """
         # TODO - check
         return XASystemEventsApplication.ScreenLocation(XABase.OSType(self.xa_elem.screenEdge().stringValue()))
 
@@ -2295,6 +2410,8 @@ class XASystemEventsDockPreferencesObject(XABase.XAObject):
 
     @property
     def show_indicators(self) -> bool:
+        """Show indicators for open applications?
+        """
         return self.xa_elem.showIndicators()
 
     @show_indicators.setter
@@ -2303,6 +2420,8 @@ class XASystemEventsDockPreferencesObject(XABase.XAObject):
 
     @property
     def show_recents(self) -> bool:
+        """Show recent applications?
+        """
         return self.xa_elem.showRecents()
 
     @show_recents.setter
@@ -2415,14 +2534,11 @@ class XASystemEventsLoginItem(XABase.XAObject):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        
-        self.hidden: bool #: Is the Login Item hidden when launched?
-        self.kind: str #: the file type of the Login Item
-        self.name: str #: the name of the Login Item
-        self.path: str #: the file system path to the Login Item
 
     @property
     def hidden(self) -> bool:
+        """Is the Login Item hidden when launched?
+        """
         return self.xa_elem.hidden()
 
     @hidden.setter
@@ -2431,14 +2547,20 @@ class XASystemEventsLoginItem(XABase.XAObject):
 
     @property
     def kind(self) -> str:
+        """The file type of the Login Item.
+        """
         return self.xa_elem.kind()
 
     @property
     def name(self) -> str:
+        """The name of the Login Item.
+        """
         return self.xa_elem.name()
 
     @property
     def path(self) -> str:
+        """The file system path to the Login Item.
+        """
         return self.xa_elem.path()
 
     def delete(self):
@@ -2551,14 +2673,11 @@ class XASystemEventsConfiguration(XABase.XAObject):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        
-        self.account_name: str #: the name used to authenticate
-        self.connected: bool #: Is the configuration connected?
-        self.id: str #: the unique identifier for the configuration
-        self.name: str #: the name of the configuration
 
     @property
     def account_name(self) -> str:
+        """The name used to authenticate.
+        """
         return self.xa_elem.accountName()
 
     @account_name.setter
@@ -2567,14 +2686,20 @@ class XASystemEventsConfiguration(XABase.XAObject):
 
     @property
     def connected(self) -> bool:
+        """Is the configuration connected?
+        """
         return self.xa_elem.connected()
 
     @property
     def id(self) -> str:
+        """The unique identifier for the configuration.
+        """
         return self.xa_elem.id()
 
     @property
     def name(self) -> str:
+        """The name of the configuration.
+        """
         return self.xa_elem.name()
 
     def connect(self) -> 'XASystemEventsConfiguration':
@@ -2780,18 +2905,11 @@ class XASystemEventsInterface(XABase.XAObject):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        
-        self.automatic: bool #: configure the interface speed, duplex, and mtu automatically?
-        self.duplex: str #: the duplex setting half | full | full with flow control
-        self.id: str #: the unique identifier for the interface
-        self.kind: str #: the type of interface
-        self.mac_address: str #: the MAC address for the interface
-        self.mtu: int #: the packet size
-        self.name: str #: the name of the interface
-        self.speed: int #: ethernet speed 10 | 100 | 1000
 
     @property
     def automatic(self) -> bool:
+        """Configure the interface speed, duplex, and mtu automatically?
+        """
         return self.xa_elem.automatic()
 
     @automatic.setter
@@ -2800,6 +2918,8 @@ class XASystemEventsInterface(XABase.XAObject):
 
     @property
     def duplex(self) -> str:
+        """The duplex setting half | full | full with flow control.
+        """
         return self.xa_elem.duplex()
 
     @duplex.setter
@@ -2808,18 +2928,26 @@ class XASystemEventsInterface(XABase.XAObject):
 
     @property
     def id(self) -> str:
+        """The unique identifier for the interface.
+        """
         return self.xa_elem.id()
 
     @property
     def kind(self) -> str:
+        """The type of interface.
+        """
         return self.xa_elem.kind()
 
     @property
     def mac_address(self) -> str:
+        """The MAC address for the interface.
+        """
         return self.xa_elem.MACAddress()
 
     @property
     def mtu(self) -> int:
+        """The packet size.
+        """
         return self.xa_elem.mtu()
 
     @mtu.setter
@@ -2828,10 +2956,14 @@ class XASystemEventsInterface(XABase.XAObject):
 
     @property
     def name(self) -> str:
+        """The name of the interface.
+        """
         return self.xa_elem.name()
 
     @property
     def speed(self) -> int:
+        """Ethernet speed 10 | 100 | 1000.
+        """
         return self.xa_elem.speed()
 
     @speed.setter
@@ -2901,16 +3033,17 @@ class XASystemEventsLocation(XABase.XAObject):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        
-        self.id: str #: The unique identifier for the location
-        self.name: str #: The name of the location
 
     @property
     def id(self) -> str:
+        """The unique identifier for the location.
+        """
         return self.xa_elem.id()
 
     @property
     def name(self) -> str:
+        """The name of the location.
+        """
         return self.xa_elem.name()
 
     @name.setter
@@ -2928,10 +3061,10 @@ class XASystemEventsNetworkPreferencesObject(XABase.XAObject):
     def __init__(self, properties):
         super().__init__(properties)
         
-        self.current_location: XASystemEventsLocation #: The current location
-
     @property
     def current_location(self) -> XASystemEventsLocation:
+        """The current location.
+        """
         return self._new_element(self.xa_elem.currentLocation(), XASystemEventsLocation)
 
     @current_location.setter
@@ -3119,20 +3252,17 @@ class XASystemEventsService(XABase.XAObject):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        
-        self.active: bool #: Is the service active?
-        self.current_configuration: XASystemEventsConfiguration #: The currently selected configuration
-        self.id: str #: The unique identifier for the service
-        self.interface: XASystemEventsInterface #: The interface the service is built on
-        self.kind: int #: The type of service
-        self.name: str #: The name of the service
 
     @property
     def active(self) -> bool:
+        """Is the service active?
+        """
         return self.xa_elem.active()
 
     @property
     def current_configuration(self) -> XASystemEventsConfiguration:
+        """The currently selected configuration.
+        """
         return self._new_element(self.xa_elem.currentConfiguration(), XASystemEventsConfiguration)
 
     @current_configuration.setter
@@ -3141,10 +3271,14 @@ class XASystemEventsService(XABase.XAObject):
 
     @property
     def id(self) -> str:
+        """The unique identifier for the service.
+        """
         return self.xa_elem.id()
 
     @property
     def interface(self) -> XASystemEventsInterface:
+        """The interface the service is built on.
+        """
         return self._new_element(self.xa_elem.interface(), XASystemEventsInterface)
 
     @interface.setter
@@ -3153,10 +3287,14 @@ class XASystemEventsService(XABase.XAObject):
 
     @property
     def kind(self) -> int:
+        """The type of service.
+        """
         return self.xa_elem.kind()
 
     @property
     def name(self) -> str:
+        """The name of the service.
+        """
         return self.xa_elem.name()
 
     @name.setter
@@ -3289,26 +3427,29 @@ class XASystemEventsScreenSaver(XABase.XAObject):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        
-        self.displayed_name: str #: name of the screen saver module as displayed to the user
-        self.name: str #: name of the screen saver module to be displayed
-        self.path: XABase.XAAlias #: path to the screen saver module
-        self.picture_display_style: str #: effect to use when displaying picture-based screen savers (slideshow, collage, or mosaic)
 
     @property
     def displayedName(self) -> str:
+        """Name of the screen saver module as displayed to the user.
+        """
         return self.xa_elem.displayedName()
 
     @property
     def name(self) -> str:
+        """Name of the screen saver module to be displayed.
+        """
         return self.xa_elem.name()
 
     @property
     def path(self) -> 'XABase.XAAlias':
+        """Path to the screen saver module.
+        """
         return self._new_element(self.xa_elem.path(), XABase.XAAlias)
 
     @property
     def picture_display_style(self) -> str:
+        """Effect to use when displaying picture-based screen savers (slideshow, collage, or mosaic).
+        """
         return self.xa_elem.pictureDisplayStyle()
 
     @picture_display_style.setter
@@ -3339,14 +3480,11 @@ class XASystemEventsScreenSaverPreferencesObject(XABase.XAObject):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        
-        self.delay_interval: int #: number of seconds of idle time before the screen saver starts; zero for never
-        self.main_screen_only: bool #: should the screen saver be shown only on the main screen?
-        self.running: bool #: is the screen saver running?
-        self.show_clock: bool #: should a clock appear over the screen saver?
 
     @property
     def delay_interval(self) -> int:
+        """Number of seconds of idle time before the screen saver starts; zero for never.
+        """
         return self.xa_elem.delayInterval()
 
     @delay_interval.setter
@@ -3355,6 +3493,8 @@ class XASystemEventsScreenSaverPreferencesObject(XABase.XAObject):
 
     @property
     def main_screen_only(self) -> bool:
+        """Should the screen saver be shown only on the main screen?
+        """
         return self.xa_elem.mainScreenOnly()
 
     @main_screen_only.setter
@@ -3363,10 +3503,14 @@ class XASystemEventsScreenSaverPreferencesObject(XABase.XAObject):
 
     @property
     def running(self) -> bool:
+        """Is the screen saver running?
+        """
         return self.xa_elem.running()
 
     @property
     def show_clock(self) -> bool:
+        """Should a clock appear over the screen saver?
+        """
         return self.xa_elem.showClock()
 
     @show_clock.setter
@@ -3397,16 +3541,11 @@ class XASystemEventsSecurityPreferencesObject(XABase.XAObject):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        
-        self.automatic_login: bool #: Is automatic login allowed?
-        self.log_out_when_inactive: bool #: Will the computer log out when inactive?
-        self.log_out_when_inactive_interval: int #: The interval of inactivity after which the computer will log out
-        self.require_password_to_unlock: bool #: Is a password required to unlock secure preferences?
-        self.require_password_to_wake: bool #: Is a password required to wake the computer from sleep or screen saver?
-        self.secure_virtual_memory: bool #: Is secure virtual memory being used?
 
     @property
     def automatic_login(self) -> bool:
+        """Is automatic login allowed?
+        """
         return self.xa_elem.automaticLogin()
 
     @automatic_login.setter
@@ -3415,6 +3554,8 @@ class XASystemEventsSecurityPreferencesObject(XABase.XAObject):
 
     @property
     def log_out_when_inactive(self) -> bool:
+        """Will the computer log out when inactive?
+        """
         return self.xa_elem.logOutWhenInactive()
 
     @log_out_when_inactive.setter
@@ -3423,6 +3564,8 @@ class XASystemEventsSecurityPreferencesObject(XABase.XAObject):
 
     @property
     def log_out_when_inactive_interval(self) -> int:
+        """The interval of inactivity after which the computer will log out.
+        """
         return self.xa_elem.logOutWhenInactiveInterval()
 
     @log_out_when_inactive_interval.setter
@@ -3431,6 +3574,8 @@ class XASystemEventsSecurityPreferencesObject(XABase.XAObject):
 
     @property
     def require_password_to_unlock(self) -> bool:
+        """Is a password required to unlock secure preferences?
+        """
         return self.xa_elem.requirePasswordToUnlock()
 
     @require_password_to_unlock.setter
@@ -3439,6 +3584,8 @@ class XASystemEventsSecurityPreferencesObject(XABase.XAObject):
 
     @property
     def require_password_to_wake(self) -> bool:
+        """Is a password required to wake the computer from sleep or screen saver?
+        """
         return self.xa_elem.requirePasswordToWake()
 
     @require_password_to_wake.setter
@@ -3447,6 +3594,8 @@ class XASystemEventsSecurityPreferencesObject(XABase.XAObject):
 
     @property
     def secure_virtual_memory(self) -> bool:
+        """Is secure virtual memory being used?
+        """
         return self.xa_elem.secureVirtualMemory()
 
     @secure_virtual_memory.setter
@@ -3559,14 +3708,11 @@ class XASystemEventsFolderAction(XABase.XAObject):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        
-        self.enabled: bool #: Is the folder action enabled?
-        self.name: str #: the name of the folder action, which is also the name of the folder
-        self.path: str #: the path to the folder to which the folder action applies
-        self.volume: str #: the volume on which the folder to which the folder action applies resides
 
     @property
     def enabled(self) -> bool:
+        """Is the folder action enabled?
+        """
         return self.xa_elem.enabled()
 
     @enabled.setter
@@ -3575,6 +3721,8 @@ class XASystemEventsFolderAction(XABase.XAObject):
 
     @property
     def name(self) -> str:
+        """The name of the folder action, which is also the name of the folder.
+        """
         return self.xa_elem.name()
 
     @name.setter
@@ -3583,10 +3731,14 @@ class XASystemEventsFolderAction(XABase.XAObject):
 
     @property
     def path(self) -> str:
+        """The path to the folder to which the folder action applies.
+        """
         return self.xa_elem.path()
 
     @property
     def volume(self) -> str:
+        """The volume on which the folder to which the folder action applies resides.
+        """
         return self.xa_elem.volume()
 
     def enable(self):
@@ -3714,14 +3866,11 @@ class XASystemEventsScript(XABase.XAObject):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        
-        self.enabled: bool #: Is the script enabled?
-        self.name: str #: the name of the script
-        self.path: str #: the file system path of the disk
-        self.posix_path: str #: the POSIX file system path of the disk
 
     @property
     def enabled(self) -> bool:
+        """Is the script enabled?
+        """
         return self.xa_elem.enabled()
 
     @enabled.setter
@@ -3730,14 +3879,20 @@ class XASystemEventsScript(XABase.XAObject):
 
     @property
     def name(self) -> str:
+        """The name of the script.
+        """
         return self.xa_elem.name()
 
     @property
     def path(self) -> str:
+        """The file system path of the disk.
+        """
         return self.xa_elem.path()
 
     @property
     def posix_path(self) -> str:
+        """The POSIX file system path of the disk.
+        """
         return self.xa_elem.POSIXPath()
     
 
@@ -3803,16 +3958,17 @@ class XASystemEventsAction(XABase.XAObject):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        
-        self.object_description: str #: what the action does
-        self.name: str #: the name of the action
 
     @property
     def object_description(self) -> str:
+        """What the action does.
+        """
         return self.xa_elem.objectDescription()
 
     @property
     def name(self) -> str:
+        """The name of the action.
+        """
         return self.xa_elem.name()
 
     def perform(self):
@@ -3905,21 +4061,23 @@ class XASystemEventsAttribute(XABase.XAObject):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        
-        self.name: str #: the name of the attribute
-        self.settable: bool #: Can the attribute be set?
-        self.value: Any #: the current value of the attribute
 
     @property
     def name(self) -> str:
+        """The name of the attribute.
+        """
         return self.xa_elem.name()
 
     @property
     def settable(self) -> bool:
+        """Can the attribute be set?
+        """
         return self.xa_elem.settable()
 
     @property
     def value(self) -> Any:
+        """The current value of the attribute.
+        """
         return self.xa_elem.value()
 
     @value.setter
@@ -4312,44 +4470,35 @@ class XASystemEventsUIElement(XABase.XAObject, XASelectable):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        
-        self.accessibility_description: Union[str, None] #: a more complete description of the UI element and its capabilities
-        self.object_description: Union[str, None] #: the accessibility description, if available; otherwise, the role description
-        self.enabled: Union[bool, None] #: Is the UI element enabled? ( Does it accept clicks? )
-        self.entire_contents: XABase.XAList #: a list of every UI element contained in this UI element and its child UI elements, to the limits of the tree
-        self.focused: Union[bool, None] #: Is the focus on this UI element?
-        self.help: Union[str, None] #: an elaborate description of the UI element and its capabilities
-        self.maximum_value: Union[int, float, None] #: the maximum value that the UI element can take on
-        self.minimum_value: Union[int, float, None] #: the minimum value that the UI element can take on
-        self.name: str #: the name of the UI Element, which identifies it within its container
-        self.orientation: Union[str, None] #: the orientation of the UI element
-        self.position: Union[list[Union[int, float]], None] #: the position of the UI element
-        self.role: str #: an encoded description of the UI element and its capabilities
-        self.role_description: str #: a more complete description of the UI element's role
-        self.selected: Union[bool, None] #: Is the UI element selected?
-        self.size: Union[list[Union[int, float]], None] #: the size of the UI element
-        self.subrole: Union[str, None] #: an encoded description of the UI element and its capabilities
-        self.title: str #: the title of the UI element as it appears on the screen
-        self.value: Any #: the current value of the UI element
 
     @property
     def accessibility_description(self) -> Union[str, None]:
+        """A more complete description of the UI element and its capabilities.
+        """
         return self.xa_elem.accessibilityDescription()
 
     @property
     def object_description(self) -> Union[str, None]:
+        """The accessibility description, if available; otherwise, the role description.
+        """
         return self.xa_elem.objectDescription()
 
     @property
     def enabled(self) -> Union[bool, None]:
+        """Is the UI element enabled? (Does it accept clicks?)
+        """
         return self.xa_elem.enabled()
 
     @property
     def entire_contents(self) -> XABase.XAList:
+        """A list of every UI element contained in this UI element and its child UI elements, to the limits of the tree.
+        """
         return self._new_element(self.xa_elem.entireContents(), XABase.XAList)
 
     @property
     def focused(self) -> Union[bool, None]:
+        """Is the focus on this UI element?
+        """
         return self.xa_elem.focused()
 
     @focused.setter
@@ -4358,26 +4507,38 @@ class XASystemEventsUIElement(XABase.XAObject, XASelectable):
 
     @property
     def help(self) -> Union[str, None]:
+        """An elaborate description of the UI element and its capabilities.
+        """
         return self.xa_elem.help()
 
     @property
     def maximum_value(self) -> Union[int, float, None]:
+        """The maximum value that the UI element can take on.
+        """
         return self.xa_elem.maximumValue()
 
     @property
     def minimum_value(self) -> Union[int, float, None]:
+        """The minimum value that the UI element can take on.
+        """
         return self.xa_elem.minimumValue()
 
     @property
     def name(self) -> str:
+        """The name of the UI Element, which identifies it within its container.
+        """
         return self.xa_elem.name()
 
     @property
     def orientation(self) -> Union[str, None]:
+        """The orientation of the UI element.
+        """
         return self.xa_elem.orientation()
 
     @property
     def position(self) -> Union[list[Union[int, float]], None]:
+        """The position of the UI element.
+        """
         return self.xa_elem.position()
 
     @position.setter
@@ -4386,14 +4547,20 @@ class XASystemEventsUIElement(XABase.XAObject, XASelectable):
 
     @property
     def role(self) -> str:
+        """An encoded description of the UI element and its capabilities.
+        """
         return self.xa_elem.role()
 
     @property
     def role_description(self) -> str:
+        """A more complete description of the UI element's role.
+        """
         return self.xa_elem.roleDescription()
 
     @property
     def selected(self) -> Union[bool, None]:
+        """Is the UI element selected?
+        """
         return self.xa_elem.selected()
 
     @selected.setter
@@ -4402,6 +4569,8 @@ class XASystemEventsUIElement(XABase.XAObject, XASelectable):
 
     @property
     def size(self) -> Union[list[Union[int, float]], None]:
+        """The size of the UI element.
+        """
         return self.xa_elem.size()
 
     @size.setter
@@ -4410,14 +4579,20 @@ class XASystemEventsUIElement(XABase.XAObject, XASelectable):
 
     @property
     def subrole(self) -> Union[str, None]:
+        """An encoded description of the UI element and its capabilities.
+        """
         return self.xa_elem.subrole()
 
     @property
     def title(self) -> str:
+        """The title of the UI element as it appears on the screen.
+        """
         return self.xa_elem.title()
 
     @property
     def value(self) -> Any:
+        """The current value of the UI element.
+        """
         return self.xa_elem.value()
 
     @value.setter
@@ -5810,69 +5985,71 @@ class XASystemEventsProcess(XASystemEventsUIElement):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        
-        self.accepts_high_level_events: bool #: Is the process high-level event aware (accepts open application, open document, print document, and quit)?
-        self.accepts_remote_events: bool #: Does the process accept remote events?
-        self.architecture: str #: the architecture in which the process is running
-        self.background_only: bool #: Does the process run exclusively in the background?
-        self.bundle_identifier: str #: the bundle identifier of the process' application file
-        self.classic: bool #: Is the process running in the Classic environment?
-        self.creator_type: str #: the OSType of the creator of the process (the signature)
-        self.displayed_name: str #: the name of the file from which the process was launched, as displayed in the User Interface
-        self.file: XABase.XAFile #: the file from which the process was launched
-        self.file_type: str #: the OSType of the file type of the process
-        self.frontmost: bool #: Is the process the frontmost process
-        self.has_scripting_terminology: bool #: Does the process have a scripting terminology, i.e., can it be scripted?
-        self.id: int #: The unique identifier of the process
-        self.name: str #: the name of the process
-        self.partition_space_used: int #: the number of bytes currently used in the process' partition
-        self.short_name: Union[str, None] #: the short name of the file from which the process was launched
-        self.total_partition_size: int #: the size of the partition with which the process was launched
-        self.unix_id: int #: The Unix process identifier of a process running in the native environment, or -1 for a process running in the Classic environment
-        self.visible: bool #: Is the process' layer visible?
 
     @property
     def accepts_high_level_events(self) -> bool:
+        """Is the process high-level event aware (accepts open application, open document, print document, and quit)?
+        """
         return self.xa_elem.acceptsHighLevelEvents()
 
     @property
     def accepts_remote_events(self) -> bool:
+        """Does the process accept remote events?
+        """
         return self.xa_elem.acceptsRemoteEvents()
 
     @property
     def architecture(self) -> str:
+        """The architecture in which the process is running.
+        """
         return self.xa_elem.architecture()
 
     @property
     def background_only(self) -> bool:
+        """Does the process run exclusively in the background?
+        """
         return self.xa_elem.backgroundOnly()
 
     @property
     def bundle_identifier(self) -> str:
+        """The bundle identifier of the process' application file.
+        """
         return self.xa_elem.bundleIdentifier()
 
     @property
     def classic(self) -> bool:
+        """Is the process running in the Classic environment?
+        """
         return self.xa_elem.Classic()
 
     @property
     def creator_type(self) -> str:
+        """The OSType of the creator of the process (the signature).
+        """
         return self.xa_elem.creatorType()
 
     @property
     def displayed_name(self) -> str:
+        """The name of the file from which the process was launched, as displayed in the User Interface.
+        """
         return self.xa_elem.displayedName()
 
     @property
     def file(self) -> XABase.XAFile:
+        """The file from which the process was launched.
+        """
         return self._new_element(self.xa_elem.file(), XABase.XAFile)
 
     @property
     def file_type(self) -> str:
+        """The OSType of the file type of the process.
+        """
         return self.xa_elem.fileType()
 
     @property
     def frontmost(self) -> bool:
+        """Is the process the frontmost process?
+        """
         return self.xa_elem.frontmost()
 
     @frontmost.setter
@@ -5881,34 +6058,50 @@ class XASystemEventsProcess(XASystemEventsUIElement):
 
     @property
     def has_scripting_terminology(self) -> bool:
+        """Does the process have a scripting terminology, i.e., can it be scripted?
+        """
         return self.xa_elem.hasScriptingTerminology()
 
     @property
     def id(self) -> int:
+        """The unique identifier of the process.
+        """
         return self.xa_elem.id()
 
     @property
     def name(self) -> str:
+        """The name of the process.
+        """
         return self.xa_elem.name()
 
     @property
     def partition_space_used(self) -> int:
+        """The number of bytes currently used in the process' partition.
+        """
         return self.xa_elem.partitionSpaceUsed()
 
     @property
     def short_name(self) -> Union[str, None]:
+        """The short name of the file from which the process was launched.
+        """
         return self.xa_elem.shortName()
 
     @property
     def total_partition_size(self) -> int:
+        """The size of the partition with which the process was launched.
+        """
         return self.xa_elem.totalPartitionSize()
 
     @property
     def unix_id(self) -> int:
+        """The Unix process identifier of a process running in the native environment, or -1 for a process running in the Classic environment.
+        """
         return self.xa_elem.unixId()
 
     @property
     def visible(self) -> bool:
+        """Is the process' layer visible?
+        """
         return self.xa_elem.visible()
 
     @visible.setter
@@ -5956,11 +6149,11 @@ class XASystemEventsApplicationProcess(XASystemEventsProcess):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        
-        self.application_file: XABase.XAFile #: a reference to the application file from which this process was launched
 
     @property
     def application_file(self) -> XABase.XAFile:
+        """A reference to the application file from which this process was launched.
+        """
         return self._new_element(self.xa_elem.applicationFile(), XABase.XAFile)
 
 
@@ -6004,11 +6197,11 @@ class XASystemEventsDeskAccessoryProcess(XASystemEventsProcess):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        
-        self.desk_accessory_file: XABase.XAAlias #: A reference to the desk accessory file from which this process was launched
 
     @property
     def desk_accessory_file(self) -> XABase.XAAlias:
+        """A reference to the desk accessory file from which this process was launched.
+        """
         return self._new_element(self.xa_elem.deskAccessoryFile(), XABase.XAAlias)
 
 
@@ -6433,11 +6626,11 @@ class XASystemEventsPropertyListFile(XABase.XAObject):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        
-        self.contents: XASystemEventsPropertyListItem #: the contents of the property list file; elements and properties of the property list item may be accessed as if they were elements and properties of the property list file
 
     @property
     def contents(self) -> 'XASystemEventsPropertyListItem':
+        """The contents of the property list file; elements and properties of the property list item may be accessed as if they were elements and properties of the property list file.
+        """
         return self._new_element(self.xa_elem.contents(), XASystemEventsPropertyListItem)
 
     @contents.setter
@@ -6551,23 +6744,23 @@ class XASystemEventsPropertyListItem(XABase.XAObject):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        
-        # TODO - type of kind?
-        self.kind: str #: the kind of data stored in the property list item: boolean/data/date/list/number/record/string
-        self.name: str #: the name of the property list item (if any)
-        self.text: str #: the text representation of the property list data
-        self.value: Any #: the value of the property list item
 
     @property
     def kind(self) -> str:
+        """The kind of data stored in the property list item: boolean/data/date/list/number/record/string.
+        """
         return self.xa_elem.kind()
 
     @property
     def name(self) -> str:
+        """The name of the property list item (if any).
+        """
         return self.xa_elem.name()
 
     @property
     def text(self) -> str:
+        """The text representation of the property list data.
+        """
         return self.xa_elem.text()
 
     @text.setter
@@ -6577,6 +6770,8 @@ class XASystemEventsPropertyListItem(XABase.XAObject):
     # TODO: Specialize to exact type
     @property
     def value(self) -> Any:
+        """The value of the property list item.
+        """
         return self.xa_elem.value()
 
     @value.setter
@@ -6658,16 +6853,17 @@ class XASystemEventsXMLAttribute(XABase.XAObject):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        
-        self.name: str #: the name of the XML attribute
-        self.value: Any #: the value of the XML attribute
 
     @property
     def name(self) -> str:
+        """The name of the XML attribute.
+        """
         return self.xa_elem.name()
 
     @property
     def value(self) -> Any:
+        """The value of the XML attribute.
+        """
         return self.xa_elem.value()
 
     @value.setter
@@ -6757,17 +6953,17 @@ class XASystemEventsXMLData(XABase.XAObject):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        
-        self.id: str #: the unique identifier of the XML data
-        self.name: str #: the name of the XML data
-        self.text: str #: the text representation of the XML data
 
     @property
     def id(self) -> str:
+        """The unique identifier of the XML data.
+        """
         return self.xa_elem.id()
 
     @property
     def name(self) -> str:
+        """The name of the XML data.
+        """
         return self.xa_elem.name()
 
     @name.setter
@@ -6776,6 +6972,8 @@ class XASystemEventsXMLData(XABase.XAObject):
 
     @property
     def text(self) -> str:
+        """The text representation of the XML data.
+        """
         return self.xa_elem.text()
 
     @text.setter
@@ -6877,21 +7075,23 @@ class XASystemEventsXMLElement(XABase.XAObject):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        
-        self.id: str #: the unique identifier of the XML element
-        self.name: str #: the name of the XML element
-        self.value: Any #: the value of the XML element
 
     @property
     def id(self) -> str:
+        """The unique identifier of the XML element.
+        """
         return self.xa_elem.id()
 
     @property
     def name(self) -> str:
+        """The name of the XML element.
+        """
         return self.xa_elem.name()
 
     @property
     def value(self) -> Any:
+        """The value of the XML element.
+        """
         return self.xa_elem.value()
 
     @value.setter
@@ -6963,11 +7163,11 @@ class XASystemEventsXMLFile(XABase.XAObject):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        
-        self.contents: XASystemEventsXMLData #: the contents of the XML file; elements and properties of the XML data may be accessed as if they were elements and properties of the XML file
 
     @property
     def contents(self) -> XASystemEventsXMLData:
+        """The contents of the XML file; elements and properties of the XML data may be accessed as if they were elements and properties of the XML file.
+        """
         return self._new_element(self.xa_elem.contents(), XASystemEventsXMLData)
 
     @contents.setter
@@ -6984,20 +7184,11 @@ class XASystemEventsPrintSettings(XABase.XAObject):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        
-        self.copies: int #: the number of copies of a document to be printed
-        self.collating: bool #: Should printed copies be collated?
-        self.starting_page: int #: the first page of the document to be printed
-        self.ending_page: int #: the last page of the document to be printed
-        self.pages_across: int #: number of logical pages laid across a physical page
-        self.pages_down: int #: number of logical pages laid out down a physical page
-        self.requested_print_time: datetime #: the time at which the desktop printer should print the document
-        self.error_handling: XASystemEventsApplication.PrintErrorHandling #: how errors are handled
-        self.fax_number: str #: for fax number
-        self.target_printer: str #: for target printer
 
     @property
     def copies(self) -> int:
+        """The number of copies of a document to be printed.
+        """
         return self.xa_elem.copies()
 
     @copies.setter
@@ -7006,6 +7197,8 @@ class XASystemEventsPrintSettings(XABase.XAObject):
 
     @property
     def collating(self) -> bool:
+        """Should printed copies be collated?
+        """
         return self.xa_elem.collating()
 
     @collating.setter
@@ -7014,6 +7207,8 @@ class XASystemEventsPrintSettings(XABase.XAObject):
 
     @property
     def starting_page(self) -> int:
+        """The first page of the document to be printed.
+        """
         return self.xa_elem.startingPage()
 
     @starting_page.setter
@@ -7022,6 +7217,8 @@ class XASystemEventsPrintSettings(XABase.XAObject):
 
     @property
     def ending_page(self) -> int:
+        """The last page of the document to be printed.
+        """
         return self.xa_elem.endingPage()
 
     @ending_page.setter
@@ -7030,6 +7227,8 @@ class XASystemEventsPrintSettings(XABase.XAObject):
 
     @property
     def pages_across(self) -> int:
+        """The number of logical pages laid across a physical page.
+        """
         return self.xa_elem.pagesAcross()
 
     @pages_across.setter
@@ -7038,6 +7237,8 @@ class XASystemEventsPrintSettings(XABase.XAObject):
 
     @property
     def pages_down(self) -> int:
+        """The number of logical pages laid out down a physical page.
+        """
         return self.xa_elem.pagesDown()
 
     @pages_down.setter
@@ -7046,6 +7247,8 @@ class XASystemEventsPrintSettings(XABase.XAObject):
 
     @property
     def requested_print_time(self) -> datetime:
+        """The time at which the desktop printer should print the document.
+        """
         return self.xa_elem.requestedPrintTime()
 
     @requested_print_time.setter
@@ -7054,6 +7257,8 @@ class XASystemEventsPrintSettings(XABase.XAObject):
 
     @property
     def error_handling(self) -> XASystemEventsApplication.PrintErrorHandling:
+        """How should errors be handled?
+        """
         return XASystemEventsApplication.PrintErrorHandling(self.xa_elem.errorHandling())
 
     @error_handling.setter
@@ -7062,6 +7267,8 @@ class XASystemEventsPrintSettings(XABase.XAObject):
 
     @property
     def fax_number(self) -> str:
+        """The target fax number.
+        """
         return self.xa_elem.faxNumber()
 
     @fax_number.setter
@@ -7070,6 +7277,8 @@ class XASystemEventsPrintSettings(XABase.XAObject):
 
     @property
     def target_printer(self) -> str:
+        """The target printer.
+        """
         return self.xa_elem.targetPrinter()
 
     @target_printer.setter
@@ -7240,41 +7449,47 @@ class XASystemEventsScriptingClass(XABase.XAObject):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        
-        self.name: str #: The name of the class
-        self.id: str #: The unique identifier of the class
-        self.object_description: str #: The description of the class
-        self.hidden: bool #: Is the class hidden?
-        self.plural_name: str #: The plural name of the class
-        self.suite_name: str #: The name of the suite to which this class belongs
-        self.superclass: XASystemEventsScriptingClass #: The class from which this class inherits
 
     @property
     def name(self) -> str:
+        """The name of the class.
+        """
         return self.xa_elem.name()
 
     @property
     def id(self) -> str:
+        """The unique identifier of the class.
+        """
         return self.xa_elem.id()
 
     @property
     def object_description(self) -> str:
+        """The description of the class.
+        """
         return self.xa_elem.objectDescription()
 
     @property
     def hidden(self) -> bool:
+        """Is the class hidden?
+        """
         return self.xa_elem.hidden()
 
     @property
     def plural_name(self) -> str:
+        """The plural name of the class.
+        """
         return self.xa_elem.pluralName()
 
     @property
     def suite_name(self) -> str:
+        """The name of the suite to which this class belongs.
+        """
         return self.xa_elem.suiteName()
 
     @property
     def superclass(self) -> 'XASystemEventsScriptingClass':
+        """The class from which this class inherits.
+        """
         return self._new_element(self.xa_elem.superclass(), XASystemEventsScriptingClass)
 
     def scripting_elements(self, filter: dict = None) -> Union['XASystemEventsScriptingElementList', None]:
@@ -7466,41 +7681,47 @@ class XASystemEventsScriptingCommand(XABase.XAObject):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        
-        self.name: str #: The name of the command
-        self.id: str #: The unique identifier of the command
-        self.object_description: str #: The description of the command
-        self.direct_parameter: XASystemEventsScriptingParameter #: The direct parameter of the command
-        self.hidden: bool #: Is the command hidden?
-        self.scripting_result: XASystemEventsScriptingResultObject #: The object or data returned by this command
-        self.suite_name: str #: The name of the suite to which this command belongs
 
     @property
     def name(self) -> str:
+        """The name of the command.
+        """
         return self.xa_elem.name()
 
     @property
     def id(self) -> str:
+        """The unique identifier of the command.
+        """
         return self.xa_elem.id()
 
     @property
     def object_description(self) -> str:
+        """The description of the command.
+        """
         return self.xa_elem.objectDescription()
 
     @property
     def direct_parameter(self) -> 'XASystemEventsScriptingParameter':
+        """The direct parameter of the command.
+        """
         return self._new_element(self.xa_elem.directParameter(), XASystemEventsScriptingParameter)
 
     @property
     def hidden(self) -> bool:
+        """Is the command hidden?
+        """
         return self.xa_elem.hidden()
 
     @property
     def scripting_result(self) -> 'XASystemEventsScriptingResultObject':
+        """The object or data returned by this command.
+        """
         return self._new_element(self.xa_elem.scriptingResult(), XASystemEventsScriptingResultObject)
 
     @property
     def suite_name(self) -> str:
+        """The name of the suite to which this command belongs.
+        """
         return self.xa_elem.suiteName()
 
     def scripting_parameters(self, filter: dict = None) -> Union['XASystemEventsScriptingParameterList', None]:
@@ -7642,21 +7863,23 @@ class XASystemEventsScriptingEnumeration(XABase.XAObject):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        
-        self.name: str #: The name of the enumeration
-        self.id: str #: The unique identifier of the enumeration
-        self.hidden: bool #: Is the enumeration hidden?
 
     @property
     def name(self) -> str:
+        """The name of the enumeration.
+        """
         return self.xa_elem.name()
 
     @property
     def id(self) -> str:
+        """The unique identifier of the enumeration.
+        """
         return self.xa_elem.id()
 
     @property
     def hidden(self) -> bool:
+        """Is the enumeration hidden?
+        """
         return self.xa_elem.hidden()
 
     def scripting_enumerators(self, filter: dict = None) -> Union['XASystemEventsScriptingEnumeratorList', None]:
@@ -7774,26 +7997,29 @@ class XASystemEventsScriptingEnumerator(XABase.XAObject):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        
-        self.name: str #: The name of the enumerator
-        self.id: str #: The unique identifier of the enumerator
-        self.object_description: str #: The description of the enumerator
-        self.hidden: bool #: Is the enumerator hidden?
 
     @property
     def name(self) -> str:
+        """The name of the enumerator.
+        """
         return self.xa_elem.name()
 
     @property
     def id(self) -> str:
+        """The unique identifier of the enumerator.
+        """
         return self.xa_elem.id()
 
     @property
     def object_description(self) -> str:
+        """The description of the enumerator.
+        """
         return self.xa_elem.objectDescription()
 
     @property
     def hidden(self) -> bool:
+        """Is the enumerator hidden?
+        """
         return self.xa_elem.hidden()
 
 
@@ -7939,36 +8165,41 @@ class XASystemEventsScriptingParameter(XABase.XAObject):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        
-        self.name: str #: The name of the parameter
-        self.id: str #: The unique identifier of the parameter
-        self.object_description: str #: The description of the parameter
-        self.hidden: bool #: Is the parameter hidden?
-        self.kind: str #: The kind of object or data specified by this parameter
-        self.optional: bool #: Is the parameter optional?
 
     @property
     def name(self) -> str:
+        """The name of the parameter.
+        """
         return self.xa_elem.name()
 
     @property
     def id(self) -> str:
+        """The unique identifier of the parameter.
+        """
         return self.xa_elem.id()
 
     @property
     def object_description(self) -> str:
+        """The description of the parameter.
+        """
         return self.xa_elem.objectDescription()
 
     @property
     def hidden(self) -> bool:
+        """Is the parameter hidden?
+        """
         return self.xa_elem.hidden()
 
     @property
     def kind(self) -> str:
+        """The kind of object or data specified by this parameter.
+        """
         return self.xa_elem.kind()
 
     @property
     def optional(self) -> bool:
+        """Is the parameter optional?
+        """
         return self.xa_elem.optional()
 
 
@@ -8155,46 +8386,53 @@ class XASystemEventsScriptingProperty(XABase.XAObject):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        
-        self.name: str #: The name of the property
-        self.id: str #: The unique identifier of the property
-        self.access: XASystemEventsApplication.AccessRight #: The type of access to this property
-        self.object_description: str #: The description of the property
-        self.enumerated: bool #: Is the property's value an enumerator?
-        self.hidden: bool #: Is the property hidden?
-        self.kind: str #: The kind of object or data returned by this property
-        self.listed: bool #: Is the property's value a list?
 
     @property
     def name(self) -> str:
+        """The name of the property.
+        """
         return self.xa_elem.name()
 
     @property
     def id(self) -> str:
+        """The unique identifier of the property.
+        """
         return self.xa_elem.id()
 
     @property
     def access(self) -> XASystemEventsApplication.AccessRight:
+        """The type of access to this property.
+        """
         return XASystemEventsApplication.AccessRight(self.xa_elem.access())
 
     @property
     def object_description(self) -> str:
+        """The description of the property.
+        """
         return self.xa_elem.objectDescription()
 
     @property
     def enumerated(self) -> bool:
+        """Is the property's value an enumerator?
+        """
         return self.xa_elem.enumerated()
 
     @property
     def hidden(self) -> bool:
+        """Is the property hidden?
+        """
         return self.xa_elem.hidden()
 
     @property
     def kind(self) -> str:
+        """The kind of object or data returned by this property.
+        """
         return self.xa_elem.kind()
 
     @property
     def listed(self) -> bool:
+        """Is the property's value a list?
+        """
         return self.xa_elem.listed()
 
 
@@ -8300,26 +8538,29 @@ class XASystemEventsScriptingResultObject(XABase.XAObject):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        
-        self.object_description: str #: The description of the property
-        self.enumerated: bool #: Is the scripting result's value an enumerator?
-        self.kind: str #: The kind of object or data returned by this property
-        self.listed: bool #: Is the scripting result's value a list?
 
     @property
     def object_description(self) -> str:
+        """The description of the property.
+        """
         return self.xa_elem.objectDescription()
 
     @property
     def enumerated(self) -> bool:
+        """Is the scripting result's value an enumerator?
+        """
         return self.xa_elem.enumerated()
 
     @property
     def kind(self) -> str:
+        """The kind of object or data returned by this property.
+        """
         return self.xa_elem.kind()
 
     @property
     def listed(self) -> bool:
+        """Is the scripting result's value a list?
+        """
         return self.xa_elem.listed()
     
 
@@ -8425,26 +8666,29 @@ class XASystemEventsScriptingSuite(XABase.XAObject):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        
-        self.name: str #: The name of the suite
-        self.id: str #: The unique identifier of the suite
-        self.object_description: str #: The description of the suite
-        self.hidden: bool #: Is the suite hidden?
 
     @property
     def name(self) -> str:
+        """The name of the suite.
+        """
         return self.xa_elem.name()
 
     @property
     def id(self) -> str:
+        """The unique identifier of the suite.
+        """
         return self.xa_elem.id()
 
     @property
     def object_description(self) -> str:
+        """The description of the suite.
+        """
         return self.xa_elem.objectDescription()
 
     @property
     def hidden(self) -> bool:
+        """Is the suite hidden?
+        """
         return self.xa_elem.hidden()
 
     def scripting_commands(self, filter: dict = None) -> Union['XASystemEventsScriptingCommandList', None]:

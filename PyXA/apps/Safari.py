@@ -27,16 +27,12 @@ class XASafariApplication(XABaseScriptable.XASBApplication, XABaseScriptable.XAS
         super().__init__(properties)
         self.xa_wcls = XASafariWindow
 
-        self.frontmost: bool #: Whether Safari is the active application
-        self.name: str #: The name of the application
-        self.version: str #: The version of Safari.app
-        self.current_document: XASafariDocument #: The currently displayed document in the active tab
-        self.current_tab: XASafariTab #: The currently active tab
-
         logging.debug("Initialized XASafariApplication")
 
     @property
     def frontmost(self) -> bool:
+        """Whether Safari is the active application.
+        """
         return self.xa_scel.frontmost()
 
     @frontmost.setter
@@ -45,14 +41,20 @@ class XASafariApplication(XABaseScriptable.XASBApplication, XABaseScriptable.XAS
 
     @property
     def name(self) -> str:
+        """The name of the application.
+        """
         return self.xa_scel.name()
 
     @property
     def version(self) -> str:
+        """The version of Safari.app.
+        """
         return self.xa_scel.version()
 
     @property
     def current_document(self) -> 'XASafariDocument':
+        """The currently displayed document in the active tab.
+        """
         return self._new_element(self.xa_scel.documents()[0], XASafariDocument)
 
     @current_document.setter
@@ -62,6 +64,8 @@ class XASafariApplication(XABaseScriptable.XASBApplication, XABaseScriptable.XAS
 
     @property
     def current_tab(self) -> 'XASafariTab':
+        """The currently active tab.
+        """
         return self.front_window.current_tab
 
     @current_tab.setter
@@ -306,30 +310,23 @@ class XASafariWindow(XABaseScriptable.XASBWindow, XABaseScriptable.XASBPrintable
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.name: str #: The title of the window
-        self.id: int #: The unique identifier for the window
-        self.index: int #: The index of the window in the front-to-back ordering
-        self.bounds: tuple[int, int, int, int] #: The bounding rectangle of the window
-        self.closeable: bool #: Whether the window has a close button
-        self.miniaturizable: bool #: Whether the window can be minimized
-        self.miniaturized: bool #: Whether the window is currently minimized
-        self.resizable: bool #: Whether the window can be resized
-        self.visible: bool #: Whether the window is currently visible
-        self.zoomable: bool #: Whether the window can be zoomed
-        self.zoomed: bool #: Whether the window is currently zoomed
-        self.document: XASafariDocument #: The document currently displayed in the window
-        self.current_tab: XASafariTab #: The currently selected tab
 
     @property
     def name(self) -> str:
+        """The title of the window.
+        """
         return self.xa_elem.name()
 
     @property
     def id(self) -> int:
+        """The unique identifier for the window.
+        """
         return self.xa_elem.id()
 
     @property
     def index(self) -> int:
+        """The index of the window in the front-to-back ordering.
+        """
         return self.xa_elem.index()
 
     @index.setter
@@ -338,6 +335,8 @@ class XASafariWindow(XABaseScriptable.XASBWindow, XABaseScriptable.XASBPrintable
 
     @property
     def bounds(self) -> tuple[int, int, int, int]:
+        """The bounding rectangle of the window.
+        """
         rect = self.xa_elem.bounds()
         origin = rect.origin
         size = rect.size
@@ -354,14 +353,20 @@ class XASafariWindow(XABaseScriptable.XASBWindow, XABaseScriptable.XASBPrintable
 
     @property
     def closeable(self) -> bool:
+        """Whether the window has a close button.
+        """
         return self.xa_elem.closeable()
 
     @property
     def miniaturizable(self) -> bool:
+        """Whether the window can be minimized.
+        """
         return self.xa_elem.miniaturizable()
 
     @property
     def miniaturized(self) -> bool:
+        """Whether the window is currently minimized.
+        """
         return self.xa_elem.miniaturized()
 
     @miniaturized.setter
@@ -370,10 +375,14 @@ class XASafariWindow(XABaseScriptable.XASBWindow, XABaseScriptable.XASBPrintable
 
     @property
     def resizable(self) -> bool:
+        """Whether the window can be resized.
+        """
         return self.xa_elem.resizable()
 
     @property
     def visible(self) -> bool:
+        """Whether the window is currently visible.
+        """
         return self.xa_elem.visible()
 
     @visible.setter
@@ -382,10 +391,14 @@ class XASafariWindow(XABaseScriptable.XASBWindow, XABaseScriptable.XASBPrintable
 
     @property
     def zoomable(self) -> bool:
+        """Whether the window can be zoomed.
+        """
         return self.xa_elem.zoomable()
 
     @property
     def zoomed(self) -> bool:
+        """Whether the window is currently zoomed.
+        """
         return self.xa_elem.zoomed()
 
     @zoomed.setter
@@ -394,10 +407,14 @@ class XASafariWindow(XABaseScriptable.XASBWindow, XABaseScriptable.XASBPrintable
 
     @property
     def document(self) -> 'XASafariDocument':
+        """The document currently displayed in the window.
+        """
         return self._new_element(self.xa_elem.document(), XASafariDocument)
 
     @property
     def current_tab(self) -> 'XASafariTab':
+        """The currently selected tab.
+        """
         return self._new_element(self.xa_elem.currentTab(), XASafariTab)
 
     @current_tab.setter
@@ -723,35 +740,39 @@ class XASafariDocument(XASafariGeneric, XAClipboardCodable, XABaseScriptable.XAS
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.name: str #: The title of the document
-        self.modified: bool #: Whether the document has been modified since its last save
-        self.file: Union[XABase.XAPath, None] #: The location of the document on the disk, if there is one
-        self.source: str #: The HTML source of the web page currently loaded in the document
-        self.url: XABase.XAURL #: The current URL of the document
-        self.text: XABase.XAText #: The text of the web page currently loaded in the document
 
         logging.debug("Initialized XASafariDocument")
 
     @property
     def name(self) -> str:
+        """The title of the document.
+        """
         return self.xa_elem.name()
 
     @property
     def modified(self) -> bool:
+        """Whether the document has been modified since its last save.
+        """
         return self.xa_elem.modified()
 
     @property
     def file(self) -> str:
+        """The location of the document on the disk, if there is one.
+        """
         file = self.xa_elem.file()
         if file is not None:
             return XABase.XAPath(file)
 
     @property
     def source(self) -> str:
+        """The HTML source of the web page currently loaded in the document.
+        """
         return self.xa_elem.source()
 
     @property
     def url(self) -> XABase.XAURL:
+        """The current URL of the document.
+        """
         return XABase.XAURL(self.xa_elem.URL())
 
     @url.setter
@@ -762,6 +783,8 @@ class XASafariDocument(XASafariGeneric, XAClipboardCodable, XABaseScriptable.XAS
 
     @property
     def text(self) -> XABase.XAText:
+        """The text of the web page currently loaded in the document.
+        """
         return self._new_element(self.xa_elem.text(), XABase.XAText)
 
     def print(self, properties: dict = None, show_dialog: bool = True):
@@ -1078,21 +1101,19 @@ class XASafariTab(XASafariGeneric, XAClipboardCodable):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.source: str #: The HTML source of the web page currently loaded in the tab
-        self.url: XABase.XAURL #: The current URL of the tab
-        self.index: int #: The index of the tab, ordered left to right
-        self.text: XABase.XAText #: The text of the web page currently loaded in the tab
-        self.visible: bool #: Whether the tab is currently visible
-        self.name: str #: The title of the tab
 
         logging.debug("Initialized XASafariTab")
 
     @property
     def source(self) -> str:
+        """The HTML source of the web page currently loaded in the tab.
+        """
         return self.xa_elem.source()
 
     @property
     def url(self) -> XABase.XAURL:
+        """The current URL of the tab.
+        """
         return XABase.XAURL(self.xa_elem.URL())
 
     @url.setter
@@ -1103,18 +1124,26 @@ class XASafariTab(XASafariGeneric, XAClipboardCodable):
 
     @property
     def index(self) -> int:
+        """The index of the tab, ordered left to right.
+        """
         return self.xa_elem.index()
 
     @property
     def text(self) -> XABase.XAText:
+        """The text of the web page currently loaded in the tab.
+        """
         return self._new_element(self.xa_elem.text(), XABase.XAText)
 
     @property
     def visible(self) -> bool:
+        """Whether the tab is currently visible.
+        """
         return self.xa_elem.visible()
 
     @property
     def name(self) -> str:
+        """The title of the tab.
+        """
         return self.xa_elem.name()
 
     def move_to(self, window: 'XASafariWindow') -> Self:

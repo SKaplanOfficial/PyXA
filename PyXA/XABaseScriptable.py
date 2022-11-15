@@ -1,6 +1,6 @@
 from enum import Enum
 from pprint import pprint
-from typing import List, Tuple, Union
+from typing import List, Tuple, Union, Self
 import threading
 import ScriptingBridge
 
@@ -9,18 +9,6 @@ from PyXA import XABase
 import signal
 
 from .XAProtocols import XACloseable
-
-class timeout:
-    def __init__(self, seconds=1, error_message='Timeout'):
-        self.seconds = seconds
-        self.error_message = error_message
-    def handle_timeout(self, signum, frame):
-        raise TimeoutError(self.error_message)
-    def __enter__(self):
-        signal.signal(signal.SIGALRM, self.handle_timeout)
-        signal.alarm(self.seconds)
-    def __exit__(self, type, value, traceback):
-        signal.alarm(0)
 
 class XASBObject(XABase.XAObject):
     """A class for PyXA objects scriptable with AppleScript/JXA.
@@ -160,50 +148,59 @@ class XASBWindowList(XABase.XAList):
 class XASBWindow(XASBObject, XACloseable):
     def __init__(self, properties):
         super().__init__(properties)
-        self.name: str #: The title of the window
-        self.id: str #: The unique identifier for the window
-        self.index: int #: The index of the window, ordered front to back
-        self.bounds: Tuple[Tuple[int, int]] #: The bounding rectangle of the window
-        self.closeable: bool #: Whether the window has a close button
-        self.resizable: bool #: Whether the window can be resized
-        self.visible: bool #: Whether the window is currently visible
-        self.zoomable: bool #: Whether the window has a zoom button
-        self.zoomed: bool  #: Whether the window is currently zoomed
 
     @property
     def name(self) -> str:
+        """The title of the window.
+        """
         return self.xa_elem.name()
 
     @property
     def id(self) -> str:
+        """The unique identifier for the window.
+        """
         return self.xa_elem.id()
 
     @property
     def index(self) -> int:
+        """The index of the window, ordered front to back.
+        """
         return self.xa_elem.index()
 
     @property
     def bounds(self) -> Tuple[Tuple[int, int]]:
+        """The bounding rectangle of the window.
+        """
         return self.xa_elem.bounds()
 
     @property
     def closeable(self) -> bool:
+        """Whether the window has a close button.
+        """
         return self.xa_elem.closeable()
 
     @property
     def resizable(self) -> bool:
+        """Whether the window can be resized.
+        """
         return self.xa_elem.resizable()
 
     @property
     def visible(self) -> bool:
+        """Whether the window is currently visible.
+        """
         return self.xa_elem.visible()
 
     @property
     def zoomable(self) -> bool:
+        """Whether the window has a zoom button.
+        """
         return self.xa_elem.zoomable()
 
     @property
     def zoomed(self) -> bool:
+        """Whether the window is currently zoomed.
+        """
         return self.xa_elem.zoomed()
 
     def collapse(self) -> 'XABase.XAWindow':
@@ -261,3 +258,6 @@ class XASBWindow(XASBObject, XACloseable):
         .. versionadded:: 0.0.8
         """
         return self.name
+
+    def __repr__(self):
+        return "<" + str(type(self)) + str(self.name) + ">"

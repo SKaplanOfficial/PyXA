@@ -134,63 +134,30 @@ class XAMailApplication(XABaseScriptable.XASBApplication):
 
     def __init__(self, properties):
         super().__init__(properties)
-        self.name: str #: The name of the application
-        self.frontmost: bool #: Whether Mail is the active application
-        self.version: str #: The version number of Mail.app
-        self.always_bcc_myself: bool #: Whether the user's email address will be included in the Bcc: field of composed messages
-        self.always_cc_myself: bool #: Whether the user's email address will be included in the Cc: field of composed messages
-        self.selection: XAMailMessageList #: The list of messages currently selected by the user
-        self.application_version: str #: The build number of Mail.app
-        self.fetch_interval: int #: The number of minutes between automatic fetches for new mail (-1 = use automatically determined interval)
-        self.background_activity_count: int #: The number of background activities currently running in Mail
-        self.choose_signature_when_composing: bool #: Whether the user can choose a signature directly in a new compose window
-        self.color_quoted_text: bool #: Whether quoted text should be colored
-        self.default_message_format: XAMailApplication.Format #: The default format for messages being composed
-        self.download_html_attachments: bool #: Whether images and attachments in HTML messages should be downloaded and displayed
-        self.drafts_mailbox: XAMailbox #: The top-level drafts mailbox
-        self.expand_group_addresses: bool #: Whether group addresses should be expanded when entered into the address fields of a new message
-        self.fixed_width_font: str #: The name of the font used for plain text messages
-        self.fixed_width_font_size: float #: The font size for plain text messages
-        self.inbox: XAMailbox #: The top-level inbox
-        self.include_all_original_message_text: bool #: Whether all text of the original message will be quoted or only text the user selects
-        self.quote_original_message: bool #: Whether the text of the original message should be included in replies
-        self.check_spelling_while_typing: bool #: Whether spelling is checked automatically while composing messages
-        self.junk_mailbox: XAMailbox #: The top-level junk mailbox
-        self.level_one_quoting_color: XAMailApplication.QuotingColor #; Color for quoted text with one level of indentation
-        self.level_two_quoting_color: XAMailApplication.QuotingColor #: Color for quoted text with two levels of indentation
-        self.level_three_quoting_color: XAMailApplication.QuotingColor #: Color for quoted text with three levels of indentation
-        self.message_font: str #: The name of the font for messages
-        self.message_font_size: float #: The font size for messages
-        self.message_list_font: str #: The name of the font for the message list
-        self.message_list_font_size: float #: The font size for the message list
-        self.new_mail_sound: str #: The name of the sound that plays when new mail is received, or "None"
-        self.outbox: XAMailbox #: The top-level outbox
-        self.should_play_other_mail_sounds: bool #: Whether sounds will be played for actions and events other than receiving email
-        self.same_reply_format: bool #: Whether replies will be in the same text format as the message to which the user is replying
-        self.selected_signature: str #: The name of the currently selected signature (or "randomly", "sequentially", or "none")
-        self.sent_mailbox: XAMailbox #: The top-level sent mailbox
-        self.fetches_automatically: bool #: Whether mail will automatically be fetched a t a specific interval
-        self.highlight_selected_conversation: bool #: Whether messages in conversations should be highlighted in the Mail viewer window when not grouped
-        self.trash_mailbox: XAMailbox #: The top-level trash mailbox
-        self.use_fixed_width_font: bool #: Whether a fixed-width font should be used for plain text messages
-        self.primary_email: str #: The user's primary email address
-
         logger.debug("Initialized XAMailApplication")
 
     @property
     def name(self) -> str:
+        """The name of the application.
+        """
         return self.xa_scel.name()
 
     @property
     def frontmost(self) -> bool:
+        """Whether Mail is the active application.
+        """
         return self.xa_scel.frontmost()
 
     @property
     def version(self) -> str:
+        """The version number of Mail.app.
+        """
         return self.xa_scel.version()
 
     @property
     def always_bcc_myself(self) -> bool:
+        """ Whether the user's email address will be included in the Bcc: field of composed messages.
+        """
         return self.xa_scel.alwaysBccMyself()
 
     @always_bcc_myself.setter
@@ -199,6 +166,8 @@ class XAMailApplication(XABaseScriptable.XASBApplication):
 
     @property
     def always_cc_myself(self) -> bool:
+        """Whether the user's email address will be included in the Cc: field of composed messages.
+        """
         return self.xa_scel.alwaysCcMySelf()
 
     @always_cc_myself.setter
@@ -207,14 +176,20 @@ class XAMailApplication(XABaseScriptable.XASBApplication):
 
     @property
     def selection(self) -> 'XAMailMessageList':
+        """The list of messages currently selected by the user.
+        """
         return self._new_element(self.xa_scel.selection(), XAMailMessageList)
 
     @property
     def application_version(self) -> str:
+        """The build number of Mail.app.
+        """
         return self.xa_scel.applicationVersion()
 
     @property
     def fetch_interval(self) -> int:
+        """The number of minutes between automatic fetches for new mail (-1 = use automatically determined interval).
+        """
         return self.xa_scel.fetchInterval()
 
     @fetch_interval.setter
@@ -223,10 +198,14 @@ class XAMailApplication(XABaseScriptable.XASBApplication):
 
     @property
     def background_activity_count(self) -> int:
+        """The number of background activities currently running in Mail.
+        """
         return self.xa_scel.backgroundActivityCount()
 
     @property
     def choose_signature_when_composing(self) -> bool:
+        """Whether the user can choose a signature directly in a new compose window.
+        """
         return self.xa_scel.chooseSignatureWhenComposing()
 
     @choose_signature_when_composing.setter
@@ -235,6 +214,8 @@ class XAMailApplication(XABaseScriptable.XASBApplication):
 
     @property
     def color_quoted_text(self) -> bool:
+        """Whether quoted text should be colored.
+        """
         return self.xa_scel.colorQuotedText()
 
     @color_quoted_text.setter
@@ -243,6 +224,8 @@ class XAMailApplication(XABaseScriptable.XASBApplication):
 
     @property
     def default_message_format(self) -> 'XAMailApplication.Format':
+        """The default format for messages being composed.
+        """
         return XAMailApplication.Format(OSType(self.xa_scel.defaultMessageFormat().stringValue()))
 
     @default_message_format.setter
@@ -251,6 +234,8 @@ class XAMailApplication(XABaseScriptable.XASBApplication):
 
     @property
     def download_html_attachments(self) -> bool:
+        """Whether images and attachments in HTML messages should be downloaded and displayed.
+        """
         return self.xa_scel.downloadHtmlAttachments()
 
     @download_html_attachments.setter
@@ -259,10 +244,14 @@ class XAMailApplication(XABaseScriptable.XASBApplication):
 
     @property
     def drafts_mailbox(self) -> 'XAMailbox':
+        """The top-level drafts mailbox.
+        """
         return self._new_element(self.xa_scel.draftsMailbox(), XAMailbox)
 
     @property
     def expand_group_addresses(self) -> bool:
+        """Whether group addresses should be expanded when entered into the address fields of a new message.
+        """
         return self.xa_scel.expandGroupAddresses()
 
     @expand_group_addresses.setter
@@ -271,6 +260,8 @@ class XAMailApplication(XABaseScriptable.XASBApplication):
 
     @property
     def fixed_width_font(self) -> str:
+        """The name of the font used for plain text messages.
+        """
         return self.xa_scel.fixedWidthFont()
 
     @fixed_width_font.setter
@@ -279,6 +270,8 @@ class XAMailApplication(XABaseScriptable.XASBApplication):
 
     @property
     def fixed_width_font_size(self) -> int:
+        """The font size for plain text messages.
+        """
         return self.xa_scel.fixedWidthFontSize()
 
     @fixed_width_font_size.setter
@@ -287,10 +280,14 @@ class XAMailApplication(XABaseScriptable.XASBApplication):
 
     @property
     def inbox(self) -> 'XAMailbox':
+        """The top-level inbox.
+        """
         return self._new_element(self.xa_scel.inbox(), XAMailbox)
 
     @property
     def include_all_original_message_text(self) -> bool:
+        """Whether all text of the original message will be quoted or only text the user selects.
+        """
         return self.xa_scel.includeAllOriginalMessageText()
 
     @include_all_original_message_text.setter
@@ -299,6 +296,8 @@ class XAMailApplication(XABaseScriptable.XASBApplication):
 
     @property
     def quote_original_message(self) -> bool:
+        """Whether the text of the original message should be included in replies.
+        """
         return self.xa_scel.quoteOriginalMessage()
 
     @quote_original_message.setter
@@ -307,6 +306,8 @@ class XAMailApplication(XABaseScriptable.XASBApplication):
 
     @property
     def check_spelling_while_typing(self) -> bool:
+        """Whether spelling is checked automatically while composing messages.
+        """
         return self.xa_scel.checkSpellingWhileTyping()
 
     @check_spelling_while_typing.setter
@@ -315,10 +316,14 @@ class XAMailApplication(XABaseScriptable.XASBApplication):
 
     @property
     def junk_mailbox(self) -> 'XAMailbox':
+        """The top-level junk mailbox.
+        """
         return self._new_element(self.xa_scel.junkMailbox(), XAMailbox)
 
     @property
     def level_one_quoting_color(self) -> 'XAMailApplication.QuotingColor':
+        """Color for quoted text with one level of indentation.
+        """
         return XAMailApplication.QuotingColor(OSType(self.xa_scel.levelOneQuotingColor().stringValue()))
 
     @level_one_quoting_color.setter
@@ -327,6 +332,8 @@ class XAMailApplication(XABaseScriptable.XASBApplication):
 
     @property
     def level_two_quoting_color(self) -> 'XAMailApplication.QuotingColor':
+        """Color for quoted text with two levels of indentation.
+        """
         return XAMailApplication.QuotingColor(OSType(self.xa_scel.levelTwoQuotingColor().stringValue()))
 
     @level_two_quoting_color.setter
@@ -335,6 +342,8 @@ class XAMailApplication(XABaseScriptable.XASBApplication):
 
     @property
     def level_three_quoting_color(self) -> 'XAMailApplication.QuotingColor':
+        """Color for quoted text with three levels of indentation.
+        """
         return XAMailApplication.QuotingColor(OSType(self.xa_scel.levelThreeQuotingColor().stringValue()))
 
     @level_three_quoting_color.setter
@@ -343,6 +352,8 @@ class XAMailApplication(XABaseScriptable.XASBApplication):
 
     @property
     def message_font(self) -> str:
+        """The name of the font for messages.
+        """
         return self.xa_scel.messageFont()
 
     @message_font.setter
@@ -351,6 +362,8 @@ class XAMailApplication(XABaseScriptable.XASBApplication):
 
     @property
     def message_font_size(self) -> float:
+        """The font size for messages.
+        """
         return self.xa_scel.messageFontSize()
 
     @message_font_size.setter
@@ -359,6 +372,8 @@ class XAMailApplication(XABaseScriptable.XASBApplication):
 
     @property
     def message_list_font(self) -> str:
+        """The name of the font for the message list.
+        """
         return self.xa_scel.messageListFont()
 
     @message_list_font.setter
@@ -367,6 +382,8 @@ class XAMailApplication(XABaseScriptable.XASBApplication):
 
     @property
     def message_list_font_size(self) -> float:
+        """The font size for the message list.
+        """
         return self.xa_scel.messageListFontSize()
 
     @message_list_font_size.setter
@@ -375,6 +392,8 @@ class XAMailApplication(XABaseScriptable.XASBApplication):
         
     @property
     def new_mail_sound(self) -> str:
+        """The name of the sound that plays when new mail is received, or "None".
+        """
         return self.xa_scel.newMailSound()
 
     @new_mail_sound.setter
@@ -383,10 +402,14 @@ class XAMailApplication(XABaseScriptable.XASBApplication):
 
     @property
     def outbox(self) -> 'XAMailbox':
+        """The top-level outbox.
+        """
         return self._new_element(self.xa_scel.outbox(), XAMailbox)
 
     @property
     def should_play_other_mail_sounds(self) -> bool:
+        """Whether sounds will be played for actions and events other than receiving email.
+        """
         return self.xa_scel.shouldPlayOtherMailSounds()
 
     @should_play_other_mail_sounds.setter
@@ -395,6 +418,8 @@ class XAMailApplication(XABaseScriptable.XASBApplication):
 
     @property
     def same_reply_format(self) -> bool:
+        """Whether replies will be in the same text format as the message to which the user is replying.
+        """
         return self.xa_scel.sameReplyFormat()
 
     @same_reply_format.setter
@@ -403,6 +428,8 @@ class XAMailApplication(XABaseScriptable.XASBApplication):
 
     @property
     def selected_signature(self) -> str:
+        """The name of the currently selected signature (or "randomly", "sequentially", or "none").
+        """
         return self.xa_scel.selectedSignature()
 
     @selected_signature.setter
@@ -411,10 +438,14 @@ class XAMailApplication(XABaseScriptable.XASBApplication):
 
     @property
     def sent_mailbox(self) -> 'XAMailbox':
+        """The top-level sent mailbox.
+        """
         return self._new_element(self.xa_scel.sentMailbox(), XAMailbox)
 
     @property
     def fetches_automatically(self) -> bool:
+        """Whether mail will automatically be fetched at a specific interval.
+        """
         return self.xa_scel.fetchesAutomatically()
 
     @fetches_automatically.setter
@@ -423,6 +454,8 @@ class XAMailApplication(XABaseScriptable.XASBApplication):
 
     @property
     def highlight_selected_conversation(self) -> bool:
+        """Whether messages in conversations should be highlighted in the Mail viewer window when not grouped.
+        """
         return self.xa_scel.highlightSelectedConversation()
 
     @highlight_selected_conversation.setter
@@ -431,10 +464,14 @@ class XAMailApplication(XABaseScriptable.XASBApplication):
 
     @property
     def trash_mailbox(self) -> 'XAMailbox':
+        """The top-level trash mailbox.
+        """
         return self._new_element(self.xa_scel.trashMailbox(), XAMailbox)
 
     @property
     def use_fixed_width_font(self) -> bool:
+        """Whether a fixed-width font should be used for plain text messages.
+        """
         return self.xa_scel.useFixedWidthFont()
 
     @use_fixed_width_font.setter
@@ -443,6 +480,8 @@ class XAMailApplication(XABaseScriptable.XASBApplication):
 
     @property
     def primary_email(self) -> str:
+        """The user's primary email address.
+        """
         return self.xa_scel.primaryEmail()
 
     def check_for_new_mail(self, account: 'XAMailAccount') -> 'XAMailApplication':
@@ -537,29 +576,23 @@ class XAMailWindow(XABaseScriptable.XASBWindow):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.name: str #: The full title of the window
-        self.id: int #: The unique identifier for the window
-        self.index: int #: The index of the window in the front-to-back ordering
-        self.bounds: tuple[int, int, int, int] #: The bounding rectangle of the window
-        self.closeable: bool #: Whether the window has a close button
-        self.miniaturizable: bool #: Whether the window can be minimized
-        self.miniaturized: bool #: Whether the window is currently minimized
-        self.resizable: bool #: Whether the window can be resized
-        self.visible: bool #: Whether the window is currently visible
-        self.zoomable: bool #: Whether the window can be zoomed
-        self.zoomed: bool #: Whether the window is currently zoomed
-        self.document: XAMailDocument # The current document
 
     @property
     def name(self) -> str:
+        """The full title of the window.
+        """
         return self.xa_elem.name()
 
     @property
     def id(self) -> int:
+        """The unique identifier for the window.
+        """
         return self.xa_elem.id()
 
     @property
     def index(self) -> int:
+        """The index of the window in the front-to-back ordering.
+        """
         return self.xa_elem.index()
 
     @index.setter
@@ -568,6 +601,8 @@ class XAMailWindow(XABaseScriptable.XASBWindow):
 
     @property
     def bounds(self) -> tuple[int, int, int, int]:
+        """The bounding rectangle of the window.
+        """
         rect = self.xa_elem.bounds()
         origin = rect.origin
         size = rect.size
@@ -584,14 +619,20 @@ class XAMailWindow(XABaseScriptable.XASBWindow):
 
     @property
     def closeable(self) -> bool:
+        """Whether the window has a close button.
+        """
         return self.xa_elem.closeable()
 
     @property
     def miniaturizable(self) -> bool:
+        """Whether the window can be minimized.
+        """
         return self.xa_elem.miniaturizable()
 
     @property
     def miniaturized(self) -> bool:
+        """Whether the window is currently minimized.
+        """
         return self.xa_elem.miniaturized()
 
     @miniaturized.setter
@@ -600,10 +641,14 @@ class XAMailWindow(XABaseScriptable.XASBWindow):
 
     @property
     def resizable(self) -> bool:
+        """Whether the window can be resized.
+        """
         return self.xa_elem.resizable()
 
     @property
     def visible(self) -> bool:
+        """Whether the window is currently visible.
+        """
         return self.xa_elem.visible()
 
     @visible.setter
@@ -612,10 +657,14 @@ class XAMailWindow(XABaseScriptable.XASBWindow):
 
     @property
     def zoomable(self) -> bool:
+        """Whether the window can be zoomed.
+        """
         return self.xa_elem.zoomable()
 
     @property
     def zoomed(self) -> bool:
+        """Whether the window is currently zoomed.
+        """
         return self.xa_elem.zoomed()
 
     @zoomed.setter
@@ -624,6 +673,8 @@ class XAMailWindow(XABaseScriptable.XASBWindow):
 
     @property
     def document(self) -> 'XAMailDocument':
+        """The current document.
+        """
         doc_obj = self.xa_elem.document()
         return self._new_element(doc_obj, XAMailDocument)
 
@@ -761,48 +812,47 @@ class XAMailMessageViewer(XABase.XAObject):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.drafts_mailbox: XAMailbox
-        self.inbox: XAMailbox
-        self.junk_mailbox: XAMailbox
-        self.outbox: XAMailbox
-        self.sent_mailbox: XAMailbox
-        self.trash_mailbox: XAMailbox
-        self.sort_column: XAMailApplication.ViewerColumn
-        self.sorted_ascending: bool
-        self.mailbox_list_visible: bool
-        self.visible_columns: list[str]
-        self.id: int
-        self.visible_messages: list[XAMailMessage]
-        self.selected_messages: list[XAMailMessage]
-        self.selected_mailboxes: list[XAMailbox]
-        self.window: XAMailWindow
 
     @property
     def drafts_mailbox(self) -> 'XAMailbox':
+        """The top-level Drafts mailbox.
+        """
         return self._new_element(self.xa_elem.draftsMailbox(), XAMailbox)
 
     @property
     def inbox(self) -> 'XAMailbox':
+        """The top-level Inbox mailbox.
+        """
         return self._new_element(self.xa_elem.inbox(), XAMailbox)
 
     @property
     def junk_mailbox(self) -> 'XAMailbox':
+        """The top-level Junk mailbox.
+        """
         return self._new_element(self.xa_elem.junkMailbox(), XAMailbox)
 
     @property
     def outbox(self) -> 'XAMailbox':
+        """The top-level Out mailbox.
+        """
         return self._new_element(self.xa_elem.outbox(), XAMailbox)
 
     @property
     def sent_mailbox(self) -> 'XAMailbox':
+        """The top-level Sent mailbox.
+        """
         return self._new_element(self.xa_elem.sentMailbox(), XAMailbox)
 
     @property
-    def trashMailbox(self) -> 'XAMailbox':
+    def trash_mailbox(self) -> 'XAMailbox':
+        """The top-level Trash mailbox.
+        """
         return self._new_element(self.xa_elem.trashMailbox(), XAMailbox)
 
     @property
     def sort_column(self) -> XAMailApplication.ViewerColumn:
+        """The column that is currently sorted in the viewer.
+        """
         return XAMailApplication.ViewerColumn(OSType(self.xa_elem.sortColumn().stringValue()))
 
     @sort_column.setter
@@ -811,6 +861,8 @@ class XAMailMessageViewer(XABase.XAObject):
 
     @property
     def sort_ascending(self) -> bool:
+        """Whether the viewer is sorted ascending or not.
+        """
         return self.xa_elem.sortAscending()
 
     @sort_ascending.setter
@@ -819,6 +871,8 @@ class XAMailMessageViewer(XABase.XAObject):
 
     @property
     def mailbox_list_visible(self) -> bool:
+        """Controls whether the list of mailboxes is visible or not.
+        """
         return self.xa_elem.mailboxListVisible()
 
     @mailbox_list_visible.setter
@@ -826,7 +880,19 @@ class XAMailMessageViewer(XABase.XAObject):
         self.set_property('mailboxListVisible', mailbox_list_visible)
 
     @property
+    def preview_pane_is_visible(self) -> bool:
+        """Controls whether the preview pane of the message viewer window is visible or not.
+        """
+        return self.xa_elem.previewPaneIsVisible()
+
+    @preview_pane_is_visible.setter
+    def preview_pane_is_visible(self, preview_pane_is_visible: bool):
+        self.set_property('previewPaneIsVisible', preview_pane_is_visible)
+
+    @property
     def visible_columns(self) -> list[str]:
+        """List of columns that are visible. The subject column and the message status column will always be visible.
+        """
         return self.xa_elem.visibleColumns()
 
     @visible_columns.setter
@@ -836,10 +902,14 @@ class XAMailMessageViewer(XABase.XAObject):
 
     @property
     def id(self) -> int:
+        """The unique identifier of the message viewer.
+        """
         return self.xa_elem.id()
 
     @property
     def visible_messages(self) -> 'XAMailMessageList':
+        """List of messages currently being displayed in the viewer.
+        """
         return self._new_element(self.xa_elem.visibleMessages(), XAMailMessageList)
 
     @visible_messages.setter
@@ -852,6 +922,8 @@ class XAMailMessageViewer(XABase.XAObject):
 
     @property
     def selected_messages(self) -> 'XAMailMessageList':
+        """List of messages currently selected.
+        """
         return self._new_element(self.xa_elem.selectedMessages(), XAMailMessageList)
 
     @selected_messages.setter
@@ -864,6 +936,8 @@ class XAMailMessageViewer(XABase.XAObject):
 
     @property
     def selected_mailboxes(self) -> 'XAMailboxList':
+        """List of mailboxes currently selected in the list of mailboxes.
+        """
         return self._new_element(self.xa_elem.selectedMailboxes(), XAMailboxList)
 
     @selected_mailboxes.setter
@@ -876,6 +950,8 @@ class XAMailMessageViewer(XABase.XAObject):
 
     @property
     def window(self) -> XAMailWindow:
+        """The window for the message viewer.
+        """
         return self._new_element(self.xa_elem.window(), XAMailWindow)
 
     @window.setter
@@ -928,11 +1004,11 @@ class XAMailSignature(XABase.XAObject):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.content: XABase.XAText #: The content of the email signature
-        self.name: str #: The name of the signature
 
     @property
     def content(self) -> XABase.XAText:
+        """The content of the email signature.
+        """
         return self._new_element(self.xa_elem.content(), XABase.XAText)
 
     @content.setter
@@ -941,6 +1017,8 @@ class XAMailSignature(XABase.XAObject):
 
     @property
     def name(self) -> str:
+        """The name of the signature.
+        """
         return self.xa_elem.name()
 
     @name.setter
@@ -1093,28 +1171,11 @@ class XAMailAccount(XABase.XAObject):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.delivery_account: XAMailSMTPServer #: The delivery account use when sending messages from the account
-        self.name: str #: The name of the account
-        self.id: str #: The unique identifier for the account
-        self.password: str #: The password for the account
-        self.authentication: XAMailApplication.AuthenticationMethod #: The preferred authentication scheme for the account, either: "password", "apop", "kerberos 5", "ntlm", "md5", "external", "Apple token", or "none"
-        self.account_type: XAMailApplication.AccountType #: The type of the account, either: "pop", "smtp", "imap", or "iCloud"
-        self.email_addresses: list[str] #: The list of email addresses associated with the account
-        self.full_name: str #: The user's full name associated with the account
-        self.empty_junk_messages_frequency: int #: Number of days before junk messages are deleted (0 = delete on quit, -1 = never delete)
-        self.empty_trash_frequency: int #: Number of days before messages in the trash are deleted (0 = delete on quit, -1 = never delete)
-        self.empty_junk_messages_on_quit: bool #: Whether messages marked as junk are deleted upon quitting Mail.app
-        self.empty_trash_on_quit: bool #: Whether messages in the trash are permanently deleted upon quitting Mail.app
-        self.enabled: bool #: Whether the account is enabled
-        self.user_name: str #: The user name used to connect to the account
-        self.account_directory: str #: The directory where the account stores items on the disk
-        self.port: int #: The port used to connect to the account
-        self.server_name: str #: The host named used to connect to the account
-        self.move_deleted_messages_to_trash: bool #: Whether messages are moved to the trash mailbox upon deletion
-        self.uses_ssl: bool #: Whether SSL is enabled for this receiving account
 
     @property
     def delivery_account(self) -> 'XAMailSMTPServer':
+        """The delivery account use when sending messages from the account.
+        """
         return self._new_element(self.xa_elem.deliveryAccount(), XAMailSMTPServer)
 
     @delivery_account.setter
@@ -1123,6 +1184,8 @@ class XAMailAccount(XABase.XAObject):
 
     @property
     def name(self) -> str:
+        """The name of the account.
+        """
         return self.xa_elem.name()
 
     @name.setter
@@ -1131,10 +1194,14 @@ class XAMailAccount(XABase.XAObject):
 
     @property
     def id(self) -> str:
+        """The unique identifier for the account.
+        """
         return self.xa_elem.id()
 
     @property
     def password(self) -> None:
+        """The password for the account.
+        """
         return
 
     @password.setter
@@ -1143,6 +1210,8 @@ class XAMailAccount(XABase.XAObject):
 
     @property
     def authentication(self) -> XAMailApplication.AuthenticationMethod:
+        """he preferred authentication scheme for the account, either: "password", "apop", "kerberos 5", "ntlm", "md5", "external", "Apple token", or "none".
+        """
         return XAMailApplication.AuthenticationMethod(OSType(self.xa_elem.authentication().stringValue()))
 
     @authentication.setter
@@ -1151,10 +1220,14 @@ class XAMailAccount(XABase.XAObject):
 
     @property
     def account_type(self) -> XAMailApplication.AccountType:
+        """The type of the account, either: "pop", "smtp", "imap", or "iCloud".
+        """
         return XAMailApplication.AccountType(OSType(self.xa_elem.accountType().stringValue()))
 
     @property
     def email_addresses(self) -> list[str]:
+        """The list of email addresses associated with the account.
+        """
         return self.xa_elem.emailAddresses()
 
     @email_addresses.setter
@@ -1163,6 +1236,8 @@ class XAMailAccount(XABase.XAObject):
 
     @property
     def full_name(self) -> str:
+        """The user's full name associated with the account.
+        """
         return self.xa_elem.fullName()
 
     @full_name.setter
@@ -1171,6 +1246,8 @@ class XAMailAccount(XABase.XAObject):
 
     @property
     def empty_junk_messages_frequency(self) -> int:
+        """Number of days before junk messages are deleted (0 = delete on quit, -1 = never delete).
+        """
         return self.xa_elem.emptyJunkMessagesFrequency()
 
     @empty_junk_messages_frequency.setter
@@ -1179,6 +1256,8 @@ class XAMailAccount(XABase.XAObject):
 
     @property
     def empty_trash_frequency(self) -> int:
+        """Number of days before messages in the trash are deleted (0 = delete on quit, -1 = never delete).
+        """
         return self.xa_elem.emptyTrashFrequency()
 
     @empty_trash_frequency.setter
@@ -1187,6 +1266,8 @@ class XAMailAccount(XABase.XAObject):
 
     @property
     def empty_junk_messages_on_quit(self) -> bool:
+        """Whether messages marked as junk are deleted upon quitting Mail.app.
+        """
         return self.xa_elem.emptyJunkMessagesOnQuit()
 
     @empty_junk_messages_on_quit.setter
@@ -1195,6 +1276,8 @@ class XAMailAccount(XABase.XAObject):
 
     @property
     def empty_trash_on_quit(self) -> bool:
+        """Whether messages in the trash are permanently deleted upon quitting Mail.app.
+        """
         return self.xa_elem.emptyTrashOnQuit()
 
     @empty_trash_on_quit.setter
@@ -1203,6 +1286,8 @@ class XAMailAccount(XABase.XAObject):
 
     @property
     def enabled(self) -> bool:
+        """Whether the account is enabled.
+        """
         return self.xa_elem.enabled()
 
     @enabled.setter
@@ -1211,6 +1296,8 @@ class XAMailAccount(XABase.XAObject):
 
     @property
     def user_name(self) -> str:
+        """The user name used to connect to the account.
+        """
         return self.xa_elem.userName()
 
     @user_name.setter
@@ -1219,10 +1306,14 @@ class XAMailAccount(XABase.XAObject):
 
     @property
     def account_directory(self) -> str:
+        """The directory where the account stores items on the disk.
+        """
         return self.xa_elem.accountDirectory()
 
     @property
     def port(self) -> int:
+        """The port used to connect to the account.
+        """
         return self.xa_elem.port()
 
     @port.setter
@@ -1231,6 +1322,8 @@ class XAMailAccount(XABase.XAObject):
 
     @property
     def server_name(self) -> str:
+        """The host name used to connect to the account.
+        """
         return self.xa_elem.serverName()
 
     @server_name.setter
@@ -1239,6 +1332,8 @@ class XAMailAccount(XABase.XAObject):
 
     @property
     def move_deleted_messages_to_trash(self) -> bool:
+        """Whether messages are moved to the trash mailbox upon deletion.
+        """
         return self.xa_elem.moveDeletedMessagesToTrash()
 
     @move_deleted_messages_to_trash.setter
@@ -1247,6 +1342,8 @@ class XAMailAccount(XABase.XAObject):
 
     @property
     def uses_ssl(self) -> bool:
+        """Whether SSL is enabled for this receiving account.
+        """
         return self.xa_elem.usesSsl()
 
     @uses_ssl.setter
@@ -1320,15 +1417,11 @@ class XAMailIMAPAccount(XAMailAccount):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.compact_mailboxes_when_closing: bool #: Whether an IMAP mailbox is automatically compacted when the user quits Mail.app or switches to another mailbox
-        self.message_caching: XAMailApplication.CachingPolicy #: The message caching setting for the account
-        self.store_drafts_on_server: bool #: Whether draft messages will be stored on the IMAP server
-        self.store_junk_mail_on_server: bool #: Whether junk mail will be stored on the IMAP server
-        self.store_sent_messages_on_server: bool #: Whether sent messages will be stored on the IMAP server
-        self.store_deleted_messages_on_server: bool #: Whether deleted messages will be stored on the IMAP server
 
     @property
     def compact_mailboxes_when_closing(self) -> bool:
+        """Whether an IMAP mailbox is automatically compacted when the user quits Mail.app or switches to another mailbox.
+        """
         return self.xa_elem.compactMailboxesWhenClosing()
 
     @compact_mailboxes_when_closing.setter
@@ -1337,6 +1430,8 @@ class XAMailIMAPAccount(XAMailAccount):
 
     @property
     def message_caching(self) -> XAMailApplication.CachingPolicy:
+        """The message caching setting for the account.
+        """
         return XAMailApplication.CachingPolicy(OSType(self.xa_elem.messageCaching().stringValue()))
 
     @message_caching.setter
@@ -1345,6 +1440,8 @@ class XAMailIMAPAccount(XAMailAccount):
 
     @property
     def store_drafts_on_server(self) -> bool:
+        """Whether draft messages will be stored on the IMAP server.
+        """
         return self.xa_elem.storeDraftsOnServer()
 
     @store_drafts_on_server.setter
@@ -1353,6 +1450,8 @@ class XAMailIMAPAccount(XAMailAccount):
     
     @property
     def store_junk_mail_on_server(self) -> bool:
+        """Whether junk mail will be stored on the IMAP server.
+        """
         return self.xa_elem.storeJunkMailOnServer()
 
     @store_junk_mail_on_server.setter
@@ -1361,6 +1460,8 @@ class XAMailIMAPAccount(XAMailAccount):
 
     @property
     def store_sent_messages_on_server(self) -> bool:
+        """Whether sent messages will be stored on the IMAP server.
+        """
         return self.xa_elem.storeSentMessagesOnServer()
 
     @store_sent_messages_on_server.setter
@@ -1369,6 +1470,8 @@ class XAMailIMAPAccount(XAMailAccount):
 
     @property
     def store_deleted_messages_on_server(self) -> bool:
+        """Whether deleted messages will be stored on the IMAP server.
+        """
         return self.xa_elem.storeDeletedMessagesOnServer()
 
     @store_deleted_messages_on_server.setter
@@ -1440,13 +1543,11 @@ class XAMailPOPAccount(XAMailAccount):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.big_message_warning_size: int #: The max amount of bytes a message can be before Mail will prompt the user before downloading the message (-1 = do not prompt)
-        self.delayed_message_deletion_interval: int #: The number of days before messages that have been downloaded will be deleted from the server (0 = delete immediately after downloading)
-        self.delete_mail_on_server: bool #: Whether the POP account deletes messages on the server after downloading
-        self.delete_messages_when_moved_from_inbox: bool #: Whether messages will be deleted from the server when moved from the POP inbox
 
     @property
     def big_message_warning_size(self) -> int:
+        """The max amount of bytes a message can be before Mail will prompt the user before downloading the message (-1 = do not prompt).
+        """
         return self.xa_elem.bigMessageWarningSize()
 
     @big_message_warning_size.setter
@@ -1455,6 +1556,8 @@ class XAMailPOPAccount(XAMailAccount):
 
     @property
     def delayed_message_deletion_interval(self) -> int:
+        """The number of days before messages that have been downloaded will be deleted from the server (0 = delete immediately after downloading).
+        """
         return self.xa_elem.delayedMessageDeletionInterval()
 
     @delayed_message_deletion_interval.setter
@@ -1463,6 +1566,8 @@ class XAMailPOPAccount(XAMailAccount):
 
     @property
     def delete_mail_on_server(self) -> bool:
+        """Whether the POP account deletes messages on the server after downloading.
+        """
         return self.xa_elem.deleteMailOnServer()
 
     @delete_mail_on_server.setter
@@ -1471,6 +1576,8 @@ class XAMailPOPAccount(XAMailAccount):
 
     @property
     def delete_messages_when_moved_from_inbox(self) -> bool:
+        """Whether messages will be deleted from the server when moved from the POP inbox.
+        """
         return self.xa_elem.deleteMessagesWhenMovedFromInbox()
 
     @delete_messages_when_moved_from_inbox.setter
@@ -1550,22 +1657,17 @@ class XAMailSMTPServer(XABase.XAObject):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.name: str #: The name of the account
-        self.password: str #: The password for the account
-        self.account_type: XAMailApplication.AccountType #: The type of the account, either: "pop", "smtp", "imap", or "iCloud"
-        self.authentication: XAMailApplication.AuthenticationMethod #: The preferred authentication scheme for the account, either: "password", "apop", "kerberos 5", "ntlm", "md5", "external", "Apple token", or "none"
-        self.enabled: bool #: Whether the account is enabled
-        self.user_name: str #: The user name used to connect to the account
-        self.port: int #: The port used to connect to the account
-        self.server_name: str #: The host named used to connect to the account
-        self.uses_ssl: bool #: Whether SSL is enabled for this receiving account
 
     @property
     def name(self) -> str:
+        """The name of the account.
+        """
         return self.xa_elem.name()
 
     @property
     def password(self) -> None:
+        """The password for the account.
+        """
         return
 
     @password.setter
@@ -1574,10 +1676,14 @@ class XAMailSMTPServer(XABase.XAObject):
 
     @property
     def account_type(self) -> XAMailApplication.AccountType:
+        """The type of the account, either: "pop", "smtp", "imap", or "iCloud".
+        """
         return XAMailApplication.AccountType(OSType(self.xa_elem.accountType().stringValue()))
 
     @property
     def authentication(self) -> XAMailApplication.AuthenticationMethod:
+        """The preferred authentication scheme for the account, either: "password", "apop", "kerberos 5", "ntlm", "md5", "external", "Apple token", or "none".
+        """
         return XAMailApplication.AuthenticationMethod(OSType(self.xa_elem.authentication().stringValue()))
 
     @authentication.setter
@@ -1586,6 +1692,8 @@ class XAMailSMTPServer(XABase.XAObject):
 
     @property
     def enabled(self) -> bool:
+        """Whether the account is enabled.
+        """
         return self.xa_elem.enabled()
 
     @enabled.setter
@@ -1594,6 +1702,8 @@ class XAMailSMTPServer(XABase.XAObject):
 
     @property
     def user_name(self) -> str:
+        """The user name used to connect to the account.
+        """
         return self.xa_elem.userName()
 
     @user_name.setter
@@ -1602,6 +1712,8 @@ class XAMailSMTPServer(XABase.XAObject):
 
     @property
     def port(self) -> int:
+        """The port used to connect to the account.
+        """
         return self.xa_elem.port()
 
     @port.setter
@@ -1610,6 +1722,8 @@ class XAMailSMTPServer(XABase.XAObject):
 
     @property
     def server_name(self) -> str:
+        """The host name used to connect to the account.
+        """
         return self.xa_elem.serverName()
 
     @server_name.setter
@@ -1618,6 +1732,8 @@ class XAMailSMTPServer(XABase.XAObject):
 
     @property
     def uses_ssl(self) -> bool:
+        """Whether SSL is enabled for this receiving account.
+        """
         return self.xa_elem.usesSsl()
 
     @uses_ssl.setter
@@ -1668,20 +1784,23 @@ class XAMailDocument(XABase.XAObject):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.name: str #: The name of the document
-        self.modified: bool #: Whether the document has been modified since the last save
-        self.file: str #: The location of the document on the disk, if one exists
 
     @property
     def name(self) -> str:
+        """The name of the document.
+        """
         return self.xa_elem.name()
 
     @property
     def modified(self) -> bool:
+        """Whether the document has been modified since the last save.
+        """
         return self.xa_elem.modified()
 
     @property
     def file(self) -> str:
+        """The location of the document on the disk, if one exists.
+        """
         return self.xa_elem.file()
 
     def delete(self):
@@ -1745,13 +1864,11 @@ class XAMailbox(XABase.XAObject):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.name: str #: The name of the mailbox
-        self.unread_count: int #: The number of unread messages in the mailbox
-        self.account: XAMailAccount #: The parent account of the mailbox
-        self.container: XAMailbox #: The parent mailbox of the mailbox
 
     @property
     def name(self) -> str:
+        """The name of the mailbox.
+        """
         return self.xa_elem.name()
 
     @name.setter
@@ -1760,14 +1877,20 @@ class XAMailbox(XABase.XAObject):
 
     @property
     def unread_count(self) -> int:
+        """The number of unread messages in the mailbox.
+        """
         return self.xa_elem.unreadCount()
 
     @property
     def account(self) -> XAMailAccount:
+        """The parent account of the mailbox.
+        """
         return self._new_element(self.xa_elem.account(), XAMailAccount)
 
     @property
     def container(self) -> 'XAMailbox':
+        """The parent mailbox of the mailbox.
+        """
         return self._new_element(self.xa_elem.container(), XAMailbox)
 
     def delete(self):
@@ -1968,38 +2091,23 @@ class XAMailMessage(XABase.XAObject):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.id: int #: The unique identifier for the message
-        self.all_headers: str #: The headers of the message
-        self.background_color: XAMailApplication.HighlightColor #: The background color of the message
-        self.mailbox: XAMailbox #: The mailbox in which the message is located
-        self.content: XABase.XAText #: The contents of the message
-        self.date_received: datetime #: The date and time that the message was received
-        self.date_sent: datetime #: The date and time that the message was sent
-        self.deleted_status: bool #: Whether the message is deleted
-        self.flagged_status: bool #: Whether the message is flagged
-        self.flag_index: int #: The flag on the message, or -1 if the message is not flagged
-        self.junk_mail_status: bool #: Whether the message is marked as junk
-        self.read_status: bool #: Whether the message has been read
-        self.message_id: str #: The unique message ID string
-        self.source: str #: The raw source of the message
-        self.reply_to: str #: The address that replies should be sent to
-        self.message_size: int #: The size of the message in bytes
-        self.sender: str #: The address of the sender of the message
-        self.subject: str #: The subject string of the message
-        self.was_forwarded: bool #: Whether the message was forwarded
-        self.was_redirected: bool #: Whether the message was redirected
-        self.was_replied_to: bool #: Whether the message was replied to
 
     @property
     def id(self) -> int:
+        """The unique identifier for the message.
+        """
         return self.xa_elem.id()
 
     @property
     def all_headers(self) -> str:
+        """The headers of the message.
+        """
         return self.xa_elem.allHeaders()
 
     @property
     def background_color(self) -> XAMailApplication.HighlightColor:
+        """The background color of the message.
+        """
         return XAMailApplication.HighlightColor(OSType(self.xa_elem.backroundColor().stringValue()))
 
     @background_color.setter
@@ -2008,6 +2116,8 @@ class XAMailMessage(XABase.XAObject):
 
     @property
     def mailbox(self) -> XAMailbox:
+        """The mailbox in which the message is located.
+        """
         return self._new_element(self.xa_elem.mailbox(), XAMailbox)
 
     @mailbox.setter
@@ -2016,6 +2126,8 @@ class XAMailMessage(XABase.XAObject):
 
     @property
     def content(self) -> XABase.XAText:
+        """The contents of the message.
+        """
         return self._new_element(self.xa_elem.content(), XABase.XAText)
 
     @content.setter
@@ -2027,14 +2139,20 @@ class XAMailMessage(XABase.XAObject):
 
     @property
     def date_received(self) -> datetime:
+        """The date and time that the message was received.
+        """
         return self.xa_elem.dateReceived()
 
     @property
     def date_sent(self) -> datetime:
+        """The date and time that the message was sent.
+        """
         return self.xa_elem.dateSent()
 
     @property
     def deleted_status(self) -> bool:
+        """Whether the message is deleted.
+        """
         return self.xa_elem.deletedStatus()
 
     @deleted_status.setter
@@ -2043,6 +2161,8 @@ class XAMailMessage(XABase.XAObject):
 
     @property
     def flagged_status(self) -> bool:
+        """Whether the message is flagged.
+        """
         return self.xa_elem.flaggedStatus()
 
     @flagged_status.setter
@@ -2051,6 +2171,8 @@ class XAMailMessage(XABase.XAObject):
 
     @property
     def flag_index(self) -> int:
+        """The flag on the message, or -1 if the message is not flagged.
+        """
         return self.xa_elem.flagIndex()
 
     @flag_index.setter
@@ -2059,6 +2181,8 @@ class XAMailMessage(XABase.XAObject):
 
     @property
     def junk_mail_status(self) -> bool:
+        """Whether the message is marked as junk.
+        """
         return self.xa_elem.junkMailStatus()
 
     @junk_mail_status.setter
@@ -2067,6 +2191,8 @@ class XAMailMessage(XABase.XAObject):
 
     @property
     def read_status(self) -> bool:
+        """Whether the message has been read.
+        """
         return self.xa_elem.readStatus()
 
     @read_status.setter
@@ -2075,38 +2201,56 @@ class XAMailMessage(XABase.XAObject):
 
     @property
     def message_id(self) -> int:
+        """The unique message ID string.
+        """
         return self.xa_elem.messageId()
 
     @property
     def source(self) -> str:
+        """The raw source of the message.
+        """
         return self.xa_elem.source()
 
     @property
     def reply_to(self) -> str:
+        """The address that replies should be sent to.
+        """
         return self.xa_elem.replyTo()
 
     @property
     def message_size(self) -> int:
+        """The size of the message in bytes.
+        """
         return self.xa_elem.messageSize()
 
     @property
     def sender(self) -> str:
+        """The address of the sender of the message.
+        """
         return self.xa_elem.sender()
 
     @property
     def subject(self) -> str:
+        """The subject string of the message.
+        """
         return self.xa_elem.subject()
 
     @property
     def was_forward(self) -> bool:
+        """Whether the message was forwarded.
+        """
         return self.xa_elem.wasForwarded()
 
     @property
     def was_redirected(self) -> bool:
+        """Whether the message was redirected.
+        """
         return self.xa_elem.wasRedirected()
 
     @property
     def was_replied_to(self) -> bool:
+        """Whether the message was replied to.
+        """
         return self.xa_elem.wasRepliedTo()
 
     def open(self) -> 'XAMailMessage':
@@ -2245,15 +2389,11 @@ class XAMailOutgoingMessage(XABase.XAObject):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.sender: str #: The address of the message sender
-        self.subject: str #: The subject string of the message
-        self.content: XABase.XAText #: The contents of the message
-        self.visible: bool #: Whether the message window is shown on screen
-        self.message_signature: XAMailSignature #: The signature of the message
-        self.id: int #: The unique identifier for the message
 
     @property
     def sender(self) -> str:
+        """The address of the message sender.
+        """
         return self.xa_elem.sender()
 
     @sender.setter
@@ -2262,6 +2402,8 @@ class XAMailOutgoingMessage(XABase.XAObject):
 
     @property
     def subject(self) -> str:
+        """The subject string of the message.
+        """
         return self.xa_elem.subject()
 
     @subject.setter
@@ -2270,6 +2412,8 @@ class XAMailOutgoingMessage(XABase.XAObject):
 
     @property
     def content(self) -> XABase.XAText:
+        """The contents of the message.
+        """
         return self._new_element(self.xa_elem.content(), XABase.XAText)
 
     @content.setter
@@ -2281,6 +2425,8 @@ class XAMailOutgoingMessage(XABase.XAObject):
 
     @property
     def visible(self) -> bool:
+        """Whether the message window is shown on screen.
+        """
         return self.xa_elem.visible()
 
     @visible.setter
@@ -2289,6 +2435,8 @@ class XAMailOutgoingMessage(XABase.XAObject):
 
     @property
     def message_signature(self) -> XAMailSignature:
+        """The signature of the message.
+        """
         return self._new_element(self.xa_elem.messageSignature(). XAMailSignature)
 
     @message_signature.setter
@@ -2297,6 +2445,8 @@ class XAMailOutgoingMessage(XABase.XAObject):
 
     @property
     def id(self) -> int:
+        """The unique identifier for the message.
+        """
         return self.xa_elem.id()
 
     def send(self) -> bool:
@@ -2356,11 +2506,11 @@ class XAMailRecipient(XABase.XAObject):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.address: str #: The recipient's email address
-        self.name: str #: The name used for display
 
     @property
     def address(self) -> str:
+        """The recipient's email address.
+        """
         return self.xa_elem.address()
 
     @address.setter
@@ -2369,6 +2519,8 @@ class XAMailRecipient(XABase.XAObject):
 
     @property
     def name(self) -> str:
+        """The name used for display.
+        """
         return self.xa_elem.name()
 
     @name.setter
@@ -2476,11 +2628,11 @@ class XAMailHeader(XABase.XAObject):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.content: str #: The contents of the header
-        self.name: str #: The name of the header value
 
     @property
     def content(self) -> str:
+        """The contents of the header.
+        """
         return self.xa_elem.content()
 
     @content.setter
@@ -2489,6 +2641,8 @@ class XAMailHeader(XABase.XAObject):
 
     @property
     def name(self) -> str:
+        """The name of the header value.
+        """
         return self.xa_elem.name()
 
     @name.setter
@@ -2551,30 +2705,35 @@ class XAMailAttachment(XABase.XAObject):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.name: str #: The name of the attachment
-        self.mime_type: str #: The MIME type of the attachment, e.g. text/plain
-        self.file_size: int #: The approximate size of the attachment in bytes
-        self.downloaded: bool #: Whether the attachment has been downloaded
-        self.id: str #: The unique identifier for the attachment
 
     @property
     def name(self) -> str:
+        """The name of the attachment.
+        """
         return self.xa_elem.name()
 
     @property
     def mime_type(self) -> str:
+        """The MIME type of the attachment, e.g. text/plain.
+        """
         return self.xa_elem.mimeType()
 
     @property
     def file_size(self) -> int:
+        """The approximate size of the attachment in bytes.
+        """
         return self.xa_elem.fileSize()
 
     @property
     def downloaded(self) -> bool:
+        """Whether the attachment has been downloaded.
+        """
         return self.xa_elem.downloaded()
 
     @property
     def id(self) -> str:
+        """The unique identifier for the attachment.
+        """
         return self.xa_elem.id()
 
     def delete(self):
@@ -2733,29 +2892,11 @@ class XAMailRule(XABase.XAObject):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.color_message: XAMailApplication.HighlightColor #: If the rule matches, apply this color
-        self.delete_message: bool #: If the rule matches, delete the message
-        self.forward_text: str #: If the rule matches, prepend the provided text to the forwarded message
-        self.forward_message: str #: If the rule matches, forward the message to the specified addresses, separated by commas
-        self.mark_flagged: bool #: If the rule matches, mark the message as flagged
-        self.mark_flag_index: int #: If the rule matches, mark the message with the specified flag (-1 = disabled)
-        self.mark_read: bool #: If the rule matches, mark the message as read
-        self.play_sound: str #: If the rule matches, play the sound specified by name or path
-        self.redirect_message: str #: If the rule matches, redirect the message to the supplied addresses, separated by commas
-        self.reply_text: str #: If the rule matches, reply to the message and prepend the provided text
-        self.run_script: str #: If the rule matches, run the supplied AppleScript file
-        self.all_conditions_must_be_met: bool #: Whether all conditions must be met for the rule to execute
-        self.copy_message: XAMailbox #: If the rule matches, copy the message to the specified mailbox
-        self.move_message: XAMailbox #: If the rule matches, move the message to the specified mailbox
-        self.highlight_text_using_color: bool #: Whether the color will be used to highlight the text of background of a message
-        self.enabled: bool #: Whether the rule is enabled
-        self.name: str #: The name of the rule
-        self.should_copy_message: bool #: Whether the rule has a copy action
-        self.should_move_message: bool #: Whether the rule has a move action
-        self.stop_evaluating_rules: bool #: If the rule matches, stop rule evaluation for the message
 
     @property
     def color_message(self) -> XAMailApplication.HighlightColor:
+        """If the rule matches, apply this color.
+        """
         return XAMailApplication.HighlightColor(OSType(self.xa_elem.colorMessage().stringValue()))
 
     @color_message.setter
@@ -2764,6 +2905,8 @@ class XAMailRule(XABase.XAObject):
 
     @property
     def delete_message(self) -> bool:
+        """If the rule matches, delete the message.
+        """
         return self.xa_elem.deleteMessage()
 
     @delete_message.setter
@@ -2772,6 +2915,8 @@ class XAMailRule(XABase.XAObject):
 
     @property
     def forward_text(self) -> str:
+        """If the rule matches, prepend the provided text to the forwarded message.
+        """
         return self.xa_elem.forwardText()
 
     @forward_text.setter
@@ -2780,6 +2925,8 @@ class XAMailRule(XABase.XAObject):
 
     @property
     def forward_message(self) -> str:
+        """If the rule matches, forward the message to the specified addresses, separated by commas.
+        """
         return self.xa_elem.forwardMessage()
 
     @forward_message.setter
@@ -2788,6 +2935,8 @@ class XAMailRule(XABase.XAObject):
 
     @property
     def mark_flagged(self) -> bool:
+        """If the rule matches, mark the message as flagged.
+        """
         return self.xa_elem.markFlagged()
 
     @mark_flagged.setter
@@ -2796,6 +2945,8 @@ class XAMailRule(XABase.XAObject):
 
     @property
     def mark_flag_index(self) -> int:
+        """If the rule matches, mark the message with the specified flag (-1 = disabled).
+        """
         return self.xa_elem.markFlagIndex()
 
     @mark_flag_index.setter
@@ -2804,6 +2955,8 @@ class XAMailRule(XABase.XAObject):
 
     @property
     def mark_read(self) -> bool:
+        """If the rule matches, mark the message as read.
+        """
         return self.xa_elem.markRead()
 
     @mark_read.setter
@@ -2812,6 +2965,8 @@ class XAMailRule(XABase.XAObject):
 
     @property
     def play_sound(self) -> str:
+        """If the rule matches, play the sound specified by name or path.
+        """
         return self.xa_elem.playSound()
 
     @play_sound.setter
@@ -2820,6 +2975,8 @@ class XAMailRule(XABase.XAObject):
 
     @property
     def redirect_message(self) -> str:
+        """If the rule matches, redirect the message to the supplied addresses, separated by commas.
+        """
         return self.xa_elem.redirectMessage()
 
     @redirect_message.setter
@@ -2828,6 +2985,8 @@ class XAMailRule(XABase.XAObject):
 
     @property
     def reply_text(self) -> str:
+        """If the rule matches, reply to the message and prepend the provided text.
+        """
         return self.xa_elem.replyText()
 
     @reply_text.setter
@@ -2837,6 +2996,8 @@ class XAMailRule(XABase.XAObject):
     # TODO
     @property
     def run_script(self) -> str:
+        """If the rule matches, run the supplied AppleScript file.
+        """
         return self.xa_elem.runScript()
 
     @run_script.setter
@@ -2845,6 +3006,8 @@ class XAMailRule(XABase.XAObject):
 
     @property
     def all_conditions_must_be_met(self) -> bool:
+        """Whether all conditions must be met for the rule to execute.
+        """
         return self.xa_elem.allConditionsMustBeMet()
 
     @all_conditions_must_be_met.setter
@@ -2853,6 +3016,8 @@ class XAMailRule(XABase.XAObject):
 
     @property
     def copy_message(self) -> XAMailbox:
+        """If the rule matches, copy the message to the specified mailbox.
+        """
         return self._new_element(self.xa_elem.copyMessage(), XAMailbox)
 
     @copy_message.setter
@@ -2861,6 +3026,8 @@ class XAMailRule(XABase.XAObject):
 
     @property
     def move_message(self) -> XAMailbox:
+        """If the rule matches, move the message to the specified mailbox.
+        """
         return self._new_element(self.xa_elem.moveMessage(), XAMailbox)
 
     @move_message.setter
@@ -2869,6 +3036,8 @@ class XAMailRule(XABase.XAObject):
 
     @property
     def highlight_text_using_color(self) -> bool:
+        """Whether the color will be used to highlight the text of background of a message.
+        """
         return self.xa_elem.highlightTextUsingColor()
 
     @highlight_text_using_color.setter
@@ -2877,6 +3046,8 @@ class XAMailRule(XABase.XAObject):
 
     @property
     def enabled(self) -> bool:
+        """Whether the rule is enabled.
+        """
         return self.xa_elem.enabled()
 
     @enabled.setter
@@ -2885,6 +3056,8 @@ class XAMailRule(XABase.XAObject):
 
     @property
     def name(self) -> str:
+        """The name of the rule.
+        """
         return self.xa_elem.name()
 
     @name.setter
@@ -2893,6 +3066,8 @@ class XAMailRule(XABase.XAObject):
 
     @property
     def should_copy_message(self) -> bool:
+        """Whether the rule has a copy action.
+        """
         return self.xa_elem.shouldCopyMessage()
 
     @should_copy_message.setter
@@ -2901,6 +3076,8 @@ class XAMailRule(XABase.XAObject):
 
     @property
     def should_move_message(self) -> bool:
+        """Whether the rule has a move action.
+        """
         return self.xa_elem.shouldMoveMessage()
 
     @should_move_message.setter
@@ -2908,12 +3085,13 @@ class XAMailRule(XABase.XAObject):
         self.set_property('shouldMoveMessage', should_move_message)
 
     @property
-    def stop_evaluating_rule(self) -> bool:
-        return self.xa_elem.stopEvaluatingRule()
+    def stop_evaluating_rules(self) -> bool:
+        """If the rule matches, stop rule evaluation for the message"""
+        return self.xa_elem.stopEvaluatingRules()
 
-    @stop_evaluating_rule.setter
-    def stop_evaluating_rule(self, stop_evaluating_rule: bool):
-        self.set_property('stopEvaluatingRule', stop_evaluating_rule)
+    @stop_evaluating_rules.setter
+    def stop_evaluating_rule(self, stop_evaluating_rules: bool):
+        self.set_property('stopEvaluatingRules', stop_evaluating_rules)
 
     def delete(self):
         """Permanently deletes the rule.
@@ -2979,13 +3157,11 @@ class XAMailRuleCondition(XABase.XAObject):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.expression: str #: The rule expression field
-        self.header: str #: The rule header key
-        self.qualifier: XAMailApplication.RuleQualifier #: The qualifier for the rule
-        self.rule_type: XAMailApplication.RuleType #: The type of the rule
     
     @property
     def expression(self) -> str:
+        """The rule expression field.
+        """
         return self.xa_elem.expression()
 
     @expression.setter
@@ -2994,6 +3170,8 @@ class XAMailRuleCondition(XABase.XAObject):
 
     @property
     def header(self) -> str:
+        """The rule header key.
+        """
         return self.xa_elem.header()
 
     @header.setter
@@ -3002,6 +3180,8 @@ class XAMailRuleCondition(XABase.XAObject):
 
     @property
     def qualifier(self) -> XAMailApplication.RuleQualifier:
+        """The qualifier for the rule.
+        """
         return XAMailApplication.RuleQualifier(OSType(self.xa_elem.qualifier().stringValue()))
 
     @qualifier.setter
@@ -3010,6 +3190,8 @@ class XAMailRuleCondition(XABase.XAObject):
 
     @property
     def rule_type(self) -> XAMailApplication.RuleType:
+        """The type of the rule.
+        """
         return XAMailApplication.RuleType(OSType(self.xa_elem.ruleType().stringValue()))
 
     @rule_type.setter

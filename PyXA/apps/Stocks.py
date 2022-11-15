@@ -20,10 +20,10 @@ class XAStocksApplication(XABase.XAApplication):
     def __init__(self, properties):
         super().__init__(properties)
 
-        self.sidebar_showing: bool #: Whether the sidebar is currently showing
-
     @property
     def sidebar_showing(self) -> bool:
+        """Whether the sidebar is currently showing.
+        """
         sidebar = self.front_window.xa_elem.groups()[0].groups()[0].groups()[0].groups()[0].groups()[0].groups()[1].groups()[0].groups()[0].groups()[1]
         return sidebar.get() is not None
 
@@ -151,39 +151,44 @@ class XAStocksSavedStock(XABase.XAObject, XAClipboardCodable):
     def __init__(self, properties):
         super().__init__(properties)
 
-        self.properties: dict #: All properties of the stock
-        self.name: str #: The name of the stock (The company name)
-        self.symbol: str #: The symbol for the stock
-        self.price: float #: The current price of the stock
-        self.change: str #: The percentage or point change of the stock in the current trading session
-        self.selected: bool #: Whether the stock is the currently selected stock
-
     @property
     def properties(self) -> dict:
+        """All properties of the stock.
+        """
         return self.xa_elem.properties()
 
     @property
     def name(self) -> str:
+        """The name of the stock (The company name).
+        """
         reversed = self.xa_elem.objectDescription().get()[::-1]
         return reversed[reversed.index(",") + 1:][::-1]
 
     @property
     def symbol(self) -> str:
+        """The symbol for the stock.
+        """
         return self.xa_elem.objectDescription().get().split(", ")[-1]
 
     @property
     def price(self) -> float:
+        """The current price of the stock.
+        """
         value = self.xa_elem.value().get()
         value = value.replace("selected, ", "")
         return float(value.split(", ")[0].replace(",", ""))
 
     @property
     def change(self) -> str:
+        """The percentage or point change of the stock in the current trading session.
+        """
         value = self.xa_elem.value().get()
         return value.split(", ")[-1]
 
     @property
     def selected(self) -> bool:
+        """Whether the stock is the currently selected stock.
+        """
         return self.xa_elem.selected().get()
 
     def show(self):

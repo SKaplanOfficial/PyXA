@@ -15,16 +15,16 @@ class XAHammerspoonApplication(XABaseScriptable.XASBApplication):
     def __init__(self, properties):
         super().__init__(properties)
 
-        self.name: str #: The name of the application
-        self.frontmost: bool #: Whether Hammerspoon is the active application
-        self.version: str #: The version of Hammerspoon.app
-
     @property
     def name(self) -> str:
+        """The name of the application.
+        """
         return self.xa_scel.name()
 
     @property
     def frontmost(self) -> bool:
+        """Whether Hammerspoon is the active application.
+        """
         return self.xa_scel.frontmost()
 
     @frontmost.setter
@@ -33,6 +33,8 @@ class XAHammerspoonApplication(XABaseScriptable.XASBApplication):
 
     @property
     def version(self) -> str:
+        """The version of Hammerspoon.app.
+        """
         return self.xa_scel.version()
 
     def execute_lua_code(self, code: str) -> Any:

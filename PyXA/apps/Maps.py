@@ -19,10 +19,10 @@ class XAMapsApplication(XABase.XAApplication):
     def __init__(self, properties):
         super().__init__(properties)
 
-        self.sidebar_showing: bool #: Whether the sidebar is currently showing
-
     @property
     def sidebar_showing(self) -> bool:
+        """Whether the sidebar is currently showing.
+        """
         sidebar = self.front_window.xa_elem.groups()[0].groups()[0].groups()[0].groups()[0].groups()[0].groups()[1].groups()[0].groups()[0].groups()[1]
         return sidebar.get() is not None
 
@@ -213,22 +213,22 @@ class XAMapsTab(XABase.XAObject):
     def __init__(self, properties):
         super().__init__(properties)
 
-        self.properties: dict #: All properties of the tab
-        self.title: str #: The name of the tab
-        self.selected: bool #: Whether the tab is the currently selected tab
-
-        print(self.xa_elem.properties())
-
     @property
     def properties(self) -> dict:
+        """All properties of the tab.
+        """
         return self.xa_elem.properties()
 
     @property
     def title(self) -> str:
+        """The name of the tab.
+        """
         return self.xa_elem.title()
 
     @property
     def selected(self) -> bool:
+        """Whether the tab is the currently selected tab.
+        """
         return self.xa_elem.value == 1
 
     def close(self):
@@ -259,20 +259,22 @@ class XAMapsSidebarLocation(XABase.XAObject):
     def __init__(self, properties):
         super().__init__(properties)
 
-        self.selected: bool #: Whether the location element is currently selected
-        self.description: str #: The description of the location element
-        self.name: str #: The name of the location
-
     @property
     def selected(self) -> bool:
+        """Whether the location element is currently selected.
+        """
         return self.xa_elem.selected()
 
     @property
     def description(self) -> str:
+        """The description of the location element.
+        """
         return self.xa_elem.objectDescription()
 
     @property
     def name(self) -> str:
+        """The name of the location.
+        """
         return self.description.split(",")[0]
 
     def show_directions_to(self):

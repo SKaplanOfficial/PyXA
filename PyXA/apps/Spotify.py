@@ -22,25 +22,35 @@ class XASpotifyApplication(XABaseScriptable.XASBApplication):
 
     def __init__(self, properties):
         super().__init__(properties)
+
+    @property
+    def name(self) -> str:
+        """The name of the application.
+        """
+        return self.xa_scel.name()
+
+    @property
+    def frontmost(self) -> bool:
+        """Whether Spotify is the active application.
+        """
+        return self.xa_scel.frontmost()
         
-        self.name: str #: The name of the application
-        self.frontmost: bool #: Whether Spotify is the active application
-        self.version: str #: The version of Spotify.app
-        self.current_track: XASpotifyTrack #: The currently playing track
-        self.sound_volume: int #: The sound output volume (0 = minimum, 100 = maximum)
-        self.player_state: int #: Is Spotify stopped, paused, or playing?
-        self.player_position: float #: The player’s position within the currently playing track in seconds
-        self.repeating_enabled: bool #: Whether repeating is enabled in the current playback context
-        self.repeating: bool #: Whether repeating is on or off
-        self.shuffling_enabled: bool #: Whether shuffling is enabled in the current playback context
-        self.shuffling: bool #: Whether shuffling is on or off
+    @property
+    def version(self) -> str:
+        """The version of Spotify.app.
+        """
+        return self.xa_scel.version()
 
     @property
     def current_track(self) -> 'XASpotifyTrack':
+        """The currently playing track.
+        """
         return self._new_element(self.xa_scel.currentTrack(), XASpotifyTrack)
 
     @property
     def sound_volume(self) -> int:
+        """The sound output volume (0 = minimum, 100 = maximum).
+        """
         return self.xa_scel.soundVolume()
 
     @sound_volume.setter
@@ -49,10 +59,14 @@ class XASpotifyApplication(XABaseScriptable.XASBApplication):
 
     @property
     def player_state(self) -> 'XASpotifyApplication.PlayerState':
+        """Is Spotify stopped, paused, or playing?
+        """
         return XASpotifyApplication.PlayerState(self.xa_scel.playerState())
 
     @property
     def player_position(self) -> float:
+        """The player's position within the currently playing track in seconds.
+        """
         return self.xa_scel.playerPosition()
 
     @player_position.setter
@@ -61,10 +75,14 @@ class XASpotifyApplication(XABaseScriptable.XASBApplication):
 
     @property
     def repeating_enabled(self) -> bool:
+        """Whether repeating is enabled in the current playback context.
+        """
         return self.xa_scel.repeatingEnabled()
 
     @property
     def repeating(self) -> bool:
+        """Whether repeating is on or off.
+        """
         return self.xa_scel.repeating()
 
     @repeating.setter
@@ -73,10 +91,14 @@ class XASpotifyApplication(XABaseScriptable.XASBApplication):
 
     @property
     def shuffling_enabled(self) -> bool:
+        """Whether shuffling is enabled in the current playback context.
+        """
         return self.xa_scel.shufflingEnabled()
 
     @property
     def shuffling(self) -> bool:
+        """Whether shuffling is on or off.
+        """
         return self.xa_scel.shuffling()
 
     @shuffling.setter
@@ -209,75 +231,88 @@ class XASpotifyTrack(XABase.XAObject):
     def __init__(self, properties):
         super().__init__(properties)
 
-        self.artist: str #: The artist of the track
-        self.album: str #: The album of the track
-        self.disc_number: int #: The disc number of the track
-        self.duration: int #: The length of the track in milliseconds
-        self.played_count: int #: The number of times this track has been played
-        self.track_number: int #: The index of the track in its album
-        self.starred: bool #: Whether the track is starred
-        self.popularity: int #: The popularity of this track, 0-100
-        self.id: str #: The ID of the track
-        self.name: str #: The name of the track
-        self.artwork_url: XABase.XAURL #: The URL of the track's album cover
-        self.artwork: XABase.XAImage #: The album artwork image
-        self.album_artist: str #: The album artist of the track
-        self.spotify_url: XABase.XAURL #: The URL of the track
-
     @property
     def artist(self) -> str:
+        """The artist of the track.
+        """
         return self.xa_elem.artist()
 
     @property
     def album(self) -> str:
+        """The album of the track.
+        """
         return self.xa_elem.album()
 
     @property
     def disc_number(self) -> int:
+        """The disc number of the track.
+        """
         return self.xa_elem.discNumber()
 
     @property
     def duration(self) -> int:
+        """The length of the track in milliseconds.
+        """
         return self.xa_elem.duration()
 
     @property
     def played_count(self) -> int:
+        """The number of times this track has been played.
+        """
         return self.xa_elem.playedCount()
 
     @property
     def track_number(self) -> int:
+        """The index of the track in its album.
+        """
         return self.xa_elem.trackNumber()
 
     @property
     def starred(self) -> bool:
+        """Whether the track is starred.
+        """
         return self.xa_elem.starred()
 
     @property
     def popularity(self) -> int:
+        """The popularity of this track, 0-100.
+        """
         return self.xa_elem.popularity()
 
     @property
     def id(self) -> str:
+        """The ID of the track.
+        """
         return self.xa_elem.id()
 
     @property
     def name(self) -> str:
+        """The name of the track.
+        """
         return self.xa_elem.name()
 
     @property
     def artwork_url(self) -> XABase.XAURL:
+        """The URL of the track's album cover.
+        """
         return XABase.XAURL(self.xa_elem.artworkUrl())
 
     @property
     def artwork(self) -> XABase.XAImage:
+        """The album artwork image.
+        """
         return XABase.XAImage(self.artwork_url)
 
     @property
     def album_artist(self) -> str:
+        """The album artist of the track.
+        """
         return self.xa_elem.albumArtist()
 
     @property
     def spotify_url(self) -> type:
+        """The URL of the track.
+        """
         return XABase.XAURL(self.xa_elem.spotifyUrl())
 
     def __repr__(self):

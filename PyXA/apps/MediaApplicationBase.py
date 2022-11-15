@@ -80,39 +80,34 @@ class XAMediaApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         super().__init__(properties)
         self.xa_wcls = XAMediaWindow
 
-        self.current_playlist: XAMediaPlaylist #: The playlist containing the currently targeted track
-        self.current_stream_title: str #: The name of the current streaming track
-        self.current_stream_url: str #: The URL of the current streaming 
-        self.current_track: XAMediaTrack #: The currently targeted track
-        self.fixed_indexing: bool #: Whether the track indices are independent of the order of the current playlist or not
-        self.frontmost: bool #: Whether the application is active or not
-        self.full_screen: bool #: Whether the app is fullscreen or not
-        self.name: str #: The name of the application
-        self.mute: bool #: Whether sound output is muted or not
-        self.player_position: float #: The time elapsed in the current track
-        self.player_state: str #: Whether the player is playing, paused, stopped, fast forwarding, or rewinding
-        self.selection: str #: The selected ..............
-        self.sound_volume: int #: The sound output volume
-        self.version: str #: The version of the application
-
     @property
     def current_playlist(self) -> 'XAMediaPlaylist':
+        """The playlist containing the currently targeted track.
+        """
         return self._new_element(self.xa_scel.currentPlaylist(), XAMediaPlaylist)
 
     @property
     def current_stream_title(self) -> str:
+        """The name of the currently streaming track.
+        """
         return self.xa_scel.currentStreamTitle()
 
     @property
     def current_stream_url(self) -> str:
+        """The URL of the currently streaming track.
+        """
         return self.xa_scel.currentStreamURL()
 
     @property
     def current_track(self) -> 'XAMediaTrack':
+        """The currently targeted track.
+        """
         return self._new_element(self.xa_scel.currentTrack(), XAMediaTrack)
 
     @property
     def fixed_indexing(self) -> bool:
+        """Whether the track indices are independent of the order of the current playlist or not.
+        """
         return self.xa_scel.fixedIndexing()
 
     @fixed_indexing.setter
@@ -121,6 +116,8 @@ class XAMediaApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
 
     @property
     def frontmost(self) -> bool:
+        """Whether the application is active or not.
+        """
         return self.xa_scel.frontmost()
 
     @frontmost.setter
@@ -129,6 +126,8 @@ class XAMediaApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
 
     @property
     def full_screen(self) -> bool:
+        """Whether the app is fullscreen or not.
+        """
         return self.xa_scel.fullScreen()
 
     @full_screen.setter
@@ -137,10 +136,14 @@ class XAMediaApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
 
     @property
     def name(self) -> str:
+        """The name of the application.
+        """
         return self.xa_scel.name()
 
     @property
     def mute(self) -> bool:
+        """Whether sound output is muted or not.
+        """
         return self.xa_scel.mute()
 
     @mute.setter
@@ -149,6 +152,8 @@ class XAMediaApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
 
     @property
     def player_position(self) -> float:
+        """The time elapsed in the current track.
+        """
         return self.xa_scel.playerPosition()
 
     @player_position.setter
@@ -157,14 +162,20 @@ class XAMediaApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
 
     @property
     def player_state(self) -> 'XAMediaApplication.PlayerState':
+        """Whether the player is playing, paused, stopped, fast forwarding, or rewinding.
+        """
         return XAMediaApplication.PlayerState(self.xa_scel.playerState())
 
     @property
     def selection(self) -> 'XAMediaItemList':
+        """The selected media items.
+        """
         return self._new_element(self.xa_scel.selection().get(), XAMediaTrackList)
 
     @property
     def sound_volume(self) -> int:
+        """The sound output volume.
+        """
         return self.xa_scel.soundVolume()
 
     @sound_volume.setter
@@ -173,6 +184,8 @@ class XAMediaApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
 
     @property
     def version(self) -> str:
+        """The version of the application.
+        """
         return self.xa_scel.version()
 
     def play(self, item: 'XAMediaItem' = None) -> 'XAMediaApplication':
@@ -583,27 +596,29 @@ class XAMediaItem(XABase.XAObject):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.container: XABase.XAObject #: The container of the item
-        self.id: int #: The ID of the item
-        self.index: int #: The index of the item in the internal application order
-        self.name: str #: The name of the item
-        self.persistent_id: str #: The constant unique identifier for the item
-        self.properties: dict #: Every property of the item
 
     @property
     def container(self) -> XABase.XAObject:
+        """The container of the item.
+        """
         return self._new_element(self.xa_elem.container(), XABase.XAObject)
 
     @property
     def id(self) -> int:
+        """The ID of the item.
+        """
         return self.xa_elem.id()
 
     @property
     def index(self) -> int:
+        """The index of the item in the internal application order.
+        """
         return self.xa_elem.index()
 
     @property
     def name(self) -> str:
+        """The name of the item.
+        """
         return self.xa_elem.name()
 
     @name.setter
@@ -612,10 +627,14 @@ class XAMediaItem(XABase.XAObject):
 
     @property
     def persistent_id(self) -> str:
+        """The constant unique identifier for the item.
+        """
         return self.xa_elem.persistentID()
 
     @property
     def properties(self) -> dict:
+        """Every property of the item.
+        """
         return self.xa_elem.properties()
 
     def download(self) -> 'XAMediaItem':
@@ -795,15 +814,11 @@ class XAMediaArtwork(XAMediaItem):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.data: XABase.XAImage #: The data for the artwork in the form of a picture
-        self.object_description: str #: The string description of the artwork
-        self.downloaded: bool #: Whether the artwork was downloaded by media apps
-        self.format: int #: The data format for the artwork
-        self.kind: int #: The kind/purpose of the artwork
-        self.raw_data: bytes #: The data for the artwork in original format
 
     @property
     def data(self) -> XABase.XAImage:
+        """The data for the artwork in the form of a picture.
+        """
         return XABase.XAImage(self.xa_elem.data())
 
     @data.setter
@@ -812,6 +827,8 @@ class XAMediaArtwork(XAMediaItem):
 
     @property
     def object_description(self) -> str:
+        """The string description of the artwork.
+        """
         return self.xa_elem.objectDescription()
 
     @object_description.setter
@@ -820,14 +837,20 @@ class XAMediaArtwork(XAMediaItem):
 
     @property
     def downloaded(self) -> bool:
+        """Whether the artwork was downloaded by media apps.
+        """
         return self.xa_elem.downloaded()
 
     @property
     def format(self) -> int:
+        """The data format for the artwork.
+        """
         return self.xa_elem.format()
 
     @property
     def kind(self) -> int:
+        """The kind/purpose of the artwork.
+        """
         return self.xa_elem.kind()
 
     @kind.setter
@@ -836,6 +859,8 @@ class XAMediaArtwork(XAMediaItem):
 
     @property
     def raw_data(self) -> bytes:
+        """The data for the artwork in original format.
+        """
         return self.xa_elem.rawData()
 
     @raw_data.setter
@@ -1028,19 +1053,8 @@ class XAMediaPlaylist(XAMediaItem):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.object_description: str #: The string description of the playlist
-        self.disliked: bool #: Whether the playlist is disliked
-        self.duration: int #: The total length of all tracks in seconds
-        self.name: str #: The name of the playlist
-        self.loved: bool #: Whether the playlist is loved
-        self.parent: XAMediaPlaylist #: The folder containing the playlist, if any
-        self.size: int #: The total size of all tracks in the playlist in bytes
-        self.special_kind: XAMediaApplication.PlaylistKind #: The special playlist kind
-        self.time: str #: The length of all tracks in the playlist in MM:SS format
-        self.visible: bool #: Whether the playlist is visible in the source list
 
         if not hasattr(self, "xa_specialized"):
-            print(self.xa_elem.objectClass())
             if self.special_kind == XAMediaApplication.PlaylistKind.LIBRARY or self.special_kind == XAMediaApplication.PlaylistKind.USER_LIBRARY:
                 self.__class__ = XAMediaLibraryPlaylist
 
@@ -1055,6 +1069,8 @@ class XAMediaPlaylist(XAMediaItem):
 
     @property
     def object_description(self) -> str:
+        """The string description of the playlist.
+        """
         return self.xa_elem.objectDescription()
 
     @object_description.setter
@@ -1063,10 +1079,14 @@ class XAMediaPlaylist(XAMediaItem):
 
     @property
     def duration(self) -> int:
+        """The total length of all tracks in seconds.
+        """
         return self.xa_elem.duration()
 
     @property
     def name(self) -> str:
+        """The name of the playlist.
+        """
         return self.xa_elem.name()
 
     @name.setter
@@ -1075,22 +1095,32 @@ class XAMediaPlaylist(XAMediaItem):
 
     @property
     def parent(self) -> 'XAMediaPlaylist':
+        """The folder containing the playlist, if any.
+        """
         return self._new_element(self.xa_elem.parent(), XAMediaPlaylist)
 
     @property
     def size(self) -> int:
+        """The total size of all tracks in the playlist in bytes.
+        """
         return self.xa_elem.size()
 
     @property
     def special_kind(self) -> XAMediaApplication.PlaylistKind:
+        """The special playlist kind.
+        """
         return XAMediaApplication.PlaylistKind(self.xa_elem.specialKind())
 
     @property
     def time(self) -> str:
+        """The length of all tracks in the playlist in MM:SS format.
+        """
         return self.xa_elem.time()
 
     @property
     def visible(self) -> bool:
+        """Whether the playlist is visible in the source list.
+        """
         return self.xa_elem.visible()
 
     def move_to(self, parent_playlist):
@@ -1283,20 +1313,23 @@ class XAMediaSource(XAMediaItem):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.capacity: int #: The total size of the source, if it has a fixed size
-        self.free_space: int #: The free space on the source, if it has a fixed size
-        self.kind: XAMediaApplication.SourceKind #: The source kind
 
     @property
     def capacity(self) -> int:
+        """The total size of the source, if it has a fixed size.
+        """
         return self.xa_elem.capacity()
 
     @property
     def free_space(self) -> int:
+        """The free space on the source, if it has a fixed size.
+        """
         return self.xa_elem.freeSpace()
 
     @property
     def kind(self) -> XAMediaApplication.SourceKind:
+        """The source kind.
+        """
         return XAMediaApplication.SourceKind(self.xa_elem.kind())
 
     def library_playlists(self, filter: Union[dict, None] = None) -> 'XAMediaLibraryPlaylistList':
@@ -2345,56 +2378,7 @@ class XAMediaTrack(XAMediaItem):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.album: str #: The name of the album the track's album
-        self.album_rating: int #: The rating of the track's album
-        self.album_rating_kind: str #: The album's rating kind
-        self.bit_rate: int #: The track's bitrate in kbps
-        self.bookmark: float #: The bookmark time of the track in seconds
-        self.bookmarkable: bool #: Whether the playback position is kept in memory after stopping the track
-        self.category: str #: The category of the track
-        self.comment: str #: User-provided notes on the track
-        self.database_id: int #: A unique ID for the track
-        self.date_added: datetime #: The date the track was added to the current playlist
-        self.object_description: str #: A string description of the track
-        self.disc_count: int #: The number of discs in the source album
-        self.disc_number: int #: The index of the disc containing the track
-        self.downloader_apple_id: str #: The Apple ID of the person who downloaded the track
-        self.downloader_name: str #: The full name of the person who downloaded the track
-        self.duration: float #: Length of the track in seconds
-        self.enabled: bool #: Whether the track is able to be played
-        self.episode_id: str #: A unique ID for the episode of the track
-        self.episode_number: int #: The episode number of the track
-        self.finish: float #: The time in seconds from the start at which the track stops playing.
-        self.genre: str #: The music/audio genre category of the track.
-        self.grouping: str #: The current section/chapter/movement of the track
-        self.kind: str #: A text description of the track
-        self.long_description: str #: A long description for the track
-        self.media_kind: XAMediaApplication.MediaKind #: A description of the track's media type
-        self.modification_date: datetime #: The last modification date of the track's content
-        self.played_count: int #: The number of the times the track has been played
-        self.played_date: datetime #: The date the track was last played
-        self.purchaser_apple_id: str #: The Apple ID of the person who bought the track
-        self.purchaser_name: str #: The full name of the person who bought the track
-        self.rating: int #: The rating of the track from 0 to 100
-        self.rating_kind: XAMediaApplication.RatingKind #: Whether the rating is user-provided or computed
-        self.release_date: datetime #: The date the track was released
-        self.sample_rate: int #: The sample rate of the track in Hz
-        self.season_number: int #: The number of the season the track belongs to
-        self.skipped_count: int #: The number of times the track has been skipped
-        self.skipped_date: datetime #: The date the track was last skipped
-        self.show: str #: The name of the show the track belongs to
-        self.sort_album: str #: The string used for this track when sorting by album
-        self.sort_name: str #: The string used for this track when sorting by name
-        self.sort_show: str #: The string used for this track when sorting by show
-        self.size: int #: The size of the track in bytes
-        self.start: float #: The start time of the track in seconds
-        self.time: str #: HH:MM:SS representation for the duration of the track
-        self.track_count: int #: The number of tracks in the track's album
-        self.track_number: int #: The index of the track within its album
-        self.unplayed: bool #: Whether the track has been played before
-        self.volume_adjustment: int #: Volume adjustment setting for this track from -100 to +100
-        self.work: str #: The work name of the track
-
+        
         # print("Track type", self.objectClass.data())
         # if self.objectClass.data() == _SHARED_TRACK:
         #     self.__class__ = XAMediaSharedTrack
@@ -2408,6 +2392,8 @@ class XAMediaTrack(XAMediaItem):
 
     @property
     def album(self) -> str:
+        """The name of the track's album.
+        """
         return self.xa_elem.album()
 
     @album.setter
@@ -2416,6 +2402,8 @@ class XAMediaTrack(XAMediaItem):
 
     @property
     def album_rating(self) -> int:
+        """The rating of the track's album.
+        """
         return self.xa_elem.albumRating()
 
     @album_rating.setter
@@ -2424,14 +2412,20 @@ class XAMediaTrack(XAMediaItem):
 
     @property
     def album_rating_kind(self) -> XAMediaApplication.RatingKind:
+        """The album's rating kind.
+        """
         return XAMediaApplication.RatingKind(self.xa_elem.albumRatingKind())
 
     @property
     def bit_rate(self) -> int:
+        """The track's bitrate in kbps.
+        """
         return self.xa_elem.bitRate()
 
     @property
     def bookmark(self) -> float:
+        """The bookmark time of the track in seconds.
+        """
         return self.xa_elem.bookmark()
 
     @bookmark.setter
@@ -2440,6 +2434,8 @@ class XAMediaTrack(XAMediaItem):
 
     @property
     def bookmarkable(self) -> bool:
+        """Whether the playback position is kept in memory after stopping the track.
+        """
         return self.xa_elem.bookmarkable()
 
     @bookmarkable.setter
@@ -2448,6 +2444,8 @@ class XAMediaTrack(XAMediaItem):
 
     @property
     def category(self) -> str:
+        """The category of the track.
+        """
         return self.xa_elem.category()
 
     @category.setter
@@ -2456,6 +2454,8 @@ class XAMediaTrack(XAMediaItem):
 
     @property
     def comment(self) -> str:
+        """User-provided notes on the track.
+        """
         return self.xa_elem.comment()
 
     @comment.setter
@@ -2464,14 +2464,20 @@ class XAMediaTrack(XAMediaItem):
 
     @property
     def database_id(self) -> int:
+        """A unique ID for the track.
+        """
         return self.xa_elem.databaseID()
 
     @property
     def date_added(self) -> datetime:
+        """The date the track was added to the current playlist.
+        """
         return self.xa_elem.dateAdded()
 
     @property
     def object_description(self) -> str:
+        """A string description of the track.
+        """
         return self.xa_elem.objectDescription()
 
     @object_description.setter
@@ -2480,6 +2486,8 @@ class XAMediaTrack(XAMediaItem):
 
     @property
     def disc_count(self) -> int:
+        """The number of discs in the source album.
+        """
         return self.xa_elem.discCount()
 
     @disc_count.setter
@@ -2488,6 +2496,8 @@ class XAMediaTrack(XAMediaItem):
 
     @property
     def disc_number(self) -> int:
+        """The index of the disc containing the track.
+        """
         return self.xa_elem.discNumber()
 
     @disc_number.setter
@@ -2496,18 +2506,26 @@ class XAMediaTrack(XAMediaItem):
 
     @property
     def downloader_apple_id(self) -> str:
+        """The Apple ID of the person who downloaded the track.
+        """
         return self.xa_elem.downloaderAppleID()
 
     @property
     def downloader_name(self) -> str:
+        """The full name of the person who downloaded the track.
+        """
         return self.xa_elem.downloaderName()
 
     @property
     def duration(self) -> float:
+        """Length of the track in seconds.
+        """
         return self.xa_elem.duration()
 
     @property
     def enabled(self) -> bool:
+        """Whether the track is able to be played.
+        """
         return self.xa_elem.enabled()
 
     @enabled.setter
@@ -2516,6 +2534,8 @@ class XAMediaTrack(XAMediaItem):
 
     @property
     def episode_id(self) -> str:
+        """A unique ID for the episode of the track.
+        """
         return self.xa_elem.episodeID()
 
     @episode_id.setter
@@ -2524,6 +2544,8 @@ class XAMediaTrack(XAMediaItem):
 
     @property
     def episode_number(self) -> int:
+        """The episode number of the track.
+        """
         return self.xa_elem.episodeNumber()
 
     @episode_number.setter
@@ -2532,6 +2554,8 @@ class XAMediaTrack(XAMediaItem):
 
     @property
     def finish(self) -> float:
+        """The time in seconds from the start at which the track stops playing.
+        """
         return self.xa_elem.finish()
 
     @finish.setter
@@ -2540,6 +2564,8 @@ class XAMediaTrack(XAMediaItem):
 
     @property
     def genre(self) -> str:
+        """The music/audio genre category of the track.
+        """
         return self.xa_elem.genre()
 
     @genre.setter
@@ -2548,6 +2574,8 @@ class XAMediaTrack(XAMediaItem):
 
     @property
     def grouping(self) -> str:
+        """The current section/chapter/movement of the track.
+        """
         return self.xa_elem.grouping()
 
     @grouping.setter
@@ -2556,10 +2584,14 @@ class XAMediaTrack(XAMediaItem):
 
     @property
     def kind(self) -> str:
+        """A text description of the track.
+        """
         return self.xa_elem.kind()
 
     @property
     def long_description(self) -> str:
+        """A long description for the track.
+        """
         return self.xa_elem.longDescription()
 
     @long_description.setter
@@ -2568,6 +2600,8 @@ class XAMediaTrack(XAMediaItem):
 
     @property
     def media_kind(self) -> XAMediaApplication.MediaKind:
+        """A description of the track's media type.
+        """
         return XAMediaApplication.MediaKind(self.xa_elem.mediaKind())
 
     @media_kind.setter
@@ -2576,10 +2610,14 @@ class XAMediaTrack(XAMediaItem):
 
     @property
     def modification_date(self) -> datetime:
+        """The last modification date of the track's content.
+        """
         return self.xa_elem.modificationDate()
 
     @property
     def played_count(self) -> int:
+        """The number of the times the track has been played.
+        """
         return self.xa_elem.playedCount()
 
     @played_count.setter
@@ -2588,6 +2626,8 @@ class XAMediaTrack(XAMediaItem):
 
     @property
     def played_date(self) -> datetime:
+        """The date the track was last played.
+        """
         return self.xa_elem.playedDate()
 
     @played_date.setter
@@ -2596,14 +2636,20 @@ class XAMediaTrack(XAMediaItem):
 
     @property
     def purchaser_apple_id(self) -> str:
+        """The Apple ID of the person who bought the track.
+        """
         return self.xa_elem.purchaserAppleID()
 
     @property
     def purchaser_name(self) -> str:
+        """The full name of the person who bought the track.
+        """
         return self.xa_elem.purchaserName()
 
     @property
     def rating(self) -> int:
+        """The rating of the track from 0 to 100.
+        """
         return self.xa_elem.rating()
 
     @rating.setter
@@ -2612,18 +2658,26 @@ class XAMediaTrack(XAMediaItem):
 
     @property
     def rating_kind(self) -> XAMediaApplication.RatingKind:
+        """Whether the rating is user-provided or computed.
+        """
         return XAMediaApplication.RatingKind(self.xa_elem.ratingKind())
 
     @property
     def release_date(self) -> datetime:
+        """The date the track was released.
+        """
         return self.xa_elem.releaseDate()
 
     @property
     def sample_rate(self) -> int:
+        """The sample rate of the track in Hz.
+        """
         return self.xa_elem.sampleRate()
 
     @property
     def season_number(self) -> int:
+        """The number of the season the track belongs to.
+        """
         return self.xa_elem.seasonNumber()
 
     @season_number.setter
@@ -2632,6 +2686,8 @@ class XAMediaTrack(XAMediaItem):
 
     @property
     def skipped_count(self) -> int:
+        """The number of times the track has been skipped.
+        """
         return self.xa_elem.skippedCount()
 
     @skipped_count.setter
@@ -2640,6 +2696,8 @@ class XAMediaTrack(XAMediaItem):
 
     @property
     def skipped_date(self) -> datetime:
+        """The date the track was last skipped.
+        """
         return self.xa_elem.skippedDate()
 
     @skipped_date.setter
@@ -2648,6 +2706,8 @@ class XAMediaTrack(XAMediaItem):
 
     @property
     def show(self) -> str:
+        """The name of the show the track belongs to.
+        """
         return self.xa_elem.show()
 
     @show.setter
@@ -2656,6 +2716,8 @@ class XAMediaTrack(XAMediaItem):
 
     @property
     def sort_album(self) -> str:
+        """The string used for this track when sorting by album.
+        """
         return self.xa_elem.sortAlbum()
 
     @sort_album.setter
@@ -2664,6 +2726,8 @@ class XAMediaTrack(XAMediaItem):
 
     @property
     def sort_name(self) -> str:
+        """The string used for this track when sorting by name.
+        """
         return self.xa_elem.sortName()
 
     @sort_name.setter
@@ -2672,6 +2736,8 @@ class XAMediaTrack(XAMediaItem):
 
     @property
     def sort_show(self) -> str:
+        """The string used for this track when sorting by show.
+        """
         return self.xa_elem.sortShow()
 
     @sort_show.setter
@@ -2680,10 +2746,14 @@ class XAMediaTrack(XAMediaItem):
 
     @property
     def size(self) -> int:
+        """The size of the track in bytes.
+        """
         return self.xa_elem.size()
 
     @property
     def start(self) -> float:
+        """The start time of the track in seconds.
+        """
         return self.xa_elem.start()
 
     @start.setter
@@ -2692,10 +2762,14 @@ class XAMediaTrack(XAMediaItem):
 
     @property
     def time(self) -> str:
+        """HH:MM:SS representation for the duration of the track.
+        """
         return self.xa_elem.time()
 
     @property
     def track_count(self) -> int:
+        """The number of tracks in the track's album.
+        """
         return self.xa_elem.trackCount()
 
     @track_count.setter
@@ -2704,6 +2778,8 @@ class XAMediaTrack(XAMediaItem):
 
     @property
     def track_number(self) -> int:
+        """The index of the track within its album.
+        """
         return self.xa_elem.trackNumber()
 
     @track_number.setter
@@ -2712,6 +2788,8 @@ class XAMediaTrack(XAMediaItem):
 
     @property
     def unplayed(self) -> bool:
+        """Whether the track has been played before.
+        """
         return self.xa_elem.unplayed()
 
     @unplayed.setter
@@ -2720,6 +2798,8 @@ class XAMediaTrack(XAMediaItem):
 
     @property
     def volume_adjustment(self) -> int:
+        """Volume adjustment setting for this track from -100 to +100.
+        """
         return self.xa_elem.volumeAdjustment()
 
     @volume_adjustment.setter
@@ -2728,6 +2808,8 @@ class XAMediaTrack(XAMediaItem):
 
     @property
     def year(self) -> int:
+        """The year the track was released.
+        """
         return self.xa_elem.year()
 
     @year.setter
@@ -2811,10 +2893,11 @@ class XAMediaFileTrack(XAMediaTrack):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.location: XABase.XAURL #: The location of the file represented by the track
 
     @property
     def location(self) -> XABase.XAPath:
+        """The location of the file represented by the track.
+        """
         return XABase.XAPath(self.xa_elem.location())
 
     @location.setter
@@ -2884,10 +2967,11 @@ class XAMediaURLTrack(XAMediaTrack):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.address: str #: The URL for the track
 
     @property
     def address(self) -> XABase.XAURL:
+        """The URL for the track.
+        """
         return XABase.XAURL(self.xa_elem.address())
 
     @address.setter
@@ -2956,11 +3040,11 @@ class XAMediaUserPlaylist(XAMediaPlaylist):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.shared: bool #: Whether the playlist is shared
-        self.smart: bool #: Whether the playlist is a smart playlist
 
     @property
     def shared(self) -> bool:
+        """Whether the playlist is shared.
+        """
         return self.xa_elem.shared()
 
     @shared.setter
@@ -2969,6 +3053,8 @@ class XAMediaUserPlaylist(XAMediaPlaylist):
 
     @property
     def smart(self) -> bool:
+        """Whether the playlist is a smart playlist.
+        """
         return self.xa_elem.smart()
 
     def file_tracks(self, filter: Union[dict, None] = None) -> 'XAMediaFileTrackList':
@@ -3254,19 +3340,11 @@ class XAMediaWindow(XABase.XAWindow, XAMediaItem):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.bounds: tuple[int, int, int, int] #: The bounding rectangle for the window
-        self.closeable: bool #: Whether the window has a close button
-        self.collapseable: bool #: Whether the window can be minimized
-        self.collapsed: bool #: Whether the window is currently minimized
-        self.full_screen: bool #: Whether the window is currently full screen
-        self.position: tuple[int, int] #: The upper left position of the window
-        self.resizable: bool #: Whether the window can be resized
-        self.visible: bool #: Whether the window is currently visible
-        self.zoomable: bool #: Whether the window can be zoomed
-        self.zoomed: bool #: Whether the window is currently zoomed
 
     @property
     def bounds(self) -> tuple[int, int, int, int]:
+        """The bounding rectangle for the window.
+        """
         rect = self.xa_elem.bounds()
         origin = rect.origin
         size = rect.size
@@ -3283,14 +3361,20 @@ class XAMediaWindow(XABase.XAWindow, XAMediaItem):
 
     @property
     def closeable(self) -> bool:
+        """Whether the window has a close button.
+        """
         return self.xa_elem.closeable()
 
     @property
     def collapseable(self) -> bool:
+        """Whether the window can be minimized.
+        """
         return self.xa_elem.miniaturizable()
 
     @property
     def collapsed(self) -> bool:
+        """Whether the window is currently minimized.
+        """
         return self.xa_elem.miniaturized()
 
     @collapsed.setter
@@ -3299,6 +3383,8 @@ class XAMediaWindow(XABase.XAWindow, XAMediaItem):
 
     @property
     def full_screen(self) -> bool:
+        """Whether the window is currently full screen.
+        """
         return self.xa_elem.fullScreen()
 
     @full_screen.setter
@@ -3307,6 +3393,8 @@ class XAMediaWindow(XABase.XAWindow, XAMediaItem):
 
     @property
     def position(self) -> tuple[int, int]:
+        """The upper left position of the window.
+        """
         return self.xa_elem.position()
 
     @position.setter
@@ -3315,10 +3403,14 @@ class XAMediaWindow(XABase.XAWindow, XAMediaItem):
 
     @property
     def resizable(self) -> bool:
+        """Whether the window can be resized.
+        """
         return self.xa_elem.resizable()
 
     @property
     def visible(self) -> bool:
+        """Whether the window is currently visible.
+        """
         return self.xa_elem.visible()
 
     @visible.setter
@@ -3327,10 +3419,14 @@ class XAMediaWindow(XABase.XAWindow, XAMediaItem):
 
     @property
     def zoomable(self) -> bool:
+        """Whether the window can be zoomed.
+        """
         return self.xa_elem.zoomable()
 
     @property
     def zoomed(self) -> bool:
+        """Whether the window is currently zoomed.
+        """
         return self.xa_elem.zoomed()
 
     @zoomed.setter
@@ -3399,15 +3495,17 @@ class XAMediaBrowserWindow(XAMediaWindow):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.selection: XAMediaTrackList #: The selected tracks
-        self.view: XAMediaPlaylist #: The playlist currently displayed in the window
 
     @property
     def selection(self) -> XAMediaTrackList:
+        """The selected tracks.
+        """
         return self._new_element(self.xa_elem.selection(), XAMediaTrackList)
 
     @property
     def view(self) -> XAMediaPlaylist:
+        """The playlist currently displayed in the window.
+        """
         return self._new_element(self.xa_elem.view(), XAMediaPlaylist)
 
 
@@ -3471,15 +3569,17 @@ class XAMediaPlaylistWindow(XAMediaWindow):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.selection: XAMediaTrackList #: The selected tracks
-        self.view: XAMediaPlaylist #: The playlist currently displayed in the window
 
     @property
     def selection(self) -> XAMediaTrackList:
+        """The selected tracks.
+        """
         return self._new_element(self.xa_elem.selection(), XAMediaTrackList)
 
     @property
     def view(self) -> XAMediaPlaylist:
+        """The playlist currently displayed in the window.
+        """
         return self._new_element(self.xa_elem.view(), XAMediaPlaylist)
 
 

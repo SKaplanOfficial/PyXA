@@ -79,27 +79,34 @@ class XAOmniOutlinerApplication(XABaseScriptable.XASBApplication, XACanOpenPath,
         super().__init__(properties)
         self.xa_wcls = XAOmniOutlinerWindow
 
-        self.name: str #: The name of the application
-        self.frontmost: bool #: Whether OmniOutliner is the active application
-        self.version: str #: The version of OmniOutliner.app
-        self.build_number: str #: The build number of the application, for example 63.1 or 63. Major and minor versions are separated by a dot, so 63.10 comes after 63.1
-        self.imported_files_should_store_compressed: bool #: Controls whether OmniOutliner will default imported files to being stored in a compressed format
-        self.prompt_on_file_format_upgrade: bool #: Controls whether OmniOutliner will prompt the user when updating a older file format to a newer one
-
     @property
     def name(self) -> str:
+        """The name of the application.
+        """
         return self.xa_scel.name
 
     @property
+    def frontmost(self) -> bool:
+        """Whether OmniOutliner is the active application.
+        """
+        return self.xa_scel.frontmost()
+
+    @property
     def version(self) -> str:
+        """The version of OmniOutliner.app.
+        """
         return self.xa_scel.version
 
     @property
     def build_number(self) -> str:
+        """The build number of the application, for example 63.1 or 63. Major and minor versions are separated by a dot, so 63.10 comes after 63.1.
+        """
         return self.xa_scel.buildNumber()
 
     @property
     def imported_files_should_store_compressed(self) -> bool:
+        """Controls whether OmniOutliner will default imported files to being stored in a compressed format.
+        """
         return self.xa_scel.importedFilesShouldStoreCompressed()
 
     @imported_files_should_store_compressed.setter
@@ -108,6 +115,8 @@ class XAOmniOutlinerApplication(XABaseScriptable.XASBApplication, XACanOpenPath,
 
     @property
     def prompt_on_file_format_upgrade(self) -> bool:
+        """Controls whether OmniOutliner will prompt the user when updating a older file format to a newer one.
+        """
         return self.xa_scel.promptOnFileFormatUpgrade()
 
     @prompt_on_file_format_upgrade.setter
@@ -170,33 +179,28 @@ class XAOmniOutlinerWindow(XABaseScriptable.XASBWindow):
     def __init__(self, properties):
         super().__init__(properties)
 
-        self.name: str #: The title of window
-        self.id: int #: The unique identifier of the window
-        self.index: int #: The index of the window in the front-to-back ordering
-        self.bounds: tuple[int, int, int, int] #: The bounding rectangle of the window in the form of (top-left-x, top-left-y, width, height)
-        self.closeable: bool #: Whether the window has a close button
-        self.miniaturizable: bool #: Whether the window has a minimize button
-        self.miniaturized: bool #: Whether the window is currently minimized
-        self.resizable: bool #: Whether the window can be resized
-        self.visible: bool #: Whether the window is currently visible
-        self.zoomable: bool #: Whether the window has a zoom button
-        self.zoomed: bool #: Whether the window is currently zoomed
-        self.document: XAOmniOutlinerDocument #: The document whose contents are currently displayed in the window
-
     @property
     def name(self) -> str:
+        """The title of window.
+        """
         return self.xa_elem.name()
 
     @property
     def id(self) -> int:
+        """The unique identifier of the window.
+        """
         return self.xa_elem.id()
 
     @property
     def index(self) -> int:
+        """The index of the window in the front-to-back ordering.
+        """
         return self.xa_elem.index()
 
     @property
     def bounds(self) -> tuple[int, int, int, int]:
+        """The bounding rectangle of the window in the form of (top-left-x, top-left-y, width, height).
+        """
         rect = self.xa_elem.bounds()
         origin = rect.origin
         size = rect.size
@@ -213,14 +217,20 @@ class XAOmniOutlinerWindow(XABaseScriptable.XASBWindow):
 
     @property
     def closeable(self) -> bool:
+        """Whether the window has a close button.
+        """
         return self.xa_elem.closeable()
 
     @property
     def miniaturizable(self) -> bool:
+        """Whether the window has a minimize button.
+        """
         return self.xa_elem.miniaturizable()
 
     @property
     def miniaturized(self) -> bool:
+        """Whether the window is currently minimized.
+        """
         return self.xa_elem.miniaturized()
 
     @miniaturized.setter
@@ -229,18 +239,26 @@ class XAOmniOutlinerWindow(XABaseScriptable.XASBWindow):
 
     @property
     def resizable(self) -> bool:
+        """Whether the window can be resized.
+        """
         return self.xa_elem.resizable()
 
     @property
     def visible(self) -> bool:
+        """Whether the window is currently visible.
+        """
         return self.xa_elem.visible()
 
     @property
     def zoomable(self) -> bool:
+        """Whether the window has a zoom button.
+        """
         return self.xa_elem.zoomable()
 
     @property
     def zoomed(self) -> bool:
+        """Whether the window is currently zoomed.
+        """
         return self.xa_elem.zoomed()
 
     @zoomed.setter
@@ -249,6 +267,8 @@ class XAOmniOutlinerWindow(XABaseScriptable.XASBWindow):
 
     @property
     def document(self) -> 'XAOmniOutlinerDocument':
+        """The document whose contents are currently displayed in the window.
+        """
         return self._new_element(self.xa_elem.document(), XAOmniOutlinerDocument)
 
     @document.setter
@@ -276,14 +296,10 @@ class XAOmniOutlinerRichText(XABase.XAText, XADeletable):
     def __init__(self, properties):
         super().__init__(properties)
 
-        self.style: XAOmniOutlinerStyle #: The style of the text
-        self.baseline_offset: float #: Number of pixels shifted above or below the normal baseline
-        self.underlined: bool #: Is the first character underlined?
-        self.superscript: int #: The superscript level of the text
-        self.alignment: XAOmniOutlinerApplication.Alignment #: Alignment of the text
-
     @property
     def style(self) -> 'XAOmniOutlinerStyle':
+        """The style of the text.
+        """
         return self._new_element(self.xa_elem.style(), XAOmniOutlinerStyle)
 
     @style.setter
@@ -292,6 +308,8 @@ class XAOmniOutlinerRichText(XABase.XAText, XADeletable):
 
     @property
     def baseline_offset(self) -> float:
+        """Number of pixels shifted above or below the normal baseline.
+        """
         return self.xa_elem.baselineOffset()
 
     @baseline_offset.setter
@@ -300,6 +318,8 @@ class XAOmniOutlinerRichText(XABase.XAText, XADeletable):
 
     @property
     def underlined(self) -> bool:
+        """Is the first character underlined?
+        """
         return self.xa_elem.underlined()
 
     @underlined.setter
@@ -308,6 +328,8 @@ class XAOmniOutlinerRichText(XABase.XAText, XADeletable):
 
     @property
     def superscript(self) -> int:
+        """The superscript level of the text.
+        """
         return self.xa_elem.superscript()
 
     @superscript.setter
@@ -316,6 +338,8 @@ class XAOmniOutlinerRichText(XABase.XAText, XADeletable):
 
     @property
     def alignment(self) -> XAOmniOutlinerApplication.Alignment:
+        """Alignment of the text.
+        """
         return XAOmniOutlinerApplication.Alignment(self.xa_elem.alignment())
 
     @alignment.setter
@@ -406,15 +430,16 @@ class XAOmniOutlinerFileAttachment(XABase.XAText):
     def __init__(self, properties):
         super().__init__(properties)
 
-        self.file_name: str #: The path to the file for the attachment, if the attachment resides outside the document
-        self.embdedded: bool #: If true, the attached file will reside inside the document on the next save
-
     @property
     def file_name(self) -> str:
+        """The path to the file for the attachment, if the attachment resides outside the document.
+        """
         return self.xa_elem.fileName()
 
     @property
     def embdedded(self) -> bool:
+        """If true, the attached file will reside inside the document on the next save.
+        """
         return self.xa_elem.embedded()
 
 
@@ -762,52 +787,28 @@ class XAOmniOutlinerDocument(XABase.XAObject, XACloseable, XAPrintable):
     def __init__(self, properties):
         super().__init__(properties)
 
-        self.name: str #: The name of the document
-        self.modified: bool #: Whether the document has been modified since it was last saved
-        self.file: XABase.XAPath #: The location of the file on disk, if it has one
-        self.alternate_color: XABase.XAColor #: The background color of every other row
-        self.background_color: XABase.XAColor #: The background color of the document
-        self.canredo: bool #: Whether the document can redo the most recently undone command
-        self.canundo: bool #: Whether the document can undo the most recent command
-        self.children_are_sections: bool #: This is always true for documents. This is here to make it easier to deal with mixed lists of rows and documents
-        self.column_title_style: XAOmniOutlinerStyle #: The style of column titles
-        self.editable: bool #: This lets you know whether the document is editable. For example, the release notes document is not editable, so your script may want to avoid trying to edit it
-        self.folded_editing_enabled: bool #: Whether folded editing of item and inline note text is enabled
-        self.has_subtopics: bool #: Whether the document has any subtopics
-        self.horizontal_grid_color: XABase.XAColor #: The color of hairline dividers between rows
-        self.id: str #: An identifier unique to the document
-        self.note_column: XAOmniOutlinerColumn #: The column of the document that contains the notes for the rows
-        self.note_display: XAOmniOutlinerApplication.DisplayType #: Whether notes are displayed inline
-        self.save_identifier: str #: A string that changes each time the document is saved. If the save identifier is disabled, then this returns 'missing value'
-        self.save_identifier_enabled: bool #: Controls whether a save identifier will be emitted in the archived document each time the document is saved. This is useful for external tools that need to quickly determine whether the document has changed without relying on the file modification time
-        self.sorting_postponed: bool #: Whether sorting is currently postponed for the document
-        self.status_sort_order: XAOmniOutlinerApplication.SortOrder #: The sort order used for the status checkbox in the topic column
-        self.status_visible: bool #: Whether the status checkbox is visible in the outline column
-        self.stored_compressed: bool #: Whether xml should be compressed when saved
-        self.style: XAOmniOutlinerStyle #: The default style for the document
-        self.title: str #: This is the title of the document
-        self.topic_column: XAOmniOutlinerColumn #: The column of the document that displays the hierarchy of rows
-        self.undo_enabled: bool #: Controls whether undo is currently enabled in the document. This should be used very carefully. If it is set to 'false', all previously registered undo events will be removed and any further modifications to the document will not record undo operations
-        self.vertical_grid_color: XABase.XAColor #: The color hairline dividers between columns
-        self.visible: bool #: Whether the interface for the document is visible. Note that miniaturized counts as visible. Mostly this isn't useful to third parties right now
-        self.writes_wrapper: bool #: If set to true, this indicates that the document will write itself as a file wrapper (folder)
-        self.topiccolumnid: str #: The topic column id for newly created documents
-        self.notecolumnid: str #: The note column id for newly created documents
-
     @property
     def name(self) -> str:
+        """The name of the document.
+        """
         return self.xa_elem.name()
 
     @property
     def modified(self) -> bool:
+        """Whether the document has been modified since it was last saved.
+        """
         return self.xa_elem.modified()
 
     @property
     def file(self) -> XABase.XAPath:
+        """The location of the file on disk, if it has one.
+        """
         return XABase.XAPath(self.xa_elem.file())
 
     @property
     def alternate_color(self) -> XABase.XAColor:
+        """The background color of every other row.
+        """
         return XABase.XAColor(self.xa_elem.alternateColor())
 
     @alternate_color.setter
@@ -816,6 +817,8 @@ class XAOmniOutlinerDocument(XABase.XAObject, XACloseable, XAPrintable):
 
     @property
     def background_color(self) -> XABase.XAColor:
+        """The background color of the document.
+        """
         return XABase.XAColor(self.xa_elem.alternateColor())
 
     @background_color.setter
@@ -824,18 +827,26 @@ class XAOmniOutlinerDocument(XABase.XAObject, XACloseable, XAPrintable):
 
     @property
     def canredo(self) -> bool:
+        """Whether the document can redo the most recently undone command.
+        """
         return self.xa_elem.canredo()
 
     @property
     def canundo(self) -> bool:
+        """Whether the document can undo the most recent command.
+        """
         return self.xa_elem.canundo()
 
     @property
     def children_are_sections(self) -> bool:
+        """This is always true for documents. This is here to make it easier to deal with mixed lists of rows and documents.
+        """
         return self.xa_elem.childrenAreSections()
 
     @property
     def column_title_style(self) -> 'XAOmniOutlinerStyle':
+        """The style of column titles.
+        """
         return self._new_element(self.xa_elem.columnTitleStyle(), XAOmniOutlinerStyle)
 
     @column_title_style.setter
@@ -844,10 +855,14 @@ class XAOmniOutlinerDocument(XABase.XAObject, XACloseable, XAPrintable):
 
     @property
     def editable(self) -> bool:
+        """This lets you know whether the document is editable. For example, the release notes document is not editable, so your script may want to avoid trying to edit it.
+        """
         return self.xa_elem.editable()
 
     @property
     def folded_editing_enabled(self) -> bool:
+        """Whether folded editing of item and inline note text is enabled.
+        """
         return self.xa_elem.foldedEditingEnabled()
 
     @folded_editing_enabled.setter
@@ -856,10 +871,14 @@ class XAOmniOutlinerDocument(XABase.XAObject, XACloseable, XAPrintable):
 
     @property
     def has_subtopics(self) -> bool:
+        """Whether the document has any subtopics.
+        """
         return self.xa_elem.hasSubtopics()
 
     @property
     def horizontal_grid_color(self) -> XABase.XAColor:
+        """The color of hairline dividers between rows.
+        """
         return XABase.XAColor(self.xa_elem.horizontalGridColor())
 
     @horizontal_grid_color.setter
@@ -868,14 +887,20 @@ class XAOmniOutlinerDocument(XABase.XAObject, XACloseable, XAPrintable):
 
     @property
     def id(self) -> str:
+        """An identifier unique to the document.
+        """
         return self.xa_elem.id()
 
     @property
     def note_column(self) -> 'XAOmniOutlinerColumn':
+        """The column of the document that contains the notes for the rows.
+        """
         return self._new_element(self.xa_elem.noteColumn(), XAOmniOutlinerColumn)
 
     @property
     def note_display(self) -> XAOmniOutlinerApplication.DisplayType:
+        """Whether notes are displayed inline.
+        """
         return XAOmniOutlinerApplication.DisplayType(self.xa_elem.noteDisplay())
 
     @note_display.setter
@@ -884,10 +909,14 @@ class XAOmniOutlinerDocument(XABase.XAObject, XACloseable, XAPrintable):
     
     @property
     def save_identifier(self) -> str:
+        """A string that changes each time the document is saved. If the save identifier is disabled, then this returns 'missing value'.
+        """
         return self.xa_elem.saveIdentifier()
 
     @property
     def save_identifier_enabled(self) -> bool:
+        """Controls whether a save identifier will be emitted in the archived document each time the document is saved. This is useful for external tools that need to quickly determine whether the document has changed without relying on the file modification time.
+        """
         return self.xa_elem.saveIdentifierEnabled()
 
     @save_identifier_enabled.setter
@@ -896,6 +925,8 @@ class XAOmniOutlinerDocument(XABase.XAObject, XACloseable, XAPrintable):
 
     @property
     def sorting_postponed(self) -> bool:
+        """Whether sorting is currently postponed for the document.
+        """
         return self.xa_elem.sortingPostponed()
 
     @sorting_postponed.setter
@@ -904,6 +935,8 @@ class XAOmniOutlinerDocument(XABase.XAObject, XACloseable, XAPrintable):
 
     @property
     def status_sort_order(self) -> XAOmniOutlinerApplication.SortOrder:
+        """The sort order used for the status checkbox in the topic column.
+        """
         return XAOmniOutlinerApplication.SortOrder(self.xa_elem.statusSortOrder())
 
     @status_sort_order.setter
@@ -912,6 +945,8 @@ class XAOmniOutlinerDocument(XABase.XAObject, XACloseable, XAPrintable):
 
     @property
     def status_visible(self) -> bool:
+        """Whether the status checkbox is visible in the outline column.
+        """
         return self.xa_elem.statusVisible()
 
     @status_visible.setter
@@ -920,6 +955,8 @@ class XAOmniOutlinerDocument(XABase.XAObject, XACloseable, XAPrintable):
 
     @property
     def store_compressed(self) -> bool:
+        """Whether xml should be compressed when saved.
+        """
         return self.xa_elem.storeCompressed()
 
     @store_compressed.setter
@@ -928,6 +965,8 @@ class XAOmniOutlinerDocument(XABase.XAObject, XACloseable, XAPrintable):
 
     @property
     def style(self) -> 'XAOmniOutlinerStyle':
+        """The default style for the document.
+        """
         return self._new_element(self.xa_elem.style(), XAOmniOutlinerStyle)
 
     @style.setter
@@ -936,6 +975,8 @@ class XAOmniOutlinerDocument(XABase.XAObject, XACloseable, XAPrintable):
 
     @property
     def title(self) -> str:
+        """This is the title of the document.
+        """
         return self.xa_elem.title()
 
     @title.setter
@@ -944,10 +985,14 @@ class XAOmniOutlinerDocument(XABase.XAObject, XACloseable, XAPrintable):
 
     @property
     def topic_column(self) -> 'XAOmniOutlinerColumn':
+        """The column of the document that displays the hierarchy of rows.
+        """
         return self._new_element(self.xa_elem.topicColumn(), XAOmniOutlinerColumn)
 
     @property
     def undo_enabled(self) -> bool:
+        """Controls whether undo is currently enabled in the document. This should be used very carefully. If it is set to 'false', all previously registered undo events will be removed and any further modifications to the document will not record undo operations.
+        """
         return self.xa_elem.undoEnabled()
 
     @undo_enabled.setter
@@ -956,6 +1001,8 @@ class XAOmniOutlinerDocument(XABase.XAObject, XACloseable, XAPrintable):
 
     @property
     def vertical_grid_color(self) -> XABase.XAColor:
+        """The color hairline dividers between columns.
+        """
         return XABase.XAColor(self.xa_elem.verticalGridColor())
 
     @vertical_grid_color.setter
@@ -964,10 +1011,14 @@ class XAOmniOutlinerDocument(XABase.XAObject, XACloseable, XAPrintable):
 
     @property
     def visible(self) -> bool:
+        """Whether the interface for the document is visible. Note that miniaturized counts as visible. Mostly this isn't useful to third parties right now.
+        """
         return self.xa_elem.visible()
 
     @property
     def writes_wrapper(self) -> bool:
+        """If set to true, this indicates that the document will write itself as a file wrapper (folder).
+        """
         return self.xa_elem.writesWrapper()
 
     @writes_wrapper.setter
@@ -976,6 +1027,8 @@ class XAOmniOutlinerDocument(XABase.XAObject, XACloseable, XAPrintable):
 
     @property
     def topiccolumnid(self) -> str:
+        """The topic column id for newly created documents.
+        """
         return self.xa_elem.topiccolumnid()
 
     @topiccolumnid.setter
@@ -984,6 +1037,8 @@ class XAOmniOutlinerDocument(XABase.XAObject, XACloseable, XAPrintable):
 
     @property
     def notescolumnid(self) -> str:
+        """The note column id for newly created documents.
+        """
         return self.xa_elem.notescolumndid()
 
     @notescolumnid.setter
@@ -1305,20 +1360,22 @@ class XAOmniOutlinerDocumentType(XABase.XAObject):
     def __init__(self, properties):
         super().__init__(properties)
 
-        self.uti: str #: The Uniform Type Identifier for this document type
-        self.display_name: str #: A user-presentable display name for this document type
-        self.file_extensions: list[str] #: File extensions for this document type
-
     @property
     def uti(self) -> str:
+        """The Uniform Type Identifier for this document type.
+        """
         return self.xa_elem.uti()
 
     @property
     def display_name(self) -> str:
+        """A user-presentable display name for this document type.
+        """
         return self.xa_elem.displayName()
 
     @property
     def file_extensions(self) -> list[str]:
+        """File extensions for this document type.
+        """
         return self.xa_elem.fileExtensions()
 
 
@@ -1384,16 +1441,16 @@ class XAOmniOutlinerEnumeration(XABase.XAObject):
     def __init__(self, properties):
         super().__init__(properties)
 
-        self.id: str #: An identifier for the enumeration that is unique within the column
-        self.index: int #: The index of the enumeration member int he column
-        self.name: str #: The name of the enumeration
-
     @property
     def id(self) -> str:
+        """An identifier for the enumeration that is unique within the column.
+        """
         return self.xa_elem.id()
 
     @property
     def index(self) -> str:
+        """The index of the enumeration member in the column.
+        """
         return self.xa_elem.index()
 
     @index.setter
@@ -1402,6 +1459,8 @@ class XAOmniOutlinerEnumeration(XABase.XAObject):
 
     @property
     def name(self) -> str:
+        """The name of the enumeration.
+        """
         return self.xa_elem.name()
 
     @name.setter
@@ -1441,24 +1500,10 @@ class XAOmniOutlinerColumn(XABase.XAObject):
     def __init__(self, properties):
         super().__init__(properties)
 
-        self.alignment: XAOmniOutlinerApplication.Alignment #: Default alignment for cells of the column
-        self.background_color: XABase.XAColor #: The background color of the column
-        self.column_style: XAOmniOutlinerStyle #: The style of the column. This is used as the default style for values in the column (but is overriden by any style attributes defined on rows)
-        self.document: XAOmniOutlinerDocument #: The document containing the column
-        self.column_format: XAOmniOutlinerColumFormat #: All aspects of the column's format
-        self.format_string: str #: The format string for formatted columns. Depends on the type of the column
-        self.id: str #: An identifier for the column that is unique within the document
-        self.index: int #: The index of the column in the document. This includes hidden columns
-        self.name: str #: The name of the column. This is currently the same as the title, but in the future the title may be styled while the name will always be a plain string
-        self.sort_order: XAOmniOutlinerApplication.SortOrder #: The sort order of the column
-        self.summary_type: XAOmniOutlinerApplication.ColumnSummaryType #: This is the summary type of the column
-        self.title: str #: The title of the column
-        self.column_type: XAOmniOutlinerApplication.ColumnType #: This is the type of the column
-        self.width: int #: The width of the column in pixels
-        self.visible: bool #: Whether the column is visible or not
-
     @property
     def alignment(self) -> XAOmniOutlinerApplication.Alignment:
+        """Default alignment for cells of the column.
+        """
         return XAOmniOutlinerApplication.Alignment(self.xa_elem.alignment())
 
     @alignment.setter
@@ -1467,6 +1512,8 @@ class XAOmniOutlinerColumn(XABase.XAObject):
 
     @property
     def background_color(self) -> XABase.XAColor:
+        """The background color of the column.
+        """
         return XABase.XAColor(self.xa_elem.backgroundColor())
 
     @background_color.setter
@@ -1475,6 +1522,8 @@ class XAOmniOutlinerColumn(XABase.XAObject):
 
     @property
     def column_style(self) -> 'XAOmniOutlinerStyle':
+        """The style of the column. This is used as the default style for values in the column (but is overriden by any style attributes defined on rows).
+        """
         return self._new_element(self.xa_elem.columnStyle(), XAOmniOutlinerStyle)
 
     @column_style.setter
@@ -1483,6 +1532,8 @@ class XAOmniOutlinerColumn(XABase.XAObject):
 
     @property
     def document(self) -> XAOmniOutlinerDocument:
+        """The document containing the column.
+        """
         return self._new_element(self.xa_elem.document(), XAOmniOutlinerDocument)
 
     @document.setter
@@ -1491,6 +1542,8 @@ class XAOmniOutlinerColumn(XABase.XAObject):
 
     @property
     def column_format(self) -> 'XAOmniOutlinerColumFormat':
+        """All aspects of the column's format.
+        """
         return self._new_element(self.xa_elem.columnFormat(), XAOmniOutlinerColumFormat)
 
     @column_format.setter
@@ -1499,6 +1552,8 @@ class XAOmniOutlinerColumn(XABase.XAObject):
 
     @property
     def format_string(self) -> str:
+        """The format string for formatted columns. Depends on the type of the column.
+        """
         return self.xa_elem.formatString()
 
     @format_string.setter
@@ -1507,10 +1562,14 @@ class XAOmniOutlinerColumn(XABase.XAObject):
 
     @property
     def id(self) -> str:
+        """An identifier for the column that is unique within the document.
+        """
         return self.xa_elem.id()
 
     @property
     def index(self) -> int:
+        """The index of the column in the document. This includes hidden columns.
+        """
         return self.xa_elem.index()
 
     @index.setter
@@ -1519,6 +1578,8 @@ class XAOmniOutlinerColumn(XABase.XAObject):
 
     @property
     def name(self) -> str:
+        """The name of the column. This is currently the same as the title, but in the future the title may be styled while the name will always be a plain string.
+        """
         return self.xa_elem.name()
 
     @name.setter
@@ -1527,6 +1588,8 @@ class XAOmniOutlinerColumn(XABase.XAObject):
 
     @property
     def sort_order(self) -> XAOmniOutlinerApplication.SortOrder:
+        """The sort order of the column.
+        """
         return XAOmniOutlinerApplication.SortOrder(self.xa_elem.sortOrder())
 
     @sort_order.setter
@@ -1535,6 +1598,8 @@ class XAOmniOutlinerColumn(XABase.XAObject):
 
     @property
     def summary_type(self) -> XAOmniOutlinerApplication.ColumnSummaryType:
+        """This is the summary type of the column.
+        """
         return XAOmniOutlinerApplication.SortOrder(self.xa_elem.summaryType())
 
     @summary_type.setter
@@ -1543,6 +1608,8 @@ class XAOmniOutlinerColumn(XABase.XAObject):
 
     @property
     def title(self) -> str:
+        """The title of the column.
+        """
         return self.xa_elem.title()
 
     @title.setter
@@ -1551,6 +1618,8 @@ class XAOmniOutlinerColumn(XABase.XAObject):
     
     @property
     def column_type(self) -> XAOmniOutlinerApplication.ColumnType:
+        """This is the type of the column.
+        """
         return XAOmniOutlinerApplication.ColumnType(self.xa_elem.columnType())
 
     @column_type.setter
@@ -1559,6 +1628,8 @@ class XAOmniOutlinerColumn(XABase.XAObject):
 
     @property
     def width(self) -> int:
+        """The width of the column in pixels.
+        """
         return self.xa_elem.width()
 
     @width.setter
@@ -1567,6 +1638,8 @@ class XAOmniOutlinerColumn(XABase.XAObject):
 
     @property
     def visible(self) -> bool:
+        """Whether the column is visible or not.
+        """
         return self.xa_elem.visible()
 
     @visible.setter
@@ -1622,17 +1695,10 @@ class XAOmniOutlinerColumFormat(XABase.XAObject):
     def __init__(self, properties):
         super().__init__(properties)
 
-        self.format: str #: The ICU format string
-        self.id: str #: The identifier for built-in formats
-        self.calendar: str #: The calendar to use for date formats
-        self.locale: str #: The locale identifier (such as "en_US" or "ja_JP") for formats
-        self.timezone: str #: The time zone to use for date formats
-        self.date_style: XAOmniOutlinerApplication.FormatStyle #: The style of date format to use, based off the user's preference
-        self.time_style: XAOmniOutlinerApplication.FormatStyle #: The style of date format to use, based off the user's preference
-        self.currency: str #: The ISO currency identifier (such as "USD" or "JPY") for columns with a currency format. Must be used with an id of "currency
-
     @property
     def format(self) -> str:
+        """The ICU format string.
+        """
         return self.xa_elem.format()
 
     @format.setter
@@ -1641,10 +1707,14 @@ class XAOmniOutlinerColumFormat(XABase.XAObject):
 
     @property
     def id(self) -> str:
+        """The identifier for built-in formats.
+        """
         return self.xa_elem.id()
 
     @property
     def calendar(self) -> str:
+        """The calendar to use for date formats.
+        """
         return self.xa_elem.calendar()
 
     @calendar.setter
@@ -1653,6 +1723,8 @@ class XAOmniOutlinerColumFormat(XABase.XAObject):
 
     @property
     def locale(self) -> str:
+        """The locale identifier (such as "en_US" or "ja_JP") for formats.
+        """
         return self.xa_elem.locale()
 
     @locale.setter
@@ -1661,6 +1733,8 @@ class XAOmniOutlinerColumFormat(XABase.XAObject):
 
     @property
     def timezone(self) -> str:
+        """The time zone to use for date formats.
+        """
         return self.xa_elem.timezone()
 
     @timezone.setter
@@ -1669,6 +1743,8 @@ class XAOmniOutlinerColumFormat(XABase.XAObject):
 
     @property
     def date_style(self) -> XAOmniOutlinerApplication.FormatStyle:
+        """The style of date format to use, based off the user's preference.
+        """
         return XAOmniOutlinerApplication.FormatStyle(self.xa_elem.dateStyle())
 
     @date_style.setter
@@ -1677,6 +1753,8 @@ class XAOmniOutlinerColumFormat(XABase.XAObject):
 
     @property
     def time_style(self) -> XAOmniOutlinerApplication.FormatStyle:
+        """The style of time format to use, based off the user's preference.
+        """
         return XAOmniOutlinerApplication.FormatStyle(self.xa_elem.timeStyle())
 
     @time_style.setter
@@ -1685,6 +1763,8 @@ class XAOmniOutlinerColumFormat(XABase.XAObject):
 
     @property
     def currency(self):
+        """The ISO currency identifier (such as "USD" or "JPY") for columns with a currency format. Must be used with an id of "currency.
+        """
         return self.xa_elem.currency()
 
     @currency.setter
@@ -1713,28 +1793,11 @@ class XAOmniOutlinerRow(XABase.XAObject):
     """
     def __init__(self, properties):
         super().__init__(properties)
-
-        self.children_are_sections: bool #: Whether the row's children are treated as separate sections
-        self.document: XAOmniOutlinerDocument #: The document containing the row
-        self.expanded: bool #: Whether the row's subtopics are visible
-        self.has_subtopics: bool #: Whether the row has any subtopics
-        self.id: str #: An identifier for the row that is unique within the document
-        self.name: str #: The name of the row (just a plain string version of the topic)
-        self.index: int #: The index of the row among its siblings
-        self.level: int #: How 'deep' this item is. Top-level rows are level 1, subtopics of those rows are level 2, and so on
-        self.note: XAOmniOutlinerRichText #: Contents of the note column
-        self.note_cell: XAOmniOutlinerCell #: The cell for the note column in the row
-        self.note_expanded: bool #: Whether inline note is currently displayed
-        self.parent: XAOmniOutlinerRow #: The row that contains this row
-        self.selected: bool #: This is true if the row is selected. Note that attempts to set this while the row is not visible (collapsed parent, hoisted root isn't an ancestor, etc.) will silently do nothing
-        self.state: XAOmniOutlinerApplication.CheckboxState #: The state of the check box for this row
-        self.style: XAOmniOutlinerStyle #: The style of the row
-        self.topic: XAOmniOutlinerRichText #: Contents of the outline column
-        self.topic_cell: XAOmniOutlinerCell #: The cell for the topic column in the row
-        self.visible: bool #: Whether this row is in the outline view. It must be a descendent of the current root item taking hoisting into account, with no collapsed ancestors below the current root. Hoisted rows are visible in the outline and so are considered visible
     
     @property
     def children_are_sections(self) -> bool:
+        """Whether the row's children are treated as separate sections.
+        """
         return self.xa_elem.childrenAreSections()
 
     @children_are_sections.setter
@@ -1743,10 +1806,14 @@ class XAOmniOutlinerRow(XABase.XAObject):
 
     @property
     def document(self) -> XAOmniOutlinerDocument:
+        """The document containing the row.
+        """
         return self._new_element(self.xa_elem.document(), XAOmniOutlinerDocument)
 
     @property
     def expanded(self) -> bool:
+        """Whether the row's subtopics are visible.
+        """
         return self.xa_elem.expanded()
 
     @expanded.setter
@@ -1755,18 +1822,26 @@ class XAOmniOutlinerRow(XABase.XAObject):
 
     @property
     def has_subtopics(self) -> bool:
+        """Whether the row has any subtopics.
+        """
         return self.xa_elem.hasSubtopics()
 
     @property
     def id(self) -> str:
+        """An identifier for the row that is unique within the document.
+        """
         return self.xa_elem.id()
 
     @property
     def name(self) -> str:
+        """The name of the row (just a plain string version of the topic).
+        """
         return self.xa_elem.name()
 
     @property
     def index(self) -> int:
+        """The index of the row among its siblings.
+        """
         return self.xa_elem.index()
 
     @index.setter
@@ -1775,10 +1850,14 @@ class XAOmniOutlinerRow(XABase.XAObject):
 
     @property
     def level(self) -> int:
+        """How 'deep' this item is. Top-level rows are level 1, subtopics of those rows are level 2, and so on.
+        """
         return self.xa_elem.level()
 
     @property
     def note(self) -> XAOmniOutlinerRichText:
+        """Contents of the note column.
+        """
         return self._new_element(self.xa_elem.note(), XAOmniOutlinerRichText)
 
     @note.setter
@@ -1787,6 +1866,8 @@ class XAOmniOutlinerRow(XABase.XAObject):
 
     @property
     def note_cell(self) -> 'XAOmniOutlinerCell':
+        """The cell for the note column in the row.
+        """
         return self._new_element(self.xa_elem.noteCell(), XAOmniOutlinerCell)
 
     @note_cell.setter
@@ -1795,6 +1876,8 @@ class XAOmniOutlinerRow(XABase.XAObject):
 
     @property
     def note_expanded(self) -> bool:
+        """Whether inline note is currently displayed.
+        """
         return self.xa_elem.noteExpanded()
 
     @note_expanded.setter
@@ -1803,10 +1886,14 @@ class XAOmniOutlinerRow(XABase.XAObject):
 
     @property
     def parent(self) -> 'XAOmniOutlinerRow':
+        """The row that contains this row.
+        """
         return self._new_element(self.xa_elem.parent(), XAOmniOutlinerRow)
 
     @property
     def selected(self) -> bool:
+        """This is true if the row is selected. Note that attempts to set this while the row is not visible (collapsed parent, hoisted root isn't an ancestor, etc.) will silently do nothing.
+        """
         return self.xa_elem.selected()
 
     @selected.setter
@@ -1815,6 +1902,8 @@ class XAOmniOutlinerRow(XABase.XAObject):
 
     @property
     def state(self) -> XAOmniOutlinerApplication.CheckboxState:
+        """The state of the check box for this row.
+        """
         return XAOmniOutlinerApplication.CheckboxState(self.xa_elem.state())
 
     @state.setter
@@ -1823,6 +1912,8 @@ class XAOmniOutlinerRow(XABase.XAObject):
 
     @property
     def style(self) -> 'XAOmniOutlinerStyle':
+        """The style of the row.
+        """
         return self._new_element(self.xa_elem.style(), XAOmniOutlinerStyle)
 
     @style.setter
@@ -1831,6 +1922,8 @@ class XAOmniOutlinerRow(XABase.XAObject):
 
     @property
     def topic(self) -> XAOmniOutlinerRichText:
+        """Contents of the outline column.
+        """
         return self._new_element(self.xa_elem.topic(), XAOmniOutlinerRichText)
 
     @topic.setter
@@ -1839,10 +1932,14 @@ class XAOmniOutlinerRow(XABase.XAObject):
 
     @property
     def topic_cell(self) -> 'XAOmniOutlinerCell':
+        """The cell for the topic column in the row.
+        """
         return self._new_element(self.xa_elem.topicCell(), XAOmniOutlinerCell)
 
     @property
     def visible(self) -> bool:
+        """Whether this row is in the outline view. It must be a descendent of the current root item taking hoisting into account, with no collapsed ancestors below the current root. Hoisted rows are visible in the outline and so are considered visible.
+        """
         return self.xa_elem.visible()
 
     def expand_all(self, items: Union['XAOmniOutlinerRow', list['XAOmniOutlinerRow'], XAOmniOutlinerRowList, None] = None):
@@ -2304,16 +2401,10 @@ class XAOmniOutlinerCell(XABase.XAObject):
     def __init__(self, properties):
         super().__init__(properties)
 
-        self.column: XAOmniOutlinerColumn #: Column that this cell is in
-        self.state: XAOmniOutlinerApplication.CheckboxState #:  State of the cell. This is only valid on checkbox columns
-        self.id: str #: The unique identifier of the cell within the containing row. This identifier is the same as the identifier of the cell's column
-        self.text: XAOmniOutlinerRichText #: Text of the cell. This is only valid on text columns
-        self.value: Union[str, datetime, int, float, 'XAOmniOutlinerEnumeration', XAOmniOutlinerApplication.CheckboxState] #: Contents of the cell, whatever the type
-        self.row: XAOmniOutlinerRow #: Row that this cell is in
-        self.name: str #: The name of the cell. This is the same as the name of the cell's column
-
     @property
     def column(self) -> XAOmniOutlinerColumn:
+        """Column that this cell is in.
+        """
         return self._new_element(self.xa_elem.column(), XAOmniOutlinerColumn)
 
     @column.setter
@@ -2322,6 +2413,8 @@ class XAOmniOutlinerCell(XABase.XAObject):
 
     @property
     def state(self) -> XAOmniOutlinerApplication.CheckboxState:
+        """State of the cell. This is only valid on checkbox columns.
+        """
         return XAOmniOutlinerApplication.CheckboxState(self.xa_elem.state())
 
     @state.setter
@@ -2330,10 +2423,14 @@ class XAOmniOutlinerCell(XABase.XAObject):
 
     @property
     def id(self) -> str:
+        """The unique identifier of the cell within the containing row. This identifier is the same as the identifier of the cell's column.
+        """
         return self.xa_elem.id()
 
     @property
     def text(self) -> XAOmniOutlinerRichText:
+        """Text of the cell. This is only valid on text columns.
+        """
         return self._new_element(self.xa_elem.text(), XAOmniOutlinerRichText)
     
     @text.setter
@@ -2342,6 +2439,8 @@ class XAOmniOutlinerCell(XABase.XAObject):
 
     @property
     def value(self) -> Union[str, datetime, int, float, 'XAOmniOutlinerEnumeration', XAOmniOutlinerApplication.CheckboxState]:
+        """Contents of the cell, whatever the type.
+        """
         # TODO
         return self.xa_elem.value()
 
@@ -2352,10 +2451,14 @@ class XAOmniOutlinerCell(XABase.XAObject):
 
     @property
     def row(self) -> XAOmniOutlinerRow:
+        """Row that this cell is in.
+        """
         self._new_element(self.xa_elem.row(), XAOmniOutlinerRow)
 
     @property
     def name(self) -> str:
+        """The name of the cell. This is the same as the name of the cell's column.
+        """
         return self.xa_elem.name()
 
     def replace(self, replacement: str, regex_to_find: Union[str, None] = None, string_to_find: Union[str, None] = None):
@@ -2395,11 +2498,10 @@ class XAOmniOutlinerStyle(XABase.XAObject):
     def __init__(self, properties):
         super().__init__(properties)
 
-        self.container: XABase.XAObject #: The object owning the style
-        self.font: str #: The name of the font of the style
-
     @property
     def container(self) -> XABase.XAObject:
+        """The object owning the style.
+        """
         container = self.xa_elem.container()
         if hasattr(container, "alternateColor"):
             return self._new_element(container, XAOmniOutlinerDocument)
@@ -2407,6 +2509,8 @@ class XAOmniOutlinerStyle(XABase.XAObject):
 
     @property
     def font(self) -> str:
+        """The name of the font of the style.
+        """
         return self.xa_elem.font()
 
     @font.setter
@@ -2469,15 +2573,16 @@ class XAOmniOutlinerNamedStyle(XAOmniOutlinerStyle):
     def __init__(self, properties):
         super().__init__(properties)
 
-        self.id: str #: An identifier for the named style that is unique within its document. Currently this identifier is not persistent between two different sessions of editing the document
-        self.name: str #: The name of the style. Must be unique within the containing document
-
     @property
     def id(self) -> str:
+        """An identifier for the named style that is unique within its document. Currently this identifier is not persistent between two different sessions of editing the document.
+        """
         return self.xa_elem.id()
 
     @property
     def name(self) -> str:
+        """The name of the style. Must be unique within the containing document.
+        """
         return self.xa_elem.name()
 
     @name.setter
@@ -2505,19 +2610,16 @@ class XAOmniOutlinerAttribute(XABase.XAObject):
     def __init__(self, properties):
         super().__init__(properties)
 
-        self.name: str #: The name of the attribute
-        self.style: XAOmniOutlinerStyle #: The style to which the attribute refers
-        self.has_local_value: bool #: If true, the containing style defines a local value for this attribute
-        self.defining_style: XAOmniOutlinerStyle #: The style responsible for the effective value in this attributes's style. This processes the local values, inherited styles and cascade chain
-        self.value: Union[XAOmniOutlinerGenericColor, XABase.XAColor, str, XABase.XAURL, float, list[float], int, bool, XAOmniOutlinerPoint, None] #: The value of the attribute in its style
-        self.default_value: Union[XAOmniOutlinerGenericColor, XABase.XAColor, str, XABase.XAURL, float, list[float], int, bool, XAOmniOutlinerPoint, None] #: The default value of the attribute in its style
-
     @property
     def name(self) -> str:
+        """The name of the attribute.
+        """
         return self.xa_elem.name()
 
     @property
     def style(self) -> XAOmniOutlinerStyle:
+        """The style to which the attribute refers.
+        """
         return self._new_element(self.xa_elem.style(), XAOmniOutlinerStyle)
 
     @style.setter
@@ -2526,14 +2628,20 @@ class XAOmniOutlinerAttribute(XABase.XAObject):
 
     @property
     def has_local_value(self) -> bool:
+        """If true, the containing style defines a local value for this attribute.
+        """
         return self.xa_elem.hasLocalValue()
 
     @property
     def defining_style(self) -> XAOmniOutlinerStyle:
+        """The style responsible for the effective value in this attributes's style. This processes the local values, inherited styles and cascade chain.
+        """
         return self._new_element(self.xa_elem.definingStyle(), XAOmniOutlinerStyle)
 
     @property
     def value(self) -> Union['XAOmniOutlinerGenericColor', XABase.XAColor, str, XABase.XAURL, float, list[float], int, bool, 'XAOmniOutlinerPoint', None]:
+        """The value of the attribute in its style.
+        """
         # TODO
         return self.xa_elem.value()
 
@@ -2543,6 +2651,8 @@ class XAOmniOutlinerAttribute(XABase.XAObject):
 
     @property
     def default_value(self) -> Union['XAOmniOutlinerGenericColor', XABase.XAColor, str, XABase.XAURL, float, list[float], int, bool, 'XAOmniOutlinerPoint', None]:
+        """The default value of the attribute in its style.
+        """
         return self.xa_elem.defaultValue()
 
     @default_value.setter
@@ -2567,11 +2677,10 @@ class XAOmniOutlinerPoint(XABase.XAObject):
     def __init__(self, properties):
         super().__init__(properties)
 
-        self.x: float #: The x coordinate of the point
-        self.y: float #: The y coordinate of the point
-
     @property
     def x(self) -> float:
+        """The x coordinate of the point.
+        """
         return self.xa_elem.x()
 
     @x.setter
@@ -2580,6 +2689,8 @@ class XAOmniOutlinerPoint(XABase.XAObject):
 
     @property
     def y(self) -> float:
+        """The y coordinate of the point.
+        """
         return self.xa_elem.y()
 
     @x.setter
@@ -2629,26 +2740,10 @@ class XAOmniOutlinerGenericColor(XABase.XAObject):
     def __init__(self, properties):
         super().__init__(properties)
 
-        self.r: float #: If the color is in a RGB color space, this is the calibrated floating point red component, from zero to one
-        self.g: float #: If the color is in a RGB color space, this is the calibrated floating point green component, from zero to one
-        self.b: float #: If the color is in a RGB color space, this is the calibrated floating point blue component, from zero to one
-        self.w: float #: If the color is in a White color space, this is the calibrated floating point white component, from zero to one, with zero being totally black and one being totally white
-        self.c: float #: If the color is in a CMYK color space, this is the device-specific floating point cyan component, from zero to one. There is currently no support for calibrated CYMK color spaces
-        self.y: float #: If the color is in a CMYK color space, this is the device-specific floating point yellow component, from zero to one. There is currently no support for calibrated CYMK color spaces
-        self.m: float #: If the color is in a CMYK color space, this is the device-specific floating point magenta component, from zero to one. There is currently no support for calibrated CYMK color spaces
-        self.k: float #: If the color is in a CMYK color space, this is the device-specific floating point black component, from zero to one. There is currently no support for calibrated CYMK color spaces
-        self.h: float #: If the color is in a HSV color space, this is the calibrated floating point hue component, from zero to one
-        self.s: float #: If the color is in a HSV color space, this is the calibrated floating point saturation component, from zero to one
-        self.v: float #: If the color is in a HSV color space, this is the calibrated floating point value component, from zero to on
-        self.a: float #: The opacity or alpha of the color as a floating point number from zero to one with zero being totally transparent and one being totally opaque
-        self.catalog: str #: If the color is in a catalog color space, this is the name of the catalog
-        self.name: str #: If the color is in a catalog color space, this is the name of color with in the catalog
-        self.png: XAOmniOutlinerPNGData #: If the color is in a pattern color space, this is PNG data for the image representing the pattern
-        self.tiff: XAOmniOutlinerTIFFData #: If the color is in a pattern color space, this is TIFF data for the image representing the pattern
-        self.archive: XAOmniOutlinerArchiveData #: If the color cannot be represented in any other format, a binary archive is placed in this property
-
     @property
     def r(self) -> float:
+        """If the color is in a RGB color space, this is the calibrated floating point red component, from zero to one.
+        """
         return self.xa_elem.r()
 
     @r.setter
@@ -2657,6 +2752,8 @@ class XAOmniOutlinerGenericColor(XABase.XAObject):
 
     @property
     def g(self) -> float:
+        """If the color is in a RGB color space, this is the calibrated floating point green component, from zero to one.
+        """
         return self.xa_elem.g()
 
     @g.setter
@@ -2665,6 +2762,8 @@ class XAOmniOutlinerGenericColor(XABase.XAObject):
 
     @property
     def b(self) -> float:
+        """If the color is in a RGB color space, this is the calibrated floating point blue component, from zero to one.
+        """
         return self.xa_elem.b()
 
     @b.setter
@@ -2673,6 +2772,8 @@ class XAOmniOutlinerGenericColor(XABase.XAObject):
 
     @property
     def w(self) -> float:
+        """If the color is in a White color space, this is the calibrated floating point white component, from zero to one, with zero being totally black and one being totally white.
+        """
         return self.xa_elem.w()
 
     @w.setter
@@ -2681,6 +2782,8 @@ class XAOmniOutlinerGenericColor(XABase.XAObject):
 
     @property
     def c(self) -> float:
+        """If the color is in a CMYK color space, this is the device-specific floating point cyan component, from zero to one. There is currently no support for calibrated CYMK color spaces.
+        """
         return self.xa_elem.c()
 
     @c.setter
@@ -2689,6 +2792,8 @@ class XAOmniOutlinerGenericColor(XABase.XAObject):
 
     @property
     def y(self) -> float:
+        """If the color is in a CMYK color space, this is the device-specific floating point yellow component, from zero to one. There is currently no support for calibrated CYMK color spaces.
+        """
         return self.xa_elem.y()
 
     @y.setter
@@ -2697,6 +2802,8 @@ class XAOmniOutlinerGenericColor(XABase.XAObject):
 
     @property
     def m(self) -> float:
+        """If the color is in a CMYK color space, this is the device-specific floating point magenta component, from zero to one. There is currently no support for calibrated CYMK color spaces.
+        """
         return self.xa_elem.m()
 
     @m.setter
@@ -2705,6 +2812,8 @@ class XAOmniOutlinerGenericColor(XABase.XAObject):
 
     @property
     def k(self) -> float:
+        """If the color is in a CMYK color space, this is the device-specific floating point black component, from zero to one. There is currently no support for calibrated CYMK color spaces.
+        """
         return self.xa_elem.k()
 
     @k.setter
@@ -2713,6 +2822,8 @@ class XAOmniOutlinerGenericColor(XABase.XAObject):
 
     @property
     def h(self) -> float:
+        """If the color is in a HSV color space, this is the calibrated floating point hue component, from zero to one.
+        """
         return self.xa_elem.h()
 
     @h.setter
@@ -2721,6 +2832,8 @@ class XAOmniOutlinerGenericColor(XABase.XAObject):
 
     @property
     def s(self) -> float:
+        """If the color is in a HSV color space, this is the calibrated floating point saturation component, from zero to one.
+        """
         return self.xa_elem.s()
 
     @s.setter
@@ -2729,6 +2842,8 @@ class XAOmniOutlinerGenericColor(XABase.XAObject):
 
     @property
     def v(self) -> float:
+        """If the color is in a HSV color space, this is the calibrated floating point value component, from zero to on.
+        """
         return self.xa_elem.v()
 
     @v.setter
@@ -2736,7 +2851,19 @@ class XAOmniOutlinerGenericColor(XABase.XAObject):
         self.set_property("v", v)
 
     @property
+    def a(self) -> float:
+        return self.xa_elem.a()
+
+    @a.setter
+    def a(self, a: float):
+        """The opacity or alpha of the color as a floating point number from zero to one with zero being totally transparent and one being totally opaque.
+        """
+        self.set_property('a', a)
+
+    @property
     def catalog(self) -> str:
+        """If the color is in a catalog color space, this is the name of the catalog.
+        """
         return self.xa_elem.catalog()
 
     @catalog.setter
@@ -2745,6 +2872,8 @@ class XAOmniOutlinerGenericColor(XABase.XAObject):
 
     @property
     def name(self) -> str:
+        """If the color is in a catalog color space, this is the name of color with in the catalog.
+        """
         return self.xa_elem.name()
 
     @name.setter
@@ -2753,6 +2882,8 @@ class XAOmniOutlinerGenericColor(XABase.XAObject):
 
     @property
     def png(self) -> XAOmniOutlinerPNGData:
+        """If the color is in a pattern color space, this is PNG data for the image representing the pattern.
+        """
         return self._new_element(self.xa_elem.png(), XAOmniOutlinerPNGData)
 
     @png.setter
@@ -2761,6 +2892,8 @@ class XAOmniOutlinerGenericColor(XABase.XAObject):
 
     @property
     def tiff(self) -> XAOmniOutlinerTIFFData:
+        """If the color is in a pattern color space, this is TIFF data for the image representing the pattern.
+        """
         return self._new_element(self.xa_elem.tiff(), XAOmniOutlinerTIFFData)
 
     @tiff.setter
@@ -2769,6 +2902,8 @@ class XAOmniOutlinerGenericColor(XABase.XAObject):
 
     @property
     def archive(self) -> XAOmniOutlinerArchiveData:
+        """If the color cannot be represented in any other format, a binary archive is placed in this property.
+        """
         return self._new_element(self.xa_elem.archive(), XAOmniOutlinerArchiveData)
 
     @archive.setter
@@ -2796,16 +2931,16 @@ class XAOmniOutlinerPreference(XABase.XAObject):
     def __init__(self, properties):
         super().__init__(properties)
 
-        self.id: str #: The identifier of the preference
-        self.value: Union[str, float, int, bool, None] #: The current value of the preference
-        self.default_value: Union[str, float, int, bool, None] #: The default value of the preference
-
     @property
     def id(self) -> str:
+        """The identifier of the preference.
+        """
         return self.xa_elem.id()
 
     @property
     def value(self) -> Union[str, float, int, bool, None]:
+        """The current value of the preference.
+        """
         return self.xa_elem.value()
 
     @value.setter
@@ -2814,6 +2949,8 @@ class XAOmniOutlinerPreference(XABase.XAObject):
 
     @property
     def default_value(self) -> Union[str, float, int, bool, None]:
+        """The default value of the preference.
+        """
         return self.xa_elem.defaultValue()
 
     @default_value.setter
@@ -2841,17 +2978,16 @@ class XAOmniOutlinerConduitSettingDomain(XABase.XAObject):
     def __init__(self, properties):
         super().__init__(properties)
 
-        self.id: str #: The unique identifier of the domain. These should typically be in the reverse-DNS style of bundle identifiers ("com.mycompany.myproduct")
-        self.settings: list[Union[str, None]] #: Values must be strings or 'missing value' (removes value). To set a single entry, concatenate the current value with the changes and then re-set it. Concatenating an empty and non-empty record crashes AppleScript, so 'missing value' will be returned
-        self.external_id: str #: Identifies the conduit externally to OmniOutliner. This might be a record identifier in an external database. This will not get copied when duplicating the row, or if a 'save as' or 'save to' operation is performed instead of a normal 'save'
-        self.container: XABase.XAObject #: The row or document containing this group of conduit settings
-
     @property
     def id(self) -> str:
+        """The unique identifier of the domain. These should typically be in the reverse-DNS style of bundle identifiers ("com.mycompany.myproduct").
+        """
         return self.xa_elem.id()
 
     @property
     def settings(self) -> list[Union[str, None]]:
+        """Values must be strings or 'missing value' (removes value). To set a single entry, concatenate the current value with the changes and then re-set it. Concatenating an empty and non-empty record crashes AppleScript, so 'missing value' will be returned.
+        """
         return self.xa_elem.settings()
 
     @settings.setter
@@ -2860,10 +2996,14 @@ class XAOmniOutlinerConduitSettingDomain(XABase.XAObject):
 
     @property
     def external_id(self) -> str:
+        """Identifies the conduit externally to OmniOutliner. This might be a record identifier in an external database. This will not get copied when duplicating the row, or if a 'save as' or 'save to' operation is performed instead of a normal 'save'.
+        """
         return self.xa_elem.externalId()
 
     @property
     def container(self) -> XABase.XAObject:
+        """The row or document containing this group of conduit settings.
+        """
         # TODO
         return self.xa_elem.container()
 
@@ -2888,21 +3028,10 @@ class XAOmniOutlinerXslTransform(XABase.XAObject):
     def __init__(self, properties):
         super().__init__(properties)
 
-        self.directory_extension: str #: The prefered file extension for file-system representations of wrapped file documents handled by this plugin
-        self.directory_index_file_name: str #: When writing a document with attachments, this specifies the name of the index file written inside the directory containing the transformed XML
-        self.write_attachments: bool #: When writing a document with attachments, this specifies whether the attachments will be written to the output location
-        self.display_name: str #: The human readable name for the transform
-        self.file_extension: str #: The preferred file extension for file-system representations of flat file documents handled by this plugin
-        self.id: str #: A unique identifier for the transform to be used as the 'as' parameter of the 'save' command
-        self.is_export: bool #: Returns true if the source format is a native format for OmniOutliner
-        self.is_import: bool #: Returns true if the result format is a native format for OmniOutliner
-        self.parameter_names: str #: Names of all XSL parameters set on this transform
-        self.result_format: str #: A description of the data type produced by this transform. For XML data types, this is the DTD public identifier
-        self.source_format: str #: A description of the data type consumed by this transform. For XML data types, this is the DTD public identifier
-        self.stylesheet: str #: The XSL source for the transform
-
     @property
     def directory_extension(self) -> str:
+        """The prefered file extension for file-system representations of wrapped file documents handled by this plugin.
+        """
         return self.xa_elem.directoryExtension()
 
     @directory_extension.setter
@@ -2911,6 +3040,8 @@ class XAOmniOutlinerXslTransform(XABase.XAObject):
 
     @property
     def directory_index_file_name(self) -> str:
+        """When writing a document with attachments, this specifies the name of the index file written inside the directory containing the transformed XML.
+        """
         return self.xa_elem.directoryIndexFileName()
 
     @directory_index_file_name.setter
@@ -2919,6 +3050,8 @@ class XAOmniOutlinerXslTransform(XABase.XAObject):
 
     @property
     def write_attachments(self) -> bool:
+        """When writing a document with attachments, this specifies whether the attachments will be written to the output location.
+        """
         return self.xa_elem.writeAttachments()
 
     @write_attachments.setter
@@ -2927,6 +3060,8 @@ class XAOmniOutlinerXslTransform(XABase.XAObject):
 
     @property
     def display_name(self) -> str:
+        """The human readable name for the transform.
+        """
         return self.xa_elem.displayName()
 
     @display_name.setter
@@ -2935,6 +3070,8 @@ class XAOmniOutlinerXslTransform(XABase.XAObject):
 
     @property
     def file_extension(self) -> str:
+        """The preferred file extension for file-system representations of flat file documents handled by this plugin.
+        """
         return self.xa_elem.fileExtension()
 
     @file_extension.setter
@@ -2943,22 +3080,32 @@ class XAOmniOutlinerXslTransform(XABase.XAObject):
 
     @property
     def id(self) -> str:
+        """A unique identifier for the transform to be used as the 'as' parameter of the 'save' command.
+        """
         return self.xa_elem.id()
 
     @property
     def is_export(self) -> bool:
+        """Returns true if the source format is a native format for OmniOutliner.
+        """
         return self.xa_elem.isExport()
 
     @property
     def is_import(self) -> bool:
+        """Returns true if the result format is a native format for OmniOutliner.
+        """
         return self.xa_elem.isImport()
 
     @property
     def parameter_names(self) -> str:
+        """Names of all XSL parameters set on this transform.
+        """
         return self.xa_elem.parameterNames()
 
     @property
     def result_format(self) -> str:
+        """A description of the data type produced by this transform. For XML data types, this is the DTD public identifier.
+        """
         return self.xa_elem.resultFormat()
 
     @result_format.setter
@@ -2967,6 +3114,8 @@ class XAOmniOutlinerXslTransform(XABase.XAObject):
 
     @property
     def source_format(self) -> str:
+        """A description of the data type consumed by this transform. For XML data types, this is the DTD public identifier.
+        """
         return self.xa_elem.sourceFormat()
 
     @source_format.setter
@@ -2975,6 +3124,8 @@ class XAOmniOutlinerXslTransform(XABase.XAObject):
 
     @property
     def stylesheet(self) -> str:
+        """The XSL source for the transform.
+        """
         return self.xa_elem.stylesheet()
 
     @stylesheet.setter

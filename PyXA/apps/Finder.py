@@ -136,7 +136,7 @@ class XAFinderApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         self.xa_wcls = XAFinderWindow
         self.xa_fmgr = NSFileManager.defaultManager()
 
-        self.name: str #: The name of Finder
+        self.name: str #: The name of the application
         self.visible: bool #: Whether Finder is currently visible
         self.frontmost: bool #: Whether Finder is the active application
         self.product_version: str #: The system software version
@@ -1974,7 +1974,8 @@ class XAFinderWindow(XABaseScriptable.XASBWindow, XABaseScriptable.XASBPrintable
 
     @position.setter
     def position(self, position: tuple[int, int]):
-        self.set_property('position', position)
+        value = AppKit.NSValue.valueWithPoint_(position)
+        self.set_property('position', value)
 
     @property
     def bounds(self) -> tuple[int, int, int, int]:
@@ -2211,6 +2212,12 @@ class XAFinderDesktop(XAFinderContainer):
     """
     def __init__(self, properties):
         super().__init__(properties)
+
+    @property
+    def window(self) -> 'XAFinderDesktopWindow':
+        """The desktop window. 
+        """
+        return self._new_element(self.xa_elem.window(), XAFinderDesktopWindow)
 
 class XAFinderDesktopWindow(XAFinderWindow):
     """A class representing the containing window around Finder's desktop element.

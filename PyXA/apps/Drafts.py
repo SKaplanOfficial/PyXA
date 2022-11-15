@@ -18,15 +18,16 @@ class XADraftsApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
     def __init__(self, properties):
         super().__init__(properties)
 
-        self.name: str #: The name of the application
-        self.version: str #: The version of Drafts.app
-
     @property
     def name(self) -> str:
+        """The name of the application.
+        """
         return self.xa_scel.name()
 
     @property
     def version(self) -> str:
+        """The version of Drafts.app.
+        """
         return self.xa_scel.version()
 
     def new_draft(self, content: str) -> 'XADraftsDraft':
@@ -276,26 +277,23 @@ class XADraftsDraft(XABase.XAObject):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.id: str #: The unique identifier of the draft
-        self.name: str #: The first line of the draft
-        self.content: str #: The content of the draft
-        self.flagged: bool #: The flagged status of the draft
-        self.tags: list[str] #: The tags assigned to the draft
-        self.created_at: datetime #: The date the draft was created
-        self.modified_at: datetime #: The date the draft was last modified
-        self.accessed_at: datetime #: The date the draft was last accessed
-        self.permalink: str #: The URL of the draft
 
     @property
     def id(self) -> str:
+        """The unique identifier of the draft.
+        """
         return self.xa_elem.id()
 
     @property
     def name(self) -> str:
+        """The first line of the draft.
+        """
         return self.xa_elem.name()
 
     @property
     def content(self) -> str:
+        """The content of the draft.
+        """
         return self.xa_elem.content()
 
     @content.setter
@@ -304,6 +302,8 @@ class XADraftsDraft(XABase.XAObject):
 
     @property
     def flagged(self) -> bool:
+        """The flagged status of the draft.
+        """
         return self.xa_elem.flagged()
 
     @flagged.setter
@@ -312,6 +312,8 @@ class XADraftsDraft(XABase.XAObject):
 
     @property
     def tags(self) -> list[str]:
+        """The tags assigned to the draft.
+        """
         return self.xa_elem.tags()
     
     @tags.setter
@@ -320,18 +322,26 @@ class XADraftsDraft(XABase.XAObject):
 
     @property
     def created_at(self) -> datetime:
+        """The date the draft was created.
+        """
         return self.xa_elem.createdAt()
 
     @property
     def modified_at(self) -> datetime:
+        """The date the draft was last modified.
+        """
         return self.xa_elem.modifiedAt()
 
     @property
     def accessed_at(self) -> datetime:
+        """The date the draft was last accessed.
+        """
         return self.xa_elem.accessedAt()
 
     @property
     def permalink(self) -> str:
+        """The URL of the draft.
+        """
         return self.xa_elem.permalink()
 
     def __repr__(self):

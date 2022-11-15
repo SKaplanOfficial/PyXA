@@ -21,22 +21,22 @@ class XAQuickTimeApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         super().__init__(properties)
         self.xa_wcls = XAQuickTimeWindow
 
-        self.properties: dict #: Every property of the QuickTime application
-        self.name: str #: The name of the application
-        self.frontmost: bool #: Whether QuickTime is the frontmost application
-        self.version: str #: The version of QuickTime.app
-        self.current_document: XAQuickTimeDocument #: The document currently open in the front window of QuickTime
-
     @property
     def properties(self) -> dict:
+        """Every property of the QuickTime application.
+        """
         return self.xa_scel.properties()
 
     @property
     def name(self) -> str:
+        """The name of the application.
+        """
         return self.xa_scel.name()
 
     @property
     def frontmost(self) -> bool:
+        """Whether QuickTime is the frontmost application.
+        """
         return self.xa_scel.frontmost()
 
     @frontmost.setter
@@ -45,10 +45,14 @@ class XAQuickTimeApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
 
     @property
     def version(self) -> str:
+        """The version of QuickTime.app.
+        """
         return self.xa_scel.version()
 
     @property
     def current_document(self) -> 'XAQuickTimeDocument':
+        """The document currently open in the front window of QuickTime.
+        """
         return self.front_window.document
 
     def open(self, path: Union[str, AppKit.NSURL]) -> 'XAQuickTimeDocument':
@@ -196,26 +200,17 @@ class XAQuickTimeWindow(XABaseScriptable.XASBWindow):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.id: int #: The unique identifier for the window
-        self.bounds: tuple[int, int, int, int] #: The boundary rectangle for the window
-        self.name: str #: The name of the window
-        self.index: int #: The index of the window in the front-to-back order of Finder windows
-        self.closeable: bool #: Whether the window has a close button
-        self.resizable: bool #: Whether the window can be resized
-        self.zoomable: bool #: Whether the window can be zoomed
-        self.zoomed: bool #: Whether the window is currently zoomed
-        self.visible: bool #: Whether the window is currently visible
-        self.miniaturizable: bool #: Whether the window can be minimized
-        self.miniaturized: bool #: Whether the window is currently minimized
-        self.properties: dict #: Every property of a QuickTime window
-        self.document: XAQuickTimeDocument #: The document currently displayed in the front window of QuickTime
 
     @property
     def id(self) -> int:
+        """The unique identifier for the window.
+        """
         return self.xa_elem.id()
 
     @property
     def bounds(self) -> tuple[int, int, int, int]:
+        """The boundary rectangle for the window.
+        """
         rect = self.xa_elem.bounds()
         origin = rect.origin
         size = rect.size
@@ -232,10 +227,14 @@ class XAQuickTimeWindow(XABaseScriptable.XASBWindow):
 
     @property
     def name(self) -> str:
+        """The name of the window.
+        """
         return self.xa_elem.name()
 
     @property
     def index(self) -> int:
+        """The index of the window in the front-to-back order of QuickTime windows.
+        """
         return self.xa_elem.index()
 
     @index.setter
@@ -244,18 +243,26 @@ class XAQuickTimeWindow(XABaseScriptable.XASBWindow):
 
     @property
     def closeable(self) -> bool:
+        """Whether the window has a close button.
+        """
         return self.xa_elem.closeable()
 
     @property
     def resizable(self) -> bool:
+        """Whether the window can be resized.
+        """
         return self.xa_elem.resizable()
 
     @property
     def zoomable(self) -> bool:
+        """Whether the window can be zoomed.
+        """
         return self.xa_elem.zoomable()
 
     @property
     def zoomed(self) -> bool:
+        """Whether the window is currently zoomed.
+        """
         return self.xa_elem.zoomed()
 
     @zoomed.setter
@@ -264,6 +271,8 @@ class XAQuickTimeWindow(XABaseScriptable.XASBWindow):
 
     @property
     def visible(self) -> bool:
+        """Whether the window is currently visible.
+        """
         return self.xa_elem.visible()
 
     @visible.setter
@@ -272,10 +281,14 @@ class XAQuickTimeWindow(XABaseScriptable.XASBWindow):
 
     @property
     def miniaturizable(self) -> bool:
+        """Whether the window can be minimized.
+        """
         return self.xa_elem.miniaturizable()
 
     @property
     def miniaturized(self) -> bool:
+        """Whether the window is currently minimized.
+        """
         return self.xa_elem.miniaturized()
 
     @miniaturized.setter
@@ -284,10 +297,14 @@ class XAQuickTimeWindow(XABaseScriptable.XASBWindow):
 
     @property
     def properties(self) -> dict:
+        """Every property of a QuickTime window.
+        """
         return self.xa_elem.properties()
 
     @property
     def document(self) -> 'XAQuickTimeDocument':
+        """The document currently displayed in the front window of QuickTime.
+        """
         return self._new_element(self.xa_elem.document(), XAQuickTimeDocument)
 
     def set_property(self, property_name: str, value: Any):
@@ -668,30 +685,17 @@ class XAQuickTimeDocument(XABase.XAObject):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.properties: dict #: All properties of the document
-        self.audio_volume: float #: The volume of the movie from 0 to 1 (0 to 100%)
-        self.current_time: float #: The current time of the movie in seconds
-        self.data_rate: int #: The data rate of the movie in bytes per second
-        self.data_size: int #: The data size of the movie in bytes
-        self.duration: float #: The duration of the movie in seconds
-        self.looping: bool #: Whether the movie plays in a loop
-        self.muted: bool #: Whether the movie is muted
-        self.natural_dimensions: tuple[int, int] #: The national dimensions of the movie
-        self.playing: bool #: Whether the movie is currently playing
-        self.rate: float #: The current rate of the movie
-        self.presenting: bool #: Whether the movie is presented in full screen
-        self.current_microphone: XAQuickTimeAudioRecordingDevice #: The currently previewing audio device
-        self.current_camera: XAQuickTimeVideoRecordingDevice #: The currently previewing video device
-        self.current_audio_compression: XAQuickTimeAudioCompressionPreset #: The current audio compression preset
-        self.current_movie_compression: XAQuickTimeMovieCompressionPreset #: The current movie compression preset
-        self.current_screen_compression: XAQuickTimeScreenCompressionPreset #: The current screen compression preset
 
     @property
     def properties(self) -> dict:
+        """All properties of the document.
+        """
         return self.xa_elem.properties()
 
     @property
     def audio_volume(self) -> float:
+        """The volume of the movie from 0 to 1 (0 to 100%).
+        """
         return self.xa_elem.audioVolume()
 
     @audio_volume.setter
@@ -700,6 +704,8 @@ class XAQuickTimeDocument(XABase.XAObject):
 
     @property
     def current_time(self) -> float:
+        """The current time of the movie in seconds.
+        """
         return self.xa_elem.currentTime()
 
     @current_time.setter
@@ -708,18 +714,26 @@ class XAQuickTimeDocument(XABase.XAObject):
 
     @property
     def data_rate(self) -> int:
+        """The data rate of the movie in bytes per second.
+        """
         return self.xa_elem.dataRate()
 
     @property
     def data_size(self) -> int:
+        """The data size of the movie in bytes.
+        """
         return self.xa_elem.dataSize()
 
     @property
     def duration(self) -> float:
+        """The duration of the movie in seconds.
+        """
         return self.xa_elem.duration()
 
     @property
     def looping(self) -> bool:
+        """Whether the movie plays in a loop.
+        """
         return self.xa_elem.looping()
 
     @looping.setter
@@ -728,6 +742,8 @@ class XAQuickTimeDocument(XABase.XAObject):
 
     @property
     def muted(self) -> bool:
+        """Whether the movie is muted.
+        """
         return self.xa_elem.muted()
 
     @muted.setter
@@ -736,14 +752,20 @@ class XAQuickTimeDocument(XABase.XAObject):
 
     @property
     def natural_dimensions(self) -> tuple[int, int]:
+        """The national dimensions of the movie.
+        """
         return self.xa_elem.naturalDimensions()
 
     @property
     def playing(self) -> bool:
+        """Whether the movie is currently playing.
+        """
         return self.xa_elem.playing()
 
     @property
     def rate(self) -> float:
+        """The current rate of the movie.
+        """
         return self.xa_elem.rate()
 
     @rate.setter
@@ -752,6 +774,8 @@ class XAQuickTimeDocument(XABase.XAObject):
 
     @property
     def presenting(self) -> bool:
+        """Whether the movie is presented in full screen.
+        """
         return self.xa_elem.presenting()
 
     @presenting.setter
@@ -760,6 +784,8 @@ class XAQuickTimeDocument(XABase.XAObject):
 
     @property
     def current_microphone(self) -> 'XAQuickTimeAudioRecordingDevice':
+        """The currently previewing audio device.
+        """
         return self._new_element(self.xa_elem.currentMicrophone(), XAQuickTimeAudioRecordingDevice)
 
     @current_microphone.setter
@@ -768,6 +794,8 @@ class XAQuickTimeDocument(XABase.XAObject):
 
     @property
     def current_camera(self) -> 'XAQuickTimeVideoRecordingDevice':
+        """The currently previewing video device.
+        """
         return self._new_element(self.xa_elem.currentCamera(), XAQuickTimeVideoRecordingDevice)
 
     @current_camera.setter
@@ -776,6 +804,8 @@ class XAQuickTimeDocument(XABase.XAObject):
 
     @property
     def current_audio_compression(self) -> 'XAQuickTimeAudioCompressionPreset':
+        """The current audio compression preset.
+        """
         return self._new_element(self.xa_elem.currentAudioCompression(), XAQuickTimeAudioCompressionPreset)
 
     @current_audio_compression.setter
@@ -784,6 +814,8 @@ class XAQuickTimeDocument(XABase.XAObject):
 
     @property
     def current_movie_compression(self) -> 'XAQuickTimeMovieCompressionPreset':
+        """The current movie compression preset.
+        """
         return self._new_element(self.xa_elem.currentMovieCompression(), XAQuickTimeMovieCompressionPreset)
 
     @current_movie_compression.setter
@@ -792,6 +824,8 @@ class XAQuickTimeDocument(XABase.XAObject):
 
     @property
     def current_screen_compression(self) -> 'XAQuickTimeScreenCompressionPreset':
+        """The current screen compression preset.
+        """
         return self._new_element(self.xa_elem.currentScreenCompression(), XAQuickTimeScreenCompressionPreset)
 
     @current_screen_compression.setter
@@ -886,20 +920,23 @@ class XAQuickTimeAudioRecordingDevice(XABase.XAObject):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.properties: dict #: All properties of the device
-        self.name: str #: The name of the device
-        self.id: str #: The unique identifier for the device
 
     @property
     def properties(self) -> dict:
+        """All properties of the device.
+        """
         return self.xa_elem.properties()
 
     @property
     def name(self) -> str:
+        """The name of the device.
+        """
         return self.xa_elem.name()
 
     @property
     def id(self) -> str:
+        """The unique identifier for the device.
+        """
         return self.xa_elem.ID()
 
 
@@ -954,20 +991,23 @@ class XAQuickTimeVideoRecordingDevice(XABase.XAObject):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.properties: dict #: All properties of the device
-        self.name: str #: The name of the device
-        self.id: str #: The unique identifier for the device
 
     @property
     def properties(self) -> dict:
+        """All properties of the device.
+        """
         return self.xa_elem.properties()
     
     @property
     def name(self) -> str:
+        """The name of the device.
+        """
         return self.xa_elem.name()
 
     @property
     def id(self) -> str:
+        """The unique identifier for the device.
+        """
         return self.xa_elem.ID()
 
 
@@ -1022,20 +1062,23 @@ class XAQuickTimeAudioCompressionPreset(XABase.XAObject):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.properties: dict #: All properties of the preset
-        self.name: str #: The name of the preset
-        self.id: str #: The unique identifier for the preset
 
     @property
     def properties(self) -> dict:
+        """All properties of the preset.
+        """
         return self.xa_elem.properties()
     
     @property
     def name(self) -> str:
+        """The name of the preset.
+        """
         return self.xa_elem.name()
 
     @property
     def id(self) -> str:
+        """The unique identifier for the preset.
+        """
         return self.xa_elem.ID()
 
 
@@ -1090,20 +1133,23 @@ class XAQuickTimeMovieCompressionPreset(XABase.XAObject):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.properties: dict #: All properties of the preset
-        self.name: str #: The name of the preset
-        self.id: str #: The unique identifier for the preset
 
     @property
     def properties(self) -> dict:
+        """All properties of the preset.
+        """
         return self.xa_elem.properties()
     
     @property
     def name(self) -> str:
+        """The name of the preset.
+        """
         return self.xa_elem.name()
 
     @property
     def id(self) -> str:
+        """The unique identifier for the preset.
+        """
         return self.xa_elem.ID()
 
 
@@ -1158,18 +1204,21 @@ class XAQuickTimeScreenCompressionPreset(XABase.XAObject):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.properties: dict #: All properties of the preset
-        self.name: str #: The name of the preset
-        self.id: str #: The unique identifier for the preset
 
     @property
     def properties(self) -> dict:
+        """All properties of the preset.
+        """
         return self.xa_elem.properties()
     
     @property
     def name(self) -> str:
+        """The name of the preset.
+        """
         return self.xa_elem.name()
 
     @property
     def id(self) -> str:
+        """The unique identifier for the preset.
+        """
         return self.xa_elem.ID()

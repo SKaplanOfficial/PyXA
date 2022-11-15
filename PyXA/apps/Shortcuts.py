@@ -18,17 +18,17 @@ class XAShortcutsApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
     def __init__(self, properties):
         super().__init__(properties)
         self.xa_wcls = XAShortcutsWindow
-        
-        self.name: str #: The name of the application
-        self.frontmost: bool #: Whether Shortcuts is the active application
-        self.version: str #: The version number of Shortcuts.app
 
     @property
     def name(self) -> str:
+        """The name of the application.
+        """
         return self.xa_scel.name()
 
     @property
     def frontmost(self) -> bool:
+        """Whether Shortcuts is the active application.
+        """
         return self.xa_scel.frontmost()
 
     @frontmost.setter
@@ -37,6 +37,8 @@ class XAShortcutsApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
 
     @property
     def version(self) -> str:
+        """The version number of Shortcuts.app.
+        """
         return self.xa_scel.version()
 
     def run(self, shortcut: 'XAShortcut', input: Any = None) -> Any:
@@ -111,28 +113,22 @@ class XAShortcutsWindow(XABaseScriptable.XASBWindow):
     def __init__(self, properties):
         super().__init__(properties)
 
-        self.name: str #: The title of the window
-        self.id: int #: The unique identifier for the window
-        self.index: int #: The index of the window in the front-to-back ordering
-        self.bounds: tuple[int, int, int, int] #: The bounding rectangle of the window
-        self.closeable: bool #: Whether the window has a close button
-        self.miniaturizable: bool #: Whether the window can be minimized
-        self.miniaturized: bool #: Whether the window is currently minimized
-        self.resizable: bool #: Whether the window can be resized
-        self.visible: bool #: Whether the window is currently visible
-        self.zoomable: bool #: Whether the window can be zoomed
-        self.zoomed: bool #: Whether the window is currently zoomed
-
     @property
     def name(self) -> str:
+        """The title of the window.
+        """
         return self.xa_elem.name()
 
     @property
     def id(self) -> int:
+        """The unique identifier for the window.
+        """
         return self.xa_elem.id()
 
     @property
     def index(self) -> int:
+        """The index of the window in the front-to-back ordering.
+        """
         return self.xa_elem.index()
 
     @index.setter
@@ -141,6 +137,8 @@ class XAShortcutsWindow(XABaseScriptable.XASBWindow):
 
     @property
     def bounds(self) -> tuple[int, int, int, int]:
+        """The bounding rectangle of the window.
+        """
         rect = self.xa_elem.bounds()
         origin = rect.origin
         size = rect.size
@@ -157,14 +155,20 @@ class XAShortcutsWindow(XABaseScriptable.XASBWindow):
 
     @property
     def closeable(self) -> bool:
+        """Whether the window has a close button.
+        """
         return self.xa_elem.closeable()
 
     @property
     def miniaturizable(self) -> bool:
+        """Whether the window can be minimized.
+        """
         return self.xa_elem.miniaturizable()
 
     @property
     def miniaturized(self) -> bool:
+        """Whether the window is currently minimized.
+        """
         return self.xa_elem.miniaturized()
 
     @miniaturized.setter
@@ -173,10 +177,14 @@ class XAShortcutsWindow(XABaseScriptable.XASBWindow):
 
     @property
     def resizable(self) -> bool:
+        """Whether the window can be resized.
+        """
         return self.xa_elem.resizable()
 
     @property
     def visible(self) -> bool:
+        """Whether the window is currently visible.
+        """
         return self.xa_elem.visible()
 
     @visible.setter
@@ -185,10 +193,14 @@ class XAShortcutsWindow(XABaseScriptable.XASBWindow):
 
     @property
     def zoomable(self) -> bool:
+        """Whether the window can be zoomed.
+        """
         return self.xa_elem.zoomable()
 
     @property
     def zoomed(self) -> bool:
+        """Whether the window is currently zoomed.
+        """
         return self.xa_elem.zoomed()
 
     @zoomed.setter
@@ -284,15 +296,16 @@ class XAShortcutFolder(XABase.XAObject, XAClipboardCodable):
     def __init__(self, properties):
         super().__init__(properties)
 
-        self.id: str #: A unique identifier for the folder
-        self.name: str #: The name string for the folder
-
     @property
     def id(self) -> str:
+        """A unique identifier for the folder.
+        """
         return self.xa_elem.id()
 
     @property
     def name(self) -> str:
+        """The name string for the folder.
+        """
         return self.xa_elem.name()
 
     def shortcuts(self, filter: dict = None) -> 'XAShortcutList':
@@ -551,45 +564,53 @@ class XAShortcut(XABaseScriptable.XASBPrintable, XAClipboardCodable):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.id: str #: The unique identifier for the shortcut
-        self.name: str #: The name of the shortcut
-        self.subtitle: str #: The shortcut's subtitle
-        self.folder: XAShortcutFolder #: The folder that contains the shortcut
-        self.color: XABase.XAColor #: The color of the short
-        self.icon: XABase.XAImage #: The shortcut's icon
-        self.accepts_input: bool #: Whether the shortcut accepts input data
-        self.action_count: int #: The number of actions in the shortcut
 
     @property
     def id(self) -> str:
+        """The unique identifier for the shortcut.
+        """
         return self.xa_elem.id()
 
     @property
     def name(self) -> str:
+        """The name of the shortcut.
+        """
         return self.xa_elem.name()
 
     @property
     def subtitle(self) -> str:
+        """The shortcut's subtitle.
+        """
         return self.xa_elem.subtitle()
 
     @property
     def folder(self) -> XAShortcutFolder:
+        """The folder that contains the shortcut.
+        """
         return self._new_element(self.xa_elem.folder(), XAShortcutFolder)
 
     @property
     def color(self) -> XABase.XAColor:
+        """The color of the short.
+        """
         return XABase.XAColor(self.xa_elem.color())
 
     @property
     def icon(self) -> XABase.XAImage:
+        """The shortcut's icon.
+        """
         return XABase.XAImage(self.xa_elem.icon())
 
     @property
     def accepts_input(self) -> bool:
+        """Whether the shortcut accepts input data.
+        """
         return self.xa_elem.acceptsInput()
 
     @property
     def action_count(self) -> int:
+        """The number of actions in the shortcut.
+        """
         return self.xa_elem.actionCount()
 
     def run(self, input: Any = None) -> Any:

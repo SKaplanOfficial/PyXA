@@ -51,24 +51,23 @@ class XACalendarApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
     def __init__(self, properties: dict):
         super().__init__(properties)
         self.xa_wcls = XACalendarWindow
-        self.xa_estr = self._exec_suppresed(EventKit.EKEventStore.alloc().init)
-
-        self.properties: dict #: All properties of the application
-        self.name: str #: The name of the application
-        self.frontmost: bool #: Whether Calendar is the frontmost application
-        self.version: str #: The version of the Calendar application
-        self.default_calendar: XACalendarCalendar #: The calendar that events are added to by default
 
     @property
     def properties(self) -> dict:
+        """All properties of the application.
+        """
         return self.xa_scel.properties()
 
     @property
     def name(self) -> str:
+        """The name of the application.
+        """
         return self.xa_scel.name()
 
     @property
     def frontmost(self) -> bool:
+        """Whether Calendar is the frontmost application.
+        """
         return self.xa_scel.frontmost()
 
     @frontmost.setter
@@ -77,11 +76,15 @@ class XACalendarApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
 
     @property
     def version(self) -> str:
+        """The version of the Calendar application.
+        """
         return self.xa_scel.version()
 
     @property
     def default_calendar(self) -> 'XACalendarCalendar':
-        calendar_obj = self.xa_estr.defaultCalendarForNewEvents()
+        """The calendar that events are added to by default.
+        """
+        calendar_obj = self._xa_estr.defaultCalendarForNewEvents()
         return self.calendars().by_name(calendar_obj.title())
 
     def reload_calendars(self) -> 'XACalendarApplication':
@@ -115,7 +118,7 @@ class XACalendarApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         .. versionadded:: 0.0.1
         """
         if view == XACalendarApplication.ViewType.YEAR:
-            self.xa_estr.showDateInCalendar_inView_(0, 3)
+            self._xa_estr.showDateInCalendar_inView_(0, 3)
         else:
             self.xa_scel.switchViewTo_(view.value)
         return self
@@ -139,11 +142,11 @@ class XACalendarApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         .. versionadded:: 0.0.1
         """
         if view is None:
-            self.xa_estr.showDateInCalendar_inView_(date, 1)
+            self._xa_estr.showDateInCalendar_inView_(date, 1)
         elif view == XACalendarApplication.ViewType.YEAR:
-            self.xa_estr.showDateInCalendar_inView_(date, 3)
+            self._xa_estr.showDateInCalendar_inView_(date, 3)
         else:
-            self.xa_estr.showDateInCalendar_inView_(date, 0)
+            self._xa_estr.showDateInCalendar_inView_(date, 0)
             self.xa_scel.switchViewTo_(view.value)
         return self
 
@@ -327,34 +330,29 @@ class XACalendarWindow(XABaseScriptable.XASBWindow):
     """
     def __init__(self, properties: dict):
         super().__init__(properties)
-        self.properties: dict #: All properties of the window
-        self.name: str #: The name of the window
-        self.id: str #: The unique identifier for the window
-        self.index: int #: The index of the window in the front-to-back ordering
-        self.bounds: tuple[int, int, int, int] #: The bounding rectangle of the window
-        self.closeable: bool #: Whether the window has a close button
-        self.miniaturizable: bool #: Whether the window can be minimized
-        self.miniaturized: bool #: Whether the window is currently minimized
-        self.resizable: bool #: Whether the window can be resized
-        self.visible: bool #: Whether the window is currently visible
-        self.zoomable: bool #: Whether the window can be zoomed
-        self.zoomed: bool #: Whether the window is currently zoomed
-        self.document: XACalendarDocument #: The current document displayed in the window
 
     @property
     def properties(self) -> dict:
+        """All properties of the window.
+        """
         return self.xa_elem.properties()
 
     @property
     def name(self) -> str:
+        """The name of the window.
+        """
         return self.xa_elem.name()
 
     @property
     def id(self) -> str:
+        """The unique identifier for the window.
+        """
         return self.xa_elem.id()
 
     @property
     def index(self) -> int:
+        """The index of the window in the front-to-back ordering.
+        """
         return self.xa_elem.index()
 
     @index.setter
@@ -363,6 +361,8 @@ class XACalendarWindow(XABaseScriptable.XASBWindow):
 
     @property
     def bounds(self) -> tuple[int, int, int, int]:
+        """The bounding rectangle of the window.
+        """
         rect = self.xa_elem.bounds()
         origin = rect.origin
         size = rect.size
@@ -379,14 +379,20 @@ class XACalendarWindow(XABaseScriptable.XASBWindow):
 
     @property
     def closeable(self) -> bool:
+        """Whether the window has a close button.
+        """
         return self.xa_elem.closeable()
 
     @property
     def miniaturizable(self) -> bool:
+        """Whether the window can be minimized.
+        """
         return self.xa_elem.miniaturizable()
 
     @property
     def miniaturized(self) -> bool:
+        """Whether the window is currently minimized.
+        """
         return self.xa_elem.miniaturized()
 
     @miniaturized.setter
@@ -395,10 +401,14 @@ class XACalendarWindow(XABaseScriptable.XASBWindow):
 
     @property
     def resizable(self) -> bool:
+        """Whether the window can be resized.
+        """
         return self.xa_elem.resizable()
 
     @property
     def visible(self) -> bool:
+        """Whether the window is currently visible.
+        """
         return self.xa_elem.visible()
 
     @visible.setter
@@ -407,10 +417,14 @@ class XACalendarWindow(XABaseScriptable.XASBWindow):
 
     @property
     def zoomable(self) -> bool:
+        """Whether the window can be zoomed.
+        """
         return self.xa_elem.zoomable()
 
     @property
     def zoomed(self) -> bool:
+        """Whether the window is currently zoomed.
+        """
         return self.xa_elem.zoomed()
 
     @zoomed.setter
@@ -419,6 +433,8 @@ class XACalendarWindow(XABaseScriptable.XASBWindow):
 
     @property
     def document(self) -> 'XACalendarDocument':
+        """The current document displayed in the window.
+        """
         return self._new_element(self.xa_elem.document(), XACalendarDocument)
 
 
@@ -525,25 +541,29 @@ class XACalendarDocument(XABase.XAObject):
     """
     def __init__(self, properties: dict):
         super().__init__(properties)
-        self.properties: dict #: All properties of the document
-        self.name: str #: The name of the document
-        self.modified: bool #: Whether the document has been modified since it was last saved
-        self.file: XABase.XAPath #: The location of the document on disk, if it has one
 
     @property
     def properties(self) -> dict:
+        """All properties of the document.
+        """
         return self.xa_elem.properties()
 
     @property
     def name(self) -> str:
+        """The name of the document.
+        """
         return self.xa_elem.name()
 
     @property
     def modified(self) -> bool:
+        """Whether the document has been modified since it was last saved.
+        """
         return self.xa_elem.modified()
 
     @property
     def file(self) -> XABase.XAPath:
+        """The location of the document on disk, if it has one.
+        """
         return XABase.XAPath(self.xa_elem.file())
 
 
@@ -703,27 +723,27 @@ class XACalendarCalendar(XABase.XAObject):
     """
     def __init__(self, properties: dict):
         super().__init__(properties)
-        self.xa_estr = self._exec_suppresed(EventKit.EKEventStore.alloc().init)
+        self.__calendar_obj = None
 
-        self.properties: dict #: All properties of the calendar
-        self.name: str #: The name of the calendar
-        self.color: XABase.XAColor #: The color of the calendar
-        self.calendar_identifier: str #: The unique identifier for the calendar
-        self.writable: bool #: Whether the calendar is writable
-        self.description: str #: The description of the calendar
-
-        if hasattr(self.xa_elem, "name"):
-            calendars = self.xa_estr.allCalendars()
+    @property
+    def calendar_obj(self) -> EventKit.EKCalendar:
+        if self.__calendar_obj is None and hasattr(self.xa_elem, "name"):
+            calendars = self._xa_estr.allCalendars()
             predicate = XABase.XAPredicate()
             predicate.add_eq_condition("title", self.name)
-            self.calendar_obj = predicate.evaluate(calendars)
+            self.__calendar_obj = predicate.evaluate(calendars)
+        return self.__calendar_obj
 
     @property
     def properties(self) -> dict:
+        """All properties of the calendar.
+        """
         return self.xa_elem.properties()
 
     @property
     def name(self) -> str:
+        """The name of the calendar.
+        """
         return self.xa_elem.name()
 
     @name.setter
@@ -732,6 +752,8 @@ class XACalendarCalendar(XABase.XAObject):
 
     @property
     def color(self) -> XABase.XAColor:
+        """The color of the calendar.
+        """
         return XABase.XAColor(self.xa_elem.color())
 
     @color.setter
@@ -740,14 +762,20 @@ class XACalendarCalendar(XABase.XAObject):
 
     @property
     def calendar_identifier(self) -> str:
+        """The unique identifier for the calendar.
+        """
         return self.xa_elem.calendarIdentifier()
 
     @property
     def writable(self) -> bool:
+        """Whether the calendar is writable.
+        """
         return self.xa_elem.writable()
 
     @property
     def description(self) -> str:
+        """The description of the calendar.
+        """
         return self.xa_elem.description()
 
     @description.setter
@@ -759,9 +787,9 @@ class XACalendarCalendar(XABase.XAObject):
 
         .. versionadded:: 0.0.2
         """
-        self.xa_estr.requestAccessToEntityType_completion_(EventKit.EKEntityTypeEvent, None)
+        self._xa_estr.requestAccessToEntityType_completion_(EventKit.EKEntityTypeEvent, None)
         self.xa_calendar.markAsDeleted()
-        self.xa_estr.deleteCalendar_forEntityType_error_(self.xa_calendar, EventKit.EKEntityTypeEvent, None)
+        self._xa_estr.deleteCalendar_forEntityType_error_(self.xa_calendar, EventKit.EKEntityTypeEvent, None)
 
     def events_in_range(self, start_date: datetime, end_date: datetime) -> 'XACalendarEventList':
         """Gets a list of events occurring between the specified start and end datetimes.
@@ -865,16 +893,17 @@ class XACalendarAlarm(XABase.XAObject):
     """
     def __init__(self, properties: dict):
         super().__init__(properties)
-        self.properties: dict #: All properties of the alarm
-        self.trigger_interval: int #: The interval in minutes between the event and the alarm
-        self.trigger_date: datetime #: The date of the alarm
 
     @property
     def properties(self) -> dict:
+        """All properties of the alarm.
+        """
         return self.xa_elem.properties()
 
     @property
     def trigger_interval(self) -> int:
+        """The interval in minutes between the event and the alarm.
+        """
         return self.xa_elem.triggerInterval()
 
     @trigger_interval.setter
@@ -883,6 +912,8 @@ class XACalendarAlarm(XABase.XAObject):
 
     @property
     def trigger_date(self) -> datetime:
+        """The date of the alarm.
+        """
         return self.xa_elem.triggerDate()
 
     @trigger_date.setter
@@ -921,11 +952,11 @@ class XACalendarSoundAlarm(XACalendarAlarm):
     """
     def __init__(self, properties: dict):
         super().__init__(properties)
-        self.sound_name: str #: The system sound name to be used for the alarm
-        self.sound_file: str #: The path to the sound file to be used for the alarm
 
     @property
     def sound_name(self) -> str:
+        """The system sound name to be used for the alarm
+        """
         return self.xa_elem.soundName()
 
     @sound_name.setter
@@ -934,6 +965,8 @@ class XACalendarSoundAlarm(XACalendarAlarm):
 
     @property
     def sound_file(self) -> str:
+        """The path to the sound file to be used for the alarm
+        """
         return self.xa_elem.soundFile()
 
     @sound_file.setter
@@ -950,10 +983,11 @@ class XACalendarOpenFileAlarm(XACalendarAlarm):
     """
     def __init__(self, properties: dict):
         super().__init__(properties)
-        self.file_path: str #: The path to be opened by the alarm
 
     @property
     def file_path(self) -> str:
+        """The path to be opened by the alarm.
+        """
         return self.xa_elem.filePath()
 
     @file_path.setter
@@ -1064,25 +1098,29 @@ class XACalendarAttendee(XABase.XAObject):
     """
     def __init__(self, properties: dict):
         super().__init__(properties)
-        self.properties: dict #: All properties of the attendee
-        self.display_name: str #: The first and last name of the attendee
-        self.email: str #: The email address of the attendee
-        self.participation_status: XACalendarApplication.ParticipationStatus #: The invitation status for the attendee
 
     @property
     def properties(self) -> dict:
+        """All properties of the attendee.
+        """
         return self.xa_elem.properties()
 
     @property
     def display_name(self) -> str:
+        """The first and last name of the attendee.
+        """
         return self.xa_elem.displayName()
 
     @property
     def email(self) -> str:
+        """The email address of the attendee.
+        """
         return self.xa_elem.email()
 
     @property
     def participation_status(self) -> XACalendarApplication.ParticipationStatus:
+        """The invitation status for the attendee.
+        """
         return XACalendarApplication.ParticipationStatus(self.xa_elem.participationStatus())
 
 
@@ -1128,7 +1166,7 @@ class XACalendarEventList(XABase.XAList):
         """
         return list(self.xa_elem.arrayByApplyingSelector_("startDate"))
 
-    def properties(self) -> list[datetime]:
+    def end_date(self) -> list[datetime]:
         """Gets the end date of each event in the list.
 
         :return: A list of event end dates
@@ -1381,7 +1419,7 @@ class XACalendarEventList(XABase.XAList):
         return self.by_property("URL", url)
 
     def __repr__(self):
-        return "<" + str(type(self)) + str(self.summary()) + ">"
+        return "<" + str(type(self)) + "length: " + str(len(self)) + ">"
 
 class XACalendarEvent(XABase.XAObject):
     """An event in Calendar.app.
@@ -1390,38 +1428,30 @@ class XACalendarEvent(XABase.XAObject):
     """
     def __init__(self, properties: dict):
         super().__init__(properties)
-        self.xa_estr = self._exec_suppresed(EventKit.EKEventStore.alloc().init)
+        self.__xa_event_obj = None
 
-        self.properties: dict #: All properties of the event
-        self.description: str #: The event's notes
-        self.start_date: datetime #: The start date and time of the event
-        self.end_date: datetime #: The end date and time of the event
-        self.allday_event: bool #: Whether the event is an all-day event
-        self.recurrence: str #: A string describing the event recurrence
-        self.sequence: int #: The event version
-        self.stamp_date: date #: The date the event was last modified
-        self.excluded_dates: list[datetime] #: The exception dates for the event
-        self.status: XACalendarApplication.EventStatus #: The status of the event
-        self.summary: str #: The summary (title) of the event
-        self.location: str #: The location of the event
-        self.uid: str #: A unique identifier for the event
-        self.url: str #: The URL associated with the event
-
-        if hasattr(self.xa_elem, "uid"):
+    @property
+    def xa_event_obj(self) -> type:
+        if self.__xa_event_obj is None and hasattr(self.xa_elem, "uid"):
             events = AppKit.NSMutableArray.arrayWithArray_([])
             for year in range(2006, datetime.now().year + 4, 4):
                 start_date = date(year, 1, 1)
                 end_date = start_date + timedelta(days = 365 * 4)
-                predicate = self.xa_estr.predicateForEventsWithStartDate_endDate_calendars_(start_date, end_date, None)
-                events.addObjectsFromArray_(self.xa_estr.eventsMatchingPredicate_(predicate))
-            self.xa_event_obj = XABase.XAPredicate.evaluate_with_dict(events, {"calendarItemIdentifier": self.uid})[0]
+                predicate = self._xa_estr.predicateForEventsWithStartDate_endDate_calendars_(start_date, end_date, None)
+                events.addObjectsFromArray_(self._xa_estr.eventsMatchingPredicate_(predicate))
+            self.__xa_event_obj = XABase.XAPredicate.evaluate_with_dict(events, {"calendarItemIdentifier": self.uid})[0]
+        return self.__xa_event_obj
 
     @property
     def properties(self) -> dict:
+        """All properties of the event.
+        """
         return self.xa_elem.properties()
 
     @property
     def description(self) -> str:
+        """The event's notes.
+        """
         return self.xa_elem.description()
 
     @description.setter
@@ -1430,6 +1460,8 @@ class XACalendarEvent(XABase.XAObject):
 
     @property
     def start_date(self) -> datetime:
+        """The start date and time of the event.
+        """
         return self.xa_elem.startDate()
 
     @start_date.setter
@@ -1438,6 +1470,8 @@ class XACalendarEvent(XABase.XAObject):
 
     @property
     def end_date(self) -> datetime:
+        """The end date and time of the event.
+        """
         return self.xa_elem.endDate()
 
     @end_date.setter
@@ -1446,6 +1480,8 @@ class XACalendarEvent(XABase.XAObject):
 
     @property
     def allday_event(self) -> bool:
+        """Whether the event is an all-day event.
+        """
         return self.xa_elem.alldayEvent()
 
     @allday_event.setter
@@ -1454,6 +1490,8 @@ class XACalendarEvent(XABase.XAObject):
 
     @property
     def recurrence(self) -> str:
+        """A string describing the event recurrence.
+        """
         return self.xa_elem.recurrence()
 
     @recurrence.setter
@@ -1462,10 +1500,14 @@ class XACalendarEvent(XABase.XAObject):
 
     @property
     def sequence(self) -> int:
+        """The event version.
+        """
         return self.xa_elem.sequence()
 
     @property
     def stamp_date(self) -> datetime:
+        """The date the event was last modified.
+        """
         return self.xa_elem.stampDate()
 
     @stamp_date.setter
@@ -1474,6 +1516,8 @@ class XACalendarEvent(XABase.XAObject):
 
     @property
     def excluded_dates(self) -> list[datetime]:
+        """The exception dates for the event.
+        """
         return self.xa_elem.excludedDates()
 
     @excluded_dates.setter
@@ -1482,6 +1526,8 @@ class XACalendarEvent(XABase.XAObject):
 
     @property
     def status(self) -> XACalendarApplication.EventStatus:
+        """The status of the event.
+        """
         return XACalendarApplication.EventStatus(XABase.OSType(self.xa_elem.status().stringValue()))
 
     @status.setter
@@ -1490,6 +1536,8 @@ class XACalendarEvent(XABase.XAObject):
 
     @property
     def summary(self) -> str:
+        """The summary (title) of the event.
+        """
         return self.xa_elem.summary()
 
     @summary.setter
@@ -1498,6 +1546,8 @@ class XACalendarEvent(XABase.XAObject):
 
     @property
     def location(self) -> str:
+        """The location of the event.
+        """
         return self.xa_elem.location()
 
     @location.setter
@@ -1506,10 +1556,14 @@ class XACalendarEvent(XABase.XAObject):
 
     @property
     def uid(self) -> str:
+        """A unique identifier for the event.
+        """
         return self.xa_elem.uid()
 
     @property
     def url(self) -> str:
+        """The URL associated with the event.
+        """
         return self.xa_elem.URL()
 
     @url.setter
@@ -1532,7 +1586,7 @@ class XACalendarEvent(XABase.XAObject):
 
         .. versionadded:: 0.0.1
         """
-        self.xa_estr.removeEvent_span_error_(self.xa_event_obj, EventKit.EKSpanThisEvent, None)
+        self._xa_estr.removeEvent_span_error_(self.xa_event_obj, EventKit.EKSpanThisEvent, None)
 
     def duplicate(self) -> 'XACalendarEvent':
         """Duplicates the event, placing the copy on the same calendar.
@@ -1543,7 +1597,7 @@ class XACalendarEvent(XABase.XAObject):
         .. versionadded:: 0.0.1
         """
         new_event = self.xa_event_obj.duplicate()
-        self.xa_estr.saveEvent_span_error_(new_event, EventKit.EKSpanThisEvent, None)
+        self._xa_estr.saveEvent_span_error_(new_event, EventKit.EKSpanThisEvent, None)
 
     def duplicate_to(self, calendar: XACalendarCalendar) -> 'XACalendarEvent':
         """Duplicates the event, placing the copy on the same calendar.
@@ -1564,11 +1618,11 @@ class XACalendarEvent(XABase.XAObject):
 
         .. versionadded:: 0.0.1
         """
-        calendars = self.xa_estr.allCalendars()
+        calendars = self._xa_estr.allCalendars()
         calendar_obj = XABase.XAPredicate.evaluate_with_dict(calendars, {"title": calendar.name})[0]
 
         self.xa_event_obj.copyToCalendar_withOptions_(calendar_obj, 1)
-        self.xa_estr.saveCalendar_commit_error_(calendar_obj, True, None)
+        self._xa_estr.saveCalendar_commit_error_(calendar_obj, True, None)
         return self
 
     def move_to(self, calendar: XACalendarCalendar) -> 'XACalendarEvent':
@@ -1617,7 +1671,7 @@ class XACalendarEvent(XABase.XAObject):
         file_url = XABase.XAPath(path).xa_elem
         attachment = EventKit.EKAttachment.alloc().initWithFilepath_(file_url)
         self.xa_elem.addAttachment_(attachment)
-        self.xa_estr.saveEvent_span_error_(self.xa_event_obj, EventKit.EKSpanThisEvent, None)
+        self._xa_estr.saveEvent_span_error_(self.xa_event_obj, EventKit.EKSpanThisEvent, None)
         return self
 
     def attendees(self, filter: Union[dict, None] = None) -> 'XACalendarAttendeeList':
@@ -1643,7 +1697,7 @@ class XACalendarEvent(XABase.XAObject):
         return self._new_element(self.xa_event_obj.attachments(), XACalendarAttachmentList, filter)
 
     def __repr__(self):
-        return "<" + str(type(self)) + str(self.summary) + ">"
+        return "<" + str(type(self)) + str(self.start_date) + ">"
 
 
 
@@ -1770,30 +1824,35 @@ class XACalendarAttachment(XABase.XAObject):
     """
     def __init__(self, properties: dict):
         super().__init__(properties)
-        self.type: str #: The content type of the attachment, e.g. `image/png`
-        self.file_name: str#: The filename of the original document
-        self.file: XABase.XAPath #: The location of the attachment on the local disk
-        self.url: XABase.XAURL #: The iCloud URL of the attachment
-        self.uuid: str #: A unique identifier for the attachment
 
     @property
     def type(self) -> str:
+        """The content type of the attachment, e.g. `image/png`.
+        """
         return self.xa_elem.contentType()
 
     @property
     def file_name(self) -> str:
+        """The filename of the original document.
+        """
         return self.xa_elem.filenameSuggestedByServer()
 
     @property
     def file(self) -> XABase.XAPath:
+        """The location of the attachment on the local disk.
+        """
         return XABase.XAPath(self.xa_elem.urlOnDisk())
 
     @property
     def url(self) -> XABase.XAURL:
+        """The iCloud URL of the attachment.
+        """
         return XABase.XAURL(self.xa_elem.urlOnServer())
 
     @property
     def uuid(self) -> str:
+        """A unique identifier for the attachment.
+        """
         return self.xa_elem.uuid()
 
     def open(self) -> 'XACalendarAttachment':

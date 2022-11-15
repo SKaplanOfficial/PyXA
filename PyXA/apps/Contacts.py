@@ -42,20 +42,16 @@ class XAContactsApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
     def __init__(self, properties):
         super().__init__(properties)
 
-        self.name: str #: The name of the application
-        self.frontmost: bool #: Whether Contacts is the frontmost application
-        self.version: str #: The version of Contacts.app
-        self.my_card: XAContactsPerson #: The user's contact card
-        self.unsaved: bool #: Whether there are any unsaved changed
-        self.selection: XAContactsPersonList #: The currently selected entries
-        self.default_country_code: str #: The default country code for addresses
-
     @property
     def name(self) -> str:
+        """The name of the application.
+        """
         return self.xa_scel.name()
 
     @property
     def frontmost(self) -> bool:
+        """Whether Contacts is the frontmost application.
+        """
         return self.xa_scel.frontmost()
 
     @frontmost.setter
@@ -64,10 +60,14 @@ class XAContactsApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
 
     @property
     def version(self) -> str:
+        """The version of Contacts.app.
+        """
         return self.xa_scel.version()
 
     @property
     def my_card(self) -> 'XAContactsPerson':
+        """The user's contact card.
+        """
         return self._new_element(self.xa_scel.myCard(), XAContactsPerson)
 
     @my_card.setter
@@ -76,10 +76,14 @@ class XAContactsApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
 
     @property
     def unsaved(self) -> bool:
+        """Whether there are any unsaved changed.
+        """
         return self.xa_scel.unsaved()
 
     @property
     def selection(self) -> 'XAContactsPersonList':
+        """The currently selected entries.
+        """
         return self._new_element(self.xa_scel.selection(), XAContactsPersonList)
 
     @selection.setter
@@ -92,6 +96,8 @@ class XAContactsApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
 
     @property
     def default_country_code(self) -> str:
+        """The default country code for addresses.
+        """
         return self.xa_scel.defaultCountryCode()
 
     def open(self, file_path: str):
@@ -208,29 +214,23 @@ class XAContactsWindow(XABaseScriptable.XASBWindow):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.name: str #: The title of the window
-        self.id: int #: The unique identifier for the window
-        self.index: int #: The index of the window in the front-to-back ordering
-        self.bounds: tuple[int, int, int, int] #: The bounding rectangle of the window
-        self.closeable: bool #: Whether the window has a close button
-        self.miniaturizable: bool #: Whether the window can be minimized
-        self.miniaturized: bool #: Whether the window is currently minimized
-        self.resizable: bool #: Whether the window can be resized
-        self.visible: bool #: Whether the window is currently visible
-        self.zoomable: bool #: Whether the window can be zoomed
-        self.zoomed: bool #: Whether the window is currently zoomed
-        self.document: XAContactsDocument #: The documents currently displayed in the window
 
     @property
     def name(self) -> str:
+        """The title of the window.
+        """
         return self.xa_elem.name()
 
     @property
     def id(self) -> int:
+        """The unique identifier for the window.
+        """
         return self.xa_elem.id()
 
     @property
     def index(self) -> int:
+        """The index of the window in the front-to-back ordering.
+        """
         return self.xa_elem.index()
 
     @index.setter
@@ -239,6 +239,8 @@ class XAContactsWindow(XABaseScriptable.XASBWindow):
 
     @property
     def bounds(self) -> tuple[int, int, int, int]:
+        """The bounding rectangle of the window.
+        """
         rect = self.xa_elem.bounds()
         origin = rect.origin
         size = rect.size
@@ -255,14 +257,20 @@ class XAContactsWindow(XABaseScriptable.XASBWindow):
 
     @property
     def closeable(self) -> bool:
+        """Whether the window has a close button.
+        """
         return self.xa_elem.closeable()
 
     @property
     def miniaturizable(self) -> bool:
+        """Whether the window can be minimized.
+        """
         return self.xa_elem.miniaturizable()
 
     @property
     def miniaturized(self) -> bool:
+        """Whether the window is currently minimized.
+        """
         return self.xa_elem.miniaturized()
 
     @miniaturized.setter
@@ -271,10 +279,14 @@ class XAContactsWindow(XABaseScriptable.XASBWindow):
 
     @property
     def resizable(self) -> bool:
+        """Whether the window can be resized.
+        """
         return self.xa_elem.resizable()
 
     @property
     def visible(self) -> bool:
+        """Whether the window is currently visible.
+        """
         return self.xa_elem.visible()
 
     @visible.setter
@@ -283,10 +295,14 @@ class XAContactsWindow(XABaseScriptable.XASBWindow):
 
     @property
     def zoomable(self) -> bool:
+        """Whether the window can be zoomed.
+        """
         return self.xa_elem.zoomable()
 
     @property
     def zoomed(self) -> bool:
+        """Whether the window is currently zoomed.
+        """
         return self.xa_elem.zoomed()
 
     @zoomed.setter
@@ -295,6 +311,8 @@ class XAContactsWindow(XABaseScriptable.XASBWindow):
 
     @property
     def document(self) -> 'XAContactsDocument':
+        """The documents currently displayed in the window.
+        """
         return self._new_element(self.xa_elem.document(), XAContactsDocument)
 
 
@@ -381,20 +399,23 @@ class XAContactsDocument(XABase.XAObject):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.name: str #: The name of the document
-        self.modified: bool #: Whether the document has been modified since it was last saved
-        self.file: XABase.XAURL #: The location of the document of the disk, if one exists
 
     @property
     def name(self) -> str:
+        """The name of the document.
+        """
         return self.xa_elem.name()
 
     @property
     def modified(self) -> bool:
+        """Whether the document has been modified since it was last saved.
+        """
         return self.xa_elem.modified()
 
     @property
     def file(self) -> XABase.XAURL:
+        """The location of the document of the disk, if one exists.
+        """
         return XABase.XAURL(self.xa_elem.file())
 
 
@@ -600,18 +621,11 @@ class XAContactsAddress(XABase.XAObject):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.city: str #: The city part of the address
-        self.formatted_address: str #: The formatted string for the address
-        self.street: str #: The street part of the address
-        self.id: str #: The unique identifier for the address
-        self.zip: str #: The zip code or postal code part of the address
-        self.country: str #: The country part of the address
-        self.label: str #: The label associated with the address
-        self.country_code: str #: The country code part of the address
-        self.state: str #: The state, province, or region part of the address
 
     @property
     def city(self) -> str:
+        """The city part of the address.
+        """
         return self.xa_elem.city()
 
     @city.setter
@@ -620,10 +634,14 @@ class XAContactsAddress(XABase.XAObject):
 
     @property
     def formatted_address(self) -> str:
+        """The formatted string for the address.
+        """
         return self.xa_elem.formattedAddress()
 
     @property
     def street(self) -> str:
+        """The street part of the address.
+        """
         return self.xa_elem.street()
 
     @street.setter
@@ -632,10 +650,14 @@ class XAContactsAddress(XABase.XAObject):
 
     @property
     def id(self) -> str:
+        """The unique identifier for the address.
+        """
         return self.xa_elem.id()
 
     @property
     def zip(self) -> str:
+        """The zip code or postal code part of the address.
+        """
         return self.xa_elem.zip()
 
     @zip.setter
@@ -644,6 +666,8 @@ class XAContactsAddress(XABase.XAObject):
 
     @property
     def country(self) -> str:
+        """The country part of the address.
+        """
         return self.xa_elem.country()
 
     @country.setter
@@ -652,6 +676,8 @@ class XAContactsAddress(XABase.XAObject):
 
     @property
     def label(self) -> str:
+        """The label associated with the address.
+        """
         return self.xa_elem.label()
 
     @label.setter
@@ -660,6 +686,8 @@ class XAContactsAddress(XABase.XAObject):
 
     @property
     def country_code(self) -> str:
+        """The country code part of the address.
+        """
         return self.xa_elem.countryCode()
 
     @country_code.setter
@@ -668,6 +696,8 @@ class XAContactsAddress(XABase.XAObject):
 
     @property
     def state(self) -> str:
+        """The state, province, or region part of the address.
+        """
         return self.xa_elem.state()
 
     @state.setter
@@ -759,12 +789,11 @@ class XAContactsContactInfo(XABase.XAObject):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.label: str #: The label associated with the information entry
-        self.value: Union[str, datetime, None] #: The value of the information entry
-        self.id: str #: The persistent unique identifier for the information entry
 
     @property
     def label(self) -> str:
+        """The label associated with the information entry.
+        """
         return self.xa_elem.label()
 
     @label.setter
@@ -773,6 +802,8 @@ class XAContactsContactInfo(XABase.XAObject):
 
     @property
     def value(self) -> Union[str, datetime, None]:
+        """The value of the information entry.
+        """
         return self.xa_elem.value()
 
     @value.setter
@@ -781,6 +812,8 @@ class XAContactsContactInfo(XABase.XAObject):
 
     @property
     def id(self) -> str:
+        """The persistent unique identifier for the information entry.
+        """
         return self.xa_elem.id()
 
 
@@ -930,25 +963,29 @@ class XAContactsEntry(XABase.XAObject):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.modification_date: datetime #: The last modification date of the contact entry
-        self.creation_date: datetime #: The creation date of the contact entry
-        self.id: str #: The unique persistent identifier for the entry
-        self.selected: bool #: Whether the entry is selected
 
     @property
     def modification_date(self) -> datetime:
+        """The last modification date of the contact entry.
+        """
         return self.xa_elem.modificationDate()
 
     @property
     def creation_date(self) -> datetime:
+        """The creation date of the contact entry.
+        """
         return self.xa_elem.creationDate()
 
     @property
     def id(self) -> str:
+        """The unique persistent identifier for the entry.
+        """
         return self.xa_elem.id()
 
     @property
     def selected(self) -> bool:
+        """Whether the entry is selected.
+        """
         return self.xa_elem.selected()
 
     @selected.setter
@@ -1047,10 +1084,11 @@ class XAContactsGroup(XAContactsEntry):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.name: str #: The name of the group
 
     @property
     def name(self) -> str:
+        """The name of the group.
+        """
         return self.xa_elem.name()
 
     @name.setter
@@ -1169,16 +1207,17 @@ class XAContactsInstantMessage(XAContactsContactInfo):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.service_name: str #: The service name of the IM address
-        self.service_type: XAContactsApplication.ServiceType #: The service type of the IM address
-        self.user_name: str #: The user name of the the IM address
 
     @property
     def service_name(self) -> str:
+        """The service name of the IM address.
+        """
         return self.xa_elem.serviceName().get()
 
     @property
     def service_type(self) -> XAContactsApplication.ServiceType:
+        """The service type of the IM address.
+        """
         return XAContactsApplication.ServiceType(self.xa_elem.serviceType())
 
     @service_type.setter
@@ -1187,6 +1226,8 @@ class XAContactsInstantMessage(XAContactsContactInfo):
 
     @property
     def user_name(self) -> str:
+        """The user name of the the IM address.
+        """
         return self.xa_elem.userName().get()
 
     @user_name.setter
@@ -1621,29 +1662,11 @@ class XAContactsPerson(XAContactsEntry):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.nickname: str #: The nickname of the person
-        self.organization: str #: The organization that employs the person
-        self.maiden_name: str #: The maiden name of the person
-        self.suffix: str #: The suffix of the person's name
-        self.vcard: str #: The person's information in vCard format
-        self.home_page: str #: The homepage of the person
-        self.birth_date: datetime #: The birthdate of the person
-        self.phonetic_last_name: str #: The phonetic version of the person's last name
-        self.title: str #: The title of the person
-        self.phonetic_middle_name: str #: The phonetic version of the person's middle name
-        self.department: str #: The department that the person works for
-        self.image: XABase.XAImage #: The image for the person
-        self.name: str #: The first and last name of the person
-        self.note: str #: The notes for the person
-        self.company: bool #: Whether the record is for a company or not (if not, the record is for a person)
-        self.middle_name: str #: The middle name of the person
-        self.phonetic_first_name: str #: The phonetic version of the person's first name
-        self.job_title: str #: The job title of the person
-        self.last_name: str #: The last name of the person
-        self.first_name: str #: The first name of the person
 
     @property
     def nickname(self) -> str:
+        """The nickname of the person.
+        """
         return self.xa_elem.nickname().get()
 
     @nickname.setter
@@ -1652,6 +1675,8 @@ class XAContactsPerson(XAContactsEntry):
 
     @property
     def organization(self) -> str:
+        """The organization that employs the person.
+        """
         return self.xa_elem.organization().get()
 
     @organization.setter
@@ -1660,6 +1685,8 @@ class XAContactsPerson(XAContactsEntry):
 
     @property
     def maiden_name(self) -> str:
+        """The maiden name of the person.
+        """
         return self.xa_elem.maidenName().get()
 
     @maiden_name.setter
@@ -1668,6 +1695,8 @@ class XAContactsPerson(XAContactsEntry):
 
     @property
     def suffix(self) -> str:
+        """The suffix of the person's name.
+        """
         return self.xa_elem.suffix().get()
 
     @suffix.setter
@@ -1676,10 +1705,14 @@ class XAContactsPerson(XAContactsEntry):
 
     @property
     def vcard(self) -> str:
+        """The person's information in vCard format.
+        """
         return self.xa_elem.vcard().get()
 
     @property
     def home_page(self) -> str:
+        """The homepage of the person.
+        """
         return self.xa_elem.homePage().get()
 
     @home_page.setter
@@ -1688,6 +1721,8 @@ class XAContactsPerson(XAContactsEntry):
 
     @property
     def birth_date(self) -> datetime:
+        """The birthdate of the person.
+        """
         return self.xa_elem.birthDate().get()
 
     @birth_date.setter
@@ -1696,6 +1731,8 @@ class XAContactsPerson(XAContactsEntry):
 
     @property
     def phonetic_last_name(self) -> str:
+        """The phonetic version of the person's last name.
+        """
         return self.xa_elem.phoneticLastName().get()
 
     @phonetic_last_name.setter
@@ -1704,6 +1741,8 @@ class XAContactsPerson(XAContactsEntry):
 
     @property
     def title(self) -> str:
+        """The title of the person.
+        """
         return self.xa_elem.title().get()
 
     @title.setter
@@ -1712,6 +1751,8 @@ class XAContactsPerson(XAContactsEntry):
 
     @property
     def phonetic_middle_name(self) -> str:
+        """The phonetic version of the person's middle name.
+        """
         return self.xa_elem.phoneticMiddleNamne().get()
 
     @phonetic_middle_name.setter
@@ -1720,6 +1761,8 @@ class XAContactsPerson(XAContactsEntry):
 
     @property
     def department(self) -> str:
+        """The department that the person works for.
+        """
         return self.xa_elem.department().get()
 
     @department.setter
@@ -1728,6 +1771,8 @@ class XAContactsPerson(XAContactsEntry):
 
     @property
     def image(self) -> XABase.XAImage:
+        """The image for the person.
+        """
         return XABase.XAImage(self.xa_elem.image().get())
 
     @image.setter
@@ -1736,6 +1781,8 @@ class XAContactsPerson(XAContactsEntry):
 
     @property
     def name(self) -> str:
+        """The first and last name of the person.
+        """
         return self.xa_elem.name()
 
     @name.setter
@@ -1744,6 +1791,8 @@ class XAContactsPerson(XAContactsEntry):
 
     @property
     def note(self) -> str:
+        """The notes for the person.
+        """
         return self.xa_elem.note().get()
 
     @note.setter
@@ -1751,15 +1800,19 @@ class XAContactsPerson(XAContactsEntry):
         self.set_property('note', note)
 
     @property
-    def company(self) -> str:
+    def company(self) -> bool:
+        """Whether the record is for a company or not (if not, the record is for a person).
+        """
         return self.xa_elem.company().get()
 
     @company.setter
-    def company(self, company: str):
+    def company(self, company: bool):
         self.set_property('company', company)
 
     @property
     def middle_name(self) -> str:
+        """The middle name of the person.
+        """
         return self.xa_elem.middleName().get()
 
     @middle_name.setter
@@ -1768,6 +1821,8 @@ class XAContactsPerson(XAContactsEntry):
 
     @property
     def phonetic_first_name(self) -> str:
+        """The phonetic version of the person's first name.
+        """
         return self.xa_elem.phoneticFirstName().get()
 
     @phonetic_first_name.setter
@@ -1776,6 +1831,8 @@ class XAContactsPerson(XAContactsEntry):
 
     @property
     def job_title(self) -> str:
+        """The job title of the person.
+        """
         return self.xa_elem.jobTitle().get()
 
     @job_title.setter
@@ -1784,6 +1841,8 @@ class XAContactsPerson(XAContactsEntry):
 
     @property
     def last_name(self) -> str:
+        """The last name of the person.
+        """
         return self.xa_elem.lastName().get()
 
     @last_name.setter
@@ -1792,6 +1851,8 @@ class XAContactsPerson(XAContactsEntry):
 
     @property
     def first_name(self) -> str:
+        """The first name of the person.
+        """
         return self.xa_elem.firstName().get()
 
     @first_name.setter
@@ -2087,18 +2148,17 @@ class XAContactsSocialProfile(XABaseScriptable.XASBWindow):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.id: str #: A persistent unique identifier for this profile
-        self.service_name: str #: The service name of this social profile
-        self.user_name: str #: The user named used with this social profile
-        self.user_identifier: str #: A service-specific identifier used with this social profile
-        self.url: str #: The URL of the social profile
 
     @property
     def id(self) -> str:
+        """A persistent unique identifier for this profile.
+        """
         return self.xa_elem.id()
 
     @property
     def service_name(self) -> str:
+        """The service name of this social profile.
+        """
         return self.xa_elem.serviceName().get()
 
     @service_name.setter
@@ -2107,6 +2167,8 @@ class XAContactsSocialProfile(XABaseScriptable.XASBWindow):
 
     @property
     def user_name(self) -> str:
+        """The user name used with this social profile.
+        """
         return self.xa_elem.userName().get()
 
     @user_name.setter
@@ -2115,6 +2177,8 @@ class XAContactsSocialProfile(XABaseScriptable.XASBWindow):
 
     @property
     def user_identifier(self) -> str:
+        """A service-specific identifier used with this social profile.
+        """
         return self.xa_elem.userIdentifier().get()
 
     @user_identifier.setter
@@ -2123,6 +2187,8 @@ class XAContactsSocialProfile(XABaseScriptable.XASBWindow):
 
     @property
     def url(self) -> str:
+        """The URL of the social profile.
+        """
         return self.xa_elem.url()
 
     @url.setter

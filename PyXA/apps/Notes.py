@@ -33,18 +33,16 @@ class XANotesApplication(XABaseScriptable.XASBApplication, XACanOpenPath, XACanP
         super().__init__(properties)
         self.xa_wcls = XANotesWindow
 
-        self.name: str #: The name of the application
-        self.frontmost: bool #: Whether Notes is the active application
-        self.version: str #: The version number of Notes.app
-        self.default_account: XANotesAccount #: The account that new notes are created in by default
-        self.selection: XANoteList #: A list of currently selected notes
-
     @property
     def name(self) -> str:
+        """The name of the application.
+        """
         return self.xa_scel.name()
 
     @property
     def frontmost(self) -> bool:
+        """Whether Notes is the active application.
+        """
         return self.xa_scel.frontmost()
 
     @frontmost.setter
@@ -53,10 +51,14 @@ class XANotesApplication(XABaseScriptable.XASBApplication, XACanOpenPath, XACanP
 
     @property
     def version(self) -> str:
+        """The version number of Notes.app.
+        """
         return self.xa_scel.version()
 
     @property
     def default_account(self) -> 'XANotesAccount':
+        """The account that new notes are created in by default.
+        """
         return self._new_element(self.xa_scel.defaultAccount(), XANotesAccount)
 
     @default_account.setter
@@ -65,6 +67,8 @@ class XANotesApplication(XABaseScriptable.XASBApplication, XACanOpenPath, XACanP
         
     @property
     def selection(self) -> 'XANoteList':
+        """A list of currently selected notes.
+        """
         return self._new_element(self.xa_scel.selection(), XANoteList)
 
     @selection.setter
@@ -621,29 +625,23 @@ class XANotesWindow(XABaseScriptable.XASBWindow):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.name: str #: The full title of the window
-        self.id: int #: The unique identifier for the window
-        self.index: int #: The index of the window in front-to-back ordering
-        self.bounds: tuple[int, int, int, int] #: The bounding rectangle of the window
-        self.closeable: bool #: Whether the window has a close button
-        self.miniaturizable: bool #: Whether the window can be minimized
-        self.miniaturized: bool #: Whether the window is currently minimized
-        self.resizable: bool #: Whether the window can be resized
-        self.visible: bool #: Whether the window is currently visible
-        self.zoomable: bool #: Whether the window can be zoomed
-        self.zoomed: bool #: Whether the window is currently zoomed
-        self.document: 'XANotesDocument' #: The active document
 
     @property
     def name(self) -> str:
+        """The full title of the window.
+        """
         return self.xa_scel.name()
 
     @property
     def id(self) -> int:
+        """The unique identifier for the window.
+        """
         return self.xa_scel.id()
 
     @property
     def index(self) -> int:
+        """The index of the window in front-to-back ordering.
+        """
         return self.xa_scel.index()
 
     @index.setter
@@ -652,6 +650,8 @@ class XANotesWindow(XABaseScriptable.XASBWindow):
 
     @property
     def bounds(self) -> tuple[int, int, int, int]:
+        """The bounding rectangle of the window.
+        """
         rect = self.xa_elem.bounds()
         origin = rect.origin
         size = rect.size
@@ -668,14 +668,20 @@ class XANotesWindow(XABaseScriptable.XASBWindow):
 
     @property
     def closeable(self) -> bool:
+        """Whether the window has a close button.
+        """
         return self.xa_scel.closeable()
 
     @property
     def miniaturizable(self) -> bool:
+        """Whether the window can be minimized.
+        """
         return self.xa_scel.miniaturizable()
 
     @property
     def miniaturized(self) -> bool:
+        """Whether the window is currently minimized.
+        """
         return self.xa_scel.miniaturized()
 
     @miniaturized.setter
@@ -684,10 +690,14 @@ class XANotesWindow(XABaseScriptable.XASBWindow):
     
     @property
     def resizable(self) -> bool:
+        """Whether the window can be resized.
+        """
         return self.xa_scel.resizable()
 
     @property
     def visible(self) -> bool:
+        """Whether the window is currently visible.
+        """
         return self.xa_scel.visible()
 
     @visible.setter
@@ -696,10 +706,14 @@ class XANotesWindow(XABaseScriptable.XASBWindow):
 
     @property
     def zoomable(self) -> bool:
+        """Whether the window can be zoomed.
+        """
         return self.xa_scel.zoomable()
 
     @property
     def zoomed(self) -> bool:
+        """Whether the window is currently zoomed.
+        """
         return self.xa_scel.zoomed()
 
     @zoomed.setter
@@ -708,6 +722,8 @@ class XANotesWindow(XABaseScriptable.XASBWindow):
 
     @property
     def document(self) -> 'XANotesDocument':
+        """The active document.
+        """
         return self._new_element(self.xa_scel.document(), XANotesDocument)
 
 
@@ -724,13 +740,11 @@ class XANotesFolder(XABase.XAObject, XAClipboardCodable):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.name: str #: The name of the folder
-        self.id: str #: The unique identifier for the folder
-        self.shared: bool #: Whether the folder is shared
-        self.container: XANotesAccount #: The account the folder belongs to
 
     @property
     def name(self) -> str:
+        """The name of the folder.
+        """
         return self.xa_elem.name()
 
     @name.setter
@@ -739,14 +753,20 @@ class XANotesFolder(XABase.XAObject, XAClipboardCodable):
 
     @property
     def id(self) -> str:
+        """The unique identifier for the folder.
+        """
         return self.xa_elem.id()
 
     @property
     def shared(self) -> bool:
+        """Whether the folder is shared.
+        """
         return self.xa_elem.shared()
 
     @property
     def container(self) -> 'XANotesAccount':
+        """The account the folder belongs to.
+        """
         return self._new_element(self.xa_elem.container(), XANotesAccount)
 
     def show(self) -> 'XANotesFolder':
@@ -803,20 +823,23 @@ class XANotesDocument(XABase.XAObject, XAClipboardCodable):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.name: str #: The name of the document
-        self.modified: bool #: Whether the document has been modified since the last save
-        self.file: str #: The location of the document on the disk, if one exists
 
     @property
     def name(self) -> str:
+        """The name of the document.
+        """
         return self.xa_elem.name()
 
     @property
     def modified(self) -> bool:
+        """Whether the document has been modified since the last save.
+        """
         return self.xa_elem.modified()
 
     @property
     def file(self) -> str:
+        """The location of the document on the disk, if one exists.
+        """
         return self.xa_elem.file()
 
     def get_clipboard_representation(self) -> str:
@@ -848,18 +871,11 @@ class XANote(XABase.XAObject, XAClipboardCodable, XAShowable, XADeletable):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.name: str #: The name of the note (generally the first line of the body)
-        self.id: str #: The unique identifier for the note
-        self.body: str #: The HTML content of the note
-        self.plaintext: str #: The plaintext content of the note
-        self.creation_date: datetime #: The date and time the note was created
-        self.modification_date: datetime #: The date and time the note was last modified
-        self.password_protected: bool #: Whether the note is password protected
-        self.shared: bool #: Whether the note is shared
-        self.container: XANotesFolder #: The folder that the note is in
 
     @property
     def name(self) -> str:
+        """The name of the note (generally the first line of the body).
+        """
         return self.xa_elem.name()
 
     @name.setter
@@ -868,10 +884,14 @@ class XANote(XABase.XAObject, XAClipboardCodable, XAShowable, XADeletable):
 
     @property
     def id(self) -> str:
+        """The unique identifier for the note.
+        """
         return self.xa_elem.id()
 
     @property
     def body(self) -> str:
+        """The HTML content of the note.
+        """
         return self.xa_elem.body()
 
     @body.setter
@@ -880,6 +900,8 @@ class XANote(XABase.XAObject, XAClipboardCodable, XAShowable, XADeletable):
 
     @property
     def plaintext(self) -> str:
+        """The plaintext content of the note.
+        """
         return self.xa_elem.plaintext()
 
     @plaintext.setter
@@ -888,22 +910,32 @@ class XANote(XABase.XAObject, XAClipboardCodable, XAShowable, XADeletable):
 
     @property
     def creation_date(self) -> datetime:
+        """The date and time the note was created.
+        """
         return self.xa_elem.creationDate()
 
     @property
     def modification_date(self) -> datetime:
+        """The date and time the note was last modified.
+        """
         return self.xa_elem.modificationDate()
 
     @property
     def password_protected(self) -> bool:
+        """Whether the note is password protected.
+        """
         return self.xa_elem.passwordProtected()
 
     @property
     def shared(self) -> bool:
+        """Whether the note is shared.
+        """
         return self.xa_elem.shared()
 
     @property
     def container(self) -> XANotesFolder:
+        """The folder that the note is in.
+        """
         return self._new_element(self.xa_elem.container(), XANotesFolder)
 
     def show(self) -> 'XANote':
@@ -999,45 +1031,53 @@ class XANoteAttachment(XABase.XAObject, XAClipboardCodable):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.name: str #: The name of the attachment
-        self.id: str #: The unique identifier for the attachment
-        self.content_identifier: str #: The content ID of the attachment in the note's HTML
-        self.creation_date: datetime #: The date the attachment was created
-        self.modification_date: datetime #: The date the attachment was last modified
-        self.url: str #: The URL that the attachment represents, if any
-        self.shared: bool #: Whether the attachment is shared
-        self.container: XANote #: The note containing the attachment
 
     @property
     def name(self) -> str:
+        """The name of the attachment.
+        """
         return self.xa_elem.name()
 
     @property
     def id(self) -> str:
+        """The unique identifier for the attachment.
+        """
         return self.xa_elem.id()
 
     @property
     def content_identifier(self) -> str:
+        """The content ID of the attachment in the note's HTML.
+        """
         return  self.xa_elem.contentIdentifier()
 
     @property
     def creation_date(self) -> datetime:
+        """The date the attachment was created.
+        """
         return  self.xa_elem.creationDate()
 
     @property
     def modification_date(self) -> datetime:
+        """The date the attachment was last modified.
+        """
         return self.xa_elem.modificationDate()
 
     @property
     def url(self) -> str:
+        """The URL that the attachment represents, if any.
+        """
         return self.xa_elem.URL()
 
     @property
     def shared(self) -> bool:
+        """Whether the attachment is shared.
+        """
         return self.xa_elem.shared()
 
     @property
     def container(self) -> 'XANote':
+        """The note containing the attachment.
+        """
         return self._new_element(self.xa_elem.container(), XANote)
 
     def show(self) -> 'XANoteAttachment':
@@ -1112,13 +1152,11 @@ class XANotesAccount(XABase.XAObject, XAClipboardCodable):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.name: str #: The name of the account
-        self.upgraded: bool #: Whether the account is upgraded
-        self.id: str #: The unique identifier of the account
-        self.default_folder: XANotesFolder #: The default folder for creating new notes
 
     @property
     def name(self) -> str:
+        """The name of the account.
+        """
         return self.xa_elem.name()
 
     @name.setter
@@ -1127,14 +1165,20 @@ class XANotesAccount(XABase.XAObject, XAClipboardCodable):
 
     @property
     def upgraded(self) -> bool:
+        """Whether the account is upgraded.
+        """
         return self.xa_elem.upgraded()
 
     @property
     def id(self) -> str:
+        """The unique identifier of the account.
+        """
         return self.xa_elem.id()
 
     @property
     def default_folder(self) -> 'XANotesFolder':
+        """The default folder for creating new notes.
+        """
         return self._new_element(self.xa_elem.defaultFolder(), XANotesFolder)
 
     @default_folder.setter

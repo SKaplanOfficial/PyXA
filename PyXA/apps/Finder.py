@@ -15,6 +15,7 @@ from PyXA import XABase
 from PyXA.XABase import OSType, XAImage, XAList
 from PyXA import XABaseScriptable
 from ..XAProtocols import XACanOpenPath, XAClipboardCodable, XADeletable, XASelectable
+from ..XATypes import XAPoint
 
 class XAFinderApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
     """A class for managing and interacting with Finder.app.
@@ -1828,14 +1829,15 @@ class XAFinderWindowList(XAList):
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None, obj_class = None):
         if obj_class is None:
-            obj_class = XAFinderPackage
+            obj_class = XAFinderWindowList
         super().__init__(properties, obj_class, filter)
 
     def id(self) -> list[int]:
         return list(self.xa_elem.arrayByApplyingSelector_("id"))
 
-    def position(self) -> list[tuple[int, int]]:
-        return list(self.xa_elem.arrayByApplyingSelector_("position"))
+    def position(self) -> list[XAPoint]:
+        ls = self.xa_elem.arrayByApplyingSelector_("position")
+        return [XAPoint(value) for value in ls]
 
     def bounds(self) -> list[tuple[tuple[int, int], tuple[int, int]]]:
         return list(self.xa_elem.arrayByApplyingSelector_("bounds"))
@@ -1948,70 +1950,25 @@ class XAFinderWindow(XABaseScriptable.XASBWindow, XABaseScriptable.XASBPrintable
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.id: int #: The unique identifier for the window
-        self.position: tuple[int, int] #: The upper left position of the window
-        self.bounds: tuple[int, int, int, int] #: The boundary rectangle for the window
+        self.position: XAPoint #: The upper left position of the window
         self.titled: bool #: Whether the window has a title bar
-        self.name: str #: The name of the window
-        self.index: int #: The index of the window in the front-to-back order of Finder windows
-        self.closeable: bool #: Whether the window has a close button
         self.floating: bool #: Whether the window has a title bar
         self.modal: bool #: Whether the window is modal
-        self.resizable: bool #: Whether the window can be resized
-        self.zoomable: bool #: Whether the window can be zoomed
-        self.zoomed: bool #: Whether the window is zoomed
-        self.visible: bool #: Whether the window is visible
         self.collapsed: bool #: Whether the window is collapsed
         self.properties: dict #: Every property of a Finder window
 
     @property
-    def id(self) -> int:
-        return self.xa_elem.id()
-
-    @property
-    def position(self) -> tuple[int, int]:
-        return self.xa_elem.position()
+    def position(self) -> XAPoint:
+        return XAPoint(*self.xa_elem.position())
 
     @position.setter
-    def position(self, position: tuple[int, int]):
+    def position(self, position: Union[tuple[int, int], XAPoint]):
         value = AppKit.NSValue.valueWithPoint_(position)
         self.set_property('position', value)
 
     @property
-    def bounds(self) -> tuple[int, int, int, int]:
-        rect = self.xa_elem.bounds()
-        origin = rect.origin
-        size = rect.size
-        return (origin.x, origin.y, size.width, size.height)
-
-    @bounds.setter
-    def bounds(self, bounds: tuple[int, int, int, int]):
-        x = bounds[0]
-        y = bounds[1]
-        w = bounds[2]
-        h = bounds[3]
-        value = AppKit.NSValue.valueWithRect_(AppKit.NSMakeRect(x, y, w, h))
-        self.set_property("bounds", value)
-
-    @property
     def titled(self) -> bool:
         return self.xa_elem.titled()
-
-    @property
-    def name(self) -> str:
-        return self.xa_elem.name()
-
-    @property
-    def index(self) -> int:
-        return self.xa_elem.index()
-
-    @index.setter
-    def index(self, index: int):
-        self.set_property('index', index)
-
-    @property
-    def closeable(self) -> bool:
-        return self.xa_elem.closeable()
 
     @property
     def floating(self) -> bool:
@@ -2020,26 +1977,6 @@ class XAFinderWindow(XABaseScriptable.XASBWindow, XABaseScriptable.XASBPrintable
     @property
     def modal(self) -> bool:
         return self.xa_elem.modal()
-
-    @property
-    def resizable(self) -> bool:
-        return self.xa_elem.resizable()
-
-    @property
-    def zoomable(self) -> bool:
-        return self.xa_elem.zoomable()
-
-    @property
-    def zoomed(self) -> bool:
-        return self.xa_elem.zoomed()
-
-    @zoomed.setter
-    def zoomed(self, zoomed: bool):
-        self.set_property('zoomed', zoomed)
-
-    @property
-    def visible(self) -> bool:
-        return self.xa_elem.visible()
 
     @property
     def collapsed(self) -> bool:

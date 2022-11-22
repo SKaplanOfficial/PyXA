@@ -202,100 +202,6 @@ class XAQuickTimeWindow(XABaseScriptable.XASBWindow):
         super().__init__(properties)
 
     @property
-    def id(self) -> int:
-        """The unique identifier for the window.
-        """
-        return self.xa_elem.id()
-
-    @property
-    def bounds(self) -> tuple[int, int, int, int]:
-        """The boundary rectangle for the window.
-        """
-        rect = self.xa_elem.bounds()
-        origin = rect.origin
-        size = rect.size
-        return (origin.x, origin.y, size.width, size.height)
-
-    @bounds.setter
-    def bounds(self, bounds: tuple[int, int, int, int]):
-        x = bounds[0]
-        y = bounds[1]
-        w = bounds[2]
-        h = bounds[3]
-        value = AppKit.NSValue.valueWithRect_(AppKit.NSMakeRect(x, y, w, h))
-        self.set_property("bounds", value)
-
-    @property
-    def name(self) -> str:
-        """The name of the window.
-        """
-        return self.xa_elem.name()
-
-    @property
-    def index(self) -> int:
-        """The index of the window in the front-to-back order of QuickTime windows.
-        """
-        return self.xa_elem.index()
-
-    @index.setter
-    def index(self, index: int):
-        self.set_property("index", index)
-
-    @property
-    def closeable(self) -> bool:
-        """Whether the window has a close button.
-        """
-        return self.xa_elem.closeable()
-
-    @property
-    def resizable(self) -> bool:
-        """Whether the window can be resized.
-        """
-        return self.xa_elem.resizable()
-
-    @property
-    def zoomable(self) -> bool:
-        """Whether the window can be zoomed.
-        """
-        return self.xa_elem.zoomable()
-
-    @property
-    def zoomed(self) -> bool:
-        """Whether the window is currently zoomed.
-        """
-        return self.xa_elem.zoomed()
-
-    @zoomed.setter
-    def zoomed(self, zoomed: bool):
-        self.set_property("zoomed", zoomed)
-
-    @property
-    def visible(self) -> bool:
-        """Whether the window is currently visible.
-        """
-        return self.xa_elem.visible()
-
-    @visible.setter
-    def visible(self, visible: bool):
-        self.set_property("visible", visible)
-
-    @property
-    def miniaturizable(self) -> bool:
-        """Whether the window can be minimized.
-        """
-        return self.xa_elem.miniaturizable()
-
-    @property
-    def miniaturized(self) -> bool:
-        """Whether the window is currently minimized.
-        """
-        return self.xa_elem.miniaturized()
-
-    @miniaturized.setter
-    def miniaturized(self, miniaturized: bool):
-        self.set_property("miniaturized", miniaturized)
-
-    @property
     def properties(self) -> dict:
         """Every property of a QuickTime window.
         """
@@ -308,6 +214,12 @@ class XAQuickTimeWindow(XABaseScriptable.XASBWindow):
         return self._new_element(self.xa_elem.document(), XAQuickTimeDocument)
 
     def set_property(self, property_name: str, value: Any):
+        """Sets the specified property to the given value.
+
+        .. deprecated:: 0.1.1
+        
+           Set the desired attribute directly instead.
+        """
         if isinstance(value, tuple):
             if isinstance(value[0], tuple):
                 # Value is a rectangle boundary

@@ -131,7 +131,7 @@ class XAMessagesApplication(XABaseScriptable.XASBApplication):
         >>> app = PyXA.Application("Messages")
         >>> chats = app.chats()
         >>> for chat in chats:
-        >>>     print("\n")
+        >>>     print("\\n")
         >>>     print("Name:", chat.name)
         >>>     print("ID:", chat.id)
         >>>     print("Account:", chat.account)
@@ -233,122 +233,6 @@ class XAMessagesWindow(XABaseScriptable.XASBWindow):
     """
     def __init__(self, properties):
         super().__init__(properties)
-
-    @property
-    def name(self) -> str:
-        """The title of the window.
-
-        .. versionadded:: 0.0.4
-        """
-        return self.xa_scel.name()
-
-    @property
-    def id(self) -> int:
-        """The unique identifier for the window.
-
-        .. versionadded:: 0.0.4
-        """
-        return self.xa_scel.id()
-
-    @property
-    def index(self) -> int:
-        """The index of the window in the front-to-back ordering.
-
-        .. versionadded:: 0.0.4
-        """
-        return self.xa_scel.index()
-
-    @index.setter
-    def index(self, index: int):
-        self.set_property('index', index)
-
-    @property
-    def bounds(self) -> tuple[int, int, int, int]:
-        """The bounding rectangle of the window.
-
-        .. versionadded:: 0.0.4
-        """
-        rect = self.xa_elem.bounds()
-        origin = rect.origin
-        size = rect.size
-        return (origin.x, origin.y, size.width, size.height)
-
-    @bounds.setter
-    def bounds(self, bounds: tuple[int, int, int, int]):
-        x = bounds[0]
-        y = bounds[1]
-        w = bounds[2]
-        h = bounds[3]
-        value = AppKit.NSValue.valueWithRect_(AppKit.NSMakeRect(x, y, w, h))
-        self.set_property("bounds", value)
-
-    @property
-    def closeable(self) -> bool:
-        """Whether the window has a close button.
-
-        .. versionadded:: 0.0.4
-        """
-        return self.xa_scel.closeable()
-
-    @property
-    def miniaturizable(self) -> bool:
-        """Whether the window can be minimized.
-
-        .. versionadded:: 0.0.4
-        """
-        return self.xa_scel.miniaturizable()
-
-    @property
-    def miniaturized(self) -> bool:
-        """Whether the window is currently minimized.
-
-        .. versionadded:: 0.0.4
-        """
-        return self.xa_scel.miniaturized()
-
-    @miniaturized.setter
-    def miniaturized(self, miniaturized: bool):
-        self.set_property('miniaturized', miniaturized)
-
-    @property
-    def resizable(self) -> bool:
-        """Whether the window can be resized.
-
-        .. versionadded:: 0.0.4
-        """
-        return self.xa_scel.resizable()
-
-    @property
-    def visible(self) -> bool:
-        """Whether the window is currently visible.
-
-        .. versionadded:: 0.0.4
-        """
-        return self.xa_scel.visible()
-
-    @visible.setter
-    def visible(self, visible: bool):
-        self.set_property('visible', visible)
-
-    @property
-    def zoomable(self) -> bool:
-        """Whether the window can be zoomed.
-
-        .. versionadded:: 0.0.4
-        """
-        return self.xa_scel.zoomable()
-
-    @property
-    def zoomed(self) -> bool:
-        """Whether the window is currently zoomed.
-
-        .. versionadded:: 0.0.4
-        """
-        return self.xa_scel.zoomed()
-
-    @zoomed.setter
-    def zoomed(self, zoomed: bool):
-        self.set_property('zoomed', zoomed)
 
     @property
     def document(self) -> 'XAMessagesDocument':
@@ -636,7 +520,7 @@ class XAMessagesChat(XABase.XAObject, XAClipboardCodable):
         >>> chat = app.chats().by_id("SMS;-;+11234567891")
         >>> chat.send("Hello!")
 
-        .. versionaddedd:: 0.0.4
+        .. versionadded:: 0.0.4
         """
         self.xa_prnt.xa_prnt.send(message, self.xa_elem)
 

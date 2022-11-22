@@ -360,36 +360,6 @@ class XAAcrobatReaderWindow(XABaseScriptable.XASBWindow):
     def __init__(self, properties):
         super().__init__(properties)
 
-    @property
-    def name(self) -> str:
-        """The title of the window.
-        """
-        return self.xa_elem.name()
-
-    @property
-    def bounds(self) -> tuple[int, int, int, int]:
-        """The bounding rectangle for the window.
-        """
-        rect = self.xa_elem.bounds()
-        origin = rect.origin
-        size = rect.size
-        return (origin.x, origin.y, size.width, size.height)
-
-    @bounds.setter
-    def bounds(self, bounds: tuple[int, int, int, int]):
-        x = bounds[0]
-        y = bounds[1]
-        w = bounds[2]
-        h = bounds[3]
-        value = AppKit.NSValue.valueWithRect_(AppKit.NSMakeRect(x, y, w, h))
-        self.set_property("bounds", value)
-
-    @property
-    def visible(self) -> bool:
-        """Whether the window is visible.
-        """
-        return self.xa_elem.visible()
-
 
 
 

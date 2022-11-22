@@ -3331,7 +3331,7 @@ class XAMediaWindowList(XAMediaItemList):
         """
         return self.by_property("zoomed", zoomed)
 
-class XAMediaWindow(XABase.XAWindow, XAMediaItem):
+class XAMediaWindow(XABaseScriptable.XASBWindow, XAMediaItem):
     """A windows of media apps.
 
     .. seealso:: :class:`XAMediaBrowserWindow`, :class:`XAMediaPlaylistWindow`, :class:`XAMediaVideoWindow`
@@ -3342,38 +3342,22 @@ class XAMediaWindow(XABase.XAWindow, XAMediaItem):
         super().__init__(properties)
 
     @property
-    def bounds(self) -> tuple[int, int, int, int]:
-        """The bounding rectangle for the window.
-        """
-        rect = self.xa_elem.bounds()
-        origin = rect.origin
-        size = rect.size
-        return (origin.x, origin.y, size.width, size.height)
-
-    @bounds.setter
-    def bounds(self, bounds: tuple[int, int, int, int]):
-        x = bounds[0]
-        y = bounds[1]
-        w = bounds[2]
-        h = bounds[3]
-        value = AppKit.NSValue.valueWithRect_(AppKit.NSMakeRect(x, y, w, h))
-        self.set_property("bounds", value)
-
-    @property
-    def closeable(self) -> bool:
-        """Whether the window has a close button.
-        """
-        return self.xa_elem.closeable()
-
-    @property
     def collapseable(self) -> bool:
         """Whether the window can be minimized.
+
+        .. deprecated:: 0.1.1
+
+           Use :attr:`XAMediaWindow.miniaturizable` instead.
         """
         return self.xa_elem.miniaturizable()
 
     @property
     def collapsed(self) -> bool:
         """Whether the window is currently minimized.
+
+        .. deprecated:: 0.1.1
+
+           Use :attr:`XAMediaWindow.miniaturized` instead.
         """
         return self.xa_elem.miniaturized()
 
@@ -3400,38 +3384,6 @@ class XAMediaWindow(XABase.XAWindow, XAMediaItem):
     @position.setter
     def position(self, position: tuple[int, int]):
         self.set_property('position', position)
-
-    @property
-    def resizable(self) -> bool:
-        """Whether the window can be resized.
-        """
-        return self.xa_elem.resizable()
-
-    @property
-    def visible(self) -> bool:
-        """Whether the window is currently visible.
-        """
-        return self.xa_elem.visible()
-
-    @visible.setter
-    def visible(self, visible: bool):
-        self.set_property('visible', visible)
-
-    @property
-    def zoomable(self) -> bool:
-        """Whether the window can be zoomed.
-        """
-        return self.xa_elem.zoomable()
-
-    @property
-    def zoomed(self) -> bool:
-        """Whether the window is currently zoomed.
-        """
-        return self.xa_elem.zoomed()
-
-    @zoomed.setter
-    def zoomed(self, zoomed: bool):
-        self.set_property('zoomed', zoomed)
 
 
 

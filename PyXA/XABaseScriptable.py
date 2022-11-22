@@ -2,6 +2,7 @@ from enum import Enum
 from pprint import pprint
 from typing import List, Tuple, Union, Self
 import threading
+import AppKit
 import ScriptingBridge
 
 from PyXA import XABase
@@ -9,6 +10,7 @@ from PyXA import XABase
 import signal
 
 from .XAProtocols import XACloseable
+from .XATypes import XAPoint, XARectangle
 
 class XASBObject(XABase.XAObject):
     """A class for PyXA objects scriptable with AppleScript/JXA.
@@ -155,6 +157,10 @@ class XASBWindow(XASBObject, XACloseable):
         """
         return self.xa_elem.name()
 
+    @name.setter
+    def name(self, name: str):
+        self.set_property("name", name)
+
     @property
     def id(self) -> str:
         """The unique identifier for the window.
@@ -167,11 +173,27 @@ class XASBWindow(XASBObject, XACloseable):
         """
         return self.xa_elem.index()
 
+    @index.setter
+    def index(self, index: int):
+        self.set_property("index", index)
+
     @property
-    def bounds(self) -> Tuple[Tuple[int, int]]:
+    def bounds(self) -> XARectangle:
         """The bounding rectangle of the window.
         """
-        return self.xa_elem.bounds()
+        rect = self.xa_elem.bounds()
+        origin = rect.origin
+        size = rect.size
+        return XARectangle(origin.x, origin.y, size.width, size.height)
+
+    @bounds.setter
+    def bounds(self, bounds: Union[tuple[int, int, int, int], XARectangle]):
+        x = bounds[0]
+        y = bounds[1]
+        w = bounds[2]
+        h = bounds[3]
+        value = AppKit.NSValue.valueWithRect_(AppKit.NSMakeRect(x, y, w, h))
+        self.set_property("bounds", value)
 
     @property
     def closeable(self) -> bool:
@@ -191,6 +213,10 @@ class XASBWindow(XASBObject, XACloseable):
         """
         return self.xa_elem.visible()
 
+    @visible.setter
+    def visible(self, visible: bool):
+        self.set_property("visible", visible)
+
     @property
     def zoomable(self) -> bool:
         """Whether the window has a zoom button.
@@ -202,6 +228,35 @@ class XASBWindow(XASBObject, XACloseable):
         """Whether the window is currently zoomed.
         """
         return self.xa_elem.zoomed()
+
+    @zoomed.setter
+    def zoomed(self, zoomed: bool):
+        self.set_property("zoomed", zoomed)
+
+    @property
+    def miniaturizable(self) -> bool:
+        """Whether the window can be miniaturized.
+        """
+        try:
+            return self.xa_elem.miniaturizable()
+        except Exception as e:
+            print(e)
+
+    @property
+    def miniaturized(self) -> bool:
+        """Whether the window is currently miniaturized.
+        """
+        try:
+            return self.xa_elem.miniaturized()
+        except Exception as e:
+            print(e)
+
+    @miniaturized.setter
+    def miniaturized(self, miniaturized: bool):
+        try:
+            self.set_property("miniaturized", miniaturized)
+        except Exception as e:
+            print(e)
 
     def collapse(self) -> 'XABase.XAWindow':
         """Collapses (minimizes) the window.

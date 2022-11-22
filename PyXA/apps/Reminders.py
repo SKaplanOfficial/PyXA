@@ -193,107 +193,13 @@ class XARemindersApplication(XABaseScriptable.XASBApplication):
             return self._new_element(obj, XARemindersReminder)
 
 
-class XARemindersWindow(XABaseScriptable.XASBObject):
+class XARemindersWindow(XABaseScriptable.XASBWindow):
     """A window of the Reminders application.
 
     .. versionadded:: 0.0.6
     """
     def __init__(self, properties):
         super().__init__(properties)
-
-    @property
-    def name(self) -> str:
-        """The title of the window.
-        """
-        return self.xa_elem.name()
-
-    @property
-    def id(self) -> int:
-        """The unique identifier of the window.
-        """
-        return self.xa_elem.id()
-
-    @property
-    def index(self) -> int:
-        """The index of the window, ordered front to back.
-        """
-        return self.xa_elem.index()
-
-    @index.setter
-    def index(self, index: int):
-        self.set_property('index', index)
-
-    @property
-    def bounds(self) -> tuple[int, int, int, int]:
-        """The bounding rectangle of the window.
-        """
-        rect = self.xa_elem.bounds()
-        origin = rect.origin
-        size = rect.size
-        return (origin.x, origin.y, size.width, size.height)
-
-    @bounds.setter
-    def bounds(self, bounds: tuple[int, int, int, int]):
-        x = bounds[0]
-        y = bounds[1]
-        w = bounds[2]
-        h = bounds[3]
-        value = AppKit.NSValue.valueWithRect_(AppKit.NSMakeRect(x, y, w, h))
-        self.set_property("bounds", value)
-
-    @property
-    def closeable(self) -> bool:
-        """Does the window have a close button?
-        """
-        return self.xa_elem.closeable()
-
-    @property
-    def miniaturizable(self) -> bool:
-        """Does the window have a minimize button?
-        """
-        return self.xa_elem.miniaturizable()
-
-    @property
-    def miniaturized(self) -> bool:
-        """Is the window minimized right now?
-        """
-        return self.xa_elem.miniaturized()
-
-    @miniaturized.setter
-    def miniaturized(self, miniaturized: bool):
-        self.set_property('miniaturized', miniaturized)
-
-    @property
-    def resizable(self) -> bool:
-        """Can the window be resized?
-        """
-        return self.xa_elem.resizable()
-
-    @property
-    def visible(self) -> bool:
-        """Is the window visible right now?
-        """
-        return self.xa_elem.visible()
-
-    @visible.setter
-    def visible(self, visible: bool):
-        self.set_property('visible', visible)
-
-    @property
-    def zoomable(self) -> bool:
-        """Does the window have a zoom button?
-        """
-        return self.xa_elem.zoomable()
-
-    @property
-    def zoomed(self) -> bool:
-        """Is the window zoomed right now?
-        """
-        return self.xa_elem.zoomed()
-
-    @zoomed.setter
-    def zoomed(self, zoomed: bool):
-        self.set_property('zoomed', zoomed)
 
     @property
     def document(self) -> 'XARemindersDocument':

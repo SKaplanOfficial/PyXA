@@ -9,12 +9,13 @@ from time import sleep
 from typing import Any, Union
 
 import AppKit
+import Quartz
 
 from PyXA import XABase
 from PyXA.XABase import OSType
 from PyXA import XABaseScriptable
-
-from ..XAProtocols import XACanPrintPath, XACloseable, XAPrintable, XASelectable
+from PyXA.XAEvents import KEYCODES
+from PyXA.XAProtocols import XACanPrintPath, XACloseable, XAPrintable, XASelectable
         
 
 class XASystemEventsApplication(XABase.XAEventsApplication, XABaseScriptable.XASBApplication, XACanPrintPath):
@@ -95,14 +96,12 @@ class XASystemEventsApplication(XABase.XAEventsApplication, XABaseScriptable.XAS
     class Key(Enum):
         """Keys and key actions.
         """
-        COMMAND         = OSType('eCmd')
-        CONTROL         = OSType('eCnd')
-        OPTION          = OSType('eOpt')
-        SHIFT           = OSType('eSft')
-        COMMAND_DOWN    = OSType('Kcmd')
-        CONTROL_DOWN    = OSType('Kctl')
-        OPTION_DOWN     = OSType('Kopt')
-        SHIFT_DOWN      = OSType('Ksft')
+        COMMAND         = 0
+        CONTROL         = 1
+        OPTION          = 2
+        SHIFT           = 3
+        CAPS_LOCK       = 4
+        FUNCTION        = 5
 
     class AccessRight(Enum):
         """Access right levels.
@@ -511,21 +510,81 @@ class XASystemEventsApplication(XABase.XAEventsApplication, XABaseScriptable.XAS
         self.xa_scel.click()
 
     def key_code(self, key_code: Union[int, list[int]], modifier: Union['XASystemEventsApplication.Key', list['XASystemEventsApplication.Key'], None] = None):
-        if isinstance(modifier, list):
-            modifier = [x.value for x in modifier]
-            self.xa_scel.keyCode_using_(key_code, modifier)
-        else:
-            self.xa_scel.keyCode_using_(key_code, modifier.value if modifier is not None else None)
+        """Cause the target (active) process to behave as if key codes were entered.
 
-    def key_stroke(self, key: Union[int, list[int]], modifier: Union['XASystemEventsApplication.Key', list['XASystemEventsApplication.Key'], None] = None):
-        def four_char_code(s):
-            (ord(s[0]) << 24) + (ord(s[1]) << 16) + (ord(s[2]) << 8) + ord(s[3])
+        :param key_code: The key code(s) to be sent
+        :type key_code: Union[int, list[int]]
+        :param modifier: _description_, defaults to None
+        :type modifier: Union[XASystemEventsApplication.Key, list[XASystemEventsApplication.Key], None], optional
 
-        if isinstance(modifier, list):
-            modifier = [x.value for x in modifier]
-            self.xa_scel.keystroke_using_(key, modifier)
-        else:
-            self.xa_scel.keystroke_using_(key, modifier.value if modifier is not None else None)
+        .. versionadded:: 0.1.0
+        """
+        if not isinstance(key_code, list):
+            key_code = [key_code]
+
+        if not isinstance(modifier, list):
+                modifier = [modifier]
+
+        for key in key_code:
+            key_down_event = Quartz.CGEventCreateKeyboardEvent(None, key, True)
+            key_up_event = Quartz.CGEventCreateKeyboardEvent(None, key, False)
+
+            for mod in modifier:
+                if mod == XASystemEventsApplication.Key.COMMAND:
+                    Quartz.CGEventSetFlags(key_down_event, Quartz.kCGEventFlagMaskCommand)
+                elif mod == XASystemEventsApplication.Key.CONTROL:
+                    Quartz.CGEventSetFlags(key_down_event, Quartz.kCGEventFlagMaskControl)
+                elif mod == XASystemEventsApplication.Key.OPTION:
+                    Quartz.CGEventSetFlags(key_down_event, Quartz.kCGEventFlagMaskAlternate)
+                elif mod == XASystemEventsApplication.Key.SHIFT:
+                    Quartz.CGEventSetFlags(key_down_event, Quartz.kCGEventFlagMaskShift)
+                elif mod == XASystemEventsApplication.Key.CAPS_LOCK:
+                    Quartz.CGEventSetFlags(key_down_event, Quartz.kCGEventFlagMaskAlphaShift)
+                elif mod == XASystemEventsApplication.Key.FUNCTION:
+                    Quartz.CGEventSetFlags(key_down_event, Quartz.kCGEventFlagMaskSecondaryFn)
+
+            Quartz.CGEventPost(Quartz.kCGHIDEventTap, key_down_event)
+            Quartz.CGEventPost(Quartz.kCGHIDEventTap, key_up_event)
+
+    def key_stroke(self, keystroke: Union[int, list[int]], modifier: Union['XASystemEventsApplication.Key', list['XASystemEventsApplication.Key'], None] = None):
+        """Cause the target (active) process to behave as if keystrokes were entered.
+
+        :param keystroke: The keystrokes to be sent
+        :type keystroke: Union[int, list[int]]
+        :param modifier: _description_, defaults to None
+        :type modifier: Union[XASystemEventsApplication.Key, list[XASystemEventsApplication.Key], None], optional
+
+        .. versionadded:: 0.1.0
+        """
+        for key in keystroke:
+            key = str(key).lower()
+            if key in KEYCODES:
+                key = KEYCODES[key]
+            else:
+                print("Unknown key(s).")
+
+            if not isinstance(modifier, list):
+                modifier = [modifier]
+
+            key_down_event = Quartz.CGEventCreateKeyboardEvent(None, key, True)
+            key_up_event = Quartz.CGEventCreateKeyboardEvent(None, key, False)
+
+            for mod in modifier:
+                if mod == XASystemEventsApplication.Key.COMMAND:
+                    Quartz.CGEventSetFlags(key_down_event, Quartz.kCGEventFlagMaskCommand)
+                elif mod == XASystemEventsApplication.Key.CONTROL:
+                    Quartz.CGEventSetFlags(key_down_event, Quartz.kCGEventFlagMaskControl)
+                elif mod == XASystemEventsApplication.Key.OPTION:
+                    Quartz.CGEventSetFlags(key_down_event, Quartz.kCGEventFlagMaskAlternate)
+                elif mod == XASystemEventsApplication.Key.SHIFT:
+                    Quartz.CGEventSetFlags(key_down_event, Quartz.kCGEventFlagMaskShift)
+                elif mod == XASystemEventsApplication.Key.CAPS_LOCK:
+                    Quartz.CGEventSetFlags(key_down_event, Quartz.kCGEventFlagMaskAlphaShift)
+                elif mod == XASystemEventsApplication.Key.FUNCTION:
+                    Quartz.CGEventSetFlags(key_down_event, Quartz.kCGEventFlagMaskSecondaryFn)
+
+            Quartz.CGEventPost(Quartz.kCGHIDEventTap, key_down_event)
+            Quartz.CGEventPost(Quartz.kCGHIDEventTap, key_up_event)
 
     def documents(self, filter: dict = None) -> Union['XASystemEventsDocumentList', None]:
         """Returns a list of documents, as PyXA-wrapped objects, matching the given filter.

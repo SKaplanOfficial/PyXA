@@ -1567,8 +1567,6 @@ class XAPagesPage(XAPagesContainer):
     #     chart = self.xa_elem.charts()[-1].get()
     #     properties = {
     #         "parent": self,
-    #         "appspace": self.xa_apsp,
-    #         "workspace": self.xa_wksp,
     #         "element": chart,
     #         "appref": self.xa_aref,
     #         "system_events": self.xa_sevt,

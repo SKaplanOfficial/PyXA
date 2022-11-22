@@ -56,6 +56,8 @@ def unOSType(i: int):
 VERSION = "0.1.1" #: The installed version of PyXA
 supported_applications: list[str] = list(application_classes.keys()) #: A list of names of supported scriptable applications
 
+workspace = None
+
 # Set up logging
 if not os.path.exists("logs"):
     os.makedirs("logs")
@@ -69,7 +71,7 @@ logging.basicConfig(
 ###############
 ### General ###
 ###############
-# XAObject, XAApplication
+# XAObject, XAList, Application, XAApplicationList, XAApplication
 class XAObject():
     """A general class for PyXA scripting objects.
 
@@ -79,6 +81,7 @@ class XAObject():
     """
     _xa_sevt = None
     _xa_estr = None
+    _xa_wksp = None
 
     def __init__(self, properties: dict = None):
         """Instantiates a PyXA scripting object.
@@ -93,17 +96,13 @@ class XAObject():
         """
         if properties is not None:
             self.xa_prnt = properties.get("parent", None)
-            self._xa_apsp = properties.get("appspace", None)
-            self.xa_wksp = properties.get("workspace", None)
             self.xa_elem = properties.get("element", None)
             self.xa_scel = properties.get("scriptable_element", None)
             self.xa_aref = properties.get("appref", None)
 
     @property
-    def xa_apsp(self):
-        if not isinstance(self.__xa_apsp, AppKit.NSApplication):
-            self.__xa_apsp = list(self.__xa_apsp)[0]
-        return self.__xa_apsp
+    def xa_wksp(self):
+        return workspace
 
     @property
     def xa_sevt(self):
@@ -160,8 +159,6 @@ class XAObject():
         """
         properties = {
             "parent": self,
-            "appspace": self._xa_apsp,
-            "workspace": getattr(self, "xa_wksp", None),
             "element": obj,
             "appref": getattr(self, "xa_aref", None),
         }
@@ -292,9 +289,13 @@ class XAObject():
         if other is None:
             return False
 
-        if self.xa_elem == other.xa_elem:
-            return True
-        return self.xa_elem.get() == other.xa_elem.get()
+        if hasattr(self.xa_elem, "get"):
+            return self.xa_elem.get() == other.xa_elem.get()
+
+        if isinstance(other, list) or isinstance(other.xa_elem, AppKit.NSArray):
+            return len(self.xa_elem) == len(other.xa_elem) and all([x == y for x, y in zip(self.xa_elem, other.xa_elem)])
+        
+        return False
 
 
 
@@ -1011,10 +1012,7 @@ class XAApplicationList(XAList):
 
         .. versionadded:: 0.0.5
         """
-        ls = []
-        for app in self:
-            ls.extend(app.windows().xa_elem)
-        ls = AppKit.NSArray.alloc().initWithArray_(ls)
+        ls = [window for app in self for window in app.windows().xa_elem]
         window_list = self._new_element(ls, XAWindowList)
         return window_list
 
@@ -1038,8 +1036,6 @@ class Application(XAObject):
     .. versionadded:: 0.1.0
     """
 
-    _shared_app = None
-    _workspace = None
     app_paths: list[str] = [] #: A list containing the path to each application
 
     def __init__(self, app_name: str):
@@ -1054,18 +1050,6 @@ class Application(XAObject):
         new_self = self.__get_application(app_name)
         self.__class__ = new_self.__class__
         self.__dict__.update(new_self.__dict__)
-
-    @property
-    def shared_app(self):
-        if Application._shared_app == None:
-            Application._shared_app = AppKit.NSApplication.sharedApplication()
-        yield Application._shared_app
-
-    @property
-    def workspace(self):
-        if Application._workspace == None:
-            Application._workspace = AppKit.NSWorkspace.sharedWorkspace()
-        return Application._workspace
 
     def __xa_get_path_to_app(self, app_identifier: str) -> str:
         self.__xa_load_app_paths()
@@ -1092,20 +1076,22 @@ class Application(XAObject):
 
         .. versionadded:: 0.0.1
         """
+        global workspace
+        if workspace is None:
+            workspace = AppKit.NSWorkspace.sharedWorkspace()
+
         app_identifier_l = app_identifier.lower()
 
         def _match_open_app(obj, index, stop):
             res = obj.localizedName().lower() == app_identifier_l
             return res, res
 
-        idx_set = self.workspace.runningApplications().indexesOfObjectsPassingTest_(_match_open_app)
+        idx_set = workspace.runningApplications().indexesOfObjectsPassingTest_(_match_open_app)
         if idx_set.count() == 1:
             index = idx_set.firstIndex()
-            app = self.workspace.runningApplications()[index]
+            app = workspace.runningApplications()[index]
             properties = {
                 "parent": None,
-                "appspace": self.shared_app,
-                "workspace": self.workspace,
                 "element": app,
                 "appref": app,
             }
@@ -1128,7 +1114,7 @@ class Application(XAObject):
         if not app_identifier.startswith("/"):
             app_path = self.__xa_get_path_to_app(app_identifier)
         bundle = AppKit.NSBundle.alloc().initWithPath_(app_path)
-        url = self.workspace.URLForApplicationWithBundleIdentifier_(bundle.bundleIdentifier())
+        url = workspace.URLForApplicationWithBundleIdentifier_(bundle.bundleIdentifier())
 
         config = AppKit.NSWorkspaceOpenConfiguration.alloc().init()
         config.setActivates_(False)
@@ -1139,8 +1125,6 @@ class Application(XAObject):
             nonlocal app_ref
             properties = {
                 "parent": None,
-                "appspace": self.shared_app,
-                "workspace": self.workspace,
                 "element": app,
                 "appref": app,
             }
@@ -1157,7 +1141,7 @@ class Application(XAObject):
 
             app_ref = application_classes.get(app_identifier_l, XAApplication)(properties)
         
-        self.workspace.openApplicationAtURL_configuration_completionHandler_(url, config, _launch_completion_handler)
+        workspace.openApplicationAtURL_configuration_completionHandler_(url, config, _launch_completion_handler)
         while app_ref is None:
             time.sleep(0.01)
         return app_ref
@@ -1175,7 +1159,10 @@ def current_application() -> 'XAApplication':
 
     .. versionadded:: 0.0.1
     """
-    return Application(AppKit.NSWorkspace.sharedWorkspace().frontmostApplication().localizedName())
+    global workspace
+    if workspace is None:
+        workspace = AppKit.NSWorkspace.sharedWorkspace()
+    return Application(workspace.frontmostApplication().localizedName())
 
 
 def running_applications() -> list['XAApplication']:
@@ -1196,8 +1183,6 @@ def running_applications() -> list['XAApplication']:
     windows = Quartz.CGWindowListCopyWindowInfo(Quartz.kCGWindowListOptionAll, Quartz.kCGNullWindowID)
     ls = XAPredicate.evaluate_with_format(windows, "kCGWindowIsOnscreen == 1 && kCGWindowLayer == 0")
     properties = {
-        "appspace": AppKit.NSApplication.sharedApplication(),
-        "workspace": AppKit.NSWorkspace.sharedWorkspace(),
         "element": ls,
     }
     arr = XAApplicationList(properties)
@@ -1236,8 +1221,6 @@ class XAApplication(XAObject, XAClipboardCodable):
         
             properties = {
                 "parent": self,
-                "appspace": self._xa_apsp,
-                "workspace": self.xa_wksp,
                 "element": process,
                 "appref": self.xa_aref,
                 "window_class": self.xa_wcls
@@ -1886,8 +1869,6 @@ class XAPredicate(XAObject, XAClipboardCodable):
         if isinstance(target, XAList):
             return target.__class__({
                 "parent": target,
-                "appspace": self.xa_apsp,
-                "workspace": self.xa_wksp,
                 "element": ls,
                 "appref": self.xa_aref,
             })
@@ -1915,8 +1896,6 @@ class XAPredicate(XAObject, XAClipboardCodable):
         if isinstance(target, XAList):
             return target.__class__({
                 "parent": target,
-                "appspace": AppKit.NSApplication.sharedApplication(),
-                "workspace": AppKit.NSWorkspace.sharedWorkspace(),
                 "element": ls,
                 "appref": AppKit.NSApplication.sharedApplication(),
             })
@@ -1952,8 +1931,6 @@ class XAPredicate(XAObject, XAClipboardCodable):
         if isinstance(target, XAList):
             return target.__class__({
                 "parent": target,
-                "appspace": AppKit.NSApplication.sharedApplication(),
-                "workspace": AppKit.NSWorkspace.sharedWorkspace(),
                 "element": ls,
                 "appref": AppKit.NSApplication.sharedApplication(),
             })
@@ -2436,7 +2413,10 @@ class XAURL(XAObject, XAClipboardCodable):
 
         .. versionadded:: 0.0.5
         """
-        AppKit.NSWorkspace.sharedWorkspace().openURL_(self.xa_elem)
+        global workspace
+        if workspace is None:
+            workspace = AppKit.NSWorkspace.sharedWorkspace()
+        workspace.openURL_(self.xa_elem)
 
     def extract_text(self) -> list[str]:
         """Extracts the visible text from the webpage that the URL points to.
@@ -2495,6 +2475,12 @@ class XAURL(XAObject, XAClipboardCodable):
         """
         return [self.xa_elem, str(self.xa_elem)]
 
+    def __eq__(self, other: 'XAURL'):
+        if self.xa_elem == other.xa_elem:
+            return True
+
+        return self.url == other.url
+
     def __str__(self):
         return str(self.xa_elem)
 
@@ -2516,14 +2502,16 @@ class XAPath(XAObject, XAClipboardCodable):
         self.xa_elem = path
         self.path = path.path() #: The path string without the file:// prefix
         self.url = str(self.xa_elem) #: The path string with the file:// prefix included
-        self.xa_wksp = AppKit.NSWorkspace.sharedWorkspace()
 
     def open(self):
         """Opens the file in its default application.
 
         .. versionadded: 0.0.5
         """
-        self.xa_wksp.openURL_(self.xa_elem)
+        global workspace
+        if workspace is None:
+            workspace = AppKit.NSWorkspace.sharedWorkspace()
+        workspace.openURL_(self.xa_elem)
 
     def show_in_finder(self):
         """Opens a Finder window showing the folder containing this path, with the associated file selected. Synonymous with :func:`select`.
@@ -2537,7 +2525,10 @@ class XAPath(XAObject, XAClipboardCodable):
 
         .. versionadded: 0.0.5
         """
-        self.xa_wksp.activateFileViewerSelectingURLs_([self.xa_elem])
+        global workspace
+        if workspace is None:
+            workspace = AppKit.NSWorkspace.sharedWorkspace()
+        workspace.activateFileViewerSelectingURLs_([self.xa_elem])
 
     def get_clipboard_representation(self) -> list[Union[AppKit.NSURL, str]]:
         """Gets a clipboard-codable representation of the path.
@@ -2550,6 +2541,12 @@ class XAPath(XAObject, XAClipboardCodable):
         .. versionadded:: 0.0.8
         """
         return [self.xa_elem, self.xa_elem.path()]
+
+    def __eq__(self, other: 'XAURL'):
+        if self.xa_elem == other.xa_elem:
+            return True
+
+        return self.path == other.path
 
     def __repr__(self):
         return "<" + str(type(self)) + str(self.xa_elem) + ">"
@@ -3382,7 +3379,10 @@ class XASpotlight(XAObject):
 
         .. versionadded:: 0.0.9
         """
-        AppKit.NSWorkspace.sharedWorkspace().showSearchResultsForQueryString_(str(self.query))
+        global workspace
+        if workspace is None:
+            workspace = AppKit.NSWorkspace.sharedWorkspace()
+        workspace.showSearchResultsForQueryString_(str(self.query))
 
     def __search_by_strs(self, terms: tuple[str]):
         expanded_terms = [[x]*3 for x in terms]
@@ -5503,6 +5503,14 @@ class XAColor(XAObject, XAClipboardCodable):
         .. versionadded:: 0.1.0
         """
         return XAColor(0, 0, 0, 0)
+
+    @property
+    def hex_value(self) -> str:
+        """The HEX representation of the color.
+        
+        .. versionadded:: 0.1.1
+        """
+        return f"{hex(int(self.red_value * 255))[2:]}{hex(int(self.green_value * 255))[2:]}{hex(int(self.blue_value * 255))[2:]}".upper()
 
     @property
     def red_value(self) -> float:
@@ -9574,6 +9582,17 @@ class XAImage(XAObject, XAClipboardCodable):
         else:
             return XAImage(images)
 
+    def symbol(name: str):
+        """Initializes an image from the SF symbol with the specified name, if such a symbol exists.
+
+        :param name: The system symbol to create an image of; the name of an SF Symbol symbol.
+        :type name: str
+
+        .. versionadded:: 0.1.1
+        """
+        img = AppKit.NSImage.imageWithSystemSymbolName_accessibilityDescription_(name, None)
+        return XAImage(img)
+
     def horizontal_stitch(images: Union[list['XAImage'], XAImageList]) -> 'XAImage':
         """Horizontally stacks two or more images.
 
@@ -10352,8 +10371,12 @@ class XAImage(XAObject, XAClipboardCodable):
 
         .. versionadded:: 0.0.8
         """
+        global workspace
+        if workspace is None:
+            workspace = AppKit.NSWorkspace.sharedWorkspace()
+
         if not self.modified and self.file is not None and isinstance(self.file, XAPath):
-            AppKit.NSWorkspace.sharedWorkspace().openFile_withApplication_(self.file.path, "Preview")
+            workspace.openFile_withApplication_(self.file.path, "Preview")
         else:
             tmp_file = tempfile.NamedTemporaryFile()
             with open(tmp_file.name, 'wb') as f:
@@ -10361,7 +10384,7 @@ class XAImage(XAObject, XAClipboardCodable):
 
             img_url = XAPath(tmp_file.name).xa_elem
             preview_url = XAPath("/System/Applications/Preview.app/").xa_elem
-            AppKit.NSWorkspace.sharedWorkspace().openURLs_withApplicationAtURL_configuration_completionHandler_([img_url], preview_url, None, None)
+            workspace.openURLs_withApplicationAtURL_configuration_completionHandler_([img_url], preview_url, None, None)
             time.sleep(1)
 
     def save(self, file_path: Union[XAPath, str, None] = None):
@@ -10864,11 +10887,15 @@ class XAVideo(XAObject):
 
         .. versionadded:: 0.1.0
         """
+        global workspace
+        if workspace is None:
+            workspace = AppKit.NSWorkspace.sharedWorkspace()
+
         self.save("video-data-tmp.mp4")
 
         video_url = XAPath(os.getcwd() + "/video-data-tmp.mp4").xa_elem
         quicktime_url = XAPath("/System/Applications/QuickTime Player.app").xa_elem
-        AppKit.NSWorkspace.sharedWorkspace().openURLs_withApplicationAtURL_configuration_completionHandler_([video_url], quicktime_url, None, None)
+        workspace.openURLs_withApplicationAtURL_configuration_completionHandler_([video_url], quicktime_url, None, None)
         time.sleep(1)
 
         AppKit.NSFileManager.defaultManager().removeItemAtPath_error_(video_url.path(), None) 

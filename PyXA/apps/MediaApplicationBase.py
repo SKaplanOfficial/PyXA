@@ -353,8 +353,6 @@ class XAMediaApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         """
         properties = {
             "parent": self,
-            "appspace": self.xa_apsp,
-            "workspace": self.xa_wksp,
             "element": self.xa_scel.currentTrack(),
             "appref": self.xa_aref,
             "system_events": self.xa_sevt,
@@ -1140,8 +1138,6 @@ class XAMediaPlaylist(XAMediaItem):
         for result in results:
             properties = {
                 "parent": self,
-                "appspace": self.xa_apsp,
-                "workspace": self.xa_wksp,
                 "element": result,
                 "appref": self.xa_aref,
                 "system_events": self.xa_sevt,

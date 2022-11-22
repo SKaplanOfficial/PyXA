@@ -90,8 +90,18 @@ class XASBApplication(XASBObject, XABase.XAApplication):
 
     def __init__(self, properties):
         super().__init__(properties)
-        self.xa_scel = ScriptingBridge.SBApplication.alloc().initWithURL_(self.xa_elem.bundleURL())
+        self.__xa_scel = None
         self.xa_wcls = XASBWindow
+
+    @property
+    def xa_scel(self) -> ScriptingBridge.SBApplication:
+        if self.__xa_scel is None:
+            self.__xa_scel = ScriptingBridge.SBApplication.alloc().initWithURL_(self.xa_elem.bundleURL())
+        return self.__xa_scel
+
+    @xa_scel.setter
+    def xa_scel(self, xa_scel: ScriptingBridge.SBObject):
+        self.__xa_scel = xa_scel
 
     @property
     def front_window(self) -> 'XASBWindow':
@@ -115,9 +125,10 @@ class XASBWindowList(XABase.XAList):
 
     .. versionadded:: 0.0.5
     """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, None, filter)
-        self.xa_ocls = self.xa_prnt.xa_wcls
+    def __init__(self, properties: dict, filter: Union[dict, None] = None, obj_class = None):
+        super().__init__(properties, obj_class, filter)
+        if obj_class is None or issubclass(self.xa_prnt.xa_wcls, obj_class):
+            self.xa_ocls = self.xa_prnt.xa_wcls
 
     def name(self) -> List[str]:
         return list(self.xa_elem.arrayByApplyingSelector_("name") or [])

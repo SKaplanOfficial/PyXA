@@ -12,12 +12,20 @@ from .apps import application_classes
 
 from .XAErrors import ApplicationNotFoundError
 
-VERSION = "0.1.0" #: The installed version of PyXA
+supported_applications: List[str] = list(application_classes.keys())
+"""A list of names of supported scriptable applications
 
-supported_applications: List[str] = list(application_classes.keys()) #: A list of names of supported scriptable applications
+.. deprecated:: 0.1.1
+
+   Use :attr:`XABase.supported_applications` instead.
+"""
 
 class XAApplicationList(XAList):
     """A wrapper around a list of applications.
+
+    .. deprecated:: 0.1.1
+    
+       Use :class:`XABase.XAApplicationList` instead.
 
     .. versionadded:: 0.0.5
     """
@@ -222,6 +230,11 @@ class XAApplicationList(XAList):
         return "<" + str(type(self)) + str(self.localized_name()) + ">"
 
 class Application(XAObject):
+    """
+    .. deprecated:: 0.1.1
+    
+       Use :class:`XABase.Application` instead.
+    """
     _shared_app = None
     _workspace = None
     app_paths: List[str] = [] #: A list containing the path to each application
@@ -354,6 +367,10 @@ class XACombinedWindowList(XAList):
 
     This class contains methods that specialize to XAWindow and XASBWindow methods as necessary.
 
+    .. deprecated:: 0.1.1
+    
+       Use :class:`XABase.XACombinedWindowList` instead.
+
     .. versionadded:: 0.0.5
     """
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
@@ -410,6 +427,10 @@ def running_applications() -> List[XAApplication]:
     >>> apps = PyXA.running_applications()
     >>> print(apps.localized_name())
     ['GitHub Desktop', 'Safari', 'Code', 'Terminal', 'Notes', 'Messages', 'TV']
+
+    .. deprecated:: 0.1.1
+    
+       Use :func:`XABase.running_applications` instead.
     
     .. versionadded:: 0.0.1
     """
@@ -431,6 +452,10 @@ def current_application() -> XAApplication:
 
     :return: A PyXA application object referencing the current application.
     :rtype: XAApplication
+
+    .. deprecated:: 0.1.1
+    
+       Use :func:`XABase.current_application` instead.
 
     .. versionadded:: 0.0.1
     """

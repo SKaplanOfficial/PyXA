@@ -1,8 +1,5 @@
 from .PyXA import (
-    application, Application,
-    current_application,
-    running_applications,
-    supported_applications,
+    application,
 )
 
 from .XABase import (
@@ -15,6 +12,7 @@ from .XABase import (
     XAImage,
     XAVideo,
     XALocation,
+    Application,
 
     # Utilities
     XAPredicate,
@@ -38,6 +36,14 @@ from .XABase import (
     XAColorPicker, XAColorPickerStyle,
     XANotification,
     XAMenuBar, XAMenu,
+
+    # Constants
+    VERSION,
+
+    # XAFinderExtension,
+
+    # Methods
+    current_application, running_applications,
 )
 
 from .Additions.XAWeb import (

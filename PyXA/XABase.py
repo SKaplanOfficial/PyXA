@@ -6220,26 +6220,21 @@ class XAMenuBar(XAObject):
 
         .. versionadded:: 0.0.9
         """
-        self._menus = {}
-        self._menu_items = {}
-        self._methods = {}
+        self.menus = {} #: The menus to be displayed in the status bar, keyed by ID
 
         detector = self
         class MyApplicationAppDelegate(AppKit.NSObject):
-            start_time = datetime.now()
-
-            def applicationDidFinishLaunching_(self, sender):
-                for item_name, status_item in detector._menus.items():
-                    menu = status_item.menu()
-
-                    menuitem = AppKit.NSMenuItem.alloc().initWithTitle_action_keyEquivalent_('Quit', 'terminate:', '')
-                    menu.addItem_(menuitem)
-
             def action_(self, menu_item):
-                selection = menu_item.title()
-                for item_name in detector._methods:
-                    if selection == item_name:
-                        detector._methods[item_name]()
+                selection = menu_item
+                for menu_key, menu in detector.menus.items():
+                    for item_key, item in menu.items.items():
+                        if item.xa_elem == selection:
+                                item._run_action()
+
+                        else:
+                            for subitem_key, subitem in item.items.items():
+                                if subitem.xa_elem == selection:
+                                    subitem._run_action()
 
         app = AppKit.NSApplication.sharedApplication()
         app.setDelegate_(MyApplicationAppDelegate.alloc().init().retain())
@@ -6266,38 +6261,69 @@ class XAMenuBar(XAObject):
         >>> menu_bar.add_menu("Menu 1", image=img, img_width=100, img_height=100)
         >>> menu_bar.display()
 
+        .. deprecated:: 0.1.1
+        
+           Use :func:`new_menu` instead.
+
         .. versionadded:: 0.0.9
         """
-        status_bar = AppKit.NSStatusBar.systemStatusBar()
-        status_item = status_bar.statusItemWithLength_(AppKit.NSVariableStatusItemLength).retain()
-        status_item.setTitle_(title)
-       
-        if isinstance(image, XAImage):
-            img = image.xa_elem.copy()
-            img.setScalesWhenResized_(True)
-            img.setSize_((img_width, img_height))
-            status_item.button().setImage_(img)
+        self.new_menu(title, image, tool_tip, (img_width, img_height))
 
-        status_item.setHighlightMode_(objc.YES)
+    def new_menu(self, title: Union[str, None] = None, image: Union['XAImage', None] = None, tooltip: Union[str, None] = None, image_dimensions: tuple[int, int] = (30, 30), id: Union[str, None] = None) -> 'XAMenuBarMenu':
+        """Adds a new menu to be displayed in the system menu bar.
 
-        if isinstance(tool_tip, str):
-            status_item.setToolTip_(tool_tip)
+        :param title: The title text of the menu, defaults to None
+        :type title: Union[str, None], optional
+        :param image: The image to display for the menu, defaults to None
+        :type image: Union[XAImage, None], optional
+        :param tooltip: The tooltip to display on hovering over the menu, defaults to None
+        :type tooltip: Union[str, None], optional
+        :param image_dimensions: The width and height of the image, in pixels, defaults to (30, 30)
+        :type image_dimensions: tuple[int, int], optional
+        :param id: A unique identifier for the menu, or None to use the title, defaults to None
+        :type id: Union[str, None], optional
+        :return: The newly created menu object
+        :rtype: XAMenuBarMenu
 
-        menu = AppKit.NSMenu.alloc().init()
-        status_item.setMenu_(menu)
+        :Example:
 
-        status_item.setEnabled_(objc.YES)
-        self._menus[title] = status_item
+        >>> import random
+        >>> import threading
+        >>> import time
+        >>> 
+        >>> emojis = ["😀", "😍", "🙂", "😎", "🤩", "🤯", "😭", "😱", "😴", "🤒", "😈", "🤠"]
+        >>> 
+        >>> menu_bar = PyXA.XAMenuBar()
+        >>> emoji_bar = menu_bar.new_menu()
+        >>> 
+        >>> def update_display():
+        >>>     while True:
+        >>>         new_emoji = random.choice(emojis)
+        >>>         emoji_bar.title = new_emoji
+        >>>         time.sleep(0.25)
+        >>> 
+        >>> threading.Thread(target=update_display).start()
+        >>> menu_bar.display()
 
-    def add_item(self, menu: str, item_name: str, method: Union[Callable[[], None], None] = None, image: Union['XAImage', None] = None, img_width: int = 20, img_height: int = 20):
+        .. versionadded:: 0.1.1
+        """
+        title = title or ""
+        id = id or title
+        while id in self.menus:
+            id += "_"
+
+        self.menus[id] = XAMenuBarMenu(title, image, tooltip, image_dimensions, id)
+        return self.menus[id]
+        
+    def add_item(self, menu: str, item_name: str, action: Union[Callable[[], None], None] = None, image: Union['XAImage', None] = None, img_width: int = 20, img_height: int = 20):
         """Adds an item to a menu, creating the menu if necessary.
 
         :param menu: The name of the menu to add an item to, or the name of the menu to create
         :type menu: str
         :param item_name: The name of the item
         :type item_name: str
-        :param method: The method to associate with the item (the method called when the item is clicked)
-        :type method: Callable[[], None]
+        :param action: The method to associate with the item (the method called when the item is clicked)
+        :type action: Callable[[], None]
         :param image: The image for the item, defaults to None
         :type image: Union[XAImage, None], optional
         :param img_width: The width of image, in pixels, defaults to 30
@@ -6319,21 +6345,17 @@ class XAMenuBar(XAObject):
         >>> menu_bar.add_item("Menu 2", "Item 1", lambda : print("Action 1"), image=img, img_width=100)
         >>> menu_bar.display()
 
+        .. deprecated:: 0.1.1
+        
+           Use :func:`XAMenuBarMenu.new_item` instead.
+
         .. versionadded:: 0.0.9
         """
-        item = AppKit.NSMenuItem.alloc().initWithTitle_action_keyEquivalent_(item_name, 'action:', '')
-        
-        if isinstance(image, XAImage):
-            img = image.xa_elem.copy()
-            img.setScalesWhenResized_(True)
-            img.setSize_((img_width, img_height))
-            item.setImage_(img)
-        
-        if menu not in self._menus:
+        if menu not in self.menus:
             self.add_menu(menu)
-        self._menu_items[item_name] = item
-        self._menus[menu].menu().addItem_(item)
-        self._methods[item_name] = method
+            
+        menu = self.menus[menu]
+        menu.new_item(item_name, action, [], image, (img_width, img_height))
 
     def set_image(self, item_name: str, image: 'XAImage', img_width: int = 30, img_height: int = 30):
         """Sets the image displayed for a menu or menu item.
@@ -6372,15 +6394,26 @@ class XAMenuBar(XAObject):
         menu_bar.add_item("Status", "Turn off", update_state)
         menu_bar.display()
 
+        .. deprecated:: 0.1.1
+        
+           Set the :attr:`XAMenuBarMenu.image` and :attr:`XAMenuBarMenuItem.image` attributes directly instead.
+
         .. versionadded:: 0.0.9
         """
         img = image.xa_elem.copy()
         img.setScalesWhenResized_(True)
         img.setSize_((img_width, img_height))
-        if item_name in self._menus:
-            self._menus[item_name].button().setImage_(img)
-        elif item_name in self._methods:
-            self._menu_items[item_name].setImage_(img)
+
+        for menu_key, menu in self.menus.items():
+            if menu_key == item_name:
+                menu._status_item.button().setImage_(img)
+
+            else:
+                for item_key, item in menu.items.items():
+                    if item_key == item_name:
+                        item.xa_elem.setImage_(img)
+
+       
 
     def set_text(self, item_name: str, text: str):
         """Sets the text displayed for a menu or menu item.
@@ -6390,34 +6423,32 @@ class XAMenuBar(XAObject):
         :param text: The new text to display
         :type text: str
 
-        :Example: Random Emoji Ticker
-
-        >>> import PyXA
-        >>> import random
-        >>> import threading
-        >>> 
-        >>> menu_bar = PyXA.XAMenuBar()
-        >>> menu_bar.add_menu("Emoji")
-        >>>
-        >>> emojis = ["😀", "😍", "🙂", "😎", "🤩", "🤯", "😭", "😱", "😴", "🤒", "😈", "🤠"]
-        >>>
-        >>> def update_display():
-        >>>     while True:
-        >>>         new_emoji = random.choice(emojis)
-        >>>         menu_bar.set_text("Emoji", new_emoji)
-        >>>         sleep(0.25)
-        >>> 
-        >>> emoji_ticker = threading.Thread(target=update_display)
-        >>> emoji_ticker.start()
-        >>> menu_bar.display()
+        .. deprecated:: 0.1.1
+        
+           Set the :attr:`XAMenuBarMenu.title` and :attr:`XAMenuBarMenuItem.title` attributes directly instead.
 
         .. versionadded:: 0.0.9
         """
-        if item_name in self._menus:
-            self._menus[item_name].setTitle_(text)
-        elif item_name in self._methods:
-            self._menu_items[item_name].setTitle_(text)
-            self._methods[text] = self._methods[item_name]
+        for menu_key, menu in self.menus.items():
+            if menu_key == item_name:
+                menu._status_item.button().setTitle_(item_name)
+
+            else:
+                for item_key, item in menu.items.items():
+                    if item_key == item_name:
+                        item.xa_elem.setTitle_(item_name)
+
+    def remove_menu(self, id):
+        """Removes a menu from the status bar.
+
+        :param id: The ID of the menu to remove
+        :type id: str
+
+        .. versionadded:: 0.1.1
+        """
+        menu = self.menus.pop(id)
+        status_bar = AppKit.NSStatusBar.systemStatusBar()
+        status_bar.removeStatusItem_(menu._status_item)
 
     def display(self):
         """Displays the custom menus on the menu bar.
@@ -6425,17 +6456,373 @@ class XAMenuBar(XAObject):
         :Example:
 
         >>> import PyXA
-        >>> mbar = PyXA.XAMenuBar()
-        >>> mbar.add_menu("🔥")
-        >>> mbar.display()
+        >>> menu_bar = PyXA.XAMenuBar()
+        >>> menu_bar.new_menu("🔥", tooltip="Fire")
+        >>> menu_bar.new_menu("💧", tooltip="Water")
+        >>> menu_bar.display()
 
         .. versionadded:: 0.0.9
         """
+        for menu in self.menus:
+            # Add a 'Quit' item to the bottom of each menu
+            item = AppKit.NSMenuItem.alloc().initWithTitle_action_keyEquivalent_('Quit', 'terminate:', '')
+            self.menus[menu].xa_elem.addItem_(item)
+
         try:
-            AppHelper.runEventLoop(installInterrupt=True)
+            if len(self.menus) > 0:
+                AppHelper.runEventLoop(installInterrupt=True)
         except Exception as e:
             print(e)
 
+class XAMenuBarMenu(XAObject):
+    def __init__(self, title: str, image: Union['XAImage', None] = None, tooltip: Union[str, None] = None, image_dimensions: tuple[int, int] = (30, 30), id: Union[str, None] = None):
+        """Initializes a new menu to be displayed in the system menu bar.
+
+        :param title: The name of the menu
+        :type title: str
+        :param image: The image to display for the menu, defaults to None
+        :type image: Union[XAImage, None], optional
+        :param tooltip: The tooltip to display on hovering over the menu, defaults to None
+        :type tooltip: Union[str, None], optional
+        :param image_dimensions: The width and height of the image, in pixels, defaults to (30, 30)
+        :type image_dimensions: int, optional
+        :param id: A unique identifier for the menu, or None to use the title, defaults to None
+        :type id: Union[str, None], optional
+
+        .. versionadded:: 0.1.1
+        """
+        self.__title = title
+        self.__image = image
+        self.__tooltip = tooltip
+        self.__image_dimensions = image_dimensions
+        self.id = id or title #: The unique identifier for the menu
+        self.items = {} #: The menu items, keyed by their IDs
+    
+        # Create a new status bar item
+        self.__status_bar = AppKit.NSStatusBar.systemStatusBar()
+        self._status_item = self.__status_bar.statusItemWithLength_(AppKit.NSVariableStatusItemLength).retain()
+        self._status_item.setTitle_(title)
+       
+        # Add an image to the status bar item, if necessary
+        if isinstance(image, XAImage):
+            img = image.xa_elem.copy()
+            img.setScalesWhenResized_(True)
+            img.setSize_(image_dimensions)
+            self._status_item.button().setImage_(img)
+
+        # Add a tooltip to the status bar item, if necessary
+        if isinstance(tooltip, str):
+            self._status_item.setToolTip_(tooltip)
+
+        # Create a new menu and associate it to the status bar item
+        # Disable auto-enabling items so that users have the option to disable them
+        self.xa_elem = AppKit.NSMenu.alloc().init()
+        self.xa_elem.setAutoenablesItems_(False)
+        self._status_item.setMenu_(self.xa_elem)
+
+    @property
+    def title(self) -> str:
+        """The title text of the menu.
+        """
+        return self.__title
+
+    @title.setter
+    def title(self, title: str):
+        self.__title = title
+        self._status_item.setTitle_(title)
+
+    @property
+    def image(self) -> 'XAImage':
+        """The image associated with the menu.
+        """
+        img_obj = self._status_item.button().image()
+        if img_obj is None:
+            return None
+        return self.__image
+
+    @image.setter
+    def image(self, image: 'XAImage'):
+        self.__image = image
+        img = image.xa_elem.copy()
+        img.setScalesWhenResized_(True)
+        img.setSize_(self.__image_dimensions)
+        self._status_item.button().setImage_(img)
+
+    @property
+    def image_dimensions(self) -> tuple[int, int]:
+        """The width and height of the menu's image, in pixels.
+        """
+        return self.__image_dimensions
+
+    @image_dimensions.setter
+    def image_dimensions(self, image_dimensions: tuple[int, int]):
+        self.__image_dimensions = image_dimensions
+        size = AppKit.NSSizeFromCGSize(image_dimensions)
+        self._status_item.button().image().setSize_(size)
+
+    @property
+    def tooltip(self) -> int:
+        """The tooltip that appears when hovering over the menu.
+        """
+        return self.__tooltip
+
+    @tooltip.setter
+    def tooltip(self, tooltip: int):
+        self.__tooltip = tooltip
+        self._status_item.setToolTip_(tooltip)
+
+    def new_item(self, title: Union[str, None] = None, action: Union[Callable[[], None], None] = None, args: Union[list[Any], None] = None, image: Union['XAImage', None] = None, image_dimensions: tuple[int, int] = (20, 20), id: Union[str, None] = None) -> 'XAMenuBarMenuItem':
+        """Creates a new menu item and adds it to this menu at the current insertion point.
+
+        :param title: The title text of the item, defaults to None
+        :type title: Union[str, None], optional
+        :param action: The method to call when the item is clicked, defaults to None
+        :type action: Union[Callable[[], None], None], optional
+        :param args: The arguments to pass to the action method upon execution, defaults to None
+        :type args: Union[list[Any], None], optional
+        :param image: The image for the item, defaults to None
+        :type image: Union[XAImage, None], optional
+        :param image_dimensions: The width and height of the image, in pixels, defaults to (20, 20)
+        :type image_dimensions: tuple[int, int], optional
+        :param id: A unique identifier for the item, defaults to None
+        :type id: Union[str, None], optional
+        :return: The newly created menu item object
+        :rtype: XAMenuBarMenuItem
+
+        :Example:
+
+        >>> import PyXA
+        >>> menu_bar = PyXA.XAMenuBar()
+        >>> 
+        >>> img1 = PyXA.XAColor.red().make_swatch(10, 10)
+        >>> img2 = PyXA.XAImage("https://avatars.githubusercontent.com/u/7865925?v=4")
+        >>> img3 = PyXA.XAImage.symbol("flame.circle")
+        >>> 
+        >>> m1 = menu_bar.new_menu("Menu 1")
+        >>> m1.new_item("Item 1", lambda _: print("Action 1"), [], img1, (100, 100))
+        >>> m1.new_item("Item 2", lambda _: print("Action 2"), [], img2, (100, 100))
+        >>> 
+        >>> m2 = menu_bar.new_menu("Menu 2")
+        >>> m2.new_item("Item 1", lambda _: print("Action 3"), image=img3, image_dimensions=(50, 50))
+        >>> 
+        >>> menu_bar.display()
+
+        .. versionadded:: 0.1.1
+        """
+        # If no ID provided, use the title, then make it unique
+        title = title or ""
+        id = id or title
+        while id in self.items:
+            id += "_"
+
+        self.items[id] = XAMenuBarMenuItem(title, action, args, image, image_dimensions, id)
+        self.xa_elem.addItem_(self.items[id].xa_elem)
+        return self.items[id]
+
+    def add_separator(self, id: Union[str, None] = None) -> 'XAMenuBarMenuItem':
+        """Adds a separator to the menu at the current insertion point.
+
+        :param id: A unique identifier for the separator, defaults to None
+        :type id: Union[str, None], optional
+        :return: The newly created separator menu item object
+        :rtype: XAMenuBarMenuItem
+
+        .. versionadded:: 0.1.1
+        """
+        id = id or "separator"
+        while id in self.items:
+            id += "_"
+
+        self.items[id] = XAMenuBarMenuItem(id)
+        self.xa_elem.addItem_(self.items[id].xa_elem)
+        return self.items[id]
+
+    def remove_item(self, id):
+        """Removes an item from this menu.
+
+        :param id: The ID of the item to remove
+        :type id: str
+
+        .. versionadded:: 0.1.1
+        """
+        item = self.items.pop(id)
+        self.xa_elem.removeItem_(item.xa_elem)
+
+
+class XAMenuBarMenuItem(XAObject):
+    def __init__(self, title: str, action: Union[Callable[['XAMenuBarMenuItem', Any], None], None] = None, args: Union[list[Any], None] = None, image: Union['XAImage', None] = None, image_dimensions: tuple[int, int] = (20, 20), id: Union[str, None] = None):
+        """Initializes an item of a menu.
+
+        :param title: The name of the item
+        :type title: str
+        :param action: The method to associate with the item (the method called when the item is clicked), defaults to None
+        :type action: Callable[[XAMenuBarMenuItem], None]
+        :param args: The arguments to call the method with, defaults to None
+        :type args: Union[list[Any], None], optional
+        :param image: The image for the item, defaults to None
+        :type image: Union[XAImage, None], optional
+        :param image_dimensions: The width and height of image, in pixels, defaults to (20, 20)
+        :type image_dimensions: tuple[int, int], optional
+        :param id: A unique identifier for the item, or None to use the title, defaults to None
+        :type id: Union[str, None], optional
+
+        .. versionadded:: 0.1.1
+        """
+        self.__title = title
+        self.action = action #: The method to call when this menu item is clicked
+        self.args = args or [] #: The arguments to pass to the action method upon execution
+        self.__image = image
+        self.__image_dimensions = image_dimensions
+        self.__indent = 0
+        self.__enabled = True
+        self.id = id or title #: The unique identifier of the item
+
+        self.items = {}
+
+        if self.id.startswith("separator"):
+            self.xa_elem = AppKit.NSMenuItem.separatorItem()
+        else:
+            self.xa_elem = AppKit.NSMenuItem.alloc().initWithTitle_action_keyEquivalent_(title, 'action:', '')
+            
+            if isinstance(image, XAImage):
+                img = image.xa_elem.copy()
+                img.setScalesWhenResized_(True)
+                img.setSize_(image_dimensions)
+                self.xa_elem.setImage_(img)
+
+    @property
+    def title(self) -> str:
+        """The title text of the menu item.
+        """
+        return self.__title
+
+    @title.setter
+    def title(self, title: str):
+        self.__title = title
+        self.xa_elem.setTitle_(title)
+
+    @property
+    def image(self) -> 'XAImage':
+        """The image associated with the menu item.
+        """
+        img_obj = self.xa_elem.image()
+        if img_obj is None:
+            return None
+        return self.__image
+
+    @image.setter
+    def image(self, image: 'XAImage'):
+        self.__image = image
+        img = image.xa_elem.copy()
+        img.setScalesWhenResized_(True)
+        img.setSize_(self.__image_dimensions)
+        self.xa_elem.setImage_(img)
+
+    @property
+    def image_dimensions(self) -> tuple[int, int]:
+        """The width and height of the menu item's image, in pixels.
+        """
+        return self.__image_dimensions
+
+    @image_dimensions.setter
+    def image_dimensions(self, image_dimensions: tuple[int, int]):
+        self.__image_dimensions = image_dimensions
+        size = AppKit.NSSizeFromCGSize(image_dimensions)
+        self.xa_elem.image().setSize_(size)
+
+    @property
+    def indent(self) -> int:
+        """The level of indentation of the menu item, from 0 to 15.
+        """
+        return self.__indent
+
+    @indent.setter
+    def indent(self, indent: int):
+        self.__indent = indent
+        self.xa_elem.setIndentationLevel_(indent)
+
+    @property
+    def enabled(self) -> int:
+        """Whether the menu item is enabled (vs. appearing grayed out).
+        """
+        return self.__enabled
+
+    @enabled.setter
+    def enabled(self, enabled: bool):
+        self.__enabled = enabled
+        self.xa_elem.setEnabled_(enabled)
+
+    def _run_action(self):
+        """Runs the action associated with this menu item.
+
+        .. versionadded:: 0.1.1
+        """
+        self.action(self, *self.args)
+
+    def new_subitem(self, title: Union[str, None] = None, action: Union[Callable[['XAMenuBarMenuItem', Any], None], None] = None, args: Union[list[Any], None] = None, image: Union['XAImage', None] = None, image_dimensions: tuple[int, int] = (20, 20), id: Union[str, None] = None) -> 'XAMenuBarMenuItem':
+        """Creates a new menu item and places it in a submenu of this item.
+
+        This will create a new submenu as needed, or will append to the existing submenu if one is already available on this item.
+
+        :param title: The title text of the item, defaults to None
+        :type title: Union[str, None], optional
+        :param action: The method called when the item is clicked, defaults to None
+        :type action: Union[Callable[[XAMenuBarMenuItem, Any], None], None], optional
+        :param args: The arguments to pass to the action method upon execution, defaults to None
+        :type args: Union[list[Any], None], optional
+        :param image: The image for the item, defaults to None
+        :type image: Union[XAImage, None], optional
+        :param image_dimensions: The width and height of the image, in pixels, defaults to (20, 20)
+        :type image_dimensions: tuple[int, int], optional
+        :param id: A unique identifier for the item, or None to use the title, defaults to None
+        :type id: Union[str, None], optional
+        :return: The newly created menu item
+        :rtype: XAMenuBarMenuItem
+
+        :Example:
+
+        >>> import PyXA
+        >>> menu_bar = PyXA.XAMenuBar()
+        >>> m1 = menu_bar.new_menu("Menu 1")
+        >>> i1 = m1.new_item("Item 1")
+        >>> i2 = i1.new_subitem("Item 1.1")
+        >>> i3 = i2.new_subitem("Item 1.1.1")
+        >>> i4 = i3.new_subitem("Item 1.1.1.1")
+        >>> menu_bar.display()
+
+        .. versionadded:: 0.1.1
+        """
+        # If no ID provided, use the title, then make it unique
+        title = title or ""
+        id = id or title
+        while id in self.items:
+            id += "_"
+
+        # Create a new submenu, if necessary
+        submenu = self.xa_elem.submenu()
+        if submenu is None:
+            submenu = AppKit.NSMenu.alloc().init()
+
+        # Create a subitem and add it to the submenu
+        item = XAMenuBarMenuItem(title, action, args, image, image_dimensions, id)
+        submenu.addItem_(item.xa_elem)
+
+        # Associate the submenu to this item
+        self.xa_elem.menu().setSubmenu_forItem_(submenu, self.xa_elem)
+        self.items[id] = item
+        return self.items[id]
+
+    def remove_subitem(self, id: str):
+        """Removes a subitem from this item's submenu.
+
+        :param id: The ID of the subitem to remove
+        :type id: str
+
+        .. versionadded:: 0.1.1
+        """
+        item = self.items.pop(id)
+        self.xa_elem.submenu().removeItem_(item.xa_elem)
+        
 
 
 

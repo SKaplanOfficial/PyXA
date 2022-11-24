@@ -15,19 +15,12 @@ from .XABase import (
     Application,
 
     # Utilities
-    XAPredicate,
-    SDEFParser,
-
-    # Interoperability
     AppleScript,
+    XAPredicate,
     
     # System Features
     XAClipboard,
     XASpotlight,
-    XACommandDetector,
-    XASpeechRecognizer,
-    XASpeech,
-    XALSM,
 
     # Alerts, Dialogs, Menus, and Notifications
     XAAlert, XAAlertStyle,
@@ -35,7 +28,7 @@ from .XABase import (
     XADialog, XAFileNameDialog,
     XAColorPicker, XAColorPickerStyle,
     XANotification,
-    XAMenuBar, XAMenu,
+    XAMenu,
 
     # Constants
     VERSION,
@@ -46,6 +39,21 @@ from .XABase import (
     current_application, running_applications,
 )
 
-from .Additions.XAWeb import (
+from .additions.XASpeech import (
+    XACommandDetector,
+    XASpeech,
+    XASpeechRecognizer,
+)
+
+from .additions.XALearn import (
+    XALSM,
+)
+
+from .additions.XAUtils import (
+    SDEFParser,
+    XAMenuBar,
+)
+
+from .additions.XAWeb import (
     RSSFeed,
 )

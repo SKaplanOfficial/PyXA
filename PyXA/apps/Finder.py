@@ -14,8 +14,8 @@ from ScriptingBridge import SBObject
 from PyXA import XABase
 from PyXA.XABase import OSType, XAImage, XAList
 from PyXA import XABaseScriptable
-from ..XAProtocols import XACanOpenPath, XAClipboardCodable, XADeletable, XASelectable
-from ..XATypes import XAPoint
+from PyXA.XAProtocols import XACanOpenPath, XAClipboardCodable, XADeletable, XASelectable
+from PyXA.XATypes import XAPoint, XARectangle
 
 class XAFinderApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
     """A class for managing and interacting with Finder.app.
@@ -137,31 +137,22 @@ class XAFinderApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         self.xa_wcls = XAFinderWindow
         self.xa_fmgr = NSFileManager.defaultManager()
 
-        self.name: str #: The name of the application
-        self.visible: bool #: Whether Finder is currently visible
-        self.frontmost: bool #: Whether Finder is the active application
-        self.product_version: str #: The system software version
-        self.version: str #: The version of Finder
-        self.selection: XAFinderItemList #: The currently selected items in Finder
-        self.insertion_location: XAFinderFolder #: The container in which a new folder would be created in by default in the frontmost window
-        self.startup_disk: XAFinderDisk #: The startup disk for this system
-        self.desktop: XAFinderDesktop #: The user's desktop
-        self.trash: XAFinderTrash #: The system Trash
-        self.home: XAFinderFolder #: The home directory
-        self.computer_container #: The computer directory
-        self.finder_preferences #: Preferences for Finder as a whole
-        self.desktop_picture: XAFinderFile #: The desktop picture of the main monitor
-
     @property
     def name(self) -> str:
+        """The name of the application.
+        """
         return self.xa_scel.name()
 
     @property
     def visible(self) -> bool:
+        """Whether Finder is currently visible.
+        """
         return self.xa_scel.visible()
 
     @property
     def frontmost(self) -> bool:
+        """Whether Finder is the active application.
+        """
         return self.xa_scel.frontmost()
 
     @frontmost.setter
@@ -170,55 +161,81 @@ class XAFinderApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
 
     @property
     def product_version(self) -> str:
+        """The system software version.
+        """
         return self.xa_scel.productVersion()
 
     @property
     def version(self) -> str:
+        """The version of Finder
+        """
         return self.xa_scel.version()
 
     @property
     def selection(self) -> 'XAFinderItemList':
+        """The currently selected items in Finder.
+        """
         return self._new_element(self.xa_scel.selection().get(), XAFinderItemList)
 
     @selection.setter
     def selection(self, selection: Union[list['XAFinderItem'], 'XAFinderItemList']):
         if isinstance(selection, list):
             selection = [x.xa_elem for x in selection]
-            self.set_property("selection", selection)
+            self.set_property("selection", None)
         else:
-            self.set_property('selection', selection)
+            self.set_property('selection', selection.xa_elem)
 
     @property
-    def insertion_location(self) -> 'XAFinderApplication':
+    def insertion_location(self) -> 'XAFinderFolder':
+        """The container in which a new folder would be created in by default in the frontmost window.
+        """
         folder_obj = self.xa_scel.windows()[0].target()
         return self._new_element(folder_obj, XAFinderFolder)
 
     @property
     def startup_disk(self) -> 'XAFinderDisk':
+        """The startup disk for this system.
+        """
         disk_obk = self.xa_scel.startupDisk()
         return self._new_element(disk_obk, XAFinderDisk)
 
     @property
     def desktop(self) -> 'XAFinderDesktop':
+        """The user's desktop.
+        """
         desktop_obj = self.xa_scel.desktop()
         return self._new_element(desktop_obj, XAFinderDesktop)
 
     @property
     def trash(self) -> 'XAFinderTrash':
+        """The system Trash.
+        """
         trash_obj = self.xa_scel.trash()
         return self._new_element(trash_obj, XAFinderTrash)
 
     @property
     def home(self) -> 'XAFinderFolder':
+        """The home directory.
+        """
         return self.home_directory()
 
     @property
     def computer_container(self) -> 'XAFinderComputer':
+        """The computer directory.
+        """
         computer_obj = self.xa_scel.computerContainer()
         return self._new_element(computer_obj, XAFinderComputer)
 
     @property
+    def desktop_picture(self) -> 'XAFinderFile':
+        """The desktop picture of the main monitor.
+        """
+        return self._new_element(self.xa_scel.desktopPicture(), XAFinderFile)
+
+    @property
     def finder_preferences(self) -> 'XAFinderPreferences':
+        """Preferences for Finder as a whole.
+        """
         prefs_obj = self.xa_scel.FinderPreferences()
         return self._new_element(prefs_obj, XAFinderPreferences)
 
@@ -502,6 +519,10 @@ class XAFinderApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
 
     # Directories
     def directory(self, path: Union[str, AppKit.NSURL]):
+        """.. deprecated:: 0.1.1
+        
+            Use the :func:`folders` method with a filter instead.
+        """
         if isinstance(path, str):
             path = AppKit.NSURL.alloc().initFileURLWithPath_(path)
         folder_obj = self.xa_scel.folders().objectAtLocation_(path)
@@ -709,7 +730,7 @@ class XAFinderApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
 
         .. versionadded:: 0.0.3
         """
-        return self._new_element(self.xa_scel.finderWindows(), XAFinderFinderWindowList, filter)
+        return self._new_element(self.xa_scel.FinderWindows(), XAFinderFinderWindowList, filter)
 
     def clipping_windows(self, filter: dict = None) -> 'XAFinderClippingWindowList':
         """Returns a list of clipping windows matching the filter.
@@ -734,170 +755,550 @@ class XAFinderItemList(XABase.XAList):
         super().__init__(properties, object_class, filter)
 
     def name(self) -> list[str]:
+        """Gets the name of each item in the list.
+
+        :return: A list of item names
+        :rtype: list[str]
+        
+        .. versionadded:: 0.0.3
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
     def displayed_name(self) -> list[str]:
+        """Gets the display name of each item in the list.
+
+        :return: A list of item display names
+        :rtype: list[str]
+        
+        .. versionadded:: 0.0.3
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("displayedName"))
 
     def name_extension(self) -> list[str]:
+        """Gets the name/file extension of each item in the list.
+
+        :return: A list of item name extensions
+        :rtype: list[str]
+        
+        .. versionadded:: 0.0.3
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("nameExtension"))
 
     def extension_hidden(self) -> list[bool]:
+        """Gets the extension hidden status of each item in the list.
+
+        :return: A list of item extension hidden status booleans
+        :rtype: list[bool]
+        
+        .. versionadded:: 0.0.3
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("extensionHidden"))
 
     def index(self) -> list[int]:
+        """Gets the index of each item in the list.
+
+        :return: A list of item indices
+        :rtype: list[int]
+        
+        .. versionadded:: 0.0.3
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("index"))
 
     def position(self) -> list[tuple[int, int]]:
+        """Gets the position of each item in the list.
+
+        :return: A list of item positions
+        :rtype: list[tuple[int, int]]
+        
+        .. versionadded:: 0.0.3
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("position"))
 
     def desktop_position(self) -> list[tuple[int, int]]:
+        """Gets the desktop position of each item in the list.
+
+        :return: A list of item desktop positions
+        :rtype: list[tuple[int, int]]
+        
+        .. versionadded:: 0.0.3
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("desktopPosition"))
 
     def bounds(self) -> list[tuple[tuple[int, int], tuple[int, int]]]:
+        """Gets the bounding rectangle of each item in the list.
+
+        :return: A list of item bounding rectangles
+        :rtype: list[tuple[tuple[int, int], tuple[int, int]]]
+        
+        .. versionadded:: 0.0.3
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("bounds"))
 
     def label_index(self) -> list[int]:
+        """Gets the label index of each item in the list.
+
+        :return: A list of item label indices
+        :rtype: list[int]
+        
+        .. versionadded:: 0.0.3
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("labelIndex"))
 
     def locked(self) -> list[bool]:
+        """Gets the locked status of each item in the list.
+
+        :return: A list of item locked status booleans
+        :rtype: list[bool]
+        
+        .. versionadded:: 0.0.3
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("locked"))
 
     def kind(self) -> list[str]:
+        """Gets the kind of each item in the list.
+
+        :return: A list of item kinds
+        :rtype: list[str]
+        
+        .. versionadded:: 0.0.3
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("kind"))
 
     def description(self) -> list[str]:
+        """Gets the description of each item in the list.
+
+        :return: A list of item descriptions
+        :rtype: list[str]
+        
+        .. versionadded:: 0.0.3
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("description"))
 
     def comment(self) -> list[str]:
+        """Gets the comment of each item in the list.
+
+        :return: A list of item comments
+        :rtype: list[str]
+        
+        .. versionadded:: 0.0.3
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("comment"))
 
     def size(self) -> list[int]:
+        """Gets the logical size of each item in the list.
+
+        :return: A list of item logical sizes
+        :rtype: list[int]
+        
+        .. versionadded:: 0.0.3
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("size"))
 
     def physical_size(self) -> list[int]:
+        """Gets the physical size of each item in the list.
+
+        :return: A list of item logical sizes
+        :rtype: list[int]
+        
+        .. versionadded:: 0.0.3
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("physicalSize"))
 
     def creation_date(self) -> list[datetime]:
+        """Gets the creation date of each item in the list.
+
+        :return: A list of item creation dates
+        :rtype: list[datetime]
+        
+        .. versionadded:: 0.0.3
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("creationDate"))
 
     def modification_date(self) -> list[datetime]:
+        """Gets the last modification date of each item in the list.
+
+        :return: A list of item modification dates
+        :rtype: list[datetime]
+        
+        .. versionadded:: 0.0.3
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("modificationDate"))
 
     def url(self) -> list[XABase.XAPath]:
+        """Gets the URL of each item in the list.
+
+        :return: A list of item URLs
+        :rtype: list[XABase.XAPath]
+        
+        .. versionadded:: 0.0.3
+        """
         ls = self.xa_elem.arrayByApplyingSelector_("URL")
         return [XABase.XAPath(x[7:]) for x in ls]
 
     def owner(self) -> list[str]:
+        """Gets the owner of each item in the list.
+
+        :return: A list of item owners
+        :rtype: list[str]
+        
+        .. versionadded:: 0.0.3
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("owner"))
 
     def group(self) -> list[str]:
+        """Gets the group of each item in the list.
+
+        :return: A list of item groups
+        :rtype: list[str]
+        
+        .. versionadded:: 0.0.3
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("group"))
 
     def owner_privileges(self) -> list[XAFinderApplication.PrivacySetting]:
+        """Gets the owner privileges of each item in the list.
+
+        :return: A list of item owner privileges
+        :rtype: list[XAFinderApplication.PrivacySetting]
+        
+        .. versionadded:: 0.0.3
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("ownerPrivileges"))
 
     def group_privileges(self) -> list[XAFinderApplication.PrivacySetting]:
+        """Gets the group privileges of each item in the list.
+
+        :return: A list of item group privileges
+        :rtype: list[XAFinderApplication.PrivacySetting]
+        
+        .. versionadded:: 0.0.3
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("groupPrivileges"))
 
     def everyone_privileges(self) -> list[XAFinderApplication.PrivacySetting]:
+        """Gets the general privileges of each item in the list.
+
+        :return: A list of item general privileges
+        :rtype: list[XAFinderApplication.PrivacySetting]
+        
+        .. versionadded:: 0.0.3
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("everyonePrivileges"))
 
     def container(self) -> 'XAFinderContainerList':
+        """Gets the container of each item in the list.
+
+        :return: A list of item containers
+        :rtype: XAFinderContainerList
+        
+        .. versionadded:: 0.0.3
+        """
         ls = self.xa_elem.arrayByApplyingSelector_("container")
         return self._new_element(ls, XAFinderContainerList)
 
     def disk(self) -> 'XAFinderDiskList':
+        """Gets the disk of each item in the list.
+
+        :return: A list of item disks
+        :rtype: XAFinderDiskList
+        
+        .. versionadded:: 0.0.3
+        """
         ls = self.xa_elem.arrayByApplyingSelector_("disk")
         return self._new_element(ls, XAFinderDiskList)
 
     def icon(self) -> XABase.XAImageList:
+        """Gets the icon of each item in the list.
+
+        :return: A list of item icons
+        :rtype: XABase.XAImageList
+        
+        .. versionadded:: 0.0.3
+        """
         ls = self.xa_elem.arrayByApplyingSelector_("icon")
         return self._new_element(ls, XABase.XAImageList)
 
     def information_window(self) -> 'XAFinderInformationWindowList':
+        """Gets the information window of each item in the list.
+
+        :return: A list of item information windows
+        :rtype: XAFinderInformationWindowList
+        
+        .. versionadded:: 0.0.3
+        """
         ls = self.xa_elem.arrayByApplyingSelector_("informationWindow")
         return self._new_element(ls, XAFinderInformationWindowList)
 
-    def by_name(self, name: str) -> 'XAFinderItem':
+    def by_name(self, name: str) -> Union['XAFinderItem', None]:
+        """Retrieves the first item whose name matches the given name, if one exists.
+
+        :return: The desired item, if it is found
+        :rtype: Union[XAFinderItem, None]
+        
+        .. versionadded:: 0.0.3
+        """
         return self.by_property("name", name)
 
-    def by_displayed_name(self, displayed_name: str) -> 'XAFinderItem':
+    def by_displayed_name(self, displayed_name: str) -> Union['XAFinderItem', None]:
+        """Retrieves the first item whose displayed name matches the given name, if one exists.
+
+        :return: The desired item, if it is found
+        :rtype: Union[XAFinderItem, None]
+        
+        .. versionadded:: 0.0.3
+        """
         return self.by_property("displayedName", displayed_name)
 
-    def by_name_extension(self, name_extension: str) -> 'XAFinderItem':
+    def by_name_extension(self, name_extension: str) -> Union['XAFinderItem', None]:
+        """Retrieves the first item whose name extension matches the given extension, if one exists.
+
+        :return: The desired item, if it is found
+        :rtype: Union[XAFinderItem, None]
+        
+        .. versionadded:: 0.0.3
+        """
         return self.by_property("nameExtension", name_extension)
 
-    def by_extension_hidden(self, extension_hidden: bool) -> 'XAFinderItem':
+    def by_extension_hidden(self, extension_hidden: bool) -> Union['XAFinderItem', None]:
+        """Retrieves the first item whose extension hidden status matches the given boolean value, if one exists.
+
+        :return: The desired item, if it is found
+        :rtype: Union[XAFinderItem, None]
+        
+        .. versionadded:: 0.0.3
+        """
         return self.by_property("extensionHidden", extension_hidden)
 
-    def by_index(self, index: int) -> 'XAFinderItem':
+    def by_index(self, index: int) -> Union['XAFinderItem', None]:
+        """Retrieves the first item whose index matches the given index, if one exists.
+
+        :return: The desired item, if it is found
+        :rtype: Union[XAFinderItem, None]
+        
+        .. versionadded:: 0.0.3
+        """
         return self.by_property("index", index)
 
-    def by_position(self, position: tuple[int, int]) -> 'XAFinderItem':
+    def by_position(self, position: tuple[int, int]) -> Union['XAFinderItem', None]:
+        """Retrieves the first item whose position matches the given position, if one exists.
+
+        :return: The desired item, if it is found
+        :rtype: Union[XAFinderItem, None]
+        
+        .. versionadded:: 0.0.3
+        """
         return self.by_property("position", position)
 
-    def by_desktop_position(self, desktop_position: tuple[int, int]) -> 'XAFinderItem':
+    def by_desktop_position(self, desktop_position: tuple[int, int]) -> Union['XAFinderItem', None]:
+        """Retrieves the first item whose desktop position matches the given position, if one exists.
+
+        :return: The desired item, if it is found
+        :rtype: Union[XAFinderItem, None]
+        
+        .. versionadded:: 0.0.3
+        """
         return self.by_property("desktopPosition", desktop_position)
 
-    def by_bounds(self, bounds: tuple[tuple[int, int], tuple[int, int]]) -> 'XAFinderItem':
+    def by_bounds(self, bounds: tuple[tuple[int, int], tuple[int, int]]) -> Union['XAFinderItem', None]:
+        """Retrieves the first item whose bounding rectangle matches the given rectangle, if one exists.
+
+        :return: The desired item, if it is found
+        :rtype: Union[XAFinderItem, None]
+        
+        .. versionadded:: 0.0.3
+        """
         return self.by_property("bounds", bounds)
 
-    def by_label_index(self, label_index: index) -> 'XAFinderItem':
+    def by_label_index(self, label_index: index) -> Union['XAFinderItem', None]:
+        """Retrieves the first item whose label index matches the given index, if one exists.
+
+        :return: The desired item, if it is found
+        :rtype: Union[XAFinderItem, None]
+        
+        .. versionadded:: 0.0.3
+        """
         return self.by_property("labelIndex", label_index)
 
-    def by_locked(self, locked: bool) -> 'XAFinderItem':
+    def by_locked(self, locked: bool) -> Union['XAFinderItem', None]:
+        """Retrieves the first item whose locked status matches the given boolean value, if one exists.
+
+        :return: The desired item, if it is found
+        :rtype: Union[XAFinderItem, None]
+        
+        .. versionadded:: 0.0.3
+        """
         return self.by_property("locked", locked)
 
-    def by_kind(self, kind: str) -> 'XAFinderItem':
+    def by_kind(self, kind: str) -> Union['XAFinderItem', None]:
+        """Retrieves the first item whose kind matches the given kind, if one exists.
+
+        :return: The desired item, if it is found
+        :rtype: Union[XAFinderItem, None]
+        
+        .. versionadded:: 0.0.3
+        """
         return self.by_property("kind", kind)
 
-    def by_description(self, description: str) -> 'XAFinderItem':
+    def by_description(self, description: str) -> Union['XAFinderItem', None]:
+        """Retrieves the first item whose description matches the given description, if one exists.
+
+        :return: The desired item, if it is found
+        :rtype: Union[XAFinderItem, None]
+        
+        .. versionadded:: 0.0.3
+        """
         return self.by_property("description", description)
 
-    def by_comment(self, comment: str) -> 'XAFinderItem':
+    def by_comment(self, comment: str) -> Union['XAFinderItem', None]:
+        """Retrieves the first item whose comment matches the given comment, if one exists.
+
+        :return: The desired item, if it is found
+        :rtype: Union[XAFinderItem, None]
+        
+        .. versionadded:: 0.0.3
+        """
         return self.by_property("comment", comment)
 
-    def by_size(self, size: int) -> 'XAFinderItem':
+    def by_size(self, size: int) -> Union['XAFinderItem', None]:
+        """Retrieves the first item whose logical size matches the given size, if one exists.
+
+        :return: The desired item, if it is found
+        :rtype: Union[XAFinderItem, None]
+        
+        .. versionadded:: 0.0.3
+        """
         return self.by_property("size", size)
 
-    def by_physical_size(self, physical_size: int) -> 'XAFinderItem':
+    def by_physical_size(self, physical_size: int) -> Union['XAFinderItem', None]:
+        """Retrieves the first item whose physical size matches the given size, if one exists.
+
+        :return: The desired item, if it is found
+        :rtype: Union[XAFinderItem, None]
+        
+        .. versionadded:: 0.0.3
+        """
         return self.by_property("physicalSize", physical_size)
 
-    def by_creation_date(self, creation_date: datetime) -> 'XAFinderItem':
+    def by_creation_date(self, creation_date: datetime) -> Union['XAFinderItem', None]:
+        """Retrieves the first item whose creation date matches the given date, if one exists.
+
+        :return: The desired item, if it is found
+        :rtype: Union[XAFinderItem, None]
+        
+        .. versionadded:: 0.0.3
+        """
         return self.by_property("creationDate", creation_date)
 
-    def by_modification_date(self, modification_date: datetime) -> 'XAFinderItem':
+    def by_modification_date(self, modification_date: datetime) -> Union['XAFinderItem', None]:
+        """Retrieves the first item whose modification date matches the given date, if one exists.
+
+        :return: The desired item, if it is found
+        :rtype: Union[XAFinderItem, None]
+        
+        .. versionadded:: 0.0.3
+        """
         return self.by_property("modificationDate", modification_date)
 
-    def by_url(self, url: XABase.XAPath) -> 'XAFinderItem':
+    def by_url(self, url: Union[str, XABase.XAPath]) -> Union['XAFinderItem', None]:
+        """Retrieves the first item whose URL matches the given URL, if one exists.
+
+        :return: The desired item, if it is found
+        :rtype: Union[XAFinderItem, None]
+        
+        .. versionadded:: 0.0.3
+        """
+        if isinstance(url, str):
+            url = XABase.XAPath(url)
         return self.by_property("URL", str(url.xa_elem))
 
-    def by_owner(self, owner: str) -> 'XAFinderItem':
+    def by_owner(self, owner: str) -> Union['XAFinderItem', None]:
+        """Retrieves the first item whose owner matches the given user, if one exists.
+
+        :return: The desired item, if it is found
+        :rtype: Union[XAFinderItem, None]
+        
+        .. versionadded:: 0.0.3
+        """
         return self.by_property("owner", owner)
 
-    def by_group(self, group: str) -> 'XAFinderItem':
+    def by_group(self, group: str) -> Union['XAFinderItem', None]:
+        """Retrieves the first item whose group matches the given group, if one exists.
+
+        :return: The desired item, if it is found
+        :rtype: Union[XAFinderItem, None]
+        
+        .. versionadded:: 0.0.3
+        """
         return self.by_property("group", group)
 
-    def by_owner_privileges(self, owner_privileges: XAFinderApplication.PrivacySetting) -> 'XAFinderItem':
+    def by_owner_privileges(self, owner_privileges: XAFinderApplication.PrivacySetting) -> Union['XAFinderItem', None]:
+        """Retrieves the first item whose owner privileges setting matches the given privacy setting, if one exists.
+
+        :return: The desired item, if it is found
+        :rtype: Union[XAFinderItem, None]
+        
+        .. versionadded:: 0.0.3
+        """
         return self.by_property("ownerPrivileges", owner_privileges)
 
-    def by_group_privileges(self, group_privileges: XAFinderApplication.PrivacySetting) -> 'XAFinderItem':
+    def by_group_privileges(self, group_privileges: XAFinderApplication.PrivacySetting) -> Union['XAFinderItem', None]:
+        """Retrieves the first item whose group privileges setting matches the given privacy setting, if one exists.
+
+        :return: The desired item, if it is found
+        :rtype: Union[XAFinderItem, None]
+        
+        .. versionadded:: 0.0.3
+        """
         return self.by_property("groupPrivileges", group_privileges)
 
-    def by_everyone_privileges(self, everyone_privileges: XAFinderApplication.PrivacySetting) -> 'XAFinderItem':
+    def by_everyone_privileges(self, everyone_privileges: XAFinderApplication.PrivacySetting) -> Union['XAFinderItem', None]:
+        """Retrieves the first item whose general privileges setting matches the given privacy setting, if one exists.
+
+        :return: The desired item, if it is found
+        :rtype: Union[XAFinderItem, None]
+        
+        .. versionadded:: 0.0.3
+        """
         return self.by_property("everyonePrivileges", everyone_privileges)
 
-    def by_container(self, container: 'XAFinderContainer') -> 'XAFinderItem':
+    def by_container(self, container: 'XAFinderContainer') -> Union['XAFinderItem', None]:
+        """Retrieves the first item whose container matches the given container, if one exists.
+
+        :return: The desired item, if it is found
+        :rtype: Union[XAFinderItem, None]
+        
+        .. versionadded:: 0.0.3
+        """
         return self.by_property("container", container.xa_elem)
 
-    def by_disk(self, disk: 'XAFinderDisk') -> 'XAFinderItem':
+    def by_disk(self, disk: 'XAFinderDisk') -> Union['XAFinderItem', None]:
+        """Retrieves the first item whose disk matches the given disk, if one exists.
+
+        :return: The desired item, if it is found
+        :rtype: Union[XAFinderItem, None]
+        
+        .. versionadded:: 0.0.3
+        """
         return self.by_property("disk", disk.xa_elem)
 
-    def by_icon(self, icon: XAImage) -> 'XAFinderItem':
+    def by_icon(self, icon: XAImage) -> Union['XAFinderItem', None]:
+        """Retrieves the first item whose icon matches the given icon, if one exists.
+
+        :return: The desired item, if it is found
+        :rtype: Union[XAFinderItem, None]
+        
+        .. versionadded:: 0.0.3
+        """
         return self.by_property("icon", icon.value)
 
-    def by_information_window(self, information_window: 'XAFinderInformationWindow') -> 'XAFinderItem':
+    def by_information_window(self, information_window: 'XAFinderInformationWindow') -> Union['XAFinderItem', None]:
+        """Retrieves the first item whose information window matches the given window, if one exists.
+
+        :return: The desired item, if it is found
+        :rtype: Union[XAFinderItem, None]
+        
+        .. versionadded:: 0.0.3
+        """
         return self.by_property("informationWindow", information_window.xa_elem)
 
     def get_clipboard_representation(self) -> list[Union[str, AppKit.NSURL]]:
@@ -919,7 +1320,7 @@ class XAFinderItemList(XABase.XAList):
         return items
 
     def __repr__(self):
-        return str(self.name())
+        return f'<{str(type(self))}{str(self.name())}>'
 
 class XAFinderItem(XABase.XAObject, XASelectable, XADeletable, XAClipboardCodable):
     """A generic class with methods common to the various item classes of Finder.
@@ -930,41 +1331,17 @@ class XAFinderItem(XABase.XAObject, XASelectable, XADeletable, XAClipboardCodabl
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.properties: dict #: Every property of an item
-        self.name: str #: The name of the item
-        self.displayed_name: str #: The user-visible name of the item
-        self.name_extension: str #: The file extension of the item
-        self.extension_hidden: bool #: Whether the file extension is hidden
-        self.index: int #: The index within the containing folder/disk
-        self.position: tuple[int, int] #: The position of the item within the parent window
-        self.desktop_position: tuple[int, int] #: The position of an item on the desktop
-        self.bounds: tuple[int, int, int, int] #: The bounding rectangle of an item
-        self.label_index: int #: The label assigned to the item
-        self.locked: bool #: Whether the file is locked
-        self.kind: str #: The kind of the item, e.g. "Folder" or "File"
-        self.description: str #: The description of the item
-        self.comment: str #: The user-specified comment on the item
-        self.size: int #: The logical size of the item
-        self.physical_size: int #: The actual disk space used by the item
-        self.creation_date: datetime #: The date the item was created
-        self.modification_date: datetime #: The date the item was last modified
-        self.url: str #: The URL of the item
-        self.owner: str #: The name of the user that owns the item
-        self.group: str #: The name of the group that has access to the item
-        self.owner_privileges: XAFinderApplication.PrivacySetting #: The privilege level of the owner, e.g. "read only"
-        self.group_privileges: XAFinderApplication.PrivacySetting #: The privilege level of the group, e.g. "write only"
-        self.everyones_privileges: XAFinderApplication.PrivacySetting #: The privilege level of everyone else, e.g. "none"
-        self.container: XAFinderContainer #: The container of the item
-        self.disk: XAFinderDisk #: The disk on which the item is stored
-        self.icon: XABase.XAImage #: The icon bitmap of the item's icon
-        self.information_window: XAFinderWindow #: The information window for this item
 
     @property
     def properties(self) -> dict:
+        """Every property of an item.
+        """
         return self.xa_elem.properties()
 
     @property
     def name(self) -> str:
+        """The name of the item.
+        """
         return self.xa_elem.name()
 
     @name.setter
@@ -973,10 +1350,14 @@ class XAFinderItem(XABase.XAObject, XASelectable, XADeletable, XAClipboardCodabl
 
     @property
     def displayed_name(self) -> str:
+        """The user-visible name of the item.
+        """
         return self.xa_elem.displayedName()
 
     @property
     def name_extension(self) -> str:
+        """The file extension of the item.
+        """
         return self.xa_elem.nameExtension()
 
     @name_extension.setter
@@ -985,6 +1366,8 @@ class XAFinderItem(XABase.XAObject, XASelectable, XADeletable, XAClipboardCodabl
 
     @property
     def extension_hidden(self) -> bool:
+        """Whether the file extension is hidden.
+        """
         return self.xa_elem.extensionHidden()
 
     @extension_hidden.setter
@@ -993,33 +1376,43 @@ class XAFinderItem(XABase.XAObject, XASelectable, XADeletable, XAClipboardCodabl
 
     @property
     def index(self) -> int:
+        """The index within the containing folder/disk.
+        """
         return self.xa_elem.index()
 
     @property
-    def position(self) -> tuple[int, int]:
-        return self.xa_elem.position()
+    def position(self) -> XAPoint:
+        """The position of the item within the parent window.
+        """
+        return XAPoint(*self.xa_elem.position())
 
     @position.setter
-    def position(self, position: tuple[int, int]):
+    def position(self, position: Union[tuple[int, int], XAPoint]):
+        position = AppKit.NSValue.valueWithPoint_(position)
         self.set_property('position', position)
 
     @property
-    def desktop_position(self) -> tuple[int, int]:
-        return self.xa_elem.desktopPosition()
+    def desktop_position(self) -> XAPoint:
+        """The position of an item on the desktop.
+        """
+        return XAPoint(*self.xa_elem.desktopPosition())
 
     @desktop_position.setter
-    def desktop_position(self, desktop_position: tuple[int, int]):
+    def desktop_position(self, desktop_position: Union[tuple[int, int], XAPoint]):
+        desktop_position = AppKit.NSValue.valueWithPoint_(desktop_position)
         self.set_property('desktopPosition', desktop_position)
 
     @property
-    def bounds(self) -> tuple[int, int, int, int]:
+    def bounds(self) -> XARectangle:
+        """The bounding rectangle of an item.
+        """
         rect = self.xa_elem.bounds()
         origin = rect.origin
         size = rect.size
-        return (origin.x, origin.y, size.width, size.height)
+        return XARectangle(origin.x, origin.y, size.width, size.height)
 
     @bounds.setter
-    def bounds(self, bounds: tuple[int, int, int, int]):
+    def bounds(self, bounds: Union[tuple[int, int, int, int], XARectangle]):
         x = bounds[0]
         y = bounds[1]
         w = bounds[2]
@@ -1029,6 +1422,8 @@ class XAFinderItem(XABase.XAObject, XASelectable, XADeletable, XAClipboardCodabl
 
     @property
     def label_index(self) -> int:
+        """The label assigned to the item.
+        """
         return self.xa_elem.labelIndex()
 
     @label_index.setter
@@ -1037,6 +1432,8 @@ class XAFinderItem(XABase.XAObject, XASelectable, XADeletable, XAClipboardCodabl
 
     @property
     def locked(self) -> bool:
+        """Whether the file is locked.
+        """
         return self.xa_elem.locked()
 
     @locked.setter
@@ -1045,14 +1442,20 @@ class XAFinderItem(XABase.XAObject, XASelectable, XADeletable, XAClipboardCodabl
 
     @property
     def kind(self) -> str:
+        """The kind of the item, e.g. "Folder" or "File".
+        """
         return self.xa_elem.kind()
 
     @property
     def description(self) -> str:
+        """The description of the item.
+        """
         return self.xa_elem.description()
 
     @property
     def comment(self) -> str:
+        """The user-specified comment on the item.
+        """
         return self.xa_elem.comment()
 
     @comment.setter
@@ -1061,18 +1464,26 @@ class XAFinderItem(XABase.XAObject, XASelectable, XADeletable, XAClipboardCodabl
 
     @property
     def size(self) -> int:
+        """The logical size of the item.
+        """
         return self.xa_elem.size()
 
     @property
     def physical_size(self) -> int:
+        """The actual disk space used by the item.
+        """
         return self.xa_elem.physicalSize()
 
     @property
     def creation_date(self) -> datetime:
+        """The date the item was created.
+        """
         return self.xa_elem.creationDate()
 
     @property
     def modification_date(self) -> datetime:
+        """The date the item was last modified.
+        """
         return self.xa_elem.modificationDate()
 
     @modification_date.setter
@@ -1081,10 +1492,14 @@ class XAFinderItem(XABase.XAObject, XASelectable, XADeletable, XAClipboardCodabl
 
     @property
     def url(self) -> XABase.XAPath:
+        """The URL of the item.
+        """
         return XABase.XAPath(self.xa_elem.URL()[7:])
 
     @property
     def owner(self) -> str:
+        """The name of the user that owns the item.
+        """
         return self.xa_elem.owner()
 
     @owner.setter
@@ -1093,6 +1508,8 @@ class XAFinderItem(XABase.XAObject, XASelectable, XADeletable, XAClipboardCodabl
 
     @property
     def group(self) -> str:
+        """The name of the group that has access to the item.
+        """
         return self.xa_elem.group()
 
     @group.setter
@@ -1101,6 +1518,8 @@ class XAFinderItem(XABase.XAObject, XASelectable, XADeletable, XAClipboardCodabl
 
     @property
     def owner_privileges(self) -> XAFinderApplication.PrivacySetting:
+        """The privilege level of the owner, e.g. "read only".
+        """
         return self.xa_elem.ownerPrivileges()
 
     @owner_privileges.setter
@@ -1109,6 +1528,8 @@ class XAFinderItem(XABase.XAObject, XASelectable, XADeletable, XAClipboardCodabl
 
     @property
     def group_privileges(self) -> XAFinderApplication.PrivacySetting:
+        """The privilege level of the group, e.g. "write only".
+        """
         return self.xa_elem.groupPrivileges()
 
     @group_privileges.setter
@@ -1117,14 +1538,18 @@ class XAFinderItem(XABase.XAObject, XASelectable, XADeletable, XAClipboardCodabl
 
     @property
     def everyone_privileges(self) -> XAFinderApplication.PrivacySetting:
+        """The privilege level of everyone else, e.g. "none".
+        """
         return self.xa_elem.everyonePrivileges()
 
     @everyone_privileges.setter
-    def group_privileges(self, everyone_privileges: XAFinderApplication.PrivacySetting):
+    def everyone_privileges(self, everyone_privileges: XAFinderApplication.PrivacySetting):
         self.set_property('everyoneErivileges', everyone_privileges.value)
 
     @property
     def container(self) -> 'XAFinderContainer':
+        """The container of the item.
+        """
         container_obj = self.xa_elem.container()
         kind = container_obj.kind()
         if kind == "Folder":
@@ -1138,11 +1563,15 @@ class XAFinderItem(XABase.XAObject, XASelectable, XADeletable, XAClipboardCodabl
 
     @property
     def disk(self) -> 'XAFinderDisk':
+        """The disk on which the item is stored.
+        """
         disk_obj = self.xa_elem.disk()
         return self._new_element(disk_obj, XAFinderDisk)
 
     @property
     def icon(self) -> XAImage:
+        """The icon bitmap of the item's icon.
+        """
         icon_obj = self.xa_elem.icon()
         return self._new_element(icon_obj, XAImage)
 
@@ -1152,6 +1581,8 @@ class XAFinderItem(XABase.XAObject, XASelectable, XADeletable, XAClipboardCodabl
 
     @property
     def information_window(self) -> 'XAFinderInformationWindow':
+        """The information window for this item.
+        """
         window_obj = self.xa_elem.informationWindow()
         return self._new_element(window_obj, XAFinderInformationWindow)
 
@@ -1244,46 +1675,114 @@ class XAFinderContainerList(XAFinderItemList):
         super().__init__(properties, filter, object_class)
 
     def entire_contents(self) -> list[XAFinderItemList]:
+        """Gets the entire contents of each container in the list.
+
+        :return: The contents of each container
+        :rtype: list[XAFinderItemList]
+        
+        .. versionadded:: 0.0.3
+        """
         ls = self.xa_elem.arrayByApplyingSelector_("entireContents")
 
     def container_window(self) -> list['XAFinderFinderWindow']:
+        """Gets the container window of each container in the list.
+
+        :return: A list of container windows
+        :rtype: list['XAFinderFinderWindow']:
+        
+        .. versionadded:: 0.0.3
+        """
         ls = self.xa_elem.arrayByApplyingSelector_("containerWindow")
         return self._new_element(ls, XAFinderFinderWindowList)
 
     def items(self) -> XAFinderItemList:
+        """Gets the items of each container in the list.
+
+        .. versionadded:: 0.1.1
+        """
         return self._new_element(self.xa_elem.arrayByApplyingSelector_("items"), XAFinderItemList)
 
     def containers(self) -> 'XAFinderContainerList':
+        """Gets the (sub)containers of each container in the list.
+
+        .. versionadded:: 0.1.1
+        """
         return self._new_element(self.xa_elem.arrayByApplyingSelector_("containers"), XAFinderContainerList)
 
     def folders(self) -> 'XAFinderFolderList':
+        """Gets the folders of each container in the list.l
+
+        .. versionadded:: 0.1.1
+        """
         return self._new_element(self.xa_elem.arrayByApplyingSelector_("folders"), XAFinderFolderList)
 
     def files(self) -> 'XAFinderFileList':
+        """Gets the files of each container in the list.l
+
+        .. versionadded:: 0.1.1
+        """
         return self._new_element(self.xa_elem.arrayByApplyingSelector_("files"), XAFinderFileList)
 
     def alias_files(self) -> 'XAFinderAliasFileList':
+        """Gets the alias files of each container in the list.l
+
+        .. versionadded:: 0.1.1
+        """
         return self._new_element(self.xa_elem.arrayByApplyingSelector_("aliasFiles"), XAFinderAliasFileList)
 
     def application_files(self) -> 'XAFinderApplicationFileList':
+        """Gets the application files of each container in the list.l
+
+        .. versionadded:: 0.1.1
+        """
         return self._new_element(self.xa_elem.arrayByApplyingSelector_("applicationFiles"), XAFinderApplicationFileList)
 
     def document_files(self) -> 'XAFinderDocumentFileList':
+        """Gets the document files of each container in the list.l
+
+        .. versionadded:: 0.1.1
+        """
         return self._new_element(self.xa_elem.arrayByApplyingSelector_("documentFiles"), XAFinderDocumentFileList)
 
     def internet_location_files(self) -> 'XAFinderInternetLocationFileList':
+        """Gets the internet location files of each container in the list.l
+
+        .. versionadded:: 0.1.1
+        """
         return self._new_element(self.xa_elem.arrayByApplyingSelector_("internetLocationFiles"), XAFinderInternetLocationFileList)
 
     def clippings(self) -> 'XAFinderClippingList':
+        """Gets the clippings of each container in the list.l
+
+        .. versionadded:: 0.1.1
+        """
         return self._new_element(self.xa_elem.arrayByApplyingSelector_("clippings"), XAFinderClippingList)
 
     def packages(self) -> 'XAFinderPackageList':
+        """Gets the packages of each container in the list.l
+
+        .. versionadded:: 0.1.1
+        """
         return self._new_element(self.xa_elem.arrayByApplyingSelector_("packages"), XAFinderPackageList)
 
-    def by_entire_contents(self, entire_contents: XAFinderItemList) -> 'XAFinderContainer':
+    def by_entire_contents(self, entire_contents: XAFinderItemList) -> Union['XAFinderContainer', None]:
+        """Retrieves the first container whose entire contents match the given contents, if one exists.
+
+        :return: The desired container, if it is found
+        :rtype: Union[XAFinderContainer, None]
+        
+        .. versionadded:: 0.0.3
+        """
         return self.by_property("entireContents", entire_contents.xa_elem)
 
-    def by_container_window(self, container_window: 'XAFinderFinderWindow') -> 'XAFinderContainer':
+    def by_container_window(self, container_window: 'XAFinderFinderWindow') -> Union['XAFinderContainer', None]:
+        """Retrieves the first container whose container window matches the given window, if one exists.
+
+        :return: The desired container, if it is found
+        :rtype: Union[XAFinderContainer, None]
+        
+        .. versionadded:: 0.0.3
+        """
         return self.by_property("containerWindow", container_window.xa_elem)
 
 class XAFinderContainer(XAFinderItem):
@@ -1295,16 +1794,18 @@ class XAFinderContainer(XAFinderItem):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.entire_contents: XABase.XAObject #: The entire contents of the container, including the contents of its children
-        self.container_window: XAFinderFinderWindow #: The container window for this folder
 
     @property
     def entire_contents(self):
+        """The entire contents of the container, including the contents of its children.
+        """
         obj = self.xa_elem.entireContents().get()
         return self._new_element(obj, XAFinderItemList)
 
     @property
     def container_window(self):
+        """The container window for this folder.
+        """
         window_obj = self.xa_elem.containerWindow()
         return self._new_element(window_obj, XABase.XAObject)
 
@@ -1392,57 +1893,183 @@ class XAFinderDiskList(XAFinderContainerList):
         super().__init__(properties, filter, XAFinderDisk)
 
     def id(self) -> list[int]:
+        """Gets the ID of each disk in the list.
+
+        :return: A list of disk IDs
+        :rtype: list[int]
+        
+        .. versionadded:: 0.0.3
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("id"))
 
     def capacity(self) -> list[int]:
+        """Gets the capacity of each disk in the list.
+
+        :return: A list of disk capacities
+        :rtype: list[int]
+        
+        .. versionadded:: 0.0.3
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("capacity"))
 
     def free_space(self) -> list[int]:
+        """Gets the free space of each disk in the list.
+
+        :return: A list of disk remaining (free) capacities
+        :rtype: list[int]
+        
+        .. versionadded:: 0.0.3
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("freeSpace"))
 
     def ejectable(self) -> list[bool]:
+        """Gets the ejectable status of each disk in the list.
+
+        :return: A list of disk ejectable status booleans
+        :rtype: list[bool]
+        
+        .. versionadded:: 0.0.3
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("ejectable"))
 
     def local_volume(self) -> list[bool]:
+        """Gets the local volume status of each disk in the list.
+
+        :return: A list of disk local volume status booleans
+        :rtype: list[bool]
+        
+        .. versionadded:: 0.0.3
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("localVolume"))
 
     def startup(self) -> list[bool]:
+        """Gets the startup status of each disk in the list.
+
+        :return: A list of disk startup status booleans
+        :rtype: list[bool]
+        
+        .. versionadded:: 0.0.3
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("startup"))
 
     def format(self) -> list[XAFinderApplication.ItemFormat]:
+        """Gets the format of each disk in the list.
+
+        :return: A list of disk formats
+        :rtype: list[XAFinderApplication.ItemFormat]
+        
+        .. versionadded:: 0.0.3
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("format"))
 
     def journaling_enabled(self) -> list[bool]:
+        """Gets the journaling enabled status of each disk in the list.
+
+        :return: A list of disk journaling enabled status booleans
+        :rtype: list[bool]
+        
+        .. versionadded:: 0.0.3
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("journalingEnabled"))
 
     def ignore_privileges(self) -> list[bool]:
+        """Gets the ignore privileges status of each disk in the list.
+
+        :return: A list of disk ignore privileges status booleans
+        :rtype: list[bool]
+        
+        .. versionadded:: 0.0.3
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("ignorePrivileges"))
 
-    def by_id(self, id: int) -> 'XAFinderDisk':
+    def by_id(self, id: int) -> Union['XAFinderDisk', None]:
+        """Retrieves the disk whose ID matches the given ID, if one exists.
+
+        :return: The desired disk, if it is found
+        :rtype: Union[XAFinderDisk, None]
+        
+        .. versionadded:: 0.0.3
+        """
         return self.by_property("id", id)
 
-    def by_capacity(self, capacity: int) -> 'XAFinderDisk':
+    def by_capacity(self, capacity: int) -> Union['XAFinderDisk', None]:
+        """Retrieves the first disk whose capacity matches the given capacity, if one exists.
+
+        :return: The desired disk, if it is found
+        :rtype: Union[XAFinderDisk, None]
+        
+        .. versionadded:: 0.0.3
+        """
         return self.by_property("capacity", capacity)
 
-    def by_free_space(self, free_space: int) -> 'XAFinderDisk':
+    def by_free_space(self, free_space: int) -> Union['XAFinderDisk', None]:
+        """Retrieves the first disk whose free space matches the given free space, if one exists.
+
+        :return: The desired disk, if it is found
+        :rtype: Union[XAFinderDisk, None]
+        
+        .. versionadded:: 0.0.3
+        """
         return self.by_property("freeSpace", free_space)
 
-    def by_ejectable(self, ejectable: bool) -> 'XAFinderDisk':
+    def by_ejectable(self, ejectable: bool) -> Union['XAFinderDisk', None]:
+        """Retrieves the first disk whose ejectable status matches the given boolean value, if one exists.
+
+        :return: The desired disk, if it is found
+        :rtype: Union[XAFinderDisk, None]
+        
+        .. versionadded:: 0.0.3
+        """
         return self.by_property("ejectable", ejectable)
 
-    def by_local_volume(self, local_volume: bool) -> 'XAFinderDisk':
+    def by_local_volume(self, local_volume: bool) -> Union['XAFinderDisk', None]:
+        """Retrieves the first disk whose local volume status matches the given boolean value, if one exists.
+
+        :return: The desired disk, if it is found
+        :rtype: Union[XAFinderDisk, None]
+        
+        .. versionadded:: 0.0.3
+        """
         return self.by_property("localVolume", local_volume)
 
-    def by_startup(self, startup: bool) -> 'XAFinderDisk':
+    def by_startup(self, startup: bool) -> Union['XAFinderDisk', None]:
+        """Retrieves the first disk whose startup status matches the given boolean value, if one exists.
+
+        :return: The desired disk, if it is found
+        :rtype: Union[XAFinderDisk, None]
+        
+        .. versionadded:: 0.0.3
+        """
         return self.by_property("startup", startup)
 
-    def by_format(self, format: XAFinderApplication.ItemFormat) -> 'XAFinderDisk':
+    def by_format(self, format: XAFinderApplication.ItemFormat) -> Union['XAFinderDisk', None]:
+        """Retrieves the first disk whose format matches the given format, if one exists.
+
+        :return: The desired disk, if it is found
+        :rtype: Union[XAFinderDisk, None]
+        
+        .. versionadded:: 0.0.3
+        """
         return self.by_property("format", format)
 
-    def by_journaling_enabled(self, journaling_enabled: bool) -> 'XAFinderDisk':
+    def by_journaling_enabled(self, journaling_enabled: bool) -> Union['XAFinderDisk', None]:
+        """Retrieves the first disk whose journaling enabled status matches the given boolean value, if one exists.
+
+        :return: The desired disk, if it is found
+        :rtype: Union[XAFinderDisk, None]
+        
+        .. versionadded:: 0.0.3
+        """
         return self.by_property("journalingEnabled", journaling_enabled)
 
-    def by_ignore_privileges(self, ignore_privileges: bool) -> 'XAFinderDisk':
+    def by_ignore_privileges(self, ignore_privileges: bool) -> Union['XAFinderDisk', None]:
+        """Retrieves the first disk whose ignore privileges status matches the given boolean value, if one exists.
+
+        :return: The desired disk, if it is found
+        :rtype: Union[XAFinderDisk, None]
+        
+        .. versionadded:: 0.0.3
+        """
         return self.by_property("ignorePrivileges", ignore_privileges)
 
 class XAFinderDisk(XAFinderContainer):
@@ -1452,50 +2079,59 @@ class XAFinderDisk(XAFinderContainer):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.id: int #: A unique identifier for the disk that is persistent for as long as the disc is connected and Finder is running
-        self.capacity: int #: The total number of bytes on the disk
-        self.free_space: int #: The number of free bytes left on the disk
-        self.ejectable: bool #: Whether the disk can be ejected
-        self.local_volume: bool #: Whether the disk is a local volume vs. a file server
-        self.startup: bool#: Whether the disk is the boot disk
-        self.format: XAFinderApplication.ItemFormat #: The format of the disk, e.g. "APFS format"
-        self.journaling_enabled: bool #: Whether the disk does file system journaling
-        self.ignore_privileges: bool #: Whether to ignore permissions on the disk
 
     @property
     def id(self) -> int:
+        """A unique identifier for the disk that is persistent for as long as the disc is connected and Finder is running.
+        """
         return self.xa_elem.id()
 
     @property
     def capacity(self) -> int:
+        """The total number of bytes on the disk.
+        """
         return self.xa_elem.capacity()
 
     @property
     def free_space(self) -> int:
+        """The number of free bytes left on the disk.
+        """
         return self.xa_elem.freeSpace()
 
     @property
     def ejectable(self) -> bool:
+        """Whether the disk can be ejected.
+        """
         return self.xa_elem.ejectable()
 
     @property
     def local_volume(self) -> bool:
+        """Whether the disk is a local volume vs. a file server.
+        """
         return self.xa_elem.localVolume()
 
     @property
     def startup(self) -> bool:
+        """Whether the disk is the boot disk.
+        """
         return self.xa_elem.startup()
 
     @property
     def format(self) -> XAFinderApplication.ItemFormat:
+        """The format of the disk, e.g. "APFS format".
+        """
         return self.xa_elem.format()
 
     @property
     def journaling_enabled(self) -> bool:
+        """Whether the disk does file system journaling.
+        """
         return self.xa_elem.journalingEnabled()
 
     @property
     def ignore_privileges(self) -> bool:
+        """Whether to ignore permissions on the disk.
+        """
         return self.xa_elem.ignorePrivileges()
 
     @ignore_privileges.setter
@@ -1531,10 +2167,11 @@ class XAFinderTrash(XAFinderContainer):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.warns_before_emptying: bool #: Whether to display a dialog before emptying the Trash
 
     @property
     def warns_before_emptying(self) -> bool:
+        """Whether to display a dialog before emptying the Trash.
+        """
         return self.xa_elem.warnsBeforeEmptying() 
 
     @warns_before_emptying.setter
@@ -1568,33 +2205,103 @@ class XAFinderFileList(XAFinderItemList):
         super().__init__(properties, filter, obj_class)
 
     def file_type(self) -> list[int]:
+        """Gets the file type of each file in the list.
+
+        :return: A list of file types
+        :rtype: list[int]
+        
+        .. versionadded:: 0.0.3
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("fileType"))
 
     def creator_type(self) -> list[int]:
+        """Gets the creator type of each file in the list.
+
+        :return: A list of file creator types
+        :rtype: list[int]
+        
+        .. versionadded:: 0.0.3
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("creatorType"))
 
     def stationery(self) -> list[bool]:
+        """Gets the stationery status of each file in the list.
+
+        :return: A list of file stationery status booleans
+        :rtype: list[bool]
+        
+        .. versionadded:: 0.0.3
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("stationery"))
 
     def product_version(self) -> list[str]:
+        """Gets the product version of each file in the list.
+
+        :return: A list of file product versions
+        :rtype: list[str]
+        
+        .. versionadded:: 0.0.3
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("productVersion"))
 
     def version(self) -> list[str]:
+        """Gets the version of each file in the list.
+
+        :return: A list of file versions
+        :rtype: list[str]
+        
+        .. versionadded:: 0.0.3
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("version"))
 
-    def by_file_type(self, file_type: int) -> 'XAFinderFile':
+    def by_file_type(self, file_type: int) -> Union['XAFinderFile', None]:
+        """Retrieves the first file whose file type matches the given type, if one exists.
+
+        :return: The desired file, if it is found
+        :rtype: Union[XAFinderFile, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("fileType", file_type)
 
-    def by_creator_type(self, creator_type: int) -> 'XAFinderFile':
+    def by_creator_type(self, creator_type: int) -> Union['XAFinderFile', None]:
+        """Retrieves the first file whose creator type matches the given type, if one exists.
+
+        :return: The desired file, if it is found
+        :rtype: Union[XAFinderFile, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("creatorType", creator_type)
 
-    def by_stationery(self, stationery: bool) -> 'XAFinderFile':
+    def by_stationery(self, stationery: bool) -> Union['XAFinderFile', None]:
+        """Retrieves the first file whose stationery status matches the given boolean value, if one exists.
+
+        :return: The desired file, if it is found
+        :rtype: Union[XAFinderFile, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("stationery", stationery)
 
-    def by_product_version(self, product_version: str) -> 'XAFinderFile':
+    def by_product_version(self, product_version: str) -> Union['XAFinderFile', None]:
+        """Retrieves the first file whose product version matches the given version, if one exists.
+
+        :return: The desired file, if it is found
+        :rtype: Union[XAFinderFile, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("productVersion", product_version)
 
-    def by_version(self, version: str) -> 'XAFinderFile':
+    def by_version(self, version: str) -> Union['XAFinderFile', None]:
+        """Retrieves the first file whose verison matches the given version, if one exists.
+
+        :return: The desired file, if it is found
+        :rtype: Union[XAFinderFile, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("version", version)
 
 class XAFinderFile(XAFinderItem, XABaseScriptable.XASBPrintable):
@@ -1604,14 +2311,11 @@ class XAFinderFile(XAFinderItem, XABaseScriptable.XASBPrintable):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.file_type: int #: The OSType of the file and the data within it
-        self.creator_type: int #: The OSType of the application that created the file
-        self.stationery: bool #: Whether the file is a stationery pad
-        self.product_version: str #: The version of the application the file was created with
-        self.version: str #: The version of the file
 
     @property
     def file_type(self) -> int:
+        """The OSType of the file and the data within it.
+        """
         return self.xa_elem.fileType()
 
     @file_type.setter
@@ -1620,6 +2324,8 @@ class XAFinderFile(XAFinderItem, XABaseScriptable.XASBPrintable):
 
     @property
     def creator_type(self) -> int:
+        """The OSType of the application that created the file.
+        """
         return self.xa_elem.creatorType()
 
     @creator_type.setter
@@ -1628,6 +2334,8 @@ class XAFinderFile(XAFinderItem, XABaseScriptable.XASBPrintable):
 
     @property
     def stationery(self) -> bool:
+        """Whether the file is a stationery pad.
+        """
         return self.xa_elem.stationery()
 
     @stationery.setter
@@ -1636,10 +2344,14 @@ class XAFinderFile(XAFinderItem, XABaseScriptable.XASBPrintable):
 
     @property
     def product_version(self) -> str:
+        """The version of the application the file was created with.
+        """
         return self.xa_elem.productVersion()
 
     @property
     def version(self) -> str:
+        """The version of the file.
+        """
         return self.xa_elem.version()
 
 
@@ -1656,9 +2368,23 @@ class XAFinderAliasFileList(XAFinderFileList):
         super().__init__(properties, filter, XAFinderAliasFile)
 
     def original_item(self) -> list[XAFinderItem]:
+        """Gets the original item of each alias file in the list.
+
+        :return: A list of alias file original items
+        :rtype: list[XAFinderItem]
+        
+        .. versionadded:: 0.0.4
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("originalItem"))
 
-    def by_original_item(self, original_item: XAFinderItem) -> 'XAFinderAliasFile':
+    def by_original_item(self, original_item: XAFinderItem) -> Union['XAFinderAliasFile', None]:
+        """Retrieves the first alias file whose original item matches the given item, if one exists.
+
+        :return: The desired alias file, if it is found
+        :rtype: Union[XAFinderAliasFile, None]
+        
+        .. versionadded:: 0.0.3
+        """
         return self.by_property("originalItem", original_item)
 
 class XAFinderAliasFile(XAFinderFile):
@@ -1668,10 +2394,11 @@ class XAFinderAliasFile(XAFinderFile):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.original_item: XAFinderItem #: The original item pointed to by the alias
 
     @property
     def original_item(self) -> XAFinderItem:
+        """The original item pointed to by the alias.
+        """
         item_obj = self.xa_elem.originalItem()
         return self._new_element(item_obj, XAFinderItem)
 
@@ -1693,15 +2420,43 @@ class XAFinderApplicationFileList(XAFinderFileList):
         super().__init__(properties, filter, XAFinderApplicationFile)
 
     def id(self) -> list[str]:
+        """Gets the ID of each application file in the list.
+
+        :return: A list of application file IDs
+        :rtype: list[str]
+        
+        .. versionadded:: 0.0.3
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("id"))
 
     def has_scripting_terminology(self) -> list[bool]:
+        """Gets the has scripting terminology status of each application file in the list.
+
+        :return: A list of application file scripting terminology status booleans
+        :rtype: list[bool]
+        
+        .. versionadded:: 0.0.3
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("hasScriptingTerminology"))
 
-    def by_id(self, id: str) -> 'XAFinderApplicationFile':
+    def by_id(self, id: str) -> Union['XAFinderApplicationFile', None]:
+        """Retrieves the application file whose ID matches the given ID, if one exists.
+
+        :return: The desired application file, if it is found
+        :rtype: Union[XAFinderApplicationFile, None]
+        
+        .. versionadded:: 0.0.3
+        """
         return self.by_property("id", id)
 
-    def by_has_scripting_terminology(self, has_scripting_terminology: bool) -> 'XAFinderApplicationFile':
+    def by_has_scripting_terminology(self, has_scripting_terminology: bool) -> Union['XAFinderApplicationFile', None]:
+        """Retrieves the first application file whose scripting terminology status matches the given boolean value, if one exists.
+
+        :return: The desired application file, if it is found
+        :rtype: Union[XAFinderApplicationFile, None]
+        
+        .. versionadded:: 0.0.3
+        """
         return self.by_property("hasScriptingTerminology", has_scripting_terminology)
 
 class XAFinderApplicationFile(XAFinderFile):
@@ -1711,15 +2466,17 @@ class XAFinderApplicationFile(XAFinderFile):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.id: str #: The bundle identifier or creator type of the application
-        self.has_scripting_terminology: bool #: Whether the process can be scripted
 
     @property
     def id(self) -> str:
+        """The bundle identifier or creator type of the application.
+        """
         return self.xa_elem.id()
 
     @property
     def has_scripting_terminology(self) -> bool:
+        """Whether the process can be scripted.
+        """
         return self.xa_elem.hasScriptingTerminology()
 
 
@@ -1757,9 +2514,23 @@ class XAFinderInternetLocationFileList(XAFinderFileList):
         super().__init__(properties, filter, XAFinderInternetLocationFile)
 
     def location(self) -> list[str]:
+        """Gets the location of each internet location file in the list.
+
+        :return: A list of locations (URLs)
+        :rtype: list[str]
+        
+        .. versionadded:: 0.0.3
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("location"))
 
-    def by_location(self, location: str) -> 'XAFinderInternetLocationFile':
+    def by_location(self, location: str) -> Union['XAFinderInternetLocationFile', None]:
+        """Retrieves the internet location file whose location matches the given location, if one exists.
+
+        :return: The desired internet location file, if it is found
+        :rtype: Union[XAFinderInternetLocationFile, None]
+        
+        .. versionadded:: 0.0.3
+        """
         return self.by_property("location", location)
 
 class XAFinderInternetLocationFile(XAFinderFile):
@@ -1769,10 +2540,11 @@ class XAFinderInternetLocationFile(XAFinderFile):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.location: str #: The internet location
 
     @property
     def location(self) -> str:
+        """The internet location.
+        """
         return self.xa_elem.location()
 
 
@@ -1820,7 +2592,7 @@ class XAFinderPackage(XAFinderItem):
 
 
 
-class XAFinderWindowList(XAList):
+class XAFinderWindowList(XABaseScriptable.XASBWindowList):
     """A wrapper around lists of Finder windows that employs fast enumeration techniques.
 
     All properties of Finder windows can be called as methods on the wrapped list, returning a list containing each window's value for the property.
@@ -1830,97 +2602,127 @@ class XAFinderWindowList(XAList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None, obj_class = None):
         if obj_class is None:
             obj_class = XAFinderWindowList
-        super().__init__(properties, obj_class, filter)
-
-    def id(self) -> list[int]:
-        return list(self.xa_elem.arrayByApplyingSelector_("id"))
+        super().__init__(properties, filter, obj_class)
 
     def position(self) -> list[XAPoint]:
+        """Gets the position of each window in the list.
+
+        :return: A list of window positions
+        :rtype: list[XAPoint]
+        
+        .. versionadded:: 0.0.3
+        """
         ls = self.xa_elem.arrayByApplyingSelector_("position")
         return [XAPoint(value) for value in ls]
 
-    def bounds(self) -> list[tuple[tuple[int, int], tuple[int, int]]]:
-        return list(self.xa_elem.arrayByApplyingSelector_("bounds"))
-
     def titled(self) -> list[bool]:
+        """Gets the titled status of each window in the list.
+
+        :return: A list of window titled status booleans
+        :rtype: list[bool]
+        
+        .. versionadded:: 0.0.3
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("titled"))
 
-    def name(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("name"))
-
-    def index(self) -> list[str]:
-        return list(self.xa_elem.arrayByApplyingSelector_("index"))
-
-    def closeable(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("closeable"))
-
     def floating(self) -> list[bool]:
+        """Gets the floating status of each window in the list.
+
+        :return: A list of window floating status booleans
+        :rtype: list[bool]
+        
+        .. versionadded:: 0.0.3
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("floating"))
 
     def modal(self) -> list[bool]:
+        """Gets the modal status of each window in the list.
+
+        :return: A list of window modal status booleans
+        :rtype: list[bool]
+        
+        .. versionadded:: 0.0.3
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("modal"))
 
-    def resizable(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("resizable"))
-
-    def zoomable(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("zoomable"))
-
-    def zoomed(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("zoomed"))
-
-    def visible(self) -> list[bool]:
-        return list(self.xa_elem.arrayByApplyingSelector_("visible"))
-
     def collapsed(self) -> list[bool]:
+        """Gets the collapsed status of each window in the list.
+
+        :return: A list of window collapsed status booleans
+        :rtype: list[bool]
+        
+        .. versionadded:: 0.0.3
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("collapsed"))
 
     def properties(self) -> list[dict]:
+        """Gets all properties of each window in the list.
+
+        :return: A list of window properties dictionaries
+        :rtype: list[dict]
+        
+        .. versionadded:: 0.0.3
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("properties"))
 
-    def by_id(self, id: int) -> 'XAFinderWindow':
-        return self.by_property("id", id)
+    def by_position(self, position: tuple[int, int]) -> Union['XAFinderWindow', None]:
+        """Retrieves the first window whose position matches the given position, if one exists.
 
-    def by_position(self, position: tuple[int, int]) -> 'XAFinderWindow':
+        :return: The desired window, if it is found
+        :rtype: Union[XAFinderWindow, None]
+        
+        .. versionadded:: 0.0.3
+        """
         return self.by_property("position", position)
 
-    def by_bounds(self, bounds: tuple[tuple[int, int], tuple[int, int]]) -> 'XAFinderWindow':
-        return self.by_property("bounds", bounds)
+    def by_titled(self, titled: bool) -> Union['XAFinderWindow', None]:
+        """Retrieves the first window whose titled status matches the given boolean value, if one exists.
 
-    def by_titled(self, titled: bool) -> 'XAFinderWindow':
+        :return: The desired window, if it is found
+        :rtype: Union[XAFinderWindow, None]
+        
+        .. versionadded:: 0.0.3
+        """
         return self.by_property("titled", titled)
+   
+    def by_floating(self, floating: bool) -> Union['XAFinderWindow', None]:
+        """Retrieves the first window whose floating status matches the given boolean value, if one exists.
 
-    def by_name(self, name: str) -> 'XAFinderWindow':
-        return self.by_property("name", name)
-
-    def by_index(self, index: int) -> 'XAFinderWindow':
-        return self.by_property("index", index)
-
-    def by_closeable(self, closeable: bool) -> 'XAFinderWindow':
-        return self.by_property("closeable", closeable)
-
-    def by_floating(self, floating: bool) -> 'XAFinderWindow':
+        :return: The desired window, if it is found
+        :rtype: Union[XAFinderWindow, None]
+        
+        .. versionadded:: 0.0.3
+        """
         return self.by_property("floating", floating)
 
-    def by_modal(self, modal: bool) -> 'XAFinderWindow':
+    def by_modal(self, modal: bool) -> Union['XAFinderWindow', None]:
+        """Retrieves the first window whose modal status matches the given boolean value, if one exists.
+
+        :return: The desired window, if it is found
+        :rtype: Union[XAFinderWindow, None]
+        
+        .. versionadded:: 0.0.3
+        """
         return self.by_property("modal", modal)
 
-    def by_resizable(self, resizable: bool) -> 'XAFinderWindow':
-        return self.by_property("resizable", resizable)
+    def by_collapsed(self, collapsed: bool) -> Union['XAFinderWindow', None]:
+        """Retrieves the first window whose collapsed status matches the given boolean value, if one exists.
 
-    def by_zoomable(self, zoomable: bool) -> 'XAFinderWindow':
-        return self.by_property("zoomable", zoomable)
-
-    def by_zoomed(self, zoomed: bool) -> 'XAFinderWindow':
-        return self.by_property("zoomed", zoomed)
-
-    def by_visible(self, visible: bool) -> 'XAFinderWindow':
-        return self.by_property("visible", visible)
-
-    def by_collapsed(self, collapsed: bool) -> 'XAFinderWindow':
+        :return: The desired window, if it is found
+        :rtype: Union[XAFinderWindow, None]
+        
+        .. versionadded:: 0.0.3
+        """
         return self.by_property("collapsed", collapsed)
 
-    def by_properties(self, properties: dict) -> 'XAFinderWindow':
+    def by_properties(self, properties: dict) -> Union['XAFinderWindow', None]:
+        """Retrieves the first window whose properties dictionary matches the given dictionary, if one exists.
+
+        :return: The desired window, if it is found
+        :rtype: Union[XAFinderWindow, None]
+        
+        .. versionadded:: 0.0.3
+        """
         return self.by_property("properties", properties)
 
 class XAFinderWindow(XABaseScriptable.XASBWindow, XABaseScriptable.XASBPrintable):
@@ -1950,15 +2752,11 @@ class XAFinderWindow(XABaseScriptable.XASBWindow, XABaseScriptable.XASBPrintable
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.position: XAPoint #: The upper left position of the window
-        self.titled: bool #: Whether the window has a title bar
-        self.floating: bool #: Whether the window has a title bar
-        self.modal: bool #: Whether the window is modal
-        self.collapsed: bool #: Whether the window is collapsed
-        self.properties: dict #: Every property of a Finder window
 
     @property
     def position(self) -> XAPoint:
+        """The upper left position of the window.
+        """
         return XAPoint(*self.xa_elem.position())
 
     @position.setter
@@ -1968,18 +2766,26 @@ class XAFinderWindow(XABaseScriptable.XASBWindow, XABaseScriptable.XASBPrintable
 
     @property
     def titled(self) -> bool:
+        """Whether the window has a title bar.
+        """
         return self.xa_elem.titled()
 
     @property
     def floating(self) -> bool:
+        """Whether the window floats.
+        """
         return self.xa_elem.floating()
 
     @property
     def modal(self) -> bool:
+        """Whether the window is modal.
+        """
         return self.xa_elem.modal()
 
     @property
     def collapsed(self) -> bool:
+        """Whether the window is collapsed.
+        """
         return self.xa_elem.collapsed()
 
     @collapsed.setter
@@ -1988,6 +2794,8 @@ class XAFinderWindow(XABaseScriptable.XASBWindow, XABaseScriptable.XASBPrintable
 
     @property
     def properties(self) -> dict:
+        """Every property of a Finder window.
+        """
         return self.xa_elem.properties()
 
 
@@ -2004,58 +2812,184 @@ class XAFinderFinderWindowList(XAFinderWindowList):
         super().__init__(properties, filter, XAFinderFinderWindow)
 
     def current_view(self) -> list[XAFinderApplication.ViewSetting]:
+        """Gets the current view of each window in the list.
+
+        :return: A list of window view settings
+        :rtype: list[XAFinderApplication.ViewSetting]
+        
+        .. versionadded:: 0.0.3
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("currentView"))
 
     def toolbar_visible(self) -> list[bool]:
+        """Gets the toolbar visibility status of each window in the list.
+
+        :return: A list of window toolbar visibility status booleans
+        :rtype: list[bool]
+        
+        .. versionadded:: 0.0.3
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("toolbarVisible"))
 
     def statusbar_visible(self) -> list[bool]:
+        """Gets the statusbar visibility status of each window in the list.
+
+        :return: A list of window statusbar visibility status booleans
+        :rtype: list[bool]
+        
+        .. versionadded:: 0.0.3
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("statusbarVisible"))
 
     def pathbar_visible(self) -> list[bool]:
+        """Gets the pathbar visibility status of each window in the list.
+
+        :return: A list of window pathbar visibility status booleans
+        :rtype: list[bool]
+        
+        .. versionadded:: 0.0.3
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("pathbarVisible"))
 
     def sidebar_width(self) -> list[int]:
+        """Gets the sidebar width of each window in the list.
+
+        :return: A list of window sidebar widths
+        :rtype: list[int]
+        
+        .. versionadded:: 0.0.3
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("sidebarWidth"))
 
-    def target(self) -> list[XAFinderContainer]:
+    def target(self) -> XAFinderContainerList:
+        """Gets the target container of each window in the list.
+
+        :return: A list of window target containers
+        :rtype: XAFinderContainerList
+        
+        .. versionadded:: 0.0.3
+        """
         ls = self.xa_elem.arrayByApplyingSelector_("target")
         return self._new_element(ls, XAFinderContainerList)
 
     def icon_view_options(self) -> list['XAFinderIconViewOptions']:
+        """Gets the icon view options of each window in the list.
+
+        :return: A list of window icon view options
+        :rtype: list['XAFinderIconViewOptions']
+        
+        .. versionadded:: 0.0.3
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("iconViewOptions"))
 
     def list_view_options(self) -> list['XAFinderListViewOptions']:
+        """Gets the list view options of each window in the list.
+
+        :return: A list of window list view options
+        :rtype: list['XAFinderListViewOptions']
+        
+        .. versionadded:: 0.0.3
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("listViewOptions"))
 
     def column_view_options(self) -> list['XAFinderColumnViewOptions']:
+        """Gets the column view options of each window in the list.
+
+        :return: A list of window column view options
+        :rtype: list['XAFinderColumnViewOptions']
+        
+        .. versionadded:: 0.0.3
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("columnViewOptions"))
 
-    def by_current_view(self, current_view: XAFinderApplication.ViewSetting) -> 'XAFinderFinderWindow':
+    def by_current_view(self, current_view: XAFinderApplication.ViewSetting) -> Union['XAFinderFinderWindow', None]:
+        """Retrieves the window whose current view matches the given view setting, if one exists.
+
+        :return: The desired window, if it is found
+        :rtype: Union[XAFinderFinderWindow, None]
+        
+        .. versionadded:: 0.0.3
+        """
         return self.by_property("currentView", current_view)
 
-    def by_toolbar_visible(self, toolbar_visible: bool) -> 'XAFinderFinderWindow':
+    def by_toolbar_visible(self, toolbar_visible: bool) -> Union['XAFinderFinderWindow', None]:
+        """Retrieves the first window whose toolbar visibility status matches the given boolean value, if one exists.
+
+        :return: The desired window, if it is found
+        :rtype: Union[XAFinderFinderWindow, None]
+        
+        .. versionadded:: 0.0.3
+        """
         return self.by_property("toolbarVisible", toolbar_visible)
 
-    def by_statusbar_visible(self, statusbar_visible: bool) -> 'XAFinderFinderWindow':
+    def by_statusbar_visible(self, statusbar_visible: bool) -> Union['XAFinderFinderWindow', None]:
+        """Retrieves the first window whose statusbar visibility status matches the given boolean value, if one exists.
+
+        :return: The desired window, if it is found
+        :rtype: Union[XAFinderFinderWindow, None]
+        
+        .. versionadded:: 0.0.3
+        """
         return self.by_property("statusbarVisible", statusbar_visible)
 
-    def by_pathbar_visible(self, pathbar_visible: bool) -> 'XAFinderFinderWindow':
+    def by_pathbar_visible(self, pathbar_visible: bool) -> Union['XAFinderFinderWindow', None]:
+        """Retrieves the first window whose pathbar visibility status matches the given boolean value, if one exists.
+
+        :return: The desired window, if it is found
+        :rtype: Union[XAFinderFinderWindow, None]
+        
+        .. versionadded:: 0.0.3
+        """
         return self.by_property("pathbarVisible", pathbar_visible)
 
-    def by_sidebar_width(self, sidebar_width: int) -> 'XAFinderFinderWindow':
+    def by_sidebar_width(self, sidebar_width: int) -> Union['XAFinderFinderWindow', None]:
+        """Retrieves the first window whose sidebar width matches the given width, if one exists.
+
+        :return: The desired window, if it is found
+        :rtype: Union[XAFinderFinderWindow, None]
+        
+        .. versionadded:: 0.0.3
+        """
         return self.by_property("sidebarWidth", sidebar_width)
 
-    def by_target(self, target: XAFinderContainer) -> 'XAFinderFinderWindow':
+    def by_target(self, target: XAFinderContainer) -> Union['XAFinderFinderWindow', None]:
+        """Retrieves the first window whose target container matches the given container, if one exists.
+
+        :return: The desired window, if it is found
+        :rtype: Union[XAFinderFinderWindow, None]
+        
+        .. versionadded:: 0.0.3
+        """
         return self.by_property("target", target)
 
-    def by_icon_view_options(self, icon_view_options: 'XAFinderIconViewOptions') -> 'XAFinderFinderWindow':
+    def by_icon_view_options(self, icon_view_options: 'XAFinderIconViewOptions') -> Union['XAFinderFinderWindow', None]:
+        """Retrieves the first window whose icon view options match the given options, if one exists.
+
+        :return: The desired window, if it is found
+        :rtype: Union[XAFinderFinderWindow, None]
+        
+        .. versionadded:: 0.0.3
+        """
         return self.by_property("iconViewOptions", icon_view_options)
 
-    def by_list_view_options(self, list_view_options: 'XAFinderListViewOptions') -> 'XAFinderFinderWindow':
+    def by_list_view_options(self, list_view_options: 'XAFinderListViewOptions') -> Union['XAFinderFinderWindow', None]:
+        """Retrieves the first window whose list view options match the given options, if one exists.
+
+        :return: The desired window, if it is found
+        :rtype: Union[XAFinderFinderWindow, None]
+        
+        .. versionadded:: 0.0.3
+        """
         return self.by_property("listViewOptions", list_view_options)
 
-    def by_column_view_options(self, column_view_options: 'XAFinderColumnViewOptions') -> 'XAFinderFinderWindow':
+    def by_column_view_options(self, column_view_options: 'XAFinderColumnViewOptions') -> Union['XAFinderFinderWindow', None]:
+        """Retrieves the first window whose column view options match the given options, if one exists.
+
+        :return: The desired window, if it is found
+        :rtype: Union[XAFinderFinderWindow, None]
+        
+        .. versionadded:: 0.0.3
+        """
         return self.by_property("columnViewOptions", column_view_options)
 
 class XAFinderFinderWindow(XAFinderWindow):
@@ -2065,18 +2999,11 @@ class XAFinderFinderWindow(XAFinderWindow):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.current_view: XAFinderApplication.ViewSetting #: The current view for the container window
-        self.toolbar_visible: bool #: Whether the window's toolbar is visible
-        self.statusbar_visible: bool #: Whether the window's status bar is visible
-        self.pathbar_visible: bool #: Whether the window's path bar is visible
-        self.sidebar_width: int #: The width of the sidebar in pixels
-        self.target: XAFinderContainer #: The container at which this file viewer is targeted
-        self.icon_view_options: XAFinderIconViewOptions #: The icon view options for the container window
-        self.list_view_options: XAFinderListViewOptions #: The list view options for the container window
-        self.column_view_options: XAFinderColumnViewOptions #: The column view options for the container window
 
     @property
     def current_view(self) -> XAFinderApplication.ViewSetting:
+        """The current view for the container window.
+        """
         return self.xa_elem.currentView()
 
     @current_view.setter
@@ -2085,6 +3012,8 @@ class XAFinderFinderWindow(XAFinderWindow):
 
     @property
     def toolbar_visible(self) -> bool:
+        """Whether the window's toolbar is visible.
+        """
         return self.xa_elem.toolbarVisible()
 
     @toolbar_visible.setter
@@ -2093,6 +3022,8 @@ class XAFinderFinderWindow(XAFinderWindow):
 
     @property
     def statusbar_visible(self) -> bool:
+        """Whether the window's status bar is visible.
+        """
         return self.xa_elem.statusbarVisible()
 
     @statusbar_visible.setter
@@ -2101,6 +3032,8 @@ class XAFinderFinderWindow(XAFinderWindow):
 
     @property
     def pathbar_visible(self) -> bool:
+        """Whether the window's path bar is visible.
+        """
         return self.xa_elem.pathbarVisible()
 
     @pathbar_visible.setter
@@ -2109,6 +3042,8 @@ class XAFinderFinderWindow(XAFinderWindow):
 
     @property
     def sidebar_width(self) -> int:
+        """The width of the sidebar in pixels.
+        """
         return self.xa_elem.sidebarWidth()
 
     @sidebar_width.setter
@@ -2117,6 +3052,8 @@ class XAFinderFinderWindow(XAFinderWindow):
 
     @property
     def target(self) -> XAFinderContainer:
+        """The container at which this file viewer is targeted.
+        """
         obj = self.xa_elem.target()
         return self._new_element(obj, XAFinderContainer)
 
@@ -2126,16 +3063,22 @@ class XAFinderFinderWindow(XAFinderWindow):
 
     @property
     def icon_view_options(self) -> 'XAFinderIconViewOptions':
+        """The icon view options for the container window.
+        """
         options_obj = self.xa_elem.iconViewOptions()
         return self._new_element(options_obj, XAFinderIconViewOptions)
 
     @property
     def list_view_options(self) -> 'XAFinderListViewOptions':
+        """The list view options for the container window.
+        """
         options_obj = self.xa_elem.listViewOptions()
         return self._new_element(options_obj, XAFinderListViewOptions)
 
     @property
     def column_view_options(self) -> 'XAFinderColumnViewOptions':
+        """The column view options for the container window.
+        """
         options_obj = self.xa_elem.columnViewOptions()
         return self._new_element(options_obj, XAFinderColumnViewOptions)
 
@@ -2195,86 +3138,104 @@ class XAFinderPreferences(XAFinderItem, XABaseScriptable.XASBPrintable):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.folders_spring_open: bool #: Whether folders spring open after a delay
-        self.delay_before_springing: float #: The delay, in seconds, before springing open folders
-        self.desktop_shows_hard_disks: bool #: Whether hard drives appear on the desktop
-        self.desktop_shows_external_hard_disks: bool #: Whether external hard disks appear on the desktop
-        self.desktop_shows_removable_media: bool #: Whether CDs, DVDs, and iPods appear on the desktop
-        self.desktop_shows_connected_servers: bool #: Whether connected servers appear on the desktop
-        self.folders_open_in_new_windows: bool #: Whether folders open into new windows
-        self.folders_open_in_new_tabs: bool #: Whether folders open into new tabs
-        self.new_windows_open_in_column_view: bool #: Whether new Finder windows open in column view
-        self.all_name_extensions_showing: bool #: Whether all name extensions are shown regardless of the "extension hidden" setting
-        self.window: XAFinderPreferencesWindow #: The Finder preferences window
-        self.icon_view_options: XAFinderIconViewOptions #: The default icon view options
-        self.list_view_options: XAFinderListViewOptions #: The default list view options
-        self.column_view_options: XAFinderColumnViewOptions #: The default column view options
-        self.new_window_target: SBObject #: The target location for a newly opened Finder window
 
     @property
     def folders_spring_open(self) -> bool:
+        """Whether folders spring open after a delay.
+        """
         return self.xa_elem.foldersSpringOpen()
 
     @property
     def delay_before_springing(self) -> bool:
+        """The delay, in seconds, before springing open folders.
+        """
         return self.xa_elem.delayBeforeSpringing()
 
     @property
     def desktop_shows_hard_disks(self) -> bool:
+        """Whether hard drives appear on the desktop.
+        """
         return self.xa_elem.desktopShowsHardDisks()
 
     @property
     def desktop_shows_external_hard_disks(self) -> bool:
+        """Whether external hard disks appear on the desktop.
+        """
         return self.xa_elem.desktopShowsExternalHardDisks()
 
     @property
     def desktop_shows_removable_media(self) -> bool:
+        """Whether CDs, DVDs, and iPods appear on the desktop.
+        """
         return self.xa_elem.desktopShowsRemovableMedia()
 
     @property
     def desktop_shows_connected_servers(self) -> bool:
+        """Whether connected servers appear on the desktop.
+        """
         return self.xa_elem.desktopShowsConnectedServers()
 
     @property
     def folders_open_in_new_windows(self) -> bool:
+        """Whether folders open into new windows.
+        """
         return self.xa_elem.foldersOpenInNewWindows()
 
     @property
     def folders_open_in_new_tabs(self) -> bool:
+        """Whether folders open into new tabs.
+        """
         return self.xa_elem.foldersOpenInNewTabs()
 
     @property
     def new_windows_open_in_column_view(self) -> bool:
+        """Whether new Finder windows open in column view.
+        """
         return self.xa_elem.newWindowsOpenInColumnView()
 
     @property
     def all_name_extensions_showing(self) -> bool:
+        """Whether all name extensions are shown regardless of the "extension hidden" setting.
+        """
         return self.xa_elem.allNameExtensionsShowing()
 
     @property
     def window(self) -> bool:
+        """The Finder preferences window.
+        """
         window_obj = self.xa_elem.window()
         return self._new_element(window_obj, XAFinderPreferencesWindow)
 
     @property
     def icon_view_options(self) -> 'XAFinderIconViewOptions':
+        """The default icon view options.
+        """
         options_obj = self.xa_elem.iconViewOptions()
         return self._new_element(options_obj, XAFinderIconViewOptions)
 
     @property
     def list_view_options(self) -> 'XAFinderListViewOptions':
+        """The default list view options.
+        """
         options_obj = self.xa_elem.listViewOptions()
         return self._new_element(options_obj, XAFinderListViewOptions)
 
     @property
     def column_view_options(self) -> 'XAFinderColumnViewOptions':
+        """The default column view options.
+        """
         options_obj = self.xa_elem.columnViewOptions()
         return self._new_element(options_obj, XAFinderColumnViewOptions)
 
     @property
     def new_window_target(self) -> XAFinderAliasFile:
+        """The target location for a newly opened Finder window.
+        """
         target_obj = self.xa_elem.newWindowTarget()
         return self._new_element(target_obj, XAFinderAliasFile)
+
+
+
 
 class XAFinderPreferencesWindow(XAFinderWindow):
     """A class for managing and interacting with preference windows in Finder.app.
@@ -2283,10 +3244,11 @@ class XAFinderPreferencesWindow(XAFinderWindow):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.current_panel: XAFinderApplication.Panel #: The current panel in the Finder preferences window
 
     @property
     def current_panel(self) -> XAFinderApplication.Panel:
+        """The current panel in the Finder preferences window.
+        """
         return self.xa_elem.currentPanel()
 
     @current_panel.setter
@@ -2307,16 +3269,44 @@ class XAFinderInformationWindowList(XAFinderWindowList):
         super().__init__(properties, filter, XAFinderInformationWindow)
 
     def item(self) -> XAFinderItemList:
+        """Gets the item of each information window in the list.
+
+        :return: A list of information window items
+        :rtype: XAFinderItemList
+        
+        .. versionadded:: 0.0.3
+        """
         ls = self.xa_elem.arrayByApplyingSelector_("item")
         return self._new_element(ls, XAFinderItemList)
 
     def current_panel(self) -> list[XAFinderApplication.Panel]:
+        """Gets the current panel of each information window in the list.
+
+        :return: A list of information window panels
+        :rtype: list[XAFinderApplication.Panel]
+        
+        .. versionadded:: 0.0.3
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("currentPanel"))
 
-    def by_item(self, item: XAFinderItem) -> 'XAFinderInformationWindow':
+    def by_item(self, item: XAFinderItem) -> Union['XAFinderInformationWindow', None]:
+        """Retrieves the information window whose item matches the given item, if one exists.
+
+        :return: The desired information window, if it is found
+        :rtype: Union[XAFinderInformationWindow, None]
+        
+        .. versionadded:: 0.0.3
+        """
         return self.by_property("item", item)
 
-    def by_current_panel(self, current_panel: XAFinderApplication.Panel) -> 'XAFinderInformationWindow':
+    def by_current_panel(self, current_panel: XAFinderApplication.Panel) -> Union['XAFinderInformationWindow', None]:
+        """Retrieves the information window whose current panel matches the given panel, if one exists.
+
+        :return: The desired information window, if it is found
+        :rtype: Union[XAFinderInformationWindow, None]
+        
+        .. versionadded:: 0.0.3
+        """
         return self.by_property("currentPanel", current_panel)
 
 class XAFinderInformationWindow(XAFinderWindow):
@@ -2326,16 +3316,18 @@ class XAFinderInformationWindow(XAFinderWindow):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.item: XAFinderItem #: The item from which this window was opened
-        self.current_panel: XAFinderApplication.Panel #: The current panel in the information window
 
     @property
     def item(self) -> XAFinderItem:
+        """The item from which this window was opened.
+        """
         item_obj = self.xa_elem.item()
         return self._new_element(item_obj, XAFinderItem)
 
     @property
     def current_panel(self) -> XAFinderApplication.Panel:
+        """The current panel in the information window.
+        """
         return self.xa_elem.currentPanel()
 
     @current_panel.setter
@@ -2352,17 +3344,11 @@ class XAFinderIconViewOptions(XABase.XAObject):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.arrangement: XAFinderApplication.Arrangement #: The arrangement setting of icons in icon view
-        self.icon_size: int #: The size of icons in icon view
-        self.shows_item_info: bool #: Whether additional item information is shown in the window
-        self.shows_icon_preview: bool #: Whether a preview of the icon is shown in the window
-        self.text_size: int #: The size of text in icon view
-        self.label_position: XAFinderApplication.LabelPosition #: The size of icon label in icon view
-        self.background_picture: XAFinderFile #: The background picture of the icon view
-        self.background_color: XABase.XAColor #: The background color of the icon view
 
     @property
     def arrangement(self) -> XAFinderApplication.Arrangement:
+        """The arrangement setting of icons in icon view.
+        """
         return self.xa_elem.arrangement()
 
     @arrangement.setter
@@ -2371,6 +3357,8 @@ class XAFinderIconViewOptions(XABase.XAObject):
 
     @property
     def icon_size(self) -> int:
+        """The size of icons in icon view.
+        """
         return self.xa_elem.iconSize()
 
     @icon_size.setter
@@ -2379,6 +3367,8 @@ class XAFinderIconViewOptions(XABase.XAObject):
 
     @property
     def shows_item_info(self) -> bool:
+        """Whether additional item information is shown in the window.
+        """
         return self.xa_elem.showsItemInfo()
 
     @shows_item_info.setter
@@ -2387,6 +3377,8 @@ class XAFinderIconViewOptions(XABase.XAObject):
 
     @property
     def shows_icon_preview(self) -> bool:
+        """Whether a preview of the icon is shown in the window.
+        """
         return self.xa_elem.showsIconPreview()
 
     @shows_icon_preview.setter
@@ -2395,6 +3387,8 @@ class XAFinderIconViewOptions(XABase.XAObject):
 
     @property
     def text_size(self) -> int:
+        """The size of text in icon view.
+        """
         return self.xa_elem.textSize()
 
     @text_size.setter
@@ -2403,6 +3397,8 @@ class XAFinderIconViewOptions(XABase.XAObject):
 
     @property
     def label_position(self) -> XAFinderApplication.LabelPosition:
+        """The position of a label around an icon in icon view.
+        """
         return self.xa_elem.labelPosition()
 
     @label_position.setter
@@ -2411,6 +3407,8 @@ class XAFinderIconViewOptions(XABase.XAObject):
 
     @property
     def background_picture(self) -> XAFinderFile:
+        """The background picture of the icon view.
+        """
         bg_obj = self.xa_elem.backgroundPicture()
         return self._new_element(bg_obj, XAFinderFile)
 
@@ -2420,6 +3418,8 @@ class XAFinderIconViewOptions(XABase.XAObject):
 
     @property
     def background_color(self) -> XABase.XAColor:
+        """The background color of the icon view.
+        """
         bg_obj = self.xa_elem.backgroundColor()
         return self._new_element(bg_obj, XABase.XAColor)
 
@@ -2437,14 +3437,11 @@ class XAFinderColumnViewOptions(XABase.XAObject):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.text_size: int #: The size of text in the column view
-        self.shows_icon: bool #: Whether icons are shown in the column view
-        self.shows_icon_preview: bool #: Whether icon previews are shown in the column view
-        self.shows_preview_column: bool #: Whether the preview column is shown in the column view
-        self.discloses_preview_pane: bool #: Whether the preview pane is disclosed in the column view
 
     @property
     def text_size(self) -> int:
+        """The size of text in the column view.
+        """
         return self.xa_elem.textSize()
 
     @text_size.setter
@@ -2453,6 +3450,8 @@ class XAFinderColumnViewOptions(XABase.XAObject):
 
     @property
     def shows_icon(self) -> bool:
+        """Whether icons are shown in the column view.
+        """
         return self.xa_elem.showsIcon()
 
     @shows_icon.setter
@@ -2461,6 +3460,8 @@ class XAFinderColumnViewOptions(XABase.XAObject):
 
     @property
     def shows_icon_preview(self) -> bool:
+        """Whether icon previews are shown in the column view.
+        """
         return self.xa_elem.showsIconPreview()
 
     @shows_icon_preview.setter
@@ -2469,6 +3470,8 @@ class XAFinderColumnViewOptions(XABase.XAObject):
 
     @property
     def shows_preview_column(self) -> bool:
+        """Whether the preview column is shown in the column view.
+        """
         return self.xa_elem.showsPreviewColumn()
 
     @shows_preview_column.setter
@@ -2477,6 +3480,8 @@ class XAFinderColumnViewOptions(XABase.XAObject):
 
     @property
     def discloses_preview_pane(self) -> bool:
+        """Whether the preview pane is disclosed in the column view.
+        """
         return self.xa_elem.disclosesPreviewPane()
 
     @discloses_preview_pane.setter
@@ -2493,15 +3498,11 @@ class XAFinderListViewOptions(XABase.XAObject):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.calculates_folder_sizes: bool #: Whether folder sizes are calculated and displayed in the window
-        self.shows_icon_preview: bool #: Whether a preview of the item is shown in the window
-        self.icon_size: XAFinderApplication.IconSize #: The size of icons in the window
-        self.text_size: int #: The size of text in the window
-        self.uses_relative_dates: bool #: The column that the list view is sorted on
-        self.sort_column: XAFinderColumn #: Whether relative dates are shown in the window
 
     @property
     def calculates_folder_sizes(self) -> bool:
+        """Whether folder sizes are calculated and displayed in the window.
+        """
         return self.xa_elem.calculatesFolderSizes()
 
     @calculates_folder_sizes.setter
@@ -2510,6 +3511,8 @@ class XAFinderListViewOptions(XABase.XAObject):
 
     @property
     def shows_icon_preview(self) -> bool:
+        """Whether a preview of the item is shown in the window.
+        """
         return self.xa_elem.showsIconPreview()
 
     @shows_icon_preview.setter
@@ -2518,6 +3521,8 @@ class XAFinderListViewOptions(XABase.XAObject):
 
     @property
     def icon_size(self) -> XAFinderApplication.IconSize:
+        """The size of icons in the window.
+        """
         return self.xa_elem.iconSize()
 
     @icon_size.setter
@@ -2526,6 +3531,8 @@ class XAFinderListViewOptions(XABase.XAObject):
 
     @property
     def text_size(self) -> int:
+        """The size of text in the window.
+        """
         return self.xa_elem.textSize()
 
     @text_size.setter
@@ -2534,6 +3541,8 @@ class XAFinderListViewOptions(XABase.XAObject):
 
     @property
     def uses_relative_dates(self) -> bool:
+        """Whether relative dates are shown in the window.
+        """
         return self.xa_elem.usesRelativeDates()
 
     @uses_relative_dates.setter
@@ -2542,6 +3551,8 @@ class XAFinderListViewOptions(XABase.XAObject):
 
     @property
     def sort_column(self) -> 'XAFinderColumn':
+        """The column that the list view is sorted on.
+        """
         column_obj = self.xa_elem.sortColumn()
         return self._new_element(column_obj, XAFinderColumn)
 
@@ -2570,45 +3581,143 @@ class XAFinderColumnList(XABase.XAList):
         super().__init__(properties, XAFinderColumn, filter)
 
     def index(self) -> list[int]:
+        """Gets the index of each column in the list.
+
+        :return: A list of column indices
+        :rtype: list[int]
+        
+        .. versionadded:: 0.0.3
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("index"))
 
     def name(self) -> list[str]:
+        """Gets the name of each column in the list.
+
+        :return: A list of column names
+        :rtype: list[str]
+        
+        .. versionadded:: 0.0.3
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
     def sort_direction(self) -> list[XAFinderApplication.SortDirection]:
+        """Gets the sort diration of each column in the list.
+
+        :return: A list of column sort directions
+        :rtype: list[XAFinderApplication.SortDirection]
+        
+        .. versionadded:: 0.0.3
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("sortDirection"))
 
     def width(self) -> list[int]:
+        """Gets the width of each column in the list.
+
+        :return: A list of column widths
+        :rtype: list[int]
+        
+        .. versionadded:: 0.0.3
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("width"))
 
     def minimum_width(self) -> list[int]:
+        """Gets the minimum width of each column in the list.
+
+        :return: A list of column minimum widths
+        :rtype: list[int]
+        
+        .. versionadded:: 0.0.3
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("minimum_width"))
 
     def maximum_width(self) -> list[int]:
+        """Gets the maximum width of each column in the list.
+
+        :return: A list of column maximum widths
+        :rtype: list[int]
+        
+        .. versionadded:: 0.0.3
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("maximum_width"))
 
     def visible(self) -> list[bool]:
+        """Gets the visible status of each column in the list.
+
+        :return: A list of column visible status booleans
+        :rtype: list[bool]
+        
+        .. versionadded:: 0.0.3
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("visible"))
 
-    def by_index(self, index: int) -> 'XAFinderColumn':
+    def by_index(self, index: int) -> Union['XAFinderColumn', None]:
+        """Retrieves the column whose index matches the given index, if one exists.
+
+        :return: The desired column, if it is found
+        :rtype: Union[XAFinderColumn, None]
+        
+        .. versionadded:: 0.0.3
+        """
         return self.by_property("index", index)
 
-    def by_name(self, name: str) -> 'XAFinderColumn':
+    def by_name(self, name: str) -> Union['XAFinderColumn', None]:
+        """Retrieves the column whose name matches the given name, if one exists.
+
+        :return: The desired column, if it is found
+        :rtype: Union[XAFinderColumn, None]
+        
+        .. versionadded:: 0.0.3
+        """
         return self.by_property("name", name)
 
-    def by_sort_direction(self, sort_direction: XAFinderApplication.SortDirection) -> 'XAFinderColumn':
+    def by_sort_direction(self, sort_direction: XAFinderApplication.SortDirection) -> Union['XAFinderColumn', None]:
+        """Retrieves the first column whose sort direction matches the given sort direction, if one exists.
+
+        :return: The desired column, if it is found
+        :rtype: Union[XAFinderColumn, None]
+        
+        .. versionadded:: 0.0.3
+        """
         return self.by_property("sortDirection", sort_direction.value)
 
-    def by_width(self, width: int) -> 'XAFinderColumn':
+    def by_width(self, width: int) -> Union['XAFinderColumn', None]:
+        """Retrieves the first column whose width matches the given width, if one exists.
+
+        :return: The desired column, if it is found
+        :rtype: Union[XAFinderColumn, None]
+        
+        .. versionadded:: 0.0.3
+        """
         return self.by_property("width", width)
 
-    def by_minimum_width(self, minimum_width: int) -> 'XAFinderColumn':
+    def by_minimum_width(self, minimum_width: int) -> Union['XAFinderColumn', None]:
+        """Retrieves the column whose minimum width matches the given width, if one exists.
+
+        :return: The desired column, if it is found
+        :rtype: Union[XAFinderColumn, None]
+        
+        .. versionadded:: 0.0.3
+        """
         return self.by_property("minimumWidth", minimum_width)
 
-    def by_maximum_width(self, maximum_width: int) -> 'XAFinderColumn':
+    def by_maximum_width(self, maximum_width: int) -> Union['XAFinderColumn', None]:
+        """Retrieves the column whose maximum width matches the given width, if one exists.
+
+        :return: The desired column, if it is found
+        :rtype: Union[XAFinderColumn, None]
+        
+        .. versionadded:: 0.0.3
+        """
         return self.by_property("maximumWidth", maximum_width)
 
-    def by_visible(self, visible: bool) -> 'XAFinderColumn':
+    def by_visible(self, visible: bool) -> Union['XAFinderColumn', None]:
+        """Retrieves the column whose visible status matches the given boolean value, if one exists.
+
+        :return: The desired column, if it is found
+        :rtype: Union[XAFinderColumn, None]
+        
+        .. versionadded:: 0.0.3
+        """
         return self.by_property("visible", visible)
 
     def __repr__(self):
@@ -2621,16 +3730,11 @@ class XAFinderColumn(XABase.XAObject):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.index: int #: The index of the column in the front-to-back ordering within the containing window
-        self.name: XAFinderApplication.ColumnName.value #: The column name
-        self.sort_direction: XAFinderApplication.SortDirection.value #: The direction which the window is sorted
-        self.width: int #: The current width of the column in pixels
-        self.minimum_width: int #: The minimum width allowed for the column in pixels
-        self.maximum_width: int #: The maximum width allowed for the column in pixels
-        self.visible: bool #: Whether the column is visible
 
     @property
     def index(self) -> int:
+        """The index of the column in the front-to-back ordering within the containing window.
+        """
         return self.xa_elem.index()
 
     @index.setter
@@ -2639,10 +3743,14 @@ class XAFinderColumn(XABase.XAObject):
 
     @property
     def name(self) -> XAFinderApplication.ColumnName:
+        """The column name.
+        """
         return self.xa_elem.name()
 
     @property
     def sort_direction(self) -> XAFinderApplication.SortDirection:
+        """The direction which the window is sorted.
+        """
         return self.xa_elem.sortDirection()
 
     @sort_direction.setter
@@ -2651,6 +3759,8 @@ class XAFinderColumn(XABase.XAObject):
 
     @property
     def width(self) -> int:
+        """The current width of the column in pixels.
+        """
         return self.xa_elem.width()
 
     @width.setter
@@ -2659,14 +3769,20 @@ class XAFinderColumn(XABase.XAObject):
 
     @property
     def minimum_width(self) -> int:
+        """The minimum width allowed for the column in pixels.
+        """
         return self.xa_elem.minimumWidth()
 
     @property
     def maximum_width(self) -> int:
+        """The maximum width allowed for the column in pixels.
+        """
         return self.xa_elem.maximumWidth()
 
     @property
     def visible(self) -> bool:
+        """Whether the column is visible.
+        """
         return self.xa_elem.visible()
 
     @visible.setter

@@ -3,6 +3,7 @@
 General classes and methods applicable to any PyXA object.
 """
 
+import importlib
 import logging
 import math
 import os
@@ -12,8 +13,6 @@ import sys
 import tempfile
 import threading
 import time
-import importlib
-import xml.etree.ElementTree as ET
 from datetime import datetime, timedelta
 from enum import Enum
 from pprint import pprint
@@ -24,24 +23,21 @@ import appscript
 import AVFoundation
 import CoreLocation
 import CoreMedia
-import Foundation
-import LatentSemanticMapping
+import EventKit
 import NaturalLanguage
 import objc
 import Quartz
 import requests
 import ScriptingBridge
-import Speech
 import Vision
-import EventKit
 from bs4 import BeautifulSoup, element
 from PyObjCTools import AppHelper
-from Quartz import (CFDataRef, CGImageSourceCreateWithData, CGImageSourceRef, CGRectMake)
+from Quartz import (CFDataRef, CGImageSourceCreateWithData, CGImageSourceRef,
+                    CGRectMake)
 from ScriptingBridge import SBApplication
 
-from PyXA.XAErrors import InvalidPredicateError, ApplicationNotFoundError
-
-from .XAProtocols import XACanOpenPath, XAClipboardCodable, XAPathLike
+from PyXA.XAErrors import ApplicationNotFoundError, InvalidPredicateError
+from PyXA.XAProtocols import XACanOpenPath, XAClipboardCodable, XAPathLike
 
 from .apps import application_classes
 
@@ -51,7 +47,6 @@ def OSType(s: str):
 
 def unOSType(i: int):
     return i.to_bytes((i.bit_length() + 7) // 8, 'big').decode()
-
 
 VERSION = "0.1.1" #: The installed version of PyXA
 supported_applications: list[str] = list(application_classes.keys()) #: A list of names of supported scriptable applications
@@ -71,7 +66,6 @@ logging.basicConfig(
 ###############
 ### General ###
 ###############
-# XAObject, XAList, Application, XAApplicationList, XAApplication
 class XAObject():
     """A general class for PyXA scripting objects.
 
@@ -1297,6 +1291,14 @@ class XAApplication(XAObject, XAClipboardCodable):
         """
         return self.xa_elem.processIdentifier()
 
+    @property
+    def icon(self) -> 'XAImage':
+        """The application's icon.
+
+        .. versionadded:: 0.1.1
+        """
+        return XAImage(self.xa_elem.icon())
+
     def launch(self) -> Self:
         """Launches the application.
 
@@ -1502,290 +1504,301 @@ class XAApplication(XAObject, XAClipboardCodable):
 ######################
 ### PyXA Utilities ###
 ######################
-# SDEFParser, XAList, XAPredicate, XAURL, XAPath
-class SDEFParser(XAObject):
-    def __init__(self, sdef_file: Union['XAPath', str]):
-        if isinstance(sdef_file, str):
-            sdef_file = XAPath(sdef_file)
-        self.file = sdef_file #: The full path to the SDEF file to parse
+class AppleScript():
+    """A class for constructing and executing AppleScript scripts.
 
-        self.app_name = ""
-        self.scripting_suites = []
+    .. versionadded:: 0.0.5
+    """
+    def __init__(self, script: Union[str, list[str], None] = None):
+        """Creates a new AppleScript object.
 
-    def parse(self):
-        app_name = self.file.path.split("/")[-1][:-5].title()
-        xa_prefix = "XA" + app_name
+        :param script: A string or list of strings representing lines of AppleScript code, or the path to a script plaintext file, defaults to None
+        :type script: Union[str, list[str], None], optional
 
-        tree = ET.parse(self.file.path)
+        .. versionadded:: 0.0.5
+        """
+        self.script: list[str] #: The lines of AppleScript code contained in the script
+        self.last_result: Any #: The return value of the last execution of the script
+        self.file_path: XAPath #: The file path of this script, if one exists
 
-        suites = []
+        if isinstance(script, str):
+            if script.startswith("/"):
+                with open(script, 'r') as f:
+                    script = f.readlines()
+            else:
+                self.script = [script]
+        elif isinstance(script, list):
+            self.script = script
+        elif script == None:
+            self.script = []
 
-        scripting_suites = tree.findall("suite")
-        for suite in scripting_suites:
-            classes = []
-            commands = {}
+    @property
+    def last_result(self) -> Any:
+        return self.__last_result
 
-            ### Class Extensions
-            class_extensions = suite.findall("class-extension")
-            for extension in class_extensions:
-                properties = []
-                elements = []
-                responds_to_commands = []
+    @property
+    def file_path(self) -> 'XAPath':
+        return self.__file_path
 
-                class_name = xa_prefix + extension.attrib.get("extends", "").title()
-                class_comment = extension.attrib.get("description", "")
+    def add(self, script: Union[str, list[str], 'AppleScript']):
+        """Adds the supplied string, list of strings, or script as a new line entry in the script.
 
-                ## Class Extension Properties
-                class_properties = extension.findall("property")
-                for property in class_properties:
-                    property_type = property.attrib.get("type", "")
-                    if property_type == "text":
-                        property_type = "str"
-                    elif property_type == "boolean":
-                        property_type = "bool"
-                    elif property_type == "number":
-                        property_type = "float"
-                    elif property_type == "integer":
-                        property_type = "int"
-                    elif property_type == "rectangle":
-                        property_type = "tuple[int, int, int, int]"
-                    else:
-                        property_type = "XA" + app_name + property_type.title()
+        :param script: The script to append to the current script string.
+        :type script: Union[str, list[str], AppleScript]
 
-                    property_name = property.attrib.get("name", "").replace(" ", "_").lower()
-                    property_comment = property.attrib.get("description", "")
+        :Example:
 
-                    properties.append({
-                        "type": property_type,
-                        "name": property_name,
-                        "comment": property_comment
-                    })
+        >>> import PyXA
+        >>> script = PyXA.AppleScript("tell application \"Safari\"")
+        >>> script.add("print the document of window 1")
+        >>> script.add("end tell")
+        >>> script.run()
 
-                ## Class Extension Elements
-                class_elements = extension.findall("element")
-                for element in class_elements:
-                    element_name = (element.attrib.get("type", "") + "s").replace(" ", "_").lower()
-                    element_type = "XA" + app_name + element.attrib.get("type", "").title()
+        .. versionadded:: 0.0.5
+        """
+        if isinstance(script, str):
+            self.script.append(script)
+        elif isinstance(script, list):
+            self.script.extend(script)
+        elif isinstance(script, AppleScript):
+            self.script.extend(script.script)
 
-                    elements.append({
-                        "name": element_name,
-                        "type": element_type
-                    })
+    def insert(self, index: int, script: Union[str, list[str], 'AppleScript']):
+        """Inserts the supplied string, list of strings, or script as a line entry in the script starting at the given line index.
 
-                ## Class Extension Responds-To Commands
-                class_responds_to_commands = extension.findall("responds-to")
-                for command in class_responds_to_commands:
-                    command_name = command.attrib.get("command", "").replace(" ", "_").lower()
-                    responds_to_commands.append(command_name)
+        :param index: The line index to begin insertion at
+        :type index: int
+        :param script: The script to insert into the current script
+        :type script: Union[str, list[str], AppleScript]
 
-                classes.append({
-                    "name": class_name,
-                    "comment": class_comment,
-                    "properties": properties,
-                    "elements": elements,
-                    "responds-to": responds_to_commands
-                })
+        :Example:
 
-            ### Classes
-            scripting_classes = suite.findall("class")
-            for scripting_class in scripting_classes:
-                properties = []
-                elements = []
-                responds_to_commands = []
+        >>> import PyXA
+        >>> script = PyXA.AppleScript.load("/Users/exampleUser/Downloads/Test.scpt")
+        >>> script.insert(1, "activate")
+        >>> script.run()
 
-                class_name = xa_prefix + scripting_class.attrib.get("name", "").title()
-                class_comment = scripting_class.attrib.get("description", "")
+        .. versionadded:: 0.0.9
+        """
+        if isinstance(script, str):
+            self.script.insert(index, script)
+        elif isinstance(script, list):
+            for line in script:
+                self.script.insert(index, line)
+                index += 1
+        elif isinstance(script, AppleScript):
+            for line in script.script:
+                self.script.insert(index, line)
+                index += 1
 
-                ## Class Properties
-                class_properties = scripting_class.findall("property")
-                for property in class_properties:
-                    property_type = property.attrib.get("type", "")
-                    if property_type == "text":
-                        property_type = "str"
-                    elif property_type == "boolean":
-                        property_type = "bool"
-                    elif property_type == "number":
-                        property_type = "float"
-                    elif property_type == "integer":
-                        property_type = "int"
-                    elif property_type == "rectangle":
-                        property_type = "tuple[int, int, int, int]"
-                    else:
-                        property_type = "XA" + app_name + property_type.title()
+    def pop(self, index: int = -1) -> str:
+        """Removes the line at the given index from the script.
 
-                    property_name = property.attrib.get("name", "").replace(" ", "_").lower()
-                    property_comment = property.attrib.get("description", "")
+        :param index: The index of the line to remove
+        :type index: int
+        :return: The text of the removed line
+        :rtype: str
 
-                    properties.append({
-                        "type": property_type,
-                        "name": property_name,
-                        "comment": property_comment
-                    })
+        :Example:
 
-                ## Class Elements
-                class_elements = scripting_class.findall("element")
-                for element in class_elements:
-                    element_name = (element.attrib.get("type", "") + "s").replace(" ", "_").lower()
-                    element_type = "XA" + app_name + element.attrib.get("type", "").title()
+        >>> import PyXA
+        >>> script = PyXA.AppleScript.load("/Users/exampleUser/Downloads/Test.scpt")
+        >>> print(script.pop(1))
+            get chats
 
-                    elements.append({
-                        "name": element_name,
-                        "type": element_type
-                    })
+        .. versionadded:: 0.0.9
+        """
+        return self.script.pop(index)
 
-                ## Class Responds-To Commands
-                class_responds_to_commands = scripting_class.findall("responds-to")
-                for command in class_responds_to_commands:
-                    command_name = command.attrib.get("command", "").replace(" ", "_").lower()
-                    responds_to_commands.append(command_name)
+    def load(path: Union['XAPath', str]) -> 'AppleScript':
+        """Loads an AppleScript (.scpt) file as a runnable AppleScript object.
 
-                classes.append({
-                    "name": class_name,
-                    "comment": class_comment,
-                    "properties": properties,
-                    "elements": elements,
-                    "responds-to": responds_to_commands
-                })
+        :param path: The path of the .scpt file to load
+        :type path: Union[XAPath, str]
+        :return: The newly loaded AppleScript object
+        :rtype: AppleScript
 
+        :Example 1: Load and run a script
 
-            ### Commands
-            script_commands = suite.findall("command")
-            for command in script_commands:
-                command_name = command.attrib.get("name", "").lower().replace(" ", "_")
-                command_comment = command.attrib.get("description", "")
+        >>> import PyXA
+        >>> script = PyXA.AppleScript.load("/Users/exampleUser/Downloads/Test.scpt")
+        >>> print(script.run())
+        {
+            'string': None,
+            'int': 0, 
+            'bool': False,
+            'float': 0.0,
+            'date': None,
+            'file_url': None,
+            'type_code': 845507684,
+            'data': {length = 8962, bytes = 0x646c6532 00000000 6c697374 000022f2 ... 6e756c6c 00000000 },
+            'event': <NSAppleEventDescriptor: [ 'obj '{ ... } ]>
+        }
 
-                parameters = []
-                direct_param = command.find("direct-parameter")
-                if direct_param is not None:
-                    direct_parameter_type = direct_param.attrib.get("type", "")
-                    if direct_parameter_type == "specifier":
-                        direct_parameter_type = "XABase.XAObject"
+        :Example 2: Load, modify, and run a script
 
-                    direct_parameter_comment = direct_param.attrib.get("description")
+        >>> import PyXA
+        >>> script = PyXA.AppleScript.load("/Users/exampleUser/Downloads/Test.scpt")
+        >>> script.pop(1)
+        >>> script.insert(1, "activate")
+        >>> script.run()
 
-                    parameters.append({
-                        "name": "direct_param",
-                        "type": direct_parameter_type,
-                        "comment": direct_parameter_comment
-                    })
+        .. versionadded:: 0.0.8
+        """
+        if isinstance(path, str):
+            path = XAPath(path)
+        script = AppKit.NSAppleScript.alloc().initWithContentsOfURL_error_(path.xa_elem, None)[0]
 
-                if not "_" in command_name and len(parameters) > 0:
-                    command_name += "_"
+        attributed_string = script.richTextSource()
+        attributed_string = str(attributed_string).split("}")
+        parts = []
+        for x in attributed_string:
+            parts.extend(x.split("{"))
 
-                command_parameters = command.findall("parameter")
-                for parameter in command_parameters:
-                    parameter_type = parameter.attrib.get("type", "")
-                    if parameter_type == "specifier":
-                        parameter_type = "XAObject"
+        for x in parts:
+            if "=" in x:
+                parts.remove(x)
 
-                    parameter_name = parameter.attrib.get("name", "").lower().replace(" ", "_")
-                    parameter_comment = parameter.attrib.get("description", "")
+        script = AppleScript("".join(parts).split("\n"))
+        script.__file_path = path
+        return script
 
-                    parameters.append({
-                        "name": parameter_name,
-                        "type": parameter_type,
-                        "comment": parameter_comment,
-                    })
+    def save(self, path: Union['XAPath', str, None] = None):
+        """Saves the script to the specified file path, or to the path from which the script was loaded.
 
-                commands[command_name] = {
-                    "name": command_name,
-                    "comment": command_comment,
-                    "parameters": parameters
-                }
+        :param path: The path to save the script at, defaults to None
+        :type path: Union[XAPath, str, None], optional
 
-            suites.append({
-                "classes": classes,
-                "commands": commands
-            })
+        :Example 1: Save the script to a specified path
 
-        self.scripting_suites = suites
-        return suites
+        >>> import PyXA
+        >>> script = PyXA.AppleScript(f\"\"\"
+        >>>     tell application "Safari"
+        >>>         activate
+        >>>     end tell
+        >>> \"\"\")
+        >>> script.save("/Users/exampleUser/Downloads/Example.scpt")
 
-    def export(self, output_file: Union['XAPath', str]):
-        if isinstance(output_file, XAPath):
-            output_file = output_file.path
+        :Example 2: Load a script, modify it, then save it
 
-        lines = []
+        >>> import PyXA
+        >>> script = PyXA.AppleScript.load("/Users/steven/Downloads/Example.scpt")
+        >>> script.insert(2, "delay 2")
+        >>> script.insert(3, "set the miniaturized of window 1 to true")
+        >>> script.save()
 
-        lines.append("from typing import Any, Callable, Union")
-        lines.append("\nfrom PyXA import XABase")
-        lines.append("from PyXA.XABase import OSType")
-        lines.append("from PyXA import XABaseScriptable")
+        .. versionadded:: 0.0.9
+        """
+        if path is None and self.file_path is None:
+            print("No path to save script to!")
+            return
+        
+        if isinstance(path, str):
+            path = XAPath(path)
 
-        for suite in self.scripting_suites:
-            for scripting_class in suite["classes"]:
-                lines.append("\n\n")
-                lines.append("class " + scripting_class["name"].replace(" ", "") + "List:")
-                lines.append("\t\"\"\"A wrapper around lists of " + scripting_class["name"].lower() + "s that employs fast enumeration techniques.")
-                lines.append("\n\tAll properties of tabs can be called as methods on the wrapped list, returning a list containing each tab's value for the property.")
-                lines.append("\n\t.. versionadded:: " + VERSION)
-                lines.append("\t\"\"\"")
+        script = ""
+        for line in self.script:
+            script += line + "\n"
+        script = AppKit.NSAppleScript.alloc().initWithSource_(script)
+        script.compileAndReturnError_(None)
+        source = (script.richTextSource().string())
 
-                lines.append("\tdef __init__(self, properties: dict, filter: Union[dict, None] = None):")
-                lines.append("\t\tsuper().__init__(properties, " + scripting_class["name"].replace(" ", "") + ", filter)")
+        if path is not None:
+            self.__file_path = path
 
-                for property in scripting_class["properties"]:
-                    lines.append("")
-                    lines.append("\tdef " + property["name"] + "(self) -> list['" + property["type"].replace(" ", "") + "']:")
-                    lines.append("\t\t\"\"\"" + property["comment"] + "\n\n\t\t.. versionadded:: " + VERSION + "\n\t\t\"\"\"")
-                    lines.append("\t\treturn list(self.xa_elem.arrayByApplyingSelector_(\"" + property["name"] + "\"))")
+        with open(self.file_path.xa_elem.path(), "w") as f:
+            f.write(source)
 
-                for property in scripting_class["properties"]:
-                    lines.append("")
-                    lines.append("\tdef by_" + property["name"] + "(self, " + property["name"] + ") -> '" + scripting_class["name"].replace(" ", "") + "':")
-                    lines.append("\t\t\"\"\"Retrieves the " + scripting_class["comment"] + "whose " + property["name"] + " matches the given " + property["name"] + ".\n\n\t\t.. versionadded:: " + VERSION + "\n\t\t\"\"\"")
-                    lines.append("\t\treturn self.by_property(\"" + property["name"] + "\", " + property["name"] + ")")
+    def parse_result_data(result: dict) -> list[tuple[str, str]]:
+        """Extracts string data from an AppleScript execution result dictionary.
 
+        :param result: The execution result dictionary to extract data from
+        :type result: dict
+        :return: A list of responses contained in the result structured as tuples
+        :rtype: list[tuple[str, str]]
 
-                lines.append("")
-                lines.append("class " + scripting_class["name"].replace(" ", "") + ":")
-                lines.append("\t\"\"\"" + scripting_class["comment"] + "\n\n\t.. versionadded:: " + VERSION + "\n\t\"\"\"")
+        :Example:
 
-                for property in scripting_class["properties"]:
-                    lines.append("")
-                    lines.append("\t@property")
-                    lines.append("\tdef " + property["name"] + "(self) -> '" + property["type"].replace(" ", "") + "':")
-                    lines.append("\t\t\"\"\"" + property["comment"] + "\n\n\t\t.. versionadded:: " + VERSION + "\n\t\t\"\"\"")
-                    lines.append("\t\treturn self.xa_elem." + property["name"] + "()")
+        >>> import PyXA
+        >>> script = PyXA.AppleScript.load("/Users/exampleUser/Downloads/Test.scpt")
+        >>> print(script.script)
+        >>> result = script.run()
+        >>> print(PyXA.AppleScript.parse_result_data(result))
+        ['tell application "Messages"', '\\tget chats', 'end tell']
+        [('ID', 'iMessage;-;+12345678910'), ('ID', 'iMessage;-;+12345678911'), ('ID', 'iMessage;-;example@icloud.com'), ...]
 
-                for element in scripting_class["elements"]:
-                    lines.append("")
-                    lines.append("\tdef " + element["name"].replace(" ", "") + "(self, filter: Union[dict, None] = None) -> '" + element["type"].replace(" ", "") + "':")
-                    lines.append("\t\t\"\"\"Returns a list of " + element["name"] + ", as PyXA objects, matching the given filter.")
-                    lines.append("\n\t\t.. versionadded:: " + VERSION)
-                    lines.append("\t\t\"\"\"")
-                    lines.append("\t\tself._new_element(self.xa_elem." + element["name"] + "(), " + element["type"].replace(" ", "") + "List, filter)")
+        .. versionadded:: 0.0.9
+        """
+        result = result["event"]
+        response_objects = []
+        num_responses = result.numberOfItems()
+        for response_index in range(1, num_responses + 1):
+            response = result.descriptorAtIndex_(response_index)
 
-                for command in scripting_class["responds-to"]:
-                    if command in suite["commands"]:
-                        lines.append("")
-                        command_str = "\tdef " + suite["commands"][command]["name"] + "(self, "
+            data = ()
+            num_params = response.numberOfItems()
+            if num_params == 0:
+                data = response.stringValue().strip()
 
-                        for parameter in suite["commands"][command]["parameters"]:
-                            command_str += parameter["name"] + ": '" + parameter["type"] + "', "
+            else:
+                for param_index in range(1, num_params + 1):
+                    param = response.descriptorAtIndex_(param_index).stringValue()
+                    if param is not None:
+                        data += (param.strip(), )
+            response_objects.append(data)
 
-                        command_str = command_str[:-2] + "):"
-                        lines.append(command_str)
+        return response_objects
 
-                        lines.append("\t\t\"\"\"" + suite["commands"][command]["comment"])
-                        lines.append("\n\t\t.. versionadded:: " + VERSION)
-                        lines.append("\t\t\"\"\"")
+    def run(self) -> Any:
+        """Compiles and runs the script, returning the result.
 
-                        cmd_call_str = "self.xa_elem." + suite["commands"][command]["name"] + "("
+        :return: The return value of the script.
+        :rtype: Any
 
-                        if len(suite["commands"][command]["parameters"]) > 0:
-                            for parameter in suite["commands"][command]["parameters"]:
-                                cmd_call_str += parameter["name"] + ", "
-                            
-                            cmd_call_str = cmd_call_str[:-2] + ")"
-                        else:
-                            cmd_call_str += ")"
+        :Example:
 
-                        lines.append("\t\t" + cmd_call_str)
+        >>> import PyXA
+        >>> script = PyXA.AppleScript(f\"\"\"tell application "System Events"
+        >>>     return 1 + 2
+        >>> end tell
+        >>> \"\"\")
+        >>> print(script.run())
+        {
+            'string': '3',
+            'int': 3,
+            'bool': False,
+            'float': 3.0,
+            'date': None,
+            'file_url': None,
+            'type_code': 3,
+            'data': {length = 4, bytes = 0x03000000},
+            'event': <NSAppleEventDescriptor: 3>
+        }
+        
+        .. versionadded:: 0.0.5
+        """
+        script = ""
+        for line in self.script:
+            script += line + "\n"
+        script = AppKit.NSAppleScript.alloc().initWithSource_(script)
+        
+        result = script.executeAndReturnError_(None)[0]
+        if result is not None:
+            self.__last_result = {
+                "string": result.stringValue(),
+                "int": result.int32Value(),
+                "bool": result.booleanValue(),
+                "float": result.doubleValue(),
+                "date": result.dateValue(),
+                "file_url": result.fileURLValue(),
+                "type_code": result.typeCodeValue(),
+                "data": result.data(),
+                "event": result,
+            }
+            return self.last_result
 
-        data = "\n".join(lines)
-        with open(output_file, "w") as f:
-            f.write(data)
+    def __repr__(self):
+        return "<" + str(type(self)) + str(self.script) + ">"
 
 
 
@@ -2553,314 +2566,9 @@ class XAPath(XAObject, XAClipboardCodable):
 
 
 
-
-########################
-### Interoperability ###
-########################
-# AppleScript
-class AppleScript(XAObject):
-    """A class for constructing and executing AppleScript scripts.
-
-    .. versionadded:: 0.0.5
-    """
-    def __init__(self, script: Union[str, list[str], None] = None):
-        """Creates a new AppleScript object.
-
-        :param script: A string or list of strings representing lines of AppleScript code, or the path to a script plaintext file, defaults to None
-        :type script: Union[str, list[str], None], optional
-
-        .. versionadded:: 0.0.5
-        """
-        self.script: list[str] #: The lines of AppleScript code contained in the script
-        self.last_result: Any #: The return value of the last execution of the script
-        self.file_path: XAPath #: The file path of this script, if one exists
-
-        if isinstance(script, str):
-            if script.startswith("/"):
-                with open(script, 'r') as f:
-                    script = f.readlines()
-            else:
-                self.script = [script]
-        elif isinstance(script, list):
-            self.script = script
-        elif script == None:
-            self.script = []
-
-    @property
-    def last_result(self) -> Any:
-        return self.__last_result
-
-    @property
-    def file_path(self) -> 'XAPath':
-        return self.__file_path
-
-    def add(self, script: Union[str, list[str], 'AppleScript']):
-        """Adds the supplied string, list of strings, or script as a new line entry in the script.
-
-        :param script: The script to append to the current script string.
-        :type script: Union[str, list[str], AppleScript]
-
-        :Example:
-
-        >>> import PyXA
-        >>> script = PyXA.AppleScript("tell application \"Safari\"")
-        >>> script.add("print the document of window 1")
-        >>> script.add("end tell")
-        >>> script.run()
-
-        .. versionadded:: 0.0.5
-        """
-        if isinstance(script, str):
-            self.script.append(script)
-        elif isinstance(script, list):
-            self.script.extend(script)
-        elif isinstance(script, AppleScript):
-            self.script.extend(script.script)
-
-    def insert(self, index: int, script: Union[str, list[str], 'AppleScript']):
-        """Inserts the supplied string, list of strings, or script as a line entry in the script starting at the given line index.
-
-        :param index: The line index to begin insertion at
-        :type index: int
-        :param script: The script to insert into the current script
-        :type script: Union[str, list[str], AppleScript]
-
-        :Example:
-
-        >>> import PyXA
-        >>> script = PyXA.AppleScript.load("/Users/exampleUser/Downloads/Test.scpt")
-        >>> script.insert(1, "activate")
-        >>> script.run()
-
-        .. versionadded:: 0.0.9
-        """
-        if isinstance(script, str):
-            self.script.insert(index, script)
-        elif isinstance(script, list):
-            for line in script:
-                self.script.insert(index, line)
-                index += 1
-        elif isinstance(script, AppleScript):
-            for line in script.script:
-                self.script.insert(index, line)
-                index += 1
-
-    def pop(self, index: int = -1) -> str:
-        """Removes the line at the given index from the script.
-
-        :param index: The index of the line to remove
-        :type index: int
-        :return: The text of the removed line
-        :rtype: str
-
-        :Example:
-
-        >>> import PyXA
-        >>> script = PyXA.AppleScript.load("/Users/exampleUser/Downloads/Test.scpt")
-        >>> print(script.pop(1))
-            get chats
-
-        .. versionadded:: 0.0.9
-        """
-        return self.script.pop(index)
-
-    def load(path: Union['XAPath', str]) -> 'AppleScript':
-        """Loads an AppleScript (.scpt) file as a runnable AppleScript object.
-
-        :param path: The path of the .scpt file to load
-        :type path: Union[XAPath, str]
-        :return: The newly loaded AppleScript object
-        :rtype: AppleScript
-
-        :Example 1: Load and run a script
-
-        >>> import PyXA
-        >>> script = PyXA.AppleScript.load("/Users/exampleUser/Downloads/Test.scpt")
-        >>> print(script.run())
-        {
-            'string': None,
-            'int': 0, 
-            'bool': False,
-            'float': 0.0,
-            'date': None,
-            'file_url': None,
-            'type_code': 845507684,
-            'data': {length = 8962, bytes = 0x646c6532 00000000 6c697374 000022f2 ... 6e756c6c 00000000 },
-            'event': <NSAppleEventDescriptor: [ 'obj '{ ... } ]>
-        }
-
-        :Example 2: Load, modify, and run a script
-
-        >>> import PyXA
-        >>> script = PyXA.AppleScript.load("/Users/exampleUser/Downloads/Test.scpt")
-        >>> script.pop(1)
-        >>> script.insert(1, "activate")
-        >>> script.run()
-
-        .. versionadded:: 0.0.8
-        """
-        if isinstance(path, str):
-            path = XAPath(path)
-        script = AppKit.NSAppleScript.alloc().initWithContentsOfURL_error_(path.xa_elem, None)[0]
-
-        attributed_string = script.richTextSource()
-        attributed_string = str(attributed_string).split("}")
-        parts = []
-        for x in attributed_string:
-            parts.extend(x.split("{"))
-
-        for x in parts:
-            if "=" in x:
-                parts.remove(x)
-
-        script = AppleScript("".join(parts).split("\n"))
-        script.__file_path = path
-        return script
-
-    def save(self, path: Union['XAPath', str, None] = None):
-        """Saves the script to the specified file path, or to the path from which the script was loaded.
-
-        :param path: The path to save the script at, defaults to None
-        :type path: Union[XAPath, str, None], optional
-
-        :Example 1: Save the script to a specified path
-
-        >>> import PyXA
-        >>> script = PyXA.AppleScript(f\"\"\"
-        >>>     tell application "Safari"
-        >>>         activate
-        >>>     end tell
-        >>> \"\"\")
-        >>> script.save("/Users/exampleUser/Downloads/Example.scpt")
-
-        :Example 2: Load a script, modify it, then save it
-
-        >>> import PyXA
-        >>> script = PyXA.AppleScript.load("/Users/steven/Downloads/Example.scpt")
-        >>> script.insert(2, "delay 2")
-        >>> script.insert(3, "set the miniaturized of window 1 to true")
-        >>> script.save()
-
-        .. versionadded:: 0.0.9
-        """
-        if path is None and self.file_path is None:
-            print("No path to save script to!")
-            return
-        
-        if isinstance(path, str):
-            path = XAPath(path)
-
-        script = ""
-        for line in self.script:
-            script += line + "\n"
-        script = AppKit.NSAppleScript.alloc().initWithSource_(script)
-        script.compileAndReturnError_(None)
-        source = (script.richTextSource().string())
-
-        if path is not None:
-            self.__file_path = path
-
-        with open(self.file_path.xa_elem.path(), "w") as f:
-            f.write(source)
-
-    def parse_result_data(result: dict) -> list[tuple[str, str]]:
-        """Extracts string data from an AppleScript execution result dictionary.
-
-        :param result: The execution result dictionary to extract data from
-        :type result: dict
-        :return: A list of responses contained in the result structured as tuples
-        :rtype: list[tuple[str, str]]
-
-        :Example:
-
-        >>> import PyXA
-        >>> script = PyXA.AppleScript.load("/Users/exampleUser/Downloads/Test.scpt")
-        >>> print(script.script)
-        >>> result = script.run()
-        >>> print(PyXA.AppleScript.parse_result_data(result))
-        ['tell application "Messages"', '\\tget chats', 'end tell']
-        [('ID', 'iMessage;-;+12345678910'), ('ID', 'iMessage;-;+12345678911'), ('ID', 'iMessage;-;example@icloud.com'), ...]
-
-        .. versionadded:: 0.0.9
-        """
-        result = result["event"]
-        response_objects = []
-        num_responses = result.numberOfItems()
-        for response_index in range(1, num_responses + 1):
-            response = result.descriptorAtIndex_(response_index)
-
-            data = ()
-            num_params = response.numberOfItems()
-            if num_params == 0:
-                data = response.stringValue().strip()
-
-            else:
-                for param_index in range(1, num_params + 1):
-                    param = response.descriptorAtIndex_(param_index).stringValue()
-                    if param is not None:
-                        data += (param.strip(), )
-            response_objects.append(data)
-
-        return response_objects
-
-    def run(self) -> Any:
-        """Compiles and runs the script, returning the result.
-
-        :return: The return value of the script.
-        :rtype: Any
-
-        :Example:
-
-        >>> import PyXA
-        >>> script = PyXA.AppleScript(f\"\"\"tell application "System Events"
-        >>>     return 1 + 2
-        >>> end tell
-        >>> \"\"\")
-        >>> print(script.run())
-        {
-            'string': '3',
-            'int': 3,
-            'bool': False,
-            'float': 3.0,
-            'date': None,
-            'file_url': None,
-            'type_code': 3,
-            'data': {length = 4, bytes = 0x03000000},
-            'event': <NSAppleEventDescriptor: 3>
-        }
-        
-        .. versionadded:: 0.0.5
-        """
-        script = ""
-        for line in self.script:
-            script += line + "\n"
-        script = AppKit.NSAppleScript.alloc().initWithSource_(script)
-        
-        result = script.executeAndReturnError_(None)[0]
-        if result is not None:
-            self.__last_result = {
-                "string": result.stringValue(),
-                "int": result.int32Value(),
-                "bool": result.booleanValue(),
-                "float": result.doubleValue(),
-                "date": result.dateValue(),
-                "file_url": result.fileURLValue(),
-                "type_code": result.typeCodeValue(),
-                "data": result.data(),
-                "event": result,
-            }
-            return self.last_result
-
-    def __repr__(self):
-        return "<" + str(type(self)) + str(self.script) + ">"
-
-
-
-
 ########################
 ### System Utilities ###
 ########################
-# XAClipboard, XANotification, XAProcess, XACommandDetector, XASpeechRecognizer, XASpeech, XASpotlight
 class XAClipboard(XAObject):
     """A wrapper class for managing and interacting with the system clipboard.
 
@@ -3053,256 +2761,6 @@ class XAProcess(XAObject):
 
     def menu_bars(self, filter: dict = None) -> 'XAUIMenuBarList':
         return self._new_element(self.xa_elem.menuBars(), XAUIMenuBarList, filter)
-
-
-
-
-class XACommandDetector(XAObject):
-    """A command-based query detector.
-
-    .. versionadded:: 0.0.9
-    """
-    def __init__(self, command_function_map: Union[dict[str, Callable[[], Any]], None] = None):
-        """Creates a command detector object.
-
-        :param command_function_map: A dictionary mapping command strings to function objects
-        :type command_function_map: dict[str, Callable[[], Any]]
-
-        .. versionadded:: 0.0.9
-        """
-        self.command_function_map = command_function_map or {} #: The dictionary of commands and corresponding functions to run upon detection
-
-    def on_detect(self, command: str, function: Callable[[], Any]):
-        """Adds or replaces a command to listen for upon calling :func:`listen`, and associates the given function with that command.
-
-        :param command: The command to listen for
-        :type command: str
-        :param function: The function to call when the command is heard
-        :type function: Callable[[], Any]
-
-        :Example:
-
-        >>> detector = PyXA.XACommandDetector()
-        >>> detector.on_detect("go to google", PyXA.XAURL("http://google.com").open)
-        >>> detector.listen()
-
-        .. versionadded:: 0.0.9
-        """
-        self.command_function_map[command] = function
-
-    def listen(self) -> Any:
-        """Begins listening for the specified commands.
-
-        :return: The execution return value of the corresponding command function
-        :rtype: Any
-
-        :Example:
-
-        >>> import PyXA
-        >>> PyXA.speak("What app do you want to open?")
-        >>> PyXA.XACommandDetector({
-        >>>     "safari": PyXA.Application("Safari").activate,
-        >>>     "messages": PyXA.Application("Messages").activate,
-        >>>     "shortcuts": PyXA.Application("Shortcuts").activate,
-        >>>     "mail": PyXA.Application("Mail").activate,
-        >>>     "calendar": PyXA.Application("Calendar").activate,
-        >>>     "notes": PyXA.Application("Notes").activate,
-        >>>     "music": PyXA.Application("Music").activate,
-        >>>     "tv": PyXA.Application("TV").activate,
-        >>>     "pages": PyXA.Application("Pages").activate,
-        >>>     "numbers": PyXA.Application("Numbers").activate,
-        >>>     "keynote": PyXA.Application("Keynote").activate,
-        >>> }).listen()
-
-        .. versionadded:: 0.0.9
-        """
-        command_function_map = self.command_function_map
-        return_value = None
-        class NSSpeechRecognizerDelegate(AppKit.NSObject):
-            def speechRecognizer_didRecognizeCommand_(self, recognizer, cmd):
-                return_value = command_function_map[cmd]()
-                AppHelper.stopEventLoop()
-
-        recognizer = AppKit.NSSpeechRecognizer.alloc().init()
-        recognizer.setCommands_(list(command_function_map.keys()))
-        recognizer.setBlocksOtherRecognizers_(True)
-        recognizer.setDelegate_(NSSpeechRecognizerDelegate.alloc().init().retain())
-        recognizer.startListening()
-        AppHelper.runConsoleEventLoop()
-
-        return return_value
-
-
-
-
-class XASpeechRecognizer(XAObject):
-    """A rule-based query detector.
-
-    .. versionadded:: 0.0.9
-    """
-    def __init__(self, finish_conditions: Union[None, dict[Callable[[str], bool], Callable[[str], bool]]] = None):
-        """Creates a speech recognizer object.
-
-        By default, with no other rules specified, the Speech Recognizer will timeout after 10 seconds once :func:`listen` is called.
-
-        :param finish_conditions: A dictionary of rules and associated methods to call when a rule evaluates to true, defaults to None
-        :type finish_conditions: Union[None, dict[Callable[[str], bool], Callable[[str], bool]]], optional
-
-        .. versionadded:: 0.0.9
-        """
-        default_conditions = {
-            lambda x: self.time_elapsed > timedelta(seconds = 10): lambda x: self.spoken_query,
-        }
-        self.finish_conditions: Callable[[str], bool] = finish_conditions or default_conditions #: A dictionary of rules and associated methods to call when a rule evaluates to true
-        self.spoken_query: str = "" #: The recognized spoken input
-        self.start_time: datetime #: The time that the Speech Recognizer begins listening
-        self.time_elapsed: timedelta #: The amount of time passed since the start time
-
-    def __prepare(self):
-        # Request microphone access if we don't already have it
-        Speech.SFSpeechRecognizer.requestAuthorization_(None)
-
-        # Set up audio session
-        self.audio_session = AVFoundation.AVAudioSession.sharedInstance()
-        self.audio_session.setCategory_mode_options_error_(AVFoundation.AVAudioSessionCategoryRecord, AVFoundation.AVAudioSessionModeMeasurement, AVFoundation.AVAudioSessionCategoryOptionDuckOthers, None)
-        self.audio_session.setActive_withOptions_error_(True, AVFoundation.AVAudioSessionSetActiveOptionNotifyOthersOnDeactivation, None)
-
-        # Set up recognition request
-        self.recognizer = Speech.SFSpeechRecognizer.alloc().init()
-        self.recognition_request = Speech.SFSpeechAudioBufferRecognitionRequest.alloc().init()
-        self.recognition_request.setShouldReportPartialResults_(True)
-
-        # Set up audio engine
-        self.audio_engine = AVFoundation.AVAudioEngine.alloc().init()
-        self.input_node = self.audio_engine.inputNode()
-        recording_format = self.input_node.outputFormatForBus_(0)
-        self.input_node.installTapOnBus_bufferSize_format_block_(0, 1024, recording_format,
-            lambda buffer, _when: self.recognition_request.appendAudioPCMBuffer_(buffer))
-        self.audio_engine.prepare()
-        self.audio_engine.startAndReturnError_(None)
-
-    def on_detect(self, rule: Callable[[str], bool], method: Callable[[str], bool]):
-        """Sets the given rule to call the specified method if a spoken query passes the rule.
-
-        :param rule: A function that takes the spoken query as a parameter and returns a boolean value depending on whether the query passes a desired rule
-        :type rule: Callable[[str], bool]
-        :param method: A function that takes the spoken query as a parameter and acts on it
-        :type method: Callable[[str], bool]
-
-        .. versionadded:: 0.0.9
-        """
-        self.finish_conditions[rule] = method
-
-    def listen(self) -> Any:
-        """Begins listening for a query until a rule returns True.
-
-        :return: The value returned by the method invoked upon matching some rule
-        :rtype: Any
-
-        .. versionadded:: 0.0.9
-        """
-        self.start_time = datetime.now()
-        self.time_elapsed = None
-        self.__prepare()
-
-        old_self = self
-        def detect_speech(transcription, error):
-            if error is not None:
-                print("Failed to detect speech. Error: ", error)
-            else:
-                old_self.spoken_query = transcription.bestTranscription().formattedString()
-                print(old_self.spoken_query)
-
-        recognition_task = self.recognizer.recognitionTaskWithRequest_resultHandler_(self.recognition_request, detect_speech)
-        while self.spoken_query == "" or not any(x(self.spoken_query) for x in self.finish_conditions):
-            self.time_elapsed = datetime.now() - self.start_time
-            AppKit.NSRunLoop.currentRunLoop().runUntilDate_(datetime.now() + timedelta(seconds = 0.5))
-
-        self.audio_engine.stop()
-        for rule, method in self.finish_conditions.items():
-            if rule(self.spoken_query):
-                return method(self.spoken_query)
-
-
-
-
-class XASpeech(XAObject):
-    def __init__(self, message: str = "", voice: Union[str, None] = None, volume: float = 0.5, rate: int = 200):
-        self.message: str = message #: The message to speak
-        self.voice: Union[str, None] = voice #: The voice that the message is spoken in
-        self.volume: float = volume #: The speaking volume
-        self.rate: int = rate #: The speaking rate
-
-    def voices(self) -> list[str]:
-        """Gets the list of voice names available on the system.
-
-        :return: The list of voice names
-        :rtype: list[str]
-
-        :Example:
-
-        >>> import PyXA
-        >>> speaker = PyXA.XASpeech()
-        >>> print(speaker.voices())
-        ['Agnes', 'Alex', 'Alice', 'Allison',
-
-        .. versionadded:: 0.0.9
-        """
-        ls = AppKit.NSSpeechSynthesizer.availableVoices()
-        return [x.replace("com.apple.speech.synthesis.voice.", "").replace(".premium", "").title() for x in ls]
-    
-    def speak(self, path: Union[str, XAPath, None] = None):
-        """Speaks the provided message using the desired voice, volume, and speaking rate. 
-
-        :param path: The path to a .AIFF file to output sound to, defaults to None
-        :type path: Union[str, XAPath, None], optional
-
-        :Example 1: Speak a message aloud
-
-        >>> import PyXA
-        >>> PyXA.XASpeech("This is a test").speak()
-
-        :Example 2: Output spoken message to an AIFF file
-
-        >>> import PyXA
-        >>> speaker = PyXA.XASpeech("Hello, world!")
-        >>> speaker.speak("/Users/steven/Downloads/Hello.AIFF")
-
-        :Example 3: Control the voice, volume, and speaking rate
-
-        >>> import PyXA
-        >>> speaker = PyXA.XASpeech(
-        >>>     message = "Hello, world!",
-        >>>     voice = "Alex",
-        >>>     volume = 1,
-        >>>     rate = 500
-        >>> )
-        >>> speaker.speak()
-
-        .. versionadded:: 0.0.9
-        """
-        # Get the selected voice by name
-        voice = None
-        for v in AppKit.NSSpeechSynthesizer.availableVoices():
-            if self.voice.lower() in v.lower():
-                voice = v
-
-        # Set up speech synthesis object
-        synthesizer = AppKit.NSSpeechSynthesizer.alloc().initWithVoice_(voice)
-        synthesizer.setVolume_(self.volume)
-        synthesizer.setRate_(self.rate)
-
-        # Start speaking
-        if path is None:
-            synthesizer.startSpeakingString_(self.message)
-        else:
-            if isinstance(path, str):
-                path = XAPath(path)
-            synthesizer.startSpeakingString_toURL_(self.message, path.xa_elem)
-
-        # Wait for speech to complete
-        while synthesizer.isSpeaking():
-            time.sleep(0.01)
 
 
 
@@ -3692,7 +3150,7 @@ class XAWindowList(XAUIElementList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, filter, XAWindow)
 
-    def collapse(self):
+    def collapse(self) -> Self:
         """Collapses all windows in the list.
 
         :Example:
@@ -3703,10 +3161,23 @@ class XAWindowList(XAUIElementList):
 
         .. versionadded:: 0.0.5
         """
-        for window in self:
-            window.collapse()
+        for window in self.xa_elem:
+            if hasattr(window, "collapsed"):
+                window.setValue_forKey_(True, "collapsed")
 
-    def uncollapse(self):
+            elif hasattr(window, "minimized"):
+                window.setValue_forKey_(True, "minimized")
+
+            elif hasattr(window, "miniaturized"):
+                window.setValue_forKey_(True, "miniaturized")
+
+            if not window.miniaturized():
+                window = self._new_element(window, XAWindow)
+                window.collapse()
+
+        return self
+
+    def uncollapse(self) -> Self:
         """Uncollapses all windows in the list.
 
         :Example:
@@ -3717,8 +3188,20 @@ class XAWindowList(XAUIElementList):
 
         .. versionadded:: 0.0.6
         """
-        for window in self:
-            window.uncollapse()
+        for window in self.xa_elem:
+            if hasattr(window, "collapsed"):
+                window.setValue_forKey_(False, "collapsed")
+
+            elif hasattr(window, "minimized"):
+                window.setValue_forKey_(False, "minimized")
+
+            elif hasattr(window, "miniaturized"):
+                window.setValue_forKey_(False, "miniaturized")
+
+            if window.miniaturized():
+                window = self._new_element(window, XAWindow)
+                window.uncollapse()
+        return self
 
     def close(self):
         """Closes all windows in the list.add()
@@ -3778,6 +3261,7 @@ class XAWindow(XAUIElement):
         if hasattr(self.xa_elem.properties(), "miniaturized"):
             self.xa_elem.setValue_forKey_(True, "miniaturized")
         else:
+            print(self.xa_elem.get())
             close_button = self.buttons({"subrole": "AXMinimizeButton"})[0]
             close_button.click()
         return self
@@ -3806,7 +3290,7 @@ class XAWindow(XAUIElement):
         return self
 
     def __repr__(self):
-        return "<" + str(type(self)) + str(self.title) + ">"
+        return "<" + str(type(self)) + str(self.name) + ">"
 
 
 
@@ -5074,318 +4558,6 @@ class XAAttachment(XAObject):
 
 
 
-class XALSM(XAObject):
-    def __init__(self, dataset: Union[dict[str, list[str]], None] = None, from_file: bool = False):
-        """Initializes a Latent Semantic Mapping environment.
-
-        :param dataset: The initial dataset, specified as a dictionary where keys are categories and values are list of corresponding texts, defaults to None. Cannot be None if from_file is False.
-        :type dataset: Union[dict[str, list[str]], None], optional
-        :param from_file: Whether the LSM is being loaded from a file, defaults to False. Cannot be False is dataset is None.
-        :type from_file: bool, optional
-        :raises ValueError: Either you must provide a dataset, or you must load an existing map from an external file
-
-        :Example 1: Classify emails based on subject line
-
-        >>> import PyXA
-        >>> lsm = PyXA.XALSM({
-        >>>     # 1
-        >>>     "spam": ["Deals", "Holiday playbook", "Spend and save. You know the drill.", "Don't miss these holiday deals!", "GOOD NEWS", "you will never have an opportunity of this kind again", "Your Long Overdue Compensation Funds; Totally", "US $25,000,000.00", "goog day", "GOOD DAY, I am Mike Paul I have a", "enron methanol; meter # : 988291 this is a follow up to the note i gave you on monday , 4...", "hpl nom for january 9, see attached file : hplnol 09. xls", "neon retreat ho ho ho, we're around to that most wonderful time of the year", "photoshop, windows, office cheap, main trending abasements, darer prudently fortuitous", "re: indian springs this deal is to book the teco pvr revenue. it is my understanding that...", "noms / actual flow for 2 / we agree", "nominations for oct 21 - 23"],
-        >>> 
-        >>>     # 2
-        >>>     "kayak": ["Price Alert: Airfare holding steady for your trip", "Prices going down for your Boston to Dublin flight", "Price Increase: Boston to Dublin airfare up $184", "Flight Alert: #37 decrease on your flight to Dublin.", "Flight Alert: It's time to book your flight to Dublin", "Price Alert: Airfare holding steady for your Bangor, ME to...", "Ready to explore the world again?"],
-        >>> 
-        >>>     # 3
-        >>>     "lenovo": ["Doorbuster deals up to 70% off", "Visionary, On-Demand Content. Lenovo Tech World '22 is starting", "Up to 70% off deals 9 AM", "TGIF! Here's up to 70% off to jumpstart your weekend", "Top picks to refresh your workspace", "This only happens twice a year", "Think about saving on a Think PC", "Deep deals on Summer Clearance", "Save up to 67% + earn rewards", "Unlock up to 61% off Think PCs", "Giveaway alert!", "Annual Sale Sneak Peak Unlocked!"],
-        >>> 
-        >>>     # 4
-        >>>     "linkedin": ["Here is the latest post trending amongst your coworkers", "Stephen, add Sean Brown to your network", "Share thoughts on LinkedIn", "Top companies are hiring", "Linkedin is better on the app", "Here is the latest post trending amongst your coworkers", "Stephen, add Ronald McDonald to your network", "James Smith shared a post for the first time in a while", "Here is the latest post trending amongst your coworkers", "You appeared in 13 searches this week", "you're on a roll with your career!", "You appeared in 16 searches this week", "18 people notices you", "You appeared in 10 searches this week", "Stephen, add Joe Shmoe to your network", "Your network is talking: The Center for Oceanic Research...", "thanks for being a valued member"]
-        >>> })
-        >>> print(lsm.categorize_query("New! Weekend-only deals"))
-        >>> print(lsm.categorize_query("Stephen, redeem these three (3) unlocked courses"))
-        >>> print(lsm.categorize_query("Round Trip From San Francisco to Atlanta"))
-        [(3, 0.9418474435806274)]
-        [(4, 0.9366401433944702)]
-        [(2, 0.9944692850112915)]
-
-        :Example 2: Use the Mail module to automate dataset construction
-
-        >>> import PyXA
-        >>> app = PyXA.Application("Mail")
-        >>> junk_subject_lines = app.accounts()[0].mailboxes().by_name("Junk").messages().subject()
-        >>> other_subject_lines = app.accounts()[0].mailboxes().by_name("INBOX").messages().subject()
-        >>> 
-        >>> dataset = {
-        >>>     "junk": junk_subject_lines,
-        >>>     "other": other_subject_lines
-        >>> }
-        >>> lsm = PyXA.XALSM(dataset)
-        >>> 
-        >>> query = "Amazon Web Services Billing Statement Available"
-        >>> category = list(dataset.keys())[lsm.categorize_query(query)[0][0] - 1]
-        >>> print(query, "- category:", category)
-        >>> 
-        >>> query = "Complete registration form asap receive your rewards"
-        >>> category = list(dataset.keys())[lsm.categorize_query(query)[0][0] - 1]
-        >>> print(query, "- category:", category)
-        Amazon Web Services Billing Statement Available - category: other
-        Complete registration form asap receive your rewards - category: junk
-
-        .. versionadded:: 0.1.0
-        """
-        self.__categories = {}
-        if dataset is None and not from_file:
-            raise ValueError("You must either load a map from an external file or provide an initial dataset.")
-        elif dataset is None:
-            # Map will be loaded from external file -- empty dataset is temporary
-            self.__dataset = {}
-        else:
-            # Create new map
-            self.__dataset = dataset
-
-            self.map = LatentSemanticMapping.LSMMapCreate(None, 0)
-            LatentSemanticMapping.LSMMapStartTraining(self.map)
-            LatentSemanticMapping.LSMMapSetProperties(self.map, {
-                LatentSemanticMapping.kLSMSweepCutoffKey: 0,
-                # LatentSemanticMapping.kLSMPrecisionKey: LatentSemanticMapping.kLSMPrecisionDouble,
-                LatentSemanticMapping.kLSMAlgorithmKey: LatentSemanticMapping.kLSMAlgorithmSparse,
-            })
-
-            for category in dataset:
-                self.__add_category(category)
-
-            LatentSemanticMapping.LSMMapCompile(self.map)
-
-    def __add_category(self, category: str) -> int:
-        loc = Foundation.CFLocaleGetSystem()
-        category_ref = LatentSemanticMapping.LSMMapAddCategory(self.map)
-        self.__categories[category] = category_ref
-        self.__categories[category_ref] = category_ref
-        text_ref = LatentSemanticMapping.LSMTextCreate(None, self.map)
-        LatentSemanticMapping.LSMTextAddWords(text_ref, " ".join(self.__dataset[category]), loc, LatentSemanticMapping.kLSMTextPreserveAcronyms)
-        LatentSemanticMapping.LSMMapAddText(self.map, text_ref, category_ref)
-        return category_ref
-
-    def save(self, file_path: Union[XAPath, str]) -> bool:
-        """Saves the map to an external file.
-
-        :param file_path: The path to save the map at
-        :type file_path: Union[XAPath, str]
-        :return: True if the map was saved successfully
-        :rtype: bool
-
-        :Example: Create a Reddit post classifier for gaming vs. productivity posts
-
-        >>> import PyXA
-        >>> lsm = PyXA.XALSM({
-        >>>     # 1
-        >>>     "gaming": ["If you could vote on the 2017 Mob Vote again, which mob would you choose this time and why?", "Take your time, you got this", "My parents (late 70s) got me a ps5 controller for Christmas. I do not own a playstation 5...", "I got off the horse by accident right before a cutscene in red dead", "boy gamer", "Minesweeper 99 x 99, 1500 mines. Took me about 2.5 hours to finish, nerve-wracking. No one might care, but just wanted to share this.", "The perfect cosplay doesn’t ex...", "'Play until we lose'", "Can we please boycott Star Wars battlefront 2", "EA removed the refund button on their webpage, and now you have to call them and wait to get a refund.", "Train Simulator is so immersive!", "Been gaming with this dude for 15 years. Since Rainbow Six Vegas on 360. I have some good gaming memories with him. He tried but couldn’t get one. Little did he know I was able to get him one. Looking forward to playing another generation with him.", "EA will no longer have exclusive rights of the Star Wars games", "A ziplining contraption I created with 1000+ command blocks", "The steepest walkable staircase possible in 1.16", "I made a texture pack that gives mobs different facial expressions. Should I keep going?"],
-        >>> 
-        >>>     # 2
-        >>>     "productivity": ["Looking for an alarm app that plays a really small alarm, doesn’t need to be switched off and doesn’t repeat.", "I want to build a second brain but I'm lost and don't know where to start.", "noise cancelling earplugs", "I have so much to do but I don't know where to start", "How to handle stressful work calls", "time tracking app/platform", "We just need to find ways to cope and keep moving forward.", "Ikigai - A Reason for Being", "Minimalist Productivity Tip: create two users on your computer ➞ One for normal use and leisure ➞ One for business/work only. I have nothing except the essentials logged in on my work user. Not even Messages or YouTube. It completely revolutionized my productivity 💸", "Trick yourself into productivity the same way you trick yourself into procrastination", "I spent 40 hours sifting through research papers to fix my mental clarity, focus, and productivity - I ended up going down a rabbit hole and figuring out it was all tied to sleep, even though I felt I sleep well - here's what I found.", "The Cycle of Procrastination. Always a good reminder", "'Most people underestimate what they can do in a year, and overestimate what they can do in a day' - When you work on getting 1% better each day you won't even recognize yourself in a year."],
-        >>> })
-        >>> lsm.save("/Users/steven/Downloads/gaming-productivity.map")
-
-        .. versionadded:: 0.1.0
-        """
-        if isinstance(file_path, str):
-            file_path = XAPath(file_path)
-
-        status = LatentSemanticMapping.LSMMapWriteToURL(self.map, file_path.xa_elem, 0)
-        if status == 0:
-            return True
-        return False
-
-    def load(file_path: Union[XAPath, str]) -> 'XALSM':
-        """Loads a map from an external file.
-
-        :param file_path: The file path for load the map from
-        :type file_path: Union[XAPath, str]
-        :return: The populated LSM object
-        :rtype: XALSM
-
-        :Example: Using the gaming vs. productivity Reddit post map
-
-        >>> import PyXA
-        >>> lsm = PyXA.XALSM.load("/Users/steven/Downloads/gaming-productivity.map")
-        >>> print(lsm.categorize_query("Hidden survival base on our server"))
-        >>> print(lsm.categorize_query("Your memory is FAR more powerful than you think… school just never taught us to use it properly."))
-        [(1, 0.7313863635063171)]
-        [(2, 0.9422407150268555)]
-
-        .. versionadded:: 0.1.0
-        """
-        if isinstance(file_path, str):
-            file_path = XAPath(file_path)
-
-        new_lsm = XALSM(from_file=True)
-        new_lsm.map = LatentSemanticMapping.LSMMapCreateFromURL(None, file_path.xa_elem, LatentSemanticMapping.kLSMMapLoadMutable)
-        new_lsm.__dataset = {i: [] for i in range(LatentSemanticMapping.LSMMapGetCategoryCount(new_lsm.map))}
-        new_lsm.__categories = {i: i for i in range(LatentSemanticMapping.LSMMapGetCategoryCount(new_lsm.map))}
-        LatentSemanticMapping.LSMMapCompile(new_lsm.map)
-        return new_lsm
-
-    def add_category(self, name: str, initial_data: Union[list[str], None] = None) -> int:
-        """Adds a new category to the map, optionally filling the category with initial text data.
-
-        :param name: The name of the category
-        :type name: str
-        :param initial_data: _description_
-        :type initial_data: list[str]
-        :return: The ID of the new category
-        :rtype: int
-
-        :Example: Add a category for cleaning-related Reddit posts to the previous example
-
-        >>> import PyXA
-        >>> lsm = PyXA.XALSM.load("/Users/steven/Downloads/gaming-productivity.map")
-        >>> lsm.add_category("cleaning", ["Curtains stained from eyelet reaction at dry cleaner", "How do I get these stains out of my pink denim overalls? from a black denim jacket that was drying next to them", "Cleaned my depression room after months 🥵", "Tip: 30 minute soak in Vinegar", "Regular floor squeegee pulled a surprising amount of pet hair out of my carpet!", "Before and after…", "It actually WORKS", "CLR is actually magic. (With some elbow grease)", "It was 100% worth it to scrape out my old moldy caulk and replace it. $5 dollars and a bit of time to make my shower look so much cleaner!", "Thanks to the person who recommended the Clorox Foamer. Before and after pics", "TIL you can dissolve inkstains with milk.", "Fixing cat scratch marks to couch using felting needle: Before and After", "Turns out BKF isn't a meme! Really satisfied with this stuff"])
-        >>> print(lsm.categorize_query("Hidden survival base on our server"))
-        >>> print(lsm.categorize_query("Your memory is FAR more powerful than you think… school just never taught us to use it properly."))
-        >>> print(lsm.categorize_query("A carpet rake will change your life."))
-        [(1, 0.7474805116653442)]
-        [(2, 0.7167008519172668)]
-        [(3, 0.797333300113678)]
-
-        .. versionadded:: 0.1.0
-        """
-        LatentSemanticMapping.LSMMapStartTraining(self.map)
-
-        if initial_data is None:
-            initial_data = []
-
-        if name in self.__dataset:
-            raise ValueError("The category name must be unique.")
-
-        self.__dataset[name] = initial_data
-        category_ref = self.__add_category(name)
-        LatentSemanticMapping.LSMMapCompile(self.map)
-        return category_ref
-
-    def add_data(self, data: dict[Union[int, str], list[str]]) -> list[int]:
-        """Adds the provided data, organized by category, to the active map.
-
-        :param data: A dictionary specifying new or existing categories along with data to input into them
-        :type data: dict[Union[int, str], list[str]]
-        :return: A list of newly created category IDs
-        :rtype: int
-
-        :Example: Classify text by language
-
-        >>> import PyXA
-        >>> lsm = PyXA.XALSM({})
-        >>> lsm.add_data({
-        >>>     # 1
-        >>>     "english": ["brilliance outer jacket artist flat mosquito recover restrict official gas ratio publish domestic realize pure offset obstacle thigh favorite demonstration revive nest reader slide pudding symptom ballot auction characteristic complete Mars ridge student explosion dive emphasis the buy perfect motif penny a errand to fur far spirit random integration of with"],
-        >>> 
-        >>>     # 2
-        >>>     "italian": ["da piazza proposta di legge legare nazionale a volte la salute bar farti farmi il pane aggiunta valore artista chiamata settentrionale scuro buio classe signori investitore in grado di fidanzato tagliare arriva successo altrimenti speciale esattamente definizione sorriso chiamo madre pulire esperto rurale vedo malattia era amici libertà l'account immaginare lingua soldi più perché"],
-        >>> })
-        >>> print(lsm.categorize_query("Here's to the crazy ones"))
-        >>> print(lsm.categorize_query("Potete parlarmi in italiano"))
-        [(1, 1.0)]
-        [(2, 1.0)]
-
-        .. versionadded:: 0.1.0
-        """
-        category_refs = []
-        LatentSemanticMapping.LSMMapStartTraining(self.map)
-        for category in data:
-            if category not in self.__dataset:
-                self.__dataset[category] = data[category]
-                category_refs.append(self.__add_category(category))
-            else:
-                loc = Foundation.CFLocaleGetSystem()
-                text_ref = LatentSemanticMapping.LSMTextCreate(None, self.map)
-                LatentSemanticMapping.LSMTextAddWords(text_ref, " ".join(data[category]), loc, LatentSemanticMapping.kLSMTextPreserveAcronyms)
-                LatentSemanticMapping.LSMMapAddText(self.map, text_ref, self.__categories[category])
-        LatentSemanticMapping.LSMMapCompile(self.map)
-        return category_refs
-
-    def add_text(self, text: str, category: Union[int, str], weight: float = 1):
-        """Adds the given text to the specified category, applying an optional weight.
-
-        :param text: The text to add to the dataset
-        :type text: str
-        :param category: The category to add the text to
-        :type category: Union[int, str]
-        :param weight: The weight to assign to the text entry, defaults to 1
-        :type weight: float, optional
-        :raises ValueError: The specified category must be a valid category name or ID
-
-        :Example:
-
-        >>> import PyXA
-        >>> lsm = PyXA.XALSM({"colors": [], "numbers": ["One", "Two", "Three"]})
-        >>> lsm.add_text("red orange yellow green blue purple", "colors")
-        >>> lsm.add_text("white black grey gray brown pink", 1)
-        >>> print(lsm.categorize_query("pink"))
-
-        .. versionadded:: 0.1.0
-        """
-        LatentSemanticMapping.LSMMapStartTraining(self.map)
-        if category not in self.__dataset and category not in self.__categories:
-            raise ValueError(f"Invalid category: {category}")
-            
-        loc = Foundation.CFLocaleGetSystem()
-        text_ref = LatentSemanticMapping.LSMTextCreate(None, self.map)
-        LatentSemanticMapping.LSMTextAddWords(text_ref, text, loc, LatentSemanticMapping.kLSMTextPreserveAcronyms)
-        LatentSemanticMapping.LSMMapAddTextWithWeight(self.map, text_ref, self.__categories[category], weight)
-        LatentSemanticMapping.LSMMapCompile(self.map)
-
-    def categorize_query(self, query: str, num_results: int = 1) -> list[tuple[int, float]]:
-        """Categorizes the query based on the current weights in the map.
-
-        :param query: The query to categorize
-        :type query: str
-        :param num_results: The number of categorizations to show, defaults to 1
-        :type num_results: int, optional
-        :return: A list of tuples identifying categories and their associated score. A higher score indicates better fit. If not matching categorization is found, the list will be empty.
-        :rtype: list[tuple[int, float]]
-
-        :Example:
-
-        >>> import PyXA
-        >>> dataset = {
-        >>>     # 1
-        >>>     "color": ["red", "orange", "yellow", "green", "emerald", "blue", "purple", "white", "black", "brown", "pink", "grey", "gray"],
-        >>> 
-        >>>     # 2
-        >>>     "number": ["One Two Three Four Five Six Seven Eight Nine Ten"]
-        >>> }
-        >>> lsm = PyXA.XALSM(dataset)
-        >>> queries = ["emerald green three", "one hundred five", "One o' clock", "sky blue", "ninety nine", "purple pink"]
-        >>> 
-        >>> for query in queries:
-        >>>     category = "Unknown"
-        >>>     categorization_tuple = lsm.categorize_query(query)
-        >>>     if len(categorization_tuple) > 0:
-        >>>         category = list(dataset.keys())[categorization_tuple[0][0] - 1]
-        >>>     print(query, "is a", category)
-        emerald green three is a color
-        one hundred five is a number
-        One o' clock is a number
-        sky blue is a color
-        ninety nine is a number
-        purple pink is a color
-
-        .. versionadded:: 0.1.0
-        """
-        loc = Foundation.CFLocaleGetSystem()
-        text_ref = LatentSemanticMapping.LSMTextCreate(None, self.map)
-        LatentSemanticMapping.LSMTextAddWords(text_ref, query, loc, 0)
-        rows = LatentSemanticMapping.LSMResultCreate(None, self.map, text_ref, 10, LatentSemanticMapping.kLSMTextPreserveAcronyms)
-
-        categorization = []
-        num_results = min(num_results, LatentSemanticMapping.LSMResultGetCount(rows))
-        for i in range(0, num_results):
-            category_num = LatentSemanticMapping.LSMResultGetCategory(rows, i)
-            score = LatentSemanticMapping.LSMResultGetScore(rows, i)
-            categorization.append((category_num, score))
-        return categorization
-
-
-
-
 class XAColorList(XATextList):
     """A wrapper around lists of colors that employs fast enumeration techniques.
 
@@ -6210,618 +5382,6 @@ class XAFileNameDialog(XAObject):
         result = script.run()["event"]
         if result is not None:
             return XAPath(result.fileURLValue())
-
-
-
-
-class XAMenuBar(XAObject):
-    def __init__(self):
-        """Creates a new menu bar object for interacting with the system menu bar.
-
-        .. versionadded:: 0.0.9
-        """
-        self.menus = {} #: The menus to be displayed in the status bar, keyed by ID
-
-        detector = self
-        class MyApplicationAppDelegate(AppKit.NSObject):
-            def action_(self, menu_item):
-                selection = menu_item
-                for menu_key, menu in detector.menus.items():
-                    for item_key, item in menu.items.items():
-                        if item.xa_elem == selection:
-                                item._run_action()
-
-                        else:
-                            for subitem_key, subitem in item.items.items():
-                                if subitem.xa_elem == selection:
-                                    subitem._run_action()
-
-        app = AppKit.NSApplication.sharedApplication()
-        app.setDelegate_(MyApplicationAppDelegate.alloc().init().retain())
-
-    def add_menu(self, title: str, image: Union['XAImage', None] = None, tool_tip: Union[str, None] = None, img_width: int = 30, img_height: int = 30):
-        """Adds a new menu to be displayed in the system menu bar.
-
-        :param title: The name of the menu
-        :type title: str
-        :param image: The image to display for the menu, defaults to None
-        :type image: Union[XAImage, None], optional
-        :param tool_tip: The tooltip to display on hovering over the menu, defaults to None
-        :type tool_tip: Union[str, None], optional
-        :param img_width: The width of the image, in pixels, defaults to 30
-        :type img_width: int, optional
-        :param img_height: The height of the image, in pixels, defaults to 30
-        :type img_height: int, optional
-
-        :Example:
-
-        >>> import PyXA
-        >>> menu_bar = PyXA.XAMenuBar()
-        >>> img = PyXA.XAImage("/Users/steven/Downloads/Blackness.jpg")
-        >>> menu_bar.add_menu("Menu 1", image=img, img_width=100, img_height=100)
-        >>> menu_bar.display()
-
-        .. deprecated:: 0.1.1
-        
-           Use :func:`new_menu` instead.
-
-        .. versionadded:: 0.0.9
-        """
-        self.new_menu(title, image, tool_tip, (img_width, img_height))
-
-    def new_menu(self, title: Union[str, None] = None, image: Union['XAImage', None] = None, tooltip: Union[str, None] = None, image_dimensions: tuple[int, int] = (30, 30), id: Union[str, None] = None) -> 'XAMenuBarMenu':
-        """Adds a new menu to be displayed in the system menu bar.
-
-        :param title: The title text of the menu, defaults to None
-        :type title: Union[str, None], optional
-        :param image: The image to display for the menu, defaults to None
-        :type image: Union[XAImage, None], optional
-        :param tooltip: The tooltip to display on hovering over the menu, defaults to None
-        :type tooltip: Union[str, None], optional
-        :param image_dimensions: The width and height of the image, in pixels, defaults to (30, 30)
-        :type image_dimensions: tuple[int, int], optional
-        :param id: A unique identifier for the menu, or None to use the title, defaults to None
-        :type id: Union[str, None], optional
-        :return: The newly created menu object
-        :rtype: XAMenuBarMenu
-
-        :Example:
-
-        >>> import random
-        >>> import threading
-        >>> import time
-        >>> 
-        >>> emojis = ["😀", "😍", "🙂", "😎", "🤩", "🤯", "😭", "😱", "😴", "🤒", "😈", "🤠"]
-        >>> 
-        >>> menu_bar = PyXA.XAMenuBar()
-        >>> emoji_bar = menu_bar.new_menu()
-        >>> 
-        >>> def update_display():
-        >>>     while True:
-        >>>         new_emoji = random.choice(emojis)
-        >>>         emoji_bar.title = new_emoji
-        >>>         time.sleep(0.25)
-        >>> 
-        >>> threading.Thread(target=update_display).start()
-        >>> menu_bar.display()
-
-        .. versionadded:: 0.1.1
-        """
-        title = title or ""
-        id = id or title
-        while id in self.menus:
-            id += "_"
-
-        self.menus[id] = XAMenuBarMenu(title, image, tooltip, image_dimensions, id)
-        return self.menus[id]
-        
-    def add_item(self, menu: str, item_name: str, action: Union[Callable[[], None], None] = None, image: Union['XAImage', None] = None, img_width: int = 20, img_height: int = 20):
-        """Adds an item to a menu, creating the menu if necessary.
-
-        :param menu: The name of the menu to add an item to, or the name of the menu to create
-        :type menu: str
-        :param item_name: The name of the item
-        :type item_name: str
-        :param action: The method to associate with the item (the method called when the item is clicked)
-        :type action: Callable[[], None]
-        :param image: The image for the item, defaults to None
-        :type image: Union[XAImage, None], optional
-        :param img_width: The width of image, in pixels, defaults to 30
-        :type img_width: int, optional
-        :param img_height: The height of the image, in pixels, defaults to 30
-        :type img_height: int, optional
-
-        :Example:
-
-        >>> import PyXA
-        >>> menu_bar = PyXA.XAMenuBar()
-        >>> 
-        >>> menu_bar.add_menu("Menu 1")
-        >>> menu_bar.add_item(menu="Menu 1", item_name="Item 1", method=lambda : print("Action 1"))
-        >>> menu_bar.add_item(menu="Menu 1", item_name="Item 2", method=lambda : print("Action 2"))
-        >>> 
-        >>> menu_bar.add_item(menu="Menu 2", item_name="Item 1", method=lambda : print("Action 1"))
-        >>> img = PyXA.XAImage("/Users/exampleUser/Downloads/example.jpg")
-        >>> menu_bar.add_item("Menu 2", "Item 1", lambda : print("Action 1"), image=img, img_width=100)
-        >>> menu_bar.display()
-
-        .. deprecated:: 0.1.1
-        
-           Use :func:`XAMenuBarMenu.new_item` instead.
-
-        .. versionadded:: 0.0.9
-        """
-        if menu not in self.menus:
-            self.add_menu(menu)
-            
-        menu = self.menus[menu]
-        menu.new_item(item_name, action, [], image, (img_width, img_height))
-
-    def set_image(self, item_name: str, image: 'XAImage', img_width: int = 30, img_height: int = 30):
-        """Sets the image displayed for a menu or menu item.
-
-        :param item_name: The name of the item to update
-        :type item_name: str
-        :param image: The image to display
-        :type image: XAImage
-        :param img_width: The width of the image, in pixels, defaults to 30
-        :type img_width: int, optional
-        :param img_height: The height of the image, in pixels, defaults to 30
-        :type img_height: int, optional
-
-        :Example: Set Image on State Change
-
-        >>> import PyXA
-        >>> current_state = True # On
-        >>> img_on = PyXA.XAImage("/Users/exampleUser/Documents/on.jpg")
-        >>> img_off = PyXA.XAImage("/Users/exampleUser/Documents/off.jpg")
-        >>> menu_bar = PyXA.XAMenuBar()
-        >>> menu_bar.add_menu("Status", image=img_on)
-        >>> 
-        >>> def update_state():
-        >>>     global current_state
-        >>>     if current_state is True:
-        >>>         # ... (Actions for turning off)
-        >>>         menu_bar.set_text("Turn off", "Turn on")
-        >>>         menu_bar.set_image("Status", img_off)
-        >>>         current_state = False
-        >>>     else:
-        >>>         # ... (Actions for turning on)
-        >>>         menu_bar.set_text("Turn off", "Turn off")
-        >>>         menu_bar.set_image("Status", img_on)
-        >>>         current_state = True
-
-        menu_bar.add_item("Status", "Turn off", update_state)
-        menu_bar.display()
-
-        .. deprecated:: 0.1.1
-        
-           Set the :attr:`XAMenuBarMenu.image` and :attr:`XAMenuBarMenuItem.image` attributes directly instead.
-
-        .. versionadded:: 0.0.9
-        """
-        img = image.xa_elem.copy()
-        img.setScalesWhenResized_(True)
-        img.setSize_((img_width, img_height))
-
-        for menu_key, menu in self.menus.items():
-            if menu_key == item_name:
-                menu._status_item.button().setImage_(img)
-
-            else:
-                for item_key, item in menu.items.items():
-                    if item_key == item_name:
-                        item.xa_elem.setImage_(img)
-
-       
-
-    def set_text(self, item_name: str, text: str):
-        """Sets the text displayed for a menu or menu item.
-
-        :param item_name: The name of the item to update
-        :type item_name: str
-        :param text: The new text to display
-        :type text: str
-
-        .. deprecated:: 0.1.1
-        
-           Set the :attr:`XAMenuBarMenu.title` and :attr:`XAMenuBarMenuItem.title` attributes directly instead.
-
-        .. versionadded:: 0.0.9
-        """
-        for menu_key, menu in self.menus.items():
-            if menu_key == item_name:
-                menu._status_item.button().setTitle_(item_name)
-
-            else:
-                for item_key, item in menu.items.items():
-                    if item_key == item_name:
-                        item.xa_elem.setTitle_(item_name)
-
-    def remove_menu(self, id):
-        """Removes a menu from the status bar.
-
-        :param id: The ID of the menu to remove
-        :type id: str
-
-        .. versionadded:: 0.1.1
-        """
-        menu = self.menus.pop(id)
-        status_bar = AppKit.NSStatusBar.systemStatusBar()
-        status_bar.removeStatusItem_(menu._status_item)
-
-    def display(self):
-        """Displays the custom menus on the menu bar.
-
-        :Example:
-
-        >>> import PyXA
-        >>> menu_bar = PyXA.XAMenuBar()
-        >>> menu_bar.new_menu("🔥", tooltip="Fire")
-        >>> menu_bar.new_menu("💧", tooltip="Water")
-        >>> menu_bar.display()
-
-        .. versionadded:: 0.0.9
-        """
-        for menu in self.menus:
-            # Add a 'Quit' item to the bottom of each menu
-            item = AppKit.NSMenuItem.alloc().initWithTitle_action_keyEquivalent_('Quit', 'terminate:', '')
-            self.menus[menu].xa_elem.addItem_(item)
-
-        try:
-            if len(self.menus) > 0:
-                AppHelper.runEventLoop(installInterrupt=True)
-        except Exception as e:
-            print(e)
-
-class XAMenuBarMenu(XAObject):
-    def __init__(self, title: str, image: Union['XAImage', None] = None, tooltip: Union[str, None] = None, image_dimensions: tuple[int, int] = (30, 30), id: Union[str, None] = None):
-        """Initializes a new menu to be displayed in the system menu bar.
-
-        :param title: The name of the menu
-        :type title: str
-        :param image: The image to display for the menu, defaults to None
-        :type image: Union[XAImage, None], optional
-        :param tooltip: The tooltip to display on hovering over the menu, defaults to None
-        :type tooltip: Union[str, None], optional
-        :param image_dimensions: The width and height of the image, in pixels, defaults to (30, 30)
-        :type image_dimensions: int, optional
-        :param id: A unique identifier for the menu, or None to use the title, defaults to None
-        :type id: Union[str, None], optional
-
-        .. versionadded:: 0.1.1
-        """
-        self.__title = title
-        self.__image = image
-        self.__tooltip = tooltip
-        self.__image_dimensions = image_dimensions
-        self.id = id or title #: The unique identifier for the menu
-        self.items = {} #: The menu items, keyed by their IDs
-    
-        # Create a new status bar item
-        self.__status_bar = AppKit.NSStatusBar.systemStatusBar()
-        self._status_item = self.__status_bar.statusItemWithLength_(AppKit.NSVariableStatusItemLength).retain()
-        self._status_item.setTitle_(title)
-       
-        # Add an image to the status bar item, if necessary
-        if isinstance(image, XAImage):
-            img = image.xa_elem.copy()
-            img.setScalesWhenResized_(True)
-            img.setSize_(image_dimensions)
-            self._status_item.button().setImage_(img)
-
-        # Add a tooltip to the status bar item, if necessary
-        if isinstance(tooltip, str):
-            self._status_item.setToolTip_(tooltip)
-
-        # Create a new menu and associate it to the status bar item
-        # Disable auto-enabling items so that users have the option to disable them
-        self.xa_elem = AppKit.NSMenu.alloc().init()
-        self.xa_elem.setAutoenablesItems_(False)
-        self._status_item.setMenu_(self.xa_elem)
-
-    @property
-    def title(self) -> str:
-        """The title text of the menu.
-        """
-        return self.__title
-
-    @title.setter
-    def title(self, title: str):
-        self.__title = title
-        self._status_item.setTitle_(title)
-
-    @property
-    def image(self) -> 'XAImage':
-        """The image associated with the menu.
-        """
-        img_obj = self._status_item.button().image()
-        if img_obj is None:
-            return None
-        return self.__image
-
-    @image.setter
-    def image(self, image: 'XAImage'):
-        self.__image = image
-        img = image.xa_elem.copy()
-        img.setScalesWhenResized_(True)
-        img.setSize_(self.__image_dimensions)
-        self._status_item.button().setImage_(img)
-
-    @property
-    def image_dimensions(self) -> tuple[int, int]:
-        """The width and height of the menu's image, in pixels.
-        """
-        return self.__image_dimensions
-
-    @image_dimensions.setter
-    def image_dimensions(self, image_dimensions: tuple[int, int]):
-        self.__image_dimensions = image_dimensions
-        size = AppKit.NSSizeFromCGSize(image_dimensions)
-        self._status_item.button().image().setSize_(size)
-
-    @property
-    def tooltip(self) -> int:
-        """The tooltip that appears when hovering over the menu.
-        """
-        return self.__tooltip
-
-    @tooltip.setter
-    def tooltip(self, tooltip: int):
-        self.__tooltip = tooltip
-        self._status_item.setToolTip_(tooltip)
-
-    def new_item(self, title: Union[str, None] = None, action: Union[Callable[[], None], None] = None, args: Union[list[Any], None] = None, image: Union['XAImage', None] = None, image_dimensions: tuple[int, int] = (20, 20), id: Union[str, None] = None) -> 'XAMenuBarMenuItem':
-        """Creates a new menu item and adds it to this menu at the current insertion point.
-
-        :param title: The title text of the item, defaults to None
-        :type title: Union[str, None], optional
-        :param action: The method to call when the item is clicked, defaults to None
-        :type action: Union[Callable[[], None], None], optional
-        :param args: The arguments to pass to the action method upon execution, defaults to None
-        :type args: Union[list[Any], None], optional
-        :param image: The image for the item, defaults to None
-        :type image: Union[XAImage, None], optional
-        :param image_dimensions: The width and height of the image, in pixels, defaults to (20, 20)
-        :type image_dimensions: tuple[int, int], optional
-        :param id: A unique identifier for the item, defaults to None
-        :type id: Union[str, None], optional
-        :return: The newly created menu item object
-        :rtype: XAMenuBarMenuItem
-
-        :Example:
-
-        >>> import PyXA
-        >>> menu_bar = PyXA.XAMenuBar()
-        >>> 
-        >>> img1 = PyXA.XAColor.red().make_swatch(10, 10)
-        >>> img2 = PyXA.XAImage("https://avatars.githubusercontent.com/u/7865925?v=4")
-        >>> img3 = PyXA.XAImage.symbol("flame.circle")
-        >>> 
-        >>> m1 = menu_bar.new_menu("Menu 1")
-        >>> m1.new_item("Item 1", lambda _: print("Action 1"), [], img1, (100, 100))
-        >>> m1.new_item("Item 2", lambda _: print("Action 2"), [], img2, (100, 100))
-        >>> 
-        >>> m2 = menu_bar.new_menu("Menu 2")
-        >>> m2.new_item("Item 1", lambda _: print("Action 3"), image=img3, image_dimensions=(50, 50))
-        >>> 
-        >>> menu_bar.display()
-
-        .. versionadded:: 0.1.1
-        """
-        # If no ID provided, use the title, then make it unique
-        title = title or ""
-        id = id or title
-        while id in self.items:
-            id += "_"
-
-        self.items[id] = XAMenuBarMenuItem(title, action, args, image, image_dimensions, id)
-        self.xa_elem.addItem_(self.items[id].xa_elem)
-        return self.items[id]
-
-    def add_separator(self, id: Union[str, None] = None) -> 'XAMenuBarMenuItem':
-        """Adds a separator to the menu at the current insertion point.
-
-        :param id: A unique identifier for the separator, defaults to None
-        :type id: Union[str, None], optional
-        :return: The newly created separator menu item object
-        :rtype: XAMenuBarMenuItem
-
-        .. versionadded:: 0.1.1
-        """
-        id = id or "separator"
-        while id in self.items:
-            id += "_"
-
-        self.items[id] = XAMenuBarMenuItem(id)
-        self.xa_elem.addItem_(self.items[id].xa_elem)
-        return self.items[id]
-
-    def remove_item(self, id):
-        """Removes an item from this menu.
-
-        :param id: The ID of the item to remove
-        :type id: str
-
-        .. versionadded:: 0.1.1
-        """
-        item = self.items.pop(id)
-        self.xa_elem.removeItem_(item.xa_elem)
-
-
-class XAMenuBarMenuItem(XAObject):
-    def __init__(self, title: str, action: Union[Callable[['XAMenuBarMenuItem', Any], None], None] = None, args: Union[list[Any], None] = None, image: Union['XAImage', None] = None, image_dimensions: tuple[int, int] = (20, 20), id: Union[str, None] = None):
-        """Initializes an item of a menu.
-
-        :param title: The name of the item
-        :type title: str
-        :param action: The method to associate with the item (the method called when the item is clicked), defaults to None
-        :type action: Callable[[XAMenuBarMenuItem], None]
-        :param args: The arguments to call the method with, defaults to None
-        :type args: Union[list[Any], None], optional
-        :param image: The image for the item, defaults to None
-        :type image: Union[XAImage, None], optional
-        :param image_dimensions: The width and height of image, in pixels, defaults to (20, 20)
-        :type image_dimensions: tuple[int, int], optional
-        :param id: A unique identifier for the item, or None to use the title, defaults to None
-        :type id: Union[str, None], optional
-
-        .. versionadded:: 0.1.1
-        """
-        self.__title = title
-        self.action = action #: The method to call when this menu item is clicked
-        self.args = args or [] #: The arguments to pass to the action method upon execution
-        self.__image = image
-        self.__image_dimensions = image_dimensions
-        self.__indent = 0
-        self.__enabled = True
-        self.id = id or title #: The unique identifier of the item
-
-        self.items = {}
-
-        if self.id.startswith("separator"):
-            self.xa_elem = AppKit.NSMenuItem.separatorItem()
-        else:
-            self.xa_elem = AppKit.NSMenuItem.alloc().initWithTitle_action_keyEquivalent_(title, 'action:', '')
-            
-            if isinstance(image, XAImage):
-                img = image.xa_elem.copy()
-                img.setScalesWhenResized_(True)
-                img.setSize_(image_dimensions)
-                self.xa_elem.setImage_(img)
-
-    @property
-    def title(self) -> str:
-        """The title text of the menu item.
-        """
-        return self.__title
-
-    @title.setter
-    def title(self, title: str):
-        self.__title = title
-        self.xa_elem.setTitle_(title)
-
-    @property
-    def image(self) -> 'XAImage':
-        """The image associated with the menu item.
-        """
-        img_obj = self.xa_elem.image()
-        if img_obj is None:
-            return None
-        return self.__image
-
-    @image.setter
-    def image(self, image: 'XAImage'):
-        self.__image = image
-        img = image.xa_elem.copy()
-        img.setScalesWhenResized_(True)
-        img.setSize_(self.__image_dimensions)
-        self.xa_elem.setImage_(img)
-
-    @property
-    def image_dimensions(self) -> tuple[int, int]:
-        """The width and height of the menu item's image, in pixels.
-        """
-        return self.__image_dimensions
-
-    @image_dimensions.setter
-    def image_dimensions(self, image_dimensions: tuple[int, int]):
-        self.__image_dimensions = image_dimensions
-        size = AppKit.NSSizeFromCGSize(image_dimensions)
-        self.xa_elem.image().setSize_(size)
-
-    @property
-    def indent(self) -> int:
-        """The level of indentation of the menu item, from 0 to 15.
-        """
-        return self.__indent
-
-    @indent.setter
-    def indent(self, indent: int):
-        self.__indent = indent
-        self.xa_elem.setIndentationLevel_(indent)
-
-    @property
-    def enabled(self) -> int:
-        """Whether the menu item is enabled (vs. appearing grayed out).
-        """
-        return self.__enabled
-
-    @enabled.setter
-    def enabled(self, enabled: bool):
-        self.__enabled = enabled
-        self.xa_elem.setEnabled_(enabled)
-
-    def _run_action(self):
-        """Runs the action associated with this menu item.
-
-        .. versionadded:: 0.1.1
-        """
-        self.action(self, *self.args)
-
-    def new_subitem(self, title: Union[str, None] = None, action: Union[Callable[['XAMenuBarMenuItem', Any], None], None] = None, args: Union[list[Any], None] = None, image: Union['XAImage', None] = None, image_dimensions: tuple[int, int] = (20, 20), id: Union[str, None] = None) -> 'XAMenuBarMenuItem':
-        """Creates a new menu item and places it in a submenu of this item.
-
-        This will create a new submenu as needed, or will append to the existing submenu if one is already available on this item.
-
-        :param title: The title text of the item, defaults to None
-        :type title: Union[str, None], optional
-        :param action: The method called when the item is clicked, defaults to None
-        :type action: Union[Callable[[XAMenuBarMenuItem, Any], None], None], optional
-        :param args: The arguments to pass to the action method upon execution, defaults to None
-        :type args: Union[list[Any], None], optional
-        :param image: The image for the item, defaults to None
-        :type image: Union[XAImage, None], optional
-        :param image_dimensions: The width and height of the image, in pixels, defaults to (20, 20)
-        :type image_dimensions: tuple[int, int], optional
-        :param id: A unique identifier for the item, or None to use the title, defaults to None
-        :type id: Union[str, None], optional
-        :return: The newly created menu item
-        :rtype: XAMenuBarMenuItem
-
-        :Example:
-
-        >>> import PyXA
-        >>> menu_bar = PyXA.XAMenuBar()
-        >>> m1 = menu_bar.new_menu("Menu 1")
-        >>> i1 = m1.new_item("Item 1")
-        >>> i2 = i1.new_subitem("Item 1.1")
-        >>> i3 = i2.new_subitem("Item 1.1.1")
-        >>> i4 = i3.new_subitem("Item 1.1.1.1")
-        >>> menu_bar.display()
-
-        .. versionadded:: 0.1.1
-        """
-        # If no ID provided, use the title, then make it unique
-        title = title or ""
-        id = id or title
-        while id in self.items:
-            id += "_"
-
-        # Create a new submenu, if necessary
-        submenu = self.xa_elem.submenu()
-        if submenu is None:
-            submenu = AppKit.NSMenu.alloc().init()
-
-        # Create a subitem and add it to the submenu
-        item = XAMenuBarMenuItem(title, action, args, image, image_dimensions, id)
-        submenu.addItem_(item.xa_elem)
-
-        # Associate the submenu to this item
-        self.xa_elem.menu().setSubmenu_forItem_(submenu, self.xa_elem)
-        self.items[id] = item
-        return self.items[id]
-
-    def remove_subitem(self, id: str):
-        """Removes a subitem from this item's submenu.
-
-        :param id: The ID of the subitem to remove
-        :type id: str
-
-        .. versionadded:: 0.1.1
-        """
-        item = self.items.pop(id)
-        self.xa_elem.submenu().removeItem_(item.xa_elem)
         
 
 

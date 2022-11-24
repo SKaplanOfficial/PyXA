@@ -601,111 +601,334 @@ class XAMailMessageViewerList(XABase.XAList):
         super().__init__(properties, XAMailMessageViewer, filter)
 
     def drafts_mailbox(self) -> 'XAMailboxList':
+        """Gets the draft mailbox of each message viewer in the list.
+
+        :return: A list of draft mailboxes
+        :rtype: XAMailboxList
+        
+        .. versionadded:: 0.0.4
+        """
         ls = self.xa_elem.arrayByApplyingSelector_("draftsMailbox")
         return self._new_element(ls, XAMailboxList)
 
     def inbox(self) -> 'XAMailboxList':
+        """Gets the inbox mailbox of each message viewer in the list.
+
+        :return: A list of inbox mailboxes
+        :rtype: XAMailboxList
+        
+        .. versionadded:: 0.0.4
+        """
         ls = self.xa_elem.arrayByApplyingSelector_("inbox")
         return self._new_element(ls, XAMailboxList)
 
     def junk_mailbox(self) -> 'XAMailboxList':
+        """Gets the junk mailbox of each message viewer in the list.
+
+        :return: A list of junk mailboxes
+        :rtype: XAMailboxList
+        
+        .. versionadded:: 0.0.4
+        """
         ls = self.xa_elem.arrayByApplyingSelector_("junkMailbox")
         return self._new_element(ls, XAMailboxList)
 
     def outbox(self) -> 'XAMailboxList':
+        """Gets the outbox mailbox of each message viewer in the list.
+
+        :return: A list of outbox mailboxes
+        :rtype: XAMailboxList
+        
+        .. versionadded:: 0.0.4
+        """
         ls = self.xa_elem.arrayByApplyingSelector_("outbox")
         return self._new_element(ls, XAMailboxList)
 
     def sent_mailbox(self) -> 'XAMailboxList':
+        """Gets the sent mailbox of each message viewer in the list.
+
+        :return: A list of sent mailboxes
+        :rtype: XAMailboxList
+        
+        .. versionadded:: 0.0.4
+        """
         ls = self.xa_elem.arrayByApplyingSelector_("sentMailbox")
         return self._new_element(ls, XAMailboxList)
 
     def trash_mailbox(self) -> 'XAMailboxList':
+        """Gets the trash mailbox of each message viewer in the list.
+
+        :return: A list of trash mailboxes
+        :rtype: XAMailboxList
+        
+        .. versionadded:: 0.0.4
+        """
         ls = self.xa_elem.arrayByApplyingSelector_("trashMailbox")
         return self._new_element(ls, XAMailboxList)
 
     def sort_column(self) -> list[XAMailApplication.ViewerColumn]:
+        """Gets the sort column of each message viewer in the list.
+
+        :return: A list of sort columns
+        :rtype: list[XAMailApplication.ViewerColumn]
+        
+        .. versionadded:: 0.0.4
+        """
         ls = self.xa_elem.arrayByApplyingSelector_("sortColumns")
         return [XAMailApplication.ViewerColumn(OSType(x.stringValue())) for x in ls]
 
     def sorted_ascending(self) -> list[bool]:
+        """Gets the sort ascending status of each message viewer in the list.
+
+        :return: A list of sort ascending status booleans
+        :rtype: list[bool]
+        
+        .. versionadded:: 0.0.4
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("sortedAscending"))
 
     def mailbox_list_visible(self) -> list[bool]:
+        """Gets the mailbox list visible status of each message viewer in the list.
+
+        :return: A list of mailbox list visible status booleans
+        :rtype: list[bool]
+        
+        .. versionadded:: 0.0.4
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("mailboxListVisible"))
 
     def preview_pane_is_visible(self) -> list[bool]:
+        """Gets the preview pane visible status of each message viewer in the list.
+
+        :return: A list of preview pane visible status booleans
+        :rtype: list[bool]
+        
+        .. versionadded:: 0.0.4
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("previewPaneIsVisible"))
 
     def visible_columns(self) -> list[list[str]]:
+        """Gets the visible columns of each message viewer in the list.
+
+        :return: A list of visible column names
+        :rtype: list[str]
+        
+        .. versionadded:: 0.0.4
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("visibleColumns"))
 
     def id(self) -> list[str]:
+        """Gets the ID of each message viewer in the list.
+
+        :return: A list of message viewer IDs
+        :rtype: list[str]
+        
+        .. versionadded:: 0.0.4
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("id"))
 
     def visible_messages(self) -> list['XAMailMessageList']:
+        """Gets the visible messages of each message viewer in the list.
+
+        :return: A list of visible messages
+        :rtype: list['XAMailMessageList']
+        
+        .. versionadded:: 0.0.4
+        """
         message_lists = self.xa_elem.arrayByApplyingSelector_("visibleMessages")
         return [self._new_element(ls, XAMailMessageList) for ls in message_lists]
 
     def selected_messages(self) -> list['XAMailMessageList']:
+        """Gets the selected messages of each message viewer in the list.
+
+        :return: A list of selected messages
+        :rtype: list['XAMailMessageList']
+        
+        .. versionadded:: 0.0.4
+        """
         message_lists = self.xa_elem.arrayByApplyingSelector_("selectedMessages")
         return [self._new_element(ls, XAMailMessageList) for ls in message_lists]
 
     def selected_mailboxes(self) -> list['XAMailboxList']:
+        """Gets the selected mailboxes of each message viewer in the list.
+
+        :return: A list of selected mailboxes
+        :rtype: list['XAMailMessageList']
+        
+        .. versionadded:: 0.0.4
+        """
         mailbox_lists = self.xa_elem.arrayByApplyingSelector_("selectedMailboxes")
         return [self._new_element(ls, XAMailboxList) for ls in mailbox_lists]
 
-    def window(self) -> list[XAMailWindow]:
-        # TODO: Create WindowList class (in XABase.py)
-        windows = self.xa_elem.arrayByApplyingSelector_("window")
-        return [self._new_element(window) for window in windows]
+    def window(self) -> XABaseScriptable.XASBWindowList:
+        """Gets the window of each message viewer in the list.
 
-    def by_drafts_mailbox(self, drafts_mailbox: 'XAMailbox') -> 'XAMailMessageViewer':
+        :return: A list of message viewer windows
+        :rtype: list['XAMailMessageList']
+        
+        .. versionadded:: 0.0.4
+        """
+        windows = self.xa_elem.arrayByApplyingSelector_("window")
+        return self._new_element(windows, XABaseScriptable.XASBWindowList)
+
+    def by_drafts_mailbox(self, drafts_mailbox: 'XAMailbox') -> Union['XAMailMessageViewer', None]:
+        """Retrieves the first message viewer whose drafts mailbox matches the given mailbox, if one exists.
+
+        :return: The desired message viewer, if it is found
+        :rtype: Union[XAMailMessageViewer, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("draftsMailbox", drafts_mailbox)
 
-    def by_inbox(self, inbox: 'XAMailbox') -> 'XAMailMessageViewer':
+    def by_inbox(self, inbox: 'XAMailbox') -> Union['XAMailMessageViewer', None]:
+        """Retrieves the first message viewer whose inbox mailbox matches the given mailbox, if one exists.
+
+        :return: The desired message viewer, if it is found
+        :rtype: Union[XAMailMessageViewer, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("inbox", inbox)
 
-    def by_junk_mailbox(self, junk_mailbox: 'XAMailbox') -> 'XAMailMessageViewer':
+    def by_junk_mailbox(self, junk_mailbox: 'XAMailbox') -> Union['XAMailMessageViewer', None]:
+        """Retrieves the first message viewer whose junk mailbox matches the given mailbox, if one exists.
+
+        :return: The desired message viewer, if it is found
+        :rtype: Union[XAMailMessageViewer, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("junkMailbox", junk_mailbox)
 
-    def by_outbox(self, outbox: 'XAMailbox') -> 'XAMailMessageViewer':
+    def by_outbox(self, outbox: 'XAMailbox') -> Union['XAMailMessageViewer', None]:
+        """Retrieves the first message viewer whose outbox mailbox matches the given mailbox, if one exists.
+
+        :return: The desired message viewer, if it is found
+        :rtype: Union[XAMailMessageViewer, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("outbox", outbox)
 
-    def by_sent_mailbox(self, sent_mailbox: 'XAMailbox') -> 'XAMailMessageViewer':
+    def by_sent_mailbox(self, sent_mailbox: 'XAMailbox') -> Union['XAMailMessageViewer', None]:
+        """Retrieves the first message viewer whose sent mailbox matches the given mailbox, if one exists.
+
+        :return: The desired message viewer, if it is found
+        :rtype: Union[XAMailMessageViewer, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("sentMailbox", sent_mailbox)
 
-    def by_trash_mailbox(self, trash_mailbox: 'XAMailbox') -> 'XAMailMessageViewer':
+    def by_trash_mailbox(self, trash_mailbox: 'XAMailbox') -> Union['XAMailMessageViewer', None]:
+        """Retrieves the first message viewer whose trash mailbox matches the given mailbox, if one exists.
+
+        :return: The desired message viewer, if it is found
+        :rtype: Union[XAMailMessageViewer, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("trashMailbox", trash_mailbox.xa_elem)
 
-    def by_sort_column(self, sort_column: XAMailApplication.ViewerColumn) -> 'XAMailMessageViewer':
+    def by_sort_column(self, sort_column: XAMailApplication.ViewerColumn) -> Union['XAMailMessageViewer', None]:
+        """Retrieves the first message viewer whose sort column matches the given sort column, if one exists.
+
+        :return: The desired message viewer, if it is found
+        :rtype: Union[XAMailMessageViewer, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("sortColumn", event_from_str(unOSType(sort_column.value)))
 
-    def by_sorted_ascending(self, sorted_ascending: bool) -> 'XAMailMessageViewer':
+    def by_sorted_ascending(self, sorted_ascending: bool) -> Union['XAMailMessageViewer', None]:
+        """Retrieves the first message viewer whose sort ascending status matches the given boolean value, if one exists.
+
+        :return: The desired message viewer, if it is found
+        :rtype: Union[XAMailMessageViewer, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("sortedAscending", sorted_ascending)
 
-    def by_mailbox_list_visible(self, mailbox_list_visible: bool) -> 'XAMailMessageViewer':
+    def by_mailbox_list_visible(self, mailbox_list_visible: bool) -> Union['XAMailMessageViewer', None]:
+        """Retrieves the first message viewer whose mailbox list visible status matches the given boolean value, if one exists.
+
+        :return: The desired message viewer, if it is found
+        :rtype: Union[XAMailMessageViewer, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("mailboxListVisible", mailbox_list_visible)
 
-    def by_preview_pane_is_visible(self, preview_pane_is_visible: bool) -> 'XAMailMessageViewer':
+    def by_preview_pane_is_visible(self, preview_pane_is_visible: bool) -> Union['XAMailMessageViewer', None]:
+        """Retrieves the first message viewer whose preview pane visible status matches the given boolean value, if one exists.
+
+        :return: The desired message viewer, if it is found
+        :rtype: Union[XAMailMessageViewer, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("previewPaneIsVisible", preview_pane_is_visible)
 
-    def by_visible_columns(self, visible_columns: list[str]) -> 'XAMailMessageViewer':
+    def by_visible_columns(self, visible_columns: list[str]) -> Union['XAMailMessageViewer', None]:
+        """Retrieves the first message viewer whose list of visible columns matches the given list, if one exists.
+
+        :return: The desired message viewer, if it is found
+        :rtype: Union[XAMailMessageViewer, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("visibleColumns", visible_columns)
 
-    def by_id(self, id: int) -> 'XAMailMessageViewer':
+    def by_id(self, id: int) -> Union['XAMailMessageViewer', None]:
+        """Retrieves the first message viewer whose ID matches the given ID, if one exists.
+
+        :return: The desired message viewer, if it is found
+        :rtype: Union[XAMailMessageViewer, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("id", id)
 
-    def by_visible_messages(self, visible_messages: 'XAMailMessageList') -> 'XAMailMessageViewer':
+    def by_visible_messages(self, visible_messages: 'XAMailMessageList') -> Union['XAMailMessageViewer', None]:
+        """Retrieves the first message viewer whose list of visible messages matches the given list, if one exists.
+
+        :return: The desired message viewer, if it is found
+        :rtype: Union[XAMailMessageViewer, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("visibleMessages", visible_messages.xa_elem)
 
-    def by_selected_messages(self, selected_messages: 'XAMailMessageList') -> 'XAMailMessageViewer':
+    def by_selected_messages(self, selected_messages: 'XAMailMessageList') -> Union['XAMailMessageViewer', None]:
+        """Retrieves the first message viewer whose list of selected messages matches the given list, if one exists.
+
+        :return: The desired message viewer, if it is found
+        :rtype: Union[XAMailMessageViewer, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("selectedMessages", selected_messages.xa_elem)
 
-    def by_selected_mailboxes(self, selected_mailboxes: 'XAMailboxList') -> 'XAMailMessageViewer':
+    def by_selected_mailboxes(self, selected_mailboxes: 'XAMailboxList') -> Union['XAMailMessageViewer', None]:
+        """Retrieves the first message viewer whose list of selected mailboxes matches the given list, if one exists.
+
+        :return: The desired message viewer, if it is found
+        :rtype: Union[XAMailMessageViewer, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("selectedMailboxes", selected_mailboxes.xa_elem)
 
-    def by_window(self, window: XAMailWindow) -> 'XAMailMessageViewer':
+    def by_window(self, window: XAMailWindow) -> Union['XAMailMessageViewer', None]:
+        """Retrieves the first message viewer whose window matches the given window, if one exists.
+
+        :return: The desired message viewer, if it is found
+        :rtype: Union[XAMailMessageViewer, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("window", window.xa_scel)
 
     def __repr__(self):
@@ -888,16 +1111,44 @@ class XAMailSignatureList(XABase.XAList):
         super().__init__(properties, XAMailDocument, filter)
 
     def name(self) -> list[str]:
+        """Gets the name of each signature in the list.
+
+        :return: A list of signature names
+        :rtype: list[str]
+        
+        .. versionadded:: 0.0.4
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
     def content(self) -> list[XABase.XAText]:
+        """Gets the text content of each signature in the list.
+
+        :return: A list of signature text contents
+        :rtype: list[XABase.XAText]
+        
+        .. versionadded:: 0.0.4
+        """
         ls = self.xa_elem.arrayByApplyingSelector_("content")
         return self._new_element(ls, XABase.XATextList)
 
-    def by_name(self, name: str) -> 'XAMailSignature':
+    def by_name(self, name: str) -> Union['XAMailSignature', None]:
+        """Retrieves the signature whose name matches the given name, if one exists.
+
+        :return: The desired signature, if it is found
+        :rtype: Union[XAMailSignature, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("name", name)
 
-    def by_content(self, content: XABase.XAText) -> 'XAMailSignature':
+    def by_content(self, content: XABase.XAText) -> Union['XAMailSignature', None]:
+        """Retrieves the signature whose content matches the given content, if one exists.
+
+        :return: The desired signature, if it is found
+        :rtype: Union[XAMailSignature, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("content", content.xa_elem)
 
     def __repr__(self):
@@ -957,114 +1208,366 @@ class XAMailAccountList(XABase.XAList):
         super().__init__(properties, object_class, filter)
 
     def delivery_account(self) -> 'XAMailSMTPServerList':
+        """Gets the delivery account of each account in the list.
+
+        :return: A list of delivery accounts
+        :rtype: XAMailSMTPServerList
+        
+        .. versionadded:: 0.0.4
+        """
         ls = self.xa_elem.arrayByApplyingSelector_("deliveryAccount")
         return self._new_element(ls, XAMailSMTPServerList)
 
     def name(self) -> list[str]:
+        """Gets the name of each account in the list.
+
+        :return: A list of account names
+        :rtype: list[str]
+        
+        .. versionadded:: 0.0.4
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("name"))
 
     def id(self) -> list[str]:
+        """Gets the ID of each account in the list.
+
+        :return: A list of account IDs
+        :rtype: list[str]
+        
+        .. versionadded:: 0.0.4
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("id"))
 
     def authentication(self) -> list[XAMailApplication.AuthenticationMethod]:
+        """Gets the authentication method of each account in the list.
+
+        :return: A list of account authentication methods
+        :rtype: list[XAMailApplication.AuthenticationMethod]
+        
+        .. versionadded:: 0.0.4
+        """
         ls = self.xa_elem.arrayByApplyingSelector_("authentication")
         return [XAMailApplication.AuthenticationMethod(OSType(x.stringValue())) for x in ls]
 
     def account_type(self) -> list[XAMailApplication.AccountType]:
+        """Gets the type of each account in the list.
+
+        :return: A list of account types
+        :rtype: list[XAMailApplication.AccountType]
+        
+        .. versionadded:: 0.0.4
+        """
         ls = self.xa_elem.arrayByApplyingSelector_("accountType")
         return [XAMailApplication.AccountType(OSType(x.stringValue())) for x in ls]
 
     def email_addresses(self) -> list[list[str]]:
+        """Gets the email addresses of each account in the list.
+
+        :return: A list of email addresses
+        :rtype: list[str]
+        
+        .. versionadded:: 0.0.4
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("emailAddresses"))
 
     def full_name(self) -> list[str]:
+        """Gets the full name of each account in the list.
+
+        :return: A list of account full names
+        :rtype: list[str]
+        
+        .. versionadded:: 0.0.4
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("fullName"))
 
     def empty_junk_messages_frequency(self) -> list[int]:
+        """Gets the empty junk message frequency of each account in the list.
+
+        :return: A list of account empty junk message frequency settings
+        :rtype: list[int]
+        
+        .. versionadded:: 0.0.4
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("emptyJunkMessagesFrequency"))
 
     def empty_trash_frequency(self) -> list[int]:
+        """Gets the empty trash frequency of each account in the list.
+
+        :return: A list of account empty trash frequency settings
+        :rtype: list[int]
+        
+        .. versionadded:: 0.0.4
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("emptyTrashFrequency"))
 
     def empty_junk_messages_on_quit(self) -> list[bool]:
+        """Gets the empty junk messages on quit setting of each account in the list.
+
+        :return: A list of account empty junk messages on quit setting booleans
+        :rtype: list[bool]
+        
+        .. versionadded:: 0.0.4
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("emptyJunkMessagesOnQuit"))
 
     def empty_trash_on_quit(self) -> list[bool]:
+        """Gets the empty trash on quit setting of each account in the list.
+
+        :return: A list of account empty trash on quit setting booleans
+        :rtype: list[bool]
+        
+        .. versionadded:: 0.0.4
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("emptyTrashOnQuit"))
 
     def enabled(self) -> list[bool]:
+        """Gets the enabled status of each account in the list.
+
+        :return: A list of account enabled status booleans
+        :rtype: list[bool]
+        
+        .. versionadded:: 0.0.4
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("enabled"))
 
     def user_name(self) -> list[str]:
+        """Gets the user name of each account in the list.
+
+        :return: A list of account user names
+        :rtype: list[str]
+        
+        .. versionadded:: 0.0.4
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("userName"))
 
     def account_directory(self) -> list[str]:
+        """Gets the account directory of each account in the list.
+
+        :return: A list of account directories
+        :rtype: list[str]
+        
+        .. versionadded:: 0.0.4
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("accountDirectory"))
 
     def port(self) -> list[int]:
+        """Gets the port of each account in the list.
+
+        :return: A list of account ports
+        :rtype: list[int]
+        
+        .. versionadded:: 0.0.4
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("port"))
 
     def server_name(self) -> list[str]:
+        """Gets the server name of each account in the list.
+
+        :return: A list of account server names
+        :rtype: list[str]
+        
+        .. versionadded:: 0.0.4
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("serverName"))
 
     def move_deleted_messages_to_trash(self) -> list[bool]:
+        """Gets the move deleted messages to trash setting of each account in the list.
+
+        :return: A list of account move deleted messages to trash setting booleans
+        :rtype: list[bool]
+        
+        .. versionadded:: 0.0.4
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("moveDeletedMessagesToTrash"))
 
     def uses_ssl(self) -> list[bool]:
+        """Gets the SSL setting of each account in the list.
+
+        :return: A list of account SSL setting booleans
+        :rtype: list[bool]
+        
+        .. versionadded:: 0.0.4
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("usesSsl"))
 
-    def by_delivery_account(self, delivery_account: 'XAMailSMTPServer') -> 'XAMailAccount':
+    def by_delivery_account(self, delivery_account: 'XAMailSMTPServer') -> Union['XAMailAccount', None]:
+        """Retrieves the first account whose delivery account matches the given account, if one exists.
+
+        :return: The desired account, if it is found
+        :rtype: Union[XAMailAccount, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("deliveryAccount", delivery_account.xa_elem)
 
-    def by_name(self, name: str) -> 'XAMailAccount':
+    def by_name(self, name: str) -> Union['XAMailAccount', None]:
+        """Retrieves the first account whose name matches the given name, if one exists.
+
+        :return: The desired account, if it is found
+        :rtype: Union[XAMailAccount, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("name", name)
 
-    def by_id(self, id: str) -> 'XAMailAccount':
+    def by_id(self, id: str) -> Union['XAMailAccount', None]:
+        """Retrieves the first account whose ID matches the given ID, if one exists.
+
+        :return: The desired account, if it is found
+        :rtype: Union[XAMailAccount, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("id", id)
 
-    def by_authentication(self, authentication: XAMailApplication.AuthenticationMethod) -> 'XAMailAccount':
+    def by_authentication(self, authentication: XAMailApplication.AuthenticationMethod) -> Union['XAMailAccount', None]:
+        """Retrieves the first account whose authentication method matches the given authentication method, if one exists.
+
+        :return: The desired account, if it is found
+        :rtype: Union[XAMailAccount, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("authentication", event_from_str(unOSType(authentication.value)))
 
-    def by_account_type(self, account_type: XAMailApplication.AccountType) -> 'XAMailAccount':
+    def by_account_type(self, account_type: XAMailApplication.AccountType) -> Union['XAMailAccount', None]:
+        """Retrieves the first account whose type matches the given type, if one exists.
+
+        :return: The desired account, if it is found
+        :rtype: Union[XAMailAccount, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("accountType", event_from_str(unOSType(account_type.value)))
 
-    def by_email_addresses(self, email_addresses: list[str]) -> 'XAMailAccount':
+    def by_email_addresses(self, email_addresses: list[str]) -> Union['XAMailAccount', None]:
+        """Retrieves the first account whose list of email addresses matches the given list, if one exists.
+
+        :return: The desired account, if it is found
+        :rtype: Union[XAMailAccount, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("emailAddresses", email_addresses)
 
-    def by_full_name(self, full_name: str) -> 'XAMailAccount':
+    def by_full_name(self, full_name: str) -> Union['XAMailAccount', None]:
+        """Retrieves the first account whose full name matches the given full name, if one exists.
+
+        :return: The desired account, if it is found
+        :rtype: Union[XAMailAccount, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("fullName", full_name)
 
-    def by_empty_junk_messages_frequency(self, empty_junk_messages_frequency: int) -> 'XAMailAccount':
+    def by_empty_junk_messages_frequency(self, empty_junk_messages_frequency: int) -> Union['XAMailAccount', None]:
+        """Retrieves the first account whose empty junk messages frequency matches the given frequency, if one exists.
+
+        :return: The desired account, if it is found
+        :rtype: Union[XAMailAccount, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("emptyJunkMessagesFrequency", empty_junk_messages_frequency)
 
-    def by_empty_trash_frequency(self, empty_trash_frequency: int) -> 'XAMailAccount':
+    def by_empty_trash_frequency(self, empty_trash_frequency: int) -> Union['XAMailAccount', None]:
+        """Retrieves the first account whose empty trash frequency matches the given frequency, if one exists.
+
+        :return: The desired account, if it is found
+        :rtype: Union[XAMailAccount, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("emptyTrashFrequency", empty_trash_frequency)
 
-    def by_empty_junk_messages_on_quit(self, empty_junk_messages_on_quit: bool) -> 'XAMailAccount':
+    def by_empty_junk_messages_on_quit(self, empty_junk_messages_on_quit: bool) -> Union['XAMailAccount', None]:
+        """Retrieves the first account whose empty junk messages on quit setting matches the given boolean value, if one exists.
+
+        :return: The desired account, if it is found
+        :rtype: Union[XAMailAccount, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("emptyJunkMessagesOnQuit", empty_junk_messages_on_quit)
 
-    def by_empty_trash_on_quit(self, empty_trash_on_quit: bool) -> 'XAMailAccount':
+    def by_empty_trash_on_quit(self, empty_trash_on_quit: bool) -> Union['XAMailAccount', None]:
+        """Retrieves the first account whose empty trash on quit setting matches the given boolean value, if one exists.
+
+        :return: The desired account, if it is found
+        :rtype: Union[XAMailAccount, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("emptyTrashOnQuit", empty_trash_on_quit)
 
-    def by_enabled(self, enabled: bool) -> 'XAMailAccount':
+    def by_enabled(self, enabled: bool) -> Union['XAMailAccount', None]:
+        """Retrieves the first account whose enabled status matches the given boolean value, if one exists.
+
+        :return: The desired account, if it is found
+        :rtype: Union[XAMailAccount, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("enabled", enabled)
 
-    def by_user_name(self, user_name: str) -> 'XAMailAccount':
+    def by_user_name(self, user_name: str) -> Union['XAMailAccount', None]:
+        """Retrieves the first account whose user name matches the given user name, if one exists.
+
+        :return: The desired account, if it is found
+        :rtype: Union[XAMailAccount, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("userName", user_name)
 
-    def by_account_directory(self, account_directory: str) -> 'XAMailAccount':
+    def by_account_directory(self, account_directory: str) -> Union['XAMailAccount', None]:
+        """Retrieves the first account whose account directory matches the given directory, if one exists.
+
+        :return: The desired account, if it is found
+        :rtype: Union[XAMailAccount, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("accountDirectory", account_directory)
 
-    def by_port(self, port: int) -> 'XAMailAccount':
+    def by_port(self, port: int) -> Union['XAMailAccount', None]:
+        """Retrieves the first account whose port number matches the given port, if one exists.
+
+        :return: The desired account, if it is found
+        :rtype: Union[XAMailAccount, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("port", port)
 
-    def by_server_name(self, server_name: str) -> 'XAMailAccount':
+    def by_server_name(self, server_name: str) -> Union['XAMailAccount', None]:
+        """Retrieves the first account whose server name matches the given server name, if one exists.
+
+        :return: The desired account, if it is found
+        :rtype: Union[XAMailAccount, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("serverName", server_name)
 
-    def by_move_deleted_messages_to_trash(self, move_deleted_messages_to_trash: bool) -> 'XAMailAccount':
+    def by_move_deleted_messages_to_trash(self, move_deleted_messages_to_trash: bool) -> Union['XAMailAccount', None]:
+        """Retrieves the first account whose move deleted messages to trash setting matches the given boolean value, if one exists.
+
+        :return: The desired account, if it is found
+        :rtype: Union[XAMailAccount, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("moveDeletedMessagesToTrash", move_deleted_messages_to_trash)
 
-    def by_uses_ssl(self, uses_ssl: bool) -> 'XAMailAccount':
+    def by_uses_ssl(self, uses_ssl: bool) -> Union['XAMailAccount', None]:
+        """Retrieves the first account whose uses SSL setting matches the given boolean value, if one exists.
+
+        :return: The desired account, if it is found
+        :rtype: Union[XAMailAccount, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("usesSsl", uses_ssl)
 
     def __repr__(self):
@@ -3031,29 +3534,85 @@ class XAMailRuleConditionList(XABase.XAList):
         super().__init__(properties, XAMailMessage, filter)
 
     def expression(self) -> list[str]:
+        """Gets the rule expression field of each rule condition in the list.
+
+        :return: A list of rule expression field values
+        :rtype: list[str]
+        
+        .. versionadded:: 0.0.4
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("expression"))
 
     def header(self) -> list[str]:
+        """Gets the rule header key of each rule condition in the list.
+
+        :return: A list of rule header keys
+        :rtype: list[str]
+        
+        .. versionadded:: 0.0.4
+        """
         return list(self.xa_elem.arrayByApplyingSelector_("header"))
 
     def qualifier(self) -> list[XAMailApplication.RuleQualifier]:
+        """Gets the rule qualifier of each rule condition in the list.
+
+        :return: A list of rule qualifiers
+        :rtype: list[XAMailApplication.RuleQualifier]
+        
+        .. versionadded:: 0.0.4
+        """
         ls = self.xa_elem.arrayByApplyingSelector_("qualifier")
         return [XAMailApplication.RuleQualifier(OSType(x.stringValue())) for x in ls]
 
     def rule_type(self) -> list[XAMailApplication.RuleType]:
+        """Gets the rule type of each rule condition in the list.
+
+        :return: A list of rule types
+        :rtype: list[XAMailApplication.RuleType]
+        
+        .. versionadded:: 0.0.4
+        """
         ls = self.xa_elem.arrayByApplyingSelector_("ruleType")
         return [XAMailApplication.RuleType(OSType(x.stringValue())) for x in ls]
 
-    def by_expression(self, expression: str) -> 'XAMailRuleCondition':
+    def by_expression(self, expression: str) -> Union['XAMailRuleCondition', None]:
+        """Retrieves the first rule condition whose expression matches the given expression, if one exists.
+
+        :return: The desired rule condition, if it is found
+        :rtype: Union[XASystemEventsDocument, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("expression", expression)
 
-    def by_header(self, header: str) -> 'XAMailRuleCondition':
+    def by_header(self, header: str) -> Union['XAMailRuleCondition', None]:
+        """Retrieves the first rule condition whose header key matches the given key, if one exists.
+
+        :return: The desired rule condition, if it is found
+        :rtype: Union[XASystemEventsDocument, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("header", header)
 
-    def by_qualifier(self, qualifier: XAMailApplication.RuleQualifier) -> 'XAMailRuleCondition':
+    def by_qualifier(self, qualifier: XAMailApplication.RuleQualifier) -> Union['XAMailRuleCondition', None]:
+        """Retrieves the first rule condition whose qualifier matches the given qualifier, if one exists.
+
+        :return: The desired rule condition, if it is found
+        :rtype: Union[XASystemEventsDocument, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("qualifier", event_from_str(unOSType(qualifier.value)))
 
-    def by_rule_type(self, rule_type: XAMailApplication.RuleType) -> 'XAMailRuleCondition':
+    def by_rule_type(self, rule_type: XAMailApplication.RuleType) -> Union['XAMailRuleCondition', None]:
+        """Retrieves the first rule condition whose type matches the given type, if one exists.
+
+        :return: The desired rule condition, if it is found
+        :rtype: Union[XASystemEventsDocument, None]
+        
+        .. versionadded:: 0.0.4
+        """
         return self.by_property("ruleType", event_from_str(unOSType(rule_type.value)))
 
 class XAMailRuleCondition(XABase.XAObject):

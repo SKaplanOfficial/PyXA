@@ -445,6 +445,35 @@ class XATextEditDocumentList(XABase.XATextDocumentList, XAClipboardCodable):
             items.append(str(text))
             items.append(paths[index].xa_elem)
         return items
+
+    def push(self, *documents: list['XATextEditDocument']) -> Union['XATextEditDocument', list['XATextEditDocument'], None]:
+        """Appends the document to the list.
+
+        .. versionadded:: 0.1.1
+        """
+        objects = []
+        num_added = 0
+
+        for document in documents:
+            len_before = len(self.xa_elem)
+            self.xa_elem.addObject_(document.xa_elem)
+            len_after = len(self.xa_elem)
+
+            if len_after == len_before:
+                # Document wasn't added -- try force-getting the list before adding
+                self.xa_elem.get().addObject_(document.xa_elem)
+
+            if len_after > len_before:
+                num_added += 1
+                objects.append(self._new_element(self.xa_elem.objectAtIndex_(0).get(), self.xa_ocls))
+        
+        if num_added == 1:
+            return objects[0]
+
+        if num_added == 0:
+            return None
+
+        return objects
         
     def __repr__(self):
         return "<" + str(type(self)) + str(self.name()) + ">"

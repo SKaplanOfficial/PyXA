@@ -4,14 +4,15 @@ Internet-related automation features that extend PyXA scripting functionality.
 """
 
 
-from bs4 import BeautifulSoup
 from datetime import datetime
 from typing import List, Union
-import requests
 
 import AppKit
+import requests
+from bs4 import BeautifulSoup
 
-from .. import XABase
+from PyXA import XABase
+
 
 class RSSFeed(XABase.XAObject):
     """An RSS feed reader.

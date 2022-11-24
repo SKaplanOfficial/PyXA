@@ -39,21 +39,21 @@ from .XABase import (
     current_application, running_applications,
 )
 
-from .additions.XASpeech import (
+from .Additions.XASpeech import (
     XACommandDetector,
     XASpeech,
     XASpeechRecognizer,
 )
 
-from .additions.XALearn import (
+from .Additions.XALearn import (
     XALSM,
 )
 
-from .additions.XAUtils import (
+from .Additions.XAUtils import (
     SDEFParser,
     XAMenuBar,
 )
 
-from .additions.XAWeb import (
+from .Additions.XAWeb import (
     RSSFeed,
 )

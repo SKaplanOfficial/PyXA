@@ -178,7 +178,7 @@ class XASBWindowList(XABase.XAList):
         .. versionadded:: 0.1.1
         """
         ls = self.xa_elem.arrayByApplyingSelector_("bounds") or []
-        return [XARectangle(rect.origin.x, rect.origin.y, rect.size.width, rect.size.height) for rect in ls]
+        return [XARectangle(value.rectValue().origin.x, value.rectValue().origin.y, value.rectValue().size.width, value.rectValue().size.height) for value in ls]
 
     def closeable(self) -> list[bool]:
         """Gets the closeable status of each window in the list.

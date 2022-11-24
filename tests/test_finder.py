@@ -136,19 +136,16 @@ class TestFinder(unittest.TestCase):
         self.assertIsInstance(clipping_windows[0].xa_elem, ScriptingBridge.SBObject)
 
     def test_finder_selection(self):
-        self.app.selection = self.app.files()[0]
+        self.app.selection = self.app.insertion_location.files()[0]
         self.assertEqual(len(self.app.selection), 1)
 
         pre_selection = self.app.selection
-
-        self.app.selection = self.app.files()[0:10]
+        self.app.selection = self.app.insertion_location.files()[0:3]
 
         self.assertNotEqual(len(self.app.selection), 1)
-        print(pre_selection)
-        print(self.app.selection)
         self.assertEqual(pre_selection == self.app.selection, False)
 
-        file = self.app.files()[0]
+        file = self.app.insertion_location.files()[0]
         file.reveal()
         self.assertEqual(len(self.app.selection), 1)
         self.assertIn(file.url, self.app.selection.url())

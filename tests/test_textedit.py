@@ -44,6 +44,7 @@ class TestTextEdit(unittest.TestCase):
 
     def test_textedit_window_methods(self):
         self.app.front_window.miniaturized = True
+        time.sleep(1)
         self.assertEqual(self.app.front_window.miniaturized, True)
 
         time.sleep(0.5)

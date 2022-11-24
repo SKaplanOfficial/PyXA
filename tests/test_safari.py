@@ -1,6 +1,5 @@
 import AppKit
 import PyXA
-import time
 import unittest
 
 class TestSafari(unittest.TestCase):

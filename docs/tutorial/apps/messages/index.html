@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Messages Module Overview &mdash; PyXA 0.1.0 documentation</title>
+  <title>Messages Module Overview &mdash; PyXA 0.1.1 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -84,10 +84,10 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../../index.html">Tutorial</a> &raquo;</li>
-          <li><a href="../index.html">Application Module Overviews</a> &raquo;</li>
-      <li>Messages Module Overview</li>
+      <li><a href="../../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Tutorial</a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Application Module Overviews</a></li>
+      <li class="breadcrumb-item active">Messages Module Overview</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../../../_sources/tutorial/apps/messages/index.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -99,7 +99,7 @@
              
   <section id="messages-module-overview">
 <h1>Messages Module Overview<a class="headerlink" href="#messages-module-overview" title="Permalink to this heading"></a></h1>
-<div class="contents local topic" id="table-of-contents">
+<nav class="contents local" id="table-of-contents">
 <p class="topic-title">Table of Contents</p>
 <ul class="simple">
 <li><p><a class="reference internal" href="#messages-tutorials" id="id1">Messages Tutorials</a></p></li>
@@ -111,17 +111,17 @@
 </li>
 <li><p><a class="reference internal" href="#messages-resources" id="id5">Messages Resources</a></p></li>
 </ul>
-</div>
+</nav>
 <p>PyXA supports all of the OSA features for Messages.app.</p>
 <section id="messages-tutorials">
-<h2><a class="toc-backref" href="#id1">Messages Tutorials</a><a class="headerlink" href="#messages-tutorials" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id1" role="doc-backlink">Messages Tutorials</a><a class="headerlink" href="#messages-tutorials" title="Permalink to this heading"></a></h2>
 <p>There are currently no tutorials for the Messages module.</p>
 </section>
 <section id="messages-examples">
-<h2><a class="toc-backref" href="#id2">Messages Examples</a><a class="headerlink" href="#messages-examples" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id2" role="doc-backlink">Messages Examples</a><a class="headerlink" href="#messages-examples" title="Permalink to this heading"></a></h2>
 <p>The examples below provide an overview of the capabilities of the Automator module.</p>
 <section id="example-1-creating-workflows-from-scratch">
-<h3><a class="toc-backref" href="#id3">Example 1 - Creating workflows from scratch</a><a class="headerlink" href="#example-1-creating-workflows-from-scratch" title="Permalink to this heading"></a></h3>
+<h3><a class="toc-backref" href="#id3" role="doc-backlink">Example 1 - Creating workflows from scratch</a><a class="headerlink" href="#example-1-creating-workflows-from-scratch" title="Permalink to this heading"></a></h3>
 <p>The example below creates a workflow that displays a notification, waits five seconds, then starts the screen saver. The process for creating workflows begins with making a new workflow object, adding it to the list of workflows, and saving it to the disk. Without saving here, you may encounter errors as some methods and actions require access to the workflow file. With an empty workflow created, the next step is to add actions, which is most easily done by name. Next, you must retrieve a mutable form of the actions; you can think of the original ones as a template that you’ve now made a copy of. From there, you can change the value of settings however you desire.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">import</span> <span class="nn">PyXA</span>
 <span class="linenos"> 2</span><span class="n">app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;Automator&quot;</span><span class="p">)</span>
@@ -153,7 +153,7 @@
 </div>
 </section>
 <section id="example-2-running-existing-workflows">
-<h3><a class="toc-backref" href="#id4">Example 2 - Running existing workflows</a><a class="headerlink" href="#example-2-running-existing-workflows" title="Permalink to this heading"></a></h3>
+<h3><a class="toc-backref" href="#id4" role="doc-backlink">Example 2 - Running existing workflows</a><a class="headerlink" href="#example-2-running-existing-workflows" title="Permalink to this heading"></a></h3>
 <p>In the short example below, we open an existing workflow file, run it, and display the execution’s results.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="kn">import</span> <span class="nn">PyXA</span>
 <span class="linenos">2</span><span class="n">app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">application</span><span class="p">(</span><span class="s2">&quot;Automator&quot;</span><span class="p">)</span>
@@ -168,9 +168,9 @@
 </section>
 </section>
 <section id="messages-resources">
-<h2><a class="toc-backref" href="#id5">Messages Resources</a><a class="headerlink" href="#messages-resources" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id5" role="doc-backlink">Messages Resources</a><a class="headerlink" href="#messages-resources" title="Permalink to this heading"></a></h2>
 <ul class="simple">
-<li><p><a href="#id6"><span class="problematic" id="id7">`Messages User Guide - Apple Support &lt;https://support.apple.com/guide/messages/welcome/mac`_</span></a></p></li>
+<li><p><a class="reference external" href="https://support.apple.com/guide/messages/welcome/mac">Messages User Guide - Apple Support</a></p></li>
 </ul>
 <p>For all classes, methods, and inherited members of the Messages module, see the <a class="reference internal" href="../../../reference/apps/messages.html#module-PyXA.apps.Messages"><span class="std std-ref">Messages Module Reference</span></a>.</p>
 </section>

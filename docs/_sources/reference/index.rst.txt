@@ -7,15 +7,11 @@ Top-level PyXA Modules
    :maxdepth: 2
 
    pyxa
-   xaerrors
-
-PyXA Base Modules
------------------
-.. toctree::
-   :maxdepth: 2
-
    xabase
    xabasescriptable
+   xatypes
+   xaprotocols
+   xaerrors
 
 First-Party Application Module Reference
 ----------------------------------------
@@ -69,3 +65,13 @@ Third-Party Application Module Reference
    apps/spotify
    apps/vlc
    apps/rstudio
+
+PyXA Additions
+--------------
+.. toctree::
+   :maxdepth: 2
+
+   additions/xalearn
+   additions/xaspeech
+   additions/xautils
+   additions/xaweb

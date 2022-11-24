@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PyXA.apps.QuickTimePlayer &mdash; PyXA 0.1.0 documentation</title>
+  <title>PyXA.apps.QuickTimePlayer &mdash; PyXA 0.1.1 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -58,9 +58,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../../index.html">Module code</a> &raquo;</li>
-      <li>PyXA.apps.QuickTimePlayer</li>
+      <li><a href="../../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">PyXA.apps.QuickTimePlayer</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -93,22 +93,22 @@
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">xa_wcls</span> <span class="o">=</span> <span class="n">XAQuickTimeWindow</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span> <span class="c1">#: Every property of the QuickTime application</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The name of the application</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">frontmost</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether QuickTime is the frontmost application</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The version of QuickTime.app</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">current_document</span><span class="p">:</span> <span class="n">XAQuickTimeDocument</span> <span class="c1">#: The document currently open in the front window of QuickTime</span>
-
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">properties</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Every property of the QuickTime application.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">properties</span><span class="p">()</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The name of the application.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">name</span><span class="p">()</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">frontmost</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Whether QuickTime is the frontmost application.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">frontmost</span><span class="p">()</span>
 
     <span class="nd">@frontmost</span><span class="o">.</span><span class="n">setter</span>
@@ -117,10 +117,14 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">version</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The version of QuickTime.app.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">version</span><span class="p">()</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">current_document</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAQuickTimeDocument&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The document currently open in the front window of QuickTime.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">front_window</span><span class="o">.</span><span class="n">document</span>
 
 <div class="viewcode-block" id="XAQuickTimeApplication.open"><a class="viewcode-back" href="../../../reference/apps/quicktimeplayer.html#PyXA.apps.QuickTimePlayer.XAQuickTimeApplication.open">[docs]</a>    <span class="k">def</span> <span class="nf">open</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">AppKit</span><span class="o">.</span><span class="n">NSURL</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAQuickTimeDocument&#39;</span><span class="p">:</span>
@@ -268,101 +272,26 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">:</span> <span class="nb">int</span> <span class="c1">#: The unique identifier for the window</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">bounds</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="c1">#: The boundary rectangle for the window</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The name of the window</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">index</span><span class="p">:</span> <span class="nb">int</span> <span class="c1">#: The index of the window in the front-to-back order of Finder windows</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">closeable</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether the window has a close button</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">resizable</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether the window can be resized</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">zoomable</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether the window can be zoomed</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">zoomed</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether the window is currently zoomed</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">visible</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether the window is currently visible</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">miniaturizable</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether the window can be minimized</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">miniaturized</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether the window is currently minimized</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span> <span class="c1">#: Every property of a QuickTime window</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">document</span><span class="p">:</span> <span class="n">XAQuickTimeDocument</span> <span class="c1">#: The document currently displayed in the front window of QuickTime</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">id</span><span class="p">()</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">bounds</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
-        <span class="n">rect</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">bounds</span><span class="p">()</span>
-        <span class="n">origin</span> <span class="o">=</span> <span class="n">rect</span><span class="o">.</span><span class="n">origin</span>
-        <span class="n">size</span> <span class="o">=</span> <span class="n">rect</span><span class="o">.</span><span class="n">size</span>
-        <span class="k">return</span> <span class="p">(</span><span class="n">origin</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">origin</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">size</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="n">size</span><span class="o">.</span><span class="n">height</span><span class="p">)</span>
-
-    <span class="nd">@bounds</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span> <span class="nf">bounds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bounds</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]):</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="n">y</span> <span class="o">=</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-        <span class="n">w</span> <span class="o">=</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
-        <span class="n">h</span> <span class="o">=</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
-        <span class="n">value</span> <span class="o">=</span> <span class="n">AppKit</span><span class="o">.</span><span class="n">NSValue</span><span class="o">.</span><span class="n">valueWithRect_</span><span class="p">(</span><span class="n">AppKit</span><span class="o">.</span><span class="n">NSMakeRect</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">h</span><span class="p">))</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;bounds&quot;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">name</span><span class="p">()</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">index</span><span class="p">()</span>
-
-    <span class="nd">@index</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;index&quot;</span><span class="p">,</span> <span class="n">index</span><span class="p">)</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">closeable</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">closeable</span><span class="p">()</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">resizable</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">resizable</span><span class="p">()</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">zoomable</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">zoomable</span><span class="p">()</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">zoomed</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">zoomed</span><span class="p">()</span>
-
-    <span class="nd">@zoomed</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span> <span class="nf">zoomed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">zoomed</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;zoomed&quot;</span><span class="p">,</span> <span class="n">zoomed</span><span class="p">)</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">visible</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">visible</span><span class="p">()</span>
-
-    <span class="nd">@visible</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span> <span class="nf">visible</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">visible</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;visible&quot;</span><span class="p">,</span> <span class="n">visible</span><span class="p">)</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">miniaturizable</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">miniaturizable</span><span class="p">()</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">miniaturized</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">miniaturized</span><span class="p">()</span>
-
-    <span class="nd">@miniaturized</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span> <span class="nf">miniaturized</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">miniaturized</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;miniaturized&quot;</span><span class="p">,</span> <span class="n">miniaturized</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">properties</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Every property of a QuickTime window.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">properties</span><span class="p">()</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">document</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAQuickTimeDocument&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The document currently displayed in the front window of QuickTime.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">document</span><span class="p">(),</span> <span class="n">XAQuickTimeDocument</span><span class="p">)</span>
 
 <div class="viewcode-block" id="XAQuickTimeWindow.set_property"><a class="viewcode-back" href="../../../reference/apps/quicktimeplayer.html#PyXA.apps.QuickTimePlayer.XAQuickTimeWindow.set_property">[docs]</a>    <span class="k">def</span> <span class="nf">set_property</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">property_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets the specified property to the given value.</span>
+
+<span class="sd">        .. deprecated:: 0.1.1</span>
+<span class="sd">        </span>
+<span class="sd">           Set the desired attribute directly instead.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">tuple</span><span class="p">):</span>
                 <span class="c1"># Value is a rectangle boundary</span>
@@ -740,30 +669,17 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span> <span class="c1">#: All properties of the document</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">audio_volume</span><span class="p">:</span> <span class="nb">float</span> <span class="c1">#: The volume of the movie from 0 to 1 (0 to 100%)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">current_time</span><span class="p">:</span> <span class="nb">float</span> <span class="c1">#: The current time of the movie in seconds</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">data_rate</span><span class="p">:</span> <span class="nb">int</span> <span class="c1">#: The data rate of the movie in bytes per second</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">data_size</span><span class="p">:</span> <span class="nb">int</span> <span class="c1">#: The data size of the movie in bytes</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">duration</span><span class="p">:</span> <span class="nb">float</span> <span class="c1">#: The duration of the movie in seconds</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">looping</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether the movie plays in a loop</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">muted</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether the movie is muted</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">natural_dimensions</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="c1">#: The national dimensions of the movie</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">playing</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether the movie is currently playing</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">rate</span><span class="p">:</span> <span class="nb">float</span> <span class="c1">#: The current rate of the movie</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">presenting</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether the movie is presented in full screen</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">current_microphone</span><span class="p">:</span> <span class="n">XAQuickTimeAudioRecordingDevice</span> <span class="c1">#: The currently previewing audio device</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">current_camera</span><span class="p">:</span> <span class="n">XAQuickTimeVideoRecordingDevice</span> <span class="c1">#: The currently previewing video device</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">current_audio_compression</span><span class="p">:</span> <span class="n">XAQuickTimeAudioCompressionPreset</span> <span class="c1">#: The current audio compression preset</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">current_movie_compression</span><span class="p">:</span> <span class="n">XAQuickTimeMovieCompressionPreset</span> <span class="c1">#: The current movie compression preset</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">current_screen_compression</span><span class="p">:</span> <span class="n">XAQuickTimeScreenCompressionPreset</span> <span class="c1">#: The current screen compression preset</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">properties</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;All properties of the document.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">properties</span><span class="p">()</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">audio_volume</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The volume of the movie from 0 to 1 (0 to 100%).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">audioVolume</span><span class="p">()</span>
 
     <span class="nd">@audio_volume</span><span class="o">.</span><span class="n">setter</span>
@@ -772,6 +688,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">current_time</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The current time of the movie in seconds.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">currentTime</span><span class="p">()</span>
 
     <span class="nd">@current_time</span><span class="o">.</span><span class="n">setter</span>
@@ -780,18 +698,26 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">data_rate</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The data rate of the movie in bytes per second.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">dataRate</span><span class="p">()</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">data_size</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The data size of the movie in bytes.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">dataSize</span><span class="p">()</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">duration</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The duration of the movie in seconds.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">duration</span><span class="p">()</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">looping</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Whether the movie plays in a loop.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">looping</span><span class="p">()</span>
 
     <span class="nd">@looping</span><span class="o">.</span><span class="n">setter</span>
@@ -800,6 +726,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">muted</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Whether the movie is muted.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">muted</span><span class="p">()</span>
 
     <span class="nd">@muted</span><span class="o">.</span><span class="n">setter</span>
@@ -808,14 +736,20 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">natural_dimensions</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;The national dimensions of the movie.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">naturalDimensions</span><span class="p">()</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">playing</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Whether the movie is currently playing.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">playing</span><span class="p">()</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">rate</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The current rate of the movie.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">rate</span><span class="p">()</span>
 
     <span class="nd">@rate</span><span class="o">.</span><span class="n">setter</span>
@@ -824,6 +758,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">presenting</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Whether the movie is presented in full screen.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">presenting</span><span class="p">()</span>
 
     <span class="nd">@presenting</span><span class="o">.</span><span class="n">setter</span>
@@ -832,6 +768,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">current_microphone</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAQuickTimeAudioRecordingDevice&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The currently previewing audio device.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">currentMicrophone</span><span class="p">(),</span> <span class="n">XAQuickTimeAudioRecordingDevice</span><span class="p">)</span>
 
     <span class="nd">@current_microphone</span><span class="o">.</span><span class="n">setter</span>
@@ -840,6 +778,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">current_camera</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAQuickTimeVideoRecordingDevice&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The currently previewing video device.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">currentCamera</span><span class="p">(),</span> <span class="n">XAQuickTimeVideoRecordingDevice</span><span class="p">)</span>
 
     <span class="nd">@current_camera</span><span class="o">.</span><span class="n">setter</span>
@@ -848,6 +788,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">current_audio_compression</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAQuickTimeAudioCompressionPreset&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The current audio compression preset.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">currentAudioCompression</span><span class="p">(),</span> <span class="n">XAQuickTimeAudioCompressionPreset</span><span class="p">)</span>
 
     <span class="nd">@current_audio_compression</span><span class="o">.</span><span class="n">setter</span>
@@ -856,6 +798,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">current_movie_compression</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAQuickTimeMovieCompressionPreset&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The current movie compression preset.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">currentMovieCompression</span><span class="p">(),</span> <span class="n">XAQuickTimeMovieCompressionPreset</span><span class="p">)</span>
 
     <span class="nd">@current_movie_compression</span><span class="o">.</span><span class="n">setter</span>
@@ -864,6 +808,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">current_screen_compression</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAQuickTimeScreenCompressionPreset&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The current screen compression preset.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">currentScreenCompression</span><span class="p">(),</span> <span class="n">XAQuickTimeScreenCompressionPreset</span><span class="p">)</span>
 
     <span class="nd">@current_screen_compression</span><span class="o">.</span><span class="n">setter</span>
@@ -958,20 +904,23 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span> <span class="c1">#: All properties of the device</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The name of the device</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The unique identifier for the device</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">properties</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;All properties of the device.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">properties</span><span class="p">()</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The name of the device.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">name</span><span class="p">()</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The unique identifier for the device.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">ID</span><span class="p">()</span></div>
 
 
@@ -1026,20 +975,23 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span> <span class="c1">#: All properties of the device</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The name of the device</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The unique identifier for the device</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">properties</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;All properties of the device.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">properties</span><span class="p">()</span>
     
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The name of the device.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">name</span><span class="p">()</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The unique identifier for the device.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">ID</span><span class="p">()</span></div>
 
 
@@ -1094,20 +1046,23 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span> <span class="c1">#: All properties of the preset</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The name of the preset</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The unique identifier for the preset</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">properties</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;All properties of the preset.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">properties</span><span class="p">()</span>
     
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The name of the preset.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">name</span><span class="p">()</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The unique identifier for the preset.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">ID</span><span class="p">()</span></div>
 
 
@@ -1162,20 +1117,23 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span> <span class="c1">#: All properties of the preset</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The name of the preset</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The unique identifier for the preset</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">properties</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;All properties of the preset.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">properties</span><span class="p">()</span>
     
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The name of the preset.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">name</span><span class="p">()</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The unique identifier for the preset.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">ID</span><span class="p">()</span></div>
 
 
@@ -1230,20 +1188,23 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span> <span class="c1">#: All properties of the preset</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The name of the preset</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The unique identifier for the preset</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">properties</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;All properties of the preset.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">properties</span><span class="p">()</span>
     
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The name of the preset.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">name</span><span class="p">()</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The unique identifier for the preset.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">ID</span><span class="p">()</span></div>
 </pre></div>
 

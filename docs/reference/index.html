@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Code Documentation and Reference &mdash; PyXA 0.1.0 documentation</title>
+  <title>Code Documentation and Reference &mdash; PyXA 0.1.1 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
@@ -47,12 +47,11 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Code Documentation and Reference</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#top-level-pyxa-modules">Top-level PyXA Modules</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="pyxa.html">PyXA Module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="xaerrors.html">XAErrors Module</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#pyxa-base-modules">PyXA Base Modules</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="xabase.html">XABase Module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="xabasescriptable.html">XABaseScriptable Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="xatypes.html">XATypes Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="xaprotocols.html">XAProtocols Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="xaerrors.html">XAErrors Module</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#first-party-application-module-reference">First-Party Application Module Reference</a><ul>
@@ -102,6 +101,13 @@
 <li class="toctree-l3"><a class="reference internal" href="apps/rstudio.html">RStudio Module Reference</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#pyxa-additions">PyXA Additions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="additions/xalearn.html">XALearn Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="additions/xaspeech.html">XASpeech Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="additions/xautils.html">XAUtils Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="additions/xaweb.html">XAWeb Module</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../bugs.html">Bugs</a></li>
@@ -120,8 +126,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>Code Documentation and Reference</li>
+      <li><a href="../index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Code Documentation and Reference</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/reference/index.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -142,7 +148,6 @@
 <li class="toctree-l2"><a class="reference internal" href="pyxa.html#PyXA.PyXA.CGImageSourceCreateWithData"><code class="docutils literal notranslate"><span class="pre">CGImageSourceCreateWithData()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyxa.html#PyXA.PyXA.CGRectMake"><code class="docutils literal notranslate"><span class="pre">CGRectMake()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyxa.html#PyXA.PyXA.CGWindowListCopyWindowInfo"><code class="docutils literal notranslate"><span class="pre">CGWindowListCopyWindowInfo()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyxa.html#PyXA.PyXA.VERSION"><code class="docutils literal notranslate"><span class="pre">VERSION</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyxa.html#PyXA.PyXA.XAApplicationList"><code class="docutils literal notranslate"><span class="pre">XAApplicationList</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyxa.html#PyXA.PyXA.XACombinedWindowList"><code class="docutils literal notranslate"><span class="pre">XACombinedWindowList</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyxa.html#PyXA.PyXA.application"><code class="docutils literal notranslate"><span class="pre">application()</span></code></a></li>
@@ -151,31 +156,19 @@
 <li class="toctree-l2"><a class="reference internal" href="pyxa.html#PyXA.PyXA.supported_applications"><code class="docutils literal notranslate"><span class="pre">supported_applications</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="xaerrors.html">XAErrors Module</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="xaerrors.html#PyXA.XAErrors.ApplicationNotFoundError"><code class="docutils literal notranslate"><span class="pre">ApplicationNotFoundError</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="xaerrors.html#PyXA.XAErrors.AuthenticationError"><code class="docutils literal notranslate"><span class="pre">AuthenticationError</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="xaerrors.html#PyXA.XAErrors.InvalidPredicateError"><code class="docutils literal notranslate"><span class="pre">InvalidPredicateError</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="xaerrors.html#PyXA.XAErrors.UnconstructableClassError"><code class="docutils literal notranslate"><span class="pre">UnconstructableClassError</span></code></a></li>
-</ul>
-</li>
-</ul>
-</div>
-</section>
-<section id="pyxa-base-modules">
-<h2>PyXA Base Modules<a class="headerlink" href="#pyxa-base-modules" title="Permalink to this heading"></a></h2>
-<div class="toctree-wrapper compound">
-<ul>
 <li class="toctree-l1"><a class="reference internal" href="xabase.html">XABase Module</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="xabase.html#PyXA.XABase.AppleScript"><code class="docutils literal notranslate"><span class="pre">AppleScript</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="xabase.html#PyXA.XABase.Application"><code class="docutils literal notranslate"><span class="pre">Application</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="xabase.html#PyXA.XABase.CGImageSourceCreateWithData"><code class="docutils literal notranslate"><span class="pre">CGImageSourceCreateWithData()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="xabase.html#PyXA.XABase.CGRectMake"><code class="docutils literal notranslate"><span class="pre">CGRectMake()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="xabase.html#PyXA.XABase.OSType"><code class="docutils literal notranslate"><span class="pre">OSType()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="xabase.html#PyXA.XABase.SDEFParser"><code class="docutils literal notranslate"><span class="pre">SDEFParser</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="xabase.html#PyXA.XABase.VERSION"><code class="docutils literal notranslate"><span class="pre">VERSION</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="xabase.html#PyXA.XABase.XAAlert"><code class="docutils literal notranslate"><span class="pre">XAAlert</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="xabase.html#PyXA.XABase.XAAlertStyle"><code class="docutils literal notranslate"><span class="pre">XAAlertStyle</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="xabase.html#PyXA.XABase.XAAlias"><code class="docutils literal notranslate"><span class="pre">XAAlias</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="xabase.html#PyXA.XABase.XAAliasList"><code class="docutils literal notranslate"><span class="pre">XAAliasList</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="xabase.html#PyXA.XABase.XAApplication"><code class="docutils literal notranslate"><span class="pre">XAApplication</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="xabase.html#PyXA.XABase.XAApplicationList"><code class="docutils literal notranslate"><span class="pre">XAApplicationList</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="xabase.html#PyXA.XABase.XAApplicationPicker"><code class="docutils literal notranslate"><span class="pre">XAApplicationPicker</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="xabase.html#PyXA.XABase.XAAttachment"><code class="docutils literal notranslate"><span class="pre">XAAttachment</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="xabase.html#PyXA.XABase.XAAttachmentList"><code class="docutils literal notranslate"><span class="pre">XAAttachmentList</span></code></a></li>
@@ -191,7 +184,6 @@
 <li class="toctree-l2"><a class="reference internal" href="xabase.html#PyXA.XABase.XAColorList"><code class="docutils literal notranslate"><span class="pre">XAColorList</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="xabase.html#PyXA.XABase.XAColorPicker"><code class="docutils literal notranslate"><span class="pre">XAColorPicker</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="xabase.html#PyXA.XABase.XAColorPickerStyle"><code class="docutils literal notranslate"><span class="pre">XAColorPickerStyle</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="xabase.html#PyXA.XABase.XACommandDetector"><code class="docutils literal notranslate"><span class="pre">XACommandDetector</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="xabase.html#PyXA.XABase.XADialog"><code class="docutils literal notranslate"><span class="pre">XADialog</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="xabase.html#PyXA.XABase.XADisk"><code class="docutils literal notranslate"><span class="pre">XADisk</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="xabase.html#PyXA.XABase.XADiskItem"><code class="docutils literal notranslate"><span class="pre">XADiskItem</span></code></a></li>
@@ -211,12 +203,10 @@
 <li class="toctree-l2"><a class="reference internal" href="xabase.html#PyXA.XABase.XAFolderPicker"><code class="docutils literal notranslate"><span class="pre">XAFolderPicker</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="xabase.html#PyXA.XABase.XAImage"><code class="docutils literal notranslate"><span class="pre">XAImage</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="xabase.html#PyXA.XABase.XAImageList"><code class="docutils literal notranslate"><span class="pre">XAImageList</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="xabase.html#PyXA.XABase.XALSM"><code class="docutils literal notranslate"><span class="pre">XALSM</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="xabase.html#PyXA.XABase.XAList"><code class="docutils literal notranslate"><span class="pre">XAList</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="xabase.html#PyXA.XABase.XALocalDomainObject"><code class="docutils literal notranslate"><span class="pre">XALocalDomainObject</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="xabase.html#PyXA.XABase.XALocation"><code class="docutils literal notranslate"><span class="pre">XALocation</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="xabase.html#PyXA.XABase.XAMenu"><code class="docutils literal notranslate"><span class="pre">XAMenu</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="xabase.html#PyXA.XABase.XAMenuBar"><code class="docutils literal notranslate"><span class="pre">XAMenuBar</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="xabase.html#PyXA.XABase.XANetworkDomainObject"><code class="docutils literal notranslate"><span class="pre">XANetworkDomainObject</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="xabase.html#PyXA.XABase.XANotification"><code class="docutils literal notranslate"><span class="pre">XANotification</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="xabase.html#PyXA.XABase.XAObject"><code class="docutils literal notranslate"><span class="pre">XAObject</span></code></a></li>
@@ -229,8 +219,6 @@
 <li class="toctree-l2"><a class="reference internal" href="xabase.html#PyXA.XABase.XASentenceList"><code class="docutils literal notranslate"><span class="pre">XASentenceList</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="xabase.html#PyXA.XABase.XASound"><code class="docutils literal notranslate"><span class="pre">XASound</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="xabase.html#PyXA.XABase.XASoundList"><code class="docutils literal notranslate"><span class="pre">XASoundList</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="xabase.html#PyXA.XABase.XASpeech"><code class="docutils literal notranslate"><span class="pre">XASpeech</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="xabase.html#PyXA.XABase.XASpeechRecognizer"><code class="docutils literal notranslate"><span class="pre">XASpeechRecognizer</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="xabase.html#PyXA.XABase.XASpotlight"><code class="docutils literal notranslate"><span class="pre">XASpotlight</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="xabase.html#PyXA.XABase.XASystemDomainObject"><code class="docutils literal notranslate"><span class="pre">XASystemDomainObject</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="xabase.html#PyXA.XABase.XAText"><code class="docutils literal notranslate"><span class="pre">XAText</span></code></a></li>
@@ -272,6 +260,9 @@
 <li class="toctree-l2"><a class="reference internal" href="xabase.html#PyXA.XABase.XAWindowList"><code class="docutils literal notranslate"><span class="pre">XAWindowList</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="xabase.html#PyXA.XABase.XAWord"><code class="docutils literal notranslate"><span class="pre">XAWord</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="xabase.html#PyXA.XABase.XAWordList"><code class="docutils literal notranslate"><span class="pre">XAWordList</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="xabase.html#PyXA.XABase.current_application"><code class="docutils literal notranslate"><span class="pre">current_application()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="xabase.html#PyXA.XABase.running_applications"><code class="docutils literal notranslate"><span class="pre">running_applications()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="xabase.html#PyXA.XABase.supported_applications"><code class="docutils literal notranslate"><span class="pre">supported_applications</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="xabase.html#PyXA.XABase.unOSType"><code class="docutils literal notranslate"><span class="pre">unOSType()</span></code></a></li>
 </ul>
 </li>
@@ -281,7 +272,32 @@
 <li class="toctree-l2"><a class="reference internal" href="xabasescriptable.html#PyXA.XABaseScriptable.XASBPrintable"><code class="docutils literal notranslate"><span class="pre">XASBPrintable</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="xabasescriptable.html#PyXA.XABaseScriptable.XASBWindow"><code class="docutils literal notranslate"><span class="pre">XASBWindow</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="xabasescriptable.html#PyXA.XABaseScriptable.XASBWindowList"><code class="docutils literal notranslate"><span class="pre">XASBWindowList</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="xabasescriptable.html#PyXA.XABaseScriptable.timeout"><code class="docutils literal notranslate"><span class="pre">timeout</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="xatypes.html">XATypes Module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="xatypes.html#PyXA.XATypes.XAPoint"><code class="docutils literal notranslate"><span class="pre">XAPoint</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="xatypes.html#PyXA.XATypes.XARectangle"><code class="docutils literal notranslate"><span class="pre">XARectangle</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="xaprotocols.html">XAProtocols Module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="xaprotocols.html#PyXA.XAProtocols.XACanOpenPath"><code class="docutils literal notranslate"><span class="pre">XACanOpenPath</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="xaprotocols.html#PyXA.XAProtocols.XACanPrintPath"><code class="docutils literal notranslate"><span class="pre">XACanPrintPath</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="xaprotocols.html#PyXA.XAProtocols.XAClipboardCodable"><code class="docutils literal notranslate"><span class="pre">XAClipboardCodable</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="xaprotocols.html#PyXA.XAProtocols.XACloseable"><code class="docutils literal notranslate"><span class="pre">XACloseable</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="xaprotocols.html#PyXA.XAProtocols.XADeletable"><code class="docutils literal notranslate"><span class="pre">XADeletable</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="xaprotocols.html#PyXA.XAProtocols.XAImageLike"><code class="docutils literal notranslate"><span class="pre">XAImageLike</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="xaprotocols.html#PyXA.XAProtocols.XAPathLike"><code class="docutils literal notranslate"><span class="pre">XAPathLike</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="xaprotocols.html#PyXA.XAProtocols.XAPrintable"><code class="docutils literal notranslate"><span class="pre">XAPrintable</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="xaprotocols.html#PyXA.XAProtocols.XAProtocol"><code class="docutils literal notranslate"><span class="pre">XAProtocol</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="xaprotocols.html#PyXA.XAProtocols.XASelectable"><code class="docutils literal notranslate"><span class="pre">XASelectable</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="xaprotocols.html#PyXA.XAProtocols.XAShowable"><code class="docutils literal notranslate"><span class="pre">XAShowable</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="xaerrors.html">XAErrors Module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="xaerrors.html#PyXA.XAErrors.ApplicationNotFoundError"><code class="docutils literal notranslate"><span class="pre">ApplicationNotFoundError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="xaerrors.html#PyXA.XAErrors.AuthenticationError"><code class="docutils literal notranslate"><span class="pre">AuthenticationError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="xaerrors.html#PyXA.XAErrors.InvalidPredicateError"><code class="docutils literal notranslate"><span class="pre">InvalidPredicateError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="xaerrors.html#PyXA.XAErrors.UnconstructableClassError"><code class="docutils literal notranslate"><span class="pre">UnconstructableClassError</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -451,46 +467,18 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="apps/keynote.html">Keynote Module Reference</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="apps/keynote.html#PyXA.apps.Keynote.XAKeynoteApplication"><code class="docutils literal notranslate"><span class="pre">XAKeynoteApplication</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="apps/keynote.html#PyXA.apps.Keynote.XAKeynoteAudioClip"><code class="docutils literal notranslate"><span class="pre">XAKeynoteAudioClip</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="apps/keynote.html#PyXA.apps.Keynote.XAKeynoteAudioClipList"><code class="docutils literal notranslate"><span class="pre">XAKeynoteAudioClipList</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="apps/keynote.html#PyXA.apps.Keynote.XAKeynoteCell"><code class="docutils literal notranslate"><span class="pre">XAKeynoteCell</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="apps/keynote.html#PyXA.apps.Keynote.XAKeynoteCellList"><code class="docutils literal notranslate"><span class="pre">XAKeynoteCellList</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="apps/keynote.html#PyXA.apps.Keynote.XAKeynoteChart"><code class="docutils literal notranslate"><span class="pre">XAKeynoteChart</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="apps/keynote.html#PyXA.apps.Keynote.XAKeynoteChartList"><code class="docutils literal notranslate"><span class="pre">XAKeynoteChartList</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="apps/keynote.html#PyXA.apps.Keynote.XAKeynoteColumn"><code class="docutils literal notranslate"><span class="pre">XAKeynoteColumn</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="apps/keynote.html#PyXA.apps.Keynote.XAKeynoteColumnList"><code class="docutils literal notranslate"><span class="pre">XAKeynoteColumnList</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="apps/keynote.html#PyXA.apps.Keynote.XAKeynoteContainer"><code class="docutils literal notranslate"><span class="pre">XAKeynoteContainer</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="apps/keynote.html#PyXA.apps.Keynote.XAKeynoteContainerList"><code class="docutils literal notranslate"><span class="pre">XAKeynoteContainerList</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="apps/keynote.html#PyXA.apps.Keynote.XAKeynoteDocument"><code class="docutils literal notranslate"><span class="pre">XAKeynoteDocument</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="apps/keynote.html#PyXA.apps.Keynote.XAKeynoteDocumentList"><code class="docutils literal notranslate"><span class="pre">XAKeynoteDocumentList</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="apps/keynote.html#PyXA.apps.Keynote.XAKeynoteGroup"><code class="docutils literal notranslate"><span class="pre">XAKeynoteGroup</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="apps/keynote.html#PyXA.apps.Keynote.XAKeynoteGroupList"><code class="docutils literal notranslate"><span class="pre">XAKeynoteGroupList</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="apps/keynote.html#PyXA.apps.Keynote.XAKeynoteImage"><code class="docutils literal notranslate"><span class="pre">XAKeynoteImage</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="apps/keynote.html#PyXA.apps.Keynote.XAKeynoteImageList"><code class="docutils literal notranslate"><span class="pre">XAKeynoteImageList</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="apps/keynote.html#PyXA.apps.Keynote.XAKeynoteLine"><code class="docutils literal notranslate"><span class="pre">XAKeynoteLine</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="apps/keynote.html#PyXA.apps.Keynote.XAKeynoteLineList"><code class="docutils literal notranslate"><span class="pre">XAKeynoteLineList</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="apps/keynote.html#PyXA.apps.Keynote.XAKeynoteMovie"><code class="docutils literal notranslate"><span class="pre">XAKeynoteMovie</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="apps/keynote.html#PyXA.apps.Keynote.XAKeynoteMovieList"><code class="docutils literal notranslate"><span class="pre">XAKeynoteMovieList</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="apps/keynote.html#PyXA.apps.Keynote.XAKeynoteRange"><code class="docutils literal notranslate"><span class="pre">XAKeynoteRange</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="apps/keynote.html#PyXA.apps.Keynote.XAKeynoteRangeList"><code class="docutils literal notranslate"><span class="pre">XAKeynoteRangeList</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="apps/keynote.html#PyXA.apps.Keynote.XAKeynoteRow"><code class="docutils literal notranslate"><span class="pre">XAKeynoteRow</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="apps/keynote.html#PyXA.apps.Keynote.XAKeynoteRowList"><code class="docutils literal notranslate"><span class="pre">XAKeynoteRowList</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="apps/keynote.html#PyXA.apps.Keynote.XAKeynoteShape"><code class="docutils literal notranslate"><span class="pre">XAKeynoteShape</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="apps/keynote.html#PyXA.apps.Keynote.XAKeynoteShapeList"><code class="docutils literal notranslate"><span class="pre">XAKeynoteShapeList</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="apps/keynote.html#PyXA.apps.Keynote.XAKeynoteSlide"><code class="docutils literal notranslate"><span class="pre">XAKeynoteSlide</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="apps/keynote.html#PyXA.apps.Keynote.XAKeynoteSlideLayout"><code class="docutils literal notranslate"><span class="pre">XAKeynoteSlideLayout</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="apps/keynote.html#PyXA.apps.Keynote.XAKeynoteSlideLayoutList"><code class="docutils literal notranslate"><span class="pre">XAKeynoteSlideLayoutList</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="apps/keynote.html#PyXA.apps.Keynote.XAKeynoteSlideList"><code class="docutils literal notranslate"><span class="pre">XAKeynoteSlideList</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="apps/keynote.html#PyXA.apps.Keynote.XAKeynoteTable"><code class="docutils literal notranslate"><span class="pre">XAKeynoteTable</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="apps/keynote.html#PyXA.apps.Keynote.XAKeynoteTableList"><code class="docutils literal notranslate"><span class="pre">XAKeynoteTableList</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="apps/keynote.html#PyXA.apps.Keynote.XAKeynoteTextItem"><code class="docutils literal notranslate"><span class="pre">XAKeynoteTextItem</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="apps/keynote.html#PyXA.apps.Keynote.XAKeynoteTextItemList"><code class="docutils literal notranslate"><span class="pre">XAKeynoteTextItemList</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="apps/keynote.html#PyXA.apps.Keynote.XAKeynoteTheme"><code class="docutils literal notranslate"><span class="pre">XAKeynoteTheme</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="apps/keynote.html#PyXA.apps.Keynote.XAKeynoteThemeList"><code class="docutils literal notranslate"><span class="pre">XAKeynoteThemeList</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="apps/keynote.html#PyXA.apps.Keynote.XAKeynoteTransitionSettings"><code class="docutils literal notranslate"><span class="pre">XAKeynoteTransitionSettings</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="apps/keynote.html#PyXA.apps.Keynote.XAKeynoteWindow"><code class="docutils literal notranslate"><span class="pre">XAKeynoteWindow</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="apps/keynote.html#PyXA.apps.Keynote.XAKeynoteiWorkItem"><code class="docutils literal notranslate"><span class="pre">XAKeynoteiWorkItem</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="apps/keynote.html#PyXA.apps.Keynote.XAKeynoteiWorkItemList"><code class="docutils literal notranslate"><span class="pre">XAKeynoteiWorkItemList</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="apps/mail.html">Mail Module Reference</a><ul>
@@ -629,47 +617,19 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="apps/pages.html">Pages Module Reference</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="apps/pages.html#PyXA.apps.Pages.XAPagesApplication"><code class="docutils literal notranslate"><span class="pre">XAPagesApplication</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="apps/pages.html#PyXA.apps.Pages.XAPagesAudioClip"><code class="docutils literal notranslate"><span class="pre">XAPagesAudioClip</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="apps/pages.html#PyXA.apps.Pages.XAPagesAudioClipList"><code class="docutils literal notranslate"><span class="pre">XAPagesAudioClipList</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="apps/pages.html#PyXA.apps.Pages.XAPagesCell"><code class="docutils literal notranslate"><span class="pre">XAPagesCell</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="apps/pages.html#PyXA.apps.Pages.XAPagesCellList"><code class="docutils literal notranslate"><span class="pre">XAPagesCellList</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="apps/pages.html#PyXA.apps.Pages.XAPagesChart"><code class="docutils literal notranslate"><span class="pre">XAPagesChart</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="apps/pages.html#PyXA.apps.Pages.XAPagesChartList"><code class="docutils literal notranslate"><span class="pre">XAPagesChartList</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="apps/pages.html#PyXA.apps.Pages.XAPagesColumn"><code class="docutils literal notranslate"><span class="pre">XAPagesColumn</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="apps/pages.html#PyXA.apps.Pages.XAPagesColumnList"><code class="docutils literal notranslate"><span class="pre">XAPagesColumnList</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="apps/pages.html#PyXA.apps.Pages.XAPagesContainer"><code class="docutils literal notranslate"><span class="pre">XAPagesContainer</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="apps/pages.html#PyXA.apps.Pages.XAPagesContainerList"><code class="docutils literal notranslate"><span class="pre">XAPagesContainerList</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="apps/pages.html#PyXA.apps.Pages.XAPagesDocument"><code class="docutils literal notranslate"><span class="pre">XAPagesDocument</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="apps/pages.html#PyXA.apps.Pages.XAPagesDocumentList"><code class="docutils literal notranslate"><span class="pre">XAPagesDocumentList</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="apps/pages.html#PyXA.apps.Pages.XAPagesGroup"><code class="docutils literal notranslate"><span class="pre">XAPagesGroup</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="apps/pages.html#PyXA.apps.Pages.XAPagesGroupList"><code class="docutils literal notranslate"><span class="pre">XAPagesGroupList</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="apps/pages.html#PyXA.apps.Pages.XAPagesImage"><code class="docutils literal notranslate"><span class="pre">XAPagesImage</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="apps/pages.html#PyXA.apps.Pages.XAPagesImageList"><code class="docutils literal notranslate"><span class="pre">XAPagesImageList</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="apps/pages.html#PyXA.apps.Pages.XAPagesLine"><code class="docutils literal notranslate"><span class="pre">XAPagesLine</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="apps/pages.html#PyXA.apps.Pages.XAPagesLineList"><code class="docutils literal notranslate"><span class="pre">XAPagesLineList</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="apps/pages.html#PyXA.apps.Pages.XAPagesMovie"><code class="docutils literal notranslate"><span class="pre">XAPagesMovie</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="apps/pages.html#PyXA.apps.Pages.XAPagesMovieList"><code class="docutils literal notranslate"><span class="pre">XAPagesMovieList</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="apps/pages.html#PyXA.apps.Pages.XAPagesPage"><code class="docutils literal notranslate"><span class="pre">XAPagesPage</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="apps/pages.html#PyXA.apps.Pages.XAPagesPageList"><code class="docutils literal notranslate"><span class="pre">XAPagesPageList</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="apps/pages.html#PyXA.apps.Pages.XAPagesPlaceholderText"><code class="docutils literal notranslate"><span class="pre">XAPagesPlaceholderText</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="apps/pages.html#PyXA.apps.Pages.XAPagesPlaceholderTextList"><code class="docutils literal notranslate"><span class="pre">XAPagesPlaceholderTextList</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="apps/pages.html#PyXA.apps.Pages.XAPagesRange"><code class="docutils literal notranslate"><span class="pre">XAPagesRange</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="apps/pages.html#PyXA.apps.Pages.XAPagesRangeList"><code class="docutils literal notranslate"><span class="pre">XAPagesRangeList</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="apps/pages.html#PyXA.apps.Pages.XAPagesRow"><code class="docutils literal notranslate"><span class="pre">XAPagesRow</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="apps/pages.html#PyXA.apps.Pages.XAPagesRowList"><code class="docutils literal notranslate"><span class="pre">XAPagesRowList</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="apps/pages.html#PyXA.apps.Pages.XAPagesSection"><code class="docutils literal notranslate"><span class="pre">XAPagesSection</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="apps/pages.html#PyXA.apps.Pages.XAPagesSectionList"><code class="docutils literal notranslate"><span class="pre">XAPagesSectionList</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="apps/pages.html#PyXA.apps.Pages.XAPagesShape"><code class="docutils literal notranslate"><span class="pre">XAPagesShape</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="apps/pages.html#PyXA.apps.Pages.XAPagesShapeList"><code class="docutils literal notranslate"><span class="pre">XAPagesShapeList</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="apps/pages.html#PyXA.apps.Pages.XAPagesTable"><code class="docutils literal notranslate"><span class="pre">XAPagesTable</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="apps/pages.html#PyXA.apps.Pages.XAPagesTableList"><code class="docutils literal notranslate"><span class="pre">XAPagesTableList</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="apps/pages.html#PyXA.apps.Pages.XAPagesTemplate"><code class="docutils literal notranslate"><span class="pre">XAPagesTemplate</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="apps/pages.html#PyXA.apps.Pages.XAPagesTemplateList"><code class="docutils literal notranslate"><span class="pre">XAPagesTemplateList</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="apps/pages.html#PyXA.apps.Pages.XAPagesTextItem"><code class="docutils literal notranslate"><span class="pre">XAPagesTextItem</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="apps/pages.html#PyXA.apps.Pages.XAPagesTextItemList"><code class="docutils literal notranslate"><span class="pre">XAPagesTextItemList</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="apps/pages.html#PyXA.apps.Pages.XAPagesWindow"><code class="docutils literal notranslate"><span class="pre">XAPagesWindow</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="apps/pages.html#PyXA.apps.Pages.XAPagesiWorkItem"><code class="docutils literal notranslate"><span class="pre">XAPagesiWorkItem</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="apps/pages.html#PyXA.apps.Pages.XAPagesiWorkItemList"><code class="docutils literal notranslate"><span class="pre">XAPagesiWorkItemList</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="apps/photos.html">Photos Module Reference</a><ul>
@@ -740,7 +700,6 @@
 <li class="toctree-l2"><a class="reference internal" href="apps/shortcuts.html#PyXA.apps.Shortcuts.XAShortcutFolderList"><code class="docutils literal notranslate"><span class="pre">XAShortcutFolderList</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="apps/shortcuts.html#PyXA.apps.Shortcuts.XAShortcutList"><code class="docutils literal notranslate"><span class="pre">XAShortcutList</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="apps/shortcuts.html#PyXA.apps.Shortcuts.XAShortcutsApplication"><code class="docutils literal notranslate"><span class="pre">XAShortcutsApplication</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="apps/shortcuts.html#PyXA.apps.Shortcuts.XAShortcutsWindow"><code class="docutils literal notranslate"><span class="pre">XAShortcutsWindow</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="apps/stocks.html">Stocks Module Reference</a><ul>
@@ -1086,6 +1045,38 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="apps/rstudio.html">RStudio Module Reference</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="apps/rstudio.html#PyXA.apps.RStudio.XARStudioApplication"><code class="docutils literal notranslate"><span class="pre">XARStudioApplication</span></code></a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="pyxa-additions">
+<h2>PyXA Additions<a class="headerlink" href="#pyxa-additions" title="Permalink to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="additions/xalearn.html">XALearn Module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="additions/xalearn.html#PyXA.additions.XALearn.XALSM"><code class="docutils literal notranslate"><span class="pre">XALSM</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="additions/xaspeech.html">XASpeech Module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="additions/xaspeech.html#PyXA.additions.XASpeech.XACommandDetector"><code class="docutils literal notranslate"><span class="pre">XACommandDetector</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="additions/xaspeech.html#PyXA.additions.XASpeech.XASpeech"><code class="docutils literal notranslate"><span class="pre">XASpeech</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="additions/xaspeech.html#PyXA.additions.XASpeech.XASpeechRecognizer"><code class="docutils literal notranslate"><span class="pre">XASpeechRecognizer</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="additions/xautils.html">XAUtils Module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="additions/xautils.html#PyXA.additions.XAUtils.SDEFParser"><code class="docutils literal notranslate"><span class="pre">SDEFParser</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="additions/xautils.html#PyXA.additions.XAUtils.XAMenuBar"><code class="docutils literal notranslate"><span class="pre">XAMenuBar</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="additions/xautils.html#PyXA.additions.XAUtils.XAMenuBarMenu"><code class="docutils literal notranslate"><span class="pre">XAMenuBarMenu</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="additions/xautils.html#PyXA.additions.XAUtils.XAMenuBarMenuItem"><code class="docutils literal notranslate"><span class="pre">XAMenuBarMenuItem</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="additions/xaweb.html">XAWeb Module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="additions/xaweb.html#PyXA.additions.XAWeb.RSSFeed"><code class="docutils literal notranslate"><span class="pre">RSSFeed</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="additions/xaweb.html#PyXA.additions.XAWeb.RSSItem"><code class="docutils literal notranslate"><span class="pre">RSSItem</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="additions/xaweb.html#PyXA.additions.XAWeb.RSSItemContent"><code class="docutils literal notranslate"><span class="pre">RSSItemContent</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="additions/xaweb.html#PyXA.additions.XAWeb.RSSItemContentList"><code class="docutils literal notranslate"><span class="pre">RSSItemContentList</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="additions/xaweb.html#PyXA.additions.XAWeb.RSSItemList"><code class="docutils literal notranslate"><span class="pre">RSSItemList</span></code></a></li>
 </ul>
 </li>
 </ul>

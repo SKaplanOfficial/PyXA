@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PyXA.apps.Contacts &mdash; PyXA 0.1.0 documentation</title>
+  <title>PyXA.apps.Contacts &mdash; PyXA 0.1.1 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -58,9 +58,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../../index.html">Module code</a> &raquo;</li>
-      <li>PyXA.apps.Contacts</li>
+      <li><a href="../../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">PyXA.apps.Contacts</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -114,20 +114,16 @@
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The name of the application</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">frontmost</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether Contacts is the frontmost application</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The version of Contacts.app</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">my_card</span><span class="p">:</span> <span class="n">XAContactsPerson</span> <span class="c1">#: The user&#39;s contact card</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">unsaved</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether there are any unsaved changed</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">selection</span><span class="p">:</span> <span class="n">XAContactsPersonList</span> <span class="c1">#: The currently selected entries</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">default_country_code</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The default country code for addresses</span>
-
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The name of the application.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">name</span><span class="p">()</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">frontmost</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Whether Contacts is the frontmost application.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">frontmost</span><span class="p">()</span>
 
     <span class="nd">@frontmost</span><span class="o">.</span><span class="n">setter</span>
@@ -136,10 +132,14 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">version</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The version of Contacts.app.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">version</span><span class="p">()</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">my_card</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAContactsPerson&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The user&#39;s contact card.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">myCard</span><span class="p">(),</span> <span class="n">XAContactsPerson</span><span class="p">)</span>
 
     <span class="nd">@my_card</span><span class="o">.</span><span class="n">setter</span>
@@ -148,10 +148,14 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">unsaved</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Whether there are any unsaved changed.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">unsaved</span><span class="p">()</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">selection</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAContactsPersonList&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The currently selected entries.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">selection</span><span class="p">(),</span> <span class="n">XAContactsPersonList</span><span class="p">)</span>
 
     <span class="nd">@selection</span><span class="o">.</span><span class="n">setter</span>
@@ -164,6 +168,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">default_country_code</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The default country code for addresses.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">defaultCountryCode</span><span class="p">()</span>
 
 <div class="viewcode-block" id="XAContactsApplication.open"><a class="viewcode-back" href="../../../reference/apps/contacts.html#PyXA.apps.Contacts.XAContactsApplication.open">[docs]</a>    <span class="k">def</span> <span class="nf">open</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
@@ -280,93 +286,11 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The title of the window</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">:</span> <span class="nb">int</span> <span class="c1">#: The unique identifier for the window</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">index</span><span class="p">:</span> <span class="nb">int</span> <span class="c1">#: The index of the window in the front-to-back ordering</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">bounds</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="c1">#: The bounding rectangle of the window</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">closeable</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether the window has a close button</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">miniaturizable</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether the window can be minimized</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">miniaturized</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether the window is currently minimized</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">resizable</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether the window can be resized</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">visible</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether the window is currently visible</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">zoomable</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether the window can be zoomed</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">zoomed</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether the window is currently zoomed</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">document</span><span class="p">:</span> <span class="n">XAContactsDocument</span> <span class="c1">#: The documents currently displayed in the window</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">name</span><span class="p">()</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">id</span><span class="p">()</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">index</span><span class="p">()</span>
-
-    <span class="nd">@index</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s1">&#39;index&#39;</span><span class="p">,</span> <span class="n">index</span><span class="p">)</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">bounds</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
-        <span class="n">rect</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">bounds</span><span class="p">()</span>
-        <span class="n">origin</span> <span class="o">=</span> <span class="n">rect</span><span class="o">.</span><span class="n">origin</span>
-        <span class="n">size</span> <span class="o">=</span> <span class="n">rect</span><span class="o">.</span><span class="n">size</span>
-        <span class="k">return</span> <span class="p">(</span><span class="n">origin</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">origin</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">size</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="n">size</span><span class="o">.</span><span class="n">height</span><span class="p">)</span>
-
-    <span class="nd">@bounds</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span> <span class="nf">bounds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bounds</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]):</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="n">y</span> <span class="o">=</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-        <span class="n">w</span> <span class="o">=</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
-        <span class="n">h</span> <span class="o">=</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
-        <span class="n">value</span> <span class="o">=</span> <span class="n">AppKit</span><span class="o">.</span><span class="n">NSValue</span><span class="o">.</span><span class="n">valueWithRect_</span><span class="p">(</span><span class="n">AppKit</span><span class="o">.</span><span class="n">NSMakeRect</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">h</span><span class="p">))</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;bounds&quot;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">closeable</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">closeable</span><span class="p">()</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">miniaturizable</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">miniaturizable</span><span class="p">()</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">miniaturized</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">miniaturized</span><span class="p">()</span>
-
-    <span class="nd">@miniaturized</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span> <span class="nf">miniaturized</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">miniaturized</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s1">&#39;miniaturized&#39;</span><span class="p">,</span> <span class="n">miniaturized</span><span class="p">)</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">resizable</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">resizable</span><span class="p">()</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">visible</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">visible</span><span class="p">()</span>
-
-    <span class="nd">@visible</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span> <span class="nf">visible</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">visible</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s1">&#39;visible&#39;</span><span class="p">,</span> <span class="n">visible</span><span class="p">)</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">zoomable</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">zoomable</span><span class="p">()</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">zoomed</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">zoomed</span><span class="p">()</span>
-
-    <span class="nd">@zoomed</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span> <span class="nf">zoomed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">zoomed</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s1">&#39;zoomed&#39;</span><span class="p">,</span> <span class="n">zoomed</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">document</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAContactsDocument&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The documents currently displayed in the window.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">document</span><span class="p">(),</span> <span class="n">XAContactsDocument</span><span class="p">)</span></div>
 
 
@@ -453,20 +377,23 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The name of the document</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">modified</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether the document has been modified since it was last saved</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="p">:</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAURL</span> <span class="c1">#: The location of the document of the disk, if one exists</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The name of the document.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">name</span><span class="p">()</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">modified</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Whether the document has been modified since it was last saved.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">modified</span><span class="p">()</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">file</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAURL</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The location of the document of the disk, if one exists.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAURL</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">file</span><span class="p">())</span></div>
 
 
@@ -672,18 +599,11 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">city</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The city part of the address</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">formatted_address</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The formatted string for the address</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">street</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The street part of the address</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The unique identifier for the address</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">zip</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The zip code or postal code part of the address</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">country</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The country part of the address</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The label associated with the address</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">country_code</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The country code part of the address</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The state, province, or region part of the address</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">city</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The city part of the address.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">city</span><span class="p">()</span>
 
     <span class="nd">@city</span><span class="o">.</span><span class="n">setter</span>
@@ -692,10 +612,14 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">formatted_address</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The formatted string for the address.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">formattedAddress</span><span class="p">()</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">street</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The street part of the address.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">street</span><span class="p">()</span>
 
     <span class="nd">@street</span><span class="o">.</span><span class="n">setter</span>
@@ -704,10 +628,14 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The unique identifier for the address.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">id</span><span class="p">()</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">zip</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The zip code or postal code part of the address.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">zip</span><span class="p">()</span>
 
     <span class="nd">@zip</span><span class="o">.</span><span class="n">setter</span>
@@ -716,6 +644,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">country</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The country part of the address.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">country</span><span class="p">()</span>
 
     <span class="nd">@country</span><span class="o">.</span><span class="n">setter</span>
@@ -724,6 +654,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">label</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The label associated with the address.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">label</span><span class="p">()</span>
 
     <span class="nd">@label</span><span class="o">.</span><span class="n">setter</span>
@@ -732,6 +664,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">country_code</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The country code part of the address.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">countryCode</span><span class="p">()</span>
 
     <span class="nd">@country_code</span><span class="o">.</span><span class="n">setter</span>
@@ -740,6 +674,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">state</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The state, province, or region part of the address.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">state</span><span class="p">()</span>
 
     <span class="nd">@state</span><span class="o">.</span><span class="n">setter</span>
@@ -831,12 +767,11 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The label associated with the information entry</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">datetime</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="c1">#: The value of the information entry</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The persistent unique identifier for the information entry</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">label</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The label associated with the information entry.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">label</span><span class="p">()</span>
 
     <span class="nd">@label</span><span class="o">.</span><span class="n">setter</span>
@@ -845,6 +780,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">value</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">datetime</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;The value of the information entry.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
 
     <span class="nd">@value</span><span class="o">.</span><span class="n">setter</span>
@@ -853,6 +790,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The persistent unique identifier for the information entry.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">id</span><span class="p">()</span></div>
 
 
@@ -1002,25 +941,29 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">modification_date</span><span class="p">:</span> <span class="n">datetime</span> <span class="c1">#: The last modification date of the contact entry</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">creation_date</span><span class="p">:</span> <span class="n">datetime</span> <span class="c1">#: The creation date of the contact entry</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The unique persistent identifier for the entry</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">selected</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether the entry is selected</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">modification_date</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">datetime</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The last modification date of the contact entry.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">modificationDate</span><span class="p">()</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">creation_date</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">datetime</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The creation date of the contact entry.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">creationDate</span><span class="p">()</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The unique persistent identifier for the entry.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">id</span><span class="p">()</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">selected</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Whether the entry is selected.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">selected</span><span class="p">()</span>
 
     <span class="nd">@selected</span><span class="o">.</span><span class="n">setter</span>
@@ -1119,10 +1062,11 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The name of the group</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The name of the group.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">name</span><span class="p">()</span>
 
     <span class="nd">@name</span><span class="o">.</span><span class="n">setter</span>
@@ -1241,16 +1185,17 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">service_name</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The service name of the IM address</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">service_type</span><span class="p">:</span> <span class="n">XAContactsApplication</span><span class="o">.</span><span class="n">ServiceType</span> <span class="c1">#: The service type of the IM address</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">user_name</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The user name of the the IM address</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">service_name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The service name of the IM address.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">serviceName</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">service_type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XAContactsApplication</span><span class="o">.</span><span class="n">ServiceType</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The service type of the IM address.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">XAContactsApplication</span><span class="o">.</span><span class="n">ServiceType</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">serviceType</span><span class="p">())</span>
 
     <span class="nd">@service_type</span><span class="o">.</span><span class="n">setter</span>
@@ -1259,6 +1204,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">user_name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The user name of the the IM address.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">userName</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
 
     <span class="nd">@user_name</span><span class="o">.</span><span class="n">setter</span>
@@ -1693,29 +1640,11 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">nickname</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The nickname of the person</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">organization</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The organization that employs the person</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">maiden_name</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The maiden name of the person</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">suffix</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The suffix of the person&#39;s name</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">vcard</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The person&#39;s information in vCard format</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">home_page</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The homepage of the person</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">birth_date</span><span class="p">:</span> <span class="n">datetime</span> <span class="c1">#: The birthdate of the person</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">phonetic_last_name</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The phonetic version of the person&#39;s last name</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">title</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The title of the person</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">phonetic_middle_name</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The phonetic version of the person&#39;s middle name</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">department</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The department that the person works for</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">image</span><span class="p">:</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAImage</span> <span class="c1">#: The image for the person</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The first and last name of the person</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">note</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The notes for the person</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">company</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether the record is for a company or not (if not, the record is for a person)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">middle_name</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The middle name of the person</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">phonetic_first_name</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The phonetic version of the person&#39;s first name</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">job_title</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The job title of the person</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">last_name</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The last name of the person</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">first_name</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The first name of the person</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">nickname</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The nickname of the person.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">nickname</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
 
     <span class="nd">@nickname</span><span class="o">.</span><span class="n">setter</span>
@@ -1724,6 +1653,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">organization</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The organization that employs the person.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">organization</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
 
     <span class="nd">@organization</span><span class="o">.</span><span class="n">setter</span>
@@ -1732,6 +1663,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">maiden_name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The maiden name of the person.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">maidenName</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
 
     <span class="nd">@maiden_name</span><span class="o">.</span><span class="n">setter</span>
@@ -1740,6 +1673,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">suffix</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The suffix of the person&#39;s name.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">suffix</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
 
     <span class="nd">@suffix</span><span class="o">.</span><span class="n">setter</span>
@@ -1748,10 +1683,14 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">vcard</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The person&#39;s information in vCard format.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">vcard</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">home_page</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The homepage of the person.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">homePage</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
 
     <span class="nd">@home_page</span><span class="o">.</span><span class="n">setter</span>
@@ -1760,6 +1699,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">birth_date</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">datetime</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The birthdate of the person.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">birthDate</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
 
     <span class="nd">@birth_date</span><span class="o">.</span><span class="n">setter</span>
@@ -1768,6 +1709,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">phonetic_last_name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The phonetic version of the person&#39;s last name.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">phoneticLastName</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
 
     <span class="nd">@phonetic_last_name</span><span class="o">.</span><span class="n">setter</span>
@@ -1776,6 +1719,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">title</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The title of the person.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">title</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
 
     <span class="nd">@title</span><span class="o">.</span><span class="n">setter</span>
@@ -1784,6 +1729,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">phonetic_middle_name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The phonetic version of the person&#39;s middle name.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">phoneticMiddleNamne</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
 
     <span class="nd">@phonetic_middle_name</span><span class="o">.</span><span class="n">setter</span>
@@ -1792,6 +1739,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">department</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The department that the person works for.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">department</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
 
     <span class="nd">@department</span><span class="o">.</span><span class="n">setter</span>
@@ -1800,6 +1749,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">image</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAImage</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The image for the person.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAImage</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">image</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
 
     <span class="nd">@image</span><span class="o">.</span><span class="n">setter</span>
@@ -1808,6 +1759,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The first and last name of the person.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">name</span><span class="p">()</span>
 
     <span class="nd">@name</span><span class="o">.</span><span class="n">setter</span>
@@ -1816,6 +1769,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">note</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The notes for the person.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">note</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
 
     <span class="nd">@note</span><span class="o">.</span><span class="n">setter</span>
@@ -1823,15 +1778,19 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s1">&#39;note&#39;</span><span class="p">,</span> <span class="n">note</span><span class="p">)</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">company</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">company</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Whether the record is for a company or not (if not, the record is for a person).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">company</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
 
     <span class="nd">@company</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span> <span class="nf">company</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">company</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">company</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">company</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s1">&#39;company&#39;</span><span class="p">,</span> <span class="n">company</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">middle_name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The middle name of the person.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">middleName</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
 
     <span class="nd">@middle_name</span><span class="o">.</span><span class="n">setter</span>
@@ -1840,6 +1799,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">phonetic_first_name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The phonetic version of the person&#39;s first name.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">phoneticFirstName</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
 
     <span class="nd">@phonetic_first_name</span><span class="o">.</span><span class="n">setter</span>
@@ -1848,6 +1809,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">job_title</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The job title of the person.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">jobTitle</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
 
     <span class="nd">@job_title</span><span class="o">.</span><span class="n">setter</span>
@@ -1856,6 +1819,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">last_name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The last name of the person.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">lastName</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
 
     <span class="nd">@last_name</span><span class="o">.</span><span class="n">setter</span>
@@ -1864,6 +1829,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">first_name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The first name of the person.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">firstName</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
 
     <span class="nd">@first_name</span><span class="o">.</span><span class="n">setter</span>
@@ -2159,18 +2126,17 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: A persistent unique identifier for this profile</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">service_name</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The service name of this social profile</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">user_name</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The user named used with this social profile</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">user_identifier</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: A service-specific identifier used with this social profile</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The URL of the social profile</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;A persistent unique identifier for this profile.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">id</span><span class="p">()</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">service_name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The service name of this social profile.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">serviceName</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
 
     <span class="nd">@service_name</span><span class="o">.</span><span class="n">setter</span>
@@ -2179,6 +2145,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">user_name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The user name used with this social profile.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">userName</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
 
     <span class="nd">@user_name</span><span class="o">.</span><span class="n">setter</span>
@@ -2187,6 +2155,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">user_identifier</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;A service-specific identifier used with this social profile.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">userIdentifier</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
 
     <span class="nd">@user_identifier</span><span class="o">.</span><span class="n">setter</span>
@@ -2195,6 +2165,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">url</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The URL of the social profile.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">url</span><span class="p">()</span>
 
     <span class="nd">@url</span><span class="o">.</span><span class="n">setter</span>

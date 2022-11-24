@@ -22,18 +22,16 @@ class XAChromiumApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         super().__init__(properties)
         self.xa_wcls = XAChromiumWindow
 
-        self.name: str #: The name of the application
-        self.frontmost: bool #: Whether Chromium is the active application
-        self.version: str #: The version of Chromium
-        self.bookmarks_bar: XAChromiumBookmarkFolder #: The bookmarks bar bookmark folder
-        self.other_bookmarks: XAChromiumBookmarkFolder #: The other bookmarks bookmark folder
-
     @property
     def name(self) -> str:
+        """The name of the application.
+        """
         return self.xa_scel.name()
 
     @property
     def frontmost(self) -> bool:
+        """Whether Chromium is the active application.
+        """
         return self.xa_scel.frontmost()
 
     @frontmost.setter
@@ -42,14 +40,20 @@ class XAChromiumApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
 
     @property
     def version(self) -> str:
+        """The version of Chromium.app.
+        """
         return self.xa_scel.version()
 
     @property
     def bookmarks_bar(self) -> 'XAChromiumBookmarkFolder':
+        """The bookmarks bar bookmark folder.
+        """
         return self._new_element(self.xa_scel.bookmarksBar(), XAChromiumBookmarkFolder)
 
     @property
     def other_bookmarks(self) -> 'XAChromiumBookmarkFolder':
+        """The other bookmarks bookmark folder.
+        """
         return self._new_element(self.xa_scel.otherBookmarks(), XAChromiumBookmarkFolder)
 
     def open(self, url: Union[str, XABase.XAURL] = "https://google.com") -> 'XAChromiumApplication':
@@ -180,24 +184,11 @@ class XAChromiumWindow(XABaseScriptable.XASBWindow):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.given_name: str #: The given name of the window
-        self.name: str #: The full title of the window
-        self.id: int #: The unique identifier for the window
-        self.index: int #: The index of the window in the front-to-back ordering
-        self.bounds: tuple[int, int, int, int] #: The bounding rectangle of the window
-        self.closeable: bool #: Whether the window has a close button
-        self.minimizable: bool #: Whether the window can be minimized
-        self.minimized: bool #: Whether the window is currently minimized
-        self.resizable: bool #: Whether the window can be resized
-        self.visible: bool #: Whether the window is currently visible
-        self.zoomable: bool #: Whether the window can be zoomed
-        self.zoomed: bool #: Whether the window is currently zoomed
-        self.mode: str #: The mode of the window, either "normal" or "incognito"
-        self.active_tab_index: int #: The index of the active tab
-        self.active_tab: XAChromiumTab #: The currently selected tab
 
     @property
     def given_name(self) -> str:
+        """The given name of the window.
+        """
         return self.xa_elem.givenName()
 
     @given_name.setter
@@ -205,47 +196,15 @@ class XAChromiumWindow(XABaseScriptable.XASBWindow):
         self.set_property("givenName", given_name)
 
     @property
-    def name(self) -> str:
-        return self.xa_elem.name()
-
-    @property
-    def id(self) -> int:
-        return self.xa_elem.id()
-
-    @property
-    def index(self) -> int:
-        return self.xa_elem.index()
-
-    @index.setter
-    def index(self, index: int):
-        self.set_property("index", index)
-
-    @property
-    def bounds(self) -> tuple[int, int, int, int]:
-        rect = self.xa_elem.bounds()
-        origin = rect.origin
-        size = rect.size
-        return (origin.x, origin.y, size.width, size.height)
-
-    @bounds.setter
-    def bounds(self, bounds: tuple[int, int, int, int]):
-        x = bounds[0]
-        y = bounds[1]
-        w = bounds[2]
-        h = bounds[3]
-        value = AppKit.NSValue.valueWithRect_(AppKit.NSMakeRect(x, y, w, h))
-        self.set_property("bounds", value)
-
-    @property
-    def closeable(self) -> bool:
-        return self.xa_elem.closeable()
-
-    @property
     def minimizable(self) -> bool:
+        """Whether the window can be minimized.
+        """
         return self.xa_elem.minimizable()
 
     @property
     def minimized(self) -> bool:
+        """Whether the window is currently minimized.
+        """
         return self.xa_elem.minimized()
 
     @minimized.setter
@@ -253,31 +212,9 @@ class XAChromiumWindow(XABaseScriptable.XASBWindow):
         self.set_property("minimized", minimized)
 
     @property
-    def resizable(self) -> bool:
-        return self.xa_elem.resizable()
-
-    @property
-    def visible(self) -> bool:
-        return self.xa_elem.visible()
-
-    @visible.setter
-    def visible(self, visible: bool):
-        self.set_property("visible", visible)
-
-    @property
-    def zoomable(self) -> bool:
-        return self.xa_elem.zoomable()
-
-    @property
-    def zoomed(self) -> bool:
-        return self.xa_elem.zoomed()
-
-    @zoomed.setter
-    def zoomed(self, zoomed: bool):
-        self.set_property("zoomed", zoomed)
-
-    @property
     def mode(self) -> str:
+        """The mode of the window, either 'normal' or 'incognito'.
+        """
         return self.xa_elem.mode()
 
     @mode.setter
@@ -286,6 +223,8 @@ class XAChromiumWindow(XABaseScriptable.XASBWindow):
 
     @property
     def active_tab_index(self) -> int:
+        """The index of the active tab.
+        """
         return self.xa_elem.activeTabIndex() 
 
     @active_tab_index.setter
@@ -294,6 +233,8 @@ class XAChromiumWindow(XABaseScriptable.XASBWindow):
 
     @property
     def active_tab(self) -> 'XAChromiumTab':
+        """The currently selected tab.
+        """
         return self._new_element(self.xa_elem.activeTab(), XAChromiumTab)
 
     @active_tab.setter
@@ -454,21 +395,23 @@ class XAChromiumTab(XABase.XAObject, XAClipboardCodable):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.id: int
-        self.title: str
-        self.url: XABase.XAURL
-        self.loading: bool
 
     @property
     def id(self) -> int:
+        """The unique identifier for the tab.
+        """
         return self.xa_elem.id()
 
     @property
     def title(self) -> str:
+        """The title of the tab.
+        """
         return self.xa_elem.title()
 
     @property
     def url(self) -> XABase.XAURL:
+        """The URL visible to the user.
+        """
         return XABase.XAURL(self.xa_elem.URL())
 
     @url.setter
@@ -477,6 +420,8 @@ class XAChromiumTab(XABase.XAObject, XAClipboardCodable):
 
     @property
     def loading(self) -> bool:
+        """Is the tab currently loading?
+        """
         return self.xa_elem.loading()
 
     def undo(self) -> 'XAChromiumTab':
@@ -772,16 +717,17 @@ class XAChromiumBookmarkFolder(XABase.XAObject, XAClipboardCodable):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.id: int #: The unique identifier for the bookmark folder
-        self.title: str #: The name of the bookmark folder
-        self.index: int #: The index of the bookmark folder with respect to its parent folder
 
     @property
     def id(self) -> int:
+        """The unique identifier for the bookmark folder.
+        """
         return self.xa_elem.id()
 
     @property
     def title(self) -> str:
+        """The name of the bookmark folder.
+        """
         return self.xa_elem.title()
 
     @title.setter
@@ -790,6 +736,8 @@ class XAChromiumBookmarkFolder(XABase.XAObject, XAClipboardCodable):
 
     @property
     def index(self) -> int:
+        """The index of the bookmark folder with respect to its parent folder.
+        """
         return self.xa_elem.index()
 
     def bookmark_folders(self, filter: Union[dict, None] = None) -> 'XAChromiumBookmarkFolderList':
@@ -962,17 +910,17 @@ class XAChromiumBookmarkItem(XABase.XAObject, XAClipboardCodable):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.id: int #: The unique identifier for the bookmark item
-        self.title: str #: The title of the bookmark item
-        self.url: XABase.XAURL #: The URL of the bookmark
-        self.index: int #: The index of the item with respect to its parent folder
 
     @property
     def id(self) -> int:
+        """The unique identifier for the bookmark item.
+        """
         return self.xa_elem.id()
 
     @property
     def title(self) -> str:
+        """The title of the bookmark item.
+        """
         return self.xa_elem.title()
 
     @title.setter
@@ -981,6 +929,8 @@ class XAChromiumBookmarkItem(XABase.XAObject, XAClipboardCodable):
 
     @property
     def url(self) -> XABase.XAURL:
+        """The URL of the bookmark.
+        """
         return XABase.XAURL(self.xa_elem.URL())
 
     @url.setter
@@ -989,6 +939,8 @@ class XAChromiumBookmarkItem(XABase.XAObject, XAClipboardCodable):
 
     @property
     def index(self) -> int:
+        """The index of the item with respect to its parent folder.
+        """
         return self.xa_elem.index()
 
     def delete(self):

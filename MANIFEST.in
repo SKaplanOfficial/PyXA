@@ -1,2 +1,2 @@
 recursive-include PyXA/apps *
-recursive-include PyXA/Additions *
+recursive-include PyXA/additions *

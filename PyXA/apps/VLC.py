@@ -16,40 +16,36 @@ class XAVLCApplication(XABaseScriptable.XASBApplication, XACanOpenPath, XACanPri
     def __init__(self, properties):
         super().__init__(properties)
         self.xa_wcls = XAVLCWindow
-        
-        self.properties: dict #: All properties of VLC
-        self.frontmost: bool #: Whether VLC is the active application
-        self.name: str #: The name of the application
-        self.version: str #: The version of VLC.app
-        self.audio_desync: int #: The audio desynchronization preference from -2147483648 to 2147483647, where 0 is default.
-        self.audio_volume: int #: The volume of the current playlist item from 0 to 512, where 256 is 100%.
-        self.current_time: int #: The current time of the current playlist item in seconds.
-        self.duration_of_current_item: int #: The duration of the current playlist item in seconds.
-        self.fullscreen_mode: bool #: Indicates wheter fullscreen is enabled or not.
-        self.muted: bool #: Is VLC currently muted?
-        self.name_of_current_item: str #: Name of the current playlist item.
-        self.path_of_current_item: XABase.XAPath #: Path to the current playlist item.
-        self.playback_shows_menu: bool #: Indicates whether a DVD menu is currently being shown.
-        self.playing: bool #: Is VLC playing an item?
 
+    # TODO: Update properties to new format
     @property
     def properties(self) -> dict:
+        """All properties of the VLC application.
+        """
         return self.xa_elem.properties()
 
     @property
     def frontmost(self) -> bool:
+        """Whether VLC is the active application.
+        """
         return self.xa_scel.frontmost()
 
     @property
     def name(self) -> str:
+        """The name of the application.
+        """
         return self.xa_scel.name()
 
     @property
     def version(self) -> str:
+        """The version of VLC.app.
+        """
         return self.xa_scel.version()
 
     @property
     def audio_desync(self) -> int:
+        """The audio desynchronization preference from -2147483648 to 2147483647, where 0 is default.
+        """
         return self.xa_scel.audioDesync()
 
     @audio_desync.setter
@@ -58,6 +54,8 @@ class XAVLCApplication(XABaseScriptable.XASBApplication, XACanOpenPath, XACanPri
 
     @property
     def audio_volume(self) -> int:
+        """The volume of the current playlist item from 0 to 512, where 256 is 100%.
+        """
         return self.xa_scel.audioVolume()
 
     @audio_volume.setter
@@ -66,6 +64,8 @@ class XAVLCApplication(XABaseScriptable.XASBApplication, XACanOpenPath, XACanPri
 
     @property
     def current_time(self) -> int:
+        """The current time of the current playlist item in seconds.
+        """
         return self.xa_scel.currentTime()
 
     @current_time.setter
@@ -74,10 +74,14 @@ class XAVLCApplication(XABaseScriptable.XASBApplication, XACanOpenPath, XACanPri
 
     @property
     def duration_of_current_item(self) -> int:
+        """The duration of the current playlist item in seconds.
+        """
         return self.xa_scel.durationOfCurrentItem()
 
     @property
     def fullscreen_mode(self) -> bool:
+        """Indicates whether fullscreen is enabled or not.
+        """
         return self.xa_scel.fullscreenMode()
 
     @fullscreen_mode.setter
@@ -86,22 +90,32 @@ class XAVLCApplication(XABaseScriptable.XASBApplication, XACanOpenPath, XACanPri
 
     @property
     def muted(self) -> bool:
+        """Is VLC currently muted?
+        """
         return self.xa_scel.muted()
 
     @property
     def name_of_current_item(self) -> str:
+        """Name of the current playlist item.
+        """
         return self.xa_scel.nameOfCurrentItem()
 
     @property
     def path_of_current_item(self) -> XABase.XAPath:
+        """Path to the current playlist item.
+        """
         return XABase.XAPath(self.xa_scel.pathOfCurrentItem())
 
     @property
     def playback_shows_menu(self) -> bool:
+        """Indicates whether a DVD menu is currently being shown.
+        """
         return self.xa_scel.playbackShowsMenu()
 
     @property
     def playing(self) -> bool:
+        """Is VLC playing an item?
+        """
         return self.xa_scel.playing()
 
     def open(self, target: Union[XABase.XAURL, XABase.XAPath, str]) -> None:
@@ -373,22 +387,23 @@ class XAVLCDocument(XABase.XAObject):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        
-        self.properties: dict #: All properties of the document
-        self.modified: bool #: Has the document been modified since the last save?
-        self.name: str #: The document's name.
-        self.path: XABase.XAPath #: The document's path.
 
     @property
     def properties(self) -> dict:
+        """All properties of the document.
+        """
         return self.xa_elem.properties()
 
     @property
     def modified(self) -> bool:
+        """Has the document been modified since the last save?
+        """
         return self.xa_elem.modified()
 
     @property
     def name(self) -> str:
+        """The document's name.
+        """
         return self.xa_elem.name()
 
     @name.setter
@@ -397,6 +412,8 @@ class XAVLCDocument(XABase.XAObject):
 
     @property
     def path(self) -> XABase.XAPath:
+        """The document's path.
+        """
         return XABase.XAPath(self.xa_elem.path())
 
     @path.setter
@@ -419,45 +436,11 @@ class XAVLCWindow(XABaseScriptable.XASBWindow):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        
-        self.bounds: tuple[tuple[int, int], tuple[int, int]] #: The bounding rectangle of the window.
-        self.closeable: bool #: Whether the window has a close box.
-        self.document: XAVLCDocument #: The document whose contents are being displayed in the window.
-        self.floating: bool #: Whether the window floats.
-        self.id: int #: The unique identifier of the window.
-        self.index: int #: The index of the window, ordered front to back.
-        self.miniaturizable: bool #: Whether the window can be miniaturized.
-        self.miniaturized: bool #: Whether the window is currently miniaturized.
-        self.modal: bool #: Whether the window is the application's current modal window.
-        self.name: str #: The full title of the window.
-        self.resizable: bool #: Whether the window can be resized.
-        self.titled: bool #: Whether the window has a title bar.
-        self.visible: bool #: Whether the window is currently visible.
-        self.zoomable: bool #: Whether the window can be zoomed.
-        self.zoomed: bool #: Whether the window is currently zoomed.
-
-    @property
-    def bounds(self) -> tuple[int, int, int, int]:
-        bounds = self.xa_elem.bounds()
-        origin = bounds.origin
-        size = bounds.size
-        return (origin.x, origin.y, size.width, size.height)
-
-    @bounds.setter
-    def bounds(self, bounds: tuple[int, int, int, int]):
-        x = bounds[0]
-        y = bounds[1]
-        w = bounds[2]
-        h = bounds[3]
-        value = AppKit.NSValue.valueWithRect_(AppKit.NSMakeRect(x, y, w, h))
-        self.set_property("bounds", value)
-
-    @property
-    def closeable(self) -> bool:
-        return self.xa_elem.closeable()
 
     @property
     def document(self) -> XAVLCDocument:
+        """The document whose contents are being displayed in the window.
+        """
         return self.xa_elem.document()
 
     @document.setter
@@ -466,68 +449,18 @@ class XAVLCWindow(XABaseScriptable.XASBWindow):
 
     @property
     def floating(self) -> bool:
+        """Whether the window floats.
+        """
         return self.xa_elem.floating()
 
     @property
-    def id(self) -> int:
-        return self.xa_elem.id()
-
-    @property
-    def index(self) -> int:
-        return self.xa_elem.index()
-
-    @index.setter
-    def index(self, index: int):
-        self.set_property("index", index)
-
-    @property
-    def miniaturizable(self) -> bool:
-        return self.xa_elem.miniaturizable()
-
-    @property
-    def miniaturized(self) -> bool:
-        return self.xa_elem.miniaturized()
-
-    @miniaturized.setter
-    def miniaturized(self, miniaturized: bool):
-        self.set_property("miniaturized", miniaturized)
-
-    @property
     def modal(self) -> bool:
+        """Whether the window is the application's current modal window.
+        """
         return self.xa_elem.modal()
 
     @property
-    def name(self) -> str:
-        return self.xa_elem.name()
-
-    @name.setter
-    def name(self, name: str):
-        self.set_property("name", name)
-
-    @property
-    def resizable(self) -> bool:
-        return self.xa_elem.resizable()
-
-    @property
     def titled(self) -> bool:
+        """Whether the window has a title bar.
+        """
         return self.xa_elem.titled()
-
-    @property
-    def visible(self) -> bool:
-        return self.xa_elem.visible()
-
-    @visible.setter
-    def visible(self, visible: bool):
-        self.set_property("visible", visible)
-
-    @property
-    def zoomable(self) -> bool:
-        return self.xa_elem.zoomable()
-
-    @property
-    def zoomed(self) -> bool:
-        return self.xa_elem.zoomed()
-
-    @zoomed.setter
-    def zoomed(self, zoomed: bool):
-        self.set_property("zoomed", zoomed)

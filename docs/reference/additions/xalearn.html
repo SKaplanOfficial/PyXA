@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>XALearn Module &mdash; PyXA 0.1.1 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="XASpeech Module" href="xaspeech.html" />
+    <link rel="prev" title="RStudio Module Reference" href="../apps/rstudio.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> PyXA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../about/index.html">Project Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial/index.html">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Code Documentation and Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../index.html#top-level-pyxa-modules">Top-level PyXA Modules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#first-party-application-module-reference">First-Party Application Module Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#third-party-application-module-reference">Third-Party Application Module Reference</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html#pyxa-additions">PyXA Additions</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">XALearn Module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.additions.XALearn.XALSM"><code class="docutils literal notranslate"><span class="pre">XALSM</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="xaspeech.html">XASpeech Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="xautils.html">XAUtils Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="xaweb.html">XAWeb Module</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../bugs.html">Bugs</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">PyXA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Code Documentation and Reference</a></li>
+      <li class="breadcrumb-item active">XALearn Module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/reference/additions/xalearn.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-PyXA.additions.XALearn">
+<span id="xalearn-module"></span><h1>XALearn Module<a class="headerlink" href="#module-PyXA.additions.XALearn" title="Permalink to this heading"></a></h1>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.1.1.</span></p>
+</div>
+<p>A collection of classes for interfacing with built-in ML/AI features in macOS.</p>
+<p><strong>Classes:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.additions.XALearn.XALSM" title="PyXA.additions.XALearn.XALSM"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XALSM</span></code></a>([dataset, from_file])</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.additions.XALearn.XALSM">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.additions.XALearn.</span></span><span class="sig-name descname"><span class="pre">XALSM</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">from_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/additions/XALearn.html#XALSM"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.additions.XALearn.XALSM" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p><strong>Methods:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.additions.XALearn.XALSM.add_category" title="PyXA.additions.XALearn.XALSM.add_category"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_category</span></code></a>(name[, initial_data])</p></td>
+<td><p>Adds a new category to the map, optionally filling the category with initial text data.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.additions.XALearn.XALSM.add_data" title="PyXA.additions.XALearn.XALSM.add_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_data</span></code></a>(data)</p></td>
+<td><p>Adds the provided data, organized by category, to the active map.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.additions.XALearn.XALSM.add_text" title="PyXA.additions.XALearn.XALSM.add_text"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_text</span></code></a>(text, category[, weight])</p></td>
+<td><p>Adds the given text to the specified category, applying an optional weight.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.additions.XALearn.XALSM.categorize_query" title="PyXA.additions.XALearn.XALSM.categorize_query"><code class="xref py py-obj docutils literal notranslate"><span class="pre">categorize_query</span></code></a>(query[, num_results])</p></td>
+<td><p>Categorizes the query based on the current weights in the map.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.additions.XALearn.XALSM.load" title="PyXA.additions.XALearn.XALSM.load"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load</span></code></a>()</p></td>
+<td><p>Loads a map from an external file.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.additions.XALearn.XALSM.save" title="PyXA.additions.XALearn.XALSM.save"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save</span></code></a>(file_path)</p></td>
+<td><p>Saves the map to an external file.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.additions.XALearn.XALSM.add_category">
+<span class="sig-name descname"><span class="pre">add_category</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="../../_modules/PyXA/additions/XALearn.html#XALSM.add_category"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.additions.XALearn.XALSM.add_category" title="Permalink to this definition"></a></dt>
+<dd><p>Adds a new category to the map, optionally filling the category with initial text data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em>) – The name of the category</p></li>
+<li><p><strong>initial_data</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – _description_</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The ID of the new category</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+<dt class="field-even">Example<span class="colon">:</span></dt>
+<dd class="field-even"><p>Add a category for cleaning-related Reddit posts to the previous example</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lsm</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XALSM</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;/Users/steven/Downloads/gaming-productivity.map&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lsm</span><span class="o">.</span><span class="n">add_category</span><span class="p">(</span><span class="s2">&quot;cleaning&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;Curtains stained from eyelet reaction at dry cleaner&quot;</span><span class="p">,</span> <span class="s2">&quot;How do I get these stains out of my pink denim overalls? from a black denim jacket that was drying next to them&quot;</span><span class="p">,</span> <span class="s2">&quot;Cleaned my depression room after months 🥵&quot;</span><span class="p">,</span> <span class="s2">&quot;Tip: 30 minute soak in Vinegar&quot;</span><span class="p">,</span> <span class="s2">&quot;Regular floor squeegee pulled a surprising amount of pet hair out of my carpet!&quot;</span><span class="p">,</span> <span class="s2">&quot;Before and after…&quot;</span><span class="p">,</span> <span class="s2">&quot;It actually WORKS&quot;</span><span class="p">,</span> <span class="s2">&quot;CLR is actually magic. (With some elbow grease)&quot;</span><span class="p">,</span> <span class="s2">&quot;It was 100% worth it to scrape out my old moldy caulk and replace it. $5 dollars and a bit of time to make my shower look so much cleaner!&quot;</span><span class="p">,</span> <span class="s2">&quot;Thanks to the person who recommended the Clorox Foamer. Before and after pics&quot;</span><span class="p">,</span> <span class="s2">&quot;TIL you can dissolve inkstains with milk.&quot;</span><span class="p">,</span> <span class="s2">&quot;Fixing cat scratch marks to couch using felting needle: Before and After&quot;</span><span class="p">,</span> <span class="s2">&quot;Turns out BKF isn&#39;t a meme! Really satisfied with this stuff&quot;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">lsm</span><span class="o">.</span><span class="n">categorize_query</span><span class="p">(</span><span class="s2">&quot;Hidden survival base on our server&quot;</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">lsm</span><span class="o">.</span><span class="n">categorize_query</span><span class="p">(</span><span class="s2">&quot;Your memory is FAR more powerful than you think… school just never taught us to use it properly.&quot;</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">lsm</span><span class="o">.</span><span class="n">categorize_query</span><span class="p">(</span><span class="s2">&quot;A carpet rake will change your life.&quot;</span><span class="p">))</span>
+<span class="go">[(1, 0.7474805116653442)]</span>
+<span class="go">[(2, 0.7167008519172668)]</span>
+<span class="go">[(3, 0.797333300113678)]</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.1.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.additions.XALearn.XALSM.add_data">
+<span class="sig-name descname"><span class="pre">add_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/additions/XALearn.html#XALSM.add_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.additions.XALearn.XALSM.add_data" title="Permalink to this definition"></a></dt>
+<dd><p>Adds the provided data, organized by category, to the active map.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>dict</em><em>[</em><em>Union</em><em>[</em><em>int</em><em>, </em><em>str</em><em>]</em><em>, </em><em>list</em><em>[</em><em>str</em><em>]</em><em>]</em>) – A dictionary specifying new or existing categories along with data to input into them</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of newly created category IDs</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+<dt class="field-even">Example<span class="colon">:</span></dt>
+<dd class="field-even"><p>Classify text by language</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lsm</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XALSM</span><span class="p">({})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lsm</span><span class="o">.</span><span class="n">add_data</span><span class="p">({</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="c1"># 1</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="s2">&quot;english&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;brilliance outer jacket artist flat mosquito recover restrict official gas ratio publish domestic realize pure offset obstacle thigh favorite demonstration revive nest reader slide pudding symptom ballot auction characteristic complete Mars ridge student explosion dive emphasis the buy perfect motif penny a errand to fur far spirit random integration of with&quot;</span><span class="p">],</span>
+<span class="gp">&gt;&gt;&gt; </span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="c1"># 2</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="s2">&quot;italian&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;da piazza proposta di legge legare nazionale a volte la salute bar farti farmi il pane aggiunta valore artista chiamata settentrionale scuro buio classe signori investitore in grado di fidanzato tagliare arriva successo altrimenti speciale esattamente definizione sorriso chiamo madre pulire esperto rurale vedo malattia era amici libertà l&#39;account immaginare lingua soldi più perché&quot;</span><span class="p">],</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">lsm</span><span class="o">.</span><span class="n">categorize_query</span><span class="p">(</span><span class="s2">&quot;Here&#39;s to the crazy ones&quot;</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">lsm</span><span class="o">.</span><span class="n">categorize_query</span><span class="p">(</span><span class="s2">&quot;Potete parlarmi in italiano&quot;</span><span class="p">))</span>
+<span class="go">[(1, 1.0)]</span>
+<span class="go">[(2, 1.0)]</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.1.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.additions.XALearn.XALSM.add_text">
+<span class="sig-name descname"><span class="pre">add_text</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">category</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weight</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/additions/XALearn.html#XALSM.add_text"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.additions.XALearn.XALSM.add_text" title="Permalink to this definition"></a></dt>
+<dd><p>Adds the given text to the specified category, applying an optional weight.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>text</strong> (<em>str</em>) – The text to add to the dataset</p></li>
+<li><p><strong>category</strong> (<em>Union</em><em>[</em><em>int</em><em>, </em><em>str</em><em>]</em>) – The category to add the text to</p></li>
+<li><p><strong>weight</strong> (<em>float</em><em>, </em><em>optional</em>) – The weight to assign to the text entry, defaults to 1</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – The specified category must be a valid category name or ID</p>
+</dd>
+<dt class="field-odd">Example<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lsm</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XALSM</span><span class="p">({</span><span class="s2">&quot;colors&quot;</span><span class="p">:</span> <span class="p">[],</span> <span class="s2">&quot;numbers&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;One&quot;</span><span class="p">,</span> <span class="s2">&quot;Two&quot;</span><span class="p">,</span> <span class="s2">&quot;Three&quot;</span><span class="p">]})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lsm</span><span class="o">.</span><span class="n">add_text</span><span class="p">(</span><span class="s2">&quot;red orange yellow green blue purple&quot;</span><span class="p">,</span> <span class="s2">&quot;colors&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lsm</span><span class="o">.</span><span class="n">add_text</span><span class="p">(</span><span class="s2">&quot;white black grey gray brown pink&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">lsm</span><span class="o">.</span><span class="n">categorize_query</span><span class="p">(</span><span class="s2">&quot;pink&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.1.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.additions.XALearn.XALSM.categorize_query">
+<span class="sig-name descname"><span class="pre">categorize_query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_results</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/additions/XALearn.html#XALSM.categorize_query"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.additions.XALearn.XALSM.categorize_query" title="Permalink to this definition"></a></dt>
+<dd><p>Categorizes the query based on the current weights in the map.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>query</strong> (<em>str</em>) – The query to categorize</p></li>
+<li><p><strong>num_results</strong> (<em>int</em><em>, </em><em>optional</em>) – The number of categorizations to show, defaults to 1</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of tuples identifying categories and their associated score. A higher score indicates better fit. If not matching categorization is found, the list will be empty.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[tuple[int, float]]</p>
+</dd>
+<dt class="field-even">Example<span class="colon">:</span></dt>
+<dd class="field-even"><p></p></dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dataset</span> <span class="o">=</span> <span class="p">{</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="c1"># 1</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;red&quot;</span><span class="p">,</span> <span class="s2">&quot;orange&quot;</span><span class="p">,</span> <span class="s2">&quot;yellow&quot;</span><span class="p">,</span> <span class="s2">&quot;green&quot;</span><span class="p">,</span> <span class="s2">&quot;emerald&quot;</span><span class="p">,</span> <span class="s2">&quot;blue&quot;</span><span class="p">,</span> <span class="s2">&quot;purple&quot;</span><span class="p">,</span> <span class="s2">&quot;white&quot;</span><span class="p">,</span> <span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="s2">&quot;brown&quot;</span><span class="p">,</span> <span class="s2">&quot;pink&quot;</span><span class="p">,</span> <span class="s2">&quot;grey&quot;</span><span class="p">,</span> <span class="s2">&quot;gray&quot;</span><span class="p">],</span>
+<span class="gp">&gt;&gt;&gt; </span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="c1"># 2</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="s2">&quot;number&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;One Two Three Four Five Six Seven Eight Nine Ten&quot;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lsm</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XALSM</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">queries</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;emerald green three&quot;</span><span class="p">,</span> <span class="s2">&quot;one hundred five&quot;</span><span class="p">,</span> <span class="s2">&quot;One o&#39; clock&quot;</span><span class="p">,</span> <span class="s2">&quot;sky blue&quot;</span><span class="p">,</span> <span class="s2">&quot;ninety nine&quot;</span><span class="p">,</span> <span class="s2">&quot;purple pink&quot;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">query</span> <span class="ow">in</span> <span class="n">queries</span><span class="p">:</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">category</span> <span class="o">=</span> <span class="s2">&quot;Unknown&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">categorization_tuple</span> <span class="o">=</span> <span class="n">lsm</span><span class="o">.</span><span class="n">categorize_query</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">categorization_tuple</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="n">category</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">dataset</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="n">categorization_tuple</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="nb">print</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="s2">&quot;is a&quot;</span><span class="p">,</span> <span class="n">category</span><span class="p">)</span>
+<span class="go">emerald green three is a color</span>
+<span class="go">one hundred five is a number</span>
+<span class="go">One o&#39; clock is a number</span>
+<span class="go">sky blue is a color</span>
+<span class="go">ninety nine is a number</span>
+<span class="go">purple pink is a color</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.1.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.additions.XALearn.XALSM.load">
+<span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.additions.XALearn.XALSM" title="PyXA.additions.XALearn.XALSM"><span class="pre">XALSM</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/additions/XALearn.html#XALSM.load"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.additions.XALearn.XALSM.load" title="Permalink to this definition"></a></dt>
+<dd><p>Loads a map from an external file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>file_path</strong> (<em>Union</em><em>[</em><a class="reference internal" href="../xabase.html#PyXA.XABase.XAPath" title="PyXA.XABase.XAPath"><em>XABase.XAPath</em></a><em>, </em><em>str</em><em>]</em>) – The file path for load the map from</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The populated LSM object</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#PyXA.additions.XALearn.XALSM" title="PyXA.additions.XALearn.XALSM">XALSM</a></p>
+</dd>
+<dt class="field-even">Example<span class="colon">:</span></dt>
+<dd class="field-even"><p>Using the gaming vs. productivity Reddit post map</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lsm</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XALSM</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;/Users/steven/Downloads/gaming-productivity.map&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">lsm</span><span class="o">.</span><span class="n">categorize_query</span><span class="p">(</span><span class="s2">&quot;Hidden survival base on our server&quot;</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">lsm</span><span class="o">.</span><span class="n">categorize_query</span><span class="p">(</span><span class="s2">&quot;Your memory is FAR more powerful than you think… school just never taught us to use it properly.&quot;</span><span class="p">))</span>
+<span class="go">[(1, 0.7313863635063171)]</span>
+<span class="go">[(2, 0.9422407150268555)]</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.1.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="PyXA.additions.XALearn.XALSM.save">
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAPath" title="PyXA.XABase.XAPath"><span class="pre">XAPath</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../../_modules/PyXA/additions/XALearn.html#XALSM.save"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.additions.XALearn.XALSM.save" title="Permalink to this definition"></a></dt>
+<dd><p>Saves the map to an external file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>file_path</strong> (<em>Union</em><em>[</em><a class="reference internal" href="../xabase.html#PyXA.XABase.XAPath" title="PyXA.XABase.XAPath"><em>XABase.XAPath</em></a><em>, </em><em>str</em><em>]</em>) – The path to save the map at</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if the map was saved successfully</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+<dt class="field-even">Example<span class="colon">:</span></dt>
+<dd class="field-even"><p>Create a Reddit post classifier for gaming vs. productivity posts</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lsm</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XALSM</span><span class="p">({</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="c1"># 1</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="s2">&quot;gaming&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;If you could vote on the 2017 Mob Vote again, which mob would you choose this time and why?&quot;</span><span class="p">,</span> <span class="s2">&quot;Take your time, you got this&quot;</span><span class="p">,</span> <span class="s2">&quot;My parents (late 70s) got me a ps5 controller for Christmas. I do not own a playstation 5...&quot;</span><span class="p">,</span> <span class="s2">&quot;I got off the horse by accident right before a cutscene in red dead&quot;</span><span class="p">,</span> <span class="s2">&quot;boy gamer&quot;</span><span class="p">,</span> <span class="s2">&quot;Minesweeper 99 x 99, 1500 mines. Took me about 2.5 hours to finish, nerve-wracking. No one might care, but just wanted to share this.&quot;</span><span class="p">,</span> <span class="s2">&quot;The perfect cosplay doesn’t ex...&quot;</span><span class="p">,</span> <span class="s2">&quot;&#39;Play until we lose&#39;&quot;</span><span class="p">,</span> <span class="s2">&quot;Can we please boycott Star Wars battlefront 2&quot;</span><span class="p">,</span> <span class="s2">&quot;EA removed the refund button on their webpage, and now you have to call them and wait to get a refund.&quot;</span><span class="p">,</span> <span class="s2">&quot;Train Simulator is so immersive!&quot;</span><span class="p">,</span> <span class="s2">&quot;Been gaming with this dude for 15 years. Since Rainbow Six Vegas on 360. I have some good gaming memories with him. He tried but couldn’t get one. Little did he know I was able to get him one. Looking forward to playing another generation with him.&quot;</span><span class="p">,</span> <span class="s2">&quot;EA will no longer have exclusive rights of the Star Wars games&quot;</span><span class="p">,</span> <span class="s2">&quot;A ziplining contraption I created with 1000+ command blocks&quot;</span><span class="p">,</span> <span class="s2">&quot;The steepest walkable staircase possible in 1.16&quot;</span><span class="p">,</span> <span class="s2">&quot;I made a texture pack that gives mobs different facial expressions. Should I keep going?&quot;</span><span class="p">],</span>
+<span class="gp">&gt;&gt;&gt; </span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="c1"># 2</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="s2">&quot;productivity&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;Looking for an alarm app that plays a really small alarm, doesn’t need to be switched off and doesn’t repeat.&quot;</span><span class="p">,</span> <span class="s2">&quot;I want to build a second brain but I&#39;m lost and don&#39;t know where to start.&quot;</span><span class="p">,</span> <span class="s2">&quot;noise cancelling earplugs&quot;</span><span class="p">,</span> <span class="s2">&quot;I have so much to do but I don&#39;t know where to start&quot;</span><span class="p">,</span> <span class="s2">&quot;How to handle stressful work calls&quot;</span><span class="p">,</span> <span class="s2">&quot;time tracking app/platform&quot;</span><span class="p">,</span> <span class="s2">&quot;We just need to find ways to cope and keep moving forward.&quot;</span><span class="p">,</span> <span class="s2">&quot;Ikigai - A Reason for Being&quot;</span><span class="p">,</span> <span class="s2">&quot;Minimalist Productivity Tip: create two users on your computer ➞ One for normal use and leisure ➞ One for business/work only. I have nothing except the essentials logged in on my work user. Not even Messages or YouTube. It completely revolutionized my productivity 💸&quot;</span><span class="p">,</span> <span class="s2">&quot;Trick yourself into productivity the same way you trick yourself into procrastination&quot;</span><span class="p">,</span> <span class="s2">&quot;I spent 40 hours sifting through research papers to fix my mental clarity, focus, and productivity - I ended up going down a rabbit hole and figuring out it was all tied to sleep, even though I felt I sleep well - here&#39;s what I found.&quot;</span><span class="p">,</span> <span class="s2">&quot;The Cycle of Procrastination. Always a good reminder&quot;</span><span class="p">,</span> <span class="s2">&quot;&#39;Most people underestimate what they can do in a year, and overestimate what they can do in a day&#39; - When you work on getting 1% better each day you won&#39;t even recognize yourself in a year.&quot;</span><span class="p">],</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lsm</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;/Users/steven/Downloads/gaming-productivity.map&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.1.0.</span></p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../apps/rstudio.html" class="btn btn-neutral float-left" title="RStudio Module Reference" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="xaspeech.html" class="btn btn-neutral float-right" title="XASpeech Module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Stephen Kaplan.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

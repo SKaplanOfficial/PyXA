@@ -15,12 +15,12 @@ Using :func:`XACalculatorApplication.input`, you can command the Calculator to e
    - `=` represents the equals button.
    - `c` denotes the clear button.
 
-Tutorials
-#########
+Calculator Tutorials
+####################
 There are currently no tutorials for working with the Calculator application.
 
-Examples
-########
+Calculator Examples
+###################
 The examples below provide an overview of the capabilities of the Calculator module. They do not provide any output.
 .. For more in-depth examples that show output and provide more detailed explanations, refer to the previous section (:ref:`Tutorials`).
 

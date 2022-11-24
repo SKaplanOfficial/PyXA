@@ -10,9 +10,9 @@ This approach allows you to quickly access large lists of scriptable objects suc
     import PyXA
     from datetime import datetime
     
-    music_app = PyXA.application("Music")
-    notes_app = PyXA.application("Notes")
-    photos_app = PyXA.application("Photos")
+    music_app = PyXA.Application("Music")
+    notes_app = PyXA.Application("Notes")
+    photos_app = PyXA.Application("Photos")
     
     time_1 = datetime.now()
     tracks = music_app.tracks()
@@ -30,7 +30,7 @@ In addition to speed, `XALists` provide batch operation capabilities. When worki
     import PyXA
     from datetime import datetime
     
-    photos_app = PyXA.application("Photos")
+    photos_app = PyXA.Application("Photos")
     
     time_1 = datetime.now()
     photos = photos_app.media_items()
@@ -53,7 +53,7 @@ To force evaluation of an object, request it by index or by using the :func:`~Py
     import PyXA
     from datetime import datetime
     
-    photos_app = PyXA.application("Photos")
+    photos_app = PyXA.Application("Photos")
     
     time_1 = datetime.now()
     photos = photos_app.media_items()
@@ -79,7 +79,7 @@ For comparison, if we force evaluation on each object in a list by iterating ove
     import PyXA
     from datetime import datetime
     
-    notes_app = PyXA.application("Notes")
+    notes_app = PyXA.Application("Notes")
     
     time_1 = datetime.now()
     notes = notes_app.notes()
@@ -103,7 +103,7 @@ Filter methods can be used to narrow down the list of objects, thereby making it
     import PyXA
     from datetime import datetime
     
-    music_app = PyXA.application("Music")
+    music_app = PyXA.Application("Music")
     
     time_1 = datetime.now()
     tracks = music_app.tracks().filter("artist", "==", "Adele")
@@ -149,7 +149,7 @@ You can also use :func:`~PyXA.XABase.XAList.by_property` to retrieve a single ob
     import PyXA
     from datetime import datetime
     
-    music_app = PyXA.application("Music")
+    music_app = PyXA.Application("Music")
     
     time_1 = datetime.now()
     tracks = music_app.tracks()
@@ -174,7 +174,7 @@ In addition to improving the efficiency of automation workflows aiming to get va
 .. code-block:: Python
 
     import PyXA
-    safari_app = PyXA.application("Safari")
+    safari_app = PyXA.Application("Safari")
     tabs = safari_app.front_window.tabs()
     tabs.do_javascript("document.body.style.backgroundColor = 'black'; document.body.style.textColor = 'white';")
 
@@ -187,6 +187,6 @@ The :func:`~PyXA.XABase.XAList.push` method allows you to add new elements to a 
 .. code-block:: Python
 
     import PyXA
-    safari_app = PyXA.application("Safari")
+    safari_app = PyXA.Application("Safari")
     new_doc = safari_app.make("tab", {"URL": "http://www.google.com"})
     safari_app.front_window.tabs().push(new_doc)

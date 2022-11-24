@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Maps Module Reference &mdash; PyXA 0.1.0 documentation</title>
+  <title>Maps Module Reference &mdash; PyXA 0.1.1 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
@@ -46,7 +46,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../../tutorial/index.html">Tutorial</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../index.html">Code Documentation and Reference</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../index.html#top-level-pyxa-modules">Top-level PyXA Modules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../index.html#pyxa-base-modules">PyXA Base Modules</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../index.html#first-party-application-module-reference">First-Party Application Module Reference</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="automator.html">Automator Module Reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="calculator.html">Calculator Module Reference</a></li>
@@ -89,6 +88,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../index.html#third-party-application-module-reference">Third-Party Application Module Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#pyxa-additions">PyXA Additions</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../bugs.html">Bugs</a></li>
@@ -107,9 +107,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../index.html">Code Documentation and Reference</a> &raquo;</li>
-      <li>Maps Module Reference</li>
+      <li><a href="../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Code Documentation and Reference</a></li>
+      <li class="breadcrumb-item active">Maps Module Reference</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../../_sources/reference/apps/maps.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -127,10 +127,6 @@
 <p>Control the macOS Maps application using JXA-like syntax.</p>
 <p><strong>Classes:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Maps.XAMapsApplication" title="PyXA.apps.Maps.XAMapsApplication"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAMapsApplication</span></code></a>(properties)</p></td>
 <td><p>A class for managing and interacting with Maps.app.</p></td>
@@ -169,10 +165,6 @@
 </div>
 <p><strong>Methods:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Maps.XAMapsApplication.directions_to" title="PyXA.apps.Maps.XAMapsApplication.directions_to"><code class="xref py py-obj docutils literal notranslate"><span class="pre">directions_to</span></code></a>(destination_address[, ...])</p></td>
 <td><p>Queries for directions to the destination address, optionally starting from a source address.</p></td>
@@ -214,13 +206,9 @@
 </table>
 <p><strong>Attributes:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Maps.XAMapsApplication.sidebar_showing" title="PyXA.apps.Maps.XAMapsApplication.sidebar_showing"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sidebar_showing</span></code></a></p></td>
-<td><p>Whether the sidebar is currently showing</p></td>
+<td><p>Whether the sidebar is currently showing.</p></td>
 </tr>
 </tbody>
 </table>
@@ -230,7 +218,7 @@
 <dd><p>Queries for directions to the destination address, optionally starting from a source address.</p>
 <p>If no source address is provided, the current location is used.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>destination_address</strong> (<em>str</em>) – The address to retrieve directions to</p></li>
 <li><p><strong>source_address</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>None</em><em>]</em><em>, </em><em>optional</em>) – The address to start the directions from, defaults to None</p></li>
@@ -248,7 +236,7 @@
 <span class="sig-name descname"><span class="pre">drop_pin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">latitude</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">longitude</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Maps.html#XAMapsApplication.drop_pin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Maps.XAMapsApplication.drop_pin" title="Permalink to this definition"></a></dt>
 <dd><p>Drops at pin at the specified coordinate.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>latitude</strong> (<em>float</em>) – The latitude of the coordinate at which to drop a pin</p></li>
 <li><p><strong>longitude</strong> (<em>float</em>) – The longitude of the coordinate at which to drop a pin</p></li>
@@ -284,7 +272,7 @@
 <span class="sig-name descname"><span class="pre">search</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">latitude</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">longitude</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exact</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Maps.html#XAMapsApplication.search"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Maps.XAMapsApplication.search" title="Permalink to this definition"></a></dt>
 <dd><p>Searches Maps for the given query, centered at the (optional) specified location.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>query</strong> (<em>str</em>) – The term to search for</p></li>
 <li><p><strong>latitude</strong> (<em>Union</em><em>[</em><em>float</em><em>, </em><em>None</em><em>]</em><em>, </em><em>optional</em>) – The latitude of the location to center the search at, defaults to None</p></li>
@@ -303,7 +291,7 @@
 <span class="sig-name descname"><span class="pre">show_address</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">address</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Maps.html#XAMapsApplication.show_address"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Maps.XAMapsApplication.show_address" title="Permalink to this definition"></a></dt>
 <dd><p>Centers the map at the specified address.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>address</strong> (<em>str</em>) – The address to display</p>
 </dd>
 </dl>
@@ -317,7 +305,7 @@
 <span class="sig-name descname"><span class="pre">show_coordinate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">latitude</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">longitude</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Maps.html#XAMapsApplication.show_coordinate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Maps.XAMapsApplication.show_coordinate" title="Permalink to this definition"></a></dt>
 <dd><p>Centers the map at the specified coordinate.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>latitude</strong> (<em>float</em>) – The latitude of the coordinate to display</p></li>
 <li><p><strong>longitude</strong> (<em>float</em>) – The longitude of the coordinate to display</p></li>
@@ -334,10 +322,10 @@
 <span class="sig-name descname"><span class="pre">sidebar_locations</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Maps.XAMapsSidebarLocationList" title="PyXA.apps.Maps.XAMapsSidebarLocationList"><span class="pre">XAMapsSidebarLocationList</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Maps.html#XAMapsApplication.sidebar_locations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Maps.XAMapsApplication.sidebar_locations" title="Permalink to this definition"></a></dt>
 <dd><p>Gets a list of sidebar locations.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The list of locations</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="#PyXA.apps.Maps.XAMapsSidebarLocationList" title="PyXA.apps.Maps.XAMapsSidebarLocationList">XAMapsSidebarLocationList</a></p>
 </dd>
 </dl>
@@ -349,7 +337,7 @@
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Maps.XAMapsApplication.sidebar_showing">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">sidebar_showing</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Maps.XAMapsApplication.sidebar_showing" title="Permalink to this definition"></a></dt>
-<dd><p>Whether the sidebar is currently showing</p>
+<dd><p>Whether the sidebar is currently showing.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -357,10 +345,10 @@
 <span class="sig-name descname"><span class="pre">tabs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Maps.XAMapsTabList" title="PyXA.apps.Maps.XAMapsTabList"><span class="pre">XAMapsTabList</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Maps.html#XAMapsApplication.tabs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Maps.XAMapsApplication.tabs" title="Permalink to this definition"></a></dt>
 <dd><p>Gets a list of tabs.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The list of tabs</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="#PyXA.apps.Maps.XAMapsTabList" title="PyXA.apps.Maps.XAMapsTabList">XAMapsTabList</a></p>
 </dd>
 </dl>
@@ -408,10 +396,6 @@
 </div>
 <p><strong>Attributes:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Maps.XAMapsDirections.destination_address" title="PyXA.apps.Maps.XAMapsDirections.destination_address"><code class="xref py py-obj docutils literal notranslate"><span class="pre">destination_address</span></code></a></p></td>
 <td><p>The ending address of the directions</p></td>
@@ -455,12 +439,6 @@
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="PyXA.apps.Maps.XAMapsDirections.properties">
-<span class="sig-name descname"><span class="pre">properties</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span></em><a class="headerlink" href="#PyXA.apps.Maps.XAMapsDirections.properties" title="Permalink to this definition"></a></dt>
-<dd><p>The scriptable properties dictionary for the object</p>
-</dd></dl>
-
-<dl class="py attribute">
 <dt class="sig sig-object py" id="PyXA.apps.Maps.XAMapsDirections.source_address">
 <span class="sig-name descname"><span class="pre">source_address</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Maps.XAMapsDirections.source_address" title="Permalink to this definition"></a></dt>
 <dd><p>The starting address of the directions</p>
@@ -488,28 +466,20 @@
 </div>
 <p><strong>Attributes:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Maps.XAMapsSidebarLocation.description" title="PyXA.apps.Maps.XAMapsSidebarLocation.description"><code class="xref py py-obj docutils literal notranslate"><span class="pre">description</span></code></a></p></td>
-<td><p>The description of the location element</p></td>
+<td><p>The description of the location element.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Maps.XAMapsSidebarLocation.name" title="PyXA.apps.Maps.XAMapsSidebarLocation.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a></p></td>
-<td><p>The name of the location</p></td>
+<td><p>The name of the location.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Maps.XAMapsSidebarLocation.selected" title="PyXA.apps.Maps.XAMapsSidebarLocation.selected"><code class="xref py py-obj docutils literal notranslate"><span class="pre">selected</span></code></a></p></td>
-<td><p>Whether the location element is currently selected</p></td>
+<td><p>Whether the location element is currently selected.</p></td>
 </tr>
 </tbody>
 </table>
 <p><strong>Methods:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Maps.XAMapsSidebarLocation.show_directions_to" title="PyXA.apps.Maps.XAMapsSidebarLocation.show_directions_to"><code class="xref py py-obj docutils literal notranslate"><span class="pre">show_directions_to</span></code></a>()</p></td>
 <td><p></p></td>
@@ -519,19 +489,19 @@
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Maps.XAMapsSidebarLocation.description">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">description</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Maps.XAMapsSidebarLocation.description" title="Permalink to this definition"></a></dt>
-<dd><p>The description of the location element</p>
+<dd><p>The description of the location element.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Maps.XAMapsSidebarLocation.name">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Maps.XAMapsSidebarLocation.name" title="Permalink to this definition"></a></dt>
-<dd><p>The name of the location</p>
+<dd><p>The name of the location.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Maps.XAMapsSidebarLocation.selected">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">selected</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Maps.XAMapsSidebarLocation.selected" title="Permalink to this definition"></a></dt>
-<dd><p>Whether the location element is currently selected</p>
+<dd><p>Whether the location element is currently selected.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -551,10 +521,6 @@
 </div>
 <p><strong>Methods:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Maps.XAMapsSidebarLocationList.name" title="PyXA.apps.Maps.XAMapsSidebarLocationList.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a>()</p></td>
 <td><p></p></td>
@@ -578,10 +544,6 @@
 </div>
 <p><strong>Methods:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Maps.XAMapsTab.close" title="PyXA.apps.Maps.XAMapsTab.close"><code class="xref py py-obj docutils literal notranslate"><span class="pre">close</span></code></a>()</p></td>
 <td><p></p></td>
@@ -590,19 +552,15 @@
 </table>
 <p><strong>Attributes:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Maps.XAMapsTab.properties" title="PyXA.apps.Maps.XAMapsTab.properties"><code class="xref py py-obj docutils literal notranslate"><span class="pre">properties</span></code></a></p></td>
-<td><p>All properties of the tab</p></td>
+<td><p>All properties of the tab.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Maps.XAMapsTab.selected" title="PyXA.apps.Maps.XAMapsTab.selected"><code class="xref py py-obj docutils literal notranslate"><span class="pre">selected</span></code></a></p></td>
-<td><p>Whether the tab is the currently selected tab</p></td>
+<td><p>Whether the tab is the currently selected tab.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Maps.XAMapsTab.title" title="PyXA.apps.Maps.XAMapsTab.title"><code class="xref py py-obj docutils literal notranslate"><span class="pre">title</span></code></a></p></td>
-<td><p>The name of the tab</p></td>
+<td><p>The name of the tab.</p></td>
 </tr>
 </tbody>
 </table>
@@ -614,19 +572,19 @@
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Maps.XAMapsTab.properties">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">properties</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span></em><a class="headerlink" href="#PyXA.apps.Maps.XAMapsTab.properties" title="Permalink to this definition"></a></dt>
-<dd><p>All properties of the tab</p>
+<dd><p>All properties of the tab.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Maps.XAMapsTab.selected">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">selected</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Maps.XAMapsTab.selected" title="Permalink to this definition"></a></dt>
-<dd><p>Whether the tab is the currently selected tab</p>
+<dd><p>Whether the tab is the currently selected tab.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Maps.XAMapsTab.title">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">title</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Maps.XAMapsTab.title" title="Permalink to this definition"></a></dt>
-<dd><p>The name of the tab</p>
+<dd><p>The name of the tab.</p>
 </dd></dl>
 
 </dd></dl>

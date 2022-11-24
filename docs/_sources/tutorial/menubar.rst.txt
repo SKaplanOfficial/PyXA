@@ -6,168 +6,200 @@ The Basics
 
 PyXA provides a straightforward way to add interactive items to the top menu bar of your Mac. Using the :class:`~PyXA.XABase.XAMenuBar` class, you can add new menus, attach items and actions to them, and customize them in just a few lines of code. For example, the four line code below creates a new menu titled "Hello" and places it on the right side of the menu bar, to the left of any existing items.
 
-.. code-block:: Python
+.. code-block:: python
 
     import PyXA
     menu_bar = PyXA.XAMenuBar()
-    menu_bar.add_menu("Hello!")
+    m1 = menu_bar.new_menu("Hello!")
     menu_bar.display()
 
-We haven't added any interactivity yet, but PyXA already handles the task of adding a "Quit" option to the menu. Helpful! When you run this code, you should see something along these lines (though your icons may be in a different order):
+This code instantiates a new :class:`~PyXA.XABase.XAMenuBarMenu` object with "Hello" as its title text, then displays the menu in the system status bar. We haven't added any interactivity yet, but PyXA already handles the task of adding a "Quit" option to the menu. Helpful! When you run this code, you should see something along these lines (though your icons may be in a different order):
 
 .. image:: ../_static/assets/HelloMenu.png
 
 Note that, unlike many other PyXA features, your menu bar script will stay running until you specific tell it to quit. This allows you to create create customizations to your menu bar that persist throughout your work session. If you set the script to run on startup, you can create a persistent modification to the menu bar in this way.
 
-The script above creates menu button that currently doesn't do anything. To add interactivity, use the :func:`~PyXA.XABase.XAMenuBar.add_item` method to associate a menu item with some method. Continuing our example, let's add a menu item that, when clicked, prints "Hi" to the Terminal. This change can be made by adding a single line, as seen below:
+The script above creates menu button that currently doesn't do anything. To add interactivity, use the :func:`~PyXA.XABase.XAMenuBarMenu.new_item` method to associate a menu item with some method. Continuing our example, let's add a menu item that, when clicked, prints "Hi" to the Terminal. This change can be made by adding a single line, as seen below:
 
-.. code-block:: Python
+.. code-block:: python
 
     import PyXA
     menu_bar = PyXA.XAMenuBar()
-    menu_bar.add_menu("Hello!")
-    menu_bar.add_item(menu="Hello!", item_name="Print Hi", method=lambda : print("Hi"))
+    menu = menu_bar.new_menu("Hello!")
+    item = menu.new_item(title="Print Hi", action=lambda item, *args: print("Hi"))
     menu_bar.display()
 
-The :func:`~PyXA.XABase.XAMenuBar.add_item` method associates a method to a menu item with a given name, then attaches that menu item to the menu with the specified title. If no menu exists with the specified title, then a new menu is automatically created, and the item is added to it. The above code, when run, produces the following menu:
+The :func:`~PyXA.XABase.XAMenuBarMenu.new_item` method associates an action method to a menu item with a given ID. When that item is clicked by the user, the action method will be executed. The above code, when run, produces the following menu:
 
 .. image:: ../_static/assets/PrintHi.png
 
 The code above uses a lambda function to specify our method; this is a convenient way to write the code concisely, but you can also pass in a normal function name to achieve the same effect. The code above can also be expressed as:
 
-.. code-block:: Python
+.. code-block:: python
 
     import PyXA
 
-    def print_hi():
+    def print_hi(item, *args):
         print("Hi")
 
     menu_bar = PyXA.XAMenuBar()
-    menu_bar.add_menu("Hello!")
-    menu_bar.add_item(menu="Hello!", item_name="Print Hi", method=print_hi)
+    menu = menu_bar.new_menu("Hello!")
+    item = menu.new_item(title="Print Hi", action=print_hi)
     menu_bar.display()
 
 .. image:: ../_static/assets/PrintHiImage.png
 
-You can easily add additional menus and menu items, further extending the functionality of your menu bar. A few examples are provided below.
+Menus, menu items, and subitems all accept an optional `action` argument, allowing you to set a method to be executed when a menu is opened or a menu item is clicked.
+
+.. code-block:: python
+
+    import PyXA
+
+    # State-based images
+    on_img = PyXA.XAImage.symbol("sun.max")
+    off_img = PyXA.XAImage.symbol("moon")
+    state = True
+    
+    def toggle_state(menu, button):
+        global state
+        if button == 1:
+            # Handle right click -- toggle state
+            state = not state
+            menu.image = on_img if state else off_img
+    
+    # Create and display the menu
+    menu_bar = PyXA.XAMenuBar()
+    menu = menu_bar.new_menu(image=on_img, action=toggle_state)
+    menu_bar.display()
+
+To add a submenu to a menu item, use :func:`~PyXA.XABase.XAMenuBarMenuItem.new_subitem`. Likewise, to add a non-interactive separator item, use :func:`~PyXA.XABase.XAMenuBarMenu.add_separator`. Using these building blocks, you can easily add additional menus and menu items, further extending the functionality of your menu bar. A few examples are provided below.
 
 Example 1 - Application Launcher
 ********************************
 
-.. code-block:: Python
+.. code-block:: python
 
     import PyXA
+
+    # Initialize application objects
+    safari = PyXA.Application("Safari")
+    messages = PyXA.Application("Messages")
+    notes = PyXA.Application("Notes")
+    shortcuts = PyXA.Application("Shortcuts")
+    discord = PyXA.Application("Discord")
+    github = PyXA.Application("GitHub Desktop")
+    vscode = PyXA.Application("Visual Studio Code")
+
+    # Construct the menu
     menu_bar = PyXA.XAMenuBar()
-    menu_bar.add_item(menu="Apps", item_name="Safari", method=lambda : PyXA.application("Safari").activate())
-    menu_bar.add_item("Apps", "Messages", lambda : PyXA.application("Messages").activate())
-    menu_bar.add_item("Apps", "Notes", lambda : PyXA.application("Notes").activate())
-    menu_bar.add_item("Apps", "Shortcuts", lambda : PyXA.application("Shortcuts").activate())
-    menu_bar.add_item("Apps", "Discord", lambda : PyXA.application("Discord").activate())
-    menu_bar.add_item("Apps", "GitHub Desktop", lambda : PyXA.application("GitHub Desktop").activate())
-    menu_bar.add_item("Apps", "Visual Studio Code", lambda : PyXA.application("Visual Studio Code").activate())
+    app_menu = menu_bar.new_menu(image=PyXA.XAImage.symbol("square.grid.2x2"))  # Give the menu an app grid-esque icon
+    app_menu.new_item(title="Safari", action=lambda _: safari.activate(), image=safari.icon) # Use the application icons as menu item images
+    app_menu.new_item("Messages", action=lambda _: messages.activate(), image=messages.icon)
+    app_menu.new_item("Notes", action=lambda _: notes.activate(), image=notes.icon)
+    app_menu.new_item("Shortcuts", action=lambda _: shortcuts.activate(), image=shortcuts.icon)
+    app_menu.new_item("Discord", action=lambda _: discord.activate(), image=discord.icon)
+    app_menu.new_item("GitHub Desktop", action=lambda _: github.activate(), image=github.icon)
+    app_menu.new_item("Visual Studio Code", action=lambda _: vscode.activate(), image=vscode.icon)
     menu_bar.display()
 
 Example 2 - Emoji Bookmarks
 ***************************
 
-.. code-block:: Python
+.. code-block:: python
 
     import PyXA
     menu_bar = PyXA.XAMenuBar()
-    menu_bar.add_item("🌦", "Weather.gov", lambda : PyXA.XAURL("https://www.weather.gov").open())
-    menu_bar.add_item("🌦", "Weather.com", lambda : PyXA.XAURL("https://weather.com/weather/today").open())
-    menu_bar.add_item("🌦", "Accuweather.com", lambda : PyXA.XAURL("https://www.accuweather.com").open())
+    m1 = menu_bar.new_menu("🌦")
+    m1.new_item("Weather.gov", lambda _: PyXA.XAURL("https://www.weather.gov").open())
+    m1.new_item("Weather.com", lambda _: PyXA.XAURL("https://weather.com/weather/today").open())
+    m1.new_item("Accuweather.com", lambda _: PyXA.XAURL("https://www.accuweather.com").open())
 
-    menu_bar.add_item("📖", "Develop in Swift", lambda : PyXA.XAURL("https://books.apple.com/us/book/develop-in-swift-fundamentals/id1511184145").open())
-    menu_bar.add_item("📖", "NYTime", lambda : PyXA.XAURL("https://www.nytimes.com").open())
-    menu_bar.add_item("📖", "New York Public Library", lambda : PyXA.XAURL("https://www.nypl.org").open())
+    m2 = menu_bar.new_menu("📖")
+    m2.new_item("Develop in Swift", lambda _: PyXA.XAURL("https://books.apple.com/us/book/develop-in-swift-fundamentals/id1511184145").open())
+    m2.new_item("NYTimes", lambda _: PyXA.XAURL("https://www.nytimes.com").open())
+    m2.new_item("New York Public Library", lambda _: PyXA.XAURL("https://www.nypl.org").open())
 
-    menu_bar.add_item("🦊", "Random Fox Image", lambda : PyXA.XAURL("https://randomfox.ca").open())
-    menu_bar.add_item("🦊", "Random Duck Image", lambda : PyXA.XAURL("https://generatorfun.com/random-duck-image").open())
-    menu_bar.add_item("🦊", "Random Cat Image", lambda : PyXA.XAURL("https://genrandom.com/cats/").open())
+    m3 = menu_bar.new_menu("🦊")
+    m3.new_item("Random Fox Image", lambda _: PyXA.XAURL("https://randomfox.ca").open())
+    m3.new_item("Random Duck Image", lambda _: PyXA.XAURL("https://generatorfun.com/random-duck-image").open())
+    m3.new_item("Random Cat Image", lambda _: PyXA.XAURL("https://genrandom.com/cats/").open())
     menu_bar.display()
 
 Example 3 - Application Controller
 **********************************
 
-.. code-block:: Python
+.. code-block:: python
 
     import PyXA
 
-    def minimize_all():
-        apps = PyXA.running_applications()
-        for app in apps:
-            app.windows().collapse()
-
     menu_bar = PyXA.XAMenuBar()
-    menu_bar.add_item("⚙️", "Minimize all windows", minimize_all)
-    menu_bar.add_item("⚙️", "Hide all applications", lambda : PyXA.running_applications().hide())
-    menu_bar.add_item("⚙️", "Quite all applications", lambda : PyXA.running_applications().terminate())
+    menu = menu_bar.new_menu("⚙️")
+    menu.new_item("Minimize all windows", lambda _: PyXA.running_applications().windows().collapse(), image=PyXA.XAImage.symbol("dock.arrow.down.rectangle"))
+    menu.new_item("Hide all applications", lambda _: PyXA.running_applications().hide(), image=PyXA.XAImage.symbol("eye.slash"))
+    menu.new_item("Quite all applications", lambda _: PyXA.running_applications().terminate(), image=PyXA.XAImage.symbol("xmark.circle"))
     menu_bar.display()
-
 
 Customization
 #############
 
 You can customize your menu bar items by adding images to them, as well as by adjusting the width and height of the images. Additional customization options might be added in the future.
 
-To display an image on the menu bar, create an :class:`~PyXA.XABase.XAImage` object and set it as the image argument when calling :func:`~PyXA.XABase.XAMenuBar.add_menu`. The example below shows this in action -- and it even draws the image from an online source (though you could just as easily use a local source instead). When calling :func:`~PyXA.XABase.XAMenuBar.add_menu`, you can also specify the `img_width` and `img_height` arguments to customize the size of the image.
+To display an image on the menu bar, create an :class:`~PyXA.XABase.XAImage` object and set it as the image argument when calling :func:`~PyXA.XABase.XAMenuBar.new_menu`. The example below shows this in action -- and it even draws the image from an online source (though you could just as easily use a local source instead). When calling :func:`~PyXA.XABase.XAMenuBar.new_menu`, you can also specify the `image_dimensions` argument to customize the size of the image.
 
-.. code-block:: Python
+.. code-block:: python
 
     import PyXA
     img = PyXA.XAImage("https://www.nasa.gov/sites/default/files/thumbnails/image/main_image_star-forming_region_carina_nircam_final-5mb.jpg")
     menu_bar = PyXA.XAMenuBar()
-    menu_bar.add_menu("Menu 1", image=img, img_width=100)
+    menu_bar.new_menu(image=img, image_dimensions=(100, 50))
     menu_bar.display()
 
 .. image:: ../_static/assets/JWSTMenuBar.png
 
-You can update the image during runtime using the :func:`~PyXA.XABase.XAMenuBar.set_image` method, which takes as parameters the menu name, the image object, and an optional width and height. The code below displays a random fox image in the menu bar and allows users to click a "Random Fox" menu item to retrieve a new image.
+You can update the image during runtime by setting the :attr:`~PyXA.XABase.XAMenuBarMenu.image` and :attr:`~PyXA.XABase.XAMenuBarMenu.image_dimensions` attributes. The code below displays a random fox image in the menu bar and allows users to click a "Random Fox" menu item to retrieve a new image.
 
-.. code-block:: Python
+.. code-block:: python
 
     import PyXA
     import requests
-
-    menu_bar = PyXA.XAMenuBar()
 
     def random_fox_link() -> str:
         response = requests.get("https://randomfox.ca/floof/")
         json_data = response.json()
         return json_data["image"]
 
-    def update_image():
+    def update_image(item, button, menu, *args):
         img = PyXA.XAImage(random_fox_link())
-        menu_bar.set_image("Menu 1", img)
+        menu.image = img
 
     img = PyXA.XAImage(random_fox_link())
-    menu_bar.add_menu("Menu 1", image=img, img_width=80, img_height = 80)
-    menu_bar.add_item("Menu 1", "Random Fox", update_image)
+    menu_bar = PyXA.XAMenuBar()
+    menu = menu_bar.new_menu(image=img, image_dimensions=(80, 44))
+    menu.new_item("Random Fox", update_image, args=[menu])
     menu_bar.display()
 
-You can also add images to menu items in a similar manner. When calling :func:`PyXA.XABase.XAMenuBar`, provide an `image` argument alongside optional `img_width` and `img_height` arguments. The example below creates three menu items, each with an image attached. While the width and height for a menu in the menu bar is limited to the available space, there is no such restriction for items within menus -- you can set the image to be as large or as small as you want.
+You can also add images to menu items in a similar manner. When calling :func:`PyXA.XABase.XAMenuBarMenu.new_item`, provide an `image` argument alongside an optional `image_dimensions` argument. The example below creates three menu items, each with an image attached. While the width and height for a menu in the menu bar is limited to the available space, there is no such restriction for items within menus -- you can set the image to be as large or as small as you want.
 
-.. code-block:: Python
+.. code-block:: python
 
     import PyXA
-    import requests
 
     icon1 = PyXA.XAImage("/Users/exampleUser/Documents/icon1.jpg")
     icon2 = PyXA.XAImage("/Users/exampleUser/Documents/icon2.jpg")
     icon3 = PyXA.XAImage("/Users/exampleUser/Documents/icon3.jpg")
 
     menu_bar = PyXA.XAMenuBar()
-    menu_bar.add_item("Menu 1", "Item 1", image=icon1)
-    menu_bar.add_item("Menu 1", "Item 2", image=icon2, img_width=300)
-    menu_bar.add_item("Menu 1", "Item 3", image=icon3, img_height=500)
+    menu = menu_bar.new_menu("Menu 1")
+    menu.new_item("Item 1", image=icon1)
+    menu.new_item("Item 2", image=icon2, image_dimensions=(300, 300))
+    menu.new_item("Item 3", image=icon3, image_dimensions=(500, 250))
     menu_bar.display()
 
 .. image:: ../_static/assets/MenuItemImages.png
 
-Another way to customize your menus is by modifying the text that they display. By default, menus and menu items will display the name that they are given upon creation, but you can modify the displayed text using the :func:`~PyXA.XABase.XAMenuBar.set_text` method. With this method, similar to when setting images, you identify a menu or menu item by referencing its name, then you provide a new text string for the item to display. The example below uses this feature to create a near-live CPU monitor in the menu bar:
+Another way to customize your menus is by modifying the text that they display. By default, menus and menu items will display the name that they are given upon creation, but you can modify the displayed text by setting the :attr:`~PyXA.XABase.XAMenuBarMenuItem.title` attribute. The example below uses this feature to create a near-live CPU monitor in the menu bar:
 
-.. code-block:: Python
+.. code-block:: python
 
     import PyXA
     import psutil
@@ -175,13 +207,27 @@ Another way to customize your menus is by modifying the text that they display. 
     from time import sleep
 
     menu_bar = PyXA.XAMenuBar()
-    menu_bar.add_menu("CPU")
+    graph_menu = menu_bar.new_menu(image_dimensions=(5, 20))
+    text_menu = menu_bar.new_menu("CPU: 0%")
 
     def update_display():
         while True:
-            message = "CPU Usage: " + str(psutil.cpu_percent(4)) + "%"
-            menu_bar.set_text("CPU", message)
-            sleep(0.05)
+            # Get CPU utilization, update title text
+            cpu_usage = psutil.cpu_percent(4)
+            message = "CPU: " + str(cpu_usage) + "%"
+            text_menu.title = message
+
+            # Construct graph image
+            used_graph_height = 20 * cpu_usage / 100.0
+            used_color = PyXA.XAColor.green() if cpu_usage < 60 else PyXA.XAColor.red()
+            used_swatch = used_color.make_swatch(5, used_graph_height)
+            divider_swatch = PyXA.XAColor.black().make_swatch(5, 2)
+            free_swatch = PyXA.XAColor.gray().make_swatch(5, 20 - used_graph_height)
+
+            # Display utilization graph
+            graph_img = PyXA.XAImage.vertical_stitch([used_swatch, divider_swatch, free_swatch])
+            graph_menu.image = graph_img
+            sleep(0.01)
 
     cpu_monitor = threading.Thread(target=update_display)
     cpu_monitor.start()

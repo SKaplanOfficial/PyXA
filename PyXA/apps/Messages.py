@@ -132,7 +132,7 @@ class XAMessagesApplication(XABaseScriptable.XASBApplication):
         >>> app = PyXA.Application("Messages")
         >>> chats = app.chats()
         >>> for chat in chats:
-        >>>     print("\n")
+        >>>     print("\\n")
         >>>     print("Name:", chat.name)
         >>>     print("ID:", chat.id)
         >>>     print("Account:", chat.account)
@@ -633,7 +633,7 @@ class XAMessagesChat(XABase.XAObject, XAClipboardCodable):
         >>> chat = app.chats().by_id("SMS;-;+11234567891")
         >>> chat.send("Hello!")
 
-        .. versionaddedd:: 0.0.4
+        .. versionadded:: 0.0.4
         """
         self.xa_prnt.xa_prnt.send(message, self.xa_elem)
 
@@ -920,86 +920,55 @@ class XAMessagesFileTransfer(XABase.XAObject, XAClipboardCodable):
     """
     def __init__(self, properties):
         super().__init__(properties)
+        self.id: str #: The unique identifier for the file transfer
+        self.name: str #: The name of the file
+        self.file_path: XABase.XAPath #: The local page to the file being transferred
+        self.direction: XAMessagesApplication.MessageDirection #: The direction that the file is being sent
+        self.account: XAMessagesAccount #: The account on which the file transfer is taking place
+        self.participant: XAMessagesParticipant #: The other participant in the file transfer
+        self.file_size: int #: The total size of the file transfers in bytes
+        self.file_progress: int #: The number of bytes that have been transferred
+        self.transfer_status: XAMessagesApplication.TransferStatus #: The current status of the file transfer
+        self.started: datetime #: The date and time that the file transfer started
 
     @property
     def id(self) -> str:
-        """The unique identifier for the file transfer.
-
-        .. versionadded:: 0.0.1
-        :rtype: str
-        """
         return self.xa_elem.id()
 
     @property
     def name(self) -> str:
-        """The name of the file.
-
-        .. versionadded:: 0.0.1
-        """
         return self.xa_elem.name()
 
     @property
     def file_path(self) -> XABase.XAPath:
-        """The local path to the file being transferred.
-
-        .. versionadded:: 0.0.1
-        """
         return XABase.XAPath(self.xa_elem.filePath())
 
     @property
     def direction(self) -> XAMessagesApplication.MessageDirection:
-        """The direction that the file is being sent.
-
-        .. versionadded:: 0.0.1
-        """
         return XAMessagesApplication.MessageDirection(self.xa_elem.direction())
 
     @property
     def account(self) -> 'XAMessagesAccount':
-        """The account on which the file transfer is taking place.
-
-        .. versionadded:: 0.0.1
-        """
         return self._new_element(self.xa_elem.account(), XAMessagesAccount)
 
     @property
     def participant(self) -> 'XAMessagesParticipant':
-        """The other participant in the file transfer.
-
-        .. versionadded:: 0.0.1
-        """
         return self._new_element(self.xa_elem.participant(), XAMessagesParticipant)
 
     @property
     def file_size(self) -> int:
-        """The total size of the file transfers in bytes.
-
-        .. versionadded:: 0.0.1
-        """
         return self.xa_elem.fileSize()
 
     @property
     def file_progress(self) -> int:
-        """The number of bytes that have been transferred.
-
-        .. versionadded:: 0.0.1
-        """
         return self.xa_elem.fileProgress()
 
     @property
     def transfer_status(self) -> XAMessagesApplication.TransferStatus:
-        """The current status of the file transfer.
-
-        .. versionadded:: 0.0.1
-        """
         return XAMessagesApplication.TransferStatus(self.xa_elem.transferStatus())
 
     @property
     def started(self) -> datetime:
-        """The date and time that the file transfer started.
-
-        .. versionadded:: 0.0.1
-        """
         return self.xa_elem.started()
 
     def get_clipboard_representation(self) -> list[AppKit.NSURL]:
@@ -1196,26 +1165,25 @@ class XAMessagesParticipant(XABase.XAObject, XAClipboardCodable):
     """
     def __init__(self, properties):
         super().__init__(properties)
+        self.id: str #: The unique identifier for the participant
+        self.account: XAMessagesAccount #: The account for the participant
+        self.name: str #: The name of the participant as it appears in the participant list
+        self.handle: str #: The participant's handle
+        self.first_name: str #: The first name of the participant, taken from their contact card (if available)
+        self.last_name: str #: The last name of the participant, taken from their contact card (if available)
+        self.full_name: str #: The full name of the participant, taken from their contact card (if available)
 
     @property
     def id(self) -> str:
-        """The unique identifier for the participant.
-
-        .. versionadded:: 0.0.1
-        """
         return self.xa_elem.id()
 
     @property
     def account(self) -> 'XAMessagesAccount':
-        """The account for the participant.
-
-        .. versionadded:: 0.0.1
-        """
         return self._new_element(self.xa_elem.account(), XAMessagesAccount)
 
     @property
     def name(self) -> str:
-        """The name of the participant as it appears in the participant list.
+        return self.xa_elem.name()
 
         .. versionadded:: 0.0.1
         """
@@ -1223,7 +1191,7 @@ class XAMessagesParticipant(XABase.XAObject, XAClipboardCodable):
 
     @property
     def handle(self) -> str:
-        """The participant's handle.
+        return self.xa_elem.handle()
 
         .. versionadded:: 0.0.1
         """
@@ -1231,7 +1199,7 @@ class XAMessagesParticipant(XABase.XAObject, XAClipboardCodable):
 
     @property
     def first_name(self) -> str:
-        """The first name of the participant, taken from their contact card (if available).
+        return self.xa_elem.firstName()
 
         .. versionadded:: 0.0.1
         """
@@ -1239,7 +1207,7 @@ class XAMessagesParticipant(XABase.XAObject, XAClipboardCodable):
 
     @property
     def last_name(self) -> str:
-        """The last name of the participant, taken from their contact card (if available).
+        return self.xa_elem.lastName()
 
         .. versionadded:: 0.0.1
         """
@@ -1247,7 +1215,7 @@ class XAMessagesParticipant(XABase.XAObject, XAClipboardCodable):
 
     @property
     def full_name(self) -> str:
-        """The full name of the participant, taken from their contact card (if available).
+        return self.xa_elem.fullName()
 
         .. versionadded:: 0.0.1
         """
@@ -1409,29 +1377,22 @@ class XAMessagesAccount(XABase.XAObject, XAClipboardCodable):
     """
     def __init__(self, properties):
         super().__init__(properties)
+        self.id: str #: The unique identifier for the account
+        self.object_description: str #: The name of the account as defined in the Account Preferences description field
+        self.enabled: bool #: Whether the account is currently enabled
+        self.connection_status: XAMessagesApplication.ConnectionStatus #: The connection status for the account
+        self.service_type: XAMessagesApplication.ServiceType #: The type of service for the account
 
     @property
     def id(self) -> str:
-        """The unique identifier for the account.
-
-        .. versionadded:: 0.0.1
-        """
         return self.xa_elem.id()
 
     @property
     def object_description(self) -> str:
-        """The name of the account as defined in the Account Preferences description field.
-
-        .. versionadded:: 0.0.1
-        """
         return self.xa_elem.objectDescription()
 
     @property
     def enabled(self) -> bool:
-        """Whether the account is currently enabled.
-
-        .. versionadded:: 0.0.1
-        """
         return self.xa_elem.enabled()
 
     @enabled.setter
@@ -1440,18 +1401,10 @@ class XAMessagesAccount(XABase.XAObject, XAClipboardCodable):
 
     @property
     def connection_status(self) -> XAMessagesApplication.ConnectionStatus:
-        """The connection status for the account.
-
-        .. versionadded:: 0.0.1
-        """
         return XAMessagesApplication.ConnectionStatus(self.xa_elem.connectionStatus())
 
     @property
     def service_type(self) -> XAMessagesApplication.ServiceType:
-        """The type of service for the account.
-
-        .. versionadded:: 0.0.1
-        """
         return XAMessagesApplication.ServiceType(self.xa_elem.serviceType())
 
     def chats(self, filter: Union[dict, None] = None) -> XAMessagesChatList:

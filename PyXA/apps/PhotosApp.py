@@ -52,51 +52,59 @@ class XAPhotosApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
 
         self.__photos_library = Photos.PHPhotoLibrary.sharedPhotoLibrary()
         self.__image_manager = Photos.PHCachingImageManager.defaultManager()
-        
-        self.properties: dict #: All properties of the application
-        self.name: str #: The name of the application
-        self.frontmost: bool #: Whether Photos is the frontmost application
-        self.version: str #: The version of Photos.app
-        self.selection: XAPhotosMediaItemList #: The currently selected media items in the application
-        self.favorites_album: XAPhotosAlbum #: Favorited media items album.
-        self.slideshow_running: bool #: Returns true if a slideshow is currently running.
-        self.recently_deleted_album: XAPhotosAlbum #: The set of recently deleted media items
-        self.library_path: XABase.XAPath #: The path to the Photos library container
 
     @property
     def properties(self) -> dict:
+        """All properties of the application.
+        """
         return self.xa_scel.properties()
 
     @property
     def name(self) -> str:
+        """The name of the application.
+        """
         return self.xa_scel.name()
 
     @property
     def frontmost(self) -> bool:
+        """Whether Photos is the frontmost application.
+        """
         return self.xa_scel.frontmost()
 
     @property
     def version(self) -> str:
+        """The version of Photos.app.
+        """
         return self.xa_scel.version()
 
     @property
     def selection(self) -> 'XAPhotosMediaItemList':
+        """The currently selected media items in the application.
+        """
         return self._new_element(self.xa_scel.selection(), XAPhotosMediaItemList)
 
     @property
     def favorites_album(self) -> 'XAPhotosAlbum':
+        """Favorited media items album.
+        """
         return self._new_element(self.xa_scel.favoritesAlbum(), XAPhotosAlbum)
 
     @property
     def slideshow_running(self) -> bool:
+        """Returns true if a slideshow is currently running.
+        """
         return self.xa_scel.slideshowRunning()
 
     @property
     def recently_deleted_album(self) -> 'XAPhotosAlbum':
+        """The set of recently deleted media items.
+        """
         return self._new_element(self.xa_scel.recentlyDeletedAlbum(), XAPhotosAlbum)
 
     @property
     def library_path(self) -> XABase.XAPath:
+        """The path to the Photos library container.
+        """
         return XABase.XAPath(self.__photos_library.photoLibraryURL())
 
     def open(self, path: Union[str, XABase.XAPath, list[Union[str, XABase.XAPath]]]) -> 'XAPhotosApplication':
@@ -763,27 +771,6 @@ class XAPhotosMediaItem(XABase.XAObject, XAClipboardCodable, XAImageLike):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        
-        self.properties: dict #: All properties of the media item
-        self.keywords: list[str] #: A list of keywords to associate with a media item
-        self.name: str #: The name (title) of the media item.
-        self.object_description: str #: A description of the media item.
-        self.favorite: bool #: Whether the media item has been favorited.
-        self.creation_date: datetime #: The creation date of the media item
-        self.modification_date: datetime #: The last modification date of the media item
-        self.id: str #: The unique ID of the media item
-        self.height: int #: The height of the media item in pixels.
-        self.width: int #: The width of the media item in pixels.
-        self.filename: str #: The name of the file on disk.
-        self.altitude: float #: The GPS altitude in meters.
-        self.size: int #: The selected media item file size.
-        self.location: XABase.XALocation #: The GPS latitude and longitude, in an ordered list of 2 numbers or missing values. Latitude in range -90.0 to 90.0, longitude in range -180.0 to 180.0.
-        self.duration: float #: The duration of the media item
-        self.is_video: bool #: Whether the media item is a video
-        self.is_photo: bool #: Whether the media item is a photo
-        self.is_burst: bool #: Whether the media item is a burst photo
-        self.file_path: XABase.XAPath #: The path to the main file for the media item
-        self.is_hidden: bool #: Whether the media item is hidden
 
         self.__photos_library = Photos.PHPhotoLibrary.sharedPhotoLibrary()
         self.__image_manager = Photos.PHCachingImageManager.defaultManager()
@@ -810,10 +797,14 @@ class XAPhotosMediaItem(XABase.XAObject, XAClipboardCodable, XAImageLike):
 
     @property
     def properties(self) -> dict:
+        """All properties of the media item.
+        """
         return self.xa_scel.properties()
 
     @property
     def keywords(self) -> list[str]:
+        """A list of keywords to associate with a media item.
+        """
         self.xa_scel = self.xa_scel.get()
         return list(self.xa_scel.keywords())
 
@@ -823,6 +814,8 @@ class XAPhotosMediaItem(XABase.XAObject, XAClipboardCodable, XAImageLike):
 
     @property
     def name(self) -> str:
+        """The name (title) of the media item.
+        """
         return self.xa_elem.title()
 
     @name.setter
@@ -831,6 +824,8 @@ class XAPhotosMediaItem(XABase.XAObject, XAClipboardCodable, XAImageLike):
 
     @property
     def object_description(self) -> str:
+        """A description of the media item.
+        """
         return self.xa_scel.objectDescription()
 
     @object_description.setter
@@ -839,6 +834,8 @@ class XAPhotosMediaItem(XABase.XAObject, XAClipboardCodable, XAImageLike):
 
     @property
     def favorite(self) -> bool:
+        """Whether the media item has been favorited.
+        """
         return self.xa_elem.favorite()
 
     @favorite.setter
@@ -847,6 +844,8 @@ class XAPhotosMediaItem(XABase.XAObject, XAClipboardCodable, XAImageLike):
 
     @property
     def creation_date(self) -> datetime:
+        """The creation date of the media item.
+        """
         return self.xa_elem.creationDate()
 
     @creation_date.setter
@@ -855,58 +854,86 @@ class XAPhotosMediaItem(XABase.XAObject, XAClipboardCodable, XAImageLike):
 
     @property
     def modification_date(self) -> datetime:
+        """The last modification date of the media item.
+        """
         return self.xa_elem.modificationDate()
 
     @property
     def is_photo(self) -> bool:
+        """Whether the media item is a photo.
+        """
         return self.xa_elem.isPhoto()
 
     @property
     def duration(self) -> float:
+        """The duration of the media item.
+        """
         return self.xa_elem.duration()
 
     @property
     def file_path(self) -> XABase.XAPath:
+        """The path to the main file for the media item.
+        """
         return XABase.XAPath(self.xa_elem.mainFileURL())
 
     @property
     def is_video(self) -> bool:
+        """Whether the media item is a video.
+        """
         return self.xa_elem.isVideo()
 
     @property
     def is_hidden(self) -> bool:
+        """Whether the media item is hidden.
+        """
         return self.xa_elem.isHidden()
 
     @property
     def is_burst(self) -> bool:
+        """Whether the media item is a burst photo.
+        """
         return self.xa_elem.representsBurst()
 
     @property
     def id(self) -> str:
+        """The unique ID of the media item.
+        """
         return self.xa_elem.localIdentifier()
 
     @property
     def height(self) -> int:
+        """The height of the media item in pixels.
+        """
         return self.xa_elem.pixelHeight()
 
     @property
     def width(self) -> int:
+        """The width of the media item in pixels.
+        """
         return self.xa_elem.pixelWidth()
 
     @property
     def filename(self) -> str:
+        """The name of the file on disk.
+        """
         return self.xa_elem.filename()
 
     @property
     def altitude(self) -> float:
+        """The GPS altitude in meters.
+        """
         return self.xa_scel.altitude()
 
     @property
     def size(self) -> int:
+        """The selected media item file size.
+        """
         return self.xa_scel.size()
 
     @property
     def location(self) -> XABase.XALocation:
+        """The GPS latitude and longitude, in an ordered list of 2 numbers or missing values. Latitude in range -90.0 to 90.0, longitude in range -180.0 to 180.0.
+        """
         loc = self.xa_elem.location()
         return XABase.XALocation(
             latitude = loc.coordinate()[0],
@@ -1098,22 +1125,23 @@ class XAPhotosContainer(XABase.XAObject, XAClipboardCodable):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        
-        self.properties: dict #: All properties of the container
-        self.id: str #: The unique ID of this container
-        self.name: str #: The name of this container
-        self.parent: XAPhotosFolder #: This container's parent folder, if any
 
     @property
     def properties(self) -> dict:
+        """All properties of the container.
+        """
         return self.xa_elem.properties()
 
     @property
     def id(self) -> str:
+        """The unique ID of this container.
+        """
         return self.xa_elem.id()
 
     @property
     def name(self) -> str:
+        """The name of this container.
+        """
         return self.xa_elem.name()
 
     @name.setter
@@ -1122,6 +1150,8 @@ class XAPhotosContainer(XABase.XAObject, XAClipboardCodable):
 
     @property
     def parent(self) -> 'XAPhotosFolder':
+        """This container's parent folder, if any.
+        """
         return self._new_element(self.xa_elem.parent(), XAPhotosFolder)
 
     def spotlight(self) -> 'XAPhotosContainer':

@@ -73,28 +73,22 @@ class XAMusicApplication(MediaApplicationBase.XAMediaApplication):
         super().__init__(properties)
         self.xa_wcls = XAMusicWindow
 
-        self.airplay_enabled: bool #: Whether AirPlay is currently ennabled
-        self.converting: bool #: Whether a track is currently being converted
-        self.current_airplay_devices: XAMusicAirPlayDeviceList #: The currently selected AirPlay devices
-        self.current_encoder: XAMusicEncoder #: The currently selected encoder
-        self.current_eq_preset: XAMusicEQPreset #: The currently selected equalizer preset
-        self.current_visual: XAMusicVisual #: The currently selected visual plug-in
-        self.eq_enabled: bool #: Whether the equalizer is enabled
-        self.shuffle_enabled: bool #: Whether songs are played in random order
-        self.shuffle_mode: str #: The playback shuffle mode
-        self.song_repeat: str #: The playback repeat mode
-        self.visuals_enabled: bool #: Whether visuals are currently displayed
-
     @property
     def airplay_enabled(self) -> bool:
+        """Whether AirPlay is currently enabled.
+        """
         return self.xa_scel.airplayEnabled()
 
     @property
     def converting(self) -> bool:
+        """Whether a track is currently being converted.
+        """
         return self.xa_scel.converting()
 
     @property
     def current_airplay_devices(self) -> 'XAMusicAirPlayDeviceList':
+        """The currently selected AirPlay devices.
+        """
         ls = self.xa_scel.currentAirPlayDevices()
         return self._new_element(ls, XAMusicAirPlayDeviceList)
 
@@ -108,6 +102,8 @@ class XAMusicApplication(MediaApplicationBase.XAMediaApplication):
 
     @property
     def current_encoder(self) -> 'XAMusicEncoder':
+        """The currently selected encoder.
+        """
         return self._new_element(self.xa_scel.currentEncoder(), XAMusicEncoder)
 
     @current_encoder.setter
@@ -116,6 +112,8 @@ class XAMusicApplication(MediaApplicationBase.XAMediaApplication):
 
     @property
     def current_eq_preset(self) -> 'XAMusicEQPreset':
+        """The currently selected equalizer preset.
+        """
         return self._new_element(self.xa_scel.currentEQPreset(), XAMusicEQPreset)
 
     @current_eq_preset.setter
@@ -124,6 +122,8 @@ class XAMusicApplication(MediaApplicationBase.XAMediaApplication):
 
     @property
     def current_visual(self) -> 'XAMusicVisual':
+        """The currently selected visual plug-in.
+        """
         return self._new_element(self.xa_scel.currentVisual(), XAMusicVisual)
 
     @current_visual.setter
@@ -132,6 +132,8 @@ class XAMusicApplication(MediaApplicationBase.XAMediaApplication):
 
     @property
     def eq_enabled(self) -> bool:
+        """Whether the equalizer is enabled.
+        """
         return self.xa_scel.eqEnabled()
 
     @eq_enabled.setter
@@ -140,6 +142,8 @@ class XAMusicApplication(MediaApplicationBase.XAMediaApplication):
 
     @property
     def shuffle_enabled(self) -> bool:
+        """Whether songs are played in random order.
+        """
         return self.xa_scel.shuffleEnabled()
 
     @shuffle_enabled.setter
@@ -148,6 +152,8 @@ class XAMusicApplication(MediaApplicationBase.XAMediaApplication):
 
     @property
     def shuffle_mode(self) -> 'XAMusicApplication.ShuffleMode':
+        """The playback shuffle mode.
+        """
         return XAMusicApplication.ShuffleMode(self.xa_scel.shuffleMode())
 
     @shuffle_mode.setter
@@ -156,6 +162,8 @@ class XAMusicApplication(MediaApplicationBase.XAMediaApplication):
 
     @property
     def song_repeat(self) -> 'XAMusicApplication.RepeatMode':
+        """The playback repeat mode.
+        """
         return XAMusicApplication.RepeatMode(self.xa_scel.songRepeat())
 
     @song_repeat.setter
@@ -164,6 +172,8 @@ class XAMusicApplication(MediaApplicationBase.XAMediaApplication):
 
     @property
     def visuals_enabled(self) -> bool:
+        """Whether visuals are currently displayed.
+        """
         return self.xa_scel.visualsEnabled()
 
     @visuals_enabled.setter
@@ -172,9 +182,7 @@ class XAMusicApplication(MediaApplicationBase.XAMediaApplication):
 
     @property
     def current_track(self) -> 'XAMusicTrack':
-        """Returns the currently playing (or paused but not stopped) track.
-
-        .. versionadded:: 0.0.1
+        """The currently playing (or paused but not stopped) track.
         """
         return self._new_element(self.xa_scel.currentTrack(), XAMusicTrack)
 
@@ -482,38 +490,41 @@ class XAMusicAirPlayDevice(MediaApplicationBase.XAMediaItem):
     """
     def __init__(self, properties):
         super().__init__(properties) 
-        self.active: bool #: Whether the device is currently being played to
-        self.available: bool #: Whether the device is currently available
-        self.kind: XAMusicApplication.DeviceKind #: The kind of the device
-        self.network_address: str #: The MAC address of the device
-        self.protected: bool #: Whether the device is password/passcode protected
-        self.selected: bool #: Whether the device is currently selected
-        self.supports_audio: bool #: Whether the device supports audio playback
-        self.supports_video: bool #: Whether the device supports video playback
-        self.sound_volume: int #: The output volume for the device from 0 to 100
 
     @property
     def active(self) -> bool:
+        """Whether the device is currently being played to.
+        """
         return self.xa_elem.active()
 
     @property
     def available(self) -> bool:
+        """Whether the device is currently available.
+        """
         return self.xa_elem.available()
 
     @property
     def kind(self) -> XAMusicApplication.DeviceKind:
+        """The kind of the device.
+        """
         return XAMusicApplication.DeviceKind(self.xa_elem.kind())
 
     @property
     def network_address(self) -> str:
+        """The MAC address of the device.
+        """
         return self.xa_elem.networkAddress()
 
     @property
     def protected(self) -> bool:
+        """Whether the device is password/passcode protected.
+        """
         return self.xa_elem.protected()
 
     @property
     def selected(self) -> bool:
+        """Whether the device is currently selected.
+        """
         return self.xa_elem.selected()
 
     @selected.setter
@@ -522,14 +533,20 @@ class XAMusicAirPlayDevice(MediaApplicationBase.XAMediaItem):
 
     @property
     def supports_audio(self) -> bool:
+        """Whether the device supports audio playback.
+        """
         return self.xa_elem.supportsAudio()
 
     @property
     def supports_video(self) -> bool:
+        """Whether the device supports video playback.
+        """
         return self.xa_elem.supportsVideo()
 
     @property
     def sound_volume(self) -> int:
+        """The output volume for the device from 0 to 100.
+        """
         return self.xa_elem.soundVolume()
 
     @sound_volume.setter
@@ -576,10 +593,11 @@ class XAMusicEncoder(MediaApplicationBase.XAMediaItem):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.format: str #: The data format created by the encoder
 
     @property
     def format(self) -> str:
+        """The data format created by the encoder.
+        """
         return self.xa_elem.format()
 
 
@@ -862,22 +880,11 @@ class XAMusicEQPreset(MediaApplicationBase.XAMediaItem):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.band1: float #: The 32 Hz band level (-12.0 dB to +12.0 dB)
-        self.band2: float #: The 64 Hz band level (-12.0 dB to +12.0 dB)
-        self.band3: float #: The 125 HZ band level (-12.0 dB to +12.0 dB)
-        self.band4: float #: The 250 Hz band level (-12.0 dB to +12.0 dB)
-        self.band5: float #: The 500 Hz band level (-12.0 dB to +12.0 dB)
-        self.band6: float #: The 1 kHz band level (-12.0 dB to +12.0 dB)
-        self.band7: float #: The 2 kHz band level (-12.0 dB to +12.0 dB)
-        self.band8: float #: The 4 kHz band level (-12.0 dB to +12.0 dB)
-        self.band9: float #: The 8 kHz band level (-12.0 dB to +12.0 dB)
-        self.band10: float #: The 16 kHz band level (-12.0 dB to +12.0 dB)
-        self.modifiable: bool #: Whether the preset can be modified
-        self.preamp: float #: The equalizer preamp level (-12.0 dB to +12.0 dB)
-        self.update_tracks: bool #: Whether tracks using the preset are updated when the preset is renamed or deleted
 
     @property
     def band1(self) -> float:
+        """The 32 Hz band level (-12.0 dB to +12.0 dB).
+        """
         return self.xa_elem.band1()
 
     @band1.setter
@@ -886,6 +893,8 @@ class XAMusicEQPreset(MediaApplicationBase.XAMediaItem):
 
     @property
     def band2(self) -> float:
+        """The 64 Hz band level (-12.0 dB to +12.0 dB).
+        """
         return self.xa_elem.band2()
 
     @band2.setter
@@ -894,6 +903,8 @@ class XAMusicEQPreset(MediaApplicationBase.XAMediaItem):
 
     @property
     def band3(self) -> float:
+        """The 125 HZ band level (-12.0 dB to +12.0 dB).
+        """
         return self.xa_elem.band3()
 
     @band3.setter
@@ -902,6 +913,8 @@ class XAMusicEQPreset(MediaApplicationBase.XAMediaItem):
 
     @property
     def band4(self) -> float:
+        """The 250 Hz band level (-12.0 dB to +12.0 dB).
+        """
         return self.xa_elem.band4()
 
     @band4.setter
@@ -910,6 +923,8 @@ class XAMusicEQPreset(MediaApplicationBase.XAMediaItem):
 
     @property
     def band5(self) -> float:
+        """The 500 Hz band level (-12.0 dB to +12.0 dB).
+        """
         return self.xa_elem.band5()
 
     @band5.setter
@@ -918,6 +933,8 @@ class XAMusicEQPreset(MediaApplicationBase.XAMediaItem):
 
     @property
     def band6(self) -> float:
+        """The 1 kHz band level (-12.0 dB to +12.0 dB).
+        """
         return self.xa_elem.band6()
 
     @band6.setter
@@ -926,6 +943,8 @@ class XAMusicEQPreset(MediaApplicationBase.XAMediaItem):
 
     @property
     def band7(self) -> float:
+        """The 2 kHz band level (-12.0 dB to +12.0 dB).
+        """
         return self.xa_elem.band7()
 
     @band7.setter
@@ -934,6 +953,8 @@ class XAMusicEQPreset(MediaApplicationBase.XAMediaItem):
 
     @property
     def band8(self) -> float:
+        """The 4 kHz band level (-12.0 dB to +12.0 dB).
+        """
         return self.xa_elem.band8()
 
     @band8.setter
@@ -942,6 +963,8 @@ class XAMusicEQPreset(MediaApplicationBase.XAMediaItem):
 
     @property
     def band9(self) -> float:
+        """The 8 kHz band level (-12.0 dB to +12.0 dB).
+        """
         return self.xa_elem.band9()
 
     @band9.setter
@@ -950,6 +973,8 @@ class XAMusicEQPreset(MediaApplicationBase.XAMediaItem):
 
     @property
     def band10(self) -> float:
+        """The 16 kHz band level (-12.0 dB to +12.0 dB).
+        """
         return self.xa_elem.band10()
 
     @band10.setter
@@ -958,10 +983,14 @@ class XAMusicEQPreset(MediaApplicationBase.XAMediaItem):
 
     @property
     def modifiable(self) -> bool:
+        """Whether the preset can be modified.
+        """
         return self.xa_elem.modifiable()
 
     @property
     def preamp(self) -> float:
+        """The equalizer preamp level (-12.0 dB to +12.0 dB).
+        """
         return self.xa_elem.preamp()
 
     @preamp.setter
@@ -970,6 +999,8 @@ class XAMusicEQPreset(MediaApplicationBase.XAMediaItem):
 
     @property
     def update_tracks(self) -> bool:
+        """Whether tracks using the preset are updated when the preset is renamed or deleted.
+        """
         return self.xa_elem.updateTracks()
 
     @update_tracks.setter
@@ -1040,8 +1071,6 @@ class XAMusicPlaylist(MediaApplicationBase.XAMediaPlaylist):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.disliked: bool #: Whether the playlist is disliked
-        self.loved: bool #: Whether the playlist is loved
 
         if not hasattr(self, "xa_specialized"):
             if self.special_kind == XAMusicApplication.PlaylistKind.USER or self.special_kind == XAMusicApplication.PlaylistKind.NONE:
@@ -1052,6 +1081,8 @@ class XAMusicPlaylist(MediaApplicationBase.XAMediaPlaylist):
 
     @property
     def disliked(self) -> bool:
+        """Whether the playlist is disliked.
+        """
         return self.xa_elem.disliked()
 
     @disliked.setter
@@ -1060,6 +1091,8 @@ class XAMusicPlaylist(MediaApplicationBase.XAMediaPlaylist):
 
     @property
     def loved(self) -> bool:
+        """Whether the playlist is loved.
+        """
         return self.xa_elem.loved()
 
     @loved.setter
@@ -1080,8 +1113,6 @@ class XAMusicPlaylist(MediaApplicationBase.XAMediaPlaylist):
         for result in results:
             properties = {
                 "parent": self,
-                "appspace": self.xa_apsp,
-                "workspace": self.xa_wksp,
                 "element": result,
                 "appref": self.xa_aref,
                 "system_events": self.xa_sevt,
@@ -1263,16 +1294,11 @@ class XAMusicAudioCDPlaylist(XAMusicPlaylist):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.artist: str #: The artist of the CD
-        self.compilation: bool #: Whether the CD is a compilation album
-        self.composer: str #: The composer of the CD
-        self.disc_count: int #: The total number of discs in the CD's album
-        self.disc_number: int #: The index of the CD disc in the source album
-        self.genre: str #: The genre of the CD
-        self.year: int #: The year the album was recorded/released
 
     @property
     def artist(self) -> str:
+        """The artist of the CD.
+        """
         return self.xa_elem.artist()
 
     @artist.setter
@@ -1281,6 +1307,8 @@ class XAMusicAudioCDPlaylist(XAMusicPlaylist):
 
     @property
     def compilation(self) -> bool:
+        """Whether the CD is a compilation album.
+        """
         return self.xa_elem.compilation()
 
     @compilation.setter
@@ -1289,6 +1317,8 @@ class XAMusicAudioCDPlaylist(XAMusicPlaylist):
 
     @property
     def composer(self) -> str:
+        """The composer of the CD.
+        """
         return self.xa_elem.composer()
 
     @composer.setter
@@ -1297,6 +1327,8 @@ class XAMusicAudioCDPlaylist(XAMusicPlaylist):
 
     @property
     def disc_count(self) -> int:
+        """The total number of discs in the CD's album.
+        """
         return self.xa_elem.discCount()
 
     @disc_count.setter
@@ -1305,6 +1337,8 @@ class XAMusicAudioCDPlaylist(XAMusicPlaylist):
 
     @property
     def disc_number(self) -> int:
+        """The index of the CD disc in the source album.
+        """
         return self.xa_elem.discNumber()
 
     @disc_number.setter
@@ -1313,6 +1347,8 @@ class XAMusicAudioCDPlaylist(XAMusicPlaylist):
 
     @property
     def genre(self) -> str:
+        """The genre of the CD.
+        """
         return self.xa_elem.genre()
 
     @genre.setter
@@ -1321,6 +1357,8 @@ class XAMusicAudioCDPlaylist(XAMusicPlaylist):
     
     @property
     def year(self) -> int:
+        """The year the album was recorded/released.
+        """
         return self.xa_elem.year()
 
     @year.setter
@@ -1930,27 +1968,6 @@ class XAMusicTrack(MediaApplicationBase.XAMediaTrack):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.album_artist: str #: The album artist of the track
-        self.album_disliked: bool #: Whether the album for the track is disliked
-        self.album_loved: bool #: Whether the album for the track is loved
-        self.artist: str #: The artist/source of the track
-        self.bpm: int #: The tempo of the track in beats per minute
-        self.cloud_status: XAMusicApplication.iCloudStatus # The iCloud status of the track
-        self.compilation: bool #: Whether the track is from a compilation album
-        self.composer: str #: The composer of the track
-        self.disliked: bool #: Whether the track is disliked
-        self.eq: str #: The name of the EQ preset of the track
-        self.gapless: bool #: Whether the track is a from a gapless album
-        self.loved: bool #: Whether the track is loved
-        self.lyrics: str #: The lyrics of the track
-        self.movement: str #: The movement name of the track
-        self.movement_count: int #: The total number of movements in the work
-        self.movement_number: int #: The index of the movement in the work
-        self.shufflable: bool #: Whether the track is included when shuffling
-        self.sort_artist: str #: The string used for this track when sorting by artist
-        self.sort_album_artist: str #: The string used for this track when sorting by album artist
-        self.sort_composer: str #: The string used for this track when sorting by composer
-        self.work: str #: The work name of the track
 
         # print("Track type", self.objectClass.data())
         # if self.objectClass.data() == _SHARED_TRACK:
@@ -1965,6 +1982,8 @@ class XAMusicTrack(MediaApplicationBase.XAMediaTrack):
 
     @property
     def album_artist(self) -> str:
+        """The album artist of the track.
+        """
         return self.xa_elem.albumArtist()
 
     @album_artist.setter
@@ -1973,6 +1992,8 @@ class XAMusicTrack(MediaApplicationBase.XAMediaTrack):
 
     @property
     def album_disliked(self) -> bool:
+        """Whether the album for the track is disliked.
+        """
         return self.xa_elem.albumDisliked()
 
     @album_disliked.setter
@@ -1981,6 +2002,8 @@ class XAMusicTrack(MediaApplicationBase.XAMediaTrack):
 
     @property
     def album_loved(self) -> bool:
+        """Whether the album for the track is loved.
+        """
         return self.xa_elem.albumLoved()
 
     @album_loved.setter
@@ -1989,6 +2012,8 @@ class XAMusicTrack(MediaApplicationBase.XAMediaTrack):
 
     @property
     def artist(self) -> str:
+        """The artist/source of the track.
+        """
         return self.xa_elem.artist()
 
     @artist.setter
@@ -1997,6 +2022,8 @@ class XAMusicTrack(MediaApplicationBase.XAMediaTrack):
 
     @property
     def bpm(self) -> int:
+        """The tempo of the track in beats per minute.
+        """
         return self.xa_elem.bpm()
 
     @bpm.setter
@@ -2005,10 +2032,14 @@ class XAMusicTrack(MediaApplicationBase.XAMediaTrack):
 
     @property
     def cloud_status(self) -> XAMusicApplication.iCloudStatus:
+        """The iCloud status of the track.
+        """
         return XAMusicApplication.iCloudStatus(self.xa_elem.cloudStatus())
 
     @property
     def compilation(self) -> bool:
+        """Whether the track is from a compilation album.
+        """
         return self.xa_elem.compilation()
 
     @compilation.setter
@@ -2017,6 +2048,8 @@ class XAMusicTrack(MediaApplicationBase.XAMediaTrack):
 
     @property
     def composer(self) -> str:
+        """The composer of the track.
+        """
         return self.xa_elem.composer()
 
     @composer.setter
@@ -2025,6 +2058,8 @@ class XAMusicTrack(MediaApplicationBase.XAMediaTrack):
 
     @property
     def disliked(self) -> bool:
+        """Whether the track is disliked.
+        """
         return self.xa_elem.disliked()
 
     @disliked.setter
@@ -2033,6 +2068,8 @@ class XAMusicTrack(MediaApplicationBase.XAMediaTrack):
 
     @property
     def eq(self) -> str:
+        """The name of the EQ preset of the track.
+        """
         return self.xa_elem.EQ()
 
     @eq.setter
@@ -2041,6 +2078,8 @@ class XAMusicTrack(MediaApplicationBase.XAMediaTrack):
 
     @property
     def gapless(self) -> bool:
+        """Whether the track is a from a gapless album.
+        """
         return self.xa_elem.gapless()
 
     @gapless.setter
@@ -2049,6 +2088,8 @@ class XAMusicTrack(MediaApplicationBase.XAMediaTrack):
 
     @property
     def loved(self) -> bool:
+        """Whether the track is loved.
+        """
         return self.xa_elem.loved()
 
     @loved.setter
@@ -2057,6 +2098,8 @@ class XAMusicTrack(MediaApplicationBase.XAMediaTrack):
 
     @property
     def lyrics(self) -> str:
+        """The lyrics of the track.
+        """
         return self.xa_elem.lyrics()
 
     @lyrics.setter
@@ -2065,6 +2108,8 @@ class XAMusicTrack(MediaApplicationBase.XAMediaTrack):
 
     @property
     def movement(self) -> str:
+        """The movement name of the track.
+        """
         return self.xa_elem.movement()
 
     @movement.setter
@@ -2073,6 +2118,8 @@ class XAMusicTrack(MediaApplicationBase.XAMediaTrack):
 
     @property
     def movement_count(self) -> int:
+        """The total number of movements in the work.
+        """
         return self.xa_elem.movementCount()
 
     @movement_count.setter
@@ -2081,6 +2128,8 @@ class XAMusicTrack(MediaApplicationBase.XAMediaTrack):
 
     @property
     def movement_number(self) -> int:
+        """The index of the movement in the work.
+        """
         return self.xa_elem.movementNumber()
 
     @movement_number.setter
@@ -2089,6 +2138,8 @@ class XAMusicTrack(MediaApplicationBase.XAMediaTrack):
 
     @property
     def shufflable(self) -> bool:
+        """Whether the track is included when shuffling.
+        """
         return self.xa_elem.shufflable()
 
     @shufflable.setter
@@ -2097,6 +2148,8 @@ class XAMusicTrack(MediaApplicationBase.XAMediaTrack):
 
     @property
     def sort_artist(self) -> str:
+        """The string used for this track when sorting by artist.
+        """
         return self.xa_elem.sortArtist()
 
     @sort_artist.setter
@@ -2105,6 +2158,8 @@ class XAMusicTrack(MediaApplicationBase.XAMediaTrack):
 
     @property
     def sort_album_artist(self) -> str:
+        """The string used for this track when sorting by album artist.
+        """
         return self.xa_elem.sortAlbumArtist()
 
     @sort_album_artist.setter
@@ -2113,6 +2168,8 @@ class XAMusicTrack(MediaApplicationBase.XAMediaTrack):
 
     @property
     def sort_composer(self) -> str:
+        """The string used for this track when sorting by composer.
+        """
         return self.xa_elem.sortComposer()
 
     @sort_composer.setter
@@ -2121,6 +2178,8 @@ class XAMusicTrack(MediaApplicationBase.XAMediaTrack):
 
     @property
     def work(self) -> str:
+        """The work name of the track.
+        """
         return self.xa_elem.work()
 
     @work.setter
@@ -2167,10 +2226,11 @@ class XAMusicAudioCDTrack(XAMusicTrack):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.location: XABase.XAURL #: The location of the file represented by the track
 
     @property
     def location(self) -> XABase.XAPath:
+        """The location of the file represented by the track.
+        """
         return XABase.XAPath(self.xa_elem.location())
 
     @location.setter
@@ -2216,10 +2276,11 @@ class XAMusicUserPlaylist(XAMusicPlaylist):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.genius: bool #: Whether the playlist is a genius playlist
 
     @property
     def genius(self) -> bool:
+        """Whether the playlist is a genius playlist.
+        """
         return self.xa_elem.genius()
 
 

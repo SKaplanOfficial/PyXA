@@ -15,7 +15,7 @@ New windows can be created using the :func:`PyXA.apps.Chromium.XAChromiumApplica
 
 Bookmarks
 *********
-Using PyXA, you can obtain a list of bookmarks in Chromium, bookmark folders, and their associated data. To get a list of bookmark folders, use :func:`PyXA.apps.Chromium.XAChromiumApplication.bookmark_folders`. Use :func:`PyXA.apps.Chromium.XAChromiumBookmarkFolder.bookmark_items` to list the individual bookmarks contained in a folder. :attribute:`PyXA.apps.Chromium.XAChromiumApplication.bookmarks_bar` and :attribute:`PyXA.apps.Chromium.XAChromiumApplication.other_bookmarks` can be used to access bookmarks on the bookmarks bar and in all other folders, respectively.
+Using PyXA, you can obtain a list of bookmarks in Chromium, bookmark folders, and their associated data. To get a list of bookmark folders, use :func:`PyXA.apps.Chromium.XAChromiumApplication.bookmark_folders`. Use :func:`PyXA.apps.Chromium.XAChromiumBookmarkFolder.bookmark_items` to list the individual bookmarks contained in a folder. :attr:`PyXA.apps.Chromium.XAChromiumApplication.bookmarks_bar` and :attr:`PyXA.apps.Chromium.XAChromiumApplication.other_bookmarks` can be used to access bookmarks on the bookmarks bar and in all other folders, respectively.
 
 It is not currently possible to create bookmark folders or bookmark items via PyXA (or AppleScript) as that functionality is not made available by the Chromium developers. Despite this lack of support, bookmark and bookmark folder creation via UI scripting is planned for a future release.
 
@@ -23,8 +23,8 @@ Chromium Tutorials
 ##################
 There are currently no tutorials for the Chromium module.
 
-Examples
-########
+Chromium Examples
+#################
 The examples below provide an overview of the capabilities of the Chromium module. They do not provide any output. For more in-depth examples that show output and provide more detailed explanations, refer to the previous section (:ref:`Chromium Tutorials`).
 
 Example 1 - Opening and saving a webpage

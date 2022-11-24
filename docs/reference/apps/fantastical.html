@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Fantastical Module Reference &mdash; PyXA 0.1.0 documentation</title>
+  <title>Fantastical Module Reference &mdash; PyXA 0.1.1 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
@@ -46,7 +46,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../../tutorial/index.html">Tutorial</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../index.html">Code Documentation and Reference</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../index.html#top-level-pyxa-modules">Top-level PyXA Modules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../index.html#pyxa-base-modules">PyXA Base Modules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../index.html#first-party-application-module-reference">First-Party Application Module Reference</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../index.html#third-party-application-module-reference">Third-Party Application Module Reference</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="bike.html">Bike Module Reference</a></li>
@@ -77,6 +76,7 @@
 <li class="toctree-l3"><a class="reference internal" href="rstudio.html">RStudio Module Reference</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#pyxa-additions">PyXA Additions</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../bugs.html">Bugs</a></li>
@@ -95,9 +95,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../index.html">Code Documentation and Reference</a> &raquo;</li>
-      <li>Fantastical Module Reference</li>
+      <li><a href="../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Code Documentation and Reference</a></li>
+      <li class="breadcrumb-item active">Fantastical Module Reference</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../../_sources/reference/apps/fantastical.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -115,10 +115,6 @@
 <p>Control Fantastical using JXA-like syntax.</p>
 <p><strong>Classes:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Fantastical.XAFantasticalApplication" title="PyXA.apps.Fantastical.XAFantasticalApplication"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAFantasticalApplication</span></code></a>(properties)</p></td>
 <td><p>A class for managing and interacting with Fantastical.app.</p></td>
@@ -154,7 +150,7 @@
 <td><p></p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Fantastical.XAFantasticalWindow" title="PyXA.apps.Fantastical.XAFantasticalWindow"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAFantasticalWindow</span></code></a>(properties)</p></td>
-<td><p>A class for...</p></td>
+<td><p>A window of Fantastical.app.</p></td>
 </tr>
 </tbody>
 </table>
@@ -168,10 +164,6 @@
 </div>
 <p><strong>Methods:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Fantastical.XAFantasticalApplication.calendars" title="PyXA.apps.Fantastical.XAFantasticalApplication.calendars"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calendars</span></code></a>([filter])</p></td>
 <td><p>Returns a list of calendars, as PyXA objects, matching the given filter.</p></td>
@@ -195,19 +187,15 @@
 </table>
 <p><strong>Attributes:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Fantastical.XAFantasticalApplication.frontmost" title="PyXA.apps.Fantastical.XAFantasticalApplication.frontmost"><code class="xref py py-obj docutils literal notranslate"><span class="pre">frontmost</span></code></a></p></td>
-<td><p>Whether Fantastical is the active application</p></td>
+<td><p>Whether Fantastical is the active application.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Fantastical.XAFantasticalApplication.name" title="PyXA.apps.Fantastical.XAFantasticalApplication.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a></p></td>
-<td><p>The name of the application</p></td>
+<td><p>The name of the application.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Fantastical.XAFantasticalApplication.version" title="PyXA.apps.Fantastical.XAFantasticalApplication.version"><code class="xref py py-obj docutils literal notranslate"><span class="pre">version</span></code></a></p></td>
-<td><p>The version of Fantastical.app</p></td>
+<td><p>The version of Fantastical.app.</p></td>
 </tr>
 </tbody>
 </table>
@@ -232,13 +220,13 @@
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Fantastical.XAFantasticalApplication.frontmost">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">frontmost</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Fantastical.XAFantasticalApplication.frontmost" title="Permalink to this definition"></a></dt>
-<dd><p>Whether Fantastical is the active application</p>
+<dd><p>Whether Fantastical is the active application.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Fantastical.XAFantasticalApplication.name">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Fantastical.XAFantasticalApplication.name" title="Permalink to this definition"></a></dt>
-<dd><p>The name of the application</p>
+<dd><p>The name of the application.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -246,7 +234,7 @@
 <span class="sig-name descname"><span class="pre">parse_sentence</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sentence</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">notes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calendar</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.apps.Fantastical.XAFantasticalCalendar" title="PyXA.apps.Fantastical.XAFantasticalCalendar"><span class="pre">XAFantasticalCalendar</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">add_immediately</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">add_attendees</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Fantastical.html#XAFantasticalApplication.parse_sentence"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Fantastical.XAFantasticalApplication.parse_sentence" title="Permalink to this definition"></a></dt>
 <dd><p>Parses the given sentences and creates a corresponding calendar item based on the parsing result.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>sentence</strong> (<em>str</em>) – The sentence to parse</p></li>
 <li><p><strong>notes</strong> (<em>str</em><em>, </em><em>optional</em>) – Notes to attach to the calendar item, defaults to “”</p></li>
@@ -255,7 +243,7 @@
 <li><p><strong>add_attendees</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to invite attendees parsed from the sentence, defaults to False</p></li>
 </ul>
 </dd>
-<dt class="field-even">Example 1</dt>
+<dt class="field-even">Example 1<span class="colon">:</span></dt>
 <dd class="field-even"><p>Add simple events to calendars</p>
 </dd>
 </dl>
@@ -273,7 +261,7 @@
 </pre></div>
 </div>
 <dl class="field-list simple">
-<dt class="field-odd">Example 2</dt>
+<dt class="field-odd">Example 2<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Use Fantastical’s query parsing to adjust calendar item settings</p>
 </dd>
 </dl>
@@ -309,7 +297,7 @@
 <span class="sig-name descname"><span class="pre">show_calendar_view</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">date</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">datetime</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Fantastical.html#XAFantasticalApplication.show_calendar_view"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Fantastical.XAFantasticalApplication.show_calendar_view" title="Permalink to this definition"></a></dt>
 <dd><p>Shows the (large) calendar view, optionally showing a specific date.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>date</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>datetime</em><em>, </em><em>None</em><em>]</em><em>, </em><em>optional</em>) – The date to display, defaults to None</p>
 </dd>
 </dl>
@@ -323,7 +311,7 @@
 <span class="sig-name descname"><span class="pre">show_mini_view</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">date</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">datetime</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Fantastical.html#XAFantasticalApplication.show_mini_view"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Fantastical.XAFantasticalApplication.show_mini_view" title="Permalink to this definition"></a></dt>
 <dd><p>Shows the mini calendar view, optionally showing a specific date.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>date</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>datetime</em><em>, </em><em>None</em><em>]</em><em>, </em><em>optional</em>) – The date to display, defaults to None</p>
 </dd>
 </dl>
@@ -335,7 +323,7 @@
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Fantastical.XAFantasticalApplication.version">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">version</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Fantastical.XAFantasticalApplication.version" title="Permalink to this definition"></a></dt>
-<dd><p>The version of Fantastical.app</p>
+<dd><p>The version of Fantastical.app.</p>
 </dd></dl>
 
 </dd></dl>
@@ -350,29 +338,25 @@
 </div>
 <p><strong>Attributes:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Fantastical.XAFantasticalCalendar.id" title="PyXA.apps.Fantastical.XAFantasticalCalendar.id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">id</span></code></a></p></td>
-<td><p>The unique identifier for the calendar</p></td>
+<td><p>The unique identifier for the calendar.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Fantastical.XAFantasticalCalendar.title" title="PyXA.apps.Fantastical.XAFantasticalCalendar.title"><code class="xref py py-obj docutils literal notranslate"><span class="pre">title</span></code></a></p></td>
-<td><p>The calendar's title</p></td>
+<td><p>The calendar's title.</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Fantastical.XAFantasticalCalendar.id">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Fantastical.XAFantasticalCalendar.id" title="Permalink to this definition"></a></dt>
-<dd><p>The unique identifier for the calendar</p>
+<dd><p>The unique identifier for the calendar.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Fantastical.XAFantasticalCalendar.title">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">title</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Fantastical.XAFantasticalCalendar.title" title="Permalink to this definition"></a></dt>
-<dd><p>The calendar’s title</p>
+<dd><p>The calendar’s title.</p>
 </dd></dl>
 
 </dd></dl>
@@ -383,20 +367,16 @@
 <dd><p>Bases: <a class="reference internal" href="#PyXA.apps.Fantastical.XAFantasticalCalendarItem" title="PyXA.apps.Fantastical.XAFantasticalCalendarItem"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAFantasticalCalendarItem</span></code></a></p>
 <p><strong>Attributes:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Fantastical.XAFantasticalCalendarEvent.location" title="PyXA.apps.Fantastical.XAFantasticalCalendarEvent.location"><code class="xref py py-obj docutils literal notranslate"><span class="pre">location</span></code></a></p></td>
-<td><p>The event location</p></td>
+<td><p>The event location.</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Fantastical.XAFantasticalCalendarEvent.location">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">location</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Fantastical.XAFantasticalCalendarEvent.location" title="Permalink to this definition"></a></dt>
-<dd><p>The event location</p>
+<dd><p>The event location.</p>
 </dd></dl>
 
 </dd></dl>
@@ -411,46 +391,38 @@
 </div>
 <p><strong>Attributes:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Fantastical.XAFantasticalCalendarItem.end_date" title="PyXA.apps.Fantastical.XAFantasticalCalendarItem.end_date"><code class="xref py py-obj docutils literal notranslate"><span class="pre">end_date</span></code></a></p></td>
-<td><p>The end date of the event</p></td>
+<td><p>The end date of the event.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Fantastical.XAFantasticalCalendarItem.id" title="PyXA.apps.Fantastical.XAFantasticalCalendarItem.id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">id</span></code></a></p></td>
-<td><p>The unique identifier for the item</p></td>
+<td><p>The unique identifier for the item.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Fantastical.XAFantasticalCalendarItem.is_all_day" title="PyXA.apps.Fantastical.XAFantasticalCalendarItem.is_all_day"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_all_day</span></code></a></p></td>
-<td><p>True if the item spans an entire day</p></td>
+<td><p>True if the item spans an entire day.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Fantastical.XAFantasticalCalendarItem.is_recurring" title="PyXA.apps.Fantastical.XAFantasticalCalendarItem.is_recurring"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_recurring</span></code></a></p></td>
-<td><p>True if the item is a recurring item</p></td>
+<td><p>True if the item is a recurring item.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Fantastical.XAFantasticalCalendarItem.notes" title="PyXA.apps.Fantastical.XAFantasticalCalendarItem.notes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">notes</span></code></a></p></td>
-<td><p>The notes for the event</p></td>
+<td><p>The notes for the event.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Fantastical.XAFantasticalCalendarItem.show_url" title="PyXA.apps.Fantastical.XAFantasticalCalendarItem.show_url"><code class="xref py py-obj docutils literal notranslate"><span class="pre">show_url</span></code></a></p></td>
-<td><p>The show URL for the event</p></td>
+<td><p>The show URL for the event.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Fantastical.XAFantasticalCalendarItem.start_date" title="PyXA.apps.Fantastical.XAFantasticalCalendarItem.start_date"><code class="xref py py-obj docutils literal notranslate"><span class="pre">start_date</span></code></a></p></td>
-<td><p>The start date of the event</p></td>
+<td><p>The start date of the event.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Fantastical.XAFantasticalCalendarItem.title" title="PyXA.apps.Fantastical.XAFantasticalCalendarItem.title"><code class="xref py py-obj docutils literal notranslate"><span class="pre">title</span></code></a></p></td>
-<td><p>The event title</p></td>
+<td><p>The event title.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Fantastical.XAFantasticalCalendarItem.url" title="PyXA.apps.Fantastical.XAFantasticalCalendarItem.url"><code class="xref py py-obj docutils literal notranslate"><span class="pre">url</span></code></a></p></td>
-<td><p>The related URL for the event</p></td>
+<td><p>The related URL for the event.</p></td>
 </tr>
 </tbody>
 </table>
 <p><strong>Methods:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Fantastical.XAFantasticalCalendarItem.save" title="PyXA.apps.Fantastical.XAFantasticalCalendarItem.save"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save</span></code></a>()</p></td>
 <td><p></p></td>
@@ -460,31 +432,31 @@
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Fantastical.XAFantasticalCalendarItem.end_date">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">end_date</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">datetime</span></em><a class="headerlink" href="#PyXA.apps.Fantastical.XAFantasticalCalendarItem.end_date" title="Permalink to this definition"></a></dt>
-<dd><p>The end date of the event</p>
+<dd><p>The end date of the event.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Fantastical.XAFantasticalCalendarItem.id">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Fantastical.XAFantasticalCalendarItem.id" title="Permalink to this definition"></a></dt>
-<dd><p>The unique identifier for the item</p>
+<dd><p>The unique identifier for the item.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Fantastical.XAFantasticalCalendarItem.is_all_day">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_all_day</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Fantastical.XAFantasticalCalendarItem.is_all_day" title="Permalink to this definition"></a></dt>
-<dd><p>True if the item spans an entire day</p>
+<dd><p>True if the item spans an entire day.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Fantastical.XAFantasticalCalendarItem.is_recurring">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_recurring</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Fantastical.XAFantasticalCalendarItem.is_recurring" title="Permalink to this definition"></a></dt>
-<dd><p>True if the item is a recurring item</p>
+<dd><p>True if the item is a recurring item.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Fantastical.XAFantasticalCalendarItem.notes">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">notes</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Fantastical.XAFantasticalCalendarItem.notes" title="Permalink to this definition"></a></dt>
-<dd><p>The notes for the event</p>
+<dd><p>The notes for the event.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -495,25 +467,25 @@
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Fantastical.XAFantasticalCalendarItem.show_url">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">show_url</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAURL" title="PyXA.XABase.XAURL"><span class="pre">XAURL</span></a></em><a class="headerlink" href="#PyXA.apps.Fantastical.XAFantasticalCalendarItem.show_url" title="Permalink to this definition"></a></dt>
-<dd><p>The show URL for the event</p>
+<dd><p>The show URL for the event.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Fantastical.XAFantasticalCalendarItem.start_date">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">start_date</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">datetime</span></em><a class="headerlink" href="#PyXA.apps.Fantastical.XAFantasticalCalendarItem.start_date" title="Permalink to this definition"></a></dt>
-<dd><p>The start date of the event</p>
+<dd><p>The start date of the event.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Fantastical.XAFantasticalCalendarItem.title">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">title</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Fantastical.XAFantasticalCalendarItem.title" title="Permalink to this definition"></a></dt>
-<dd><p>The event title</p>
+<dd><p>The event title.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Fantastical.XAFantasticalCalendarItem.url">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">url</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAURL" title="PyXA.XABase.XAURL"><span class="pre">XAURL</span></a></em><a class="headerlink" href="#PyXA.apps.Fantastical.XAFantasticalCalendarItem.url" title="Permalink to this definition"></a></dt>
-<dd><p>The related URL for the event</p>
+<dd><p>The related URL for the event.</p>
 </dd></dl>
 
 </dd></dl>
@@ -529,10 +501,6 @@
 </div>
 <p><strong>Methods:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Fantastical.XAFantasticalCalendarItemList.by_end_date" title="PyXA.apps.Fantastical.XAFantasticalCalendarItemList.by_end_date"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_end_date</span></code></a>(end_date)</p></td>
 <td><p>Retrieves the calendar item whose end date matches the given date, if one exists.</p></td>
@@ -595,10 +563,10 @@
 <span class="sig-name descname"><span class="pre">by_end_date</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">end_date</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Fantastical.XAFantasticalCalendarItem" title="PyXA.apps.Fantastical.XAFantasticalCalendarItem"><span class="pre">XAFantasticalCalendarItem</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Fantastical.html#XAFantasticalCalendarItemList.by_end_date"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Fantastical.XAFantasticalCalendarItemList.by_end_date" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the calendar item whose end date matches the given date, if one exists.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The desired calendar item, if it is found</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>Union[<a class="reference internal" href="#PyXA.apps.Fantastical.XAFantasticalCalendarItem" title="PyXA.apps.Fantastical.XAFantasticalCalendarItem">XAFantasticalCalendarItem</a>, None]</p>
 </dd>
 </dl>
@@ -612,10 +580,10 @@
 <span class="sig-name descname"><span class="pre">by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Fantastical.XAFantasticalCalendarItem" title="PyXA.apps.Fantastical.XAFantasticalCalendarItem"><span class="pre">XAFantasticalCalendarItem</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Fantastical.html#XAFantasticalCalendarItemList.by_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Fantastical.XAFantasticalCalendarItemList.by_id" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the calendar item whose ID matches the given ID, if one exists.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The desired calendar item, if it is found</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>Union[<a class="reference internal" href="#PyXA.apps.Fantastical.XAFantasticalCalendarItem" title="PyXA.apps.Fantastical.XAFantasticalCalendarItem">XAFantasticalCalendarItem</a>, None]</p>
 </dd>
 </dl>
@@ -629,10 +597,10 @@
 <span class="sig-name descname"><span class="pre">by_is_all_day</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">is_all_day</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Fantastical.XAFantasticalCalendarItem" title="PyXA.apps.Fantastical.XAFantasticalCalendarItem"><span class="pre">XAFantasticalCalendarItem</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Fantastical.html#XAFantasticalCalendarItemList.by_is_all_day"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Fantastical.XAFantasticalCalendarItemList.by_is_all_day" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the calendar item whose all day status matches the given boolean value, if one exists.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The desired calendar item, if it is found</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>Union[<a class="reference internal" href="#PyXA.apps.Fantastical.XAFantasticalCalendarItem" title="PyXA.apps.Fantastical.XAFantasticalCalendarItem">XAFantasticalCalendarItem</a>, None]</p>
 </dd>
 </dl>
@@ -646,10 +614,10 @@
 <span class="sig-name descname"><span class="pre">by_is_recurring</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">is_recurring</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Fantastical.XAFantasticalCalendarItem" title="PyXA.apps.Fantastical.XAFantasticalCalendarItem"><span class="pre">XAFantasticalCalendarItem</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Fantastical.html#XAFantasticalCalendarItemList.by_is_recurring"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Fantastical.XAFantasticalCalendarItemList.by_is_recurring" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the first calendar item whose recurring status matches the given boolean value, if one exists.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The desired calendar item, if it is found</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>Union[<a class="reference internal" href="#PyXA.apps.Fantastical.XAFantasticalCalendarItem" title="PyXA.apps.Fantastical.XAFantasticalCalendarItem">XAFantasticalCalendarItem</a>, None]</p>
 </dd>
 </dl>
@@ -663,10 +631,10 @@
 <span class="sig-name descname"><span class="pre">by_notes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">notes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Fantastical.XAFantasticalCalendarItem" title="PyXA.apps.Fantastical.XAFantasticalCalendarItem"><span class="pre">XAFantasticalCalendarItem</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Fantastical.html#XAFantasticalCalendarItemList.by_notes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Fantastical.XAFantasticalCalendarItemList.by_notes" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the calendar item whose notes match the given notes, if one exists.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The desired calendar item, if it is found</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>Union[<a class="reference internal" href="#PyXA.apps.Fantastical.XAFantasticalCalendarItem" title="PyXA.apps.Fantastical.XAFantasticalCalendarItem">XAFantasticalCalendarItem</a>, None]</p>
 </dd>
 </dl>
@@ -680,10 +648,10 @@
 <span class="sig-name descname"><span class="pre">by_show_url</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">show_url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../xabase.html#PyXA.XABase.XAURL" title="PyXA.XABase.XAURL"><span class="pre">XAURL</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Fantastical.XAFantasticalCalendarItem" title="PyXA.apps.Fantastical.XAFantasticalCalendarItem"><span class="pre">XAFantasticalCalendarItem</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Fantastical.html#XAFantasticalCalendarItemList.by_show_url"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Fantastical.XAFantasticalCalendarItemList.by_show_url" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the calendar item whose show URL matches the given URL, if one exists.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The desired calendar item, if it is found</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>Union[<a class="reference internal" href="#PyXA.apps.Fantastical.XAFantasticalCalendarItem" title="PyXA.apps.Fantastical.XAFantasticalCalendarItem">XAFantasticalCalendarItem</a>, None]</p>
 </dd>
 </dl>
@@ -697,10 +665,10 @@
 <span class="sig-name descname"><span class="pre">by_start_date</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start_date</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Fantastical.XAFantasticalCalendarItem" title="PyXA.apps.Fantastical.XAFantasticalCalendarItem"><span class="pre">XAFantasticalCalendarItem</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Fantastical.html#XAFantasticalCalendarItemList.by_start_date"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Fantastical.XAFantasticalCalendarItemList.by_start_date" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the calendar item whose start date matches the given date, if one exists.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The desired calendar item, if it is found</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>Union[<a class="reference internal" href="#PyXA.apps.Fantastical.XAFantasticalCalendarItem" title="PyXA.apps.Fantastical.XAFantasticalCalendarItem">XAFantasticalCalendarItem</a>, None]</p>
 </dd>
 </dl>
@@ -714,10 +682,10 @@
 <span class="sig-name descname"><span class="pre">by_title</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Fantastical.XAFantasticalCalendarItem" title="PyXA.apps.Fantastical.XAFantasticalCalendarItem"><span class="pre">XAFantasticalCalendarItem</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Fantastical.html#XAFantasticalCalendarItemList.by_title"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Fantastical.XAFantasticalCalendarItemList.by_title" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the calendar item whose title matches the given title, if one exists.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The desired calendar item, if it is found</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>Union[<a class="reference internal" href="#PyXA.apps.Fantastical.XAFantasticalCalendarItem" title="PyXA.apps.Fantastical.XAFantasticalCalendarItem">XAFantasticalCalendarItem</a>, None]</p>
 </dd>
 </dl>
@@ -731,10 +699,10 @@
 <span class="sig-name descname"><span class="pre">by_url</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../xabase.html#PyXA.XABase.XAURL" title="PyXA.XABase.XAURL"><span class="pre">XAURL</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Fantastical.XAFantasticalCalendarItem" title="PyXA.apps.Fantastical.XAFantasticalCalendarItem"><span class="pre">XAFantasticalCalendarItem</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Fantastical.html#XAFantasticalCalendarItemList.by_url"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Fantastical.XAFantasticalCalendarItemList.by_url" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the calendar item whose URL matches the given URL, if one exists.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The desired calendar item, if it is found</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>Union[<a class="reference internal" href="#PyXA.apps.Fantastical.XAFantasticalCalendarItem" title="PyXA.apps.Fantastical.XAFantasticalCalendarItem">XAFantasticalCalendarItem</a>, None]</p>
 </dd>
 </dl>
@@ -748,10 +716,10 @@
 <span class="sig-name descname"><span class="pre">end_date</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">datetime.datetime</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Fantastical.html#XAFantasticalCalendarItemList.end_date"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Fantastical.XAFantasticalCalendarItemList.end_date" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the end date of each calendar item in the list.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of calendar item IDs</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[datetime]</p>
 </dd>
 </dl>
@@ -765,10 +733,10 @@
 <span class="sig-name descname"><span class="pre">id</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Fantastical.html#XAFantasticalCalendarItemList.id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Fantastical.XAFantasticalCalendarItemList.id" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the ID of each calendar item in the list.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of calendar item IDs</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[str]</p>
 </dd>
 </dl>
@@ -782,10 +750,10 @@
 <span class="sig-name descname"><span class="pre">is_all_day</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Fantastical.html#XAFantasticalCalendarItemList.is_all_day"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Fantastical.XAFantasticalCalendarItemList.is_all_day" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the all day status of each calendar item in the list.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of calendar item all day statuses</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[bool]</p>
 </dd>
 </dl>
@@ -799,10 +767,10 @@
 <span class="sig-name descname"><span class="pre">is_recurring</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Fantastical.html#XAFantasticalCalendarItemList.is_recurring"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Fantastical.XAFantasticalCalendarItemList.is_recurring" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the recurring status of each calendar item in the list.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of calendar item recurring statuses</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[bool]</p>
 </dd>
 </dl>
@@ -816,10 +784,10 @@
 <span class="sig-name descname"><span class="pre">notes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Fantastical.html#XAFantasticalCalendarItemList.notes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Fantastical.XAFantasticalCalendarItemList.notes" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the notes of each calendar item in the list.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of calendar item notes</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[str]</p>
 </dd>
 </dl>
@@ -833,10 +801,10 @@
 <span class="sig-name descname"><span class="pre">show_url</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAURL" title="PyXA.XABase.XAURL"><span class="pre">PyXA.XABase.XAURL</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Fantastical.html#XAFantasticalCalendarItemList.show_url"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Fantastical.XAFantasticalCalendarItemList.show_url" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the show URL of each calendar item in the list.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of calendar item show URLs</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[<a class="reference internal" href="../xabase.html#PyXA.XABase.XAURL" title="PyXA.XABase.XAURL">XABase.XAURL</a>]</p>
 </dd>
 </dl>
@@ -850,10 +818,10 @@
 <span class="sig-name descname"><span class="pre">start_date</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">datetime.datetime</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Fantastical.html#XAFantasticalCalendarItemList.start_date"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Fantastical.XAFantasticalCalendarItemList.start_date" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the start date of each calendar item in the list.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of calendar item IDs</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[datetime]</p>
 </dd>
 </dl>
@@ -867,10 +835,10 @@
 <span class="sig-name descname"><span class="pre">title</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Fantastical.html#XAFantasticalCalendarItemList.title"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Fantastical.XAFantasticalCalendarItemList.title" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the title of each calendar item in the list.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of calendar item titles</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[str]</p>
 </dd>
 </dl>
@@ -884,10 +852,10 @@
 <span class="sig-name descname"><span class="pre">url</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAURL" title="PyXA.XABase.XAURL"><span class="pre">PyXA.XABase.XAURL</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Fantastical.html#XAFantasticalCalendarItemList.url"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Fantastical.XAFantasticalCalendarItemList.url" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the URL of each calendar item in the list.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of calendar item URLs</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[<a class="reference internal" href="../xabase.html#PyXA.XABase.XAURL" title="PyXA.XABase.XAURL">XABase.XAURL</a>]</p>
 </dd>
 </dl>
@@ -909,10 +877,6 @@
 </div>
 <p><strong>Methods:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Fantastical.XAFantasticalCalendarList.by_id" title="PyXA.apps.Fantastical.XAFantasticalCalendarList.by_id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_id</span></code></a>(id)</p></td>
 <td><p>Retrieves the calendar whose ID matches the given ID, if one exists.</p></td>
@@ -933,10 +897,10 @@
 <span class="sig-name descname"><span class="pre">by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Fantastical.XAFantasticalCalendar" title="PyXA.apps.Fantastical.XAFantasticalCalendar"><span class="pre">XAFantasticalCalendar</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Fantastical.html#XAFantasticalCalendarList.by_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Fantastical.XAFantasticalCalendarList.by_id" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the calendar whose ID matches the given ID, if one exists.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The desired calendar, if it is found</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>Union[<a class="reference internal" href="#PyXA.apps.Fantastical.XAFantasticalCalendar" title="PyXA.apps.Fantastical.XAFantasticalCalendar">XAFantasticalCalendar</a>, None]</p>
 </dd>
 </dl>
@@ -950,10 +914,10 @@
 <span class="sig-name descname"><span class="pre">by_title</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Fantastical.XAFantasticalCalendar" title="PyXA.apps.Fantastical.XAFantasticalCalendar"><span class="pre">XAFantasticalCalendar</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Fantastical.html#XAFantasticalCalendarList.by_title"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Fantastical.XAFantasticalCalendarList.by_title" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the calendar whose title matches the given title, if one exists.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The desired calendar, if it is found</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>Union[<a class="reference internal" href="#PyXA.apps.Fantastical.XAFantasticalCalendar" title="PyXA.apps.Fantastical.XAFantasticalCalendar">XAFantasticalCalendar</a>, None]</p>
 </dd>
 </dl>
@@ -967,10 +931,10 @@
 <span class="sig-name descname"><span class="pre">id</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Fantastical.html#XAFantasticalCalendarList.id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Fantastical.XAFantasticalCalendarList.id" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the ID of each calendar in the list.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of calendar IDs</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[str]</p>
 </dd>
 </dl>
@@ -984,10 +948,10 @@
 <span class="sig-name descname"><span class="pre">title</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Fantastical.html#XAFantasticalCalendarList.title"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Fantastical.XAFantasticalCalendarList.title" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the title of each calendar in the list.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of calendar titles</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[str]</p>
 </dd>
 </dl>
@@ -1001,35 +965,27 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.Fantastical.XAFantasticalDocument">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Fantastical.</span></span><span class="sig-name descname"><span class="pre">XAFantasticalDocument</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Fantastical.html#XAFantasticalDocument"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Fantastical.XAFantasticalDocument" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAObject</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">XACloseable</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">XADeletable</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">XAPrintable</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">XAClipboardCodable</span></code></p>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAObject</span></code></a>, <a class="reference internal" href="../xaprotocols.html#PyXA.XAProtocols.XACloseable" title="PyXA.XAProtocols.XACloseable"><code class="xref py py-class docutils literal notranslate"><span class="pre">XACloseable</span></code></a>, <a class="reference internal" href="../xaprotocols.html#PyXA.XAProtocols.XADeletable" title="PyXA.XAProtocols.XADeletable"><code class="xref py py-class docutils literal notranslate"><span class="pre">XADeletable</span></code></a>, <a class="reference internal" href="../xaprotocols.html#PyXA.XAProtocols.XAPrintable" title="PyXA.XAProtocols.XAPrintable"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAPrintable</span></code></a>, <a class="reference internal" href="../xaprotocols.html#PyXA.XAProtocols.XAClipboardCodable" title="PyXA.XAProtocols.XAClipboardCodable"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAClipboardCodable</span></code></a></p>
 <p>A document in Fantastical.app.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.9.</span></p>
 </div>
 <p><strong>Attributes:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Fantastical.XAFantasticalDocument.file" title="PyXA.apps.Fantastical.XAFantasticalDocument.file"><code class="xref py py-obj docutils literal notranslate"><span class="pre">file</span></code></a></p></td>
-<td><p>The document's path</p></td>
+<td><p>The document's path.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Fantastical.XAFantasticalDocument.modified" title="PyXA.apps.Fantastical.XAFantasticalDocument.modified"><code class="xref py py-obj docutils literal notranslate"><span class="pre">modified</span></code></a></p></td>
-<td><p>Whether the document has been modified since it was last saved</p></td>
+<td><p>Whether the document has been modified since it was last saved.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Fantastical.XAFantasticalDocument.name" title="PyXA.apps.Fantastical.XAFantasticalDocument.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a></p></td>
-<td><p>The document's name</p></td>
+<td><p></p></td>
 </tr>
 </tbody>
 </table>
 <p><strong>Methods:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Fantastical.XAFantasticalDocument.get_clipboard_representation" title="PyXA.apps.Fantastical.XAFantasticalDocument.get_clipboard_representation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_clipboard_representation</span></code></a>()</p></td>
 <td><p>Gets a clipboard-codable representation of the document.</p></td>
@@ -1042,7 +998,7 @@
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Fantastical.XAFantasticalDocument.file">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">file</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAPath" title="PyXA.XABase.XAPath"><span class="pre">XAPath</span></a></em><a class="headerlink" href="#PyXA.apps.Fantastical.XAFantasticalDocument.file" title="Permalink to this definition"></a></dt>
-<dd><p>The document’s path</p>
+<dd><p>The document’s path.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1051,10 +1007,10 @@
 <dd><p>Gets a clipboard-codable representation of the document.</p>
 <p>When the clipboard content is set to a Fantastical document, the document’s URL and source code are added to the clipboard.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The document’s path and text content</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[Union[AppKit.NSURL, str]]</p>
 </dd>
 </dl>
@@ -1066,32 +1022,31 @@
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Fantastical.XAFantasticalDocument.modified">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">modified</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Fantastical.XAFantasticalDocument.modified" title="Permalink to this definition"></a></dt>
-<dd><p>Whether the document has been modified since it was last saved</p>
+<dd><p>Whether the document has been modified since it was last saved.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Fantastical.XAFantasticalDocument.name">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Fantastical.XAFantasticalDocument.name" title="Permalink to this definition"></a></dt>
-<dd><p>The document’s name</p>
-</dd></dl>
+<dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.Fantastical.XAFantasticalDocument.print">
-<span class="sig-name descname"><span class="pre">print</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">print_properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_dialog</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">XAPrintable</span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Fantastical.html#XAFantasticalDocument.print"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Fantastical.XAFantasticalDocument.print" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">print</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">print_properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_dialog</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../xaprotocols.html#PyXA.XAProtocols.XAPrintable" title="PyXA.XAProtocols.XAPrintable"><span class="pre">XAPrintable</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Fantastical.html#XAFantasticalDocument.print"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Fantastical.XAFantasticalDocument.print" title="Permalink to this definition"></a></dt>
 <dd><p>Prints the object.</p>
 <p>Child classes of XAPrintable should override this method as necessary.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>show_dialog</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to show the print dialog, defaults to True</p></li>
 <li><p><strong>print_properties</strong> (<em>Union</em><em>[</em><em>dict</em><em>, </em><em>None</em><em>]</em><em>, </em><em>optional</em>) – Properties to set for printing, defaults to None</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>A reference to the PyXA object that called this method.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>XACanPrintPath</p>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="../xaprotocols.html#PyXA.XAProtocols.XACanPrintPath" title="PyXA.XAProtocols.XACanPrintPath">XACanPrintPath</a></p>
 </dd>
 </dl>
 <div class="versionadded">
@@ -1112,10 +1067,6 @@
 </div>
 <p><strong>Methods:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Fantastical.XAFantasticalDocumentList.by_file" title="PyXA.apps.Fantastical.XAFantasticalDocumentList.by_file"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_file</span></code></a>(file)</p></td>
 <td><p>Retrieves the document whose file matches the given path, if one exists.</p></td>
@@ -1142,10 +1093,10 @@
 <span class="sig-name descname"><span class="pre">by_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../xabase.html#PyXA.XABase.XAPath" title="PyXA.XABase.XAPath"><span class="pre">XAPath</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Fantastical.XAFantasticalDocument" title="PyXA.apps.Fantastical.XAFantasticalDocument"><span class="pre">XAFantasticalDocument</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Fantastical.html#XAFantasticalDocumentList.by_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Fantastical.XAFantasticalDocumentList.by_file" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the document whose file matches the given path, if one exists.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The desired document, if it is found</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>Union[<a class="reference internal" href="#PyXA.apps.Fantastical.XAFantasticalDocument" title="PyXA.apps.Fantastical.XAFantasticalDocument">XAFantasticalDocument</a>, None]</p>
 </dd>
 </dl>
@@ -1159,10 +1110,10 @@
 <span class="sig-name descname"><span class="pre">by_modified</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">modified</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Fantastical.XAFantasticalDocument" title="PyXA.apps.Fantastical.XAFantasticalDocument"><span class="pre">XAFantasticalDocument</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Fantastical.html#XAFantasticalDocumentList.by_modified"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Fantastical.XAFantasticalDocumentList.by_modified" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the tab whose modified status matches the given boolean value, if one exists.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The desired document, if it is found</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>Union[<a class="reference internal" href="#PyXA.apps.Fantastical.XAFantasticalDocument" title="PyXA.apps.Fantastical.XAFantasticalDocument">XAFantasticalDocument</a>, None]</p>
 </dd>
 </dl>
@@ -1176,10 +1127,10 @@
 <span class="sig-name descname"><span class="pre">by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Fantastical.XAFantasticalDocument" title="PyXA.apps.Fantastical.XAFantasticalDocument"><span class="pre">XAFantasticalDocument</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Fantastical.html#XAFantasticalDocumentList.by_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Fantastical.XAFantasticalDocumentList.by_name" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the document whose name matches the given name, if one exists.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The desired document, if it is found</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>Union[<a class="reference internal" href="#PyXA.apps.Fantastical.XAFantasticalDocument" title="PyXA.apps.Fantastical.XAFantasticalDocument">XAFantasticalDocument</a>, None]</p>
 </dd>
 </dl>
@@ -1193,10 +1144,10 @@
 <span class="sig-name descname"><span class="pre">file</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAPath" title="PyXA.XABase.XAPath"><span class="pre">PyXA.XABase.XAPath</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Fantastical.html#XAFantasticalDocumentList.file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Fantastical.XAFantasticalDocumentList.file" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the path of each document in the list.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of document paths</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[str]</p>
 </dd>
 </dl>
@@ -1210,10 +1161,10 @@
 <span class="sig-name descname"><span class="pre">modified</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Fantastical.html#XAFantasticalDocumentList.modified"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Fantastical.XAFantasticalDocumentList.modified" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the modified status of each document in the list.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of modified status booleans</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[bool]</p>
 </dd>
 </dl>
@@ -1227,10 +1178,10 @@
 <span class="sig-name descname"><span class="pre">name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Fantastical.html#XAFantasticalDocumentList.name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Fantastical.XAFantasticalDocumentList.name" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the name of each document in the list.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of document names</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[str]</p>
 </dd>
 </dl>
@@ -1264,20 +1215,16 @@
 <dd><p>Bases: <a class="reference internal" href="#PyXA.apps.Fantastical.XAFantasticalCalendarItem" title="PyXA.apps.Fantastical.XAFantasticalCalendarItem"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAFantasticalCalendarItem</span></code></a></p>
 <p><strong>Attributes:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Fantastical.XAFantasticalTaskItem.priority" title="PyXA.apps.Fantastical.XAFantasticalTaskItem.priority"><code class="xref py py-obj docutils literal notranslate"><span class="pre">priority</span></code></a></p></td>
-<td><p>The event priority; higher number means lower priority</p></td>
+<td><p>The event priority; higher number means lower priority.</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Fantastical.XAFantasticalTaskItem.priority">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">priority</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#PyXA.apps.Fantastical.XAFantasticalTaskItem.priority" title="Permalink to this definition"></a></dt>
-<dd><p>The event priority; higher number means lower priority</p>
+<dd><p>The event priority; higher number means lower priority.</p>
 </dd></dl>
 
 </dd></dl>
@@ -1285,123 +1232,20 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.Fantastical.XAFantasticalWindow">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Fantastical.</span></span><span class="sig-name descname"><span class="pre">XAFantasticalWindow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Fantastical.html#XAFantasticalWindow"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Fantastical.XAFantasticalWindow" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XASBWindow" title="PyXA.XABaseScriptable.XASBWindow"><code class="xref py py-class docutils literal notranslate"><span class="pre">XASBWindow</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">XAPrintable</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">XACloseable</span></code></p>
-<p>A class for…</p>
+<dd><p>Bases: <a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XASBWindow" title="PyXA.XABaseScriptable.XASBWindow"><code class="xref py py-class docutils literal notranslate"><span class="pre">XASBWindow</span></code></a>, <a class="reference internal" href="../xaprotocols.html#PyXA.XAProtocols.XAPrintable" title="PyXA.XAProtocols.XAPrintable"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAPrintable</span></code></a>, <a class="reference internal" href="../xaprotocols.html#PyXA.XAProtocols.XACloseable" title="PyXA.XAProtocols.XACloseable"><code class="xref py py-class docutils literal notranslate"><span class="pre">XACloseable</span></code></a></p>
+<p>A window of Fantastical.app.</p>
 <p><strong>Attributes:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Fantastical.XAFantasticalWindow.bounds" title="PyXA.apps.Fantastical.XAFantasticalWindow.bounds"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bounds</span></code></a></p></td>
-<td><p>The bounding rectangle of the window</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Fantastical.XAFantasticalWindow.closeable" title="PyXA.apps.Fantastical.XAFantasticalWindow.closeable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">closeable</span></code></a></p></td>
-<td><p>Whether the window has a close button</p></td>
-</tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Fantastical.XAFantasticalWindow.document" title="PyXA.apps.Fantastical.XAFantasticalWindow.document"><code class="xref py py-obj docutils literal notranslate"><span class="pre">document</span></code></a></p></td>
-<td><p>The document currently displayed in the window</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Fantastical.XAFantasticalWindow.id" title="PyXA.apps.Fantastical.XAFantasticalWindow.id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">id</span></code></a></p></td>
-<td><p>The unique identifier for the window</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Fantastical.XAFantasticalWindow.index" title="PyXA.apps.Fantastical.XAFantasticalWindow.index"><code class="xref py py-obj docutils literal notranslate"><span class="pre">index</span></code></a></p></td>
-<td><p>The index of the window in the front-to-back ordering</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Fantastical.XAFantasticalWindow.miniaturizable" title="PyXA.apps.Fantastical.XAFantasticalWindow.miniaturizable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">miniaturizable</span></code></a></p></td>
-<td><p>Whether the window can be minimized</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Fantastical.XAFantasticalWindow.miniaturized" title="PyXA.apps.Fantastical.XAFantasticalWindow.miniaturized"><code class="xref py py-obj docutils literal notranslate"><span class="pre">miniaturized</span></code></a></p></td>
-<td><p>Whether the window is currently minimized</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Fantastical.XAFantasticalWindow.name" title="PyXA.apps.Fantastical.XAFantasticalWindow.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a></p></td>
-<td><p>The full title of the window.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Fantastical.XAFantasticalWindow.resizable" title="PyXA.apps.Fantastical.XAFantasticalWindow.resizable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">resizable</span></code></a></p></td>
-<td><p>Whether the window can be resized</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Fantastical.XAFantasticalWindow.visible" title="PyXA.apps.Fantastical.XAFantasticalWindow.visible"><code class="xref py py-obj docutils literal notranslate"><span class="pre">visible</span></code></a></p></td>
-<td><p>Whether the window is currently visible</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Fantastical.XAFantasticalWindow.zoomable" title="PyXA.apps.Fantastical.XAFantasticalWindow.zoomable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">zoomable</span></code></a></p></td>
-<td><p>Whether the window can be zoomed</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Fantastical.XAFantasticalWindow.zoomed" title="PyXA.apps.Fantastical.XAFantasticalWindow.zoomed"><code class="xref py py-obj docutils literal notranslate"><span class="pre">zoomed</span></code></a></p></td>
-<td><p>Whether the window is currently zoomed</p></td>
+<td><p>The document currently displayed in the window.</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="py property">
-<dt class="sig sig-object py" id="PyXA.apps.Fantastical.XAFantasticalWindow.bounds">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">bounds</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#PyXA.apps.Fantastical.XAFantasticalWindow.bounds" title="Permalink to this definition"></a></dt>
-<dd><p>The bounding rectangle of the window</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.apps.Fantastical.XAFantasticalWindow.closeable">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">closeable</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Fantastical.XAFantasticalWindow.closeable" title="Permalink to this definition"></a></dt>
-<dd><p>Whether the window has a close button</p>
-</dd></dl>
-
-<dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Fantastical.XAFantasticalWindow.document">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">document</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.apps.Fantastical.XAFantasticalDocument" title="PyXA.apps.Fantastical.XAFantasticalDocument"><span class="pre">XAFantasticalDocument</span></a></em><a class="headerlink" href="#PyXA.apps.Fantastical.XAFantasticalWindow.document" title="Permalink to this definition"></a></dt>
-<dd><p>The document currently displayed in the window</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.apps.Fantastical.XAFantasticalWindow.id">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#PyXA.apps.Fantastical.XAFantasticalWindow.id" title="Permalink to this definition"></a></dt>
-<dd><p>The unique identifier for the window</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.apps.Fantastical.XAFantasticalWindow.index">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">index</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#PyXA.apps.Fantastical.XAFantasticalWindow.index" title="Permalink to this definition"></a></dt>
-<dd><p>The index of the window in the front-to-back ordering</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.apps.Fantastical.XAFantasticalWindow.miniaturizable">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">miniaturizable</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Fantastical.XAFantasticalWindow.miniaturizable" title="Permalink to this definition"></a></dt>
-<dd><p>Whether the window can be minimized</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.apps.Fantastical.XAFantasticalWindow.miniaturized">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">miniaturized</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Fantastical.XAFantasticalWindow.miniaturized" title="Permalink to this definition"></a></dt>
-<dd><p>Whether the window is currently minimized</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.apps.Fantastical.XAFantasticalWindow.name">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Fantastical.XAFantasticalWindow.name" title="Permalink to this definition"></a></dt>
-<dd><p>The full title of the window.</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.apps.Fantastical.XAFantasticalWindow.resizable">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">resizable</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Fantastical.XAFantasticalWindow.resizable" title="Permalink to this definition"></a></dt>
-<dd><p>Whether the window can be resized</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.apps.Fantastical.XAFantasticalWindow.visible">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">visible</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Fantastical.XAFantasticalWindow.visible" title="Permalink to this definition"></a></dt>
-<dd><p>Whether the window is currently visible</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.apps.Fantastical.XAFantasticalWindow.zoomable">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">zoomable</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Fantastical.XAFantasticalWindow.zoomable" title="Permalink to this definition"></a></dt>
-<dd><p>Whether the window can be zoomed</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.apps.Fantastical.XAFantasticalWindow.zoomed">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">zoomed</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Fantastical.XAFantasticalWindow.zoomed" title="Permalink to this definition"></a></dt>
-<dd><p>Whether the window is currently zoomed</p>
+<dd><p>The document currently displayed in the window.</p>
 </dd></dl>
 
 </dd></dl>

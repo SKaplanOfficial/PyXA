@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dictionary Module Reference &mdash; PyXA 0.1.0 documentation</title>
+  <title>Dictionary Module Reference &mdash; PyXA 0.1.1 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
@@ -46,7 +46,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../../tutorial/index.html">Tutorial</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../index.html">Code Documentation and Reference</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../index.html#top-level-pyxa-modules">Top-level PyXA Modules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../index.html#pyxa-base-modules">PyXA Base Modules</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../index.html#first-party-application-module-reference">First-Party Application Module Reference</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="automator.html">Automator Module Reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="calculator.html">Calculator Module Reference</a></li>
@@ -84,6 +83,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../index.html#third-party-application-module-reference">Third-Party Application Module Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#pyxa-additions">PyXA Additions</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../bugs.html">Bugs</a></li>
@@ -102,9 +102,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../index.html">Code Documentation and Reference</a> &raquo;</li>
-      <li>Dictionary Module Reference</li>
+      <li><a href="../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Code Documentation and Reference</a></li>
+      <li class="breadcrumb-item active">Dictionary Module Reference</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../../_sources/reference/apps/dictionary.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -122,10 +122,6 @@
 <p>Control the macOS Dictionary application using JXA-like syntax.</p>
 <p><strong>Functions:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Dictionary.DCSCopyTextDefinition" title="PyXA.apps.Dictionary.DCSCopyTextDefinition"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DCSCopyTextDefinition</span></code></a>(arg0, arg1, arg2, /)</p></td>
 <td><p>CFStringRef DCSCopyTextDefinition(DCSDictionaryRef arg0, CFStringRef arg1, CoreFoundation.CFRange arg2);</p></td>
@@ -134,10 +130,6 @@
 </table>
 <p><strong>Classes:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Dictionary.XADictionaryApplication" title="PyXA.apps.Dictionary.XADictionaryApplication"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XADictionaryApplication</span></code></a>(properties)</p></td>
 <td><p>A class for managing and interacting with Dictionary.app.</p></td>
@@ -164,10 +156,6 @@
 </div>
 <p><strong>Methods:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Dictionary.XADictionaryApplication.define" title="PyXA.apps.Dictionary.XADictionaryApplication.define"><code class="xref py py-obj docutils literal notranslate"><span class="pre">define</span></code></a>(word)</p></td>
 <td><p>Gets the definition of a word in raw text form.</p></td>
@@ -251,13 +239,13 @@
 <span class="sig-name descname"><span class="pre">define</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">word</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Dictionary.html#XADictionaryApplication.define"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Dictionary.XADictionaryApplication.define" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the definition of a word in raw text form.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>word</strong> (<em>str</em>) – The word to define</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>The definition of the word</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>str</p>
 </dd>
 </dl>
@@ -361,7 +349,7 @@
 <span class="sig-name descname"><span class="pre">search</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">term</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Dictionary.html#XADictionaryApplication.search"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Dictionary.XADictionaryApplication.search" title="Permalink to this definition"></a></dt>
 <dd><p>Searches the currently selected dictionary.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>term</strong> (<em>str</em>) – The term to search</p>
 </dd>
 </dl>
@@ -375,7 +363,7 @@
 <span class="sig-name descname"><span class="pre">search_all</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">term</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Dictionary.html#XADictionaryApplication.search_all"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Dictionary.XADictionaryApplication.search_all" title="Permalink to this definition"></a></dt>
 <dd><p>Searches the provided term in all dictionaries</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>term</strong> (<em>str</em>) – The term to search</p>
 </dd>
 </dl>
@@ -389,7 +377,7 @@
 <span class="sig-name descname"><span class="pre">search_apple_dictionary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">term</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Dictionary.html#XADictionaryApplication.search_apple_dictionary"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Dictionary.XADictionaryApplication.search_apple_dictionary" title="Permalink to this definition"></a></dt>
 <dd><p>Searches the provided term in the Apple Dictionary</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>term</strong> (<em>str</em>) – The term to search</p>
 </dd>
 </dl>
@@ -403,7 +391,7 @@
 <span class="sig-name descname"><span class="pre">search_new_oxford</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">term</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Dictionary.html#XADictionaryApplication.search_new_oxford"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Dictionary.XADictionaryApplication.search_new_oxford" title="Permalink to this definition"></a></dt>
 <dd><p>Searches the provided term in the New Oxford American Dictionary</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>term</strong> (<em>str</em>) – The term to search</p>
 </dd>
 </dl>
@@ -417,7 +405,7 @@
 <span class="sig-name descname"><span class="pre">search_oxford_thesaurus</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">term</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Dictionary.html#XADictionaryApplication.search_oxford_thesaurus"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Dictionary.XADictionaryApplication.search_oxford_thesaurus" title="Permalink to this definition"></a></dt>
 <dd><p>Searches the provided term in the Oxford American Writer’s Thesaurus</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>term</strong> (<em>str</em>) – The term to search</p>
 </dd>
 </dl>
@@ -431,7 +419,7 @@
 <span class="sig-name descname"><span class="pre">search_wikipedia</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">term</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Dictionary.html#XADictionaryApplication.search_wikipedia"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Dictionary.XADictionaryApplication.search_wikipedia" title="Permalink to this definition"></a></dt>
 <dd><p>Searches the provided term in Wikipedia</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>term</strong> (<em>str</em>) – The term to search</p>
 </dd>
 </dl>

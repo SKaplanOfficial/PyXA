@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>iTerm Module Reference &mdash; PyXA 0.1.0 documentation</title>
+  <title>iTerm Module Reference &mdash; PyXA 0.1.1 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
@@ -46,7 +46,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../../tutorial/index.html">Tutorial</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../index.html">Code Documentation and Reference</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../index.html#top-level-pyxa-modules">Top-level PyXA Modules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../index.html#pyxa-base-modules">PyXA Base Modules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../index.html#first-party-application-module-reference">First-Party Application Module Reference</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../index.html#third-party-application-module-reference">Third-Party Application Module Reference</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="bike.html">Bike Module Reference</a></li>
@@ -70,6 +69,7 @@
 <li class="toctree-l3"><a class="reference internal" href="rstudio.html">RStudio Module Reference</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#pyxa-additions">PyXA Additions</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../bugs.html">Bugs</a></li>
@@ -88,9 +88,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../index.html">Code Documentation and Reference</a> &raquo;</li>
-      <li>iTerm Module Reference</li>
+      <li><a href="../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Code Documentation and Reference</a></li>
+      <li class="breadcrumb-item active">iTerm Module Reference</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../../_sources/reference/apps/iterm.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -108,10 +108,6 @@
 <p>Control iTerm using JXA-like syntax.</p>
 <p><strong>Classes:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.iTerm.XAiTermApplication" title="PyXA.apps.iTerm.XAiTermApplication"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAiTermApplication</span></code></a>(properties)</p></td>
 <td><p>A class for managing and interacting with iTerm.app.</p></td>
@@ -140,10 +136,6 @@
 </div>
 <p><strong>Methods:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.iTerm.XAiTermApplication.create_hotkey_window" title="PyXA.apps.iTerm.XAiTermApplication.create_hotkey_window"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_hotkey_window</span></code></a>([profile])</p></td>
 <td><p>Creates a new hotkey window with the given profile.</p></td>
@@ -164,22 +156,18 @@
 </table>
 <p><strong>Attributes:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.iTerm.XAiTermApplication.current_window" title="PyXA.apps.iTerm.XAiTermApplication.current_window"><code class="xref py py-obj docutils literal notranslate"><span class="pre">current_window</span></code></a></p></td>
-<td><p>The frontmost window</p></td>
+<td><p>The frontmost window.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.iTerm.XAiTermApplication.frontmost" title="PyXA.apps.iTerm.XAiTermApplication.frontmost"><code class="xref py py-obj docutils literal notranslate"><span class="pre">frontmost</span></code></a></p></td>
-<td><p>Whether iTerm is the active application</p></td>
+<td><p>Whether iTerm is the active application.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.iTerm.XAiTermApplication.name" title="PyXA.apps.iTerm.XAiTermApplication.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a></p></td>
-<td><p>The name of the application</p></td>
+<td><p>The name of the application.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.iTerm.XAiTermApplication.version" title="PyXA.apps.iTerm.XAiTermApplication.version"><code class="xref py py-obj docutils literal notranslate"><span class="pre">version</span></code></a></p></td>
-<td><p>The version of iTerm.app</p></td>
+<td><p>The version of iTerm.app.</p></td>
 </tr>
 </tbody>
 </table>
@@ -188,13 +176,13 @@
 <span class="sig-name descname"><span class="pre">create_hotkey_window</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">profile</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.iTerm.XAiTermHotkeyWindow" title="PyXA.apps.iTerm.XAiTermHotkeyWindow"><span class="pre">XAiTermHotkeyWindow</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/iTerm.html#XAiTermApplication.create_hotkey_window"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.iTerm.XAiTermApplication.create_hotkey_window" title="Permalink to this definition"></a></dt>
 <dd><p>Creates a new hotkey window with the given profile.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>profile</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>None</em><em>]</em><em>, </em><em>optional</em>) – The profile to initialize the window with, defaults to None</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>The newly created hotkey window object</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="#PyXA.apps.iTerm.XAiTermHotkeyWindow" title="PyXA.apps.iTerm.XAiTermHotkeyWindow">XAiTermHotkeyWindow</a></p>
 </dd>
 </dl>
@@ -208,16 +196,16 @@
 <span class="sig-name descname"><span class="pre">create_window</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">profile</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">command</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.iTerm.XAiTermWindow" title="PyXA.apps.iTerm.XAiTermWindow"><span class="pre">XAiTermWindow</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/iTerm.html#XAiTermApplication.create_window"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.iTerm.XAiTermApplication.create_window" title="Permalink to this definition"></a></dt>
 <dd><p>Creates a new window with the given profile, executing the specified command upon the window’s creation.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>profile</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>None</em><em>]</em><em>, </em><em>optional</em>) – The profile to initialize the window with, defaults to None (default profile)</p></li>
 <li><p><strong>command</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>None</em><em>]</em><em>, </em><em>optional</em>) – The command to execute, defaults to None</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>The newly created window object</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="#PyXA.apps.iTerm.XAiTermWindow" title="PyXA.apps.iTerm.XAiTermWindow">XAiTermWindow</a></p>
 </dd>
 </dl>
@@ -229,13 +217,13 @@
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.iTerm.XAiTermApplication.current_window">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">current_window</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.apps.iTerm.XAiTermWindow" title="PyXA.apps.iTerm.XAiTermWindow"><span class="pre">XAiTermWindow</span></a></em><a class="headerlink" href="#PyXA.apps.iTerm.XAiTermApplication.current_window" title="Permalink to this definition"></a></dt>
-<dd><p>The frontmost window</p>
+<dd><p>The frontmost window.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.iTerm.XAiTermApplication.frontmost">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">frontmost</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.iTerm.XAiTermApplication.frontmost" title="Permalink to this definition"></a></dt>
-<dd><p>Whether iTerm is the active application</p>
+<dd><p>Whether iTerm is the active application.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -243,7 +231,7 @@
 <span class="sig-name descname"><span class="pre">invoke_api_expression</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expression</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/iTerm.html#XAiTermApplication.invoke_api_expression"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.iTerm.XAiTermApplication.invoke_api_expression" title="Permalink to this definition"></a></dt>
 <dd><p>Invokes an expression, such as a registered function.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>expression</strong> (<em>str</em>) – The expression to invoke</p>
 </dd>
 </dl>
@@ -257,7 +245,7 @@
 <span class="sig-name descname"><span class="pre">launch_api_script</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">script_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arguments</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/iTerm.html#XAiTermApplication.launch_api_script"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.iTerm.XAiTermApplication.launch_api_script" title="Permalink to this definition"></a></dt>
 <dd><p>Launches an API script by name, providing it with the given arguments.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>script_name</strong> (<em>str</em>) – The name of the script to launch</p></li>
 <li><p><strong>arguments</strong> (<em>Union</em><em>[</em><em>list</em><em>[</em><em>str</em><em>]</em><em>, </em><em>None</em><em>]</em><em>, </em><em>optional</em>) – The arguments to pass to the script, defaults to None</p></li>
@@ -272,7 +260,7 @@
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.iTerm.XAiTermApplication.name">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.iTerm.XAiTermApplication.name" title="Permalink to this definition"></a></dt>
-<dd><p>The name of the application</p>
+<dd><p>The name of the application.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -280,13 +268,13 @@
 <span class="sig-name descname"><span class="pre">request_cookie_and_key</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/iTerm.html#XAiTermApplication.request_cookie_and_key"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.iTerm.XAiTermApplication.request_cookie_and_key" title="Permalink to this definition"></a></dt>
 <dd><p>Requests a Python API cookie for the specified application.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>app</strong> (<em>str</em>) – The app to retrieve an API cookie for</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>The API cookie</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>str</p>
 </dd>
 </dl>
@@ -298,7 +286,7 @@
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.iTerm.XAiTermApplication.version">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">version</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.iTerm.XAiTermApplication.version" title="Permalink to this definition"></a></dt>
-<dd><p>The version of iTerm.app</p>
+<dd><p>The version of iTerm.app.</p>
 </dd></dl>
 
 </dd></dl>
@@ -313,10 +301,6 @@
 </div>
 <p><strong>Methods:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.iTerm.XAiTermHotkeyWindow.hide_hotkey_window" title="PyXA.apps.iTerm.XAiTermHotkeyWindow.hide_hotkey_window"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hide_hotkey_window</span></code></a>()</p></td>
 <td><p>Hides the hotkey window.</p></td>
@@ -361,17 +345,13 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.iTerm.XAiTermSession">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.iTerm.</span></span><span class="sig-name descname"><span class="pre">XAiTermSession</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/iTerm.html#XAiTermSession"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.iTerm.XAiTermSession" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAObject</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">XACloseable</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">XASelectable</span></code></p>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAObject</span></code></a>, <a class="reference internal" href="../xaprotocols.html#PyXA.XAProtocols.XACloseable" title="PyXA.XAProtocols.XACloseable"><code class="xref py py-class docutils literal notranslate"><span class="pre">XACloseable</span></code></a>, <a class="reference internal" href="../xaprotocols.html#PyXA.XAProtocols.XASelectable" title="PyXA.XAProtocols.XASelectable"><code class="xref py py-class docutils literal notranslate"><span class="pre">XASelectable</span></code></a></p>
 <p>A session of iTerm.app.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.1.0.</span></p>
 </div>
 <p><strong>Attributes:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.iTerm.XAiTermSession.ansi_black_color" title="PyXA.apps.iTerm.XAiTermSession.ansi_black_color"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ansi_black_color</span></code></a></p></td>
 <td><p></p></td>
@@ -422,22 +402,22 @@
 <td><p></p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.iTerm.XAiTermSession.answerback_string" title="PyXA.apps.iTerm.XAiTermSession.answerback_string"><code class="xref py py-obj docutils literal notranslate"><span class="pre">answerback_string</span></code></a></p></td>
-<td><p>ENQ Answerback string</p></td>
+<td><p>ENQ Answerback string.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.iTerm.XAiTermSession.background_color" title="PyXA.apps.iTerm.XAiTermSession.background_color"><code class="xref py py-obj docutils literal notranslate"><span class="pre">background_color</span></code></a></p></td>
 <td><p></p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.iTerm.XAiTermSession.background_image" title="PyXA.apps.iTerm.XAiTermSession.background_image"><code class="xref py py-obj docutils literal notranslate"><span class="pre">background_image</span></code></a></p></td>
-<td><p>The path of the background image file</p></td>
+<td><p>The path of the background image file.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.iTerm.XAiTermSession.bold_color" title="PyXA.apps.iTerm.XAiTermSession.bold_color"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bold_color</span></code></a></p></td>
 <td><p></p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.iTerm.XAiTermSession.color_preset" title="PyXA.apps.iTerm.XAiTermSession.color_preset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">color_preset</span></code></a></p></td>
-<td><p>The color preset of the session</p></td>
+<td><p>The color preset of the session.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.iTerm.XAiTermSession.columns" title="PyXA.apps.iTerm.XAiTermSession.columns"><code class="xref py py-obj docutils literal notranslate"><span class="pre">columns</span></code></a></p></td>
-<td><p>The number of columns in the terminal window</p></td>
+<td><p>The number of columns in the terminal window.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.iTerm.XAiTermSession.contents" title="PyXA.apps.iTerm.XAiTermSession.contents"><code class="xref py py-obj docutils literal notranslate"><span class="pre">contents</span></code></a></p></td>
 <td><p>The currently visible contents of the session.</p></td>
@@ -452,22 +432,22 @@
 <td><p></p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.iTerm.XAiTermSession.id" title="PyXA.apps.iTerm.XAiTermSession.id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">id</span></code></a></p></td>
-<td><p>The unique identifier of the session</p></td>
+<td><p>The unique identifier of the session.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.iTerm.XAiTermSession.is_at_shell_prompt" title="PyXA.apps.iTerm.XAiTermSession.is_at_shell_prompt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_at_shell_prompt</span></code></a></p></td>
-<td><p>Whether the terminal is at the shell prompt</p></td>
+<td><p>Whether the terminal is at the shell prompt.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.iTerm.XAiTermSession.is_processing" title="PyXA.apps.iTerm.XAiTermSession.is_processing"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_processing</span></code></a></p></td>
-<td><p>Whether the session is currently processing</p></td>
+<td><p>Whether the session is currently processing.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.iTerm.XAiTermSession.name" title="PyXA.apps.iTerm.XAiTermSession.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a></p></td>
-<td><p>The name of the session</p></td>
+<td><p>The name of the session.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.iTerm.XAiTermSession.profile_name" title="PyXA.apps.iTerm.XAiTermSession.profile_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">profile_name</span></code></a></p></td>
-<td><p>The session's profile name</p></td>
+<td><p>The session's profile name.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.iTerm.XAiTermSession.rows" title="PyXA.apps.iTerm.XAiTermSession.rows"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rows</span></code></a></p></td>
-<td><p>The number of rows in the terminal window</p></td>
+<td><p>The number of rows in the terminal window.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.iTerm.XAiTermSession.selected_text_color" title="PyXA.apps.iTerm.XAiTermSession.selected_text_color"><code class="xref py py-obj docutils literal notranslate"><span class="pre">selected_text_color</span></code></a></p></td>
 <td><p></p></td>
@@ -479,28 +459,24 @@
 <td><p>The currently visible contents of the session.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.iTerm.XAiTermSession.transparency" title="PyXA.apps.iTerm.XAiTermSession.transparency"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transparency</span></code></a></p></td>
-<td><p>The transparency of the session window</p></td>
+<td><p>The transparency of the session window.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.iTerm.XAiTermSession.tty" title="PyXA.apps.iTerm.XAiTermSession.tty"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tty</span></code></a></p></td>
-<td><p>The current TTY</p></td>
+<td><p>The current TTY.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.iTerm.XAiTermSession.underline_color" title="PyXA.apps.iTerm.XAiTermSession.underline_color"><code class="xref py py-obj docutils literal notranslate"><span class="pre">underline_color</span></code></a></p></td>
 <td><p></p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.iTerm.XAiTermSession.unique_id" title="PyXA.apps.iTerm.XAiTermSession.unique_id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">unique_id</span></code></a></p></td>
-<td><p>The unique identifier of the session</p></td>
+<td><p>The unique identifier of the session.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.iTerm.XAiTermSession.use_underline_color" title="PyXA.apps.iTerm.XAiTermSession.use_underline_color"><code class="xref py py-obj docutils literal notranslate"><span class="pre">use_underline_color</span></code></a></p></td>
-<td><p>Whether to use a dedicated color for underlining</p></td>
+<td><p>Whether to use a dedicated color for underlining.</p></td>
 </tr>
 </tbody>
 </table>
 <p><strong>Methods:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.iTerm.XAiTermSession.close" title="PyXA.apps.iTerm.XAiTermSession.close"><code class="xref py py-obj docutils literal notranslate"><span class="pre">close</span></code></a>()</p></td>
 <td><p>Closes the session.</p></td>
@@ -611,7 +587,7 @@
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.iTerm.XAiTermSession.answerback_string">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">answerback_string</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.iTerm.XAiTermSession.answerback_string" title="Permalink to this definition"></a></dt>
-<dd><p>ENQ Answerback string</p>
+<dd><p>ENQ Answerback string.</p>
 </dd></dl>
 
 <dl class="py property">
@@ -622,7 +598,7 @@
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.iTerm.XAiTermSession.background_image">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">background_image</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.iTerm.XAiTermSession.background_image" title="Permalink to this definition"></a></dt>
-<dd><p>The path of the background image file</p>
+<dd><p>The path of the background image file.</p>
 </dd></dl>
 
 <dl class="py property">
@@ -642,13 +618,13 @@
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.iTerm.XAiTermSession.color_preset">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">color_preset</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.iTerm.XAiTermSession.color_preset" title="Permalink to this definition"></a></dt>
-<dd><p>The color preset of the session</p>
+<dd><p>The color preset of the session.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.iTerm.XAiTermSession.columns">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">columns</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#PyXA.apps.iTerm.XAiTermSession.columns" title="Permalink to this definition"></a></dt>
-<dd><p>The number of columns in the terminal window</p>
+<dd><p>The number of columns in the terminal window.</p>
 </dd></dl>
 
 <dl class="py property">
@@ -675,37 +651,37 @@
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.iTerm.XAiTermSession.id">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.iTerm.XAiTermSession.id" title="Permalink to this definition"></a></dt>
-<dd><p>The unique identifier of the session</p>
+<dd><p>The unique identifier of the session.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.iTerm.XAiTermSession.is_at_shell_prompt">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_at_shell_prompt</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.iTerm.XAiTermSession.is_at_shell_prompt" title="Permalink to this definition"></a></dt>
-<dd><p>Whether the terminal is at the shell prompt</p>
+<dd><p>Whether the terminal is at the shell prompt.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.iTerm.XAiTermSession.is_processing">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_processing</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.iTerm.XAiTermSession.is_processing" title="Permalink to this definition"></a></dt>
-<dd><p>Whether the session is currently processing</p>
+<dd><p>Whether the session is currently processing.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.iTerm.XAiTermSession.name">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.iTerm.XAiTermSession.name" title="Permalink to this definition"></a></dt>
-<dd><p>The name of the session</p>
+<dd><p>The name of the session.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.iTerm.XAiTermSession.profile_name">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">profile_name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.iTerm.XAiTermSession.profile_name" title="Permalink to this definition"></a></dt>
-<dd><p>The session’s profile name</p>
+<dd><p>The session’s profile name.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.iTerm.XAiTermSession.rows">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">rows</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#PyXA.apps.iTerm.XAiTermSession.rows" title="Permalink to this definition"></a></dt>
-<dd><p>The number of rows in the terminal window</p>
+<dd><p>The number of rows in the terminal window.</p>
 </dd></dl>
 
 <dl class="py property">
@@ -723,16 +699,16 @@
 <span class="sig-name descname"><span class="pre">set_variable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">variable_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/iTerm.html#XAiTermSession.set_variable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.iTerm.XAiTermSession.set_variable" title="Permalink to this definition"></a></dt>
 <dd><p>Sets the value of a session variable.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>variable_name</strong> (<em>str</em>) – The name of the variable to set</p></li>
 <li><p><strong>value</strong> (<em>str</em>) – The value to give the variable</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>The new value of the variable</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>str</p>
 </dd>
 </dl>
@@ -746,7 +722,7 @@
 <span class="sig-name descname"><span class="pre">split_horizontally</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">profile</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">command</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/iTerm.html#XAiTermSession.split_horizontally"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.iTerm.XAiTermSession.split_horizontally" title="Permalink to this definition"></a></dt>
 <dd><p>Splits the session horizontally, instantiating a new session with the specified profile.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>profile</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>None</em><em>]</em><em>, </em><em>optional</em>) – The profile to instantiate the new session with, defaults to None (current profile)</p></li>
 <li><p><strong>command</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>None</em><em>]</em><em>, </em><em>optional</em>) – The command to run in the newly created session upon its creation, defaults to None</p></li>
@@ -763,7 +739,7 @@
 <span class="sig-name descname"><span class="pre">split_horizontally_with_default_profile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">command</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/iTerm.html#XAiTermSession.split_horizontally_with_default_profile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.iTerm.XAiTermSession.split_horizontally_with_default_profile" title="Permalink to this definition"></a></dt>
 <dd><p>Splits the session horizontally, instantiating a new session with the default profile.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>command</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>None</em><em>]</em>) – The command to run in the newly created session upon its creation, defaults to None</p>
 </dd>
 </dl>
@@ -777,7 +753,7 @@
 <span class="sig-name descname"><span class="pre">split_vertically</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">profile</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">command</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/iTerm.html#XAiTermSession.split_vertically"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.iTerm.XAiTermSession.split_vertically" title="Permalink to this definition"></a></dt>
 <dd><p>Splits the session vertically, instantiating a new session with the specified profile.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>profile</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>None</em><em>]</em><em>, </em><em>optional</em>) – The profile to instantiate the new session with, defaults to None (current profile)</p></li>
 <li><p><strong>command</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>None</em><em>]</em><em>, </em><em>optional</em>) – The command to run in the newly created session upon its creation, defaults to None</p></li>
@@ -794,7 +770,7 @@
 <span class="sig-name descname"><span class="pre">split_vertically_with_default_profile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">command</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/iTerm.html#XAiTermSession.split_vertically_with_default_profile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.iTerm.XAiTermSession.split_vertically_with_default_profile" title="Permalink to this definition"></a></dt>
 <dd><p>Splits the session vertically, instantiating a new session with the default profile.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>command</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>None</em><em>]</em>) – The command to run in the newly created session upon its creation, defaults to None</p>
 </dd>
 </dl>
@@ -812,13 +788,13 @@
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.iTerm.XAiTermSession.transparency">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">transparency</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#PyXA.apps.iTerm.XAiTermSession.transparency" title="Permalink to this definition"></a></dt>
-<dd><p>The transparency of the session window</p>
+<dd><p>The transparency of the session window.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.iTerm.XAiTermSession.tty">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">tty</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.iTerm.XAiTermSession.tty" title="Permalink to this definition"></a></dt>
-<dd><p>The current TTY</p>
+<dd><p>The current TTY.</p>
 </dd></dl>
 
 <dl class="py property">
@@ -829,13 +805,13 @@
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.iTerm.XAiTermSession.unique_id">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">unique_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.iTerm.XAiTermSession.unique_id" title="Permalink to this definition"></a></dt>
-<dd><p>The unique identifier of the session</p>
+<dd><p>The unique identifier of the session.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.iTerm.XAiTermSession.use_underline_color">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">use_underline_color</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.iTerm.XAiTermSession.use_underline_color" title="Permalink to this definition"></a></dt>
-<dd><p>Whether to use a dedicated color for underlining</p>
+<dd><p>Whether to use a dedicated color for underlining.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -843,13 +819,13 @@
 <span class="sig-name descname"><span class="pre">variable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">variable_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/iTerm.html#XAiTermSession.variable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.iTerm.XAiTermSession.variable" title="Permalink to this definition"></a></dt>
 <dd><p>Returns the value of a session variable with the given name.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>variable_name</strong> (<em>str</em>) – The name of the variable to retrieve the value on</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>The value of the variable</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>str</p>
 </dd>
 </dl>
@@ -863,7 +839,7 @@
 <span class="sig-name descname"><span class="pre">write</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAPath" title="PyXA.XABase.XAPath"><span class="pre">XAPath</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">add_newline</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/iTerm.html#XAiTermSession.write"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.iTerm.XAiTermSession.write" title="Permalink to this definition"></a></dt>
 <dd><p>Writes a string or file contents to the session.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>text</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>None</em><em>]</em><em>, </em><em>optional</em>) – The text to input into the session, defaults to None</p></li>
 <li><p><strong>file</strong> (<em>Union</em><em>[</em><a class="reference internal" href="../xabase.html#PyXA.XABase.XAPath" title="PyXA.XABase.XAPath"><em>XABase.XAPath</em></a><em>, </em><em>str</em><em>, </em><em>None</em><em>]</em><em>, </em><em>optional</em>) – The file whose contents to input into the session, defaults to None</p></li>
@@ -881,17 +857,13 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.iTerm.XAiTermTab">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.iTerm.</span></span><span class="sig-name descname"><span class="pre">XAiTermTab</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/iTerm.html#XAiTermTab"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.iTerm.XAiTermTab" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAObject</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">XACloseable</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">XASelectable</span></code></p>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAObject</span></code></a>, <a class="reference internal" href="../xaprotocols.html#PyXA.XAProtocols.XACloseable" title="PyXA.XAProtocols.XACloseable"><code class="xref py py-class docutils literal notranslate"><span class="pre">XACloseable</span></code></a>, <a class="reference internal" href="../xaprotocols.html#PyXA.XAProtocols.XASelectable" title="PyXA.XAProtocols.XASelectable"><code class="xref py py-class docutils literal notranslate"><span class="pre">XASelectable</span></code></a></p>
 <p>A tab of iTerm.app.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.1.0.</span></p>
 </div>
 <p><strong>Methods:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.iTerm.XAiTermTab.close" title="PyXA.apps.iTerm.XAiTermTab.close"><code class="xref py py-obj docutils literal notranslate"><span class="pre">close</span></code></a>()</p></td>
 <td><p>Closes the tab.</p></td>
@@ -903,16 +875,12 @@
 </table>
 <p><strong>Attributes:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.iTerm.XAiTermTab.current_session" title="PyXA.apps.iTerm.XAiTermTab.current_session"><code class="xref py py-obj docutils literal notranslate"><span class="pre">current_session</span></code></a></p></td>
-<td><p>The current session in a tab</p></td>
+<td><p>The current session in a tab.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.iTerm.XAiTermTab.index" title="PyXA.apps.iTerm.XAiTermTab.index"><code class="xref py py-obj docutils literal notranslate"><span class="pre">index</span></code></a></p></td>
-<td><p>Index of tab in parent tab view control</p></td>
+<td><p>Index of tab in parent tab view control.</p></td>
 </tr>
 </tbody>
 </table>
@@ -928,13 +896,13 @@
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.iTerm.XAiTermTab.current_session">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">current_session</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.apps.iTerm.XAiTermSession" title="PyXA.apps.iTerm.XAiTermSession"><span class="pre">XAiTermSession</span></a></em><a class="headerlink" href="#PyXA.apps.iTerm.XAiTermTab.current_session" title="Permalink to this definition"></a></dt>
-<dd><p>The current session in a tab</p>
+<dd><p>The current session in a tab.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.iTerm.XAiTermTab.index">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">index</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#PyXA.apps.iTerm.XAiTermTab.index" title="Permalink to this definition"></a></dt>
-<dd><p>Index of tab in parent tab view control</p>
+<dd><p>Index of tab in parent tab view control.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -947,80 +915,39 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.iTerm.XAiTermWindow">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.iTerm.</span></span><span class="sig-name descname"><span class="pre">XAiTermWindow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/iTerm.html#XAiTermWindow"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.iTerm.XAiTermWindow" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XASBWindow" title="PyXA.XABaseScriptable.XASBWindow"><code class="xref py py-class docutils literal notranslate"><span class="pre">XASBWindow</span></code></a>, <a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAObject</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">XASelectable</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">XACloseable</span></code></p>
+<dd><p>Bases: <a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XASBWindow" title="PyXA.XABaseScriptable.XASBWindow"><code class="xref py py-class docutils literal notranslate"><span class="pre">XASBWindow</span></code></a>, <a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAObject</span></code></a>, <a class="reference internal" href="../xaprotocols.html#PyXA.XAProtocols.XASelectable" title="PyXA.XAProtocols.XASelectable"><code class="xref py py-class docutils literal notranslate"><span class="pre">XASelectable</span></code></a>, <a class="reference internal" href="../xaprotocols.html#PyXA.XAProtocols.XACloseable" title="PyXA.XAProtocols.XACloseable"><code class="xref py py-class docutils literal notranslate"><span class="pre">XACloseable</span></code></a></p>
 <p>A window of iTerm.app.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.1.0.</span></p>
 </div>
 <p><strong>Attributes:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.iTerm.XAiTermWindow.alternate_identifier" title="PyXA.apps.iTerm.XAiTermWindow.alternate_identifier"><code class="xref py py-obj docutils literal notranslate"><span class="pre">alternate_identifier</span></code></a></p></td>
-<td><p>The alternate unique identifier of the session</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.iTerm.XAiTermWindow.bounds" title="PyXA.apps.iTerm.XAiTermWindow.bounds"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bounds</span></code></a></p></td>
-<td><p>The bounding rectangle of the window</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.iTerm.XAiTermWindow.closeable" title="PyXA.apps.iTerm.XAiTermWindow.closeable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">closeable</span></code></a></p></td>
-<td><p>Whether the window has a close button</p></td>
+<td><p>The alternate unique identifier of the session.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.iTerm.XAiTermWindow.current_session" title="PyXA.apps.iTerm.XAiTermWindow.current_session"><code class="xref py py-obj docutils literal notranslate"><span class="pre">current_session</span></code></a></p></td>
-<td><p>The current session in a window</p></td>
+<td><p>The current session in a window.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.iTerm.XAiTermWindow.current_tab" title="PyXA.apps.iTerm.XAiTermWindow.current_tab"><code class="xref py py-obj docutils literal notranslate"><span class="pre">current_tab</span></code></a></p></td>
-<td><p>The currently selected tab</p></td>
+<td><p>The currently selected tab.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.iTerm.XAiTermWindow.frontmost" title="PyXA.apps.iTerm.XAiTermWindow.frontmost"><code class="xref py py-obj docutils literal notranslate"><span class="pre">frontmost</span></code></a></p></td>
-<td><p>Whether the window is currently the frontmost Terminal window</p></td>
+<td><p>Whether the window is currently the frontmost iTerm window.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.iTerm.XAiTermWindow.hotkey_window_profile" title="PyXA.apps.iTerm.XAiTermWindow.hotkey_window_profile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hotkey_window_profile</span></code></a></p></td>
-<td><p>If the window is a hotkey window, this gives the name of the profile that created the window</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.iTerm.XAiTermWindow.id" title="PyXA.apps.iTerm.XAiTermWindow.id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">id</span></code></a></p></td>
-<td><p>The unique identifier of the session</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.iTerm.XAiTermWindow.index" title="PyXA.apps.iTerm.XAiTermWindow.index"><code class="xref py py-obj docutils literal notranslate"><span class="pre">index</span></code></a></p></td>
-<td><p>The index of the window in the front-to-back ordering</p></td>
+<td><p>If the window is a hotkey window, this gives the name of the profile that created the window.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.iTerm.XAiTermWindow.is_hotkey_window" title="PyXA.apps.iTerm.XAiTermWindow.is_hotkey_window"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_hotkey_window</span></code></a></p></td>
-<td><p>Whether the window is a hotkey window</p></td>
+<td><p>Whether the window is a hotkey window.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.iTerm.XAiTermWindow.miniaturizable" title="PyXA.apps.iTerm.XAiTermWindow.miniaturizable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">miniaturizable</span></code></a></p></td>
-<td><p>Whether the window can be minimized</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.iTerm.XAiTermWindow.miniaturized" title="PyXA.apps.iTerm.XAiTermWindow.miniaturized"><code class="xref py py-obj docutils literal notranslate"><span class="pre">miniaturized</span></code></a></p></td>
-<td><p>Whether the window is currently minimized</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.iTerm.XAiTermWindow.name" title="PyXA.apps.iTerm.XAiTermWindow.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a></p></td>
-<td><p>The full title of the window</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.iTerm.XAiTermWindow.position" title="PyXA.apps.iTerm.XAiTermWindow.position"><code class="xref py py-obj docutils literal notranslate"><span class="pre">position</span></code></a></p></td>
-<td><p>The position os the window, relative to the upper left corner of the screen</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.iTerm.XAiTermWindow.resizable" title="PyXA.apps.iTerm.XAiTermWindow.resizable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">resizable</span></code></a></p></td>
-<td><p>Whether the window can be resized</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.iTerm.XAiTermWindow.visible" title="PyXA.apps.iTerm.XAiTermWindow.visible"><code class="xref py py-obj docutils literal notranslate"><span class="pre">visible</span></code></a></p></td>
-<td><p>Whether the window is currently visible</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.iTerm.XAiTermWindow.zoomable" title="PyXA.apps.iTerm.XAiTermWindow.zoomable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">zoomable</span></code></a></p></td>
-<td><p>Whether the window can be zoomed</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.iTerm.XAiTermWindow.zoomed" title="PyXA.apps.iTerm.XAiTermWindow.zoomed"><code class="xref py py-obj docutils literal notranslate"><span class="pre">zoomed</span></code></a></p></td>
-<td><p>Whether the window is currently zoomed</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.iTerm.XAiTermWindow.position" title="PyXA.apps.iTerm.XAiTermWindow.position"><code class="xref py py-obj docutils literal notranslate"><span class="pre">position</span></code></a></p></td>
+<td><p>The position of the window, relative to the upper left corner of the screen.</p></td>
 </tr>
 </tbody>
 </table>
 <p><strong>Methods:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.iTerm.XAiTermWindow.close" title="PyXA.apps.iTerm.XAiTermWindow.close"><code class="xref py py-obj docutils literal notranslate"><span class="pre">close</span></code></a>()</p></td>
 <td><p>Closes the window.</p></td>
@@ -1033,13 +960,7 @@
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.iTerm.XAiTermWindow.alternate_identifier">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">alternate_identifier</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.iTerm.XAiTermWindow.alternate_identifier" title="Permalink to this definition"></a></dt>
-<dd><p>The alternate unique identifier of the session</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.apps.iTerm.XAiTermWindow.bounds">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">bounds</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#PyXA.apps.iTerm.XAiTermWindow.bounds" title="Permalink to this definition"></a></dt>
-<dd><p>The bounding rectangle of the window</p>
+<dd><p>The alternate unique identifier of the session.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1051,18 +972,12 @@
 </div>
 </dd></dl>
 
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.apps.iTerm.XAiTermWindow.closeable">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">closeable</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.iTerm.XAiTermWindow.closeable" title="Permalink to this definition"></a></dt>
-<dd><p>Whether the window has a close button</p>
-</dd></dl>
-
 <dl class="py method">
 <dt class="sig sig-object py" id="PyXA.apps.iTerm.XAiTermWindow.create_tab">
 <span class="sig-name descname"><span class="pre">create_tab</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">profile</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">command</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/iTerm.html#XAiTermWindow.create_tab"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.iTerm.XAiTermWindow.create_tab" title="Permalink to this definition"></a></dt>
 <dd><p>Creates a new tab with the given profile, executing the specified command upon the tab’s creation.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>profile</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>None</em><em>]</em><em>, </em><em>optional</em>) – The name of the profile to assign to the tab, if any, defaults to None (default profile)</p></li>
 <li><p><strong>command</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>None</em><em>]</em><em>, </em><em>optional</em>) – The command to run in the tab, if any, defaults to None</p></li>
@@ -1074,91 +989,37 @@
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.iTerm.XAiTermWindow.current_session">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">current_session</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.apps.iTerm.XAiTermSession" title="PyXA.apps.iTerm.XAiTermSession"><span class="pre">XAiTermSession</span></a></em><a class="headerlink" href="#PyXA.apps.iTerm.XAiTermWindow.current_session" title="Permalink to this definition"></a></dt>
-<dd><p>The current session in a window</p>
+<dd><p>The current session in a window.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.iTerm.XAiTermWindow.current_tab">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">current_tab</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.apps.iTerm.XAiTermTab" title="PyXA.apps.iTerm.XAiTermTab"><span class="pre">XAiTermTab</span></a></em><a class="headerlink" href="#PyXA.apps.iTerm.XAiTermWindow.current_tab" title="Permalink to this definition"></a></dt>
-<dd><p>The currently selected tab</p>
+<dd><p>The currently selected tab.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.iTerm.XAiTermWindow.frontmost">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">frontmost</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.iTerm.XAiTermWindow.frontmost" title="Permalink to this definition"></a></dt>
-<dd><p>Whether the window is currently the frontmost Terminal window</p>
+<dd><p>Whether the window is currently the frontmost iTerm window.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.iTerm.XAiTermWindow.hotkey_window_profile">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">hotkey_window_profile</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.iTerm.XAiTermWindow.hotkey_window_profile" title="Permalink to this definition"></a></dt>
-<dd><p>If the window is a hotkey window, this gives the name of the profile that created the window</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.apps.iTerm.XAiTermWindow.id">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#PyXA.apps.iTerm.XAiTermWindow.id" title="Permalink to this definition"></a></dt>
-<dd><p>The unique identifier of the session</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.apps.iTerm.XAiTermWindow.index">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">index</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#PyXA.apps.iTerm.XAiTermWindow.index" title="Permalink to this definition"></a></dt>
-<dd><p>The index of the window in the front-to-back ordering</p>
+<dd><p>If the window is a hotkey window, this gives the name of the profile that created the window.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.iTerm.XAiTermWindow.is_hotkey_window">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_hotkey_window</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.iTerm.XAiTermWindow.is_hotkey_window" title="Permalink to this definition"></a></dt>
-<dd><p>Whether the window is a hotkey window</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.apps.iTerm.XAiTermWindow.miniaturizable">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">miniaturizable</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.iTerm.XAiTermWindow.miniaturizable" title="Permalink to this definition"></a></dt>
-<dd><p>Whether the window can be minimized</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.apps.iTerm.XAiTermWindow.miniaturized">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">miniaturized</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.iTerm.XAiTermWindow.miniaturized" title="Permalink to this definition"></a></dt>
-<dd><p>Whether the window is currently minimized</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.apps.iTerm.XAiTermWindow.name">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.iTerm.XAiTermWindow.name" title="Permalink to this definition"></a></dt>
-<dd><p>The full title of the window</p>
+<dd><p>Whether the window is a hotkey window.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.iTerm.XAiTermWindow.position">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">position</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#PyXA.apps.iTerm.XAiTermWindow.position" title="Permalink to this definition"></a></dt>
-<dd><p>The position os the window, relative to the upper left corner of the screen</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.apps.iTerm.XAiTermWindow.resizable">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">resizable</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.iTerm.XAiTermWindow.resizable" title="Permalink to this definition"></a></dt>
-<dd><p>Whether the window can be resized</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.apps.iTerm.XAiTermWindow.visible">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">visible</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.iTerm.XAiTermWindow.visible" title="Permalink to this definition"></a></dt>
-<dd><p>Whether the window is currently visible</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.apps.iTerm.XAiTermWindow.zoomable">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">zoomable</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.iTerm.XAiTermWindow.zoomable" title="Permalink to this definition"></a></dt>
-<dd><p>Whether the window can be zoomed</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.apps.iTerm.XAiTermWindow.zoomed">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">zoomed</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.iTerm.XAiTermWindow.zoomed" title="Permalink to this definition"></a></dt>
-<dd><p>Whether the window is currently zoomed</p>
+<dd><p>The position of the window, relative to the upper left corner of the screen.</p>
 </dd></dl>
 
 </dd></dl>

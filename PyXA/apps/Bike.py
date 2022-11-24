@@ -10,7 +10,7 @@ import AppKit
 
 from PyXA import XABase
 from PyXA import XABaseScriptable
-from ..XAProtocols import XACanOpenPath, XAClipboardCodable, XACloseable, XADeletable, XAPrintable
+from ..XAProtocols import XACanOpenPath, XAClipboardCodable, XACloseable, XADeletable
 from ..XAErrors import UnconstructableClassError
 
 class XABikeApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
@@ -27,27 +27,28 @@ class XABikeApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         super().__init__(properties)
         self.xa_wcls = XABikeWindow
 
-        self.name: str #: The name of the application
-        self.frontmost: bool #: Whether Bike is the frontmost application
-        self.version: str #: The version of Bike.app
-        self.font_size: Union[int, float] #: Bike font size preference
-        self.background_color: XABase.XAColor #: Bike background color preference
-        self.foreground_color: XABase.XAColor #: Bike foreground color preference
-
     @property
     def name(self) -> str:
+        """The name of the application.
+        """
         return self.xa_scel.name()
 
     @property
     def frontmost(self) -> bool:
+        """Whether Bike is the frontmost application.
+        """
         return self.xa_scel.frontmost()
 
     @property
     def version(self) -> str:
+        """The version of Bike.app.
+        """
         return self.xa_scel.version()
 
     @property
     def font_size(self) -> Union[int, float]:
+        """Bike font size preference.
+        """
         return self.xa_scel.fontSize()
 
     @font_size.setter
@@ -56,6 +57,8 @@ class XABikeApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
 
     @property
     def background_color(self) -> XABase.XAColor:
+        """Bike background color preference.
+        """
         return XABase.XAColor(self.xa_scel.backgroundColor())
 
     @background_color.setter
@@ -64,6 +67,8 @@ class XABikeApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
 
     @property
     def foreground_color(self) -> XABase.XAColor:
+        """Bike foreground color preference.
+        """
         return XABase.XAColor(self.xa_scel.foregroundColor())
 
     @foreground_color.setter
@@ -142,94 +147,11 @@ class XABikeWindow(XABaseScriptable.XASBWindow):
 
     def __init__(self, properties):
         super().__init__(properties)
-        
-        self.name: str #: The title of the window
-        self.id: int #: The unique identifier of the window
-        self.index: int #: The index of the window, ordered front to back
-        self.bounds: tuple[int, int, int, int] #: The bounding rectangle of the window
-        self.closeable: bool #: Whether the window has a close button
-        self.miniaturizable: bool #: Whether the window has a minimize button
-        self.miniaturized: bool #: Whether the window is currently minimized
-        self.resizable: bool #: Whether the window can be resized
-        self.visible: bool #: Whether the window is currently visible
-        self.zoomable: bool #: Whether the window has a zoom button
-        self.zoomed: bool #: Whether the window is currently zoomed
-        self.document: XABikeDocument #: The document whose contents are currently displayed in the window
-
-    @property
-    def name(self) -> str:
-        return self.xa_elem.name()
-
-    @property
-    def id(self) -> int:
-        return self.xa_elem.id()
-
-    @property
-    def index(self) -> int:
-        return self.xa_elem.index()
-
-    @index.setter
-    def index(self, index: int):
-        self.set_property('index', index)
-
-    @property
-    def bounds(self) -> tuple[int, int, int, int]:
-        rect = self.xa_elem.bounds()
-        origin = rect.origin
-        size = rect.size
-        return (origin.x, origin.y, size.width, size.height)
-
-    @bounds.setter
-    def bounds(self, bounds: tuple[int, int, int, int]):
-        x = bounds[0]
-        y = bounds[1]
-        w = bounds[2]
-        h = bounds[3]
-        value = AppKit.NSValue.valueWithRect_(AppKit.NSMakeRect(x, y, w, h))
-        self.set_property("bounds", value)
-
-    @property
-    def closeable(self) -> bool:
-        return self.xa_elem.closeable()
-
-    @property
-    def miniaturizable(self) -> bool:
-        return self.xa_elem.miniaturizable()
-
-    @property
-    def miniaturized(self) -> bool:
-        return self.xa_elem.miniaturized()
-
-    @miniaturized.setter
-    def miniaturized(self, miniaturized: bool):
-        self.set_property('miniaturized', miniaturized)
-
-    @property
-    def resizable(self) -> bool:
-        return self.xa_elem.resizable()
-
-    @property
-    def visible(self) -> bool:
-        return self.xa_elem.visible()
-
-    @visible.setter
-    def visible(self, visible: bool):
-        self.set_property('visible', visible)
-
-    @property
-    def zoomable(self) -> bool:
-        return self.xa_elem.zoomable()
-
-    @property
-    def zoomed(self) -> bool:
-        return self.xa_elem.zoomed()
-
-    @zoomed.setter
-    def zoomed(self, zoomed: bool):
-        self.set_property('zoomed', zoomed)
 
     @property
     def document(self) -> 'XABikeDocument':
+        """The document whose contents are currently displayed in the window.
+        """
         return self._new_element(self.xa_elem.document(), XABikeDocument)
 
     def __repr__(self):
@@ -538,49 +460,52 @@ class XABikeDocument(XABase.XAObject, XACloseable):
     def __init__(self, properties):
         super().__init__(properties)
 
-        self.name: str #: The name of the document
-        self.modified: bool #: Whether the document has been modified since it was last saved
-        self.file: XABase.XAPath #: The location of the document on disk, if it has one
-        self.id: str #: The unique and persistent identifier for the document
-        self.url: XABase.XAURL #: The Bike URL link for the document
-        self.root_row: XABikeRow #: The top 'root' row of the document, not visible in the outline editor
-        self.entire_contents: XABikeRowList #: All rows in the document
-        self.focused_row: XABikeRow #: The currently focused row
-        self.hoisted_row: XABikeRow #: The currently hoisted row
-        self.selected_text: str #: The currently selected text
-        self.selection_row: XABikeRow #: The row intersecting the selected text head
-        self.selection_rows: XABikeRowList #: All rows intersecting the selected text
-
     @property
     def name(self) -> str:
+        """The name of the document.
+        """
         return self.xa_elem.name()
 
     @property
     def modified(self) -> str:
+        """Whether the document has been modified since it was last saved.
+        """
         return self.xa_elem.modified()
 
     @property
     def file(self) -> XABase.XAPath:
+        """The location of the document on disk, if it has one.
+        """
         return XABase.XAPath(self.xa_elem.file())
 
     @property
     def id(self) -> str:
+        """The unique and persistent identifier for the document.
+        """
         return self.xa_elem.id()
 
     @property
     def url(self) -> XABase.XAURL:
+        """The Bike URL link for the document.
+        """
         return XABase.XAURL(self.xa_elem.url())
 
     @property
     def root_row(self) -> 'XABikeRow':
+        """The top 'root' row of the document, not visible in the outline editor.
+        """
         return self._new_element(self.xa_elem.rootRow(), XABikeRow)
 
     @property
     def entire_contents(self) -> 'XABikeRowList':
+        """All rows in the document.
+        """
         return self._new_element(self.xa_elem.entireContents(), XABikeRowList)
 
     @property
     def focused_row(self) -> 'XABikeRow':
+        """The currently focused row.
+        """
         return self._new_element(self.xa_elem.focusedRow(), XABikeRow)
 
     @focused_row.setter
@@ -589,6 +514,8 @@ class XABikeDocument(XABase.XAObject, XACloseable):
 
     @property
     def hoisted_row(self) -> 'XABikeRow':
+        """The currently hoisted row.
+        """
         return self._new_element(self.xa_elem.hoisted_row(), XABikeRow)
 
     @hoisted_row.setter
@@ -597,14 +524,20 @@ class XABikeDocument(XABase.XAObject, XACloseable):
 
     @property
     def selected_text(self) -> str:
+        """The currently selected text.
+        """
         return self.xa_elem.selectedText()
 
     @property
     def selection_row(self) -> 'XABikeRow':
+        """The row intersecting the selected text head.
+        """
         return self._new_element(self.xa_elem.selectionRow(), XABikeRow)
 
     @property
     def selection_rows(self) -> 'XABikeRowList':
+        """All rows intersecting the selected text.
+        """
         return self._new_element(self.xa_elem.selectionRows(), XABikeRowList)
 
     def save(self, path: Union[str, XABase.XAPath, None] = None, format: XABikeApplication.FileFormat = XABikeApplication.FileFormat.BIKE):
@@ -1001,40 +934,34 @@ class XABikeRow(XABase.XAObject, XADeletable):
     def __init__(self, properties):
         super().__init__(properties)
 
-        self.id: str #: The unique and persistent identifier for the row
-        self.url: XABase.XAURL #: The Bike URL for the row combining the document ID with the item ID
-        self.level: int #: The indentation level for the row in the outline
-        self.contains_rows: bool #: True if the row contains other rows
-        self.name: str #: The plain text content of the row
-        self.container: Union[XABikeRow, XABikeDocument] #: Container of the row
-        self.container_row: XABikeRow #: The row that directly contains this row
-        self.prev_sibling_row: XABikeRow #: The previous row with the same container row as this row
-        self.next_sibling_row: XABikeRow #: The next row with the same container as this row
-        self.container_document: XABikeDocument #: The document that contains this row
-        self.entire_contents: XABikeRowList #: The list of all rows contained by this row
-        self.visible: bool #: True if this row is visible in the window (may require scrolling)
-        self.selected: bool #: True if this row is selected in the window
-        self.expanded: bool #: True if this row is expanded in the window
-        self.collapsed: bool #: True if this row is collapsed in the window
-
     @property
     def id(self) -> str:
+        """The unique and persistent identifier for the row.
+        """
         return self.xa_elem.id()
 
     @property
     def url(self) -> XABase.XAURL:
+        """The Bike URL for the row combining the document ID with the item ID.
+        """
         return XABase.XAURL(self.xa_elem.url())
 
     @property
     def level(self) -> int:
+        """The indentation level for the row in the outline.
+        """
         return self.xa_elem.level()
 
     @property
     def contains_rows(self) -> bool:
+        """True if the row contains other rows.
+        """
         return self.xa_elem.containsRows()
 
     @property
     def name(self) -> str:
+        """The plain text content of the row.
+        """
         return self.xa_elem.name()
 
     @name.setter
@@ -1043,6 +970,8 @@ class XABikeRow(XABase.XAObject, XADeletable):
 
     @property
     def container(self) -> Union['XABikeRow', XABikeDocument]:
+        """The container of the row.
+        """
         container = self.xa_elem.container()
         if hasattr(container, "level"):
             return self._new_element(container, XABikeRow)
@@ -1051,40 +980,58 @@ class XABikeRow(XABase.XAObject, XADeletable):
 
     @property
     def container_row(self) -> Union['XABikeRow', None]:
+        """The row that directly contains this row.
+        """
         row = self.xa_elem.containerRow()
         if row is not None:
             return self._new_element(row, XABikeRow)
 
     @property
     def prev_sibling_row(self) -> 'XABikeRow':
+        """The previous row with the same container row as this row.
+        """
         return self._new_element(self.xa_elem.prevSiblingRow(), XABikeRow)
 
     @property
     def next_sibling_row(self) -> type:
+        """The next row with the same container as this row.
+        """
         return self._new_element(self.xa_elem.nextSiblingRow(), XABikeRow)
 
     @property
     def container_document(self) -> XABikeDocument:
+        """The document that contains this row.
+        """
         return self._new_element(self.xa_elem.containerDocument(), XABikeDocument)
 
     @property
     def entire_contents(self) -> XABikeRowList:
+        """The list of all rows contained by this row.
+        """
         return self._new_element(self.xa_elem.entire_contents(), XABikeRowList)
 
     @property
     def visible(self) -> bool:
+        """True if this row is visible in the window (may require scrolling).
+        """
         return self.xa_elem.visible()
 
     @property
     def selected(self) -> bool:
+        """True if this row is selected in the window.
+        """
         return self.xa_elem.selected()
 
     @property
     def expanded(self) -> bool:
+        """True if this row is expanded in the window.
+        """
         return self.xa_elem.expanded()
 
     @property
     def collapsed(self) -> bool:
+        """True if this row is collapsed in the window.
+        """
         return self.xa_elem.collapsed()
 
     def collapse(self, all: bool = False):
@@ -1262,16 +1209,16 @@ class XABikeAttribute(XABase.XAObject):
     def __init__(self, properties):
         super().__init__(properties)
 
-        self.name: str #: The name of the attribute
-        self.value: str #: The value of the attribute
-        self.container_row: XABikeRow #: The row that contains this attribute
-
     @property
     def name(self) -> str:
+        """The name of the attribute.
+        """
         return self.xa_elem.name()
 
     @property
     def value(self) -> str:
+        """The value of the attribute.
+        """
         return self.xa_elem.value()
 
     @value.setter
@@ -1280,6 +1227,8 @@ class XABikeAttribute(XABase.XAObject):
 
     @property
     def container_row(self) -> XABikeRow:
+        """The row that contains this attribute.
+        """
         return self._new_element(self.xa_elem.containerRow(), XABikeRow)
 
     def __repr__(self):

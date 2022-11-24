@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PyXA.additions.XALearn &mdash; PyXA 0.1.1 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> PyXA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../about/index.html">Project Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reference/index.html">Code Documentation and Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../bugs.html">Bugs</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">PyXA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">PyXA.additions.XALearn</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for PyXA.additions.XALearn</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;.. versionadded:: 0.1.1</span>
+
+<span class="sd">A collection of classes for interfacing with built-in ML/AI features in macOS.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span>
+
+<span class="kn">import</span> <span class="nn">Foundation</span>
+<span class="kn">import</span> <span class="nn">LatentSemanticMapping</span>
+
+<span class="kn">from</span> <span class="nn">PyXA</span> <span class="kn">import</span> <span class="n">XABase</span>
+
+
+<div class="viewcode-block" id="XALSM"><a class="viewcode-back" href="../../../reference/additions/xalearn.html#PyXA.additions.XALearn.XALSM">[docs]</a><span class="k">class</span> <span class="nc">XALSM</span><span class="p">():</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataset</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]],</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">from_file</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initializes a Latent Semantic Mapping environment.</span>
+
+<span class="sd">        :param dataset: The initial dataset, specified as a dictionary where keys are categories and values are list of corresponding texts, defaults to None. Cannot be None if from_file is False.</span>
+<span class="sd">        :type dataset: Union[dict[str, list[str]], None], optional</span>
+<span class="sd">        :param from_file: Whether the LSM is being loaded from a file, defaults to False. Cannot be False is dataset is None.</span>
+<span class="sd">        :type from_file: bool, optional</span>
+<span class="sd">        :raises ValueError: Either you must provide a dataset, or you must load an existing map from an external file</span>
+
+<span class="sd">        :Example 1: Classify emails based on subject line</span>
+
+<span class="sd">        &gt;&gt;&gt; import PyXA</span>
+<span class="sd">        &gt;&gt;&gt; lsm = PyXA.XALSM({</span>
+<span class="sd">        &gt;&gt;&gt;     # 1</span>
+<span class="sd">        &gt;&gt;&gt;     &quot;spam&quot;: [&quot;Deals&quot;, &quot;Holiday playbook&quot;, &quot;Spend and save. You know the drill.&quot;, &quot;Don&#39;t miss these holiday deals!&quot;, &quot;GOOD NEWS&quot;, &quot;you will never have an opportunity of this kind again&quot;, &quot;Your Long Overdue Compensation Funds; Totally&quot;, &quot;US $25,000,000.00&quot;, &quot;goog day&quot;, &quot;GOOD DAY, I am Mike Paul I have a&quot;, &quot;enron methanol; meter # : 988291 this is a follow up to the note i gave you on monday , 4...&quot;, &quot;hpl nom for january 9, see attached file : hplnol 09. xls&quot;, &quot;neon retreat ho ho ho, we&#39;re around to that most wonderful time of the year&quot;, &quot;photoshop, windows, office cheap, main trending abasements, darer prudently fortuitous&quot;, &quot;re: indian springs this deal is to book the teco pvr revenue. it is my understanding that...&quot;, &quot;noms / actual flow for 2 / we agree&quot;, &quot;nominations for oct 21 - 23&quot;],</span>
+<span class="sd">        &gt;&gt;&gt; </span>
+<span class="sd">        &gt;&gt;&gt;     # 2</span>
+<span class="sd">        &gt;&gt;&gt;     &quot;kayak&quot;: [&quot;Price Alert: Airfare holding steady for your trip&quot;, &quot;Prices going down for your Boston to Dublin flight&quot;, &quot;Price Increase: Boston to Dublin airfare up $184&quot;, &quot;Flight Alert: #37 decrease on your flight to Dublin.&quot;, &quot;Flight Alert: It&#39;s time to book your flight to Dublin&quot;, &quot;Price Alert: Airfare holding steady for your Bangor, ME to...&quot;, &quot;Ready to explore the world again?&quot;],</span>
+<span class="sd">        &gt;&gt;&gt; </span>
+<span class="sd">        &gt;&gt;&gt;     # 3</span>
+<span class="sd">        &gt;&gt;&gt;     &quot;lenovo&quot;: [&quot;Doorbuster deals up to 70% off&quot;, &quot;Visionary, On-Demand Content. Lenovo Tech World &#39;22 is starting&quot;, &quot;Up to 70% off deals 9 AM&quot;, &quot;TGIF! Here&#39;s up to 70% off to jumpstart your weekend&quot;, &quot;Top picks to refresh your workspace&quot;, &quot;This only happens twice a year&quot;, &quot;Think about saving on a Think PC&quot;, &quot;Deep deals on Summer Clearance&quot;, &quot;Save up to 67% + earn rewards&quot;, &quot;Unlock up to 61% off Think PCs&quot;, &quot;Giveaway alert!&quot;, &quot;Annual Sale Sneak Peak Unlocked!&quot;],</span>
+<span class="sd">        &gt;&gt;&gt; </span>
+<span class="sd">        &gt;&gt;&gt;     # 4</span>
+<span class="sd">        &gt;&gt;&gt;     &quot;linkedin&quot;: [&quot;Here is the latest post trending amongst your coworkers&quot;, &quot;Stephen, add Sean Brown to your network&quot;, &quot;Share thoughts on LinkedIn&quot;, &quot;Top companies are hiring&quot;, &quot;Linkedin is better on the app&quot;, &quot;Here is the latest post trending amongst your coworkers&quot;, &quot;Stephen, add Ronald McDonald to your network&quot;, &quot;James Smith shared a post for the first time in a while&quot;, &quot;Here is the latest post trending amongst your coworkers&quot;, &quot;You appeared in 13 searches this week&quot;, &quot;you&#39;re on a roll with your career!&quot;, &quot;You appeared in 16 searches this week&quot;, &quot;18 people notices you&quot;, &quot;You appeared in 10 searches this week&quot;, &quot;Stephen, add Joe Shmoe to your network&quot;, &quot;Your network is talking: The Center for Oceanic Research...&quot;, &quot;thanks for being a valued member&quot;]</span>
+<span class="sd">        &gt;&gt;&gt; })</span>
+<span class="sd">        &gt;&gt;&gt; print(lsm.categorize_query(&quot;New! Weekend-only deals&quot;))</span>
+<span class="sd">        &gt;&gt;&gt; print(lsm.categorize_query(&quot;Stephen, redeem these three (3) unlocked courses&quot;))</span>
+<span class="sd">        &gt;&gt;&gt; print(lsm.categorize_query(&quot;Round Trip From San Francisco to Atlanta&quot;))</span>
+<span class="sd">        [(3, 0.9418474435806274)]</span>
+<span class="sd">        [(4, 0.9366401433944702)]</span>
+<span class="sd">        [(2, 0.9944692850112915)]</span>
+
+<span class="sd">        :Example 2: Use the Mail module to automate dataset construction</span>
+
+<span class="sd">        &gt;&gt;&gt; import PyXA</span>
+<span class="sd">        &gt;&gt;&gt; app = PyXA.Application(&quot;Mail&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; junk_subject_lines = app.accounts()[0].mailboxes().by_name(&quot;Junk&quot;).messages().subject()</span>
+<span class="sd">        &gt;&gt;&gt; other_subject_lines = app.accounts()[0].mailboxes().by_name(&quot;INBOX&quot;).messages().subject()</span>
+<span class="sd">        &gt;&gt;&gt; </span>
+<span class="sd">        &gt;&gt;&gt; dataset = {</span>
+<span class="sd">        &gt;&gt;&gt;     &quot;junk&quot;: junk_subject_lines,</span>
+<span class="sd">        &gt;&gt;&gt;     &quot;other&quot;: other_subject_lines</span>
+<span class="sd">        &gt;&gt;&gt; }</span>
+<span class="sd">        &gt;&gt;&gt; lsm = PyXA.XALSM(dataset)</span>
+<span class="sd">        &gt;&gt;&gt; </span>
+<span class="sd">        &gt;&gt;&gt; query = &quot;Amazon Web Services Billing Statement Available&quot;</span>
+<span class="sd">        &gt;&gt;&gt; category = list(dataset.keys())[lsm.categorize_query(query)[0][0] - 1]</span>
+<span class="sd">        &gt;&gt;&gt; print(query, &quot;- category:&quot;, category)</span>
+<span class="sd">        &gt;&gt;&gt; </span>
+<span class="sd">        &gt;&gt;&gt; query = &quot;Complete registration form asap receive your rewards&quot;</span>
+<span class="sd">        &gt;&gt;&gt; category = list(dataset.keys())[lsm.categorize_query(query)[0][0] - 1]</span>
+<span class="sd">        &gt;&gt;&gt; print(query, &quot;- category:&quot;, category)</span>
+<span class="sd">        Amazon Web Services Billing Statement Available - category: other</span>
+<span class="sd">        Complete registration form asap receive your rewards - category: junk</span>
+
+<span class="sd">        .. versionadded:: 0.1.0</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__categories</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="n">dataset</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">from_file</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;You must either load a map from an external file or provide an initial dataset.&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">dataset</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># Map will be loaded from external file -- empty dataset is temporary</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__dataset</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Create new map</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__dataset</span> <span class="o">=</span> <span class="n">dataset</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">map</span> <span class="o">=</span> <span class="n">LatentSemanticMapping</span><span class="o">.</span><span class="n">LSMMapCreate</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="n">LatentSemanticMapping</span><span class="o">.</span><span class="n">LSMMapStartTraining</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">map</span><span class="p">)</span>
+            <span class="n">LatentSemanticMapping</span><span class="o">.</span><span class="n">LSMMapSetProperties</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">map</span><span class="p">,</span> <span class="p">{</span>
+                <span class="n">LatentSemanticMapping</span><span class="o">.</span><span class="n">kLSMSweepCutoffKey</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+                <span class="c1"># LatentSemanticMapping.kLSMPrecisionKey: LatentSemanticMapping.kLSMPrecisionDouble,</span>
+                <span class="n">LatentSemanticMapping</span><span class="o">.</span><span class="n">kLSMAlgorithmKey</span><span class="p">:</span> <span class="n">LatentSemanticMapping</span><span class="o">.</span><span class="n">kLSMAlgorithmSparse</span><span class="p">,</span>
+            <span class="p">})</span>
+
+            <span class="k">for</span> <span class="n">category</span> <span class="ow">in</span> <span class="n">dataset</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__add_category</span><span class="p">(</span><span class="n">category</span><span class="p">)</span>
+
+            <span class="n">LatentSemanticMapping</span><span class="o">.</span><span class="n">LSMMapCompile</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">map</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__add_category</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">category</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="n">loc</span> <span class="o">=</span> <span class="n">Foundation</span><span class="o">.</span><span class="n">CFLocaleGetSystem</span><span class="p">()</span>
+        <span class="n">category_ref</span> <span class="o">=</span> <span class="n">LatentSemanticMapping</span><span class="o">.</span><span class="n">LSMMapAddCategory</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">map</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__categories</span><span class="p">[</span><span class="n">category</span><span class="p">]</span> <span class="o">=</span> <span class="n">category_ref</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__categories</span><span class="p">[</span><span class="n">category_ref</span><span class="p">]</span> <span class="o">=</span> <span class="n">category_ref</span>
+        <span class="n">text_ref</span> <span class="o">=</span> <span class="n">LatentSemanticMapping</span><span class="o">.</span><span class="n">LSMTextCreate</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">map</span><span class="p">)</span>
+        <span class="n">LatentSemanticMapping</span><span class="o">.</span><span class="n">LSMTextAddWords</span><span class="p">(</span><span class="n">text_ref</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__dataset</span><span class="p">[</span><span class="n">category</span><span class="p">]),</span> <span class="n">loc</span><span class="p">,</span> <span class="n">LatentSemanticMapping</span><span class="o">.</span><span class="n">kLSMTextPreserveAcronyms</span><span class="p">)</span>
+        <span class="n">LatentSemanticMapping</span><span class="o">.</span><span class="n">LSMMapAddText</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">map</span><span class="p">,</span> <span class="n">text_ref</span><span class="p">,</span> <span class="n">category_ref</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">category_ref</span>
+
+<div class="viewcode-block" id="XALSM.save"><a class="viewcode-back" href="../../../reference/additions/xalearn.html#PyXA.additions.XALearn.XALSM.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAPath</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Saves the map to an external file.</span>
+
+<span class="sd">        :param file_path: The path to save the map at</span>
+<span class="sd">        :type file_path: Union[XABase.XAPath, str]</span>
+<span class="sd">        :return: True if the map was saved successfully</span>
+<span class="sd">        :rtype: bool</span>
+
+<span class="sd">        :Example: Create a Reddit post classifier for gaming vs. productivity posts</span>
+
+<span class="sd">        &gt;&gt;&gt; import PyXA</span>
+<span class="sd">        &gt;&gt;&gt; lsm = PyXA.XALSM({</span>
+<span class="sd">        &gt;&gt;&gt;     # 1</span>
+<span class="sd">        &gt;&gt;&gt;     &quot;gaming&quot;: [&quot;If you could vote on the 2017 Mob Vote again, which mob would you choose this time and why?&quot;, &quot;Take your time, you got this&quot;, &quot;My parents (late 70s) got me a ps5 controller for Christmas. I do not own a playstation 5...&quot;, &quot;I got off the horse by accident right before a cutscene in red dead&quot;, &quot;boy gamer&quot;, &quot;Minesweeper 99 x 99, 1500 mines. Took me about 2.5 hours to finish, nerve-wracking. No one might care, but just wanted to share this.&quot;, &quot;The perfect cosplay doesn’t ex...&quot;, &quot;&#39;Play until we lose&#39;&quot;, &quot;Can we please boycott Star Wars battlefront 2&quot;, &quot;EA removed the refund button on their webpage, and now you have to call them and wait to get a refund.&quot;, &quot;Train Simulator is so immersive!&quot;, &quot;Been gaming with this dude for 15 years. Since Rainbow Six Vegas on 360. I have some good gaming memories with him. He tried but couldn’t get one. Little did he know I was able to get him one. Looking forward to playing another generation with him.&quot;, &quot;EA will no longer have exclusive rights of the Star Wars games&quot;, &quot;A ziplining contraption I created with 1000+ command blocks&quot;, &quot;The steepest walkable staircase possible in 1.16&quot;, &quot;I made a texture pack that gives mobs different facial expressions. Should I keep going?&quot;],</span>
+<span class="sd">        &gt;&gt;&gt; </span>
+<span class="sd">        &gt;&gt;&gt;     # 2</span>
+<span class="sd">        &gt;&gt;&gt;     &quot;productivity&quot;: [&quot;Looking for an alarm app that plays a really small alarm, doesn’t need to be switched off and doesn’t repeat.&quot;, &quot;I want to build a second brain but I&#39;m lost and don&#39;t know where to start.&quot;, &quot;noise cancelling earplugs&quot;, &quot;I have so much to do but I don&#39;t know where to start&quot;, &quot;How to handle stressful work calls&quot;, &quot;time tracking app/platform&quot;, &quot;We just need to find ways to cope and keep moving forward.&quot;, &quot;Ikigai - A Reason for Being&quot;, &quot;Minimalist Productivity Tip: create two users on your computer ➞ One for normal use and leisure ➞ One for business/work only. I have nothing except the essentials logged in on my work user. Not even Messages or YouTube. It completely revolutionized my productivity 💸&quot;, &quot;Trick yourself into productivity the same way you trick yourself into procrastination&quot;, &quot;I spent 40 hours sifting through research papers to fix my mental clarity, focus, and productivity - I ended up going down a rabbit hole and figuring out it was all tied to sleep, even though I felt I sleep well - here&#39;s what I found.&quot;, &quot;The Cycle of Procrastination. Always a good reminder&quot;, &quot;&#39;Most people underestimate what they can do in a year, and overestimate what they can do in a day&#39; - When you work on getting 1% better each day you won&#39;t even recognize yourself in a year.&quot;],</span>
+<span class="sd">        &gt;&gt;&gt; })</span>
+<span class="sd">        &gt;&gt;&gt; lsm.save(&quot;/Users/steven/Downloads/gaming-productivity.map&quot;)</span>
+
+<span class="sd">        .. versionadded:: 0.1.0</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">file_path</span> <span class="o">=</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAPath</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+
+        <span class="n">status</span> <span class="o">=</span> <span class="n">LatentSemanticMapping</span><span class="o">.</span><span class="n">LSMMapWriteToURL</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">map</span><span class="p">,</span> <span class="n">file_path</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">status</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="XALSM.load"><a class="viewcode-back" href="../../../reference/additions/xalearn.html#PyXA.additions.XALearn.XALSM.load">[docs]</a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="n">file_path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAPath</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s1">&#39;XALSM&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Loads a map from an external file.</span>
+
+<span class="sd">        :param file_path: The file path for load the map from</span>
+<span class="sd">        :type file_path: Union[XABase.XAPath, str]</span>
+<span class="sd">        :return: The populated LSM object</span>
+<span class="sd">        :rtype: XALSM</span>
+
+<span class="sd">        :Example: Using the gaming vs. productivity Reddit post map</span>
+
+<span class="sd">        &gt;&gt;&gt; import PyXA</span>
+<span class="sd">        &gt;&gt;&gt; lsm = PyXA.XALSM.load(&quot;/Users/steven/Downloads/gaming-productivity.map&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; print(lsm.categorize_query(&quot;Hidden survival base on our server&quot;))</span>
+<span class="sd">        &gt;&gt;&gt; print(lsm.categorize_query(&quot;Your memory is FAR more powerful than you think… school just never taught us to use it properly.&quot;))</span>
+<span class="sd">        [(1, 0.7313863635063171)]</span>
+<span class="sd">        [(2, 0.9422407150268555)]</span>
+
+<span class="sd">        .. versionadded:: 0.1.0</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">file_path</span> <span class="o">=</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAPath</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+
+        <span class="n">new_lsm</span> <span class="o">=</span> <span class="n">XALSM</span><span class="p">(</span><span class="n">from_file</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">new_lsm</span><span class="o">.</span><span class="n">map</span> <span class="o">=</span> <span class="n">LatentSemanticMapping</span><span class="o">.</span><span class="n">LSMMapCreateFromURL</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">file_path</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">,</span> <span class="n">LatentSemanticMapping</span><span class="o">.</span><span class="n">kLSMMapLoadMutable</span><span class="p">)</span>
+        <span class="n">new_lsm</span><span class="o">.</span><span class="n">__dataset</span> <span class="o">=</span> <span class="p">{</span><span class="n">i</span><span class="p">:</span> <span class="p">[]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">LatentSemanticMapping</span><span class="o">.</span><span class="n">LSMMapGetCategoryCount</span><span class="p">(</span><span class="n">new_lsm</span><span class="o">.</span><span class="n">map</span><span class="p">))}</span>
+        <span class="n">new_lsm</span><span class="o">.</span><span class="n">__categories</span> <span class="o">=</span> <span class="p">{</span><span class="n">i</span><span class="p">:</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">LatentSemanticMapping</span><span class="o">.</span><span class="n">LSMMapGetCategoryCount</span><span class="p">(</span><span class="n">new_lsm</span><span class="o">.</span><span class="n">map</span><span class="p">))}</span>
+        <span class="n">LatentSemanticMapping</span><span class="o">.</span><span class="n">LSMMapCompile</span><span class="p">(</span><span class="n">new_lsm</span><span class="o">.</span><span class="n">map</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">new_lsm</span></div>
+
+<div class="viewcode-block" id="XALSM.add_category"><a class="viewcode-back" href="../../../reference/additions/xalearn.html#PyXA.additions.XALearn.XALSM.add_category">[docs]</a>    <span class="k">def</span> <span class="nf">add_category</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">initial_data</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Adds a new category to the map, optionally filling the category with initial text data.</span>
+
+<span class="sd">        :param name: The name of the category</span>
+<span class="sd">        :type name: str</span>
+<span class="sd">        :param initial_data: _description_</span>
+<span class="sd">        :type initial_data: list[str]</span>
+<span class="sd">        :return: The ID of the new category</span>
+<span class="sd">        :rtype: int</span>
+
+<span class="sd">        :Example: Add a category for cleaning-related Reddit posts to the previous example</span>
+
+<span class="sd">        &gt;&gt;&gt; import PyXA</span>
+<span class="sd">        &gt;&gt;&gt; lsm = PyXA.XALSM.load(&quot;/Users/steven/Downloads/gaming-productivity.map&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; lsm.add_category(&quot;cleaning&quot;, [&quot;Curtains stained from eyelet reaction at dry cleaner&quot;, &quot;How do I get these stains out of my pink denim overalls? from a black denim jacket that was drying next to them&quot;, &quot;Cleaned my depression room after months 🥵&quot;, &quot;Tip: 30 minute soak in Vinegar&quot;, &quot;Regular floor squeegee pulled a surprising amount of pet hair out of my carpet!&quot;, &quot;Before and after…&quot;, &quot;It actually WORKS&quot;, &quot;CLR is actually magic. (With some elbow grease)&quot;, &quot;It was 100% worth it to scrape out my old moldy caulk and replace it. $5 dollars and a bit of time to make my shower look so much cleaner!&quot;, &quot;Thanks to the person who recommended the Clorox Foamer. Before and after pics&quot;, &quot;TIL you can dissolve inkstains with milk.&quot;, &quot;Fixing cat scratch marks to couch using felting needle: Before and After&quot;, &quot;Turns out BKF isn&#39;t a meme! Really satisfied with this stuff&quot;])</span>
+<span class="sd">        &gt;&gt;&gt; print(lsm.categorize_query(&quot;Hidden survival base on our server&quot;))</span>
+<span class="sd">        &gt;&gt;&gt; print(lsm.categorize_query(&quot;Your memory is FAR more powerful than you think… school just never taught us to use it properly.&quot;))</span>
+<span class="sd">        &gt;&gt;&gt; print(lsm.categorize_query(&quot;A carpet rake will change your life.&quot;))</span>
+<span class="sd">        [(1, 0.7474805116653442)]</span>
+<span class="sd">        [(2, 0.7167008519172668)]</span>
+<span class="sd">        [(3, 0.797333300113678)]</span>
+
+<span class="sd">        .. versionadded:: 0.1.0</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">LatentSemanticMapping</span><span class="o">.</span><span class="n">LSMMapStartTraining</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">map</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">initial_data</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">initial_data</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dataset</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The category name must be unique.&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">__dataset</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">initial_data</span>
+        <span class="n">category_ref</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__add_category</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="n">LatentSemanticMapping</span><span class="o">.</span><span class="n">LSMMapCompile</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">map</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">category_ref</span></div>
+
+<div class="viewcode-block" id="XALSM.add_data"><a class="viewcode-back" href="../../../reference/additions/xalearn.html#PyXA.additions.XALearn.XALSM.add_data">[docs]</a>    <span class="k">def</span> <span class="nf">add_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Adds the provided data, organized by category, to the active map.</span>
+
+<span class="sd">        :param data: A dictionary specifying new or existing categories along with data to input into them</span>
+<span class="sd">        :type data: dict[Union[int, str], list[str]]</span>
+<span class="sd">        :return: A list of newly created category IDs</span>
+<span class="sd">        :rtype: int</span>
+
+<span class="sd">        :Example: Classify text by language</span>
+
+<span class="sd">        &gt;&gt;&gt; import PyXA</span>
+<span class="sd">        &gt;&gt;&gt; lsm = PyXA.XALSM({})</span>
+<span class="sd">        &gt;&gt;&gt; lsm.add_data({</span>
+<span class="sd">        &gt;&gt;&gt;     # 1</span>
+<span class="sd">        &gt;&gt;&gt;     &quot;english&quot;: [&quot;brilliance outer jacket artist flat mosquito recover restrict official gas ratio publish domestic realize pure offset obstacle thigh favorite demonstration revive nest reader slide pudding symptom ballot auction characteristic complete Mars ridge student explosion dive emphasis the buy perfect motif penny a errand to fur far spirit random integration of with&quot;],</span>
+<span class="sd">        &gt;&gt;&gt; </span>
+<span class="sd">        &gt;&gt;&gt;     # 2</span>
+<span class="sd">        &gt;&gt;&gt;     &quot;italian&quot;: [&quot;da piazza proposta di legge legare nazionale a volte la salute bar farti farmi il pane aggiunta valore artista chiamata settentrionale scuro buio classe signori investitore in grado di fidanzato tagliare arriva successo altrimenti speciale esattamente definizione sorriso chiamo madre pulire esperto rurale vedo malattia era amici libertà l&#39;account immaginare lingua soldi più perché&quot;],</span>
+<span class="sd">        &gt;&gt;&gt; })</span>
+<span class="sd">        &gt;&gt;&gt; print(lsm.categorize_query(&quot;Here&#39;s to the crazy ones&quot;))</span>
+<span class="sd">        &gt;&gt;&gt; print(lsm.categorize_query(&quot;Potete parlarmi in italiano&quot;))</span>
+<span class="sd">        [(1, 1.0)]</span>
+<span class="sd">        [(2, 1.0)]</span>
+
+<span class="sd">        .. versionadded:: 0.1.0</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">category_refs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">LatentSemanticMapping</span><span class="o">.</span><span class="n">LSMMapStartTraining</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">map</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">category</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">category</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dataset</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__dataset</span><span class="p">[</span><span class="n">category</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">category</span><span class="p">]</span>
+                <span class="n">category_refs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__add_category</span><span class="p">(</span><span class="n">category</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">loc</span> <span class="o">=</span> <span class="n">Foundation</span><span class="o">.</span><span class="n">CFLocaleGetSystem</span><span class="p">()</span>
+                <span class="n">text_ref</span> <span class="o">=</span> <span class="n">LatentSemanticMapping</span><span class="o">.</span><span class="n">LSMTextCreate</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">map</span><span class="p">)</span>
+                <span class="n">LatentSemanticMapping</span><span class="o">.</span><span class="n">LSMTextAddWords</span><span class="p">(</span><span class="n">text_ref</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">category</span><span class="p">]),</span> <span class="n">loc</span><span class="p">,</span> <span class="n">LatentSemanticMapping</span><span class="o">.</span><span class="n">kLSMTextPreserveAcronyms</span><span class="p">)</span>
+                <span class="n">LatentSemanticMapping</span><span class="o">.</span><span class="n">LSMMapAddText</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">map</span><span class="p">,</span> <span class="n">text_ref</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__categories</span><span class="p">[</span><span class="n">category</span><span class="p">])</span>
+        <span class="n">LatentSemanticMapping</span><span class="o">.</span><span class="n">LSMMapCompile</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">map</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">category_refs</span></div>
+
+<div class="viewcode-block" id="XALSM.add_text"><a class="viewcode-back" href="../../../reference/additions/xalearn.html#PyXA.additions.XALearn.XALSM.add_text">[docs]</a>    <span class="k">def</span> <span class="nf">add_text</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">category</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span> <span class="n">weight</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Adds the given text to the specified category, applying an optional weight.</span>
+
+<span class="sd">        :param text: The text to add to the dataset</span>
+<span class="sd">        :type text: str</span>
+<span class="sd">        :param category: The category to add the text to</span>
+<span class="sd">        :type category: Union[int, str]</span>
+<span class="sd">        :param weight: The weight to assign to the text entry, defaults to 1</span>
+<span class="sd">        :type weight: float, optional</span>
+<span class="sd">        :raises ValueError: The specified category must be a valid category name or ID</span>
+
+<span class="sd">        :Example:</span>
+
+<span class="sd">        &gt;&gt;&gt; import PyXA</span>
+<span class="sd">        &gt;&gt;&gt; lsm = PyXA.XALSM({&quot;colors&quot;: [], &quot;numbers&quot;: [&quot;One&quot;, &quot;Two&quot;, &quot;Three&quot;]})</span>
+<span class="sd">        &gt;&gt;&gt; lsm.add_text(&quot;red orange yellow green blue purple&quot;, &quot;colors&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; lsm.add_text(&quot;white black grey gray brown pink&quot;, 1)</span>
+<span class="sd">        &gt;&gt;&gt; print(lsm.categorize_query(&quot;pink&quot;))</span>
+
+<span class="sd">        .. versionadded:: 0.1.0</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">LatentSemanticMapping</span><span class="o">.</span><span class="n">LSMMapStartTraining</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">map</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">category</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dataset</span> <span class="ow">and</span> <span class="n">category</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__categories</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid category: </span><span class="si">{</span><span class="n">category</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            
+        <span class="n">loc</span> <span class="o">=</span> <span class="n">Foundation</span><span class="o">.</span><span class="n">CFLocaleGetSystem</span><span class="p">()</span>
+        <span class="n">text_ref</span> <span class="o">=</span> <span class="n">LatentSemanticMapping</span><span class="o">.</span><span class="n">LSMTextCreate</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">map</span><span class="p">)</span>
+        <span class="n">LatentSemanticMapping</span><span class="o">.</span><span class="n">LSMTextAddWords</span><span class="p">(</span><span class="n">text_ref</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">loc</span><span class="p">,</span> <span class="n">LatentSemanticMapping</span><span class="o">.</span><span class="n">kLSMTextPreserveAcronyms</span><span class="p">)</span>
+        <span class="n">LatentSemanticMapping</span><span class="o">.</span><span class="n">LSMMapAddTextWithWeight</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">map</span><span class="p">,</span> <span class="n">text_ref</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__categories</span><span class="p">[</span><span class="n">category</span><span class="p">],</span> <span class="n">weight</span><span class="p">)</span>
+        <span class="n">LatentSemanticMapping</span><span class="o">.</span><span class="n">LSMMapCompile</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">map</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XALSM.categorize_query"><a class="viewcode-back" href="../../../reference/additions/xalearn.html#PyXA.additions.XALearn.XALSM.categorize_query">[docs]</a>    <span class="k">def</span> <span class="nf">categorize_query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">num_results</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
+        <span class="sd">&quot;&quot;&quot;Categorizes the query based on the current weights in the map.</span>
+
+<span class="sd">        :param query: The query to categorize</span>
+<span class="sd">        :type query: str</span>
+<span class="sd">        :param num_results: The number of categorizations to show, defaults to 1</span>
+<span class="sd">        :type num_results: int, optional</span>
+<span class="sd">        :return: A list of tuples identifying categories and their associated score. A higher score indicates better fit. If not matching categorization is found, the list will be empty.</span>
+<span class="sd">        :rtype: list[tuple[int, float]]</span>
+
+<span class="sd">        :Example:</span>
+
+<span class="sd">        &gt;&gt;&gt; import PyXA</span>
+<span class="sd">        &gt;&gt;&gt; dataset = {</span>
+<span class="sd">        &gt;&gt;&gt;     # 1</span>
+<span class="sd">        &gt;&gt;&gt;     &quot;color&quot;: [&quot;red&quot;, &quot;orange&quot;, &quot;yellow&quot;, &quot;green&quot;, &quot;emerald&quot;, &quot;blue&quot;, &quot;purple&quot;, &quot;white&quot;, &quot;black&quot;, &quot;brown&quot;, &quot;pink&quot;, &quot;grey&quot;, &quot;gray&quot;],</span>
+<span class="sd">        &gt;&gt;&gt; </span>
+<span class="sd">        &gt;&gt;&gt;     # 2</span>
+<span class="sd">        &gt;&gt;&gt;     &quot;number&quot;: [&quot;One Two Three Four Five Six Seven Eight Nine Ten&quot;]</span>
+<span class="sd">        &gt;&gt;&gt; }</span>
+<span class="sd">        &gt;&gt;&gt; lsm = PyXA.XALSM(dataset)</span>
+<span class="sd">        &gt;&gt;&gt; queries = [&quot;emerald green three&quot;, &quot;one hundred five&quot;, &quot;One o&#39; clock&quot;, &quot;sky blue&quot;, &quot;ninety nine&quot;, &quot;purple pink&quot;]</span>
+<span class="sd">        &gt;&gt;&gt; </span>
+<span class="sd">        &gt;&gt;&gt; for query in queries:</span>
+<span class="sd">        &gt;&gt;&gt;     category = &quot;Unknown&quot;</span>
+<span class="sd">        &gt;&gt;&gt;     categorization_tuple = lsm.categorize_query(query)</span>
+<span class="sd">        &gt;&gt;&gt;     if len(categorization_tuple) &gt; 0:</span>
+<span class="sd">        &gt;&gt;&gt;         category = list(dataset.keys())[categorization_tuple[0][0] - 1]</span>
+<span class="sd">        &gt;&gt;&gt;     print(query, &quot;is a&quot;, category)</span>
+<span class="sd">        emerald green three is a color</span>
+<span class="sd">        one hundred five is a number</span>
+<span class="sd">        One o&#39; clock is a number</span>
+<span class="sd">        sky blue is a color</span>
+<span class="sd">        ninety nine is a number</span>
+<span class="sd">        purple pink is a color</span>
+
+<span class="sd">        .. versionadded:: 0.1.0</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">loc</span> <span class="o">=</span> <span class="n">Foundation</span><span class="o">.</span><span class="n">CFLocaleGetSystem</span><span class="p">()</span>
+        <span class="n">text_ref</span> <span class="o">=</span> <span class="n">LatentSemanticMapping</span><span class="o">.</span><span class="n">LSMTextCreate</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">map</span><span class="p">)</span>
+        <span class="n">LatentSemanticMapping</span><span class="o">.</span><span class="n">LSMTextAddWords</span><span class="p">(</span><span class="n">text_ref</span><span class="p">,</span> <span class="n">query</span><span class="p">,</span> <span class="n">loc</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">rows</span> <span class="o">=</span> <span class="n">LatentSemanticMapping</span><span class="o">.</span><span class="n">LSMResultCreate</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">map</span><span class="p">,</span> <span class="n">text_ref</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">LatentSemanticMapping</span><span class="o">.</span><span class="n">kLSMTextPreserveAcronyms</span><span class="p">)</span>
+
+        <span class="n">categorization</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">num_results</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">num_results</span><span class="p">,</span> <span class="n">LatentSemanticMapping</span><span class="o">.</span><span class="n">LSMResultGetCount</span><span class="p">(</span><span class="n">rows</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">num_results</span><span class="p">):</span>
+            <span class="n">category_num</span> <span class="o">=</span> <span class="n">LatentSemanticMapping</span><span class="o">.</span><span class="n">LSMResultGetCategory</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+            <span class="n">score</span> <span class="o">=</span> <span class="n">LatentSemanticMapping</span><span class="o">.</span><span class="n">LSMResultGetScore</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+            <span class="n">categorization</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">category_num</span><span class="p">,</span> <span class="n">score</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">categorization</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Stephen Kaplan.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

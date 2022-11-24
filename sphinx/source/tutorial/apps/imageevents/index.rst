@@ -16,7 +16,7 @@ Tutorial 1 - Basic Image-Related Tasks
 Reading Image Properties
 ------------------------
 
-Similar to many other PyXA classes, the :class:`~PyXA.apps.ImageEvents.XAImageEventsImage` class provides several convenient ways to access various attributes (or properties) of images. To get an overview of all properties, you can access the :attribute:`~PyXA.apps.ImageEvents.XAImageEventsImage.properties` attribute. This will provide a dictionary containing many details, with elements elevated to PyXA objects or types where appropriate.
+Similar to many other PyXA classes, the :class:`~PyXA.apps.ImageEvents.XAImageEventsImage` class provides several convenient ways to access various attributes (or properties) of images. To get an overview of all properties, you can access the :attr:`~PyXA.apps.ImageEvents.XAImageEventsImage.properties` attribute. This will provide a dictionary containing many details, with elements elevated to PyXA objects or types where appropriate.
 
 .. code-block:: python
 

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PyXA.XABaseScriptable &mdash; PyXA 0.1.0 documentation</title>
+  <title>PyXA.XABaseScriptable &mdash; PyXA 0.1.1 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
@@ -58,9 +58,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../index.html">Module code</a> &raquo;</li>
-      <li>PyXA.XABaseScriptable</li>
+      <li><a href="../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">PyXA.XABaseScriptable</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -72,27 +72,18 @@
   <h1>Source code for PyXA.XABaseScriptable</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
 <span class="kn">from</span> <span class="nn">pprint</span> <span class="kn">import</span> <span class="n">pprint</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Self</span>
 <span class="kn">import</span> <span class="nn">threading</span>
+<span class="kn">import</span> <span class="nn">AppKit</span>
 <span class="kn">import</span> <span class="nn">ScriptingBridge</span>
 
 <span class="kn">from</span> <span class="nn">PyXA</span> <span class="kn">import</span> <span class="n">XABase</span>
 
 <span class="kn">import</span> <span class="nn">signal</span>
+<span class="kn">import</span> <span class="nn">time</span>
 
 <span class="kn">from</span> <span class="nn">.XAProtocols</span> <span class="kn">import</span> <span class="n">XACloseable</span>
-
-<div class="viewcode-block" id="timeout"><a class="viewcode-back" href="../../reference/xabasescriptable.html#PyXA.XABaseScriptable.timeout">[docs]</a><span class="k">class</span> <span class="nc">timeout</span><span class="p">:</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">seconds</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">error_message</span><span class="o">=</span><span class="s1">&#39;Timeout&#39;</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">seconds</span> <span class="o">=</span> <span class="n">seconds</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">error_message</span> <span class="o">=</span> <span class="n">error_message</span>
-<div class="viewcode-block" id="timeout.handle_timeout"><a class="viewcode-back" href="../../reference/xabasescriptable.html#PyXA.XABaseScriptable.timeout.handle_timeout">[docs]</a>    <span class="k">def</span> <span class="nf">handle_timeout</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signum</span><span class="p">,</span> <span class="n">frame</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">TimeoutError</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">error_message</span><span class="p">)</span></div>
-    <span class="k">def</span> <span class="fm">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">signal</span><span class="o">.</span><span class="n">signal</span><span class="p">(</span><span class="n">signal</span><span class="o">.</span><span class="n">SIGALRM</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">handle_timeout</span><span class="p">)</span>
-        <span class="n">signal</span><span class="o">.</span><span class="n">alarm</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">seconds</span><span class="p">)</span>
-    <span class="k">def</span> <span class="fm">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">type</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">traceback</span><span class="p">):</span>
-        <span class="n">signal</span><span class="o">.</span><span class="n">alarm</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span></div>
+<span class="kn">from</span> <span class="nn">.XATypes</span> <span class="kn">import</span> <span class="n">XAPoint</span><span class="p">,</span> <span class="n">XARectangle</span>
 
 <div class="viewcode-block" id="XASBObject"><a class="viewcode-back" href="../../reference/xabasescriptable.html#PyXA.XABaseScriptable.XASBObject">[docs]</a><span class="k">class</span> <span class="nc">XASBObject</span><span class="p">(</span><span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A class for PyXA objects scriptable with AppleScript/JXA.</span>
@@ -172,8 +163,18 @@
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span> <span class="o">=</span> <span class="n">ScriptingBridge</span><span class="o">.</span><span class="n">SBApplication</span><span class="o">.</span><span class="n">alloc</span><span class="p">()</span><span class="o">.</span><span class="n">initWithURL_</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">bundleURL</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__xa_scel</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">xa_wcls</span> <span class="o">=</span> <span class="n">XASBWindow</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">xa_scel</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ScriptingBridge</span><span class="o">.</span><span class="n">SBApplication</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__xa_scel</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__xa_scel</span> <span class="o">=</span> <span class="n">ScriptingBridge</span><span class="o">.</span><span class="n">SBApplication</span><span class="o">.</span><span class="n">alloc</span><span class="p">()</span><span class="o">.</span><span class="n">initWithURL_</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">bundleURL</span><span class="p">())</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__xa_scel</span>
+
+    <span class="nd">@xa_scel</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">xa_scel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xa_scel</span><span class="p">:</span> <span class="n">ScriptingBridge</span><span class="o">.</span><span class="n">SBObject</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__xa_scel</span> <span class="o">=</span> <span class="n">xa_scel</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">front_window</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XASBWindow&#39;</span><span class="p">:</span>
@@ -197,14 +198,236 @@
 
 <span class="sd">    .. versionadded:: 0.0.5</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">xa_ocls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_prnt</span><span class="o">.</span><span class="n">xa_wcls</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">obj_class</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">obj_class</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">obj_class</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="nb">issubclass</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_prnt</span><span class="o">.</span><span class="n">xa_wcls</span><span class="p">,</span> <span class="n">obj_class</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">xa_ocls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_prnt</span><span class="o">.</span><span class="n">xa_wcls</span>
 
 <div class="viewcode-block" id="XASBWindowList.name"><a class="viewcode-back" href="../../reference/xabasescriptable.html#PyXA.XABaseScriptable.XASBWindowList.name">[docs]</a>    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Gets the name of each window in the list.</span>
+
+<span class="sd">        :return: A list of window names</span>
+<span class="sd">        :rtype: list[str]</span>
+<span class="sd">        </span>
+<span class="sd">        .. versionadded:: 0.0.5</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[])</span></div>
 
-    <span class="c1"># TODO</span>
+<div class="viewcode-block" id="XASBWindowList.id"><a class="viewcode-back" href="../../reference/xabasescriptable.html#PyXA.XABaseScriptable.XASBWindowList.id">[docs]</a>    <span class="k">def</span> <span class="nf">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Gets the ID of each window in the list.</span>
+
+<span class="sd">        :return: A list of window IDs</span>
+<span class="sd">        :rtype: list[str]</span>
+<span class="sd">        </span>
+<span class="sd">        .. versionadded:: 0.1.1</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[])</span></div>
+
+<div class="viewcode-block" id="XASBWindowList.index"><a class="viewcode-back" href="../../reference/xabasescriptable.html#PyXA.XABaseScriptable.XASBWindowList.index">[docs]</a>    <span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Gets the index of each window in the list.</span>
+
+<span class="sd">        :return: A list of window indices</span>
+<span class="sd">        :rtype: list[int]</span>
+<span class="sd">        </span>
+<span class="sd">        .. versionadded:: 0.1.1</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;index&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[])</span></div>
+
+<div class="viewcode-block" id="XASBWindowList.bounds"><a class="viewcode-back" href="../../reference/xabasescriptable.html#PyXA.XABaseScriptable.XASBWindowList.bounds">[docs]</a>    <span class="k">def</span> <span class="nf">bounds</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">XARectangle</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Gets the bounding rectangle of each window in the list.</span>
+
+<span class="sd">        :return: A list of window bounds</span>
+<span class="sd">        :rtype: list[XARectangle]</span>
+<span class="sd">        </span>
+<span class="sd">        .. versionadded:: 0.1.1</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;bounds&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[]</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">XARectangle</span><span class="p">(</span><span class="n">rect</span><span class="o">.</span><span class="n">origin</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">rect</span><span class="o">.</span><span class="n">origin</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">rect</span><span class="o">.</span><span class="n">size</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="n">rect</span><span class="o">.</span><span class="n">size</span><span class="o">.</span><span class="n">height</span><span class="p">)</span> <span class="k">for</span> <span class="n">rect</span> <span class="ow">in</span> <span class="n">ls</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="XASBWindowList.closeable"><a class="viewcode-back" href="../../reference/xabasescriptable.html#PyXA.XABaseScriptable.XASBWindowList.closeable">[docs]</a>    <span class="k">def</span> <span class="nf">closeable</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Gets the closeable status of each window in the list.</span>
+
+<span class="sd">        :return: A list of window closeable status booleans</span>
+<span class="sd">        :rtype: list[bool]</span>
+<span class="sd">        </span>
+<span class="sd">        .. versionadded:: 0.1.1</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;closeable&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[])</span></div>
+
+<div class="viewcode-block" id="XASBWindowList.resizable"><a class="viewcode-back" href="../../reference/xabasescriptable.html#PyXA.XABaseScriptable.XASBWindowList.resizable">[docs]</a>    <span class="k">def</span> <span class="nf">resizable</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Gets the resizable status of each window in the list.</span>
+
+<span class="sd">        :return: A list of window resizable status booleans</span>
+<span class="sd">        :rtype: list[bool]</span>
+<span class="sd">        </span>
+<span class="sd">        .. versionadded:: 0.1.1</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;resizable&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[])</span></div>
+
+<div class="viewcode-block" id="XASBWindowList.visible"><a class="viewcode-back" href="../../reference/xabasescriptable.html#PyXA.XABaseScriptable.XASBWindowList.visible">[docs]</a>    <span class="k">def</span> <span class="nf">visible</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Gets the visible status of each window in the list.</span>
+
+<span class="sd">        :return: A list of window visible status booleans</span>
+<span class="sd">        :rtype: list[bool]</span>
+<span class="sd">        </span>
+<span class="sd">        .. versionadded:: 0.1.1</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;visible&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[])</span></div>
+
+<div class="viewcode-block" id="XASBWindowList.zoomable"><a class="viewcode-back" href="../../reference/xabasescriptable.html#PyXA.XABaseScriptable.XASBWindowList.zoomable">[docs]</a>    <span class="k">def</span> <span class="nf">zoomable</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Gets the zoomable status of each window in the list.</span>
+
+<span class="sd">        :return: A list of window zoomable status booleans</span>
+<span class="sd">        :rtype: list[bool]</span>
+<span class="sd">        </span>
+<span class="sd">        .. versionadded:: 0.1.1</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;zoomable&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[])</span></div>
+
+<div class="viewcode-block" id="XASBWindowList.zoomed"><a class="viewcode-back" href="../../reference/xabasescriptable.html#PyXA.XABaseScriptable.XASBWindowList.zoomed">[docs]</a>    <span class="k">def</span> <span class="nf">zoomed</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Gets the zoomed status of each window in the list.</span>
+
+<span class="sd">        :return: A list of window zoomed status booleans</span>
+<span class="sd">        :rtype: list[bool]</span>
+<span class="sd">        </span>
+<span class="sd">        .. versionadded:: 0.1.1</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;zoomed&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[])</span></div>
+
+<div class="viewcode-block" id="XASBWindowList.miniaturizable"><a class="viewcode-back" href="../../reference/xabasescriptable.html#PyXA.XABaseScriptable.XASBWindowList.miniaturizable">[docs]</a>    <span class="k">def</span> <span class="nf">miniaturizable</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Gets the miniaturizable status of each window in the list.</span>
+
+<span class="sd">        :return: A list of window miniaturizable status booleans</span>
+<span class="sd">        :rtype: list[bool]</span>
+<span class="sd">        </span>
+<span class="sd">        .. versionadded:: 0.1.1</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;miniaturizable&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[])</span></div>
+
+<div class="viewcode-block" id="XASBWindowList.miniaturized"><a class="viewcode-back" href="../../reference/xabasescriptable.html#PyXA.XABaseScriptable.XASBWindowList.miniaturized">[docs]</a>    <span class="k">def</span> <span class="nf">miniaturized</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Gets the miniaturized of each window in the list.</span>
+
+<span class="sd">        :return: A list of window miniaturized status booleans</span>
+<span class="sd">        :rtype: list[bool]</span>
+<span class="sd">        </span>
+<span class="sd">        .. versionadded:: 0.1.1</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">arrayByApplyingSelector_</span><span class="p">(</span><span class="s2">&quot;miniaturized&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[])</span></div>
+
+<div class="viewcode-block" id="XASBWindowList.by_name"><a class="viewcode-back" href="../../reference/xabasescriptable.html#PyXA.XABaseScriptable.XASBWindowList.by_name">[docs]</a>    <span class="k">def</span> <span class="nf">by_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XASBWindow&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Retrieves the first window whose name matches the given name, if one exists.</span>
+
+<span class="sd">        :return: The desired window, if it is found</span>
+<span class="sd">        :rtype: Union[XASBWindow, None]</span>
+<span class="sd">        </span>
+<span class="sd">        .. versionadded:: 0.1.1</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XASBWindowList.by_id"><a class="viewcode-back" href="../../reference/xabasescriptable.html#PyXA.XABaseScriptable.XASBWindowList.by_id">[docs]</a>    <span class="k">def</span> <span class="nf">by_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XASBWindow&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Retrieves the window whose ID matches the given ID, if one exists.</span>
+
+<span class="sd">        :return: The desired window, if it is found</span>
+<span class="sd">        :rtype: Union[XASBWindow, None]</span>
+<span class="sd">        </span>
+<span class="sd">        .. versionadded:: 0.1.1</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="nb">id</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XASBWindowList.by_index"><a class="viewcode-back" href="../../reference/xabasescriptable.html#PyXA.XABaseScriptable.XASBWindowList.by_index">[docs]</a>    <span class="k">def</span> <span class="nf">by_index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XASBWindow&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Retrieves the window whose index matches the given index, if one exists.</span>
+
+<span class="sd">        :return: The desired window, if it is found</span>
+<span class="sd">        :rtype: Union[XASBWindow, None]</span>
+<span class="sd">        </span>
+<span class="sd">        .. versionadded:: 0.1.1</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;index&quot;</span><span class="p">,</span> <span class="n">index</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XASBWindowList.by_bounds"><a class="viewcode-back" href="../../reference/xabasescriptable.html#PyXA.XABaseScriptable.XASBWindowList.by_bounds">[docs]</a>    <span class="k">def</span> <span class="nf">by_bounds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bounds</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="n">XARectangle</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XASBWindow&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Retrieves the first window whose bounding rectangle matches the given bounds, if one exists.</span>
+
+<span class="sd">        :return: The desired window, if it is found</span>
+<span class="sd">        :rtype: Union[XASBWindow, None]</span>
+<span class="sd">        </span>
+<span class="sd">        .. versionadded:: 0.1.1</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">w</span> <span class="o">=</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">AppKit</span><span class="o">.</span><span class="n">NSValue</span><span class="o">.</span><span class="n">valueWithRect_</span><span class="p">(</span><span class="n">AppKit</span><span class="o">.</span><span class="n">NSMakeRect</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">h</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;bounds&quot;</span><span class="p">,</span> <span class="n">bounds</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XASBWindowList.by_closeable"><a class="viewcode-back" href="../../reference/xabasescriptable.html#PyXA.XABaseScriptable.XASBWindowList.by_closeable">[docs]</a>    <span class="k">def</span> <span class="nf">by_closeable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">closeable</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XASBWindow&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Retrieves the first window whose closeable status matches the given boolean value, if one exists.</span>
+
+<span class="sd">        :return: The desired window, if it is found</span>
+<span class="sd">        :rtype: Union[XASBWindow, None]</span>
+<span class="sd">        </span>
+<span class="sd">        .. versionadded:: 0.1.1</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;closeable&quot;</span><span class="p">,</span> <span class="n">closeable</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XASBWindowList.by_resizable"><a class="viewcode-back" href="../../reference/xabasescriptable.html#PyXA.XABaseScriptable.XASBWindowList.by_resizable">[docs]</a>    <span class="k">def</span> <span class="nf">by_resizable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">resizable</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XASBWindow&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Retrieves the first window whose resizable status matches the given boolean value, if one exists.</span>
+
+<span class="sd">        :return: The desired window, if it is found</span>
+<span class="sd">        :rtype: Union[XASBWindow, None]</span>
+<span class="sd">        </span>
+<span class="sd">        .. versionadded:: 0.1.1</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;resizable&quot;</span><span class="p">,</span> <span class="n">resizable</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XASBWindowList.by_visible"><a class="viewcode-back" href="../../reference/xabasescriptable.html#PyXA.XABaseScriptable.XASBWindowList.by_visible">[docs]</a>    <span class="k">def</span> <span class="nf">by_visible</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">visible</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XASBWindow&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Retrieves the first window whose visible status matches the given boolean value, if one exists.</span>
+
+<span class="sd">        :return: The desired window, if it is found</span>
+<span class="sd">        :rtype: Union[XASBWindow, None]</span>
+<span class="sd">        </span>
+<span class="sd">        .. versionadded:: 0.1.1</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;visible&quot;</span><span class="p">,</span> <span class="n">visible</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XASBWindowList.by_zoomable"><a class="viewcode-back" href="../../reference/xabasescriptable.html#PyXA.XABaseScriptable.XASBWindowList.by_zoomable">[docs]</a>    <span class="k">def</span> <span class="nf">by_zoomable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">zoomable</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XASBWindow&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Retrieves the first window whose zoomable status matches the given boolean value, if one exists.</span>
+
+<span class="sd">        :return: The desired window, if it is found</span>
+<span class="sd">        :rtype: Union[XASBWindow, None]</span>
+<span class="sd">        </span>
+<span class="sd">        .. versionadded:: 0.1.1</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;zoomable&quot;</span><span class="p">,</span> <span class="n">zoomable</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XASBWindowList.by_zoomed"><a class="viewcode-back" href="../../reference/xabasescriptable.html#PyXA.XABaseScriptable.XASBWindowList.by_zoomed">[docs]</a>    <span class="k">def</span> <span class="nf">by_zoomed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">zoomed</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XASBWindow&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Retrieves the first window whose zoomed status matches the given boolean value, if one exists.</span>
+
+<span class="sd">        :return: The desired window, if it is found</span>
+<span class="sd">        :rtype: Union[XASBWindow, None]</span>
+<span class="sd">        </span>
+<span class="sd">        .. versionadded:: 0.1.1</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;zoomed&quot;</span><span class="p">,</span> <span class="n">zoomed</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XASBWindowList.by_miniaturizable"><a class="viewcode-back" href="../../reference/xabasescriptable.html#PyXA.XABaseScriptable.XASBWindowList.by_miniaturizable">[docs]</a>    <span class="k">def</span> <span class="nf">by_miniaturizable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">miniaturizable</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XASBWindow&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Retrieves the first window whose miniaturizable status matches the given boolean value, if one exists.</span>
+
+<span class="sd">        :return: The desired window, if it is found</span>
+<span class="sd">        :rtype: Union[XASBWindow, None]</span>
+<span class="sd">        </span>
+<span class="sd">        .. versionadded:: 0.1.1</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;miniaturizable&quot;</span><span class="p">,</span> <span class="n">miniaturizable</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XASBWindowList.by_miniaturized"><a class="viewcode-back" href="../../reference/xabasescriptable.html#PyXA.XABaseScriptable.XASBWindowList.by_miniaturized">[docs]</a>    <span class="k">def</span> <span class="nf">by_miniaturized</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">miniaturized</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XASBWindow&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Retrieves the first window whose miniaturized status matches the given boolean value, if one exists.</span>
+
+<span class="sd">        :return: The desired window, if it is found</span>
+<span class="sd">        :rtype: Union[XASBWindow, None]</span>
+<span class="sd">        </span>
+<span class="sd">        .. versionadded:: 0.1.1</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">by_property</span><span class="p">(</span><span class="s2">&quot;miniaturized&quot;</span><span class="p">,</span> <span class="n">miniaturized</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="XASBWindowList.collapse"><a class="viewcode-back" href="../../reference/xabasescriptable.html#PyXA.XABaseScriptable.XASBWindowList.collapse">[docs]</a>    <span class="k">def</span> <span class="nf">collapse</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Collapses all windows in the list.</span>
@@ -212,7 +435,19 @@
 <span class="sd">        .. versionadded:: 0.0.5</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">window</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
-            <span class="n">window</span><span class="o">.</span><span class="n">collapse</span><span class="p">()</span></div>
+            <span class="k">while</span> <span class="ow">not</span> <span class="n">window</span><span class="o">.</span><span class="n">miniaturized</span><span class="p">:</span>
+                <span class="n">window</span><span class="o">.</span><span class="n">collapse</span><span class="p">()</span>
+                <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.01</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XASBWindowList.uncollapse"><a class="viewcode-back" href="../../reference/xabasescriptable.html#PyXA.XABaseScriptable.XASBWindowList.uncollapse">[docs]</a>    <span class="k">def</span> <span class="nf">uncollapse</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Uncollapses all windows in the list.</span>
+
+<span class="sd">        .. versionadded:: 0.1.1</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">window</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
+            <span class="k">while</span> <span class="n">window</span><span class="o">.</span><span class="n">miniaturized</span><span class="p">:</span>
+                <span class="n">window</span><span class="o">.</span><span class="n">uncollapse</span><span class="p">()</span>
+                <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.01</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="XASBWindowList.get_clipboard_representation"><a class="viewcode-back" href="../../reference/xabasescriptable.html#PyXA.XABaseScriptable.XASBWindowList.get_clipboard_representation">[docs]</a>    <span class="k">def</span> <span class="nf">get_clipboard_representation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Gets a clipboard-codable representation of each window in the list.</span>
@@ -232,57 +467,119 @@
 <div class="viewcode-block" id="XASBWindow"><a class="viewcode-back" href="../../reference/xabasescriptable.html#PyXA.XABaseScriptable.XASBWindow">[docs]</a><span class="k">class</span> <span class="nc">XASBWindow</span><span class="p">(</span><span class="n">XASBObject</span><span class="p">,</span> <span class="n">XACloseable</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The title of the window</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The unique identifier for the window</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">index</span><span class="p">:</span> <span class="nb">int</span> <span class="c1">#: The index of the window, ordered front to back</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">bounds</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]</span> <span class="c1">#: The bounding rectangle of the window</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">closeable</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether the window has a close button</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">resizable</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether the window can be resized</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">visible</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether the window is currently visible</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">zoomable</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether the window has a zoom button</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">zoomed</span><span class="p">:</span> <span class="nb">bool</span>  <span class="c1">#: Whether the window is currently zoomed</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The title of the window.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">name</span><span class="p">()</span>
+
+    <span class="nd">@name</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The unique identifier for the window.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">id</span><span class="p">()</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The index of the window, ordered front to back.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">index</span><span class="p">()</span>
 
+    <span class="nd">@index</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;index&quot;</span><span class="p">,</span> <span class="n">index</span><span class="p">)</span>
+
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">bounds</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">bounds</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">bounds</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XARectangle</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The bounding rectangle of the window.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">rect</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">bounds</span><span class="p">()</span>
+        <span class="n">origin</span> <span class="o">=</span> <span class="n">rect</span><span class="o">.</span><span class="n">origin</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="n">rect</span><span class="o">.</span><span class="n">size</span>
+        <span class="k">return</span> <span class="n">XARectangle</span><span class="p">(</span><span class="n">origin</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">origin</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">size</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="n">size</span><span class="o">.</span><span class="n">height</span><span class="p">)</span>
+
+    <span class="nd">@bounds</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">bounds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bounds</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="n">XARectangle</span><span class="p">]):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">w</span> <span class="o">=</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">AppKit</span><span class="o">.</span><span class="n">NSValue</span><span class="o">.</span><span class="n">valueWithRect_</span><span class="p">(</span><span class="n">AppKit</span><span class="o">.</span><span class="n">NSMakeRect</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">h</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;bounds&quot;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">closeable</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Whether the window has a close button.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">closeable</span><span class="p">()</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">resizable</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Whether the window can be resized.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">resizable</span><span class="p">()</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">visible</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Whether the window is currently visible.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">visible</span><span class="p">()</span>
+
+    <span class="nd">@visible</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">visible</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">visible</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;visible&quot;</span><span class="p">,</span> <span class="n">visible</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">zoomable</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Whether the window has a zoom button.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">zoomable</span><span class="p">()</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">zoomed</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Whether the window is currently zoomed.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">zoomed</span><span class="p">()</span>
 
-<div class="viewcode-block" id="XASBWindow.collapse"><a class="viewcode-back" href="../../reference/xabasescriptable.html#PyXA.XABaseScriptable.XASBWindow.collapse">[docs]</a>    <span class="k">def</span> <span class="nf">collapse</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XABase.XAWindow&#39;</span><span class="p">:</span>
+    <span class="nd">@zoomed</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">zoomed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">zoomed</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;zoomed&quot;</span><span class="p">,</span> <span class="n">zoomed</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">miniaturizable</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Whether the window can be miniaturized.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">miniaturizable</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">miniaturized</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Whether the window is currently miniaturized.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">miniaturized</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+
+    <span class="nd">@miniaturized</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">miniaturized</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">miniaturized</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;miniaturized&quot;</span><span class="p">,</span> <span class="n">miniaturized</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+
+<div class="viewcode-block" id="XASBWindow.collapse"><a class="viewcode-back" href="../../reference/xabasescriptable.html#PyXA.XABaseScriptable.XASBWindow.collapse">[docs]</a>    <span class="k">def</span> <span class="nf">collapse</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Collapses (minimizes) the window.</span>
 
 <span class="sd">        :return: A reference to the now-collapsed window object.</span>
-<span class="sd">        :rtype: XABase.XAWindow</span>
+<span class="sd">        :rtype: Self</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;miniaturized&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
@@ -293,11 +590,11 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;collapsed&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
-<div class="viewcode-block" id="XASBWindow.uncollapse"><a class="viewcode-back" href="../../reference/xabasescriptable.html#PyXA.XABaseScriptable.XASBWindow.uncollapse">[docs]</a>    <span class="k">def</span> <span class="nf">uncollapse</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XABase.XAWindow&#39;</span><span class="p">:</span>
+<div class="viewcode-block" id="XASBWindow.uncollapse"><a class="viewcode-back" href="../../reference/xabasescriptable.html#PyXA.XABaseScriptable.XASBWindow.uncollapse">[docs]</a>    <span class="k">def</span> <span class="nf">uncollapse</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Uncollapses (unminimizes/expands) the window.</span>
 
 <span class="sd">        :return: A reference to the uncollapsed window object.</span>
-<span class="sd">        :rtype: XABase.XAWindow</span>
+<span class="sd">        :rtype: Self</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;miniaturized&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
@@ -308,11 +605,11 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;collapsed&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
-<div class="viewcode-block" id="XASBWindow.toggle_zoom"><a class="viewcode-back" href="../../reference/xabasescriptable.html#PyXA.XABaseScriptable.XASBWindow.toggle_zoom">[docs]</a>    <span class="k">def</span> <span class="nf">toggle_zoom</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XABase.XAWindow&#39;</span><span class="p">:</span>
+<div class="viewcode-block" id="XASBWindow.toggle_zoom"><a class="viewcode-back" href="../../reference/xabasescriptable.html#PyXA.XABaseScriptable.XASBWindow.toggle_zoom">[docs]</a>    <span class="k">def</span> <span class="nf">toggle_zoom</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Uncollapses (unminimizes/expands) the window.</span>
 
 <span class="sd">        :return: A reference to the uncollapsed window object.</span>
-<span class="sd">        :rtype: XABase.XAWindow</span>
+<span class="sd">        :rtype: Self</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">zoomed</span> <span class="o">=</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">zoomed</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;zoomed&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">zoomed</span><span class="p">)</span>
@@ -332,7 +629,10 @@
 
 <span class="sd">        .. versionadded:: 0.0.8</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span></div></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span></div>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;&lt;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span></div>
 </pre></div>
 
            </div>

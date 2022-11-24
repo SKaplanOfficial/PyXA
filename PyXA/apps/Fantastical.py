@@ -20,17 +20,17 @@ class XAFantasticalApplication(XABaseScriptable.XASBApplication):
     def __init__(self, properties):
         super().__init__(properties)
         self.xa_wcls = XAFantasticalWindow
-        
-        self.name: str #: The name of the application
-        self.frontmost: bool #: Whether Fantastical is the active application
-        self.version: str #: The version of Fantastical.app
 
     @property
     def name(self) -> str:
+        """The name of the application.
+        """
         return self.xa_scel.name()
 
     @property
     def frontmost(self) -> bool:
+        """Whether Fantastical is the active application.
+        """
         return self.xa_scel.frontmost()
 
     @frontmost.setter
@@ -39,6 +39,8 @@ class XAFantasticalApplication(XABaseScriptable.XASBApplication):
 
     @property
     def version(self) -> str:
+        """The version of Fantastical.app.
+        """
         return self.xa_scel.version()
 
     def parse_sentence(self, sentence: str, notes: str = "", calendar: Union[str, 'XAFantasticalCalendar', None] = None, add_immediately: bool = True, add_attendees: bool = False):
@@ -229,10 +231,6 @@ class XAFantasticalDocument(XABase.XAObject, XACloseable, XADeletable, XAPrintab
     """
     def __init__(self, properties):
         super().__init__(properties)
-        
-        self.name: str #: The document's name
-        self.modified: bool #: Whether the document has been modified since it was last saved
-        self.file: XABase.XAPath #: The document's path
 
     @property
     def name(self) -> str:
@@ -240,14 +238,20 @@ class XAFantasticalDocument(XABase.XAObject, XACloseable, XADeletable, XAPrintab
 
     @name.setter
     def name(self, name: str):
+        """The document's name.
+        """
         self.set_property("name", name)
 
     @property
     def modified(self) -> bool:
+        """Whether the document has been modified since it was last saved.
+        """
         return self.xa_elem.modified()
 
     @property
     def file(self) -> XABase.XAPath:
+        """The document's path.
+        """
         return XABase.XAPath(self.xa_elem.file())
 
     @file.setter
@@ -294,98 +298,15 @@ class XAFantasticalDocument(XABase.XAObject, XACloseable, XADeletable, XAPrintab
 
 
 class XAFantasticalWindow(XABaseScriptable.XASBWindow, XAPrintable, XACloseable):
-    """A class for...
+    """A window of Fantastical.app.
     """
     def __init__(self, properties):
         super().__init__(properties)
-        
-        self.name: str #: The full title of the window.
-        self.id: int #: The unique identifier for the window
-        self.index: int #: The index of the window in the front-to-back ordering
-        self.bounds: tuple[int, int, int, int] #: The bounding rectangle of the window
-        self.closeable: bool #: Whether the window has a close button
-        self.miniaturizable: bool #: Whether the window can be minimized
-        self.miniaturized: bool #: Whether the window is currently minimized
-        self.resizable: bool #: Whether the window can be resized
-        self.visible: bool #: Whether the window is currently visible
-        self.zoomable: bool #: Whether the window can be zoomed
-        self.zoomed: bool #: Whether the window is currently zoomed
-        self.document: XAFantasticalDocument #: The document currently displayed in the window
-
-    @property
-    def name(self) -> str:
-        return self.xa_elem.name()
-
-    @property
-    def id(self) -> int:
-        return self.xa_elem.id()
-
-    @property
-    def index(self) -> int:
-        return self.xa_elem.index()
-
-    @index.setter
-    def index(self, index: int):
-        self.set_property("index", index)
-
-    @property
-    def bounds(self) -> tuple[int, int, int, int]:
-        rect = self.xa_elem.bounds()
-        origin = rect.origin
-        size = rect.size
-        return (origin.x, origin.y, size.width, size.height)
-
-    @bounds.setter
-    def bounds(self, bounds: tuple[int, int, int, int]):
-        x = bounds[0]
-        y = bounds[1]
-        w = bounds[2]
-        h = bounds[3]
-        value = AppKit.NSValue.valueWithRect_(AppKit.NSMakeRect(x, y, w, h))
-        self.set_property("bounds", value)
-
-    @property
-    def closeable(self) -> bool:
-        return self.xa_elem.closeable()
-
-    @property
-    def miniaturizable(self) -> bool:
-        return self.xa_elem.miniaturizable()
-
-    @property
-    def miniaturized(self) -> bool:
-        return self.xa_elem.miniaturized()
-
-    @miniaturized.setter
-    def miniaturized(self, miniaturized: bool):
-        self.set_property("miniaturized", miniaturized)
-
-    @property
-    def resizable(self) -> bool:
-        return self.xa_elem.resizable()
-
-    @property
-    def visible(self) -> bool:
-        return self.xa_elem.visible()
-
-    @visible.setter
-    def visible(self, visible: bool):
-        self.set_property("visible", visible)
-
-    @property
-    def zoomable(self) -> bool:
-        return self.xa_elem.zoomable()
-
-    @property
-    def zoomed(self) -> bool:
-        return self.xa_elem.zoomed()
-
-    @zoomed.setter
-    def zoomed(self, zoomed: bool):
-        self.set_property("zoomed", zoomed)
 
     @property
     def document(self) -> XAFantasticalDocument:
+        """The document currently displayed in the window.
+        """
         return self._new_element(self.xa_elem.document(), XAFantasticalDocument)
 
     @document.setter
@@ -456,11 +377,10 @@ class XAFantasticalCalendar(XABase.XAObject):
     def __init__(self, properties):
         super().__init__(properties)
 
-        self.title: str #: The calendar's title
-        self.id: str #: The unique identifier for the calendar
-
     @property
     def title(self) -> str:
+        """The calendar's title.
+        """
         return self.xa_elem.title()
 
     @title.setter
@@ -469,6 +389,8 @@ class XAFantasticalCalendar(XABase.XAObject):
 
     @property
     def id(self) -> str:
+        """The unique identifier for the calendar.
+        """
         return self.xa_elem.id()
 
     def __repr__(self):
@@ -680,51 +602,59 @@ class XAFantasticalCalendarItem(XABase.XAObject):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        
-        self.id: str #: The unique identifier for the item
-        self.title: str #: The event title
-        self.start_date: datetime #: The start date of the event
-        self.end_date: datetime #: The end date of the event
-        self.notes: str #: The notes for the event
-        self.url: XABase.XAURL #: The related URL for the event
-        self.show_url: XABase.XAURL #: The show URL for the event
-        self.is_recurring: bool #: True if the item is a recurring item
-        self.is_all_day: bool #: True if the item spans an entire day
 
     @property
     def id(self) -> str:
+        """The unique identifier for the item.
+        """
         return self.xa_elem.id()
 
     @property
     def title(self) -> str:
+        """The event title.
+        """
         return self.xa_elem.title()
 
     @property
     def start_date(self) -> datetime:
+        """The start date of the event.
+        """
         return self.xa_elem.startDate()
 
     @property
     def end_date(self) -> datetime:
+        """The end date of the event.
+        """
         return self.xa_elem.endDate()
 
     @property
     def notes(self) -> str:
+        """The notes for the event.
+        """
         return self.xa_elem.notes() or ""
 
     @property
     def url(self) -> XABase.XAURL:
+        """The related URL for the event.
+        """
         return XABase.XAURL(self.xa_elem.URL())
 
     @property
     def show_url(self) -> XABase.XAURL:
+        """The show URL for the event.
+        """
         return XABase.XAURL(self.xa_elem.showURL())
 
     @property
     def is_recurring(self) -> bool:
+        """True if the item is a recurring item.
+        """
         return self.xa_elem.isRecurring()
 
     @property
     def is_all_day(self) -> bool:
+        """True if the item spans an entire day.
+        """
         return self.xa_elem.isAllDay()
 
     def save(self):
@@ -757,10 +687,10 @@ class XAFantasticalCalendarEvent(XAFantasticalCalendarItem):
     def __init__(self, properties):
         super().__init__(properties)
 
-        self.location: str #: The event location
-
     @property
     def location(self) -> str:
+        """The event location.
+        """
         return self.xa_elem.location()
 
     @location.setter
@@ -774,10 +704,10 @@ class XAFantasticalTaskItem(XAFantasticalCalendarItem):
     def __init__(self, properties):
         super().__init__(properties)
 
-        self.priority: int #: The event priority; higher number means lower priority
-
     @property
     def priority(self) -> int:
+        """The event priority; higher number means lower priority.
+        """
         return self.xa_elem.priority()
 
     @priority.setter

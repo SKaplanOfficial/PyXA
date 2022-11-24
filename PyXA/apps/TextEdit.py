@@ -4,7 +4,7 @@ Control the macOS TextEdit application using JXA-like syntax.
 """
 
 from time import sleep
-from typing import Union, Self
+from typing import Any, Union, Self
 
 import AppKit
 
@@ -24,12 +24,10 @@ class XATextEditApplication(XABaseScriptable.XASBApplication, XACanOpenPath, XAC
         super().__init__(properties)
         self.xa_wcls = XATextEditWindow
 
-        self.frontmost: bool #: Whether TextEdit is the active application
-        self.name: str #: The name of the application
-        self.version: str #: The version of the TextEdit application
-
     @property
     def frontmost(self) -> bool:
+        """Whether TextEdit is the active application.
+        """
         return self.xa_scel.frontmost()
 
     @frontmost.setter
@@ -38,10 +36,14 @@ class XATextEditApplication(XABaseScriptable.XASBApplication, XACanOpenPath, XAC
 
     @property
     def name(self) -> str:
+        """The name of the application.
+        """
         return self.xa_scel.name()
 
     @property
     def version(self) -> str:
+        """The version of the TextEdit application.
+        """
         return self.xa_scel.version()
 
     def open(self, path: str) -> 'XATextEditDocument':
@@ -84,7 +86,7 @@ class XATextEditApplication(XABaseScriptable.XASBApplication, XACanOpenPath, XAC
         if isinstance(file, str):
             file = AppKit.NSURL.alloc().initFileURLWithPath_(file)
         elif isinstance(file, XATextEditDocument):
-            file = AppKit.NSURL.alloc().initFileURLWithPath_(file.path)
+            file = file.path.xa_elem
         self.xa_scel.print_printDialog_withProperties_(file, show_prompt, print_properties)
 
     def documents(self, filter: dict = None) -> 'XATextEditDocumentList':
@@ -209,7 +211,7 @@ class XATextEditApplication(XABaseScriptable.XASBApplication, XACanOpenPath, XAC
 
 
 
-class XATextEditWindow(XABaseScriptable.XASBPrintable):
+class XATextEditWindow(XABaseScriptable.XASBWindow, XABaseScriptable.XASBPrintable):
     """A class for managing and interacting with TextEdit windows.
 
     .. seealso:: :class:`XATextEditApplication`
@@ -218,44 +220,11 @@ class XATextEditWindow(XABaseScriptable.XASBPrintable):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.bounds: tuple[int, int, int, int] #: The bounding rectangle of the window
-        self.closeable: bool #: Whether the window has a close button
-        self.document: XATextEditDocument #: The active document
-        self.floating: bool #: Whether the window floats
-        self.id: int #: The unique identifier for the window
-        self.index: int #: The index of the window in front-to-back ordering
-        self.miniaturizable: bool #: Whether the window can be minimized
-        self.miniaturized: bool #: Whether the window is currently minimized
-        self.modal: bool #: Whether the window is a modal window
-        self.name: str #: The full title of the window
-        self.resizable: bool #: Whether the window can be resized
-        self.titled: bool #: Whether the window has a title bar
-        self.visible: bool #: Whether the window is currently visible
-        self.zoomable: bool #: Whether the window can be zoomed
-        self.zoomed: bool #: Whether the window is currently zoomed
-
-    @property
-    def bounds(self) -> tuple[int, int, int, int]:
-        rect = self.xa_elem.bounds()
-        origin = rect.origin
-        size = rect.size
-        return (origin.x, origin.y, size.width, size.height)
-
-    @bounds.setter
-    def bounds(self, bounds: tuple[int, int, int, int]):
-        x = bounds[0]
-        y = bounds[1]
-        w = bounds[2]
-        h = bounds[3]
-        value = AppKit.NSValue.valueWithRect_(AppKit.NSMakeRect(x, y, w, h))
-        self.set_property("bounds", value)
-
-    @property
-    def closeable(self) -> bool:
-        return self.xa_elem.closeable()
 
     @property
     def document(self) -> 'XATextEditDocument':
+        """The active document.
+        """
         doc_obj = self.xa_elem.document()
         return self._new_element(doc_obj, XATextEditDocument)
 
@@ -265,72 +234,21 @@ class XATextEditWindow(XABaseScriptable.XASBPrintable):
 
     @property
     def floating(self) -> bool:
+        """Whether the window floats.
+        """
         return self.xa_elem.floating()
 
     @property
-    def id(self) -> int:
-        return self.xa_elem.id()
-
-    @property
-    def index(self) -> int:
-        return self.xa_elem.index()
-
-    @index.setter
-    def index(self, index: int):
-        self.set_property("index", index)
-
-    @property
-    def miniaturizable(self) -> bool:
-        return self.xa_elem.miniaturizable()
-
-    @property
-    def miniaturized(self) -> bool:
-        return self.xa_elem.miniaturized()
-
-    @miniaturized.setter
-    def miniaturized(self, miniaturized: bool):
-        self.set_property("miniaturized", miniaturized)
-
-    @property
     def modal(self) -> bool:
+        """Whether the window is a modal window.
+        """
         return self.xa_elem.modal()
 
     @property
-    def name(self) -> str:
-        return self.xa_elem.name()
-
-    @name.setter
-    def name(self, name: str):
-        self.set_property("name", name)
-
-    @property
-    def resizable(self) -> bool:
-        return self.xa_elem.resizable()
-
-    @property
     def titled(self) -> bool:
+        """Whether the window has a title bar.
+        """
         return self.xa_elem.titled()
-
-    @property
-    def visible(self) -> bool:
-        return self.xa_elem.visible()
-
-    @visible.setter
-    def visible(self, visible: bool):
-        self.set_property("visible", visible)
-
-    @property
-    def zoomable(self) -> bool:
-        return self.xa_elem.zoomable()
-
-    @property
-    def zoomed(self) -> bool:
-        return self.xa_elem.zoomed()
-
-    @zoomed.setter
-    def zoomed(self, zoomed: bool):
-        self.set_property("zoomed", zoomed)
-
 
 
 
@@ -527,6 +445,35 @@ class XATextEditDocumentList(XABase.XATextDocumentList, XAClipboardCodable):
             items.append(str(text))
             items.append(paths[index].xa_elem)
         return items
+
+    def push(self, *documents: list['XATextEditDocument']) -> Union['XATextEditDocument', list['XATextEditDocument'], None]:
+        """Appends the document to the list.
+
+        .. versionadded:: 0.1.1
+        """
+        objects = []
+        num_added = 0
+
+        for document in documents:
+            len_before = len(self.xa_elem)
+            self.xa_elem.addObject_(document.xa_elem)
+            len_after = len(self.xa_elem)
+
+            if len_after == len_before:
+                # Document wasn't added -- try force-getting the list before adding
+                self.xa_elem.get().addObject_(document.xa_elem)
+
+            if len_after > len_before:
+                num_added += 1
+                objects.append(self._new_element(self.xa_elem.objectAtIndex_(0).get(), self.xa_ocls))
+        
+        if num_added == 1:
+            return objects[0]
+
+        if num_added == 0:
+            return None
+
+        return objects
         
     def __repr__(self):
         return "<" + str(type(self)) + str(self.name()) + ">"
@@ -544,17 +491,42 @@ class XATextEditDocument(XABase.XATextDocument, XAPrintable, XAClipboardCodable,
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.properties: dict #: All properties of the document
-        self.path: XABase.XAPath #: The path at which the document is stored
-        self.name: str #: The name of the document, including the file extension
-        self.modified: bool #: Whether the document has been modified since the last save
 
     @property
     def properties(self) -> dict:
-        return self.xa_elem.properties()
+        """All properties of the document.
+        """
+        raw_dict = self.xa_elem.properties()
+        return {
+            "path": XABase.XAPath(raw_dict["path"]),
+            "name": raw_dict["name"],
+            "modified": raw_dict["modified"],
+            "text": self._new_element(raw_dict["text"], XABase.XAText)
+        }
+
+    @properties.setter
+    def properties(self, properties: dict[str, Any]):
+        if "path" in properties:
+            path = properties["path"]
+            if isinstance(path, str):
+                path = XABase.XAPath(path)
+            self.set_property("path", path.xa_elem)
+
+        if "name" in properties:
+            self.set_property("name", properties["name"])
+
+        if "text" in properties:
+            # Assume provided text is a string
+            text = properties["text"]
+            if isinstance(properties["text"], XABase.XAText):
+                # Provided text is actually an XAObject
+                text = text.xa_elem
+            self.set_property("text", text)
 
     @property
     def path(self) -> XABase.XAPath:
+        """The path at which the document is stored.
+        """
         return XABase.XAPath(self.xa_elem.path())
 
     @path.setter
@@ -563,6 +535,8 @@ class XATextEditDocument(XABase.XATextDocument, XAPrintable, XAClipboardCodable,
 
     @property
     def name(self) -> str:
+        """The name of the document, including the file extension.
+        """
         return self.xa_elem.name()
 
     @name.setter
@@ -571,6 +545,8 @@ class XATextEditDocument(XABase.XATextDocument, XAPrintable, XAClipboardCodable,
 
     @property
     def modified(self) -> bool:
+        """Whether the document has been modified since the last save.
+        """
         return self.xa_elem.modified()
 
     def print(self, print_properties: Union[dict, None] = None, show_dialog: bool = True) -> Self:
@@ -590,7 +566,7 @@ class XATextEditDocument(XABase.XATextDocument, XAPrintable, XAClipboardCodable,
         self.xa_elem.print_printDialog_withProperties_(self.xa_elem, show_dialog, print_properties)
         return self
 
-    def save(self, file_path: str = None):
+    def save(self, file_path: Union[str, XABase.XAPath, None] = None):
         """Saves the document.
 
         If a file path is provided, TextEdit will attempt to create a new file at the target location and of the specified file extension. If no file path is provided, and the document does not have a current path on the disk, a save dialog for the document will open.
@@ -608,11 +584,13 @@ class XATextEditDocument(XABase.XATextDocument, XAPrintable, XAClipboardCodable,
         .. versionadded:: 0.0.2
         """
         if file_path is not None:
-            url = AppKit.NSURL.alloc().initFileURLWithPath_(file_path)
-            self.xa_elem.saveAs_in_("txt", url)
+            if isinstance(file_path, str):
+                file_path = XABase.XAPath(file_path)
+            self.xa_elem.saveAs_in_(None, file_path.xa_elem)
         else:
-            url = AppKit.NSURL.alloc().initFileURLWithPath_(self.path)
-            self.xa_elem.saveAs_in_("txt", url)
+            url = self.path.xa_elem
+            print(url)
+            self.xa_elem.saveAs_in_(None, url)
 
     def get_clipboard_representation(self) -> list[Union[str, AppKit.NSURL]]:
         """Gets a clipboard-codable representation of the document.

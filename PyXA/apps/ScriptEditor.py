@@ -50,11 +50,11 @@ class XAScriptEditorItem(XABase.XAObject):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        
-        self.properties: dict #: All of the object's properties.
 
     @property
     def properties(self) -> dict:
+        """All of the object's properties.
+        """
         return self.xa_elem.properties()
 
     def exists(self) -> bool:
@@ -76,26 +76,29 @@ class XAScriptEditorApplication(XABaseScriptable.XASBApplication):
     def __init__(self, properties):
         super().__init__(properties)
         self.xa_wcls = XAScriptEditorWindow
-        
-        self.frontmost: bool #: Whether Script Editor is the active application
-        self.name: str #: The name of the application
-        self.version: str #: The version of Script Editor.app
-        self.selection: XAScriptEditorSelectionObject #: The current selection
 
     @property
     def frontmost(self) -> bool:
+        """Whether Script Editor is the active application.
+        """
         return self.xa_scel.frontmost()
 
     @property
     def name(self) -> str:
+        """The name of the application.
+        """
         return self.xa_scel.name()
 
     @property
     def version(self) -> str:
+        """The version of Script Editor.app.
+        """
         return self.xa_scel.version()
 
     @property
     def selection(self) -> 'XAScriptEditorSelectionObject':
+        """The current selection.
+        """
         return self._new_element(self.xa_scel.selection(), XAScriptEditorSelectionObject)
 
     @selection.setter
@@ -114,7 +117,7 @@ class XAScriptEditorApplication(XABaseScriptable.XASBApplication):
 
         .. versionadded:: 0.0.9
         """
-        return self._new_element(self.xa_scel.classs(), XAScriptEditorObjectClassList, filter)
+        return self._new_element(self.xa_scel.classes(), XAScriptEditorObjectClassList, filter)
 
     def languages(self, filter: dict = None) -> 'XAScriptEditorLanguageList':
         """Returns a list of languages matching the given filter.
@@ -331,23 +334,17 @@ class XAScriptEditorDocument(XAScriptEditorItem, XACloseable, XADeletable, XAPri
     """
     def __init__(self, properties):
         super().__init__(properties)
-        
-        self.modified: bool #: Whether the document has been modified since it was last saved
-        self.name: str #: The document's name
-        self.path: XABase.XAPath #: The document's path
-        self.contents: XAScriptEditorText #: The contents of the document.
-        self.object_description: str #: The description of the document.
-        self.event_log: str #: The event log of the document.
-        self.language: XAScriptEditorLanguage #: The scripting language.
-        self.selection: XAScriptEditorSelectionObject #: The current selection.
-        self.text: XAScriptEditorText #: The text of the document.
 
     @property
     def modified(self) -> bool:
+        """Whether the document has been modified since it was last saved.
+        """
         return self.xa_elem.modified()
 
     @property
     def name(self) -> str:
+        """The document's name.
+        """
         return self.xa_elem.name()
 
     @name.setter
@@ -356,6 +353,8 @@ class XAScriptEditorDocument(XAScriptEditorItem, XACloseable, XADeletable, XAPri
 
     @property
     def path(self) -> XABase.XAPath:
+        """The document's path.
+        """
         return XABase.XAPath(self.xa_elem.path())
 
     @path.setter
@@ -366,6 +365,8 @@ class XAScriptEditorDocument(XAScriptEditorItem, XACloseable, XADeletable, XAPri
 
     @property
     def contents(self) -> XABase.XAText:
+        """The contents of the document.
+        """
         return self._new_element(self.xa_elem.contents(), XAScriptEditorText)
 
     @contents.setter
@@ -374,6 +375,8 @@ class XAScriptEditorDocument(XAScriptEditorItem, XACloseable, XADeletable, XAPri
 
     @property
     def object_description(self) -> str:
+        """The description of the document.
+        """
         return self.xa_elem.objectDescription()
 
     @object_description.setter
@@ -382,10 +385,14 @@ class XAScriptEditorDocument(XAScriptEditorItem, XACloseable, XADeletable, XAPri
 
     @property
     def event_log(self) -> str:
+        """The event log of the document.
+        """
         return self.xa_elem.eventLog().get()
 
     @property
     def language(self) -> 'XAScriptEditorLanguage':
+        """The scripting language.
+        """
         return self._new_element(self.xa_elem.language(), XAScriptEditorLanguage)
 
     @language.setter
@@ -394,6 +401,8 @@ class XAScriptEditorDocument(XAScriptEditorItem, XACloseable, XADeletable, XAPri
 
     @property
     def selection(self) -> 'XAScriptEditorSelectionObject':
+        """The current selection.
+        """
         return self._new_element(self.xa_elem.selection(), XAScriptEditorSelectionObject)
 
     @selection.setter
@@ -402,10 +411,14 @@ class XAScriptEditorDocument(XAScriptEditorItem, XACloseable, XADeletable, XAPri
 
     @property
     def text(self) -> XABase.XAText:
+        """The text of the document.
+        """
         return self._new_element(self.xa_elem.text(), XAScriptEditorText)
 
     @text.setter
-    def text(self, text: str):
+    def text(self, text: Union[str, XABase.XAText]):
+        if isinstance(text, XABase.XAText):
+            text = text.xa_elem
         self.set_property('text', text)
 
     def save(self, type: Literal["script", "script bundle", "application", "text"], path: Union[str, XABase.XAPath], run_only: bool = False, show_startup_screen: bool  = False, stay_open: bool = False):
@@ -486,114 +499,30 @@ class XAScriptEditorWindow(XABaseScriptable.XASBWindow):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        
-        self.bounds: tuple[int, int, int, int] #: The bounding rectangle of the window
-        self.closeable: bool #: Whether the window has a close button
-        self.document: XAScriptEditorDocument #: The document currently displayed in the window
-        self.floating: bool #: Whether the window floats
-        self.id: int #: The unique identifier for the window
-        self.index: int #: The index of the window in the front-to-back ordering
-        self.miniaturizable: bool #: Whether the window can be minimized
-        self.miniaturized: bool #: Whether the window is currently minimized
-        self.modal: bool #: Whether the window is the application's current modal window
-        self.name: str #: The full title of the window.
-        self.resizable: bool #: Whether the window can be resized
-        self.titled: bool #: Whether the window has a title bar
-        self.visible: bool #: Whether the window is currently visible
-        self.zoomable: bool #: Whether the window can be zoomed
-        self.zoomed: bool #: Whether the window is currently zoomed
-
-    @property
-    def bounds(self) -> tuple[int, int, int, int]:
-        rect = self.xa_elem.bounds()
-        origin = rect.origin
-        size = rect.size
-        return (origin.x, origin.y, size.width, size.height)
-
-    @bounds.setter
-    def bounds(self, bounds: tuple[int, int, int, int]):
-        x = bounds[0]
-        y = bounds[1]
-        w = bounds[2]
-        h = bounds[3]
-        value = AppKit.NSValue.valueWithRect_(AppKit.NSMakeRect(x, y, w, h))
-        self.set_property("bounds", value)
-
-    @property
-    def closeable(self) -> bool:
-        return self.xa_elem.closeable()
 
     @property
     def document(self) -> XAScriptEditorDocument:
+        """The document currently displayed in the window.
+        """
         return self._new_element(self.xa_elem.document(), XAScriptEditorDocument)
 
     @property
     def floating(self) -> bool:
+        """Whether the window floats.
+        """
         return self.xa_elem.floating()
 
     @property
-    def id(self) -> int:
-        return self.xa_elem.id()
-
-    @property
-    def index(self) -> int:
-        return self.xa_elem.index()
-
-    @index.setter
-    def index(self, index: int):
-        self.set_property('index', index)
-
-    @property
-    def miniaturizable(self) -> bool:
-        return self.xa_elem.miniaturizable()
-
-    @property
-    def miniaturized(self) -> bool:
-        return self.xa_elem.miniaturized()
-
-    @miniaturized.setter
-    def miniaturized(self, miniaturized: bool):
-        self.set_property('miniaturized', miniaturized)
-
-    @property
     def modal(self) -> bool:
+        """Whether the window is the application's current modal window.
+        """
         return self.xa_elem.modal()
 
     @property
-    def name(self) -> str:
-        return self.xa_elem.name()
-
-    @name.setter
-    def name(self, name: str):
-        self.set_property('name', name)
-
-    @property
-    def resizable(self) -> bool:
-        return self.xa_elem.resizable()
-
-    @property
     def titled(self) -> bool:
+        """Whether the window has a title bar.
+        """
         return self.xa_elem.titled()
-
-    @property
-    def visible(self) -> bool:
-        return self.xa_elem.visible()
-
-    @visible.setter
-    def visible(self, visible: bool):
-        self.set_property('visible', visible)
-
-    @property
-    def zoomable(self) -> bool:
-        return self.xa_elem.zoomable()
-
-    @property
-    def zoomed(self) -> bool:
-        return self.xa_elem.zoomed()
-
-    @zoomed.setter
-    def zoomed(self, zoomed: bool):
-        self.set_property('zoomed', zoomed)
 
 
     
@@ -660,8 +589,6 @@ class XAScriptEditorInsertionPoint(XAScriptEditorItem):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        
-        self.contents: XAScriptEditorItem #: The contents of the insertion point.
 
     @property
     def contents(self) -> XAScriptEditorItem:
@@ -669,6 +596,8 @@ class XAScriptEditorInsertionPoint(XAScriptEditorItem):
 
     @contents.setter
     def contents(self, contents: XAScriptEditorItem):
+        """The contents of the insertion point.
+        """
         self.set_property('contents', contents.xa_elem)
 
     def __repr__(self):
@@ -752,12 +681,10 @@ class XAScriptEditorText(XABase.XAText):
     def __init__(self, properties):
         super().__init__(properties)
 
-        self.color: XABase.XAColor #: The color of the first character
-        self.font: str #: The name of the font of the first character
-        self.size: int #: The size in points of the first character
-
     @property
     def color(self) -> XABase.XAColor:
+        """The color of the first character.
+        """
         return XABase.XAColor(self.xa_elem.color())
 
     @color.setter
@@ -766,6 +693,8 @@ class XAScriptEditorText(XABase.XAText):
 
     @property
     def font(self) -> str:
+        """The name of the font of the first character.
+        """
         return self.xa_elem.font()
 
     @font.setter
@@ -774,6 +703,8 @@ class XAScriptEditorText(XABase.XAText):
 
     @property
     def size(self) -> int:
+        """The size in points of the first character.
+        """
         return self.xa_elem.size()
 
     @size.setter
@@ -910,31 +841,35 @@ class XAScriptEditorLanguage(XAScriptEditorItem):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        
-        self.object_description: str #: The description
-        self.id: str #: The unique id of the language.
-        self.name: str #: The name of the language.
-        self.supports_compiling: bool #: Is the language compilable?
-        self.supports_recording: bool #: Is the language recordable?
 
     @property
     def object_description(self) -> str:
+        """The description of the language.
+        """
         return self.xa_elem.objectDescription()
 
     @property
     def id(self) -> str:
+        """The unique id of the language.
+        """
         return self.xa_elem.id()
 
     @property
     def name(self) -> str:
+        """The name of the language.
+        """
         return self.xa_elem.name()
 
     @property
     def supports_compiling(self) -> bool:
+        """Is the language compilable?
+        """
         return self.xa_elem.supportsCompiling()
 
     @property
     def supports_recording(self) -> bool:
+        """Is the language recordable?
+        """
         return self.xa_elem.supportsRecording()
 
     def __repr__(self):
@@ -1001,16 +936,17 @@ class XAScriptEditorSelectionObject(XAScriptEditorItem):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        
-        self.character_range: tuple[int, int] #: The range of characters in the selection.
-        self.contents: XAScriptEditorItem #: The contents of the selection.
 
     @property
     def character_range(self) -> tuple[int, int]:
+        """The range of characters in the selection.
+        """
         return self.xa_elem.characterRange()
 
     @property
     def contents(self) -> XAScriptEditorItem:
+        """The contents of the selection.
+        """
         return self.xa_elem.contents().get()
 
     @contents.setter

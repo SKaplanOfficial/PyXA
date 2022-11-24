@@ -4,7 +4,7 @@ Control the macOS Terminal application using JXA-like syntax.
 """
 
 import subprocess
-from typing import Any, Dict, Union
+from typing import Dict, Union
 
 import AppKit
 
@@ -23,26 +23,28 @@ class XATerminalApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         super().__init__(properties)
         self.xa_wcls = XATerminalWindow
 
-        self.name: str #: The name of the application
-        self.frontmost: bool #: Whether Terminal is the active application
-        self.version: str #: The version of Terminal.app
-        self.default_settings: XATerminalSettingsSet #: The settings set used for new windows
-        self.startup_settings: XATerminalSettingsSet #: The settings set used for the window created on application startup
-
     @property
     def name(self) -> str:
+        """The name of the application.
+        """
         return self.xa_scel.name()
 
     @property
     def frontmost(self) -> bool:
+        """Whether Terminal is the active application.
+        """
         return self.xa_scel.frontmost()
 
     @property
     def version(self) -> str:
+        """The version of Terminal.app.
+        """
         return self.xa_scel.version()
 
     @property
     def default_settings(self) -> 'XATerminalSettingsSet':
+        """The settings set used for new windows.
+        """
         return self._new_element(self.xa_scel.defaultSettings(), XATerminalSettingsSet)
 
     @default_settings.setter
@@ -51,6 +53,8 @@ class XATerminalApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
 
     @property
     def startup_settings(self) -> 'XATerminalSettingsSet':
+        """The settings set used for the window created on application startup.
+        """
         return self._new_element(self.xa_scel.startupSettings(), XATerminalSettingsSet)
 
     @startup_settings.setter
@@ -59,6 +63,8 @@ class XATerminalApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
 
     @property
     def current_tab(self) -> 'XATerminalTab':
+        """The currently active Terminal tab.
+        """
         return self.front_window.selected_tab
 
     @current_tab.setter
@@ -120,95 +126,11 @@ class XATerminalWindow(XABaseScriptable.XASBWindow, XABaseScriptable.XASBPrintab
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.name: str #: The title of the window
-        self.id: int #: The unique identifier for the window
-        self.index: int #: The index of the window in the front-to-back ordering
-        self.bounds: tuple[int, int, int, int] #: The bounding rectangle of the window
-        self.closeable: bool #: Whether the window has a close button
-        self.miniaturizable: bool #: Whether the window can be minimized
-        self.miniaturized: bool #: Whether the window is currently minimized
-        self.resizable: bool #: Whether the window can be resized
-        self.visible: bool #: Whether the window is currently visible
-        self.zoomable: bool #: Whether the window can be zoomed
-        self.zoomed: bool #: Whether the window is currently zoomed
-        self.frontmost: bool #: Whether the window is currently the frontmost Terminal window
-        self.selected_tab: XATerminalTab #: The Terminal tab currently displayed in the window
-        self.position: tuple[int, int] #: The position of the top-left corner of the window
-
-    @property
-    def name(self) -> str:
-        return self.xa_elem.name()
-
-    @property
-    def id(self) -> int:
-        return self.xa_elem.id()
-
-    @property
-    def index(self) -> int:
-        return self.xa_elem.index()
-
-    @index.setter
-    def index(self, index: int):
-        self.set_property("index", index)
-
-    @property
-    def bounds(self) -> tuple[int, int, int, int]:
-        rect = self.xa_elem.bounds()
-        origin = rect.origin
-        size = rect.size
-        return (origin.x, origin.y, size.width, size.height)
-
-    @bounds.setter
-    def bounds(self, bounds: tuple[int, int, int, int]):
-        x = bounds[0]
-        y = bounds[1]
-        w = bounds[2]
-        h = bounds[3]
-        value = AppKit.NSValue.valueWithRect_(AppKit.NSMakeRect(x, y, w, h))
-        self.set_property("bounds", value)
-
-    @property
-    def closeable(self) -> bool:
-        return self.xa_elem.closeable()
-
-    @property
-    def miniaturizable(self) -> bool:
-        return self.xa_elem.miniaturizable()
-
-    @property
-    def miniaturized(self) -> bool:
-        return self.xa_elem.miniaturized()
-
-    @miniaturized.setter
-    def miniaturized(self, miniaturized: bool):
-        self.set_property("miniaturized", miniaturized)
-
-    @property
-    def resizable(self) -> bool:
-        return self.xa_elem.resizable()
-
-    @property
-    def visible(self) -> bool:
-        return self.xa_elem.visible()
-
-    @visible.setter
-    def visible(self, visible: bool):
-        self.set_property("visible", visible)
-
-    @property
-    def zoomable(self) -> bool:
-        return self.xa_elem.zoomable()
-
-    @property
-    def zoomed(self) -> bool:
-        return self.xa_elem.zoomed()
-
-    @zoomed.setter
-    def zoomed(self, zoomed: bool):
-        self.set_property("zoomed", zoomed)
 
     @property
     def frontmost(self) -> bool:
+        """Whether the window is currently the frontmost Terminal window.
+        """
         return self.xa_elem.frontmost()
 
     @frontmost.setter
@@ -217,6 +139,8 @@ class XATerminalWindow(XABaseScriptable.XASBWindow, XABaseScriptable.XASBPrintab
 
     @property
     def selected_tab(self) -> 'XATerminalTab':
+        """The Terminal tab currently displayed in the window.
+        """
         return self._new_element(self.xa_elem.selectedTab(), XATerminalTab)
 
     @selected_tab.setter
@@ -229,6 +153,8 @@ class XATerminalWindow(XABaseScriptable.XASBWindow, XABaseScriptable.XASBPrintab
 
     @position.setter
     def position(self, position: tuple[int, int]):
+        """The position of the top-left corner of the window.
+        """
         self.set_property("position", position)
 
     def tabs(self, filter: dict = None) -> Union['XATerminalTabList', None]:
@@ -505,20 +431,11 @@ class XATerminalTab(XABase.XAObject, XAClipboardCodable):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.number_of_rows: int #: The number of rows displayed in the tab
-        self.number_of_columns: int #: The number of columns displayed in the tab
-        self.contents: str #: The currently visible contents of the tab
-        self.history: str #: The contents of the entire scrolling buffer of the tab
-        self.busy: bool #: Whether the tab is currently busy running a process
-        self.processes: list[str] #: The processes currently running in the tab
-        self.selected: bool #: Whether the tab is currently selected
-        self.title_displays_custom_title: bool #: Whether the tab's title contains a custom title
-        self.custom_title: str #: The tab's custom title
-        self.tty: str #: The tab's TTY device
-        self.current_settings: XATerminalSettingsSet #: The set of settings which control the tab's behavior and appearance
 
     @property
     def number_of_rows(self) -> int:
+        """The number of rows displayed in the tab.
+        """
         return self.xa_elem.numberOfRows()
 
     @number_of_rows.setter
@@ -527,6 +444,8 @@ class XATerminalTab(XABase.XAObject, XAClipboardCodable):
 
     @property
     def number_of_columns(self) -> int:
+        """The number of columns displayed in the tab.
+        """
         return self.xa_elem.numberOfColumns()
 
     @number_of_columns.setter
@@ -535,22 +454,32 @@ class XATerminalTab(XABase.XAObject, XAClipboardCodable):
 
     @property
     def contents(self) -> str:
+        """The currently visible contents of the tab.
+        """
         return self.xa_elem.contents()
 
     @property
     def history(self) -> str:
+        """The contents of the entire scrolling buffer of the tab.
+        """
         return self.xa_elem.history()
 
     @property
     def busy(self) -> bool:
+        """Whether the tab is currently busy running a process.
+        """
         return self.xa_elem.busy()
 
     @property
     def processes(self) -> list[str]:
+        """The processes currently running in the tab.
+        """
         return self.xa_elem.processes()
 
     @property
     def selected(self) -> bool:
+        """Whether the tab is currently selected.
+        """
         return self.xa_elem.selected()
 
     @selected.setter
@@ -559,6 +488,8 @@ class XATerminalTab(XABase.XAObject, XAClipboardCodable):
 
     @property
     def title_displays_custom_title(self) -> bool:
+        """Whether the tab's title contains a custom title.
+        """
         return self.xa_elem.titleDisplaysCustomTitle()
 
     @title_displays_custom_title.setter
@@ -567,6 +498,8 @@ class XATerminalTab(XABase.XAObject, XAClipboardCodable):
 
     @property
     def custom_title(self) -> str:
+        """The tab's custom title.
+        """
         return self.xa_elem.customTitle()
 
     @custom_title.setter
@@ -575,10 +508,14 @@ class XATerminalTab(XABase.XAObject, XAClipboardCodable):
 
     @property
     def tty(self) -> str:
+        """The tab's TTY device.
+        """
         return self.xa_elem.tty()
 
     @property
     def current_settings(self) -> 'XATerminalSettingsSet':
+        """The set of settings which control the tab's behavior and appearance.
+        """
         return self._new_element(self.xa_elem.currentSettings(), XATerminalSettingsSet)
 
     @current_settings.setter
@@ -999,31 +936,17 @@ class XATerminalSettingsSet(XABase.XAObject, XAClipboardCodable):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.id: int #: The unique identifier of the settings set
-        self.name: str #: The name of the settings set
-        self.number_of_rows: int #: The number of rows displayed in the tab
-        self.number_of_columns: int #: The number of columns displayed in the tab
-        self.cursor_color: XABase.XAColor #: The cursor color for the tab
-        self.background_color: XABase.XAColor #: The background color for the tab
-        self.normal_text_color: XABase.XAColor #: The normal text color for the tab
-        self.bold_text_color: XABase.XAColor #: The bold text color for the tab
-        self.font_name: str #: The name of the font used to display the tab's contents
-        self.font_size: int #: The size of the font used to display the tab's contents
-        self.font_antialiasing: bool #: Whether the font used to display the tab's contents is antialiased
-        self.clean_commands: list[str] #: The processes which will be ignored when checking whether a tab can be closed without showing a prompt
-        self.title_displays_device_name: bool #: Whether the title contains the device name
-        self.title_displays_shell_path: bool #: Whether the title contains the shell path
-        self.title_displays_window_size: bool #: Whether the title contains the tab's size, in rows and columns
-        self.title_displays_settings_name: bool #: Whether the title contains the settings set name
-        self.title_displays_custom_title: bool #: Whether the title contains a custom title
-        self.custom_title: str #: The tab's custom title
 
     @property
     def id(self) -> int:
+        """The unique identifier of the settings set.
+        """
         return self.xa_elem.id()
 
     @property
     def name(self) -> str:
+        """The name of the settings set.
+        """
         return self.xa_elem.name()
 
     @name.setter
@@ -1032,6 +955,8 @@ class XATerminalSettingsSet(XABase.XAObject, XAClipboardCodable):
 
     @property
     def number_of_rows(self) -> int:
+        """The number of rows displayed in the tab.
+        """
         return self.xa_elem.numberOfRows()
     
     @number_of_rows.setter
@@ -1040,6 +965,8 @@ class XATerminalSettingsSet(XABase.XAObject, XAClipboardCodable):
 
     @property
     def number_of_columns(self) -> int:
+        """The number of columns displayed in the tab.
+        """
         return self.xa_elem.numberOfColumns()
 
     @number_of_columns.setter
@@ -1048,6 +975,8 @@ class XATerminalSettingsSet(XABase.XAObject, XAClipboardCodable):
 
     @property
     def cursor_color(self) -> XABase.XAColor:
+        """The cursor color for the tab.
+        """
         return XABase.XAColor(self.xa_elem.cursorColor())
 
     @cursor_color.setter
@@ -1056,6 +985,8 @@ class XATerminalSettingsSet(XABase.XAObject, XAClipboardCodable):
 
     @property
     def background_color(self) -> XABase.XAColor:
+        """The background color for the tab.
+        """
         return XABase.XAColor(self.xa_elem.backgroundColor())
 
     @background_color.setter
@@ -1064,6 +995,8 @@ class XATerminalSettingsSet(XABase.XAObject, XAClipboardCodable):
 
     @property
     def normal_text_color(self) -> XABase.XAColor:
+        """The normal text color for the tab.
+        """
         return XABase.XAColor(self.xa_elem.normalTextColor())
 
     @normal_text_color.setter
@@ -1072,6 +1005,8 @@ class XATerminalSettingsSet(XABase.XAObject, XAClipboardCodable):
 
     @property
     def bold_text_color(self) -> XABase.XAColor:
+        """The bold text color for the tab.
+        """
         return XABase.XAColor(self.xa_elem.boldTextColor())
 
     @bold_text_color.setter
@@ -1080,6 +1015,8 @@ class XATerminalSettingsSet(XABase.XAObject, XAClipboardCodable):
 
     @property
     def font_name(self) -> str:
+        """The name of the font used to display the tab's contents.
+        """
         return self.xa_elem.fontName()
 
     @font_name.setter
@@ -1088,6 +1025,8 @@ class XATerminalSettingsSet(XABase.XAObject, XAClipboardCodable):
 
     @property
     def font_size(self) -> int:
+        """The size of the font used to display the tab's contents.
+        """
         return self.xa_elem.fontSize()
 
     @font_size.setter
@@ -1096,6 +1035,8 @@ class XATerminalSettingsSet(XABase.XAObject, XAClipboardCodable):
 
     @property
     def font_antialiasing(self) -> bool:
+        """Whether the font used to display the tab's contents is antialiased.
+        """
         return self.xa_elem.fontAntialiasing()
 
     @font_antialiasing.setter
@@ -1104,6 +1045,8 @@ class XATerminalSettingsSet(XABase.XAObject, XAClipboardCodable):
 
     @property
     def clean_commands(self) -> list[str]:
+        """The processes which will be ignored when checking whether a tab can be closed without showing a prompt.
+        """
         return self.xa_elem.cleanCommands()
 
     @clean_commands.setter
@@ -1112,6 +1055,8 @@ class XATerminalSettingsSet(XABase.XAObject, XAClipboardCodable):
 
     @property
     def title_displays_device_name(self) -> bool:
+        """Whether the title contains the device name.
+        """
         return self.xa_elem.titleDisplaysDeviceName()
 
     @title_displays_device_name.setter
@@ -1120,6 +1065,8 @@ class XATerminalSettingsSet(XABase.XAObject, XAClipboardCodable):
 
     @property
     def title_displays_shell_path(self) -> bool:
+        """Whether the title contains the shell path.
+        """
         return self.xa_elem.titleDisplaysShellPath()
 
     @title_displays_shell_path.setter
@@ -1128,6 +1075,8 @@ class XATerminalSettingsSet(XABase.XAObject, XAClipboardCodable):
 
     @property
     def title_displays_window_size(self) -> bool:
+        """Whether the title contains the tab's size, in rows and columns.
+        """
         return self.xa_elem.titleDisplaysWindowSize()
 
     @title_displays_window_size.setter
@@ -1136,6 +1085,8 @@ class XATerminalSettingsSet(XABase.XAObject, XAClipboardCodable):
 
     @property
     def title_displays_settings_name(self) -> bool:
+        """Whether the title contains the settings set name.
+        """
         return self.xa_elem.titleDisplaysSettingsName()
 
     @title_displays_settings_name.setter
@@ -1144,6 +1095,8 @@ class XATerminalSettingsSet(XABase.XAObject, XAClipboardCodable):
 
     @property
     def title_displays_custom_title(self) -> bool:
+        """Whether the title contains a custom title.
+        """
         return self.xa_elem.titleDisplaysCustomTitle()
 
     @title_displays_custom_title.setter
@@ -1152,6 +1105,8 @@ class XATerminalSettingsSet(XABase.XAObject, XAClipboardCodable):
 
     @property
     def custom_title(self) -> str:
+        """The tab's custom title.
+        """
         return self.xa_elem.customTitle()
 
     @custom_title.setter

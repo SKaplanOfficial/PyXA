@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PyXA.apps.OmniOutliner &mdash; PyXA 0.1.0 documentation</title>
+  <title>PyXA.apps.OmniOutliner &mdash; PyXA 0.1.1 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -58,9 +58,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../../index.html">Module code</a> &raquo;</li>
-      <li>PyXA.apps.OmniOutliner</li>
+      <li><a href="../../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">PyXA.apps.OmniOutliner</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -151,27 +151,34 @@
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">xa_wcls</span> <span class="o">=</span> <span class="n">XAOmniOutlinerWindow</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The name of the application</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">frontmost</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether OmniOutliner is the active application</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The version of OmniOutliner.app</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">build_number</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The build number of the application, for example 63.1 or 63. Major and minor versions are separated by a dot, so 63.10 comes after 63.1</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">imported_files_should_store_compressed</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Controls whether OmniOutliner will default imported files to being stored in a compressed format</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">prompt_on_file_format_upgrade</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Controls whether OmniOutliner will prompt the user when updating a older file format to a newer one</span>
-
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The name of the application.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">name</span>
 
     <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">frontmost</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Whether OmniOutliner is the active application.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">frontmost</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">version</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The version of OmniOutliner.app.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">version</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">build_number</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The build number of the application, for example 63.1 or 63. Major and minor versions are separated by a dot, so 63.10 comes after 63.1.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">buildNumber</span><span class="p">()</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">imported_files_should_store_compressed</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Controls whether OmniOutliner will default imported files to being stored in a compressed format.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">importedFilesShouldStoreCompressed</span><span class="p">()</span>
 
     <span class="nd">@imported_files_should_store_compressed</span><span class="o">.</span><span class="n">setter</span>
@@ -180,6 +187,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">prompt_on_file_format_upgrade</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Controls whether OmniOutliner will prompt the user when updating a older file format to a newer one.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_scel</span><span class="o">.</span><span class="n">promptOnFileFormatUpgrade</span><span class="p">()</span>
 
     <span class="nd">@prompt_on_file_format_upgrade</span><span class="o">.</span><span class="n">setter</span>
@@ -242,85 +251,10 @@
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The title of window</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">:</span> <span class="nb">int</span> <span class="c1">#: The unique identifier of the window</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">index</span><span class="p">:</span> <span class="nb">int</span> <span class="c1">#: The index of the window in the front-to-back ordering</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">bounds</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="c1">#: The bounding rectangle of the window in the form of (top-left-x, top-left-y, width, height)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">closeable</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether the window has a close button</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">miniaturizable</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether the window has a minimize button</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">miniaturized</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether the window is currently minimized</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">resizable</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether the window can be resized</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">visible</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether the window is currently visible</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">zoomable</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether the window has a zoom button</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">zoomed</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether the window is currently zoomed</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">document</span><span class="p">:</span> <span class="n">XAOmniOutlinerDocument</span> <span class="c1">#: The document whose contents are currently displayed in the window</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">name</span><span class="p">()</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">id</span><span class="p">()</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">index</span><span class="p">()</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">bounds</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
-        <span class="n">rect</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">bounds</span><span class="p">()</span>
-        <span class="n">origin</span> <span class="o">=</span> <span class="n">rect</span><span class="o">.</span><span class="n">origin</span>
-        <span class="n">size</span> <span class="o">=</span> <span class="n">rect</span><span class="o">.</span><span class="n">size</span>
-        <span class="k">return</span> <span class="p">(</span><span class="n">origin</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">origin</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">size</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="n">size</span><span class="o">.</span><span class="n">height</span><span class="p">)</span>
-
-    <span class="nd">@bounds</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span> <span class="nf">bounds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bounds</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]):</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="n">y</span> <span class="o">=</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-        <span class="n">w</span> <span class="o">=</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
-        <span class="n">h</span> <span class="o">=</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
-        <span class="n">value</span> <span class="o">=</span> <span class="n">AppKit</span><span class="o">.</span><span class="n">NSValue</span><span class="o">.</span><span class="n">valueWithRect_</span><span class="p">(</span><span class="n">AppKit</span><span class="o">.</span><span class="n">NSMakeRect</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">h</span><span class="p">))</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;bounds&quot;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">closeable</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">closeable</span><span class="p">()</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">miniaturizable</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">miniaturizable</span><span class="p">()</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">miniaturized</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">miniaturized</span><span class="p">()</span>
-
-    <span class="nd">@miniaturized</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span> <span class="nf">miniaturized</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">miniaturized</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;miniaturized&quot;</span><span class="p">,</span> <span class="n">miniaturized</span><span class="p">)</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">resizable</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">resizable</span><span class="p">()</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">visible</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">visible</span><span class="p">()</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">zoomable</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">zoomable</span><span class="p">()</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">zoomed</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">zoomed</span><span class="p">()</span>
-
-    <span class="nd">@zoomed</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span> <span class="nf">zoomed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">zoomed</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;zoomed&quot;</span><span class="p">,</span> <span class="n">zoomed</span><span class="p">)</span>
-
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">document</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAOmniOutlinerDocument&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The document whose contents are currently displayed in the window.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">document</span><span class="p">(),</span> <span class="n">XAOmniOutlinerDocument</span><span class="p">)</span>
 
     <span class="nd">@document</span><span class="o">.</span><span class="n">setter</span>
@@ -348,14 +282,10 @@
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">style</span><span class="p">:</span> <span class="n">XAOmniOutlinerStyle</span> <span class="c1">#: The style of the text</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">baseline_offset</span><span class="p">:</span> <span class="nb">float</span> <span class="c1">#: Number of pixels shifted above or below the normal baseline</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">underlined</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Is the first character underlined?</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">superscript</span><span class="p">:</span> <span class="nb">int</span> <span class="c1">#: The superscript level of the text</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">alignment</span><span class="p">:</span> <span class="n">XAOmniOutlinerApplication</span><span class="o">.</span><span class="n">Alignment</span> <span class="c1">#: Alignment of the text</span>
-
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">style</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAOmniOutlinerStyle&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The style of the text.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">style</span><span class="p">(),</span> <span class="n">XAOmniOutlinerStyle</span><span class="p">)</span>
 
     <span class="nd">@style</span><span class="o">.</span><span class="n">setter</span>
@@ -364,6 +294,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">baseline_offset</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Number of pixels shifted above or below the normal baseline.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">baselineOffset</span><span class="p">()</span>
 
     <span class="nd">@baseline_offset</span><span class="o">.</span><span class="n">setter</span>
@@ -372,6 +304,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">underlined</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Is the first character underlined?</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">underlined</span><span class="p">()</span>
 
     <span class="nd">@underlined</span><span class="o">.</span><span class="n">setter</span>
@@ -380,6 +314,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">superscript</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The superscript level of the text.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">superscript</span><span class="p">()</span>
 
     <span class="nd">@superscript</span><span class="o">.</span><span class="n">setter</span>
@@ -388,6 +324,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">alignment</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XAOmniOutlinerApplication</span><span class="o">.</span><span class="n">Alignment</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Alignment of the text.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">XAOmniOutlinerApplication</span><span class="o">.</span><span class="n">Alignment</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">alignment</span><span class="p">())</span>
 
     <span class="nd">@alignment</span><span class="o">.</span><span class="n">setter</span>
@@ -478,15 +416,16 @@
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">file_name</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The path to the file for the attachment, if the attachment resides outside the document</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">embdedded</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: If true, the attached file will reside inside the document on the next save</span>
-
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">file_name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The path to the file for the attachment, if the attachment resides outside the document.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">fileName</span><span class="p">()</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">embdedded</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;If true, the attached file will reside inside the document on the next save.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">embedded</span><span class="p">()</span></div>
 
 
@@ -834,52 +773,28 @@
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The name of the document</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">modified</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether the document has been modified since it was last saved</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="p">:</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAPath</span> <span class="c1">#: The location of the file on disk, if it has one</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">alternate_color</span><span class="p">:</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span> <span class="c1">#: The background color of every other row</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">background_color</span><span class="p">:</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span> <span class="c1">#: The background color of the document</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">canredo</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether the document can redo the most recently undone command</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">canundo</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether the document can undo the most recent command</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">children_are_sections</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: This is always true for documents. This is here to make it easier to deal with mixed lists of rows and documents</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">column_title_style</span><span class="p">:</span> <span class="n">XAOmniOutlinerStyle</span> <span class="c1">#: The style of column titles</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">editable</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: This lets you know whether the document is editable. For example, the release notes document is not editable, so your script may want to avoid trying to edit it</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">folded_editing_enabled</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether folded editing of item and inline note text is enabled</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">has_subtopics</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether the document has any subtopics</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">horizontal_grid_color</span><span class="p">:</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span> <span class="c1">#: The color of hairline dividers between rows</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: An identifier unique to the document</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">note_column</span><span class="p">:</span> <span class="n">XAOmniOutlinerColumn</span> <span class="c1">#: The column of the document that contains the notes for the rows</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">note_display</span><span class="p">:</span> <span class="n">XAOmniOutlinerApplication</span><span class="o">.</span><span class="n">DisplayType</span> <span class="c1">#: Whether notes are displayed inline</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">save_identifier</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: A string that changes each time the document is saved. If the save identifier is disabled, then this returns &#39;missing value&#39;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">save_identifier_enabled</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Controls whether a save identifier will be emitted in the archived document each time the document is saved. This is useful for external tools that need to quickly determine whether the document has changed without relying on the file modification time</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">sorting_postponed</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether sorting is currently postponed for the document</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">status_sort_order</span><span class="p">:</span> <span class="n">XAOmniOutlinerApplication</span><span class="o">.</span><span class="n">SortOrder</span> <span class="c1">#: The sort order used for the status checkbox in the topic column</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">status_visible</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether the status checkbox is visible in the outline column</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">stored_compressed</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether xml should be compressed when saved</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">style</span><span class="p">:</span> <span class="n">XAOmniOutlinerStyle</span> <span class="c1">#: The default style for the document</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">title</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: This is the title of the document</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">topic_column</span><span class="p">:</span> <span class="n">XAOmniOutlinerColumn</span> <span class="c1">#: The column of the document that displays the hierarchy of rows</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">undo_enabled</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Controls whether undo is currently enabled in the document. This should be used very carefully. If it is set to &#39;false&#39;, all previously registered undo events will be removed and any further modifications to the document will not record undo operations</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">vertical_grid_color</span><span class="p">:</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span> <span class="c1">#: The color hairline dividers between columns</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">visible</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether the interface for the document is visible. Note that miniaturized counts as visible. Mostly this isn&#39;t useful to third parties right now</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">writes_wrapper</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: If set to true, this indicates that the document will write itself as a file wrapper (folder)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">topiccolumnid</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The topic column id for newly created documents</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">notecolumnid</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The note column id for newly created documents</span>
-
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The name of the document.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">name</span><span class="p">()</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">modified</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Whether the document has been modified since it was last saved.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">modified</span><span class="p">()</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">file</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAPath</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The location of the file on disk, if it has one.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAPath</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">file</span><span class="p">())</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">alternate_color</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The background color of every other row.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">alternateColor</span><span class="p">())</span>
 
     <span class="nd">@alternate_color</span><span class="o">.</span><span class="n">setter</span>
@@ -888,6 +803,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">background_color</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The background color of the document.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">alternateColor</span><span class="p">())</span>
 
     <span class="nd">@background_color</span><span class="o">.</span><span class="n">setter</span>
@@ -896,18 +813,26 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">canredo</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Whether the document can redo the most recently undone command.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">canredo</span><span class="p">()</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">canundo</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Whether the document can undo the most recent command.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">canundo</span><span class="p">()</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">children_are_sections</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;This is always true for documents. This is here to make it easier to deal with mixed lists of rows and documents.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">childrenAreSections</span><span class="p">()</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">column_title_style</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAOmniOutlinerStyle&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The style of column titles.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">columnTitleStyle</span><span class="p">(),</span> <span class="n">XAOmniOutlinerStyle</span><span class="p">)</span>
 
     <span class="nd">@column_title_style</span><span class="o">.</span><span class="n">setter</span>
@@ -916,10 +841,14 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">editable</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;This lets you know whether the document is editable. For example, the release notes document is not editable, so your script may want to avoid trying to edit it.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">editable</span><span class="p">()</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">folded_editing_enabled</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Whether folded editing of item and inline note text is enabled.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">foldedEditingEnabled</span><span class="p">()</span>
 
     <span class="nd">@folded_editing_enabled</span><span class="o">.</span><span class="n">setter</span>
@@ -928,10 +857,14 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">has_subtopics</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Whether the document has any subtopics.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">hasSubtopics</span><span class="p">()</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">horizontal_grid_color</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The color of hairline dividers between rows.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">horizontalGridColor</span><span class="p">())</span>
 
     <span class="nd">@horizontal_grid_color</span><span class="o">.</span><span class="n">setter</span>
@@ -940,14 +873,20 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;An identifier unique to the document.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">id</span><span class="p">()</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">note_column</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAOmniOutlinerColumn&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The column of the document that contains the notes for the rows.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">noteColumn</span><span class="p">(),</span> <span class="n">XAOmniOutlinerColumn</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">note_display</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XAOmniOutlinerApplication</span><span class="o">.</span><span class="n">DisplayType</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Whether notes are displayed inline.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">XAOmniOutlinerApplication</span><span class="o">.</span><span class="n">DisplayType</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">noteDisplay</span><span class="p">())</span>
 
     <span class="nd">@note_display</span><span class="o">.</span><span class="n">setter</span>
@@ -956,10 +895,14 @@
     
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">save_identifier</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;A string that changes each time the document is saved. If the save identifier is disabled, then this returns &#39;missing value&#39;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">saveIdentifier</span><span class="p">()</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">save_identifier_enabled</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Controls whether a save identifier will be emitted in the archived document each time the document is saved. This is useful for external tools that need to quickly determine whether the document has changed without relying on the file modification time.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">saveIdentifierEnabled</span><span class="p">()</span>
 
     <span class="nd">@save_identifier_enabled</span><span class="o">.</span><span class="n">setter</span>
@@ -968,6 +911,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">sorting_postponed</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Whether sorting is currently postponed for the document.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">sortingPostponed</span><span class="p">()</span>
 
     <span class="nd">@sorting_postponed</span><span class="o">.</span><span class="n">setter</span>
@@ -976,6 +921,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">status_sort_order</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XAOmniOutlinerApplication</span><span class="o">.</span><span class="n">SortOrder</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The sort order used for the status checkbox in the topic column.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">XAOmniOutlinerApplication</span><span class="o">.</span><span class="n">SortOrder</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">statusSortOrder</span><span class="p">())</span>
 
     <span class="nd">@status_sort_order</span><span class="o">.</span><span class="n">setter</span>
@@ -984,6 +931,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">status_visible</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Whether the status checkbox is visible in the outline column.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">statusVisible</span><span class="p">()</span>
 
     <span class="nd">@status_visible</span><span class="o">.</span><span class="n">setter</span>
@@ -992,6 +941,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">store_compressed</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Whether xml should be compressed when saved.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">storeCompressed</span><span class="p">()</span>
 
     <span class="nd">@store_compressed</span><span class="o">.</span><span class="n">setter</span>
@@ -1000,6 +951,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">style</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAOmniOutlinerStyle&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The default style for the document.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">style</span><span class="p">(),</span> <span class="n">XAOmniOutlinerStyle</span><span class="p">)</span>
 
     <span class="nd">@style</span><span class="o">.</span><span class="n">setter</span>
@@ -1008,6 +961,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">title</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;This is the title of the document.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">title</span><span class="p">()</span>
 
     <span class="nd">@title</span><span class="o">.</span><span class="n">setter</span>
@@ -1016,10 +971,14 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">topic_column</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAOmniOutlinerColumn&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The column of the document that displays the hierarchy of rows.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">topicColumn</span><span class="p">(),</span> <span class="n">XAOmniOutlinerColumn</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">undo_enabled</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Controls whether undo is currently enabled in the document. This should be used very carefully. If it is set to &#39;false&#39;, all previously registered undo events will be removed and any further modifications to the document will not record undo operations.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">undoEnabled</span><span class="p">()</span>
 
     <span class="nd">@undo_enabled</span><span class="o">.</span><span class="n">setter</span>
@@ -1028,6 +987,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">vertical_grid_color</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The color hairline dividers between columns.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">verticalGridColor</span><span class="p">())</span>
 
     <span class="nd">@vertical_grid_color</span><span class="o">.</span><span class="n">setter</span>
@@ -1036,10 +997,14 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">visible</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Whether the interface for the document is visible. Note that miniaturized counts as visible. Mostly this isn&#39;t useful to third parties right now.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">visible</span><span class="p">()</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">writes_wrapper</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;If set to true, this indicates that the document will write itself as a file wrapper (folder).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">writesWrapper</span><span class="p">()</span>
 
     <span class="nd">@writes_wrapper</span><span class="o">.</span><span class="n">setter</span>
@@ -1048,6 +1013,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">topiccolumnid</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The topic column id for newly created documents.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">topiccolumnid</span><span class="p">()</span>
 
     <span class="nd">@topiccolumnid</span><span class="o">.</span><span class="n">setter</span>
@@ -1056,6 +1023,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">notescolumnid</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The note column id for newly created documents.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">notescolumndid</span><span class="p">()</span>
 
     <span class="nd">@notescolumnid</span><span class="o">.</span><span class="n">setter</span>
@@ -1377,20 +1346,22 @@
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">uti</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The Uniform Type Identifier for this document type</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">display_name</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: A user-presentable display name for this document type</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">file_extensions</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="c1">#: File extensions for this document type</span>
-
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">uti</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The Uniform Type Identifier for this document type.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">uti</span><span class="p">()</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">display_name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;A user-presentable display name for this document type.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">displayName</span><span class="p">()</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">file_extensions</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;File extensions for this document type.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">fileExtensions</span><span class="p">()</span></div>
 
 
@@ -1456,16 +1427,16 @@
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: An identifier for the enumeration that is unique within the column</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">index</span><span class="p">:</span> <span class="nb">int</span> <span class="c1">#: The index of the enumeration member int he column</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The name of the enumeration</span>
-
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;An identifier for the enumeration that is unique within the column.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">id</span><span class="p">()</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The index of the enumeration member in the column.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">index</span><span class="p">()</span>
 
     <span class="nd">@index</span><span class="o">.</span><span class="n">setter</span>
@@ -1474,6 +1445,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The name of the enumeration.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">name</span><span class="p">()</span>
 
     <span class="nd">@name</span><span class="o">.</span><span class="n">setter</span>
@@ -1513,24 +1486,10 @@
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">alignment</span><span class="p">:</span> <span class="n">XAOmniOutlinerApplication</span><span class="o">.</span><span class="n">Alignment</span> <span class="c1">#: Default alignment for cells of the column</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">background_color</span><span class="p">:</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span> <span class="c1">#: The background color of the column</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">column_style</span><span class="p">:</span> <span class="n">XAOmniOutlinerStyle</span> <span class="c1">#: The style of the column. This is used as the default style for values in the column (but is overriden by any style attributes defined on rows)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">document</span><span class="p">:</span> <span class="n">XAOmniOutlinerDocument</span> <span class="c1">#: The document containing the column</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">column_format</span><span class="p">:</span> <span class="n">XAOmniOutlinerColumFormat</span> <span class="c1">#: All aspects of the column&#39;s format</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">format_string</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The format string for formatted columns. Depends on the type of the column</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: An identifier for the column that is unique within the document</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">index</span><span class="p">:</span> <span class="nb">int</span> <span class="c1">#: The index of the column in the document. This includes hidden columns</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The name of the column. This is currently the same as the title, but in the future the title may be styled while the name will always be a plain string</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">sort_order</span><span class="p">:</span> <span class="n">XAOmniOutlinerApplication</span><span class="o">.</span><span class="n">SortOrder</span> <span class="c1">#: The sort order of the column</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">summary_type</span><span class="p">:</span> <span class="n">XAOmniOutlinerApplication</span><span class="o">.</span><span class="n">ColumnSummaryType</span> <span class="c1">#: This is the summary type of the column</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">title</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The title of the column</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">column_type</span><span class="p">:</span> <span class="n">XAOmniOutlinerApplication</span><span class="o">.</span><span class="n">ColumnType</span> <span class="c1">#: This is the type of the column</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">:</span> <span class="nb">int</span> <span class="c1">#: The width of the column in pixels</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">visible</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether the column is visible or not</span>
-
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">alignment</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XAOmniOutlinerApplication</span><span class="o">.</span><span class="n">Alignment</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Default alignment for cells of the column.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">XAOmniOutlinerApplication</span><span class="o">.</span><span class="n">Alignment</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">alignment</span><span class="p">())</span>
 
     <span class="nd">@alignment</span><span class="o">.</span><span class="n">setter</span>
@@ -1539,6 +1498,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">background_color</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The background color of the column.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">backgroundColor</span><span class="p">())</span>
 
     <span class="nd">@background_color</span><span class="o">.</span><span class="n">setter</span>
@@ -1547,6 +1508,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">column_style</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAOmniOutlinerStyle&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The style of the column. This is used as the default style for values in the column (but is overriden by any style attributes defined on rows).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">columnStyle</span><span class="p">(),</span> <span class="n">XAOmniOutlinerStyle</span><span class="p">)</span>
 
     <span class="nd">@column_style</span><span class="o">.</span><span class="n">setter</span>
@@ -1555,6 +1518,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">document</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XAOmniOutlinerDocument</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The document containing the column.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">document</span><span class="p">(),</span> <span class="n">XAOmniOutlinerDocument</span><span class="p">)</span>
 
     <span class="nd">@document</span><span class="o">.</span><span class="n">setter</span>
@@ -1563,6 +1528,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">column_format</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAOmniOutlinerColumFormat&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;All aspects of the column&#39;s format.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">columnFormat</span><span class="p">(),</span> <span class="n">XAOmniOutlinerColumFormat</span><span class="p">)</span>
 
     <span class="nd">@column_format</span><span class="o">.</span><span class="n">setter</span>
@@ -1571,6 +1538,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">format_string</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The format string for formatted columns. Depends on the type of the column.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">formatString</span><span class="p">()</span>
 
     <span class="nd">@format_string</span><span class="o">.</span><span class="n">setter</span>
@@ -1579,10 +1548,14 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;An identifier for the column that is unique within the document.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">id</span><span class="p">()</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The index of the column in the document. This includes hidden columns.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">index</span><span class="p">()</span>
 
     <span class="nd">@index</span><span class="o">.</span><span class="n">setter</span>
@@ -1591,6 +1564,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The name of the column. This is currently the same as the title, but in the future the title may be styled while the name will always be a plain string.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">name</span><span class="p">()</span>
 
     <span class="nd">@name</span><span class="o">.</span><span class="n">setter</span>
@@ -1599,6 +1574,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">sort_order</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XAOmniOutlinerApplication</span><span class="o">.</span><span class="n">SortOrder</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The sort order of the column.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">XAOmniOutlinerApplication</span><span class="o">.</span><span class="n">SortOrder</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">sortOrder</span><span class="p">())</span>
 
     <span class="nd">@sort_order</span><span class="o">.</span><span class="n">setter</span>
@@ -1607,6 +1584,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">summary_type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XAOmniOutlinerApplication</span><span class="o">.</span><span class="n">ColumnSummaryType</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;This is the summary type of the column.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">XAOmniOutlinerApplication</span><span class="o">.</span><span class="n">SortOrder</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">summaryType</span><span class="p">())</span>
 
     <span class="nd">@summary_type</span><span class="o">.</span><span class="n">setter</span>
@@ -1615,6 +1594,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">title</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The title of the column.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">title</span><span class="p">()</span>
 
     <span class="nd">@title</span><span class="o">.</span><span class="n">setter</span>
@@ -1623,6 +1604,8 @@
     
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">column_type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XAOmniOutlinerApplication</span><span class="o">.</span><span class="n">ColumnType</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;This is the type of the column.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">XAOmniOutlinerApplication</span><span class="o">.</span><span class="n">ColumnType</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">columnType</span><span class="p">())</span>
 
     <span class="nd">@column_type</span><span class="o">.</span><span class="n">setter</span>
@@ -1631,6 +1614,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">width</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The width of the column in pixels.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">width</span><span class="p">()</span>
 
     <span class="nd">@width</span><span class="o">.</span><span class="n">setter</span>
@@ -1639,6 +1624,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">visible</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Whether the column is visible or not.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">visible</span><span class="p">()</span>
 
     <span class="nd">@visible</span><span class="o">.</span><span class="n">setter</span>
@@ -1694,17 +1681,10 @@
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">format</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The ICU format string</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The identifier for built-in formats</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">calendar</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The calendar to use for date formats</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">locale</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The locale identifier (such as &quot;en_US&quot; or &quot;ja_JP&quot;) for formats</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">timezone</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The time zone to use for date formats</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">date_style</span><span class="p">:</span> <span class="n">XAOmniOutlinerApplication</span><span class="o">.</span><span class="n">FormatStyle</span> <span class="c1">#: The style of date format to use, based off the user&#39;s preference</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">time_style</span><span class="p">:</span> <span class="n">XAOmniOutlinerApplication</span><span class="o">.</span><span class="n">FormatStyle</span> <span class="c1">#: The style of date format to use, based off the user&#39;s preference</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">currency</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The ISO currency identifier (such as &quot;USD&quot; or &quot;JPY&quot;) for columns with a currency format. Must be used with an id of &quot;currency</span>
-
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">format</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The ICU format string.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">format</span><span class="p">()</span>
 
     <span class="nd">@format</span><span class="o">.</span><span class="n">setter</span>
@@ -1713,10 +1693,14 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The identifier for built-in formats.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">id</span><span class="p">()</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">calendar</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The calendar to use for date formats.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">calendar</span><span class="p">()</span>
 
     <span class="nd">@calendar</span><span class="o">.</span><span class="n">setter</span>
@@ -1725,6 +1709,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">locale</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The locale identifier (such as &quot;en_US&quot; or &quot;ja_JP&quot;) for formats.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">locale</span><span class="p">()</span>
 
     <span class="nd">@locale</span><span class="o">.</span><span class="n">setter</span>
@@ -1733,6 +1719,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">timezone</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The time zone to use for date formats.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">timezone</span><span class="p">()</span>
 
     <span class="nd">@timezone</span><span class="o">.</span><span class="n">setter</span>
@@ -1741,6 +1729,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">date_style</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XAOmniOutlinerApplication</span><span class="o">.</span><span class="n">FormatStyle</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The style of date format to use, based off the user&#39;s preference.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">XAOmniOutlinerApplication</span><span class="o">.</span><span class="n">FormatStyle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">dateStyle</span><span class="p">())</span>
 
     <span class="nd">@date_style</span><span class="o">.</span><span class="n">setter</span>
@@ -1749,6 +1739,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">time_style</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XAOmniOutlinerApplication</span><span class="o">.</span><span class="n">FormatStyle</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The style of time format to use, based off the user&#39;s preference.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">XAOmniOutlinerApplication</span><span class="o">.</span><span class="n">FormatStyle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">timeStyle</span><span class="p">())</span>
 
     <span class="nd">@time_style</span><span class="o">.</span><span class="n">setter</span>
@@ -1757,6 +1749,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">currency</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The ISO currency identifier (such as &quot;USD&quot; or &quot;JPY&quot;) for columns with a currency format. Must be used with an id of &quot;currency.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">currency</span><span class="p">()</span>
 
     <span class="nd">@currency</span><span class="o">.</span><span class="n">setter</span>
@@ -1785,28 +1779,11 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">children_are_sections</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether the row&#39;s children are treated as separate sections</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">document</span><span class="p">:</span> <span class="n">XAOmniOutlinerDocument</span> <span class="c1">#: The document containing the row</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">expanded</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether the row&#39;s subtopics are visible</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">has_subtopics</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether the row has any subtopics</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: An identifier for the row that is unique within the document</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The name of the row (just a plain string version of the topic)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">index</span><span class="p">:</span> <span class="nb">int</span> <span class="c1">#: The index of the row among its siblings</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">level</span><span class="p">:</span> <span class="nb">int</span> <span class="c1">#: How &#39;deep&#39; this item is. Top-level rows are level 1, subtopics of those rows are level 2, and so on</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">note</span><span class="p">:</span> <span class="n">XAOmniOutlinerRichText</span> <span class="c1">#: Contents of the note column</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">note_cell</span><span class="p">:</span> <span class="n">XAOmniOutlinerCell</span> <span class="c1">#: The cell for the note column in the row</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">note_expanded</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether inline note is currently displayed</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="p">:</span> <span class="n">XAOmniOutlinerRow</span> <span class="c1">#: The row that contains this row</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">selected</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: This is true if the row is selected. Note that attempts to set this while the row is not visible (collapsed parent, hoisted root isn&#39;t an ancestor, etc.) will silently do nothing</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">:</span> <span class="n">XAOmniOutlinerApplication</span><span class="o">.</span><span class="n">CheckboxState</span> <span class="c1">#: The state of the check box for this row</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">style</span><span class="p">:</span> <span class="n">XAOmniOutlinerStyle</span> <span class="c1">#: The style of the row</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">topic</span><span class="p">:</span> <span class="n">XAOmniOutlinerRichText</span> <span class="c1">#: Contents of the outline column</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">topic_cell</span><span class="p">:</span> <span class="n">XAOmniOutlinerCell</span> <span class="c1">#: The cell for the topic column in the row</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">visible</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Whether this row is in the outline view. It must be a descendent of the current root item taking hoisting into account, with no collapsed ancestors below the current root. Hoisted rows are visible in the outline and so are considered visible</span>
     
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">children_are_sections</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Whether the row&#39;s children are treated as separate sections.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">childrenAreSections</span><span class="p">()</span>
 
     <span class="nd">@children_are_sections</span><span class="o">.</span><span class="n">setter</span>
@@ -1815,10 +1792,14 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">document</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XAOmniOutlinerDocument</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The document containing the row.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">document</span><span class="p">(),</span> <span class="n">XAOmniOutlinerDocument</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">expanded</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Whether the row&#39;s subtopics are visible.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">expanded</span><span class="p">()</span>
 
     <span class="nd">@expanded</span><span class="o">.</span><span class="n">setter</span>
@@ -1827,18 +1808,26 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">has_subtopics</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Whether the row has any subtopics.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">hasSubtopics</span><span class="p">()</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;An identifier for the row that is unique within the document.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">id</span><span class="p">()</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The name of the row (just a plain string version of the topic).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">name</span><span class="p">()</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The index of the row among its siblings.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">index</span><span class="p">()</span>
 
     <span class="nd">@index</span><span class="o">.</span><span class="n">setter</span>
@@ -1847,10 +1836,14 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">level</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;How &#39;deep&#39; this item is. Top-level rows are level 1, subtopics of those rows are level 2, and so on.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">level</span><span class="p">()</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">note</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XAOmniOutlinerRichText</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Contents of the note column.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">note</span><span class="p">(),</span> <span class="n">XAOmniOutlinerRichText</span><span class="p">)</span>
 
     <span class="nd">@note</span><span class="o">.</span><span class="n">setter</span>
@@ -1859,6 +1852,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">note_cell</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAOmniOutlinerCell&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The cell for the note column in the row.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">noteCell</span><span class="p">(),</span> <span class="n">XAOmniOutlinerCell</span><span class="p">)</span>
 
     <span class="nd">@note_cell</span><span class="o">.</span><span class="n">setter</span>
@@ -1867,6 +1862,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">note_expanded</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Whether inline note is currently displayed.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">noteExpanded</span><span class="p">()</span>
 
     <span class="nd">@note_expanded</span><span class="o">.</span><span class="n">setter</span>
@@ -1875,10 +1872,14 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">parent</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAOmniOutlinerRow&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The row that contains this row.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">parent</span><span class="p">(),</span> <span class="n">XAOmniOutlinerRow</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">selected</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;This is true if the row is selected. Note that attempts to set this while the row is not visible (collapsed parent, hoisted root isn&#39;t an ancestor, etc.) will silently do nothing.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">selected</span><span class="p">()</span>
 
     <span class="nd">@selected</span><span class="o">.</span><span class="n">setter</span>
@@ -1887,6 +1888,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">state</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XAOmniOutlinerApplication</span><span class="o">.</span><span class="n">CheckboxState</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The state of the check box for this row.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">XAOmniOutlinerApplication</span><span class="o">.</span><span class="n">CheckboxState</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">state</span><span class="p">())</span>
 
     <span class="nd">@state</span><span class="o">.</span><span class="n">setter</span>
@@ -1895,6 +1898,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">style</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAOmniOutlinerStyle&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The style of the row.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">style</span><span class="p">(),</span> <span class="n">XAOmniOutlinerStyle</span><span class="p">)</span>
 
     <span class="nd">@style</span><span class="o">.</span><span class="n">setter</span>
@@ -1903,6 +1908,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">topic</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XAOmniOutlinerRichText</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Contents of the outline column.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">topic</span><span class="p">(),</span> <span class="n">XAOmniOutlinerRichText</span><span class="p">)</span>
 
     <span class="nd">@topic</span><span class="o">.</span><span class="n">setter</span>
@@ -1911,10 +1918,14 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">topic_cell</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAOmniOutlinerCell&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The cell for the topic column in the row.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">topicCell</span><span class="p">(),</span> <span class="n">XAOmniOutlinerCell</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">visible</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Whether this row is in the outline view. It must be a descendent of the current root item taking hoisting into account, with no collapsed ancestors below the current root. Hoisted rows are visible in the outline and so are considered visible.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">visible</span><span class="p">()</span>
 
 <div class="viewcode-block" id="XAOmniOutlinerRow.expand_all"><a class="viewcode-back" href="../../../reference/apps/omnioutliner.html#PyXA.apps.OmniOutliner.XAOmniOutlinerRow.expand_all">[docs]</a>    <span class="k">def</span> <span class="nf">expand_all</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">items</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XAOmniOutlinerRow&#39;</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="s1">&#39;XAOmniOutlinerRow&#39;</span><span class="p">],</span> <span class="n">XAOmniOutlinerRowList</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
@@ -2376,16 +2387,10 @@
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">column</span><span class="p">:</span> <span class="n">XAOmniOutlinerColumn</span> <span class="c1">#: Column that this cell is in</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">:</span> <span class="n">XAOmniOutlinerApplication</span><span class="o">.</span><span class="n">CheckboxState</span> <span class="c1">#:  State of the cell. This is only valid on checkbox columns</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The unique identifier of the cell within the containing row. This identifier is the same as the identifier of the cell&#39;s column</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">text</span><span class="p">:</span> <span class="n">XAOmniOutlinerRichText</span> <span class="c1">#: Text of the cell. This is only valid on text columns</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">datetime</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="s1">&#39;XAOmniOutlinerEnumeration&#39;</span><span class="p">,</span> <span class="n">XAOmniOutlinerApplication</span><span class="o">.</span><span class="n">CheckboxState</span><span class="p">]</span> <span class="c1">#: Contents of the cell, whatever the type</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">row</span><span class="p">:</span> <span class="n">XAOmniOutlinerRow</span> <span class="c1">#: Row that this cell is in</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The name of the cell. This is the same as the name of the cell&#39;s column</span>
-
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">column</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XAOmniOutlinerColumn</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Column that this cell is in.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">column</span><span class="p">(),</span> <span class="n">XAOmniOutlinerColumn</span><span class="p">)</span>
 
     <span class="nd">@column</span><span class="o">.</span><span class="n">setter</span>
@@ -2394,6 +2399,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">state</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XAOmniOutlinerApplication</span><span class="o">.</span><span class="n">CheckboxState</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;State of the cell. This is only valid on checkbox columns.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">XAOmniOutlinerApplication</span><span class="o">.</span><span class="n">CheckboxState</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">state</span><span class="p">())</span>
 
     <span class="nd">@state</span><span class="o">.</span><span class="n">setter</span>
@@ -2402,10 +2409,14 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The unique identifier of the cell within the containing row. This identifier is the same as the identifier of the cell&#39;s column.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">id</span><span class="p">()</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">text</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XAOmniOutlinerRichText</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Text of the cell. This is only valid on text columns.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">text</span><span class="p">(),</span> <span class="n">XAOmniOutlinerRichText</span><span class="p">)</span>
     
     <span class="nd">@text</span><span class="o">.</span><span class="n">setter</span>
@@ -2414,6 +2425,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">value</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">datetime</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="s1">&#39;XAOmniOutlinerEnumeration&#39;</span><span class="p">,</span> <span class="n">XAOmniOutlinerApplication</span><span class="o">.</span><span class="n">CheckboxState</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Contents of the cell, whatever the type.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># TODO</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
 
@@ -2424,10 +2437,14 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">row</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XAOmniOutlinerRow</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Row that this cell is in.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">row</span><span class="p">(),</span> <span class="n">XAOmniOutlinerRow</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The name of the cell. This is the same as the name of the cell&#39;s column.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">name</span><span class="p">()</span>
 
 <div class="viewcode-block" id="XAOmniOutlinerCell.replace"><a class="viewcode-back" href="../../../reference/apps/omnioutliner.html#PyXA.apps.OmniOutliner.XAOmniOutlinerCell.replace">[docs]</a>    <span class="k">def</span> <span class="nf">replace</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">replacement</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">regex_to_find</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">string_to_find</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
@@ -2467,11 +2484,10 @@
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">container</span><span class="p">:</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span> <span class="c1">#: The object owning the style</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">font</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The name of the font of the style</span>
-
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">container</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The object owning the style.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">container</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">container</span><span class="p">()</span>
         <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">container</span><span class="p">,</span> <span class="s2">&quot;alternateColor&quot;</span><span class="p">):</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="n">container</span><span class="p">,</span> <span class="n">XAOmniOutlinerDocument</span><span class="p">)</span>
@@ -2479,6 +2495,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">font</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The name of the font of the style.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">font</span><span class="p">()</span>
 
     <span class="nd">@font</span><span class="o">.</span><span class="n">setter</span>
@@ -2541,15 +2559,16 @@
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: An identifier for the named style that is unique within its document. Currently this identifier is not persistent between two different sessions of editing the document</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The name of the style. Must be unique within the containing document</span>
-
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;An identifier for the named style that is unique within its document. Currently this identifier is not persistent between two different sessions of editing the document.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">id</span><span class="p">()</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The name of the style. Must be unique within the containing document.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">name</span><span class="p">()</span>
 
     <span class="nd">@name</span><span class="o">.</span><span class="n">setter</span>
@@ -2577,19 +2596,16 @@
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The name of the attribute</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">style</span><span class="p">:</span> <span class="n">XAOmniOutlinerStyle</span> <span class="c1">#: The style to which the attribute refers</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">has_local_value</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: If true, the containing style defines a local value for this attribute</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">defining_style</span><span class="p">:</span> <span class="n">XAOmniOutlinerStyle</span> <span class="c1">#: The style responsible for the effective value in this attributes&#39;s style. This processes the local values, inherited styles and cascade chain</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">XAOmniOutlinerGenericColor</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAURL</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">XAOmniOutlinerPoint</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="c1">#: The value of the attribute in its style</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">default_value</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">XAOmniOutlinerGenericColor</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAURL</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">XAOmniOutlinerPoint</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="c1">#: The default value of the attribute in its style</span>
-
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The name of the attribute.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">name</span><span class="p">()</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">style</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XAOmniOutlinerStyle</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The style to which the attribute refers.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">style</span><span class="p">(),</span> <span class="n">XAOmniOutlinerStyle</span><span class="p">)</span>
 
     <span class="nd">@style</span><span class="o">.</span><span class="n">setter</span>
@@ -2598,14 +2614,20 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">has_local_value</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;If true, the containing style defines a local value for this attribute.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">hasLocalValue</span><span class="p">()</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">defining_style</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XAOmniOutlinerStyle</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The style responsible for the effective value in this attributes&#39;s style. This processes the local values, inherited styles and cascade chain.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">definingStyle</span><span class="p">(),</span> <span class="n">XAOmniOutlinerStyle</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">value</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XAOmniOutlinerGenericColor&#39;</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAURL</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">bool</span><span class="p">,</span> <span class="s1">&#39;XAOmniOutlinerPoint&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;The value of the attribute in its style.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># TODO</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
 
@@ -2615,6 +2637,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">default_value</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XAOmniOutlinerGenericColor&#39;</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAColor</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAURL</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">bool</span><span class="p">,</span> <span class="s1">&#39;XAOmniOutlinerPoint&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;The default value of the attribute in its style.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">defaultValue</span><span class="p">()</span>
 
     <span class="nd">@default_value</span><span class="o">.</span><span class="n">setter</span>
@@ -2639,11 +2663,10 @@
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">:</span> <span class="nb">float</span> <span class="c1">#: The x coordinate of the point</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">:</span> <span class="nb">float</span> <span class="c1">#: The y coordinate of the point</span>
-
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">x</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The x coordinate of the point.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">x</span><span class="p">()</span>
 
     <span class="nd">@x</span><span class="o">.</span><span class="n">setter</span>
@@ -2652,6 +2675,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">y</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The y coordinate of the point.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">y</span><span class="p">()</span>
 
     <span class="nd">@x</span><span class="o">.</span><span class="n">setter</span>
@@ -2701,26 +2726,10 @@
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">r</span><span class="p">:</span> <span class="nb">float</span> <span class="c1">#: If the color is in a RGB color space, this is the calibrated floating point red component, from zero to one</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">g</span><span class="p">:</span> <span class="nb">float</span> <span class="c1">#: If the color is in a RGB color space, this is the calibrated floating point green component, from zero to one</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="p">:</span> <span class="nb">float</span> <span class="c1">#: If the color is in a RGB color space, this is the calibrated floating point blue component, from zero to one</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="p">:</span> <span class="nb">float</span> <span class="c1">#: If the color is in a White color space, this is the calibrated floating point white component, from zero to one, with zero being totally black and one being totally white</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="p">:</span> <span class="nb">float</span> <span class="c1">#: If the color is in a CMYK color space, this is the device-specific floating point cyan component, from zero to one. There is currently no support for calibrated CYMK color spaces</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">:</span> <span class="nb">float</span> <span class="c1">#: If the color is in a CMYK color space, this is the device-specific floating point yellow component, from zero to one. There is currently no support for calibrated CYMK color spaces</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">m</span><span class="p">:</span> <span class="nb">float</span> <span class="c1">#: If the color is in a CMYK color space, this is the device-specific floating point magenta component, from zero to one. There is currently no support for calibrated CYMK color spaces</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">k</span><span class="p">:</span> <span class="nb">float</span> <span class="c1">#: If the color is in a CMYK color space, this is the device-specific floating point black component, from zero to one. There is currently no support for calibrated CYMK color spaces</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">h</span><span class="p">:</span> <span class="nb">float</span> <span class="c1">#: If the color is in a HSV color space, this is the calibrated floating point hue component, from zero to one</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">s</span><span class="p">:</span> <span class="nb">float</span> <span class="c1">#: If the color is in a HSV color space, this is the calibrated floating point saturation component, from zero to one</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">v</span><span class="p">:</span> <span class="nb">float</span> <span class="c1">#: If the color is in a HSV color space, this is the calibrated floating point value component, from zero to on</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="p">:</span> <span class="nb">float</span> <span class="c1">#: The opacity or alpha of the color as a floating point number from zero to one with zero being totally transparent and one being totally opaque</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">catalog</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: If the color is in a catalog color space, this is the name of the catalog</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: If the color is in a catalog color space, this is the name of color with in the catalog</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">png</span><span class="p">:</span> <span class="n">XAOmniOutlinerPNGData</span> <span class="c1">#: If the color is in a pattern color space, this is PNG data for the image representing the pattern</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">tiff</span><span class="p">:</span> <span class="n">XAOmniOutlinerTIFFData</span> <span class="c1">#: If the color is in a pattern color space, this is TIFF data for the image representing the pattern</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">archive</span><span class="p">:</span> <span class="n">XAOmniOutlinerArchiveData</span> <span class="c1">#: If the color cannot be represented in any other format, a binary archive is placed in this property</span>
-
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">r</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;If the color is in a RGB color space, this is the calibrated floating point red component, from zero to one.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">r</span><span class="p">()</span>
 
     <span class="nd">@r</span><span class="o">.</span><span class="n">setter</span>
@@ -2729,6 +2738,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">g</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;If the color is in a RGB color space, this is the calibrated floating point green component, from zero to one.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">g</span><span class="p">()</span>
 
     <span class="nd">@g</span><span class="o">.</span><span class="n">setter</span>
@@ -2737,6 +2748,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">b</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;If the color is in a RGB color space, this is the calibrated floating point blue component, from zero to one.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">b</span><span class="p">()</span>
 
     <span class="nd">@b</span><span class="o">.</span><span class="n">setter</span>
@@ -2745,6 +2758,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">w</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;If the color is in a White color space, this is the calibrated floating point white component, from zero to one, with zero being totally black and one being totally white.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">w</span><span class="p">()</span>
 
     <span class="nd">@w</span><span class="o">.</span><span class="n">setter</span>
@@ -2753,6 +2768,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">c</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;If the color is in a CMYK color space, this is the device-specific floating point cyan component, from zero to one. There is currently no support for calibrated CYMK color spaces.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">c</span><span class="p">()</span>
 
     <span class="nd">@c</span><span class="o">.</span><span class="n">setter</span>
@@ -2761,6 +2778,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">y</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;If the color is in a CMYK color space, this is the device-specific floating point yellow component, from zero to one. There is currently no support for calibrated CYMK color spaces.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">y</span><span class="p">()</span>
 
     <span class="nd">@y</span><span class="o">.</span><span class="n">setter</span>
@@ -2769,6 +2788,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">m</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;If the color is in a CMYK color space, this is the device-specific floating point magenta component, from zero to one. There is currently no support for calibrated CYMK color spaces.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">m</span><span class="p">()</span>
 
     <span class="nd">@m</span><span class="o">.</span><span class="n">setter</span>
@@ -2777,6 +2798,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">k</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;If the color is in a CMYK color space, this is the device-specific floating point black component, from zero to one. There is currently no support for calibrated CYMK color spaces.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">k</span><span class="p">()</span>
 
     <span class="nd">@k</span><span class="o">.</span><span class="n">setter</span>
@@ -2785,6 +2808,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">h</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;If the color is in a HSV color space, this is the calibrated floating point hue component, from zero to one.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">h</span><span class="p">()</span>
 
     <span class="nd">@h</span><span class="o">.</span><span class="n">setter</span>
@@ -2793,6 +2818,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">s</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;If the color is in a HSV color space, this is the calibrated floating point saturation component, from zero to one.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">s</span><span class="p">()</span>
 
     <span class="nd">@s</span><span class="o">.</span><span class="n">setter</span>
@@ -2801,6 +2828,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">v</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;If the color is in a HSV color space, this is the calibrated floating point value component, from zero to on.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">v</span><span class="p">()</span>
 
     <span class="nd">@v</span><span class="o">.</span><span class="n">setter</span>
@@ -2808,7 +2837,19 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s2">&quot;v&quot;</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
 
     <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">a</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">a</span><span class="p">()</span>
+
+    <span class="nd">@a</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">a</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The opacity or alpha of the color as a floating point number from zero to one with zero being totally transparent and one being totally opaque.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">catalog</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;If the color is in a catalog color space, this is the name of the catalog.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">catalog</span><span class="p">()</span>
 
     <span class="nd">@catalog</span><span class="o">.</span><span class="n">setter</span>
@@ -2817,6 +2858,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;If the color is in a catalog color space, this is the name of color with in the catalog.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">name</span><span class="p">()</span>
 
     <span class="nd">@name</span><span class="o">.</span><span class="n">setter</span>
@@ -2825,6 +2868,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">png</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XAOmniOutlinerPNGData</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;If the color is in a pattern color space, this is PNG data for the image representing the pattern.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">png</span><span class="p">(),</span> <span class="n">XAOmniOutlinerPNGData</span><span class="p">)</span>
 
     <span class="nd">@png</span><span class="o">.</span><span class="n">setter</span>
@@ -2833,6 +2878,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">tiff</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XAOmniOutlinerTIFFData</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;If the color is in a pattern color space, this is TIFF data for the image representing the pattern.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">tiff</span><span class="p">(),</span> <span class="n">XAOmniOutlinerTIFFData</span><span class="p">)</span>
 
     <span class="nd">@tiff</span><span class="o">.</span><span class="n">setter</span>
@@ -2841,6 +2888,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">archive</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XAOmniOutlinerArchiveData</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;If the color cannot be represented in any other format, a binary archive is placed in this property.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">archive</span><span class="p">(),</span> <span class="n">XAOmniOutlinerArchiveData</span><span class="p">)</span>
 
     <span class="nd">@archive</span><span class="o">.</span><span class="n">setter</span>
@@ -2868,16 +2917,16 @@
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The identifier of the preference</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">bool</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="c1">#: The current value of the preference</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">default_value</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">bool</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="c1">#: The default value of the preference</span>
-
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The identifier of the preference.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">id</span><span class="p">()</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">value</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">bool</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;The current value of the preference.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
 
     <span class="nd">@value</span><span class="o">.</span><span class="n">setter</span>
@@ -2886,6 +2935,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">default_value</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">bool</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;The default value of the preference.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">defaultValue</span><span class="p">()</span>
 
     <span class="nd">@default_value</span><span class="o">.</span><span class="n">setter</span>
@@ -2913,17 +2964,16 @@
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The unique identifier of the domain. These should typically be in the reverse-DNS style of bundle identifiers (&quot;com.mycompany.myproduct&quot;)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]]</span> <span class="c1">#: Values must be strings or &#39;missing value&#39; (removes value). To set a single entry, concatenate the current value with the changes and then re-set it. Concatenating an empty and non-empty record crashes AppleScript, so &#39;missing value&#39; will be returned</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">external_id</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: Identifies the conduit externally to OmniOutliner. This might be a record identifier in an external database. This will not get copied when duplicating the row, or if a &#39;save as&#39; or &#39;save to&#39; operation is performed instead of a normal &#39;save&#39;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">container</span><span class="p">:</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span> <span class="c1">#: The row or document containing this group of conduit settings</span>
-
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The unique identifier of the domain. These should typically be in the reverse-DNS style of bundle identifiers (&quot;com.mycompany.myproduct&quot;).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">id</span><span class="p">()</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">settings</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]]:</span>
+        <span class="sd">&quot;&quot;&quot;Values must be strings or &#39;missing value&#39; (removes value). To set a single entry, concatenate the current value with the changes and then re-set it. Concatenating an empty and non-empty record crashes AppleScript, so &#39;missing value&#39; will be returned.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">settings</span><span class="p">()</span>
 
     <span class="nd">@settings</span><span class="o">.</span><span class="n">setter</span>
@@ -2932,10 +2982,14 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">external_id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Identifies the conduit externally to OmniOutliner. This might be a record identifier in an external database. This will not get copied when duplicating the row, or if a &#39;save as&#39; or &#39;save to&#39; operation is performed instead of a normal &#39;save&#39;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">externalId</span><span class="p">()</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">container</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAObject</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The row or document containing this group of conduit settings.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># TODO</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">container</span><span class="p">()</span></div>
 
@@ -2960,21 +3014,10 @@
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">directory_extension</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The prefered file extension for file-system representations of wrapped file documents handled by this plugin</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">directory_index_file_name</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: When writing a document with attachments, this specifies the name of the index file written inside the directory containing the transformed XML</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">write_attachments</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: When writing a document with attachments, this specifies whether the attachments will be written to the output location</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">display_name</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The human readable name for the transform</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">file_extension</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The preferred file extension for file-system representations of flat file documents handled by this plugin</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: A unique identifier for the transform to be used as the &#39;as&#39; parameter of the &#39;save&#39; command</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">is_export</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Returns true if the source format is a native format for OmniOutliner</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">is_import</span><span class="p">:</span> <span class="nb">bool</span> <span class="c1">#: Returns true if the result format is a native format for OmniOutliner</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">parameter_names</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: Names of all XSL parameters set on this transform</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">result_format</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: A description of the data type produced by this transform. For XML data types, this is the DTD public identifier</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">source_format</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: A description of the data type consumed by this transform. For XML data types, this is the DTD public identifier</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">stylesheet</span><span class="p">:</span> <span class="nb">str</span> <span class="c1">#: The XSL source for the transform</span>
-
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">directory_extension</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The prefered file extension for file-system representations of wrapped file documents handled by this plugin.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">directoryExtension</span><span class="p">()</span>
 
     <span class="nd">@directory_extension</span><span class="o">.</span><span class="n">setter</span>
@@ -2983,6 +3026,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">directory_index_file_name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;When writing a document with attachments, this specifies the name of the index file written inside the directory containing the transformed XML.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">directoryIndexFileName</span><span class="p">()</span>
 
     <span class="nd">@directory_index_file_name</span><span class="o">.</span><span class="n">setter</span>
@@ -2991,6 +3036,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">write_attachments</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;When writing a document with attachments, this specifies whether the attachments will be written to the output location.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">writeAttachments</span><span class="p">()</span>
 
     <span class="nd">@write_attachments</span><span class="o">.</span><span class="n">setter</span>
@@ -2999,6 +3046,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">display_name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The human readable name for the transform.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">displayName</span><span class="p">()</span>
 
     <span class="nd">@display_name</span><span class="o">.</span><span class="n">setter</span>
@@ -3007,6 +3056,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">file_extension</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The preferred file extension for file-system representations of flat file documents handled by this plugin.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">fileExtension</span><span class="p">()</span>
 
     <span class="nd">@file_extension</span><span class="o">.</span><span class="n">setter</span>
@@ -3015,22 +3066,32 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;A unique identifier for the transform to be used as the &#39;as&#39; parameter of the &#39;save&#39; command.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">id</span><span class="p">()</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">is_export</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Returns true if the source format is a native format for OmniOutliner.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">isExport</span><span class="p">()</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">is_import</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Returns true if the result format is a native format for OmniOutliner.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">isImport</span><span class="p">()</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">parameter_names</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Names of all XSL parameters set on this transform.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">parameterNames</span><span class="p">()</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">result_format</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;A description of the data type produced by this transform. For XML data types, this is the DTD public identifier.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">resultFormat</span><span class="p">()</span>
 
     <span class="nd">@result_format</span><span class="o">.</span><span class="n">setter</span>
@@ -3039,6 +3100,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">source_format</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;A description of the data type consumed by this transform. For XML data types, this is the DTD public identifier.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">sourceFormat</span><span class="p">()</span>
 
     <span class="nd">@source_format</span><span class="o">.</span><span class="n">setter</span>
@@ -3047,6 +3110,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">stylesheet</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The XSL source for the transform.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">stylesheet</span><span class="p">()</span>
 
     <span class="nd">@stylesheet</span><span class="o">.</span><span class="n">setter</span>

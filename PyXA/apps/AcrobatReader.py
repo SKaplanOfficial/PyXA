@@ -59,40 +59,10 @@ class XAAcrobatReaderApplication(XABaseScriptable.XASBApplication, XACanOpenPath
         super().__init__(properties)
         self.xa_wcls = XAAcrobatReaderWindow
 
-        self.active_doc: XAAcrobatReaderDocument #: The active document
-        self.active_tool: str #: The type of the currently active tool
-        self.anti_alias_text: bool #: Whether to anti-alias text and monochrome images
-        self.best_type: str #: The best descriptor type
-        self.case_sensitivity: bool #: Whether searches are case sensitive
-        self.default_type: str #: The default descriptor type
-        self.default_zoom_factor: float #: The default zoom factor at which new documents are displayed
-        self.default_zoom_type: XAAcrobatReaderApplication.ZoomType #: The default zoom type when opening a new document. Valid values are “no vary”, “fit page”, “fit width”, “fit height”, and “fit visible width”
-        self.download_entire_file: bool #: Whether to download the entire file
-        self.frontmost: bool #: Whether Reader is the frontmost application. Value can be set to true only; false not supported
-        self.fullscreen_transition: str #: Default fullscreen transition
-        self.fullscreen_loop: bool #: Loop after last page in fullscreen mode
-        self.fullscreen_click_advances: bool #: Mouse click advances in fullscreen mode
-        self.fullscreen_escape: bool #: Escape key exits fullscreen mode
-        self.fullscreen_cursor: str #: Cursor visibility in fullscreen mode. Valid values are “always visible”, “always hidden” or “hidden after delay”)
-        self.use_fullscreen_timer: bool #: Whether to use a timer to advance pages in fullscreen mode
-        self.fullscren_timer_delay: int #: The number of seconds to pause before advancing to next page in fullscreen mode
-        self.highlight_color: XABase.XAColor #: Color used to highlight selections
-        self.maximum_documents: int #: Maximum number of open documents
-        self.name: str #: The application’s name
-        self.note_color: XABase.XAColor #: The color of the border around newly created text annotations
-        self.open_in_place: bool #: Open cross document links in the same window
-        self.page_units: str #: Default page display units. One of Points, Picas, Inches, Millimeters or Centimeters
-        self.page_layout: str #: Default page layout preference for a document on open (“Single Page”, “Continuous”, “Continuous - Facing”, “Facing”)
-        self.show_splash_at_startup: bool #: Whether the splash screen is shown at startup
-        self.skip_warnings: bool #: Whether to skip warning dialogs during program execution
-        self.text_note_label: str #: The text that will appear in the “title bar” of all newly created text notes
-        self.toolbar_visibility: bool #: Whether the ToolBar is visible
-        self.ui_language: str #: Identifies which language Reader's UI is using.  This is a 3 character language code (ENU is English, for instance)
-        self.version: str #: The version number of the application
-        self.whole_word_searching: bool #: Whether searches are for whole words
-
     @property
     def active_doc(self) -> 'XAAcrobatReaderDocument':
+        """The active document.
+        """
         return self._new_element(self.xa_scel.activeDoc(), XAAcrobatReaderDocument)
 
     @active_doc.setter
@@ -101,6 +71,8 @@ class XAAcrobatReaderApplication(XABaseScriptable.XASBApplication, XACanOpenPath
 
     @property
     def active_tool(self) -> str:
+        """The type of the currently active tool.
+        """
         return self.xa_scel.activeTool()
 
     @active_tool.setter
@@ -109,6 +81,8 @@ class XAAcrobatReaderApplication(XABaseScriptable.XASBApplication, XACanOpenPath
 
     @property
     def anti_alias_text(self) -> bool:
+        """Whether to anti-alias text and monochrome images.
+        """
         return self.xa_scel.antiAliasText()
 
     @anti_alias_text.setter
@@ -117,10 +91,14 @@ class XAAcrobatReaderApplication(XABaseScriptable.XASBApplication, XACanOpenPath
 
     @property
     def best_type(self) -> str:
+        """The best descriptor type.
+        """
         return self.xa_scel.bestType()
 
     @property
     def case_sensitivity(self) -> bool:
+        """Whether searches are case sensitive.
+        """
         return self.xa_scel.case_sensitivity()
 
     @case_sensitivity.setter
@@ -129,10 +107,14 @@ class XAAcrobatReaderApplication(XABaseScriptable.XASBApplication, XACanOpenPath
 
     @property
     def default_type(self) -> str:
+        """The default descriptor type.
+        """
         return self.xa_scel.default_type()
 
     @property
     def default_zoom_factor(self) -> float:
+        """The default zoom factor at which new documents are displayed.
+        """
         return self.xa_scel.defaultZoomFactor()
 
     @default_zoom_factor.setter
@@ -141,6 +123,8 @@ class XAAcrobatReaderApplication(XABaseScriptable.XASBApplication, XACanOpenPath
 
     @property
     def default_zoom_type(self) -> 'XAAcrobatReaderApplication.ZoomType':
+        """The default zoom type when opening a new document. Valid values are “no vary”, “fit page”, “fit width”, “fit height”, and “fit visible width”.
+        """
         return XAAcrobatReaderApplication.ZoomType(self.xa_scel.defaultZoomType())
 
     @default_zoom_type.setter
@@ -149,6 +133,8 @@ class XAAcrobatReaderApplication(XABaseScriptable.XASBApplication, XACanOpenPath
 
     @property
     def download_entire_file(self) -> bool:
+        """Whether to download the entire file.
+        """
         return self.xa_scel.downloadEntireFile()
 
     @download_entire_file.setter
@@ -157,6 +143,8 @@ class XAAcrobatReaderApplication(XABaseScriptable.XASBApplication, XACanOpenPath
 
     @property
     def frontmost(self) -> bool:
+        """Whether Reader is the frontmost application. Value can be set to true only; false not supported.
+        """
         return self.xa_scel.frontmost()
 
     @frontmost.setter
@@ -165,14 +153,20 @@ class XAAcrobatReaderApplication(XABaseScriptable.XASBApplication, XACanOpenPath
 
     @property
     def fullscreen_transition(self) -> str:
+        """Default fullscreen transition.
+        """
         return self.xa_scel.fullscreenTransition()
 
     @property
     def fullscreen_loop(self) -> bool:
+        """Loop after last page in fullscreen mode.
+        """
         return self.xa_scel.fullscreenLoop()
 
     @property
     def fullscreen_click_advances(self) -> bool:
+        """Mouse click advances in fullscreen mode.
+        """
         return self.xa_scel.fullscreenClickAdvances()
 
     @fullscreen_click_advances.setter
@@ -181,6 +175,8 @@ class XAAcrobatReaderApplication(XABaseScriptable.XASBApplication, XACanOpenPath
 
     @property
     def fullscreen_escape(self) -> bool:
+        """Escape key exits fullscreen mode.
+        """
         return self.xa_scel.fullscreenEscape()
 
     @fullscreen_escape.setter
@@ -189,6 +185,8 @@ class XAAcrobatReaderApplication(XABaseScriptable.XASBApplication, XACanOpenPath
 
     @property
     def fullscreen_cursor(self) -> 'XAAcrobatReaderApplication.CursorSetting':
+        """Cursor visibility in fullscreen mode. Valid values are “always visible”, “always hidden” or “hidden after delay”).
+        """
         return XAAcrobatReaderApplication.CursorSetting(self.xa_scel.fullscreenCursor())
 
     @fullscreen_cursor.setter
@@ -197,6 +195,8 @@ class XAAcrobatReaderApplication(XABaseScriptable.XASBApplication, XACanOpenPath
 
     @property
     def use_fullscreen_timer(self) -> bool:
+        """Whether to use a timer to advance pages in fullscreen mode.
+        """
         return self.xa_elem.useFullscreenTimer()
 
     @use_fullscreen_timer.setter
@@ -205,6 +205,8 @@ class XAAcrobatReaderApplication(XABaseScriptable.XASBApplication, XACanOpenPath
 
     @property
     def fullscreen_timer_delay(self) -> int:
+        """The number of seconds to pause before advancing to next page in fullscreen mode.
+        """
         return self.xa_elem.fullscreenTimerDelay()
 
     @fullscreen_timer_delay.setter
@@ -213,6 +215,8 @@ class XAAcrobatReaderApplication(XABaseScriptable.XASBApplication, XACanOpenPath
 
     @property
     def highlight_color(self) -> XABase.XAColor:
+        """Color used to highlight selections.
+        """
         return XABase.XAColor(self.xa_elem.highlightColor())
 
     @highlight_color.setter
@@ -221,14 +225,20 @@ class XAAcrobatReaderApplication(XABaseScriptable.XASBApplication, XACanOpenPath
 
     @property
     def maximum_documents(self) -> int:
+        """Maximum number of open documents.
+        """
         return self.xa_elem.maximumDocuments()
 
     @property
     def name(self) -> str:
+        """The application's name.
+        """
         return self.xa_elem.name()
 
     @property
     def note_color(self) -> XABase.XAColor:
+        """The color of the border around newly created text annotations.
+        """
         return self.xa_elem.noteColor()
 
     @note_color.setter
@@ -237,6 +247,8 @@ class XAAcrobatReaderApplication(XABaseScriptable.XASBApplication, XACanOpenPath
 
     @property
     def open_in_place(self) -> bool:
+        """Whether to open cross document links in the same window.
+        """
         return self.xa_elem.openInPlace()
 
     @open_in_place.setter
@@ -245,6 +257,8 @@ class XAAcrobatReaderApplication(XABaseScriptable.XASBApplication, XACanOpenPath
 
     @property
     def page_units(self) -> Literal["Points", "Picas", "Inches", "Millimeters", "Centimeters"]:
+        """Default page display units. One of Points, Picas, Inches, Millimeters or Centimeters.
+        """
         return self.xa_elem.pageUnits()
 
     @page_units.setter
@@ -253,6 +267,8 @@ class XAAcrobatReaderApplication(XABaseScriptable.XASBApplication, XACanOpenPath
 
     @property
     def page_layout(self) -> Literal["Single Page", "Continuous", "Continuous - Facing", "Facing"]:
+        """Default page layout preference for a document on open (“Single Page”, “Continuous”, “Continuous - Facing”, “Facing”).
+        """
         return self.xa_elem.page_layout()
 
     @page_layout.setter
@@ -261,6 +277,8 @@ class XAAcrobatReaderApplication(XABaseScriptable.XASBApplication, XACanOpenPath
 
     @property
     def show_splash_at_startup(self) -> bool:
+        """Whether the splash screen is shown at startup.
+        """
         return self.xa_elem.showSplashAtStartup()
 
     @show_splash_at_startup.setter
@@ -269,6 +287,8 @@ class XAAcrobatReaderApplication(XABaseScriptable.XASBApplication, XACanOpenPath
 
     @property
     def skip_warnings(self) -> bool:
+        """Whether to skip warning dialogs during program execution.
+        """
         return self.xa_elem.skipWarnings()
 
     @skip_warnings.setter
@@ -277,6 +297,8 @@ class XAAcrobatReaderApplication(XABaseScriptable.XASBApplication, XACanOpenPath
 
     @property
     def text_note_label(self) -> str:
+        """The text that will appear in the “title bar” of all newly created text notes.
+        """
         return self.xa_elem.textNoteLabel()
 
     @text_note_label.setter
@@ -285,6 +307,8 @@ class XAAcrobatReaderApplication(XABaseScriptable.XASBApplication, XACanOpenPath
 
     @property
     def toolbar_visibility(self) -> bool:
+        """Whether the ToolBar is visible.
+        """
         return self.xa_elem.toolbarVisibility()
 
     @toolbar_visibility.setter
@@ -293,14 +317,20 @@ class XAAcrobatReaderApplication(XABaseScriptable.XASBApplication, XACanOpenPath
 
     @property
     def ui_language(self) -> str:
+        """Identifies which language Reader's UI is using.  This is a 3 character language code (ENU is English, for instance).
+        """
         return self.xa_elem.UILanguage()
 
     @property
     def version(self) -> str:
+        """The version number of the application.
+        """
         return self.xa_elem.version()
 
     @property
     def whole_word_searching(self) -> bool:
+        """Whether searches are for whole words.
+        """
         return self.xa_elem.wholeWordSearching()
 
     @whole_word_searching.setter
@@ -329,34 +359,6 @@ class XAAcrobatReaderWindow(XABaseScriptable.XASBWindow):
     """
     def __init__(self, properties):
         super().__init__(properties)
-
-        self.name: str #: The title of the window
-        self.bounds: tuple[int, int, int, int] #: The bounding rectangle for the window
-        self.visible: bool #: Whether the window is visible
-
-    @property
-    def name(self) -> str:
-        return self.xa_elem.name()
-
-    @property
-    def bounds(self) -> tuple[int, int, int, int]:
-        rect = self.xa_elem.bounds()
-        origin = rect.origin
-        size = rect.size
-        return (origin.x, origin.y, size.width, size.height)
-
-    @bounds.setter
-    def bounds(self, bounds: tuple[int, int, int, int]):
-        x = bounds[0]
-        y = bounds[1]
-        w = bounds[2]
-        h = bounds[3]
-        value = AppKit.NSValue.valueWithRect_(AppKit.NSMakeRect(x, y, w, h))
-        self.set_property("bounds", value)
-
-    @property
-    def visible(self) -> bool:
-        return self.xa_elem.visible()
 
 
 
@@ -534,20 +536,16 @@ class XAAcrobatReaderDocument(XABase.XAObject):
     def __init__(self, properties):
         super().__init__(properties)
 
-        self.best_type: str #: The best descriptor type
-        self.bounds: tuple[int, int, int, int] #: The boundary rectangle for the document's window, in screen coordinates (left, top, right, bottom). Note that (0,0) is in the upper left.
-        self.default_type: str #: The default descriptor type
-        self.file_alias: str #: An alias to the file where the doc will be saved to if no other name is supplied. This is usually the same file as where it the document was read in from
-        self.name: str #: The document’s name (as shown in the window’s titlebar)
-        self.modified: bool #: Whether the document has been modified enough to warrant saving
-        self.view_mode: XAAcrobatReaderApplication.ViewMode #: The view mode of the document
-
     @property
     def best_type(self) -> str:
+        """The best descriptor type.
+        """
         return self.xa_elem.bestType()
 
     @property
     def bounds(self) -> tuple[int, int, int, int]:
+        """The boundary rectangle for the document's window, in screen coordinates (left, top, right, bottom). Note that (0,0) is in the upper left.
+        """
         rect = self.xa_elem.bounds()
         origin = rect.origin
         size = rect.size
@@ -564,22 +562,32 @@ class XAAcrobatReaderDocument(XABase.XAObject):
 
     @property
     def default_type(self) -> str:
+        """The default descriptor type.
+        """
         return self.xa_elem.defaultType()
 
     @property
     def file_alias(self) -> XABase.XAPath:
+        """An alias to the file where the doc will be saved to if no other name is supplied. This is usually the same file as where it the document was read in from.
+        """
         return XABase.XAPath(self.xa_elem.fileAlias())
 
     @property
     def name(self) -> str:
+        """The document's name (as shown in the window's titlebar).
+        """
         return self.xa_elem.name()
 
     @property
     def modified(self) -> bool:
+        """Whether the document has been modified enough to warrant saving.
+        """
         return self.xa_elem.modified()
 
     @property
     def view_mode(self) -> XAAcrobatReaderApplication.ViewMode:
+        """The view mode of the document.
+        """
         return XAAcrobatReaderApplication.ViewMode(self.xa_elem.viewMode())
 
     @view_mode.setter
@@ -609,27 +617,28 @@ class XAAcrobatReaderPDFWindow(XAAcrobatReaderWindow):
     def __init__(self, properties):
         super().__init__(properties)
 
-        self.best_type: str #: The best descriptor type
-        self.default_type: str #: The default descriptor type
-        self.name: str #: The document's name (as shown in the window's titlebar)
-        self.page_number: int #: The number of the current displayed page
-        self.zoom_factor: float #: The current zoom factor
-        self.zoom_type: XAAcrobatReaderApplication.ZoomType #: The zooming and content fitting algorithm current employed
-
     @property
     def best_type(self) -> str:
+        """The best descriptor type.
+        """
         return self.xa_elem.bestType()
 
     @property
     def default_type(self) -> str:
+        """The default descriptor type.
+        """
         return self.xa_elem.defaultType()
 
     @property
     def name(self) -> str:
+        """The document's name (as shown in the window's titlebar).
+        """
         return self.xa_elem.name()
 
     @property
     def page_number(self) -> int:
+        """The number of the current displayed page.
+        """
         return self.xa_elem.pageNumber()
 
     @page_number.setter
@@ -638,6 +647,8 @@ class XAAcrobatReaderPDFWindow(XAAcrobatReaderWindow):
 
     @property
     def zoom_factor(self) -> float:
+        """The current zoom factor.
+        """
         return self.xa_elem.zoomFactor()
 
     @zoom_factor.setter
@@ -646,6 +657,8 @@ class XAAcrobatReaderPDFWindow(XAAcrobatReaderWindow):
 
     @property
     def zoom_type(self) -> XAAcrobatReaderApplication.ZoomType:
+        """The zooming and content fitting algorithm current employed.
+        """
         return self.xa_elem.zoomType()
 
     @zoom_type.setter
@@ -873,23 +886,16 @@ class XAAcrobatReaderPDFPage(XAAcrobatReaderWindow):
     def __init__(self, properties):
         super().__init__(properties)
 
-        self.best_type: str #: The best descriptor type
-        self.art_box: list[float] #: The art box rectangle for the page, in PDF space (left, top, right, bottom)
-        self.bleed_box: list[float] #: The bleed box rectangle for the page, in PDF space (left, top, right, bottom)
-        self.crop_box: list[float] #: The crop rectangle for the page, in PDF space (left, top, right, bottom)
-        self.default_type: str #: The default descriptor type
-        self.label_text: str #: The label (or custom page number) used to describe the page
-        self.media_box: list[float] #: The media bounds rectangle for the page, in PDF space (left, top, right, bottom)
-        self.page_number: int #: The page’s number.
-        self.rotation: int #: The rotation angle of the page (0, 90, 180, 270)
-        self.trim_box: list[float] #: The trim box rectangle for the page, in PDF space (left, top, right, bottom)
-
     @property
     def best_type(self) -> str:
+        """The best descriptor type.
+        """
         return self.xa_elem.bestType()
         
     @property
     def art_box(self) -> list[float]:
+        """The art box rectangle for the page, in PDF space (left, top, right, bottom).
+        """
         return self.xa_elem.artBox()
 
     @art_box.setter
@@ -898,6 +904,8 @@ class XAAcrobatReaderPDFPage(XAAcrobatReaderWindow):
 
     @property
     def bleed_box(self) -> list[float]:
+        """The bleed box rectangle for the page, in PDF space (left, top, right, bottom).
+        """
         return self.xa_elem.bleedBox()
 
     @bleed_box.setter
@@ -906,6 +914,8 @@ class XAAcrobatReaderPDFPage(XAAcrobatReaderWindow):
 
     @property
     def crop_box(self) -> list[float]:
+        """The crop rectangle for the page, in PDF space (left, top, right, bottom).
+        """
         return self.xa_elem.cropBox()
 
     @crop_box.setter
@@ -914,14 +924,20 @@ class XAAcrobatReaderPDFPage(XAAcrobatReaderWindow):
 
     @property
     def default_type(self) -> str:
+        """The default descriptor type.
+        """
         return self.xa_elem.defaultType()
 
     @property
     def label_text(self) -> str:
+        """The label (or custom page number) used to describe the page.
+        """
         return self.xa_elem.labelText()
 
     @property
     def media_box(self) -> list[float]:
+        """The media bounds rectangle for the page, in PDF space (left, top, right, bottom).
+        """
         return self.xa_elem.mediaBox()
 
     @media_box.setter
@@ -930,10 +946,14 @@ class XAAcrobatReaderPDFPage(XAAcrobatReaderWindow):
 
     @property
     def page_number(self) -> int:
+        """The page’s number.
+        """
         return self.xa_elem.pageNumber()
 
     @property
     def rotation(self) -> int:
+        """The rotation angle of the page (0, 90, 180, 270).
+        """
         return self.xa_elem.rotation()
 
     @rotation.setter
@@ -942,6 +962,8 @@ class XAAcrobatReaderPDFPage(XAAcrobatReaderWindow):
 
     @property
     def trim_box(self) -> list[float]:
+        """The trim box rectangle for the page, in PDF space (left, top, right, bottom).
+        """
         return self.xa_elem.trimBox()
 
     @trim_box.setter
@@ -1130,25 +1152,22 @@ class XAAcrobatReaderBookmark(XABase.XAObject):
     def __init__(self, properties):
         super().__init__(properties)
 
-        self.best_type: str #: The best descriptor type
-        self.default_type: str #: The default descriptor type
-        self.destination_page_number: int #: The number of the page the PDF Window goes to when the bookmark is performed
-        self.destination_rectangle: list[float] #: The boundary rectangle for the view of the destination, in PDF space (left, top, right, bottom). [Set this only after setting the fit type property]
-        self.fit_type: XAAcrobatReaderApplication.FitType #: Controls how the destination rectangle is fitted to the window when the bookmark is executed
-        self.index: int #: The bookmark’s index within the Document
-        self.name: str #: The bookmark’s title
-        self.zoom_factor: float #: If fit type is “Left Top Zoom”, then this specifies the zoom factor, otherwise, this property is ignored. Setting this property automatically sets the fit type to “Left Top Zoom”
-
     @property
     def best_type(self) -> str:
+        """The best descriptor type.
+        """
         return self.xa_elem.bestType()
 
     @property
     def default_type(self) -> str:
+        """The default descriptor type.
+        """
         return self.xa_elem.defaultType()
 
     @property
     def destination_page_number(self) -> int:
+        """The number of the page the PDF Window goes to when the bookmark is performed.
+        """
         return self.xa_elem.destinationPageNumber()
 
     @destination_page_number.setter
@@ -1157,6 +1176,8 @@ class XAAcrobatReaderBookmark(XABase.XAObject):
 
     @property
     def destination_rectangle(self) -> list[float]:
+        """The boundary rectangle for the view of the destination, in PDF space (left, top, right, bottom). [Set this only after setting the fit type property].
+        """
         return self.xa_elem.destinationRectangle()
 
     @destination_rectangle.setter
@@ -1165,6 +1186,8 @@ class XAAcrobatReaderBookmark(XABase.XAObject):
 
     @property
     def fit_type(self) -> XAAcrobatReaderApplication.FitType:
+        """Controls how the destination rectangle is fitted to the window when the bookmark is executed.
+        """
         return XAAcrobatReaderApplication.FitType(self.xa_elem.fitType())
 
     @fit_type.setter
@@ -1173,10 +1196,14 @@ class XAAcrobatReaderBookmark(XABase.XAObject):
 
     @property
     def index(self) -> int:
+        """The bookmark's index within the Document.
+        """
         return self.xa_elem.index()
 
     @property
     def name(self) -> str:
+        """The bookmark's title.
+        """
         return self.xa_elem.name()
 
     @name.setter
@@ -1185,6 +1212,8 @@ class XAAcrobatReaderBookmark(XABase.XAObject):
 
     @property
     def zoom_factor(self) -> float:
+        """If fit type is “Left Top Zoom”, then this specifies the zoom factor, otherwise, this property is ignored. Setting this property automatically sets the fit type to “Left Top Zoom”.
+        """
         return self.xa_elem.zoomFactor()
 
     @zoom_factor.setter
@@ -1495,7 +1524,7 @@ class XAAcrobatReaderAnnotationList(XABase.XAList):
         
         .. versionadded:: 0.1.0
         """
-        return self.by_property("zoomFactor", zoomFactor)
+        return self.by_property("zoomFactor", zoom_factor)
 
 class XAAcrobatReaderAnnotation(XABase.XAObject):
     """An annotation in Adobe Reader.
@@ -1505,27 +1534,16 @@ class XAAcrobatReaderAnnotation(XABase.XAObject):
     def __init__(self, properties):
         super().__init__(properties)
 
-        self.best_type: str #: The best descriptor type
-        self.bounds: list[float] #: The boundary rectangle for the annotation, in PDF space (left, top, right, bottom)
-        self.color: XABase.XAColor #: The color of the border around the annotation
-        self.contents: str #: Text subtype only: The textual contents of the annotation
-        self.default_type: str #: The default descriptor type
-        self.destination_page_number: int #: Link subtype only: The number of the page the PDF Window goes to when the link annotation is performed
-        self.destination_rectangle: list[float] #: Link subtype only: The boundary rectangle for the view of the destination, in PDF space (left, top, right, bottom)
-        self.fit_type: XAAcrobatReaderApplication.FitType #: Link subtype only: Controls how the destination rectangle is fitted to the window when the annotation is performed
-        self.index: int #: The annotation’s index within a Page object
-        self.modification_date: datetime #: The date and time the annotation was last modified
-        self.name: str #: Text subtypes only: The annotation’s label
-        self.open_state: bool #: ext subtype only: Whether the annotation is open
-        self.subtype: str #: The subtype of the annotation
-        self.zoom_factor: float #: Link subtype only: If fit type is “Left Top Zoom”, then this specifies the zoom factor, otherwise, this property is ignored. Setting this property automatically sets the fit type to “Left Top Zoom”
-
     @property
     def best_type(self) -> str:
+        """The best descriptor type.
+        """
         return self.xa_elem.bestType()
 
     @property
     def bounds(self) -> list[float]:
+        """The boundary rectangle for the annotation, in PDF space (left, top, right, bottom).
+        """
         return self.xa_elem.bounds()
 
     @bounds.setter
@@ -1534,6 +1552,8 @@ class XAAcrobatReaderAnnotation(XABase.XAObject):
 
     @property
     def color(self) -> XABase.XAColor:
+        """The color of the border around the annotation.
+        """
         return XABase.XAColor(self.xa_elem.color())
 
     @color.setter
@@ -1542,6 +1562,8 @@ class XAAcrobatReaderAnnotation(XABase.XAObject):
 
     @property
     def contents(self) -> str:
+        """Text subtype only: The textual contents of the annotation.
+        """
         return self.xa_elem.contents()
 
     @contents.setter
@@ -1550,10 +1572,14 @@ class XAAcrobatReaderAnnotation(XABase.XAObject):
 
     @property
     def default_type(self) -> str:
+        """The default descriptor type.
+        """
         return self.xa_elem.defaultType()
 
     @property
     def destination_page_number(self) -> int:
+        """Link subtype only: The number of the page the PDF Window goes to when the link annotation is performed.
+        """
         return self.xa_elem.destinationPageNumber()
 
     @destination_page_number.setter
@@ -1562,6 +1588,8 @@ class XAAcrobatReaderAnnotation(XABase.XAObject):
 
     @property
     def destination_rectangle(self) -> list[float]:
+        """Link subtype only: The boundary rectangle for the view of the destination, in PDF space (left, top, right, bottom).
+        """
         return self.xa_elem.destinationRectangle()
 
     @destination_rectangle.setter
@@ -1570,6 +1598,8 @@ class XAAcrobatReaderAnnotation(XABase.XAObject):
 
     @property
     def fit_type(self) -> XAAcrobatReaderApplication.FitType:
+        """Link subtype only: Controls how the destination rectangle is fitted to the window when the annotation is performed.
+        """
         return XAAcrobatReaderApplication.FitType(self.xa_elem.fitType())
 
     @fit_type.setter
@@ -1578,10 +1608,14 @@ class XAAcrobatReaderAnnotation(XABase.XAObject):
 
     @property
     def index(self) -> int:
+        """The annotation’s index within a Page object.
+        """
         return self.xa_elem.index()
 
     @property
     def modification_date(self) -> datetime:
+        """The date and time the annotation was last modified.
+        """
         return self.xa_elem.modificationDate()
 
     @modification_date.setter
@@ -1590,6 +1624,8 @@ class XAAcrobatReaderAnnotation(XABase.XAObject):
 
     @property
     def name(self) -> str:
+        """Text subtypes only: The annotation's label.
+        """
         return self.xa_elem.name()
 
     @name.setter
@@ -1598,6 +1634,8 @@ class XAAcrobatReaderAnnotation(XABase.XAObject):
 
     @property
     def open_state(self) -> bool:
+        """ext subtype only: Whether the annotation is open.
+        """
         return self.xa_elem.openState()
 
     @open_state.setter
@@ -1606,10 +1644,14 @@ class XAAcrobatReaderAnnotation(XABase.XAObject):
 
     @property
     def subtype(self) -> str:
+        """The subtype of the annotation.
+        """
         return self.xa_elem.subtype()
 
     @property
     def zoom_factor(self) -> float:
+        """Link subtype only: If fit type is “Left Top Zoom”, then this specifies the zoom factor, otherwise, this property is ignored. Setting this property automatically sets the fit type to “Left Top Zoom”.
+        """
         return self.xa_elem.zoomFactor()
 
     @zoom_factor.setter
@@ -1717,25 +1759,28 @@ class XAAcrobatReaderMenu(XABase.XAObject):
     def __init__(self, properties):
         super().__init__(properties)
 
-        self.best_type: str #: The best descriptor type
-        self.default_type: str #: The default descriptor type.
-        self.name: str #: The menu’s name (a language-independent name that uniquely identifies the menu)
-        self.title: str #: The menu’s title (as shown in the menu itself). This title will be in the application’s UI language
-
     @property
     def best_type(self) -> str:
+        """The best descriptor type.
+        """
         return self.xa_elem.bestType()
 
     @property
     def default_type(self) -> str:
+        """The default descriptor type.
+        """
         return self.xa_elem.defaultType()
 
     @property
     def name(self) -> str:
+        """The menu’s name (a language-independent name that uniquely identifies the menu).
+        """
         return self.xa_elem.name()
 
     @property
     def title(self) -> str:
+        """The menu’s title (as shown in the menu itself). This title will be in the application’s UI language.
+        """
         return self.xa_elem.title()
 
 
@@ -1899,36 +1944,40 @@ class XAAcrobatReaderMenuItem(XABase.XAObject):
     def __init__(self, properties):
         super().__init__(properties)
 
-        self.best_type: str #: The best descriptor type
-        self.default_type: str #: The default descriptor type.
-        self.enabled: bool #: Whether the menu item is enabled
-        self.marked: bool #: Whether the menu item is checked
-        self.name: str #: The menu item's name (a language-independent name that uniquely identifies the menu item)
-        self.title: str #: The menu item’s title (as shown in the menu item itself). This title will be in the application’s UI language
-        self.has_submenu: bool #: Whether the menu item has a hierarchical sub-menu
-
     @property
     def best_type(self) -> str:
+        """The best descriptor type.
+        """
         return self.xa_elem.bestType()
 
     @property
     def default_type(self) -> str:
+        """The default descriptor type.
+        """
         return self.xa_elem.defaultType()
 
     @property
     def enabled(self) -> bool:
+        """Whether the menu item is enabled.
+        """
         return self.xa_elem.enabled()
 
     @property
     def marked(self) -> bool:
+        """Whether the menu item is checked.
+        """
         return self.xa_elem.marked()
 
     @property
     def name(self) -> str:
+        """The menu item's name (a language-independent name that uniquely identifies the menu item).
+        """
         return self.xa_elem.name()
 
     @property
     def title(self) -> str:
+        """The menu item’s title (as shown in the menu item itself). This title will be in the application’s UI language.
+        """
         return self.xa_elem.title()
 
     @title.setter
@@ -1937,4 +1986,6 @@ class XAAcrobatReaderMenuItem(XABase.XAObject):
 
     @property
     def has_submenu(self) -> bool:
+        """Whether the menu item has a hierarchical sub-menu.
+        """
         return self.xa_elem.hasSubmenu()

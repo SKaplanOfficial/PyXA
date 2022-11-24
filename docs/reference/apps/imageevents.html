@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Image Events Module Reference &mdash; PyXA 0.1.0 documentation</title>
+  <title>Image Events Module Reference &mdash; PyXA 0.1.1 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
@@ -46,7 +46,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../../tutorial/index.html">Tutorial</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../index.html">Code Documentation and Reference</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../index.html#top-level-pyxa-modules">Top-level PyXA Modules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../index.html#pyxa-base-modules">PyXA Base Modules</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../index.html#first-party-application-module-reference">First-Party Application Module Reference</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="automator.html">Automator Module Reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="calculator.html">Calculator Module Reference</a></li>
@@ -91,6 +90,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../index.html#third-party-application-module-reference">Third-Party Application Module Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#pyxa-additions">PyXA Additions</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../bugs.html">Bugs</a></li>
@@ -109,9 +109,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../index.html">Code Documentation and Reference</a> &raquo;</li>
-      <li>Image Events Module Reference</li>
+      <li><a href="../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Code Documentation and Reference</a></li>
+      <li class="breadcrumb-item active">Image Events Module Reference</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../../_sources/reference/apps/imageevents.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -125,10 +125,6 @@
 <span id="image-events-module-reference"></span><h1>Image Events Module Reference<a class="headerlink" href="#module-PyXA.apps.ImageEvents" title="Permalink to this heading"></a></h1>
 <p><strong>Classes:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.ImageEvents.XAImageEventsApplication" title="PyXA.apps.ImageEvents.XAImageEventsApplication"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAImageEventsApplication</span></code></a>(properties)</p></td>
 <td><p>A class for interacting with Image Events.app.</p></td>
@@ -162,17 +158,13 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.ImageEvents.XAImageEventsApplication">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.ImageEvents.</span></span><span class="sig-name descname"><span class="pre">XAImageEventsApplication</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/ImageEvents.html#XAImageEventsApplication"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.ImageEvents.XAImageEventsApplication" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAEventsApplication" title="PyXA.XABase.XAEventsApplication"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAEventsApplication</span></code></a>, <a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XASBApplication" title="PyXA.XABaseScriptable.XASBApplication"><code class="xref py py-class docutils literal notranslate"><span class="pre">XASBApplication</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">XACanOpenPath</span></code></p>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAEventsApplication" title="PyXA.XABase.XAEventsApplication"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAEventsApplication</span></code></a>, <a class="reference internal" href="../xabasescriptable.html#PyXA.XABaseScriptable.XASBApplication" title="PyXA.XABaseScriptable.XASBApplication"><code class="xref py py-class docutils literal notranslate"><span class="pre">XASBApplication</span></code></a>, <a class="reference internal" href="../xaprotocols.html#PyXA.XAProtocols.XACanOpenPath" title="PyXA.XAProtocols.XACanOpenPath"><code class="xref py py-class docutils literal notranslate"><span class="pre">XACanOpenPath</span></code></a></p>
 <p>A class for interacting with Image Events.app.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.1.0.</span></p>
 </div>
 <p><strong>Classes:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.ImageEvents.XAImageEventsApplication.BitDepth" title="PyXA.apps.ImageEvents.XAImageEventsApplication.BitDepth"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BitDepth</span></code></a>(value[, names, module, qualname, ...])</p></td>
 <td><p>Bit depth options.</p></td>
@@ -205,10 +197,6 @@
 </table>
 <p><strong>Methods:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.ImageEvents.XAImageEventsApplication.aliases" title="PyXA.apps.ImageEvents.XAImageEventsApplication.aliases"><code class="xref py py-obj docutils literal notranslate"><span class="pre">aliases</span></code></a>([filter])</p></td>
 <td><p>Returns a list of aliases, as PyXA objects, matching the given filter.</p></td>
@@ -250,10 +238,6 @@
 </table>
 <p><strong>Attributes:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.ImageEvents.XAImageEventsApplication.application_support_folder" title="PyXA.apps.ImageEvents.XAImageEventsApplication.application_support_folder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">application_support_folder</span></code></a></p></td>
 <td><p>The Application Support folder.</p></td>
@@ -411,10 +395,6 @@
 <p>Bit depth options.</p>
 <p><strong>Attributes:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.ImageEvents.XAImageEventsApplication.BitDepth.BEST" title="PyXA.apps.ImageEvents.XAImageEventsApplication.BitDepth.BEST"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BEST</span></code></a></p></td>
 <td><p></p></td>
@@ -531,10 +511,6 @@
 <p>Color space options.</p>
 <p><strong>Attributes:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.ImageEvents.XAImageEventsApplication.ColorSpace.CMYK" title="PyXA.apps.ImageEvents.XAImageEventsApplication.ColorSpace.CMYK"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CMYK</span></code></a></p></td>
 <td><p></p></td>
@@ -659,10 +635,6 @@
 <p>Compression options.</p>
 <p><strong>Attributes:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.ImageEvents.XAImageEventsApplication.CompressionLevel.HIGH" title="PyXA.apps.ImageEvents.XAImageEventsApplication.CompressionLevel.HIGH"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HIGH</span></code></a></p></td>
 <td><p></p></td>
@@ -699,10 +671,6 @@
 <p>Profile connection space options.</p>
 <p><strong>Attributes:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.ImageEvents.XAImageEventsApplication.ConnectionSpace.LAB" title="PyXA.apps.ImageEvents.XAImageEventsApplication.ConnectionSpace.LAB"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LAB</span></code></a></p></td>
 <td><p></p></td>
@@ -731,10 +699,6 @@
 <p>Profile device class options.</p>
 <p><strong>Attributes:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.ImageEvents.XAImageEventsApplication.DeviceClass.ABSTRACT" title="PyXA.apps.ImageEvents.XAImageEventsApplication.DeviceClass.ABSTRACT"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ABSTRACT</span></code></a></p></td>
 <td><p></p></td>
@@ -803,10 +767,6 @@
 <p>Image file type options.</p>
 <p><strong>Attributes:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.ImageEvents.XAImageEventsApplication.FileType.BMP" title="PyXA.apps.ImageEvents.XAImageEventsApplication.FileType.BMP"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BMP</span></code></a></p></td>
 <td><p></p></td>
@@ -939,10 +899,6 @@
 <p>Image quality options.</p>
 <p><strong>Attributes:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.ImageEvents.XAImageEventsApplication.ImageQuality.BEST" title="PyXA.apps.ImageEvents.XAImageEventsApplication.ImageQuality.BEST"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BEST</span></code></a></p></td>
 <td><p></p></td>
@@ -995,10 +951,6 @@
 <p>Profile quality options.</p>
 <p><strong>Attributes:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.ImageEvents.XAImageEventsApplication.ProfileQuality.BEST" title="PyXA.apps.ImageEvents.XAImageEventsApplication.ProfileQuality.BEST"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BEST</span></code></a></p></td>
 <td><p></p></td>
@@ -1035,10 +987,6 @@
 <p>Rendering intent options.</p>
 <p><strong>Attributes:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.ImageEvents.XAImageEventsApplication.RenderingIntent.ABSOLUTE_COLORIMETRIC" title="PyXA.apps.ImageEvents.XAImageEventsApplication.RenderingIntent.ABSOLUTE_COLORIMETRIC"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ABSOLUTE_COLORIMETRIC</span></code></a></p></td>
 <td><p></p></td>
@@ -1423,13 +1371,13 @@
 <span class="sig-name descname"><span class="pre">open</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">paths</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAPath" title="PyXA.XABase.XAPath"><span class="pre">PyXA.XABase.XAPath</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAPath" title="PyXA.XABase.XAPath"><span class="pre">XAPath</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.ImageEvents.XAImageEventsImage" title="PyXA.apps.ImageEvents.XAImageEventsImage"><span class="pre">XAImageEventsImage</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/ImageEvents.html#XAImageEventsApplication.open"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.ImageEvents.XAImageEventsApplication.open" title="Permalink to this definition"></a></dt>
 <dd><p>Opens the disk item at the given filepath.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>path</strong> (<em>Union</em><em>[</em><em>list</em><em>[</em><a class="reference internal" href="../xabase.html#PyXA.XABase.XAPath" title="PyXA.XABase.XAPath"><em>XABase.XAPath</em></a><em>]</em><em>, </em><a class="reference internal" href="../xabase.html#PyXA.XABase.XAPath" title="PyXA.XABase.XAPath"><em>XABase.XAPath</em></a><em>, </em><em>str</em><em>]</em>) – The path to a file or the URL to a website to open.</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>A reference to the opened file, or None if no file was created or it cannot be found</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Any</p>
 </dd>
 </dl>
@@ -1648,10 +1596,6 @@
 </div>
 <p><strong>Attributes:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.ImageEvents.XAImageEventsDisplay.display_number" title="PyXA.apps.ImageEvents.XAImageEventsDisplay.display_number"><code class="xref py py-obj docutils literal notranslate"><span class="pre">display_number</span></code></a></p></td>
 <td><p>The number of the display.</p></td>
@@ -1704,10 +1648,6 @@
 </div>
 <p><strong>Methods:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.ImageEvents.XAImageEventsDisplayList.by_display_number" title="PyXA.apps.ImageEvents.XAImageEventsDisplayList.by_display_number"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_display_number</span></code></a>(display_number)</p></td>
 <td><p>Retrieves display whose display number matches the given number.</p></td>
@@ -1795,10 +1735,6 @@
 </div>
 <p><strong>Attributes:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.ImageEvents.XAImageEventsImage.bit_depth" title="PyXA.apps.ImageEvents.XAImageEventsImage.bit_depth"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bit_depth</span></code></a></p></td>
 <td><p>Bit depth of the image's color representation.</p></td>
@@ -1843,10 +1779,6 @@
 </table>
 <p><strong>Methods:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.ImageEvents.XAImageEventsImage.embed_profile" title="PyXA.apps.ImageEvents.XAImageEventsImage.embed_profile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">embed_profile</span></code></a>(profile)</p></td>
 <td><p>Embeds the specified ICC profile in the image.</p></td>
@@ -1894,13 +1826,13 @@
 <span class="sig-name descname"><span class="pre">embed_profile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">profile</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#PyXA.apps.ImageEvents.XAImageEventsProfile" title="PyXA.apps.ImageEvents.XAImageEventsProfile"><span class="pre">XAImageEventsProfile</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.ImageEvents.XAImageEventsImage" title="PyXA.apps.ImageEvents.XAImageEventsImage"><span class="pre">XAImageEventsImage</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/ImageEvents.html#XAImageEventsImage.embed_profile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.ImageEvents.XAImageEventsImage.embed_profile" title="Permalink to this definition"></a></dt>
 <dd><p>Embeds the specified ICC profile in the image.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>profile</strong> (<a class="reference internal" href="#PyXA.apps.ImageEvents.XAImageEventsProfile" title="PyXA.apps.ImageEvents.XAImageEventsProfile"><em>XAImageEventsProfile</em></a>) – The ICC profile to embed in the image</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>The image object</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="#PyXA.apps.ImageEvents.XAImageEventsImage" title="PyXA.apps.ImageEvents.XAImageEventsImage">XAImageEventsImage</a></p>
 </dd>
 </dl>
@@ -1971,10 +1903,10 @@
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">modified_image_object</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAImage" title="PyXA.XABase.XAImage"><span class="pre">XAImage</span></a></em><a class="headerlink" href="#PyXA.apps.ImageEvents.XAImageEventsImage.modified_image_object" title="Permalink to this definition"></a></dt>
 <dd><p>The image stored in active memory, including modifications.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The image object stored in active memory</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="../xabase.html#PyXA.XABase.XAImage" title="PyXA.XABase.XAImage">XABase.XAImage</a></p>
 </dd>
 </dl>
@@ -1997,10 +1929,10 @@
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">original_image_object</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAImage" title="PyXA.XABase.XAImage"><span class="pre">XAImage</span></a></em><a class="headerlink" href="#PyXA.apps.ImageEvents.XAImageEventsImage.original_image_object" title="Permalink to this definition"></a></dt>
 <dd><p>The original image contained in the file, without any modification.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The image object stored in the file</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="../xabase.html#PyXA.XABase.XAImage" title="PyXA.XABase.XAImage">XABase.XAImage</a></p>
 </dd>
 </dl>
@@ -2041,10 +1973,10 @@
 <span class="sig-name descname"><span class="pre">unembed</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.ImageEvents.XAImageEventsImage" title="PyXA.apps.ImageEvents.XAImageEventsImage"><span class="pre">XAImageEventsImage</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/ImageEvents.html#XAImageEventsImage.unembed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.ImageEvents.XAImageEventsImage.unembed" title="Permalink to this definition"></a></dt>
 <dd><p>Removes any embedded ICC profiles from the image.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The image object</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="#PyXA.apps.ImageEvents.XAImageEventsImage" title="PyXA.apps.ImageEvents.XAImageEventsImage">XAImageEventsImage</a></p>
 </dd>
 </dl>
@@ -2066,10 +1998,6 @@
 </div>
 <p><strong>Methods:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.ImageEvents.XAImageEventsImageList.bit_depth" title="PyXA.apps.ImageEvents.XAImageEventsImageList.bit_depth"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bit_depth</span></code></a>()</p></td>
 <td><p>Retrieves the bit depth of each image in the list.</p></td>
@@ -2255,13 +2183,13 @@
 <span class="sig-name descname"><span class="pre">embed_profile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">profile</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#PyXA.apps.ImageEvents.XAImageEventsProfile" title="PyXA.apps.ImageEvents.XAImageEventsProfile"><span class="pre">XAImageEventsProfile</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../xabase.html#PyXA.XABase.XAImageList" title="PyXA.XABase.XAImageList"><span class="pre">XAImageList</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/ImageEvents.html#XAImageEventsImageList.embed_profile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.ImageEvents.XAImageEventsImageList.embed_profile" title="Permalink to this definition"></a></dt>
 <dd><p>Embeds the specified ICC profile in each image of the list.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>profile</strong> (<a class="reference internal" href="#PyXA.apps.ImageEvents.XAImageEventsProfile" title="PyXA.apps.ImageEvents.XAImageEventsProfile"><em>XAImageEventsProfile</em></a>) – The ICC profile to embed in the image</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>The list of modified images</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="../xabase.html#PyXA.XABase.XAImageList" title="PyXA.XABase.XAImageList">XABase.XAImageList</a></p>
 </dd>
 </dl>
@@ -2311,10 +2239,10 @@
 <span class="sig-name descname"><span class="pre">modified_image_objects</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../xabase.html#PyXA.XABase.XAImageList" title="PyXA.XABase.XAImageList"><span class="pre">XAImageList</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/ImageEvents.html#XAImageEventsImageList.modified_image_objects"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.ImageEvents.XAImageEventsImageList.modified_image_objects" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves each image of the list as stored in active memory, including modifications.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The images in the list as stored in active memory</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="../xabase.html#PyXA.XABase.XAImage" title="PyXA.XABase.XAImage">XABase.XAImage</a></p>
 </dd>
 </dl>
@@ -2337,10 +2265,10 @@
 <span class="sig-name descname"><span class="pre">original_image_objects</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../xabase.html#PyXA.XABase.XAImageList" title="PyXA.XABase.XAImageList"><span class="pre">XAImageList</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/ImageEvents.html#XAImageEventsImageList.original_image_objects"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.ImageEvents.XAImageEventsImageList.original_image_objects" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the raw image contained in each image file, without modifications.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The images stored in each image file of the list</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="../xabase.html#PyXA.XABase.XAImage" title="PyXA.XABase.XAImage">XABase.XAImage</a></p>
 </dd>
 </dl>
@@ -2368,10 +2296,10 @@
 <span class="sig-name descname"><span class="pre">unembed</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../xabase.html#PyXA.XABase.XAImageList" title="PyXA.XABase.XAImageList"><span class="pre">XAImageList</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/ImageEvents.html#XAImageEventsImageList.unembed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.ImageEvents.XAImageEventsImageList.unembed" title="Permalink to this definition"></a></dt>
 <dd><p>Removes any embedded ICC profiles from each image of the list.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The list of modified images</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="../xabase.html#PyXA.XABase.XAImageList" title="PyXA.XABase.XAImageList">XABase.XAImageList</a></p>
 </dd>
 </dl>
@@ -2392,10 +2320,6 @@
 </div>
 <p><strong>Attributes:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.ImageEvents.XAImageEventsMetadataTag.description" title="PyXA.apps.ImageEvents.XAImageEventsMetadataTag.description"><code class="xref py py-obj docutils literal notranslate"><span class="pre">description</span></code></a></p></td>
 <td><p>The description of the tag's function.</p></td>
@@ -2448,10 +2372,6 @@
 </div>
 <p><strong>Methods:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.ImageEvents.XAImageEventsMetadataTagList.by_description" title="PyXA.apps.ImageEvents.XAImageEventsMetadataTagList.by_description"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_description</span></code></a>(description)</p></td>
 <td><p>Retrieves the metadata tag whose description matches the given description.</p></td>
@@ -2539,10 +2459,6 @@
 </div>
 <p><strong>Attributes:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.ImageEvents.XAImageEventsProfile.color_space" title="PyXA.apps.ImageEvents.XAImageEventsProfile.color_space"><code class="xref py py-obj docutils literal notranslate"><span class="pre">color_space</span></code></a></p></td>
 <td><p>The color space of the profile.</p></td>
@@ -2739,10 +2655,6 @@
 </div>
 <p><strong>Methods:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.ImageEvents.XAImageEventsProfileList.by_color_space" title="PyXA.apps.ImageEvents.XAImageEventsProfileList.by_color_space"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_color_space</span></code></a>(color_space)</p></td>
 <td><p>Retrieves profile whose color space matches the given color space.</p></td>

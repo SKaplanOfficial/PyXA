@@ -65,10 +65,11 @@ class XATVTrack(MediaApplicationBase.XAMediaItem):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.sort_director: str #: The string used for this track when sorting by director
 
     @property
     def sort_director(self) -> str:
+        """The string used for this track when sorting by director.
+        """
         return self.xa_elem.sortDirector()
 
     @sort_director.setter
@@ -80,8 +81,6 @@ class XATVTrack(MediaApplicationBase.XAMediaItem):
 
 class XATVWindow(MediaApplicationBase.XAMediaWindow, XABaseScriptable.XASBWindow):
     """A windows of TV.app.
-
-    .. seealso:: :class:`XATVBrowserWindow`, :class:`XATVPlaylistWindow`, :class:`XATVVideoWindow`
 
     .. versionadded:: 0.0.1
     """

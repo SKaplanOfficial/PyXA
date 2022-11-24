@@ -12,7 +12,7 @@ class XACalculatorApplication(XABase.XAApplication):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.xa_btns = None
+        self.__xa_btns = None
 
     def __load_buttons(self):
         """Loads references to primary buttons of the calculator.
@@ -20,7 +20,7 @@ class XACalculatorApplication(XABase.XAApplication):
         .. versionadded:: 0.0.2
         """
         buttons = self.front_window.groups()[-1].buttons()
-        self.xa_btns = {
+        self.__xa_btns = {
             "0": buttons[4],
             "1": buttons[5],
             "2": buttons[0],
@@ -139,9 +139,9 @@ class XACalculatorApplication(XABase.XAApplication):
 
         .. versionadded:: 0.0.2
         """
-        if self.xa_btns is None:
+        if self.__xa_btns is None:
             self.__load_buttons()
-        self.xa_btns["c"].press()
+        self.__xa_btns["c"].press()
 
     def input(self, sequence: str):
         """Inputs a sequence of numbers and operations into the calculator by mimicking button clicks.
@@ -168,10 +168,10 @@ class XACalculatorApplication(XABase.XAApplication):
 
         .. versionadded:: 0.0.2
         """
-        if self.xa_btns is None:
+        if self.__xa_btns is None:
             self.__load_buttons()
         for symbol in sequence:
-            self.xa_btns[symbol].press()
+            self.__xa_btns[symbol].press()
 
     # Misc Methods
     def current_value(self) -> float:

@@ -30,16 +30,16 @@ class XAAutomatorApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
         super().__init__(properties)
         self.xa_wcls = XAAutomatorWindow
 
-        self.name: str #: The name of the application
-        self.frontmost: bool #: Whether Chromium is the active application
-        self.version: str #: The version of Chromium
-
     @property
     def name(self) -> str:
+        """The name of the application.
+        """
         return self.xa_scel.name()
 
     @property
     def frontmost(self) -> bool:
+        """Whether Automator is the active application.
+        """
         return self.xa_scel.frontmost()
 
     @frontmost.setter
@@ -48,6 +48,8 @@ class XAAutomatorApplication(XABaseScriptable.XASBApplication, XACanOpenPath):
 
     @property
     def version(self) -> str:
+        """The version of Automator.app.
+        """
         return self.xa_scel.version()
 
     def open(self, path: Union[str, AppKit.NSURL]) -> 'XAAutomatorWorkflow':
@@ -179,112 +181,29 @@ class XAAutomatorWindow(XABaseScriptable.XASBWindow):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.name: str #: The full title of the window
-        self.id: int #: The unique identifier for the window
-        self.index: int #: The index of the window in the front-to-back ordering
-        self.bounds: tuple[int, int, int, int] #: The bounding rectangle of the window
-        self.floating: bool #: Whether the window float
-        self.modal: bool #: Whether the window is a modal window
-        self.closeable: bool #: Whether the window has a close button
-        self.miniaturizable: bool #: Whether the window can be minimized
-        self.miniaturized: bool #: Whether the window is currently minimized
-        self.resizable: bool #: Whether the window can be resized
-        self.visible: bool #: Whether the window is currently visible
-        self.zoomable: bool #: Whether the window can be zoomed
-        self.zoomed: bool #: Whether the window is currently zoomed
-        self.titled: bool #: Whether the window has a title bar
-        self.document: XAAutomatorDocument #: The document currently displayed in the window
-
-    @property
-    def name(self) -> str:
-        return self.xa_elem.name()
-
-    @name.setter
-    def name(self, name: str):
-        self.set_property("name", name)
-
-    @property
-    def id(self) -> int:
-        return self.xa_elem.id()
-
-    @property
-    def index(self) -> int:
-        return self.xa_elem.index()
-
-    @index.setter
-    def index(self, index: int):
-        self.set_property("index", index)
-
-    @property
-    def bounds(self) -> tuple[int, int, int, int]:
-        rect = self.xa_elem.bounds()
-        origin = rect.origin
-        size = rect.size
-        return (origin.x, origin.y, size.width, size.height)
-
-    @bounds.setter
-    def bounds(self, bounds: tuple[int, int, int, int]):
-        x = bounds[0]
-        y = bounds[1]
-        w = bounds[2]
-        h = bounds[3]
-        value = AppKit.NSValue.valueWithRect_(AppKit.NSMakeRect(x, y, w, h))
-        self.set_property("bounds", value)
 
     @property
     def floating(self) -> bool:
+        """Whether the window floats.
+        """
         return self.xa_elem.floating()
 
     @property
     def modal(self) -> bool:
+        """Whether the window is a modal window.
+        """
         return self.xa_elem.modal()
 
     @property
-    def closeable(self) -> bool:
-        return self.xa_elem.closeable()
-
-    @property
-    def miniaturizable(self) -> bool:
-        return self.xa_elem.miniaturizable()
-
-    @property
-    def miniaturized(self) -> bool:
-        return self.xa_elem.miniaturized()
-
-    @miniaturized.setter
-    def miniaturized(self, miniaturized: bool):
-        self.set_property("miniaturized", miniaturized)
-
-    @property
-    def resizable(self) -> bool:
-        return self.xa_elem.resizable()
-
-    @property
-    def visible(self) -> bool:
-        return self.xa_elem.visible()
-
-    @visible.setter
-    def visible(self, visible: bool):
-        self.set_property("visible", visible)
-
-    @property
-    def zoomable(self) -> bool:
-        return self.xa_elem.zoomable()
-
-    @property
-    def zoomed(self) -> bool:
-        return self.xa_elem.zoomed()
-
-    @zoomed.setter
-    def zoomed(self, zoomed: bool):
-        self.set_property("zoomed", zoomed)
-
-    @property
     def titled(self) -> bool:
+        """Whether the window has a title bar.
+        """
         return self.xa_elem.titled()
 
     @property
     def document(self) -> 'XAAutomatorDocument':
+        """The document currently displayed in the window.
+        """
         return self._new_element(self.xa_elem.document(), XAAutomatorDocument)
 
 
@@ -372,16 +291,17 @@ class XAAutomatorDocument(XABase.XAObject):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.modified: bool #: Whether the document has been modified since its last save
-        self.name: str #: The title of the document
-        self.path: str #: The path to the document on the disk
 
     @property
     def modified(self) -> bool:
+        """Whether the document has been modified since its last save.
+        """
         return self.xa_elem.modified()
 
     @property
     def name(self) -> str:
+        """The title of the document.
+        """
         return self.xa_elem.name()
 
     @name.setter
@@ -390,6 +310,8 @@ class XAAutomatorDocument(XABase.XAObject):
 
     @property
     def path(self) -> XABase.XAPath:
+        """The path to the document on the disk.
+        """
         return XABase.XAPath(self.xa_elem.path())
 
     @path.setter
@@ -868,40 +790,23 @@ class XAAutomatorAction(XABase.XAObject):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.bundle_id: str #: The bundle identifier for the action
-        self.category: list[str] #: The category that contains the action
-        self.comment: str #: The comment for the name of the action
-        self.enabled: bool #: Whether the action is enabled
-        self.execution_error_message: str #: The text error message generated by execution of the action
-        self.execution_error_number: int #: The numeric error code generated by execution of the action
-        self.execution_result: Any #: The result of the action, passed as input to the next action
-        self.icon_name: str #: The name for the icon associated with the action
-        self.id: str #: The unique identifier for the action
-        self.ignores_input: bool #: Whether the action ignores input when run
-        self.index: int #: The index of the action from the first action in the workflow
-        self.input_types: list[str] #: The input types accepted by the action
-        self.keywords: list[str] #: The keywords that describe the action
-        self.name: str #: The localized name of the action
-        self.output_types: list[str] #: The output types produces by the action
-        self.parent_workflow: XAAutomatorWorkflow #: The workflow that contains the action
-        self.path: str #: The path of the file that contains the action
-        self.show_action_when_run: bool #: Whether the action should show its user interface when run
-        self.target_application: list[str] #: The application(s) with which the action communicates
-        self.version: str #: The version of the action
-        self.warning_action: str #: The action suggested by the warning, if any
-        self.warning_level: XAAutomatorApplication.WarningLevel #: The level of the warning, increasing in likelihood of data loss
-        self.warning_message: str #: The message that accompanies the warning, if any
 
     @property
     def bundle_id(self) -> str:
+        """The bundle identifier for the action.
+        """
         return self.xa_elem.bundleId()
 
     @property
     def category(self) -> list[str]:
+        """The categories that contain the action
+        """
         return self.xa_elem.category()
 
     @property
     def comment(self) -> str:
+        """The comment for the name of the action.
+        """
         return self.xa_elem.comment()
 
     @comment.setter
@@ -910,6 +815,8 @@ class XAAutomatorAction(XABase.XAObject):
 
     @property
     def enabled(self) -> bool:
+        """Whether the action is enabled.
+        """
         return self.xa_elem.enabled()
 
     @enabled.setter
@@ -918,26 +825,38 @@ class XAAutomatorAction(XABase.XAObject):
 
     @property
     def execution_error_message(self) -> str:
+        """The text error message generated by execution of the action.
+        """
         return self.xa_elem.executionErrorMessage()
 
     @property
     def execution_error_number(self) -> int:
+        """The numeric error code generated by execution of the action.
+        """
         return self.xa_elem.executionErrorNumber()
 
     @property
     def execution_result(self) -> Any:
+        """The result of the action, passed as input to the next action.
+        """
         return self.xa_elem.executionResult()
 
     @property
     def icon_name(self) -> str:
+        """The name for the icon associated with the action.
+        """
         return self.xa_elem.iconName()
 
     @property
     def id(self) -> str:
+        """The unique identifier for the action.
+        """
         return self.xa_elem.id()
 
     @property
     def ignores_input(self) -> bool:
+        """Whether the action ignores input when run.
+        """
         return self.xa_elem.ignoresInput()
 
     @ignores_input.setter
@@ -946,6 +865,8 @@ class XAAutomatorAction(XABase.XAObject):
 
     @property
     def index(self) -> int:
+        """The index of the action from the first action in the workflow.
+        """
         return self.xa_elem.index()
 
     @index.setter
@@ -954,30 +875,44 @@ class XAAutomatorAction(XABase.XAObject):
 
     @property
     def input_types(self) -> list[str]:
+        """The input types accepted by the action.
+        """
         return self.xa_elem.inputTypes()
 
     @property
     def keywords(self) -> list[str]:
+        """The keywords that describe the action.
+        """
         return self.xa_elem.keywords()
 
     @property
     def name(self) -> str:
+        """The localized name of the action.
+        """
         return self.xa_elem.name()
 
     @property
     def output_types(self) -> list[str]:
+        """The output types produced by the action.
+        """
         return self.xa_elem.outputTypes()
 
     @property
     def parent_workflow(self) -> 'XAAutomatorWorkflow':
+        """The workflow that contains the action.
+        """
         return self._new_element(self.xa_elem.parentWorkflow(), XAAutomatorWorkflow)
 
     @property
     def path(self) -> XABase.XAPath:
+        """The path of the file that contains the action.
+        """
         return XABase.XAPath(self.xa_elem.path())
 
     @property
     def show_action_when_run(self) -> bool:
+        """Whether the action should show its user interface when run.
+        """
         return self.xa_elem.showActionWehnRun()
 
     @show_action_when_run.setter
@@ -986,22 +921,32 @@ class XAAutomatorAction(XABase.XAObject):
 
     @property
     def target_application(self) -> list[str]:
+        """The application(s) with which the action communicates.
+        """
         return self.xa_elem.targetApplication()
 
     @property
     def version(self) -> str:
+        """The version of the action.
+        """
         return self.xa_elem.version()
 
     @property
     def warning_action(self) -> str:
+        """The action suggested by the warning, if any.
+        """
         return self.xa_elem.warningAction()
 
     @property
     def warning_level(self) -> XAAutomatorApplication.WarningLevel:
+        """The level of the warning, increasing in likelihood of data loss.
+        """
         return XAAutomatorApplication.WarningLevel(self.xa_elem.warningLevel())
 
     @property
     def warning_message(self) -> str:
+        """The message that accompanies the warning, if any.
+        """
         return self.xa_elem.warningMessage()
 
     def required_resources(self, filter: Union[dict, None] = None) -> 'XAAutomatorRequiredResourceList':
@@ -1136,25 +1081,29 @@ class XAAutomatorRequiredResource(XABase.XAObject):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.kind: str #: The kind of required resource
-        self.name: str #: The name of the required resource
-        self.resource: str #: The specification of the required resource
-        self.version: int #: The minimum acceptable version of the required resource
 
     @property
     def kind(self) -> str:
+        """The kind of required resource.
+        """
         return self.xa_elem.kind()
 
     @property
     def name(self) -> str:
+        """The name of the required resource.
+        """
         return self.xa_elem.name()
 
     @property
     def resource(self) -> str:
+        """The specification of the required resource.
+        """
         return self.xa_elem.resource()
 
     @property
     def version(self) -> int:
+        """The minimum acceptable version of the required resource.
+        """
         return self.xa_elem.version()
 
     def __repr__(self):
@@ -1249,20 +1198,23 @@ class XAAutomatorSetting(XABase.XAObject):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.default_value: Any #: The default value of the setting
-        self.name: str #: The name of the setting
-        self.value: Any #: The value of the setting
 
     @property
     def default_value(self) -> Any:
+        """The default value of the setting.
+        """
         return self.xa_elem.defaultValue()
 
     @property
     def name(self) -> str:
+        """The name of the setting.
+        """
         return self.xa_elem.name()
 
     @property
     def value(self) -> Any:
+        """The value of the setting.
+        """
         return self.xa_elem.value()
 
     @value.setter
@@ -1359,12 +1311,11 @@ class XAAutomatorVariable(XABase.XAObject):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.name: str #: The name of the variable
-        self.settable: bool #: Whether the name and value of the variable can be changed
-        self.value: Any #: The value of the variable
 
     @property
     def name(self) -> str:
+        """The name of the variable.
+        """
         return self.xa_elem.name()
 
     @name.setter
@@ -1373,10 +1324,14 @@ class XAAutomatorVariable(XABase.XAObject):
 
     @property
     def settable(self) -> bool:
+        """Whether the name and value of the variable can be changed.
+        """
         return self.xa_elem.settable()
 
     @property
     def value(self) -> Any:
+        """The value of the variable.
+        """
         return self.xa_elem.value()
 
     @value.setter
@@ -1532,35 +1487,41 @@ class XAAutomatorWorkflow(XAAutomatorDocument):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.current_action: XAAutomatorAction #: The current or most recent action of the workflow
-        self.execution_error_message: str #: The text error message generated by the most recent execution
-        self.execution_error_number: int #: The numeric error code generated by the most recent execution
-        self.execution_id: str #: The unique identifier for the current or most recent execution
-        self.execution_result: Any #: The result of the most resent execution
-        self.name: str #: The name of the workflow
 
     @property
     def current_action(self) -> XAAutomatorAction:
+        """The current or most recent action of the workflow.
+        """
         return self._new_element(self.xa_elem.currentAction(), XAAutomatorAction)
 
     @property
     def execution_error_message(self) -> str:
+        """The text error message generated by the most recent execution.
+        """
         return self.xa_elem.executionErrorMessage()
 
     @property
     def execution_error_number(self) -> int:
+        """The numeric error code generated by the most recent execution.
+        """
         return self.xa_elem.executionErrorNumber()
 
     @property
     def execution_id(self) -> str:
+        """The unique identifier for the current or most recent execution.
+        """
         return self.xa_elem.executionId()
 
     @property
     def execution_result(self) -> Any:
+        """The result of the most resent execution.
+        """
         return self.xa_elem.executionResult().get()
 
     @property
     def name(self) -> str:
+        """The name of the workflow.
+        """
         return self.xa_elem.name()
 
     def execute(self) -> Any:

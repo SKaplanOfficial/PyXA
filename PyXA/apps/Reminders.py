@@ -11,7 +11,6 @@ import AppKit
 
 from PyXA import XABase
 from PyXA import XABaseScriptable
-    
 
 class XARemindersApplication(XABaseScriptable.XASBApplication):
     """A class for managing and interacting with scripting elements of the Reminders application.
@@ -27,32 +26,35 @@ class XARemindersApplication(XABaseScriptable.XASBApplication):
         self.pasteboard_types = {
             "com.apple.reminders.reminderCopyPaste": self._get_clipboard_reminder,
         }
-        self.xa_estr = self._exec_suppresed(EventKit.EKEventStore.alloc().init)
-
-        self.name: str #: The name of the application
-        self.frontmost: bool #: Whether Reminders is the active application
-        self.version: str #: The version number of Reminders.app
-        self.defaultAccount: XARemindersAccount #: The default account in the Reminders application
-        self.defaultList: XARemindersList #: The default list in the Reminders application
 
     @property
     def name(self) -> str:
-        return self.xa_scel.name()
+        """The name of the application.
+        """
+        return self.xa_elem.name()
 
     @property
     def frontmost(self) -> bool:
-        return self.xa_scel.frontmost()
+        """Whether Reminders is the active application.
+        """
+        return self.xa_elem.frontmost()
 
     @property
     def version(self) -> str:
-        return self.xa_scel.version()
+        """The version number of Reminders.app.
+        """
+        return self.xa_elem.version()
 
     @property
     def default_account(self) -> 'XARemindersAccount':
+        """The default account in the Reminders application.
+        """
         return self._new_element(self.xa_scel.defaultAccount(), XARemindersAccount)
 
     @property
     def default_list(self) -> 'XARemindersList':
+        """The default list in the Reminders application.
+        """
         return self._new_element(self.xa_scel.defaultList(), XARemindersList)
 
     def _get_clipboard_reminder(self, reminder_name: str) -> 'XARemindersReminder':
@@ -196,94 +198,11 @@ class XARemindersWindow(XABaseScriptable.XASBWindow):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        
-        self.name: str #: The title of the window.
-        self.id: int #: The unique identifier of the window.
-        self.index: int #: The index of the window, ordered front to back.
-        self.bounds: tuple[int, int, int, int] #: The bounding rectangle of the window.
-        self.closeable: bool #: Does the window have a close button?
-        self.miniaturizable: bool #: Does the window have a minimize button?
-        self.miniaturized: bool #: Is the window minimized right now?
-        self.resizable: bool #: Can the window be resized?
-        self.visible: bool #: Is the window visible right now?
-        self.zoomable: bool #: Does the window have a zoom button?
-        self.zoomed: bool #: Is the window zoomed right now?
-        self.document: XARemindersDocument #: The document whose contents are displayed in the window.
-
-    @property
-    def name(self) -> str:
-        return self.xa_elem.name()
-
-    @property
-    def id(self) -> int:
-        return self.xa_elem.id()
-
-    @property
-    def index(self) -> int:
-        return self.xa_elem.index()
-
-    @index.setter
-    def index(self, index: int):
-        self.set_property('index', index)
-
-    @property
-    def bounds(self) -> tuple[int, int, int, int]:
-        rect = self.xa_elem.bounds()
-        origin = rect.origin
-        size = rect.size
-        return (origin.x, origin.y, size.width, size.height)
-
-    @bounds.setter
-    def bounds(self, bounds: tuple[int, int, int, int]):
-        x = bounds[0]
-        y = bounds[1]
-        w = bounds[2]
-        h = bounds[3]
-        value = AppKit.NSValue.valueWithRect_(AppKit.NSMakeRect(x, y, w, h))
-        self.set_property("bounds", value)
-
-    @property
-    def closeable(self) -> bool:
-        return self.xa_elem.closeable()
-
-    @property
-    def miniaturizable(self) -> bool:
-        return self.xa_elem.miniaturizable()
-
-    @property
-    def miniaturized(self) -> bool:
-        return self.xa_elem.miniaturized()
-
-    @miniaturized.setter
-    def miniaturized(self, miniaturized: bool):
-        self.set_property('miniaturized', miniaturized)
-
-    @property
-    def resizable(self) -> bool:
-        return self.xa_elem.resizable()
-
-    @property
-    def visible(self) -> bool:
-        return self.xa_elem.visible()
-
-    @visible.setter
-    def visible(self, visible: bool):
-        self.set_property('visible', visible)
-
-    @property
-    def zoomable(self) -> bool:
-        return self.xa_elem.zoomable()
-
-    @property
-    def zoomed(self) -> bool:
-        return self.xa_elem.zoomed()
-
-    @zoomed.setter
-    def zoomed(self, zoomed: bool):
-        self.set_property('zoomed', zoomed)
 
     @property
     def document(self) -> 'XARemindersDocument':
+        """The document whose contents are displayed in the window.
+        """
         return self._new_element(self.xa_elem.document(), XARemindersDocument)
 
     def close(self, save: bool = True) -> None:
@@ -450,26 +369,29 @@ class XARemindersDocument(XABase.XAObject):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        
-        self.properties: dict #: All properties of the document
-        self.name: str #: The name of the document
-        self.modified: bool #: Whether the document has been modified since it was last saved
-        self.file: XABase.XAPath #: The location of the document on disk, if it has one
 
     @property
     def properties(self) -> dict:
+        """All properties of the document.
+        """
         return self.xa_elem.properties()
 
     @property
     def name(self) -> str:
+        """The name of the document.
+        """
         return self.xa_elem.name()
 
     @property
     def modified(self) -> bool:
+        """Whether the document has been modified since it was last saved.
+        """
         return self.xa_elem.modified()
 
     @property
     def file(self) -> XABase.XAPath:
+        """The location of the document on disk, if it has one.
+        """
         return XABase.XAPath(self.xa_elem.file())
 
     def close(self, save: bool = True, location: Union[str, AppKit.NSURL] = None) -> None:
@@ -584,21 +506,23 @@ class XARemindersAccount(XABase.XAObject):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        
-        self.properties: dict #: All properties of the account
-        self.id: str #: The unique identifier of the account
-        self.name: str #: The name of the account
 
     @property
     def properties(self) -> dict:
+        """All properties of the account.
+        """
         return self.xa_elem.properties()
 
     @property
     def id(self) -> str:
+        """The unique identifier of the account.
+        """
         return self.xa_elem.id()
 
     @property
     def name(self) -> str:
+        """The name of the account.
+        """
         return self.xa_elem.name()
 
     def show(self) -> 'XARemindersAccount':
@@ -771,18 +695,9 @@ class XARemindersList(XABase.XAObject):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        
-        # Scripting Properties
-        self.properties: dict #: All properties of the list
-        self.id: str #: The unique identifier of the list
-        self.name: str #: The name of the list
-        self.container: Union[XARemindersAccount, XARemindersList] #: The container of the list
-        self.color: str #: The color of the list
-        self.emblem: str #: The emblem icon name of the list
 
         # EventKit Properties
-        xa_estr = self._exec_suppresed(EventKit.EKEventStore.alloc().init)
-        lists = XABase.XAPredicate().from_args("calendarIdentifier", self.xa_elem.id()).evaluate(xa_estr.allCalendars())
+        lists = XABase.XAPredicate().from_args("calendarIdentifier", self.xa_elem.id()).evaluate(self._xa_estr.allCalendars())
         if len(lists) > 0:
             elem = lists[0]
 
@@ -793,14 +708,20 @@ class XARemindersList(XABase.XAObject):
 
     @property
     def properties(self) -> dict:
+        """All properties of the list.
+        """
         return self.xa_elem.properties()
 
     @property
     def id(self) -> str:
+        """The unique identifier of the list.
+        """
         return self.xa_elem.id()
 
     @property
     def name(self) -> str:
+        """The name of the list.
+        """
         return self.xa_elem.name()
 
     @name.setter
@@ -809,10 +730,14 @@ class XARemindersList(XABase.XAObject):
 
     @property
     def container(self) -> Union[XARemindersAccount, 'XARemindersList']:
+        """The container of the list.
+        """
         return self._new_element(self.xa_elem.container(), XARemindersAccount)
 
     @property
     def color(self) -> str:
+        """The color of the list.
+        """
         return self.xa_elem.color()
 
     @color.setter
@@ -821,6 +746,8 @@ class XARemindersList(XABase.XAObject):
 
     @property
     def emblem(self) -> str:
+        """The emblem icon name of the list.
+        """
         return self.xa_elem.emblem()
 
     @emblem.setter
@@ -1180,7 +1107,7 @@ class XARemindersReminderList(XABase.XAList):
         [x.moveTo_(list.xa_elem) for x in self.xa_elem]
 
     def __repr__(self):
-        return "<" + str(type(self)) + str(self.name()) + ">"
+        return "<" + str(type(self)) + "length: " + str(len(self)) + ">"
 
 class XARemindersReminder(XABase.XAObject):
     """A reminder in Reminders.app.
@@ -1404,9 +1331,8 @@ class XARemindersReminder(XABase.XAObject):
             return self._new_element(reminder.recurrenceRule(), XARemindersRecurrenceRule)
 
     def __get_ek_reminder(self) -> EventKit.EKReminder:
-        xa_estr = self._exec_suppresed(EventKit.EKEventStore.alloc().init)
-        predicate = xa_estr.predicateForRemindersInCalendars_(None)
-        reminders = xa_estr.remindersMatchingPredicate_(predicate)
+        predicate = self._xa_estr.predicateForRemindersInCalendars_(None)
+        reminders = self._xa_estr.remindersMatchingPredicate_(predicate)
 
         reminder_id = self.xa_elem.properties()["id"] if self.__properties is None else self.__properties["id"]
 
@@ -1476,11 +1402,24 @@ class XARemindersRecurrenceRule(XABase.XAObject):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.xa_estr = self._exec_suppresed(EventKit.EKEventStore.alloc().init)
 
-        self.frequency = self.xa_elem.frequencyNumber() #: Specifier for the base unit of recurrence, i.e. daily, weekly, monthly, or yearly
-        self.interval = self.xa_elem.intervalNumber() #: The number of frequency units between recurrences
-        self.end_date = self.xa_elem.endDate() #: The end date and time of recurrence
+    @property
+    def frequency(self) -> str:
+        """Specifier for the base unit of recurrence, i.e. daily, weekly, monthly, or yearly.
+        """
+        return self.xa_elem.frequency()
+
+    @property
+    def interval(self) -> int:
+        """The number of frequency units between recurrences.
+        """
+        return self.xa_elem.interval()
+
+    @property
+    def end_date(self) -> datetime:
+        """The end date and time of recurrence.
+        """
+        return self.xa_elem.endDate()
 
     def set_frequency(self, frequency: Literal["daily", "weekly", "monthly", "yearly"]):
         """Sets the frequency of recurrence.
@@ -1497,7 +1436,7 @@ class XARemindersRecurrenceRule(XABase.XAObject):
             "yearly": 3,
         }
         self.xa_elem.setFrequency_(freq_ids[frequency])
-        self.xa_estr.saveReminder_commit_error_(self.xa_prnt.xa_elem, True, None)
+        self._xa_estr.saveReminder_commit_error_(self.xa_prnt.xa_elem, True, None)
 
     def set_interval(self, interval: int):
         """Sets the interval of recurrence.
@@ -1508,7 +1447,7 @@ class XARemindersRecurrenceRule(XABase.XAObject):
         .. versionadded:: 0.0.2
         """
         self.xa_elem.setInterval_(interval)
-        self.xa_estr.saveReminder_commit_error_(self.xa_prnt.xa_elem, True, None)
+        self._xa_estr.saveReminder_commit_error_(self.xa_prnt.xa_elem, True, None)
 
     def set_end_date(self, end_date: datetime):
         """Sets the date and time when the recurrence ends.
@@ -1519,7 +1458,7 @@ class XARemindersRecurrenceRule(XABase.XAObject):
         .. versionadded:: 0.0.2
         """
         self.xa_elem.setEndDate_(end_date)
-        self.xa_estr.saveReminder_commit_error_(self.xa_prnt.xa_elem, True, None)
+        self._xa_estr.saveReminder_commit_error_(self.xa_prnt.xa_elem, True, None)
 
     def __repr__(self):
         return "<" + str(type(self)) + f"freq={self.xa_elem.frequencyString()}, interval={self.interval}, end_date={self.end_date}, id={self.id}>"
@@ -1649,18 +1588,36 @@ class XARemindersAlarm(XABase.XAObject):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.xa_estr = self._exec_suppresed(EventKit.EKEventStore.alloc().init)
 
-        self.id: str = self.xa_elem.sharedUID() #: A unique identifier for this alarm
-        self.snoozed: bool = self.xa_elem.isSnoozed() #: Whether the alarm is snoozed
-        self.date: datetime = self.xa_elem.absoluteDate() #: The date and time of a date-based alarm
-        self.proximity_direction: str = self.xa_elem.proximityString() #: Whether a location-based alarm is for arriving or departing
+    @property
+    def id(self) -> str:
+        """A unique identifier for this alarm.
+        """
+        return self.xa_elem.sharedUID()
 
+    @property
+    def snoozed(self) -> bool:
+        """Whether the alarm is snoozed.
+        """
+        return self.xa_elem.isSnoozed()
 
+    @property
+    def date(self) -> datetime:
+        """The date and time of a date-based alarm.
+        """
+        return self.xa_elem.absoluteDate()
+
+    @property
+    def proximity_direction(self) -> str:
+        """Whether a location-based alarm is for arriving or departing.
+        """
+        return self.xa_elem.proximityString()
+
+    @property
+    def location(self) -> XABase.XALocation:
         location = self.xa_elem.structuredLocation()
-        self.location = None #: The location of a location-based alarm
         if location is not None:
-            self.location = XABase.XALocation(
+            return XABase.XALocation(
                 title = location.title(),
                 latitude = location.geoLocation().coordinate()[0],
                 longitude = location.geoLocation().coordinate()[1],
@@ -1677,7 +1634,7 @@ class XARemindersAlarm(XABase.XAObject):
         .. versionadded:: 0.0.2
         """
         self.xa_elem.setAbsoluteDate_(date)
-        self.xa_estr.saveReminder_commit_error_(self.xa_prnt.xa_elem, True, None)
+        self._xa_estr.saveReminder_commit_error_(self.xa_prnt.xa_elem, True, None)
 
     def set_location(self, location: XABase.XALocation):
         """Sets the location and radius of the alarm.
@@ -1689,7 +1646,7 @@ class XARemindersAlarm(XABase.XAObject):
         """
         location.raw_value = self.location.raw_value
         location.prepare_for_export()
-        self.xa_estr.saveReminder_commit_error_(self.xa_prnt.xa_elem, True, None)
+        self._xa_estr.saveReminder_commit_error_(self.xa_prnt.xa_elem, True, None)
 
     def __repr__(self):
         return "<" + str(type(self)) + "id=" + self.id + ">"

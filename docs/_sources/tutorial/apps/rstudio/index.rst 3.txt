@@ -1,3 +1,0 @@
-RStudio Module Overview
-=======================
-

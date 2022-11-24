@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Messages Module Reference &mdash; PyXA 0.1.0 documentation</title>
+  <title>Messages Module Reference &mdash; PyXA 0.1.1 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
@@ -46,7 +46,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../../tutorial/index.html">Tutorial</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../index.html">Code Documentation and Reference</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../index.html#top-level-pyxa-modules">Top-level PyXA Modules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../index.html#pyxa-base-modules">PyXA Base Modules</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../index.html#first-party-application-module-reference">First-Party Application Module Reference</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="automator.html">Automator Module Reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="calculator.html">Calculator Module Reference</a></li>
@@ -94,6 +93,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../index.html#third-party-application-module-reference">Third-Party Application Module Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#pyxa-additions">PyXA Additions</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../bugs.html">Bugs</a></li>
@@ -112,9 +112,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../index.html">Code Documentation and Reference</a> &raquo;</li>
-      <li>Messages Module Reference</li>
+      <li><a href="../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Code Documentation and Reference</a></li>
+      <li class="breadcrumb-item active">Messages Module Reference</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../../_sources/reference/apps/messages.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -132,10 +132,6 @@
 <p>Control the macOS Messages application using JXA-like syntax.</p>
 <p><strong>Classes:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesAccount" title="PyXA.apps.Messages.XAMessagesAccount"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAMessagesAccount</span></code></a>(properties)</p></td>
 <td><p>A class for managing and interacting with accounts in Messages.app</p></td>
@@ -178,17 +174,13 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.Messages.XAMessagesAccount">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Messages.</span></span><span class="sig-name descname"><span class="pre">XAMessagesAccount</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Messages.html#XAMessagesAccount"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesAccount" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAObject</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">XAClipboardCodable</span></code></p>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAObject</span></code></a>, <a class="reference internal" href="../xaprotocols.html#PyXA.XAProtocols.XAClipboardCodable" title="PyXA.XAProtocols.XAClipboardCodable"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAClipboardCodable</span></code></a></p>
 <p>A class for managing and interacting with accounts in Messages.app</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.1.</span></p>
 </div>
 <p><strong>Methods:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesAccount.chats" title="PyXA.apps.Messages.XAMessagesAccount.chats"><code class="xref py py-obj docutils literal notranslate"><span class="pre">chats</span></code></a>([filter])</p></td>
 <td><p>Returns a list of chats, as PyXA objects, matching the given filter.</p></td>
@@ -203,25 +195,21 @@
 </table>
 <p><strong>Attributes:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesAccount.connection_status" title="PyXA.apps.Messages.XAMessagesAccount.connection_status"><code class="xref py py-obj docutils literal notranslate"><span class="pre">connection_status</span></code></a></p></td>
-<td><p>The connection status for the account</p></td>
+<td><p>The connection status for the account.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesAccount.enabled" title="PyXA.apps.Messages.XAMessagesAccount.enabled"><code class="xref py py-obj docutils literal notranslate"><span class="pre">enabled</span></code></a></p></td>
-<td><p>Whether the account is currently enabled</p></td>
+<td><p>Whether the account is currently enabled.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesAccount.id" title="PyXA.apps.Messages.XAMessagesAccount.id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">id</span></code></a></p></td>
-<td><p>The unique identifier for the account</p></td>
+<td><p>The unique identifier for the account.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesAccount.object_description" title="PyXA.apps.Messages.XAMessagesAccount.object_description"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object_description</span></code></a></p></td>
-<td><p>The name of the account as defined in the Account Preferences description field</p></td>
+<td><p>The name of the account as defined in the Account Preferences description field.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesAccount.service_type" title="PyXA.apps.Messages.XAMessagesAccount.service_type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">service_type</span></code></a></p></td>
-<td><p>The type of service for the account</p></td>
+<td><p>The type of service for the account.</p></td>
 </tr>
 </tbody>
 </table>
@@ -237,13 +225,13 @@
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Messages.XAMessagesAccount.connection_status">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">connection_status</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesApplication.ConnectionStatus" title="PyXA.apps.Messages.XAMessagesApplication.ConnectionStatus"><span class="pre">ConnectionStatus</span></a></em><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesAccount.connection_status" title="Permalink to this definition"></a></dt>
-<dd><p>The connection status for the account</p>
+<dd><p>The connection status for the account.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Messages.XAMessagesAccount.enabled">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">enabled</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesAccount.enabled" title="Permalink to this definition"></a></dt>
-<dd><p>Whether the account is currently enabled</p>
+<dd><p>Whether the account is currently enabled.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -252,10 +240,10 @@
 <dd><p>Gets a clipboard-codable representation of the account.</p>
 <p>When the clipboard content is set to an account, the name of the account is added to the clipboard.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The name of the account</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>str</p>
 </dd>
 </dl>
@@ -267,13 +255,13 @@
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Messages.XAMessagesAccount.id">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesAccount.id" title="Permalink to this definition"></a></dt>
-<dd><p>The unique identifier for the account</p>
+<dd><p>The unique identifier for the account.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Messages.XAMessagesAccount.object_description">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">object_description</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesAccount.object_description" title="Permalink to this definition"></a></dt>
-<dd><p>The name of the account as defined in the Account Preferences description field</p>
+<dd><p>The name of the account as defined in the Account Preferences description field.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -288,7 +276,7 @@
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Messages.XAMessagesAccount.service_type">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">service_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesApplication.ServiceType" title="PyXA.apps.Messages.XAMessagesApplication.ServiceType"><span class="pre">ServiceType</span></a></em><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesAccount.service_type" title="Permalink to this definition"></a></dt>
-<dd><p>The type of service for the account</p>
+<dd><p>The type of service for the account.</p>
 </dd></dl>
 
 </dd></dl>
@@ -296,7 +284,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.Messages.XAMessagesAccountList">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Messages.</span></span><span class="sig-name descname"><span class="pre">XAMessagesAccountList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Messages.html#XAMessagesAccountList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesAccountList" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAList" title="PyXA.XABase.XAList"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAList</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">XAClipboardCodable</span></code></p>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAList" title="PyXA.XABase.XAList"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAList</span></code></a>, <a class="reference internal" href="../xaprotocols.html#PyXA.XAProtocols.XAClipboardCodable" title="PyXA.XAProtocols.XAClipboardCodable"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAClipboardCodable</span></code></a></p>
 <p>A wrapper around a list of accounts that employs fast enumeration techniques.</p>
 <p>All properties of accounts can be called as methods on the wrapped list, returning a list containing each account’s value for the property.</p>
 <div class="versionadded">
@@ -304,10 +292,6 @@
 </div>
 <p><strong>Methods:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesAccountList.by_connection_status" title="PyXA.apps.Messages.XAMessagesAccountList.by_connection_status"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_connection_status</span></code></a>(connection_status)</p></td>
 <td><p>Retrieves the first account whose connection status matches the given enum value, if one exists.</p></td>
@@ -349,10 +333,10 @@
 <span class="sig-name descname"><span class="pre">by_connection_status</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">connection_status</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesApplication.ConnectionStatus" title="PyXA.apps.Messages.XAMessagesApplication.ConnectionStatus"><span class="pre">ConnectionStatus</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesAccount" title="PyXA.apps.Messages.XAMessagesAccount"><span class="pre">XAMessagesAccount</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Messages.html#XAMessagesAccountList.by_connection_status"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesAccountList.by_connection_status" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the first account whose connection status matches the given enum value, if one exists.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The desired account, if it is found</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>Union[<a class="reference internal" href="#PyXA.apps.Messages.XAMessagesAccount" title="PyXA.apps.Messages.XAMessagesAccount">XAMessagesAccount</a>, None]</p>
 </dd>
 </dl>
@@ -366,10 +350,10 @@
 <span class="sig-name descname"><span class="pre">by_enabled</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">enabled</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesAccount" title="PyXA.apps.Messages.XAMessagesAccount"><span class="pre">XAMessagesAccount</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Messages.html#XAMessagesAccountList.by_enabled"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesAccountList.by_enabled" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the first account whose enabled status matches the given boolean value, if one exists.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The desired account, if it is found</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>Union[<a class="reference internal" href="#PyXA.apps.Messages.XAMessagesAccount" title="PyXA.apps.Messages.XAMessagesAccount">XAMessagesAccount</a>, None]</p>
 </dd>
 </dl>
@@ -383,10 +367,10 @@
 <span class="sig-name descname"><span class="pre">by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesAccount" title="PyXA.apps.Messages.XAMessagesAccount"><span class="pre">XAMessagesAccount</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Messages.html#XAMessagesAccountList.by_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesAccountList.by_id" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the first account whose ID matches the given ID string, if one exists.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The desired account, if it is found</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>Union[<a class="reference internal" href="#PyXA.apps.Messages.XAMessagesAccount" title="PyXA.apps.Messages.XAMessagesAccount">XAMessagesAccount</a>, None]</p>
 </dd>
 </dl>
@@ -400,10 +384,10 @@
 <span class="sig-name descname"><span class="pre">by_object_description</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object_description</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesAccount" title="PyXA.apps.Messages.XAMessagesAccount"><span class="pre">XAMessagesAccount</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Messages.html#XAMessagesAccountList.by_object_description"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesAccountList.by_object_description" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the first account whose object description matches the given string, if one exists.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The desired account, if it is found</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>Union[<a class="reference internal" href="#PyXA.apps.Messages.XAMessagesAccount" title="PyXA.apps.Messages.XAMessagesAccount">XAMessagesAccount</a>, None]</p>
 </dd>
 </dl>
@@ -417,10 +401,10 @@
 <span class="sig-name descname"><span class="pre">by_service_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">service_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesApplication.ServiceType" title="PyXA.apps.Messages.XAMessagesApplication.ServiceType"><span class="pre">ServiceType</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesAccount" title="PyXA.apps.Messages.XAMessagesAccount"><span class="pre">XAMessagesAccount</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Messages.html#XAMessagesAccountList.by_service_type"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesAccountList.by_service_type" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the first account whose service type matches the given enum value, if one exists.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The desired account, if it is found</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>Union[<a class="reference internal" href="#PyXA.apps.Messages.XAMessagesAccount" title="PyXA.apps.Messages.XAMessagesAccount">XAMessagesAccount</a>, None]</p>
 </dd>
 </dl>
@@ -434,10 +418,10 @@
 <span class="sig-name descname"><span class="pre">connection_status</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesApplication.ConnectionStatus" title="PyXA.apps.Messages.XAMessagesApplication.ConnectionStatus"><span class="pre">PyXA.apps.Messages.XAMessagesApplication.ConnectionStatus</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Messages.html#XAMessagesAccountList.connection_status"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesAccountList.connection_status" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the connection status of each account in the list.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of connection status enum values</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[<a class="reference internal" href="#PyXA.apps.Messages.XAMessagesApplication.ConnectionStatus" title="PyXA.apps.Messages.XAMessagesApplication.ConnectionStatus">XAMessagesApplication.ConnectionStatus</a>]:</p>
 </dd>
 </dl>
@@ -451,10 +435,10 @@
 <span class="sig-name descname"><span class="pre">enabled</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Messages.html#XAMessagesAccountList.enabled"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesAccountList.enabled" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the enabled status of each account in the list.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of enabled status boolean values</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[bool]</p>
 </dd>
 </dl>
@@ -469,10 +453,10 @@
 <dd><p>Gets a clipboard-codable representation of each account in the list.</p>
 <p>When the clipboard content is set to a list of accounts, each account’s object description is added to the clipboard.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The list of account descriptions</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[str]</p>
 </dd>
 </dl>
@@ -486,10 +470,10 @@
 <span class="sig-name descname"><span class="pre">id</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Messages.html#XAMessagesAccountList.id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesAccountList.id" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the ID of each account in the list.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of account IDs</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[str]</p>
 </dd>
 </dl>
@@ -503,10 +487,10 @@
 <span class="sig-name descname"><span class="pre">object_description</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Messages.html#XAMessagesAccountList.object_description"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesAccountList.object_description" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the description of each account in the list.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of description strings</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[str]</p>
 </dd>
 </dl>
@@ -520,10 +504,10 @@
 <span class="sig-name descname"><span class="pre">service_type</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesApplication.ServiceType" title="PyXA.apps.Messages.XAMessagesApplication.ServiceType"><span class="pre">PyXA.apps.Messages.XAMessagesApplication.ServiceType</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Messages.html#XAMessagesAccountList.service_type"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesAccountList.service_type" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the service type of each account in the list.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of service type enum values</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[<a class="reference internal" href="#PyXA.apps.Messages.XAMessagesApplication.ServiceType" title="PyXA.apps.Messages.XAMessagesApplication.ServiceType">XAMessagesApplication.ServiceType</a>]:</p>
 </dd>
 </dl>
@@ -548,10 +532,6 @@
 </div>
 <p><strong>Classes:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesApplication.ConnectionStatus" title="PyXA.apps.Messages.XAMessagesApplication.ConnectionStatus"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ConnectionStatus</span></code></a>(value[, names, module, ...])</p></td>
 <td><p>Options for the connection status of Messages.app to message transfer servers.</p></td>
@@ -569,10 +549,6 @@
 </table>
 <p><strong>Methods:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesApplication.accounts" title="PyXA.apps.Messages.XAMessagesApplication.accounts"><code class="xref py py-obj docutils literal notranslate"><span class="pre">accounts</span></code></a>([filter])</p></td>
 <td><p>Returns a list of accounts, as PyXA objects, matching the given filter.</p></td>
@@ -599,10 +575,6 @@
 </table>
 <p><strong>Attributes:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesApplication.frontmost" title="PyXA.apps.Messages.XAMessagesApplication.frontmost"><code class="xref py py-obj docutils literal notranslate"><span class="pre">frontmost</span></code></a></p></td>
 <td><p>Whether Messages is the active application.</p></td>
@@ -622,10 +594,6 @@
 <p>Options for the connection status of Messages.app to message transfer servers.</p>
 <p><strong>Attributes:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesApplication.ConnectionStatus.CONNECTED" title="PyXA.apps.Messages.XAMessagesApplication.ConnectionStatus.CONNECTED"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CONNECTED</span></code></a></p></td>
 <td><p></p></td>
@@ -670,10 +638,6 @@
 <p>Options for the direction of a message.</p>
 <p><strong>Attributes:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesApplication.MessageDirection.INCOMING" title="PyXA.apps.Messages.XAMessagesApplication.MessageDirection.INCOMING"><code class="xref py py-obj docutils literal notranslate"><span class="pre">INCOMING</span></code></a></p></td>
 <td><p></p></td>
@@ -702,10 +666,6 @@
 <p>Options for services types supported by Messages.app.</p>
 <p><strong>Attributes:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesApplication.ServiceType.IMESSAGE" title="PyXA.apps.Messages.XAMessagesApplication.ServiceType.IMESSAGE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">IMESSAGE</span></code></a></p></td>
 <td><p></p></td>
@@ -734,10 +694,6 @@
 <p>Options for the transfer stage/status of a message.</p>
 <p><strong>Attributes:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesApplication.TransferStatus.FAILED" title="PyXA.apps.Messages.XAMessagesApplication.TransferStatus.FAILED"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FAILED</span></code></a></p></td>
 <td><p></p></td>
@@ -796,7 +752,7 @@
 <span class="sig-name descname"><span class="pre">accounts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesAccountList" title="PyXA.apps.Messages.XAMessagesAccountList"><span class="pre">XAMessagesAccountList</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Messages.html#XAMessagesApplication.accounts"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesApplication.accounts" title="Permalink to this definition"></a></dt>
 <dd><p>Returns a list of accounts, as PyXA objects, matching the given filter.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Example 1</dt>
+<dt class="field-odd">Example 1<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Print a list of all accounts</p>
 </dd>
 </dl>
@@ -807,7 +763,7 @@
 </pre></div>
 </div>
 <dl class="field-list simple">
-<dt class="field-odd">Example 2</dt>
+<dt class="field-odd">Example 2<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Get an account by its ID</p>
 </dd>
 </dl>
@@ -826,9 +782,8 @@
 <dt class="sig sig-object py" id="PyXA.apps.Messages.XAMessagesApplication.chats">
 <span class="sig-name descname"><span class="pre">chats</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesChatList" title="PyXA.apps.Messages.XAMessagesChatList"><span class="pre">XAMessagesChatList</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Messages.html#XAMessagesApplication.chats"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesApplication.chats" title="Permalink to this definition"></a></dt>
 <dd><p>Returns a list of chats, as PyXA objects, matching the given filter.</p>
-<blockquote>
-<div><dl class="field-list simple">
-<dt class="field-odd">Example 1</dt>
+<dl class="field-list simple">
+<dt class="field-odd">Example 1<span class="colon">:</span></dt>
 <dd class="field-odd"><p>List all chats</p>
 </dd>
 </dl>
@@ -839,7 +794,7 @@
 </pre></div>
 </div>
 <dl class="field-list simple">
-<dt class="field-odd">Example 2</dt>
+<dt class="field-odd">Example 2<span class="colon">:</span></dt>
 <dd class="field-odd"><p>List the names of all named chats</p>
 </dd>
 </dl>
@@ -850,7 +805,7 @@
 </pre></div>
 </div>
 <dl class="field-list simple">
-<dt class="field-odd">Example 3</dt>
+<dt class="field-odd">Example 3<span class="colon">:</span></dt>
 <dd class="field-odd"><p>List the information, including participants, of every chat</p>
 </dd>
 </dl>
@@ -858,12 +813,8 @@
 <span class="gp">&gt;&gt;&gt; </span><span class="n">app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">Application</span><span class="p">(</span><span class="s2">&quot;Messages&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">chats</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">chats</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">chat</span> <span class="ow">in</span> <span class="n">chats</span><span class="p">:</span>
-<span class="gp">&gt;&gt;&gt; </span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span>
-</pre></div>
-</div>
-</div></blockquote>
-<dl>
-<dt>“)</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Name:&quot;</span><span class="p">,</span> <span class="n">chat</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Name:&quot;</span><span class="p">,</span> <span class="n">chat</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;ID:&quot;</span><span class="p">,</span> <span class="n">chat</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Account:&quot;</span><span class="p">,</span> <span class="n">chat</span><span class="o">.</span><span class="n">account</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Participants:&quot;</span><span class="p">,</span> <span class="n">chat</span><span class="o">.</span><span class="n">participants</span><span class="p">())</span>
@@ -877,8 +828,6 @@
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.4.</span></p>
 </div>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -895,7 +844,7 @@
 <span class="sig-name descname"><span class="pre">file_transfers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesFileTransferList" title="PyXA.apps.Messages.XAMessagesFileTransferList"><span class="pre">XAMessagesFileTransferList</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Messages.html#XAMessagesApplication.file_transfers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesApplication.file_transfers" title="Permalink to this definition"></a></dt>
 <dd><p>Returns a list of file transfers, as PyXA objects, matching the given filter.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Example 1</dt>
+<dt class="field-odd">Example 1<span class="colon">:</span></dt>
 <dd class="field-odd"><p>List all file transfers</p>
 </dd>
 </dl>
@@ -906,7 +855,7 @@
 </pre></div>
 </div>
 <dl class="field-list simple">
-<dt class="field-odd">Example 2</dt>
+<dt class="field-odd">Example 2<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Get a file transfer by filename</p>
 </dd>
 </dl>
@@ -917,7 +866,7 @@
 </pre></div>
 </div>
 <dl class="field-list simple">
-<dt class="field-odd">Example 3</dt>
+<dt class="field-odd">Example 3<span class="colon">:</span></dt>
 <dd class="field-odd"><p>List the file paths of file transfers</p>
 </dd>
 </dl>
@@ -928,7 +877,7 @@
 </pre></div>
 </div>
 <dl class="field-list simple">
-<dt class="field-odd">Example 4</dt>
+<dt class="field-odd">Example 4<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Get the first PNG file transfer</p>
 </dd>
 </dl>
@@ -966,7 +915,7 @@
 <span class="sig-name descname"><span class="pre">participants</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesParticipantList" title="PyXA.apps.Messages.XAMessagesParticipantList"><span class="pre">XAMessagesParticipantList</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Messages.html#XAMessagesApplication.participants"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesApplication.participants" title="Permalink to this definition"></a></dt>
 <dd><p>Returns a list of participants, as PyXA objects, matching the given filter.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Example 1</dt>
+<dt class="field-odd">Example 1<span class="colon">:</span></dt>
 <dd class="field-odd"><p>List all participants</p>
 </dd>
 </dl>
@@ -977,7 +926,7 @@
 </pre></div>
 </div>
 <dl class="field-list simple">
-<dt class="field-odd">Example 2</dt>
+<dt class="field-odd">Example 2<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Get a participant by full name</p>
 </dd>
 </dl>
@@ -1002,13 +951,13 @@
 <span class="sig-name descname"><span class="pre">send</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chat</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesChat" title="PyXA.apps.Messages.XAMessagesChat"><span class="pre">XAMessagesChat</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Messages.html#XAMessagesApplication.send"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesApplication.send" title="Permalink to this definition"></a></dt>
 <dd><p>Sends a message to the specified chat.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>message</strong> (<em>str</em>) – The message to send</p></li>
 <li><p><strong>chat</strong> (<a class="reference internal" href="#PyXA.apps.Messages.XAMessagesChat" title="PyXA.apps.Messages.XAMessagesChat"><em>XAMessagesChat</em></a>) – The chat to send the message to</p></li>
 </ul>
 </dd>
-<dt class="field-even">Example 1</dt>
+<dt class="field-even">Example 1<span class="colon">:</span></dt>
 <dd class="field-even"><p></p></dd>
 </dl>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">PyXA</span>
@@ -1037,17 +986,13 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.Messages.XAMessagesChat">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Messages.</span></span><span class="sig-name descname"><span class="pre">XAMessagesChat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Messages.html#XAMessagesChat"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesChat" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAObject</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">XAClipboardCodable</span></code></p>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAObject</span></code></a>, <a class="reference internal" href="../xaprotocols.html#PyXA.XAProtocols.XAClipboardCodable" title="PyXA.XAProtocols.XAClipboardCodable"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAClipboardCodable</span></code></a></p>
 <p>A class for managing and interacting with chats in Messages.app</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.1.</span></p>
 </div>
 <p><strong>Attributes:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesChat.account" title="PyXA.apps.Messages.XAMessagesChat.account"><code class="xref py py-obj docutils literal notranslate"><span class="pre">account</span></code></a></p></td>
 <td><p>The account that is participating in the chat.</p></td>
@@ -1062,10 +1007,6 @@
 </table>
 <p><strong>Methods:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesChat.get_clipboard_representation" title="PyXA.apps.Messages.XAMessagesChat.get_clipboard_representation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_clipboard_representation</span></code></a>()</p></td>
 <td><p>Gets a clipboard-codable representation of the chat.</p></td>
@@ -1093,10 +1034,10 @@
 <dd><p>Gets a clipboard-codable representation of the chat.</p>
 <p>When the clipboard content is set to a chat, the chat’s name is added to the clipboard.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The name of the chat</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>str</p>
 </dd>
 </dl>
@@ -1138,10 +1079,10 @@
 <dd><p>Sends a message to the chat.</p>
 <p>_extended_summary_</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>message</strong> (<em>_type_</em>) – _description_</p>
 </dd>
-<dt class="field-even">Example 1</dt>
+<dt class="field-even">Example 1<span class="colon">:</span></dt>
 <dd class="field-even"><p>Send an SMS to a chat based on the chat ID</p>
 </dd>
 </dl>
@@ -1151,6 +1092,9 @@
 <span class="gp">&gt;&gt;&gt; </span><span class="n">chat</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s2">&quot;Hello!&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.0.4.</span></p>
+</div>
 </dd></dl>
 
 </dd></dl>
@@ -1158,7 +1102,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.Messages.XAMessagesChatList">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Messages.</span></span><span class="sig-name descname"><span class="pre">XAMessagesChatList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Messages.html#XAMessagesChatList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesChatList" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAList" title="PyXA.XABase.XAList"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAList</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">XAClipboardCodable</span></code></p>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAList" title="PyXA.XABase.XAList"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAList</span></code></a>, <a class="reference internal" href="../xaprotocols.html#PyXA.XAProtocols.XAClipboardCodable" title="PyXA.XAProtocols.XAClipboardCodable"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAClipboardCodable</span></code></a></p>
 <p>A wrapper around a list of chats that employs fast enumeration techniques.</p>
 <p>All properties of chats can be called as methods on the wrapped list, returning a list containing each chat’s value for the property.</p>
 <div class="versionadded">
@@ -1166,10 +1110,6 @@
 </div>
 <p><strong>Methods:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesChatList.account" title="PyXA.apps.Messages.XAMessagesChatList.account"><code class="xref py py-obj docutils literal notranslate"><span class="pre">account</span></code></a>()</p></td>
 <td><p>Gets the account of each chat in the list.</p></td>
@@ -1205,10 +1145,10 @@
 <span class="sig-name descname"><span class="pre">account</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesAccountList" title="PyXA.apps.Messages.XAMessagesAccountList"><span class="pre">XAMessagesAccountList</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Messages.html#XAMessagesChatList.account"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesChatList.account" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the account of each chat in the list.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of accounts</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesAccountList" title="PyXA.apps.Messages.XAMessagesAccountList">XAMessagesAccountList</a></p>
 </dd>
 </dl>
@@ -1222,10 +1162,10 @@
 <span class="sig-name descname"><span class="pre">by_account</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">account</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesAccount" title="PyXA.apps.Messages.XAMessagesAccount"><span class="pre">XAMessagesAccount</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesChat" title="PyXA.apps.Messages.XAMessagesChat"><span class="pre">XAMessagesChat</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Messages.html#XAMessagesChatList.by_account"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesChatList.by_account" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the first chat whose account matches the given account, if one exists.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The desired chat, if it is found</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>Union[<a class="reference internal" href="#PyXA.apps.Messages.XAMessagesChat" title="PyXA.apps.Messages.XAMessagesChat">XAMessagesChat</a>, None]</p>
 </dd>
 </dl>
@@ -1239,10 +1179,10 @@
 <span class="sig-name descname"><span class="pre">by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesChat" title="PyXA.apps.Messages.XAMessagesChat"><span class="pre">XAMessagesChat</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Messages.html#XAMessagesChatList.by_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesChatList.by_id" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the first chat whose ID matches the given ID, if one exists.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The desired chat, if it is found</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>Union[<a class="reference internal" href="#PyXA.apps.Messages.XAMessagesChat" title="PyXA.apps.Messages.XAMessagesChat">XAMessagesChat</a>, None]</p>
 </dd>
 </dl>
@@ -1256,10 +1196,10 @@
 <span class="sig-name descname"><span class="pre">by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesChat" title="PyXA.apps.Messages.XAMessagesChat"><span class="pre">XAMessagesChat</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Messages.html#XAMessagesChatList.by_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesChatList.by_name" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the first chat whose name matches the given name, if one exists.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The desired chat, if it is found</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>Union[<a class="reference internal" href="#PyXA.apps.Messages.XAMessagesChat" title="PyXA.apps.Messages.XAMessagesChat">XAMessagesChat</a>, None]</p>
 </dd>
 </dl>
@@ -1273,13 +1213,13 @@
 <span class="sig-name descname"><span class="pre">by_participants</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">participants</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesParticipant" title="PyXA.apps.Messages.XAMessagesParticipant"><span class="pre">PyXA.apps.Messages.XAMessagesParticipant</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesChat" title="PyXA.apps.Messages.XAMessagesChat"><span class="pre">XAMessagesChat</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Messages.html#XAMessagesChatList.by_participants"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesChatList.by_participants" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the first chat whose participants list matches the given list.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>participants</strong> (<em>list</em><em>[</em><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesParticipant" title="PyXA.apps.Messages.XAMessagesParticipant"><em>XAMessagesParticipant</em></a><em>]</em>) – A list of participants to compare chat participants against</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>The desired chat, if it exists</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesChat" title="PyXA.apps.Messages.XAMessagesChat">XAMessagesChat</a></p>
 </dd>
 </dl>
@@ -1294,10 +1234,10 @@
 <dd><p>Gets a clipboard-codable representation of each chat in the list.</p>
 <p>When the clipboard content is set to a list of chats, each chat’s name is added to the clipboard.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The list of chat names</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[str]</p>
 </dd>
 </dl>
@@ -1311,10 +1251,10 @@
 <span class="sig-name descname"><span class="pre">id</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Messages.html#XAMessagesChatList.id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesChatList.id" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the ID of each chat in the list.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of chat IDs</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[str]</p>
 </dd>
 </dl>
@@ -1328,10 +1268,10 @@
 <span class="sig-name descname"><span class="pre">name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Messages.html#XAMessagesChatList.name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesChatList.name" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the name of each chat in the list.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of chat names</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[str]</p>
 </dd>
 </dl>
@@ -1345,10 +1285,10 @@
 <span class="sig-name descname"><span class="pre">participants</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesParticipantList" title="PyXA.apps.Messages.XAMessagesParticipantList"><span class="pre">PyXA.apps.Messages.XAMessagesParticipantList</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Messages.html#XAMessagesChatList.participants"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesChatList.participants" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the list of participants of every chat in the list.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of lists of participants</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[<a class="reference internal" href="#PyXA.apps.Messages.XAMessagesParticipantList" title="PyXA.apps.Messages.XAMessagesParticipantList">XAMessagesParticipantList</a>]</p>
 </dd>
 </dl>
@@ -1369,10 +1309,6 @@
 </div>
 <p><strong>Attributes:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesDocument.file" title="PyXA.apps.Messages.XAMessagesDocument.file"><code class="xref py py-obj docutils literal notranslate"><span class="pre">file</span></code></a></p></td>
 <td><p>The location of the document on the disk, if one exists.</p></td>
@@ -1425,10 +1361,6 @@
 </div>
 <p><strong>Methods:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesDocumentList.by_file" title="PyXA.apps.Messages.XAMessagesDocumentList.by_file"><code class="xref py py-obj docutils literal notranslate"><span class="pre">by_file</span></code></a>(file)</p></td>
 <td><p>Retrieves the first document whose file matches the given file path, if one exists.</p></td>
@@ -1455,10 +1387,10 @@
 <span class="sig-name descname"><span class="pre">by_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesDocument" title="PyXA.apps.Messages.XAMessagesDocument"><span class="pre">XAMessagesDocument</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Messages.html#XAMessagesDocumentList.by_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesDocumentList.by_file" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the first document whose file matches the given file path, if one exists.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The desired document, if it is found</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>Union[<a class="reference internal" href="#PyXA.apps.Messages.XAMessagesDocument" title="PyXA.apps.Messages.XAMessagesDocument">XAMessagesDocument</a>, None]</p>
 </dd>
 </dl>
@@ -1472,10 +1404,10 @@
 <span class="sig-name descname"><span class="pre">by_modified</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">modified</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesDocument" title="PyXA.apps.Messages.XAMessagesDocument"><span class="pre">XAMessagesDocument</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Messages.html#XAMessagesDocumentList.by_modified"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesDocumentList.by_modified" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the first document whose modified status matches the given boolean value, if one exists.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The desired document, if it is found</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>Union[<a class="reference internal" href="#PyXA.apps.Messages.XAMessagesDocument" title="PyXA.apps.Messages.XAMessagesDocument">XAMessagesDocument</a>, None]</p>
 </dd>
 </dl>
@@ -1489,10 +1421,10 @@
 <span class="sig-name descname"><span class="pre">by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesDocument" title="PyXA.apps.Messages.XAMessagesDocument"><span class="pre">XAMessagesDocument</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Messages.html#XAMessagesDocumentList.by_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesDocumentList.by_name" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the first document whose name matches the given string, if one exists.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The desired document, if it is found</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>Union[<a class="reference internal" href="#PyXA.apps.Messages.XAMessagesDocument" title="PyXA.apps.Messages.XAMessagesDocument">XAMessagesDocument</a>, None]</p>
 </dd>
 </dl>
@@ -1506,10 +1438,10 @@
 <span class="sig-name descname"><span class="pre">file</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Messages.html#XAMessagesDocumentList.file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesDocumentList.file" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the file path of each document in the list.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of document file paths</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[str]</p>
 </dd>
 </dl>
@@ -1523,10 +1455,10 @@
 <span class="sig-name descname"><span class="pre">modified</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Messages.html#XAMessagesDocumentList.modified"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesDocumentList.modified" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the modified status of each document in the list.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of modified status boolean values</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[bool]</p>
 </dd>
 </dl>
@@ -1540,10 +1472,10 @@
 <span class="sig-name descname"><span class="pre">name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Messages.html#XAMessagesDocumentList.name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesDocumentList.name" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the name of each document in the list.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of document names</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[str]</p>
 </dd>
 </dl>
@@ -1557,56 +1489,48 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.Messages.XAMessagesFileTransfer">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Messages.</span></span><span class="sig-name descname"><span class="pre">XAMessagesFileTransfer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Messages.html#XAMessagesFileTransfer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesFileTransfer" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAObject</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">XAClipboardCodable</span></code></p>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAObject</span></code></a>, <a class="reference internal" href="../xaprotocols.html#PyXA.XAProtocols.XAClipboardCodable" title="PyXA.XAProtocols.XAClipboardCodable"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAClipboardCodable</span></code></a></p>
 <p>A class for managing and interacting with file transfers in Messages.app</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.1.</span></p>
 </div>
 <p><strong>Attributes:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesFileTransfer.account" title="PyXA.apps.Messages.XAMessagesFileTransfer.account"><code class="xref py py-obj docutils literal notranslate"><span class="pre">account</span></code></a></p></td>
-<td><p>The account on which the file transfer is taking place</p></td>
+<td><p>The account on which the file transfer is taking place.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesFileTransfer.direction" title="PyXA.apps.Messages.XAMessagesFileTransfer.direction"><code class="xref py py-obj docutils literal notranslate"><span class="pre">direction</span></code></a></p></td>
-<td><p>The direction that the file is being sent</p></td>
+<td><p>The direction that the file is being sent.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesFileTransfer.file_path" title="PyXA.apps.Messages.XAMessagesFileTransfer.file_path"><code class="xref py py-obj docutils literal notranslate"><span class="pre">file_path</span></code></a></p></td>
-<td><p>The local page to the file being transferred</p></td>
+<td><p>The local path to the file being transferred.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesFileTransfer.file_progress" title="PyXA.apps.Messages.XAMessagesFileTransfer.file_progress"><code class="xref py py-obj docutils literal notranslate"><span class="pre">file_progress</span></code></a></p></td>
-<td><p>The number of bytes that have been transferred</p></td>
+<td><p>The number of bytes that have been transferred.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesFileTransfer.file_size" title="PyXA.apps.Messages.XAMessagesFileTransfer.file_size"><code class="xref py py-obj docutils literal notranslate"><span class="pre">file_size</span></code></a></p></td>
-<td><p>The total size of the file transfers in bytes</p></td>
+<td><p>The total size of the file transfer in bytes.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesFileTransfer.id" title="PyXA.apps.Messages.XAMessagesFileTransfer.id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">id</span></code></a></p></td>
-<td><p>The unique identifier for the file transfer</p></td>
+<td><p>The unique identifier for the file transfer.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesFileTransfer.name" title="PyXA.apps.Messages.XAMessagesFileTransfer.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a></p></td>
-<td><p>The name of the file</p></td>
+<td><p>The name of the file.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesFileTransfer.participant" title="PyXA.apps.Messages.XAMessagesFileTransfer.participant"><code class="xref py py-obj docutils literal notranslate"><span class="pre">participant</span></code></a></p></td>
-<td><p>The other participant in the file transfer</p></td>
+<td><p>The other participant in the file transfer.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesFileTransfer.started" title="PyXA.apps.Messages.XAMessagesFileTransfer.started"><code class="xref py py-obj docutils literal notranslate"><span class="pre">started</span></code></a></p></td>
-<td><p>The date and time that the file transfer started</p></td>
+<td><p>The date and time that the file transfer started.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesFileTransfer.transfer_status" title="PyXA.apps.Messages.XAMessagesFileTransfer.transfer_status"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transfer_status</span></code></a></p></td>
-<td><p>The current status of the file transfer</p></td>
+<td><p>The current status of the file transfer.</p></td>
 </tr>
 </tbody>
 </table>
 <p><strong>Methods:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesFileTransfer.get_clipboard_representation" title="PyXA.apps.Messages.XAMessagesFileTransfer.get_clipboard_representation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_clipboard_representation</span></code></a>()</p></td>
 <td><p>Gets a clipboard-codable representation of the file transfer.</p></td>
@@ -1616,31 +1540,31 @@
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Messages.XAMessagesFileTransfer.account">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">account</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesAccount" title="PyXA.apps.Messages.XAMessagesAccount"><span class="pre">XAMessagesAccount</span></a></em><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesFileTransfer.account" title="Permalink to this definition"></a></dt>
-<dd><p>The account on which the file transfer is taking place</p>
+<dd><p>The account on which the file transfer is taking place.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Messages.XAMessagesFileTransfer.direction">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">direction</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesApplication.MessageDirection" title="PyXA.apps.Messages.XAMessagesApplication.MessageDirection"><span class="pre">MessageDirection</span></a></em><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesFileTransfer.direction" title="Permalink to this definition"></a></dt>
-<dd><p>The direction that the file is being sent</p>
+<dd><p>The direction that the file is being sent.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Messages.XAMessagesFileTransfer.file_path">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">file_path</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAPath" title="PyXA.XABase.XAPath"><span class="pre">XAPath</span></a></em><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesFileTransfer.file_path" title="Permalink to this definition"></a></dt>
-<dd><p>The local page to the file being transferred</p>
+<dd><p>The local path to the file being transferred.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Messages.XAMessagesFileTransfer.file_progress">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">file_progress</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesFileTransfer.file_progress" title="Permalink to this definition"></a></dt>
-<dd><p>The number of bytes that have been transferred</p>
+<dd><p>The number of bytes that have been transferred.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Messages.XAMessagesFileTransfer.file_size">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">file_size</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesFileTransfer.file_size" title="Permalink to this definition"></a></dt>
-<dd><p>The total size of the file transfers in bytes</p>
+<dd><p>The total size of the file transfer in bytes.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1649,10 +1573,10 @@
 <dd><p>Gets a clipboard-codable representation of the file transfer.</p>
 <p>When the clipboard content is set to a file transfer, the path of the file transfer is added to the clipboard.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The file path of the file transfer</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[AppKit.NSURL]</p>
 </dd>
 </dl>
@@ -1664,31 +1588,31 @@
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Messages.XAMessagesFileTransfer.id">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesFileTransfer.id" title="Permalink to this definition"></a></dt>
-<dd><p>The unique identifier for the file transfer</p>
+<dd><p>The unique identifier for the file transfer.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Messages.XAMessagesFileTransfer.name">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesFileTransfer.name" title="Permalink to this definition"></a></dt>
-<dd><p>The name of the file</p>
+<dd><p>The name of the file.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Messages.XAMessagesFileTransfer.participant">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">participant</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesParticipant" title="PyXA.apps.Messages.XAMessagesParticipant"><span class="pre">XAMessagesParticipant</span></a></em><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesFileTransfer.participant" title="Permalink to this definition"></a></dt>
-<dd><p>The other participant in the file transfer</p>
+<dd><p>The other participant in the file transfer.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Messages.XAMessagesFileTransfer.started">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">started</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">datetime</span></em><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesFileTransfer.started" title="Permalink to this definition"></a></dt>
-<dd><p>The date and time that the file transfer started</p>
+<dd><p>The date and time that the file transfer started.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Messages.XAMessagesFileTransfer.transfer_status">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">transfer_status</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesApplication.TransferStatus" title="PyXA.apps.Messages.XAMessagesApplication.TransferStatus"><span class="pre">TransferStatus</span></a></em><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesFileTransfer.transfer_status" title="Permalink to this definition"></a></dt>
-<dd><p>The current status of the file transfer</p>
+<dd><p>The current status of the file transfer.</p>
 </dd></dl>
 
 </dd></dl>
@@ -1696,7 +1620,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.Messages.XAMessagesFileTransferList">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Messages.</span></span><span class="sig-name descname"><span class="pre">XAMessagesFileTransferList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Messages.html#XAMessagesFileTransferList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesFileTransferList" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAList" title="PyXA.XABase.XAList"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAList</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">XAClipboardCodable</span></code></p>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAList" title="PyXA.XABase.XAList"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAList</span></code></a>, <a class="reference internal" href="../xaprotocols.html#PyXA.XAProtocols.XAClipboardCodable" title="PyXA.XAProtocols.XAClipboardCodable"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAClipboardCodable</span></code></a></p>
 <p>A wrapper around a list of file transfers that employs fast enumeration techniques.</p>
 <p>All properties of file transfers can be called as methods on the wrapped list, returning a list containing each file transfer’s value for the property.</p>
 <div class="versionadded">
@@ -1704,10 +1628,6 @@
 </div>
 <p><strong>Methods:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesFileTransferList.account" title="PyXA.apps.Messages.XAMessagesFileTransferList.account"><code class="xref py py-obj docutils literal notranslate"><span class="pre">account</span></code></a>()</p></td>
 <td><p>Gets the account of each file transfer in the list.</p></td>
@@ -1782,10 +1702,10 @@
 <span class="sig-name descname"><span class="pre">account</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesAccountList" title="PyXA.apps.Messages.XAMessagesAccountList"><span class="pre">XAMessagesAccountList</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Messages.html#XAMessagesFileTransferList.account"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesFileTransferList.account" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the account of each file transfer in the list.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of accounts</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesAccountList" title="PyXA.apps.Messages.XAMessagesAccountList">XAMessagesAccountList</a></p>
 </dd>
 </dl>
@@ -1799,10 +1719,10 @@
 <span class="sig-name descname"><span class="pre">by_account</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">account</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesAccount" title="PyXA.apps.Messages.XAMessagesAccount"><span class="pre">XAMessagesAccount</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesFileTransfer" title="PyXA.apps.Messages.XAMessagesFileTransfer"><span class="pre">XAMessagesFileTransfer</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Messages.html#XAMessagesFileTransferList.by_account"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesFileTransferList.by_account" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the first file transfer whose account matches the given account, if one exists.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The desired file transfer, if it is found</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>Union[<a class="reference internal" href="#PyXA.apps.Messages.XAMessagesFileTransfer" title="PyXA.apps.Messages.XAMessagesFileTransfer">XAMessagesFileTransfer</a>, None]</p>
 </dd>
 </dl>
@@ -1816,10 +1736,10 @@
 <span class="sig-name descname"><span class="pre">by_direction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">direction</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesApplication.MessageDirection" title="PyXA.apps.Messages.XAMessagesApplication.MessageDirection"><span class="pre">MessageDirection</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesFileTransfer" title="PyXA.apps.Messages.XAMessagesFileTransfer"><span class="pre">XAMessagesFileTransfer</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Messages.html#XAMessagesFileTransferList.by_direction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesFileTransferList.by_direction" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the first file transfer whose direction matches the given enum value, if one exists.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The desired file transfer, if it is found</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>Union[<a class="reference internal" href="#PyXA.apps.Messages.XAMessagesFileTransfer" title="PyXA.apps.Messages.XAMessagesFileTransfer">XAMessagesFileTransfer</a>, None]</p>
 </dd>
 </dl>
@@ -1833,10 +1753,10 @@
 <span class="sig-name descname"><span class="pre">by_file_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../xabase.html#PyXA.XABase.XAPath" title="PyXA.XABase.XAPath"><span class="pre">XAPath</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesFileTransfer" title="PyXA.apps.Messages.XAMessagesFileTransfer"><span class="pre">XAMessagesFileTransfer</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Messages.html#XAMessagesFileTransferList.by_file_path"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesFileTransferList.by_file_path" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the first file transfer whose file path matches the given path, if one exists.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The desired file transfer, if it is found</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>Union[<a class="reference internal" href="#PyXA.apps.Messages.XAMessagesFileTransfer" title="PyXA.apps.Messages.XAMessagesFileTransfer">XAMessagesFileTransfer</a>, None]</p>
 </dd>
 </dl>
@@ -1850,10 +1770,10 @@
 <span class="sig-name descname"><span class="pre">by_file_progress</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_progress</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesFileTransfer" title="PyXA.apps.Messages.XAMessagesFileTransfer"><span class="pre">XAMessagesFileTransfer</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Messages.html#XAMessagesFileTransferList.by_file_progress"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesFileTransferList.by_file_progress" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the first file transfer whose file progress matches the given enum value, if one exists.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The desired file transfer, if it is found</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>Union[<a class="reference internal" href="#PyXA.apps.Messages.XAMessagesFileTransfer" title="PyXA.apps.Messages.XAMessagesFileTransfer">XAMessagesFileTransfer</a>, None]</p>
 </dd>
 </dl>
@@ -1867,10 +1787,10 @@
 <span class="sig-name descname"><span class="pre">by_file_size</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesFileTransfer" title="PyXA.apps.Messages.XAMessagesFileTransfer"><span class="pre">XAMessagesFileTransfer</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Messages.html#XAMessagesFileTransferList.by_file_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesFileTransferList.by_file_size" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the first file transfer whose file size matches the given number, if one exists.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The desired file transfer, if it is found</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>Union[<a class="reference internal" href="#PyXA.apps.Messages.XAMessagesFileTransfer" title="PyXA.apps.Messages.XAMessagesFileTransfer">XAMessagesFileTransfer</a>, None]</p>
 </dd>
 </dl>
@@ -1884,10 +1804,10 @@
 <span class="sig-name descname"><span class="pre">by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesFileTransfer" title="PyXA.apps.Messages.XAMessagesFileTransfer"><span class="pre">XAMessagesFileTransfer</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Messages.html#XAMessagesFileTransferList.by_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesFileTransferList.by_id" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the first file transfer whose ID matches the given ID string, if one exists.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The desired file transfer, if it is found</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>Union[<a class="reference internal" href="#PyXA.apps.Messages.XAMessagesFileTransfer" title="PyXA.apps.Messages.XAMessagesFileTransfer">XAMessagesFileTransfer</a>, None]</p>
 </dd>
 </dl>
@@ -1901,10 +1821,10 @@
 <span class="sig-name descname"><span class="pre">by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesFileTransfer" title="PyXA.apps.Messages.XAMessagesFileTransfer"><span class="pre">XAMessagesFileTransfer</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Messages.html#XAMessagesFileTransferList.by_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesFileTransferList.by_name" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the first file transfer whose name matches the given name string, if one exists.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The desired file transfer, if it is found</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>Union[<a class="reference internal" href="#PyXA.apps.Messages.XAMessagesFileTransfer" title="PyXA.apps.Messages.XAMessagesFileTransfer">XAMessagesFileTransfer</a>, None]</p>
 </dd>
 </dl>
@@ -1918,10 +1838,10 @@
 <span class="sig-name descname"><span class="pre">by_participant</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">participant</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesParticipant" title="PyXA.apps.Messages.XAMessagesParticipant"><span class="pre">XAMessagesParticipant</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesFileTransfer" title="PyXA.apps.Messages.XAMessagesFileTransfer"><span class="pre">XAMessagesFileTransfer</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Messages.html#XAMessagesFileTransferList.by_participant"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesFileTransferList.by_participant" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the first file transfer whose participant matches the given participant, if one exists.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The desired file transfer, if it is found</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>Union[<a class="reference internal" href="#PyXA.apps.Messages.XAMessagesFileTransfer" title="PyXA.apps.Messages.XAMessagesFileTransfer">XAMessagesFileTransfer</a>, None]</p>
 </dd>
 </dl>
@@ -1935,10 +1855,10 @@
 <span class="sig-name descname"><span class="pre">by_started</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">started</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesFileTransfer" title="PyXA.apps.Messages.XAMessagesFileTransfer"><span class="pre">XAMessagesFileTransfer</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Messages.html#XAMessagesFileTransferList.by_started"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesFileTransferList.by_started" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the first file transfer whose started state matches the given boolean value, if one exists.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The desired file transfer, if it is found</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>Union[<a class="reference internal" href="#PyXA.apps.Messages.XAMessagesFileTransfer" title="PyXA.apps.Messages.XAMessagesFileTransfer">XAMessagesFileTransfer</a>, None]</p>
 </dd>
 </dl>
@@ -1952,10 +1872,10 @@
 <span class="sig-name descname"><span class="pre">by_transfer_status</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">transfer_status</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesApplication.TransferStatus" title="PyXA.apps.Messages.XAMessagesApplication.TransferStatus"><span class="pre">TransferStatus</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesFileTransfer" title="PyXA.apps.Messages.XAMessagesFileTransfer"><span class="pre">XAMessagesFileTransfer</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Messages.html#XAMessagesFileTransferList.by_transfer_status"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesFileTransferList.by_transfer_status" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the first file transfer whose transfer status matches the given enum value, if one exists.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The desired file transfer, if it is found</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>Union[<a class="reference internal" href="#PyXA.apps.Messages.XAMessagesFileTransfer" title="PyXA.apps.Messages.XAMessagesFileTransfer">XAMessagesFileTransfer</a>, None]</p>
 </dd>
 </dl>
@@ -1969,10 +1889,10 @@
 <span class="sig-name descname"><span class="pre">direction</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesApplication.MessageDirection" title="PyXA.apps.Messages.XAMessagesApplication.MessageDirection"><span class="pre">PyXA.apps.Messages.XAMessagesApplication.MessageDirection</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Messages.html#XAMessagesFileTransferList.direction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesFileTransferList.direction" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the direction of each file transfer in the list.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of direction enum values</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[<a class="reference internal" href="#PyXA.apps.Messages.XAMessagesApplication.MessageDirection" title="PyXA.apps.Messages.XAMessagesApplication.MessageDirection">XAMessagesApplication.MessageDirection</a>]:</p>
 </dd>
 </dl>
@@ -1986,10 +1906,10 @@
 <span class="sig-name descname"><span class="pre">file_path</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../xabase.html#PyXA.XABase.XAPath" title="PyXA.XABase.XAPath"><span class="pre">PyXA.XABase.XAPath</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Messages.html#XAMessagesFileTransferList.file_path"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesFileTransferList.file_path" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the file path of each file transfer in the list.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of file paths</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[<a class="reference internal" href="../xabase.html#PyXA.XABase.XAPath" title="PyXA.XABase.XAPath">XABase.XAPath</a>]</p>
 </dd>
 </dl>
@@ -2003,10 +1923,10 @@
 <span class="sig-name descname"><span class="pre">file_progress</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Messages.html#XAMessagesFileTransferList.file_progress"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesFileTransferList.file_progress" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the file progress of each file transfer in the list.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of file progress in bytes transferred out of total bytes</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[int]</p>
 </dd>
 </dl>
@@ -2020,10 +1940,10 @@
 <span class="sig-name descname"><span class="pre">file_size</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Messages.html#XAMessagesFileTransferList.file_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesFileTransferList.file_size" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the file size of each file transfer in the list.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of file sizes in byes</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[int]</p>
 </dd>
 </dl>
@@ -2038,7 +1958,7 @@
 <dd><p>Filters the list by the given parameters.</p>
 <p>The filter may be either a format string, used to create an NSPredicate, or up to 4 arguments specifying the filtered property name, the comparison operation, and up to two values to compare against.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>filter</strong> (<em>str</em>) – A format string or a property name</p></li>
 <li><p><strong>comparison_operation</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>None</em><em>]</em><em>, </em><em>optional</em>) – The symbol or name of a comparison operation, such as &gt; or &lt;, defaults to None</p></li>
@@ -2046,13 +1966,13 @@
 <li><p><strong>value2</strong> (<em>Union</em><em>[</em><em>Any</em><em>, </em><em>None</em><em>]</em><em>, </em><em>optional</em>) – The second value to compare each list item’s property value against, defaults to None</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>The filter XAList object</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="../xabase.html#PyXA.XABase.XAList" title="PyXA.XABase.XAList">XAList</a></p>
 </dd>
-<dt class="field-even">Example 1</dt>
+<dt class="field-even">Example 1<span class="colon">:</span></dt>
 <dd class="field-even"><p>Get the last file sent by you (via this machine) in Messages.app</p>
 </dd>
 </dl>
@@ -2064,7 +1984,7 @@
 </pre></div>
 </div>
 <dl class="field-list simple">
-<dt class="field-odd">Example 2</dt>
+<dt class="field-odd">Example 2<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Get the list of favorite photos/videos from Photos.app</p>
 </dd>
 </dl>
@@ -2080,7 +2000,7 @@
 <p>For properties that appear to be boolean but fail to return expected filter results, try using the corresponding 0 or 1 value instead.</p>
 </div>
 <dl class="field-list simple">
-<dt class="field-odd">Example 3</dt>
+<dt class="field-odd">Example 3<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Provide a custom format string</p>
 </dd>
 </dl>
@@ -2102,10 +2022,10 @@
 <dd><p>Gets a clipboard-codable representation of each file transfer in the list.</p>
 <p>When the clipboard content is set to a list of file transfers, each file transfer’s file path URL is added to the clipboard.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The list of file path URLs</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[AppKit.NSURL]</p>
 </dd>
 </dl>
@@ -2119,10 +2039,10 @@
 <span class="sig-name descname"><span class="pre">id</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Messages.html#XAMessagesFileTransferList.id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesFileTransferList.id" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the ID of each file transfer in the list.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of file transfer IDs</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[str]</p>
 </dd>
 </dl>
@@ -2136,10 +2056,10 @@
 <span class="sig-name descname"><span class="pre">name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Messages.html#XAMessagesFileTransferList.name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesFileTransferList.name" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the name of each file transfer in the list.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of file names</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[str]</p>
 </dd>
 </dl>
@@ -2153,10 +2073,10 @@
 <span class="sig-name descname"><span class="pre">participant</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesParticipantList" title="PyXA.apps.Messages.XAMessagesParticipantList"><span class="pre">XAMessagesParticipantList</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Messages.html#XAMessagesFileTransferList.participant"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesFileTransferList.participant" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the participant of each file transfer in the list.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of participants</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesParticipantList" title="PyXA.apps.Messages.XAMessagesParticipantList">XAMessagesParticipantList</a></p>
 </dd>
 </dl>
@@ -2170,10 +2090,10 @@
 <span class="sig-name descname"><span class="pre">started</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Messages.html#XAMessagesFileTransferList.started"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesFileTransferList.started" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the started status of each file transfer in the list.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of start status boolean values</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[bool]</p>
 </dd>
 </dl>
@@ -2187,10 +2107,10 @@
 <span class="sig-name descname"><span class="pre">transfer_status</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesApplication.TransferStatus" title="PyXA.apps.Messages.XAMessagesApplication.TransferStatus"><span class="pre">PyXA.apps.Messages.XAMessagesApplication.TransferStatus</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Messages.html#XAMessagesFileTransferList.transfer_status"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesFileTransferList.transfer_status" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the transfer status of each file transfer in the list.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of transfer status enum values</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[<a class="reference internal" href="#PyXA.apps.Messages.XAMessagesApplication.TransferStatus" title="PyXA.apps.Messages.XAMessagesApplication.TransferStatus">XAMessagesApplication.TransferStatus</a>]</p>
 </dd>
 </dl>
@@ -2204,47 +2124,39 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.Messages.XAMessagesParticipant">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Messages.</span></span><span class="sig-name descname"><span class="pre">XAMessagesParticipant</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Messages.html#XAMessagesParticipant"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesParticipant" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAObject</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">XAClipboardCodable</span></code></p>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAObject" title="PyXA.XABase.XAObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAObject</span></code></a>, <a class="reference internal" href="../xaprotocols.html#PyXA.XAProtocols.XAClipboardCodable" title="PyXA.XAProtocols.XAClipboardCodable"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAClipboardCodable</span></code></a></p>
 <p>A class for managing and interacting with chat participants in Messages.app</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.1.</span></p>
 </div>
 <p><strong>Attributes:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesParticipant.account" title="PyXA.apps.Messages.XAMessagesParticipant.account"><code class="xref py py-obj docutils literal notranslate"><span class="pre">account</span></code></a></p></td>
-<td><p>The account for the participant</p></td>
+<td><p>The account for the participant.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesParticipant.first_name" title="PyXA.apps.Messages.XAMessagesParticipant.first_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">first_name</span></code></a></p></td>
-<td><p>The first name of the participant, taken from their contact card (if available)</p></td>
+<td><p>The first name of the participant, taken from their contact card (if available).</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesParticipant.full_name" title="PyXA.apps.Messages.XAMessagesParticipant.full_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">full_name</span></code></a></p></td>
-<td><p>The full name of the participant, taken from their contact card (if available)</p></td>
+<td><p>The full name of the participant, taken from their contact card (if available).</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesParticipant.handle" title="PyXA.apps.Messages.XAMessagesParticipant.handle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">handle</span></code></a></p></td>
-<td><p>The participant's handle</p></td>
+<td><p>The participant's handle.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesParticipant.id" title="PyXA.apps.Messages.XAMessagesParticipant.id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">id</span></code></a></p></td>
-<td><p>The unique identifier for the participant</p></td>
+<td><p>The unique identifier for the participant.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesParticipant.last_name" title="PyXA.apps.Messages.XAMessagesParticipant.last_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">last_name</span></code></a></p></td>
-<td><p>The last name of the participant, taken from their contact card (if available)</p></td>
+<td><p>The last name of the participant, taken from their contact card (if available).</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesParticipant.name" title="PyXA.apps.Messages.XAMessagesParticipant.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a></p></td>
-<td><p>The name of the participant as it appears in the participant list</p></td>
+<td><p>The name of the participant as it appears in the participant list.</p></td>
 </tr>
 </tbody>
 </table>
 <p><strong>Methods:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesParticipant.get_clipboard_representation" title="PyXA.apps.Messages.XAMessagesParticipant.get_clipboard_representation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_clipboard_representation</span></code></a>()</p></td>
 <td><p>Gets a clipboard-codable representation of the participant.</p></td>
@@ -2254,19 +2166,19 @@
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Messages.XAMessagesParticipant.account">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">account</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesAccount" title="PyXA.apps.Messages.XAMessagesAccount"><span class="pre">XAMessagesAccount</span></a></em><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesParticipant.account" title="Permalink to this definition"></a></dt>
-<dd><p>The account for the participant</p>
+<dd><p>The account for the participant.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Messages.XAMessagesParticipant.first_name">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">first_name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesParticipant.first_name" title="Permalink to this definition"></a></dt>
-<dd><p>The first name of the participant, taken from their contact card (if available)</p>
+<dd><p>The first name of the participant, taken from their contact card (if available).</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Messages.XAMessagesParticipant.full_name">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">full_name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesParticipant.full_name" title="Permalink to this definition"></a></dt>
-<dd><p>The full name of the participant, taken from their contact card (if available)</p>
+<dd><p>The full name of the participant, taken from their contact card (if available).</p>
 </dd></dl>
 
 <dl class="py method">
@@ -2275,10 +2187,10 @@
 <dd><p>Gets a clipboard-codable representation of the participant.</p>
 <p>When the clipboard content is set to a participant, the full name of the participant is added to the clipboard.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The participant’s full name</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>str</p>
 </dd>
 </dl>
@@ -2290,25 +2202,25 @@
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Messages.XAMessagesParticipant.handle">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">handle</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesParticipant.handle" title="Permalink to this definition"></a></dt>
-<dd><p>The participant’s handle</p>
+<dd><p>The participant’s handle.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Messages.XAMessagesParticipant.id">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesParticipant.id" title="Permalink to this definition"></a></dt>
-<dd><p>The unique identifier for the participant</p>
+<dd><p>The unique identifier for the participant.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Messages.XAMessagesParticipant.last_name">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">last_name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesParticipant.last_name" title="Permalink to this definition"></a></dt>
-<dd><p>The last name of the participant, taken from their contact card (if available)</p>
+<dd><p>The last name of the participant, taken from their contact card (if available).</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Messages.XAMessagesParticipant.name">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesParticipant.name" title="Permalink to this definition"></a></dt>
-<dd><p>The name of the participant as it appears in the participant list</p>
+<dd><p>The name of the participant as it appears in the participant list.</p>
 </dd></dl>
 
 </dd></dl>
@@ -2316,7 +2228,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="PyXA.apps.Messages.XAMessagesParticipantList">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.apps.Messages.</span></span><span class="sig-name descname"><span class="pre">XAMessagesParticipantList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/PyXA/apps/Messages.html#XAMessagesParticipantList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesParticipantList" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAList" title="PyXA.XABase.XAList"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAList</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">XAClipboardCodable</span></code></p>
+<dd><p>Bases: <a class="reference internal" href="../xabase.html#PyXA.XABase.XAList" title="PyXA.XABase.XAList"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAList</span></code></a>, <a class="reference internal" href="../xaprotocols.html#PyXA.XAProtocols.XAClipboardCodable" title="PyXA.XAProtocols.XAClipboardCodable"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAClipboardCodable</span></code></a></p>
 <p>A wrapper around a list of participants that employs fast enumeration techniques.</p>
 <p>All properties of participants can be called as methods on the wrapped list, returning a list containing each participant’s value for the property.</p>
 <div class="versionadded">
@@ -2324,10 +2236,6 @@
 </div>
 <p><strong>Methods:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesParticipantList.account" title="PyXA.apps.Messages.XAMessagesParticipantList.account"><code class="xref py py-obj docutils literal notranslate"><span class="pre">account</span></code></a>()</p></td>
 <td><p>Gets the account of each participant in the list.</p></td>
@@ -2381,10 +2289,10 @@
 <span class="sig-name descname"><span class="pre">account</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesAccountList" title="PyXA.apps.Messages.XAMessagesAccountList"><span class="pre">XAMessagesAccountList</span></a></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Messages.html#XAMessagesParticipantList.account"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesParticipantList.account" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the account of each participant in the list.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of accounts</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesAccountList" title="PyXA.apps.Messages.XAMessagesAccountList">XAMessagesAccountList</a></p>
 </dd>
 </dl>
@@ -2398,10 +2306,10 @@
 <span class="sig-name descname"><span class="pre">by_account</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">account</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesAccount" title="PyXA.apps.Messages.XAMessagesAccount"><span class="pre">XAMessagesAccount</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesParticipant" title="PyXA.apps.Messages.XAMessagesParticipant"><span class="pre">XAMessagesParticipant</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Messages.html#XAMessagesParticipantList.by_account"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesParticipantList.by_account" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the first participant whose account matches the given account, if one exists.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The desired participant, if it is found</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>Union[<a class="reference internal" href="#PyXA.apps.Messages.XAMessagesParticipant" title="PyXA.apps.Messages.XAMessagesParticipant">XAMessagesParticipant</a>, None]</p>
 </dd>
 </dl>
@@ -2415,10 +2323,10 @@
 <span class="sig-name descname"><span class="pre">by_first_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">first_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesParticipant" title="PyXA.apps.Messages.XAMessagesParticipant"><span class="pre">XAMessagesParticipant</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Messages.html#XAMessagesParticipantList.by_first_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesParticipantList.by_first_name" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the first participant whose first name matches the given name string, if one exists.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The desired participant, if it is found</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>Union[<a class="reference internal" href="#PyXA.apps.Messages.XAMessagesParticipant" title="PyXA.apps.Messages.XAMessagesParticipant">XAMessagesParticipant</a>, None]</p>
 </dd>
 </dl>
@@ -2432,10 +2340,10 @@
 <span class="sig-name descname"><span class="pre">by_full_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">full_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesParticipant" title="PyXA.apps.Messages.XAMessagesParticipant"><span class="pre">XAMessagesParticipant</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Messages.html#XAMessagesParticipantList.by_full_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesParticipantList.by_full_name" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the first participant whose full name matches the given name string, if one exists.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The desired participant, if it is found</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>Union[<a class="reference internal" href="#PyXA.apps.Messages.XAMessagesParticipant" title="PyXA.apps.Messages.XAMessagesParticipant">XAMessagesParticipant</a>, None]</p>
 </dd>
 </dl>
@@ -2449,10 +2357,10 @@
 <span class="sig-name descname"><span class="pre">by_handle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">handle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesParticipant" title="PyXA.apps.Messages.XAMessagesParticipant"><span class="pre">XAMessagesParticipant</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Messages.html#XAMessagesParticipantList.by_handle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesParticipantList.by_handle" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the first participant whose handle matches the given handle string, if one exists.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The desired participant, if it is found</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>Union[<a class="reference internal" href="#PyXA.apps.Messages.XAMessagesParticipant" title="PyXA.apps.Messages.XAMessagesParticipant">XAMessagesParticipant</a>, None]</p>
 </dd>
 </dl>
@@ -2466,10 +2374,10 @@
 <span class="sig-name descname"><span class="pre">by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesParticipant" title="PyXA.apps.Messages.XAMessagesParticipant"><span class="pre">XAMessagesParticipant</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Messages.html#XAMessagesParticipantList.by_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesParticipantList.by_id" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the first participant whose ID matches the given ID string, if one exists.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The desired participant, if it is found</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>Union[<a class="reference internal" href="#PyXA.apps.Messages.XAMessagesParticipant" title="PyXA.apps.Messages.XAMessagesParticipant">XAMessagesParticipant</a>, None]</p>
 </dd>
 </dl>
@@ -2483,10 +2391,10 @@
 <span class="sig-name descname"><span class="pre">by_last_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">last_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesParticipant" title="PyXA.apps.Messages.XAMessagesParticipant"><span class="pre">XAMessagesParticipant</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Messages.html#XAMessagesParticipantList.by_last_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesParticipantList.by_last_name" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the first participant whose last name matches the given name string, if one exists.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The desired participant, if it is found</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>Union[<a class="reference internal" href="#PyXA.apps.Messages.XAMessagesParticipant" title="PyXA.apps.Messages.XAMessagesParticipant">XAMessagesParticipant</a>, None]</p>
 </dd>
 </dl>
@@ -2500,10 +2408,10 @@
 <span class="sig-name descname"><span class="pre">by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesParticipant" title="PyXA.apps.Messages.XAMessagesParticipant"><span class="pre">XAMessagesParticipant</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Messages.html#XAMessagesParticipantList.by_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesParticipantList.by_name" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves the first participant whose displayed name matches the given name string, if one exists.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The desired participant, if it is found</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>Union[<a class="reference internal" href="#PyXA.apps.Messages.XAMessagesParticipant" title="PyXA.apps.Messages.XAMessagesParticipant">XAMessagesParticipant</a>, None]</p>
 </dd>
 </dl>
@@ -2517,10 +2425,10 @@
 <span class="sig-name descname"><span class="pre">first_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Messages.html#XAMessagesParticipantList.first_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesParticipantList.first_name" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the first name of each participant in the list.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of participant first names</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[str]</p>
 </dd>
 </dl>
@@ -2534,10 +2442,10 @@
 <span class="sig-name descname"><span class="pre">full_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Messages.html#XAMessagesParticipantList.full_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesParticipantList.full_name" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the full name of each participant in the list.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of participant names</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[str]</p>
 </dd>
 </dl>
@@ -2552,10 +2460,10 @@
 <dd><p>Gets a clipboard-codable representation of each participant in the list.</p>
 <p>When the clipboard content is set to a list of participants, each participant’s full name is added to the clipboard.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The list of participant names</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[str]</p>
 </dd>
 </dl>
@@ -2569,10 +2477,10 @@
 <span class="sig-name descname"><span class="pre">handle</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Messages.html#XAMessagesParticipantList.handle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesParticipantList.handle" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the handle of each participant in the list.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of participant handles</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[str]</p>
 </dd>
 </dl>
@@ -2586,10 +2494,10 @@
 <span class="sig-name descname"><span class="pre">id</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Messages.html#XAMessagesParticipantList.id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesParticipantList.id" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the ID of each participant in the list.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of participant IDs</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[str]</p>
 </dd>
 </dl>
@@ -2603,10 +2511,10 @@
 <span class="sig-name descname"><span class="pre">last_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Messages.html#XAMessagesParticipantList.last_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesParticipantList.last_name" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the last name of each participant in the list.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of participant last names</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[str]</p>
 </dd>
 </dl>
@@ -2620,10 +2528,10 @@
 <span class="sig-name descname"><span class="pre">name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/PyXA/apps/Messages.html#XAMessagesParticipantList.name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesParticipantList.name" title="Permalink to this definition"></a></dt>
 <dd><p>Gets the displayed name of each participant in the list.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of participant names</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[str]</p>
 </dd>
 </dl>
@@ -2644,152 +2552,16 @@
 </div>
 <p><strong>Attributes:</strong></p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesWindow.bounds" title="PyXA.apps.Messages.XAMessagesWindow.bounds"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bounds</span></code></a></p></td>
-<td><p>The bounding rectangle of the window.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesWindow.closeable" title="PyXA.apps.Messages.XAMessagesWindow.closeable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">closeable</span></code></a></p></td>
-<td><p>Whether the window has a close button.</p></td>
-</tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesWindow.document" title="PyXA.apps.Messages.XAMessagesWindow.document"><code class="xref py py-obj docutils literal notranslate"><span class="pre">document</span></code></a></p></td>
 <td><p>The document currently displayed in the window.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesWindow.id" title="PyXA.apps.Messages.XAMessagesWindow.id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">id</span></code></a></p></td>
-<td><p>The unique identifier for the window.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesWindow.index" title="PyXA.apps.Messages.XAMessagesWindow.index"><code class="xref py py-obj docutils literal notranslate"><span class="pre">index</span></code></a></p></td>
-<td><p>The index of the window in the front-to-back ordering.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesWindow.miniaturizable" title="PyXA.apps.Messages.XAMessagesWindow.miniaturizable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">miniaturizable</span></code></a></p></td>
-<td><p>Whether the window can be minimized.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesWindow.miniaturized" title="PyXA.apps.Messages.XAMessagesWindow.miniaturized"><code class="xref py py-obj docutils literal notranslate"><span class="pre">miniaturized</span></code></a></p></td>
-<td><p>Whether the window is currently minimized.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesWindow.name" title="PyXA.apps.Messages.XAMessagesWindow.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a></p></td>
-<td><p>The title of the window.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesWindow.resizable" title="PyXA.apps.Messages.XAMessagesWindow.resizable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">resizable</span></code></a></p></td>
-<td><p>Whether the window can be resized.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesWindow.visible" title="PyXA.apps.Messages.XAMessagesWindow.visible"><code class="xref py py-obj docutils literal notranslate"><span class="pre">visible</span></code></a></p></td>
-<td><p>Whether the window is currently visible.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesWindow.zoomable" title="PyXA.apps.Messages.XAMessagesWindow.zoomable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">zoomable</span></code></a></p></td>
-<td><p>Whether the window can be zoomed.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesWindow.zoomed" title="PyXA.apps.Messages.XAMessagesWindow.zoomed"><code class="xref py py-obj docutils literal notranslate"><span class="pre">zoomed</span></code></a></p></td>
-<td><p>Whether the window is currently zoomed.</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="py property">
-<dt class="sig sig-object py" id="PyXA.apps.Messages.XAMessagesWindow.bounds">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">bounds</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesWindow.bounds" title="Permalink to this definition"></a></dt>
-<dd><p>The bounding rectangle of the window.</p>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 0.0.4.</span></p>
-</div>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.apps.Messages.XAMessagesWindow.closeable">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">closeable</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesWindow.closeable" title="Permalink to this definition"></a></dt>
-<dd><p>Whether the window has a close button.</p>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 0.0.4.</span></p>
-</div>
-</dd></dl>
-
-<dl class="py property">
 <dt class="sig sig-object py" id="PyXA.apps.Messages.XAMessagesWindow.document">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">document</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#PyXA.apps.Messages.XAMessagesDocument" title="PyXA.apps.Messages.XAMessagesDocument"><span class="pre">XAMessagesDocument</span></a></em><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesWindow.document" title="Permalink to this definition"></a></dt>
 <dd><p>The document currently displayed in the window.</p>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 0.0.4.</span></p>
-</div>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.apps.Messages.XAMessagesWindow.id">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesWindow.id" title="Permalink to this definition"></a></dt>
-<dd><p>The unique identifier for the window.</p>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 0.0.4.</span></p>
-</div>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.apps.Messages.XAMessagesWindow.index">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">index</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesWindow.index" title="Permalink to this definition"></a></dt>
-<dd><p>The index of the window in the front-to-back ordering.</p>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 0.0.4.</span></p>
-</div>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.apps.Messages.XAMessagesWindow.miniaturizable">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">miniaturizable</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesWindow.miniaturizable" title="Permalink to this definition"></a></dt>
-<dd><p>Whether the window can be minimized.</p>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 0.0.4.</span></p>
-</div>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.apps.Messages.XAMessagesWindow.miniaturized">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">miniaturized</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesWindow.miniaturized" title="Permalink to this definition"></a></dt>
-<dd><p>Whether the window is currently minimized.</p>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 0.0.4.</span></p>
-</div>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.apps.Messages.XAMessagesWindow.name">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesWindow.name" title="Permalink to this definition"></a></dt>
-<dd><p>The title of the window.</p>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 0.0.4.</span></p>
-</div>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.apps.Messages.XAMessagesWindow.resizable">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">resizable</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesWindow.resizable" title="Permalink to this definition"></a></dt>
-<dd><p>Whether the window can be resized.</p>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 0.0.4.</span></p>
-</div>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.apps.Messages.XAMessagesWindow.visible">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">visible</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesWindow.visible" title="Permalink to this definition"></a></dt>
-<dd><p>Whether the window is currently visible.</p>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 0.0.4.</span></p>
-</div>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.apps.Messages.XAMessagesWindow.zoomable">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">zoomable</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesWindow.zoomable" title="Permalink to this definition"></a></dt>
-<dd><p>Whether the window can be zoomed.</p>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 0.0.4.</span></p>
-</div>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="PyXA.apps.Messages.XAMessagesWindow.zoomed">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">zoomed</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#PyXA.apps.Messages.XAMessagesWindow.zoomed" title="Permalink to this definition"></a></dt>
-<dd><p>Whether the window is currently zoomed.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.0.4.</span></p>
 </div>

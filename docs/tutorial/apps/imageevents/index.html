@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Image Events Module Overview &mdash; PyXA 0.1.0 documentation</title>
+  <title>Image Events Module Overview &mdash; PyXA 0.1.1 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
@@ -84,10 +84,10 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../../index.html">Tutorial</a> &raquo;</li>
-          <li><a href="../index.html">Application Module Overviews</a> &raquo;</li>
-      <li>Image Events Module Overview</li>
+      <li><a href="../../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Tutorial</a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Application Module Overviews</a></li>
+      <li class="breadcrumb-item active">Image Events Module Overview</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../../../_sources/tutorial/apps/imageevents/index.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -99,40 +99,40 @@
              
   <section id="image-events-module-overview">
 <h1>Image Events Module Overview<a class="headerlink" href="#image-events-module-overview" title="Permalink to this heading"></a></h1>
-<div class="contents local topic" id="table-of-contents">
+<nav class="contents local" id="table-of-contents">
 <p class="topic-title">Table of Contents</p>
 <ul class="simple">
-<li><p><a class="reference internal" href="#image-events-tutorials" id="id3">Image Events Tutorials</a></p>
+<li><p><a class="reference internal" href="#image-events-tutorials" id="id1">Image Events Tutorials</a></p>
 <ul>
-<li><p><a class="reference internal" href="#tutorial-1-basic-image-related-tasks" id="id4">Tutorial 1 - Basic Image-Related Tasks</a></p>
+<li><p><a class="reference internal" href="#tutorial-1-basic-image-related-tasks" id="id2">Tutorial 1 - Basic Image-Related Tasks</a></p>
 <ul>
-<li><p><a class="reference internal" href="#reading-image-properties" id="id5">Reading Image Properties</a></p></li>
-<li><p><a class="reference internal" href="#manipulating-images" id="id6">Manipulating Images</a></p></li>
+<li><p><a class="reference internal" href="#reading-image-properties" id="id3">Reading Image Properties</a></p></li>
+<li><p><a class="reference internal" href="#manipulating-images" id="id4">Manipulating Images</a></p></li>
 </ul>
 </li>
-<li><p><a class="reference internal" href="#tutorial-2-working-with-lists-of-images" id="id7">Tutorial 2 - Working With Lists of Images</a></p></li>
+<li><p><a class="reference internal" href="#tutorial-2-working-with-lists-of-images" id="id5">Tutorial 2 - Working With Lists of Images</a></p></li>
 </ul>
 </li>
-<li><p><a class="reference internal" href="#image-events-examples" id="id8">Image Events Examples</a></p>
+<li><p><a class="reference internal" href="#image-events-examples" id="id6">Image Events Examples</a></p>
 <ul>
-<li><p><a class="reference internal" href="#example-1-using-image-events-alongside-other-pyxa-features" id="id9">Example 1 - Using Image Events Alongside Other PyXA Features</a></p>
+<li><p><a class="reference internal" href="#example-1-using-image-events-alongside-other-pyxa-features" id="id7">Example 1 - Using Image Events Alongside Other PyXA Features</a></p>
 <ul>
-<li><p><a class="reference internal" href="#combining-image-events-xaimages-photos-app-and-more" id="id10">Combining Image Events, XAImages, Photos.app, and more</a></p></li>
+<li><p><a class="reference internal" href="#combining-image-events-xaimages-photos-app-and-more" id="id8">Combining Image Events, XAImages, Photos.app, and more</a></p></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><p><a class="reference internal" href="#image-events-resources" id="id11">Image Events Resources</a></p></li>
+<li><p><a class="reference internal" href="#image-events-resources" id="id9">Image Events Resources</a></p></li>
 </ul>
-</div>
+</nav>
 <p>PyXA supports the full scripting dictionary for Image Events, and some additional image manipulation features have been implemented using Objective-C APIs.</p>
 <section id="image-events-tutorials">
-<h2><a class="toc-backref" href="#id3">Image Events Tutorials</a><a class="headerlink" href="#image-events-tutorials" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id1" role="doc-backlink">Image Events Tutorials</a><a class="headerlink" href="#image-events-tutorials" title="Permalink to this heading"></a></h2>
 <section id="tutorial-1-basic-image-related-tasks">
-<h3><a class="toc-backref" href="#id4">Tutorial 1 - Basic Image-Related Tasks</a><a class="headerlink" href="#tutorial-1-basic-image-related-tasks" title="Permalink to this heading"></a></h3>
+<h3><a class="toc-backref" href="#id2" role="doc-backlink">Tutorial 1 - Basic Image-Related Tasks</a><a class="headerlink" href="#tutorial-1-basic-image-related-tasks" title="Permalink to this heading"></a></h3>
 <section id="reading-image-properties">
-<h4><a class="toc-backref" href="#id5">Reading Image Properties</a><a class="headerlink" href="#reading-image-properties" title="Permalink to this heading"></a></h4>
-<p>Similar to many other PyXA classes, the <a class="reference internal" href="../../../reference/apps/imageevents.html#PyXA.apps.ImageEvents.XAImageEventsImage" title="PyXA.apps.ImageEvents.XAImageEventsImage"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAImageEventsImage</span></code></a> class provides several convenient ways to access various attributes (or properties) of images. To get an overview of all properties, you can access the <a href="#id1"><span class="problematic" id="id2">:attribute:`~PyXA.apps.ImageEvents.XAImageEventsImage.properties`</span></a> attribute. This will provide a dictionary containing many details, with elements elevated to PyXA objects or types where appropriate.</p>
+<h4><a class="toc-backref" href="#id3" role="doc-backlink">Reading Image Properties</a><a class="headerlink" href="#reading-image-properties" title="Permalink to this heading"></a></h4>
+<p>Similar to many other PyXA classes, the <a class="reference internal" href="../../../reference/apps/imageevents.html#PyXA.apps.ImageEvents.XAImageEventsImage" title="PyXA.apps.ImageEvents.XAImageEventsImage"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAImageEventsImage</span></code></a> class provides several convenient ways to access various attributes (or properties) of images. To get an overview of all properties, you can access the <a class="reference internal" href="../../../reference/apps/imageevents.html#PyXA.apps.ImageEvents.XAImageEventsImage.properties" title="PyXA.apps.ImageEvents.XAImageEventsImage.properties"><code class="xref py py-attr docutils literal notranslate"><span class="pre">properties</span></code></a> attribute. This will provide a dictionary containing many details, with elements elevated to PyXA objects or types where appropriate.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">PyXA</span>
 <span class="n">app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">Application</span><span class="p">(</span><span class="s2">&quot;Image Events&quot;</span><span class="p">)</span>
 <span class="n">app</span><span class="o">.</span><span class="n">launch</span><span class="p">()</span>
@@ -160,7 +160,7 @@
 </div>
 </section>
 <section id="manipulating-images">
-<h4><a class="toc-backref" href="#id6">Manipulating Images</a><a class="headerlink" href="#manipulating-images" title="Permalink to this heading"></a></h4>
+<h4><a class="toc-backref" href="#id4" role="doc-backlink">Manipulating Images</a><a class="headerlink" href="#manipulating-images" title="Permalink to this heading"></a></h4>
 <p>Unlike other PyXA classes, most of these attributes are read-only and cannot be changed by simply setting them equal to a new value. Instead, the <a class="reference internal" href="../../../reference/apps/imageevents.html#PyXA.apps.ImageEvents.XAImageEventsImage" title="PyXA.apps.ImageEvents.XAImageEventsImage"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAImageEventsImage</span></code></a> class has several methods that perform image manipulation operations, in turn altering the properties of the image. For example, to change the color space of an image to grayscale, you would embed a gray color profile in it, as done in the code block below:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">gray_profile</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">profiles</span><span class="p">()</span><span class="o">.</span><span class="n">by_name</span><span class="p">(</span><span class="s2">&quot;Generic Gray Profile&quot;</span><span class="p">)</span>
 <span class="n">image</span><span class="o">.</span><span class="n">embed_profile</span><span class="p">(</span><span class="n">gray_profile</span><span class="p">)</span>
@@ -189,7 +189,7 @@
 <span class="n">image</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">file_path</span><span class="o">=</span><span class="s2">&quot;/Users/exampleUser/Desktop/Example2.png&quot;</span><span class="p">)</span> <span class="c1"># Save to specific file path (override any file at that location)</span>
 </pre></div>
 </div>
-<p>The <a class="reference internal" href="../../../reference/apps/imageevents.html#PyXA.apps.ImageEvents.XAImageEventsImage" title="PyXA.apps.ImageEvents.XAImageEventsImage"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAImageEventsImage</span></code></a> class implemented the <code class="xref py py-class docutils literal notranslate"><span class="pre">XAClipboardCodable</span></code> protocol, so you can also save image modifications directly to the clipboard, as done in the code below. This will copy the modified image’s raw data to the clipboard without creating a permanent file on the disk. You can then paste the image, with all modifications included, into other applications.</p>
+<p>The <a class="reference internal" href="../../../reference/apps/imageevents.html#PyXA.apps.ImageEvents.XAImageEventsImage" title="PyXA.apps.ImageEvents.XAImageEventsImage"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAImageEventsImage</span></code></a> class implemented the <a class="reference internal" href="../../../reference/xaprotocols.html#PyXA.XAProtocols.XAClipboardCodable" title="PyXA.XAProtocols.XAClipboardCodable"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAClipboardCodable</span></code></a> protocol, so you can also save image modifications directly to the clipboard, as done in the code below. This will copy the modified image’s raw data to the clipboard without creating a permanent file on the disk. You can then paste the image, with all modifications included, into other applications.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">image</span><span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="mf">0.25</span><span class="p">)</span>
 <span class="n">image</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XAColor</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
 <span class="n">PyXA</span><span class="o">.</span><span class="n">XAClipboard</span><span class="p">()</span><span class="o">.</span><span class="n">content</span> <span class="o">=</span> <span class="n">image</span>
@@ -198,7 +198,7 @@
 </section>
 </section>
 <section id="tutorial-2-working-with-lists-of-images">
-<h3><a class="toc-backref" href="#id7">Tutorial 2 - Working With Lists of Images</a><a class="headerlink" href="#tutorial-2-working-with-lists-of-images" title="Permalink to this heading"></a></h3>
+<h3><a class="toc-backref" href="#id5" role="doc-backlink">Tutorial 2 - Working With Lists of Images</a><a class="headerlink" href="#tutorial-2-working-with-lists-of-images" title="Permalink to this heading"></a></h3>
 <p>The Image Events module has been designed around convenience, and a key aspect of that is the ability to conduct bulk operations with <a class="reference internal" href="../../../reference/xabase.html#PyXA.XABase.XAList" title="PyXA.XABase.XAList"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAList</span></code></a> objects, in particular by using the <a class="reference internal" href="../../../reference/apps/imageevents.html#PyXA.apps.ImageEvents.XAImageEventsImageList" title="PyXA.apps.ImageEvents.XAImageEventsImageList"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAImageEventsImageList</span></code></a> class. In addition to general syntactic convenience, <a class="reference internal" href="../../../reference/apps/imageevents.html#PyXA.apps.ImageEvents.XAImageEventsImageList" title="PyXA.apps.ImageEvents.XAImageEventsImageList"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAImageEventsImageList</span></code></a> objects provide significant performance improvements over conventional looping operations. Since XALists do not spend time dereferencing PyObjC/ScriptingBridge pointers, they send far fewer Apple Events, leading to much faster execution. This is evidenced by the code below:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">timeit</span> <span class="kn">import</span> <span class="n">timeit</span>
 <span class="kn">import</span> <span class="nn">PyXA</span>
@@ -256,12 +256,12 @@
 </section>
 </section>
 <section id="image-events-examples">
-<h2><a class="toc-backref" href="#id8">Image Events Examples</a><a class="headerlink" href="#image-events-examples" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id6" role="doc-backlink">Image Events Examples</a><a class="headerlink" href="#image-events-examples" title="Permalink to this heading"></a></h2>
 <p>The examples below provide an overview of the capabilities of the Image Events module. For more in-depth examples that show output and provide more detailed explanations, refer to the previous section (<a class="reference internal" href="#image-events-tutorials"><span class="std std-ref">Image Events Tutorials</span></a>).</p>
 <section id="example-1-using-image-events-alongside-other-pyxa-features">
-<h3><a class="toc-backref" href="#id9">Example 1 - Using Image Events Alongside Other PyXA Features</a><a class="headerlink" href="#example-1-using-image-events-alongside-other-pyxa-features" title="Permalink to this heading"></a></h3>
+<h3><a class="toc-backref" href="#id7" role="doc-backlink">Example 1 - Using Image Events Alongside Other PyXA Features</a><a class="headerlink" href="#example-1-using-image-events-alongside-other-pyxa-features" title="Permalink to this heading"></a></h3>
 <section id="combining-image-events-xaimages-photos-app-and-more">
-<h4><a class="toc-backref" href="#id10">Combining Image Events, XAImages, Photos.app, and more</a><a class="headerlink" href="#combining-image-events-xaimages-photos-app-and-more" title="Permalink to this heading"></a></h4>
+<h4><a class="toc-backref" href="#id8" role="doc-backlink">Combining Image Events, XAImages, Photos.app, and more</a><a class="headerlink" href="#combining-image-events-xaimages-photos-app-and-more" title="Permalink to this heading"></a></h4>
 <p>The functionality of the Image Events module can be easily extended by intertwining it with other PyXA features. The <a class="reference internal" href="../../../reference/xabase.html#PyXA.XABase.XAImage" title="PyXA.XABase.XAImage"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAImage</span></code></a> class is a key example of this. In fact, you can easily convert images managed by Image Events into XAImages, giving you full access to all features thereof. In the code below, we first use Image Events to rotate an image, then we use the <a class="reference internal" href="../../../reference/xabase.html#PyXA.XABase.XAImage.extract_text" title="PyXA.XABase.XAImage.extract_text"><code class="xref py py-func docutils literal notranslate"><span class="pre">extract_text()</span></code></a> method from <a class="reference internal" href="../../../reference/xabase.html#PyXA.XABase.XAImage" title="PyXA.XABase.XAImage"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAImage</span></code></a> to retrieve text contained within. We also open the original and modified images in preview, copy the raw data of the modified image’s TIFF representation to the clipboard, and save the modified image to a file on the disk.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">PyXA</span>
 <span class="n">app</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">Application</span><span class="p">(</span><span class="s2">&quot;Image Events&quot;</span><span class="p">)</span>
@@ -280,7 +280,7 @@
 </section>
 </section>
 <section id="image-events-resources">
-<h2><a class="toc-backref" href="#id11">Image Events Resources</a><a class="headerlink" href="#image-events-resources" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id9" role="doc-backlink">Image Events Resources</a><a class="headerlink" href="#image-events-resources" title="Permalink to this heading"></a></h2>
 <ul class="simple">
 <li><p><a class="reference external" href="https://developer.apple.com/library/archive/documentation/LanguagesUtilities/Conceptual/MacAutomationScriptingGuide/ManipulateImages.html">Mac Automation Scripting Guide - Manipulating Images</a></p></li>
 </ul>

@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PyXA.additions.XAUtils &mdash; PyXA 0.1.1 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> PyXA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../about/index.html">Project Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reference/index.html">Code Documentation and Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../bugs.html">Bugs</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">PyXA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">PyXA.additions.XAUtils</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for PyXA.additions.XAUtils</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;.. versionadded:: 0.1.1</span>
+
+<span class="sd">A collection of classes for interacting with macOS features in various ways.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">AppKit</span>
+<span class="kn">import</span> <span class="nn">xml.etree.ElementTree</span> <span class="k">as</span> <span class="nn">ET</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Any</span>
+<span class="kn">from</span> <span class="nn">PyObjCTools</span> <span class="kn">import</span> <span class="n">AppHelper</span>
+<span class="kn">from</span> <span class="nn">PyXA</span> <span class="kn">import</span> <span class="n">XABase</span>
+
+<div class="viewcode-block" id="SDEFParser"><a class="viewcode-back" href="../../../reference/additions/xautils.html#PyXA.additions.XAUtils.SDEFParser">[docs]</a><span class="k">class</span> <span class="nc">SDEFParser</span><span class="p">():</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sdef_file</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XABase.XAPath&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">]):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sdef_file</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">sdef_file</span> <span class="o">=</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAPath</span><span class="p">(</span><span class="n">sdef_file</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">file</span> <span class="o">=</span> <span class="n">sdef_file</span> <span class="c1">#: The full path to the SDEF file to parse</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">app_name</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scripting_suites</span> <span class="o">=</span> <span class="p">[]</span>
+
+<div class="viewcode-block" id="SDEFParser.parse"><a class="viewcode-back" href="../../../reference/additions/xautils.html#PyXA.additions.XAUtils.SDEFParser.parse">[docs]</a>    <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">app_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">][:</span><span class="o">-</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">title</span><span class="p">()</span>
+        <span class="n">xa_prefix</span> <span class="o">=</span> <span class="s2">&quot;XA&quot;</span> <span class="o">+</span> <span class="n">app_name</span>
+
+        <span class="n">tree</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
+
+        <span class="n">suites</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="n">scripting_suites</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">&quot;suite&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">suite</span> <span class="ow">in</span> <span class="n">scripting_suites</span><span class="p">:</span>
+            <span class="n">classes</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">commands</span> <span class="o">=</span> <span class="p">{}</span>
+
+            <span class="c1">### Class Extensions</span>
+            <span class="n">class_extensions</span> <span class="o">=</span> <span class="n">suite</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">&quot;class-extension&quot;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">extension</span> <span class="ow">in</span> <span class="n">class_extensions</span><span class="p">:</span>
+                <span class="n">properties</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="n">elements</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="n">responds_to_commands</span> <span class="o">=</span> <span class="p">[]</span>
+
+                <span class="n">class_name</span> <span class="o">=</span> <span class="n">xa_prefix</span> <span class="o">+</span> <span class="n">extension</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;extends&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">title</span><span class="p">()</span>
+                <span class="n">class_comment</span> <span class="o">=</span> <span class="n">extension</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;description&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+
+                <span class="c1">## Class Extension Properties</span>
+                <span class="n">class_properties</span> <span class="o">=</span> <span class="n">extension</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">&quot;property&quot;</span><span class="p">)</span>
+                <span class="k">for</span> <span class="nb">property</span> <span class="ow">in</span> <span class="n">class_properties</span><span class="p">:</span>
+                    <span class="n">property_type</span> <span class="o">=</span> <span class="nb">property</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;type&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">property_type</span> <span class="o">==</span> <span class="s2">&quot;text&quot;</span><span class="p">:</span>
+                        <span class="n">property_type</span> <span class="o">=</span> <span class="s2">&quot;str&quot;</span>
+                    <span class="k">elif</span> <span class="n">property_type</span> <span class="o">==</span> <span class="s2">&quot;boolean&quot;</span><span class="p">:</span>
+                        <span class="n">property_type</span> <span class="o">=</span> <span class="s2">&quot;bool&quot;</span>
+                    <span class="k">elif</span> <span class="n">property_type</span> <span class="o">==</span> <span class="s2">&quot;number&quot;</span><span class="p">:</span>
+                        <span class="n">property_type</span> <span class="o">=</span> <span class="s2">&quot;float&quot;</span>
+                    <span class="k">elif</span> <span class="n">property_type</span> <span class="o">==</span> <span class="s2">&quot;integer&quot;</span><span class="p">:</span>
+                        <span class="n">property_type</span> <span class="o">=</span> <span class="s2">&quot;int&quot;</span>
+                    <span class="k">elif</span> <span class="n">property_type</span> <span class="o">==</span> <span class="s2">&quot;rectangle&quot;</span><span class="p">:</span>
+                        <span class="n">property_type</span> <span class="o">=</span> <span class="s2">&quot;tuple[int, int, int, int]&quot;</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">property_type</span> <span class="o">=</span> <span class="s2">&quot;XA&quot;</span> <span class="o">+</span> <span class="n">app_name</span> <span class="o">+</span> <span class="n">property_type</span><span class="o">.</span><span class="n">title</span><span class="p">()</span>
+
+                    <span class="n">property_name</span> <span class="o">=</span> <span class="nb">property</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+                    <span class="n">property_comment</span> <span class="o">=</span> <span class="nb">property</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;description&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+
+                    <span class="n">properties</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+                        <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="n">property_type</span><span class="p">,</span>
+                        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">property_name</span><span class="p">,</span>
+                        <span class="s2">&quot;comment&quot;</span><span class="p">:</span> <span class="n">property_comment</span>
+                    <span class="p">})</span>
+
+                <span class="c1">## Class Extension Elements</span>
+                <span class="n">class_elements</span> <span class="o">=</span> <span class="n">extension</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">&quot;element&quot;</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">class_elements</span><span class="p">:</span>
+                    <span class="n">element_name</span> <span class="o">=</span> <span class="p">(</span><span class="n">element</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;type&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;s&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+                    <span class="n">element_type</span> <span class="o">=</span> <span class="s2">&quot;XA&quot;</span> <span class="o">+</span> <span class="n">app_name</span> <span class="o">+</span> <span class="n">element</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;type&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">title</span><span class="p">()</span>
+
+                    <span class="n">elements</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+                        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">element_name</span><span class="p">,</span>
+                        <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="n">element_type</span>
+                    <span class="p">})</span>
+
+                <span class="c1">## Class Extension Responds-To Commands</span>
+                <span class="n">class_responds_to_commands</span> <span class="o">=</span> <span class="n">extension</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">&quot;responds-to&quot;</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">command</span> <span class="ow">in</span> <span class="n">class_responds_to_commands</span><span class="p">:</span>
+                    <span class="n">command_name</span> <span class="o">=</span> <span class="n">command</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;command&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+                    <span class="n">responds_to_commands</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">command_name</span><span class="p">)</span>
+
+                <span class="n">classes</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+                    <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">class_name</span><span class="p">,</span>
+                    <span class="s2">&quot;comment&quot;</span><span class="p">:</span> <span class="n">class_comment</span><span class="p">,</span>
+                    <span class="s2">&quot;properties&quot;</span><span class="p">:</span> <span class="n">properties</span><span class="p">,</span>
+                    <span class="s2">&quot;elements&quot;</span><span class="p">:</span> <span class="n">elements</span><span class="p">,</span>
+                    <span class="s2">&quot;responds-to&quot;</span><span class="p">:</span> <span class="n">responds_to_commands</span>
+                <span class="p">})</span>
+
+            <span class="c1">### Classes</span>
+            <span class="n">scripting_classes</span> <span class="o">=</span> <span class="n">suite</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">&quot;class&quot;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">scripting_class</span> <span class="ow">in</span> <span class="n">scripting_classes</span><span class="p">:</span>
+                <span class="n">properties</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="n">elements</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="n">responds_to_commands</span> <span class="o">=</span> <span class="p">[]</span>
+
+                <span class="n">class_name</span> <span class="o">=</span> <span class="n">xa_prefix</span> <span class="o">+</span> <span class="n">scripting_class</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">title</span><span class="p">()</span>
+                <span class="n">class_comment</span> <span class="o">=</span> <span class="n">scripting_class</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;description&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+
+                <span class="c1">## Class Properties</span>
+                <span class="n">class_properties</span> <span class="o">=</span> <span class="n">scripting_class</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">&quot;property&quot;</span><span class="p">)</span>
+                <span class="k">for</span> <span class="nb">property</span> <span class="ow">in</span> <span class="n">class_properties</span><span class="p">:</span>
+                    <span class="n">property_type</span> <span class="o">=</span> <span class="nb">property</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;type&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">property_type</span> <span class="o">==</span> <span class="s2">&quot;text&quot;</span><span class="p">:</span>
+                        <span class="n">property_type</span> <span class="o">=</span> <span class="s2">&quot;str&quot;</span>
+                    <span class="k">elif</span> <span class="n">property_type</span> <span class="o">==</span> <span class="s2">&quot;boolean&quot;</span><span class="p">:</span>
+                        <span class="n">property_type</span> <span class="o">=</span> <span class="s2">&quot;bool&quot;</span>
+                    <span class="k">elif</span> <span class="n">property_type</span> <span class="o">==</span> <span class="s2">&quot;number&quot;</span><span class="p">:</span>
+                        <span class="n">property_type</span> <span class="o">=</span> <span class="s2">&quot;float&quot;</span>
+                    <span class="k">elif</span> <span class="n">property_type</span> <span class="o">==</span> <span class="s2">&quot;integer&quot;</span><span class="p">:</span>
+                        <span class="n">property_type</span> <span class="o">=</span> <span class="s2">&quot;int&quot;</span>
+                    <span class="k">elif</span> <span class="n">property_type</span> <span class="o">==</span> <span class="s2">&quot;rectangle&quot;</span><span class="p">:</span>
+                        <span class="n">property_type</span> <span class="o">=</span> <span class="s2">&quot;tuple[int, int, int, int]&quot;</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">property_type</span> <span class="o">=</span> <span class="s2">&quot;XA&quot;</span> <span class="o">+</span> <span class="n">app_name</span> <span class="o">+</span> <span class="n">property_type</span><span class="o">.</span><span class="n">title</span><span class="p">()</span>
+
+                    <span class="n">property_name</span> <span class="o">=</span> <span class="nb">property</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+                    <span class="n">property_comment</span> <span class="o">=</span> <span class="nb">property</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;description&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+
+                    <span class="n">properties</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+                        <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="n">property_type</span><span class="p">,</span>
+                        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">property_name</span><span class="p">,</span>
+                        <span class="s2">&quot;comment&quot;</span><span class="p">:</span> <span class="n">property_comment</span>
+                    <span class="p">})</span>
+
+                <span class="c1">## Class Elements</span>
+                <span class="n">class_elements</span> <span class="o">=</span> <span class="n">scripting_class</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">&quot;element&quot;</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">class_elements</span><span class="p">:</span>
+                    <span class="n">element_name</span> <span class="o">=</span> <span class="p">(</span><span class="n">element</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;type&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;s&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+                    <span class="n">element_type</span> <span class="o">=</span> <span class="s2">&quot;XA&quot;</span> <span class="o">+</span> <span class="n">app_name</span> <span class="o">+</span> <span class="n">element</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;type&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">title</span><span class="p">()</span>
+
+                    <span class="n">elements</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+                        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">element_name</span><span class="p">,</span>
+                        <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="n">element_type</span>
+                    <span class="p">})</span>
+
+                <span class="c1">## Class Responds-To Commands</span>
+                <span class="n">class_responds_to_commands</span> <span class="o">=</span> <span class="n">scripting_class</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">&quot;responds-to&quot;</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">command</span> <span class="ow">in</span> <span class="n">class_responds_to_commands</span><span class="p">:</span>
+                    <span class="n">command_name</span> <span class="o">=</span> <span class="n">command</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;command&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+                    <span class="n">responds_to_commands</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">command_name</span><span class="p">)</span>
+
+                <span class="n">classes</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+                    <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">class_name</span><span class="p">,</span>
+                    <span class="s2">&quot;comment&quot;</span><span class="p">:</span> <span class="n">class_comment</span><span class="p">,</span>
+                    <span class="s2">&quot;properties&quot;</span><span class="p">:</span> <span class="n">properties</span><span class="p">,</span>
+                    <span class="s2">&quot;elements&quot;</span><span class="p">:</span> <span class="n">elements</span><span class="p">,</span>
+                    <span class="s2">&quot;responds-to&quot;</span><span class="p">:</span> <span class="n">responds_to_commands</span>
+                <span class="p">})</span>
+
+
+            <span class="c1">### Commands</span>
+            <span class="n">script_commands</span> <span class="o">=</span> <span class="n">suite</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">&quot;command&quot;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">command</span> <span class="ow">in</span> <span class="n">script_commands</span><span class="p">:</span>
+                <span class="n">command_name</span> <span class="o">=</span> <span class="n">command</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">)</span>
+                <span class="n">command_comment</span> <span class="o">=</span> <span class="n">command</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;description&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+
+                <span class="n">parameters</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="n">direct_param</span> <span class="o">=</span> <span class="n">command</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;direct-parameter&quot;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">direct_param</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">direct_parameter_type</span> <span class="o">=</span> <span class="n">direct_param</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;type&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">direct_parameter_type</span> <span class="o">==</span> <span class="s2">&quot;specifier&quot;</span><span class="p">:</span>
+                        <span class="n">direct_parameter_type</span> <span class="o">=</span> <span class="s2">&quot;XABase.XAObject&quot;</span>
+
+                    <span class="n">direct_parameter_comment</span> <span class="o">=</span> <span class="n">direct_param</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;description&quot;</span><span class="p">)</span>
+
+                    <span class="n">parameters</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+                        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;direct_param&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="n">direct_parameter_type</span><span class="p">,</span>
+                        <span class="s2">&quot;comment&quot;</span><span class="p">:</span> <span class="n">direct_parameter_comment</span>
+                    <span class="p">})</span>
+
+                <span class="k">if</span> <span class="ow">not</span> <span class="s2">&quot;_&quot;</span> <span class="ow">in</span> <span class="n">command_name</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">parameters</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">command_name</span> <span class="o">+=</span> <span class="s2">&quot;_&quot;</span>
+
+                <span class="n">command_parameters</span> <span class="o">=</span> <span class="n">command</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">&quot;parameter&quot;</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">parameter</span> <span class="ow">in</span> <span class="n">command_parameters</span><span class="p">:</span>
+                    <span class="n">parameter_type</span> <span class="o">=</span> <span class="n">parameter</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;type&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">parameter_type</span> <span class="o">==</span> <span class="s2">&quot;specifier&quot;</span><span class="p">:</span>
+                        <span class="n">parameter_type</span> <span class="o">=</span> <span class="s2">&quot;XAObject&quot;</span>
+
+                    <span class="n">parameter_name</span> <span class="o">=</span> <span class="n">parameter</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">)</span>
+                    <span class="n">parameter_comment</span> <span class="o">=</span> <span class="n">parameter</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;description&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+
+                    <span class="n">parameters</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+                        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">parameter_name</span><span class="p">,</span>
+                        <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="n">parameter_type</span><span class="p">,</span>
+                        <span class="s2">&quot;comment&quot;</span><span class="p">:</span> <span class="n">parameter_comment</span><span class="p">,</span>
+                    <span class="p">})</span>
+
+                <span class="n">commands</span><span class="p">[</span><span class="n">command_name</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+                    <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">command_name</span><span class="p">,</span>
+                    <span class="s2">&quot;comment&quot;</span><span class="p">:</span> <span class="n">command_comment</span><span class="p">,</span>
+                    <span class="s2">&quot;parameters&quot;</span><span class="p">:</span> <span class="n">parameters</span>
+                <span class="p">}</span>
+
+            <span class="n">suites</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+                <span class="s2">&quot;classes&quot;</span><span class="p">:</span> <span class="n">classes</span><span class="p">,</span>
+                <span class="s2">&quot;commands&quot;</span><span class="p">:</span> <span class="n">commands</span>
+            <span class="p">})</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">scripting_suites</span> <span class="o">=</span> <span class="n">suites</span>
+        <span class="k">return</span> <span class="n">suites</span></div>
+
+<div class="viewcode-block" id="SDEFParser.export"><a class="viewcode-back" href="../../../reference/additions/xautils.html#PyXA.additions.XAUtils.SDEFParser.export">[docs]</a>    <span class="k">def</span> <span class="nf">export</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output_file</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XABase.XAPath&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">]):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">output_file</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAPath</span><span class="p">):</span>
+            <span class="n">output_file</span> <span class="o">=</span> <span class="n">output_file</span><span class="o">.</span><span class="n">path</span>
+
+        <span class="n">lines</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;from typing import Any, Callable, Union&quot;</span><span class="p">)</span>
+        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">from PyXA import XABase&quot;</span><span class="p">)</span>
+        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;from PyXA.XABase import OSType&quot;</span><span class="p">)</span>
+        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;from PyXA import XABaseScriptable&quot;</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">suite</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">scripting_suites</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">scripting_class</span> <span class="ow">in</span> <span class="n">suite</span><span class="p">[</span><span class="s2">&quot;classes&quot;</span><span class="p">]:</span>
+                <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;class &quot;</span> <span class="o">+</span> <span class="n">scripting_class</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;List:&quot;</span><span class="p">)</span>
+                <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t\&quot;\&quot;\&quot;</span><span class="s2">A wrapper around lists of &quot;</span> <span class="o">+</span> <span class="n">scripting_class</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;s that employs fast enumeration techniques.&quot;</span><span class="p">)</span>
+                <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n\t</span><span class="s2">All properties of tabs can be called as methods on the wrapped list, returning a list containing each tab&#39;s value for the property.&quot;</span><span class="p">)</span>
+                <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n\t</span><span class="s2">.. versionadded:: &quot;</span> <span class="o">+</span> <span class="n">XABase</span><span class="o">.</span><span class="n">VERSION</span><span class="p">)</span>
+                <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t\&quot;\&quot;\&quot;</span><span class="s2">&quot;</span><span class="p">)</span>
+
+                <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">def __init__(self, properties: dict, filter: Union[dict, None] = None):&quot;</span><span class="p">)</span>
+                <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t\t</span><span class="s2">super().__init__(properties, &quot;</span> <span class="o">+</span> <span class="n">scripting_class</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;, filter)&quot;</span><span class="p">)</span>
+
+                <span class="k">for</span> <span class="nb">property</span> <span class="ow">in</span> <span class="n">scripting_class</span><span class="p">[</span><span class="s2">&quot;properties&quot;</span><span class="p">]:</span>
+                    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+                    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">def &quot;</span> <span class="o">+</span> <span class="nb">property</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;(self) -&gt; list[&#39;&quot;</span> <span class="o">+</span> <span class="nb">property</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;&#39;]:&quot;</span><span class="p">)</span>
+                    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t\t\&quot;\&quot;\&quot;</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="nb">property</span><span class="p">[</span><span class="s2">&quot;comment&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n\n\t\t</span><span class="s2">.. versionadded:: &quot;</span> <span class="o">+</span> <span class="n">XABase</span><span class="o">.</span><span class="n">VERSION</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n\t\t\&quot;\&quot;\&quot;</span><span class="s2">&quot;</span><span class="p">)</span>
+                    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t\t</span><span class="s2">return list(self.xa_elem.arrayByApplyingSelector_(</span><span class="se">\&quot;</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="nb">property</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\&quot;</span><span class="s2">))&quot;</span><span class="p">)</span>
+
+                <span class="k">for</span> <span class="nb">property</span> <span class="ow">in</span> <span class="n">scripting_class</span><span class="p">[</span><span class="s2">&quot;properties&quot;</span><span class="p">]:</span>
+                    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+                    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">def by_&quot;</span> <span class="o">+</span> <span class="nb">property</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;(self, &quot;</span> <span class="o">+</span> <span class="nb">property</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;) -&gt; &#39;&quot;</span> <span class="o">+</span> <span class="n">scripting_class</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;&#39;:&quot;</span><span class="p">)</span>
+                    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t\t\&quot;\&quot;\&quot;</span><span class="s2">Retrieves the &quot;</span> <span class="o">+</span> <span class="n">scripting_class</span><span class="p">[</span><span class="s2">&quot;comment&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;whose &quot;</span> <span class="o">+</span> <span class="nb">property</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot; matches the given &quot;</span> <span class="o">+</span> <span class="nb">property</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;.</span><span class="se">\n\n\t\t</span><span class="s2">.. versionadded:: &quot;</span> <span class="o">+</span> <span class="n">XABase</span><span class="o">.</span><span class="n">VERSION</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n\t\t\&quot;\&quot;\&quot;</span><span class="s2">&quot;</span><span class="p">)</span>
+                    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t\t</span><span class="s2">return self.by_property(</span><span class="se">\&quot;</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="nb">property</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\&quot;</span><span class="s2">, &quot;</span> <span class="o">+</span> <span class="nb">property</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;)&quot;</span><span class="p">)</span>
+
+
+                <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+                <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;class &quot;</span> <span class="o">+</span> <span class="n">scripting_class</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;:&quot;</span><span class="p">)</span>
+                <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t\&quot;\&quot;\&quot;</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">scripting_class</span><span class="p">[</span><span class="s2">&quot;comment&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n\n\t</span><span class="s2">.. versionadded:: &quot;</span> <span class="o">+</span> <span class="n">XABase</span><span class="o">.</span><span class="n">VERSION</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n\t\&quot;\&quot;\&quot;</span><span class="s2">&quot;</span><span class="p">)</span>
+
+                <span class="k">for</span> <span class="nb">property</span> <span class="ow">in</span> <span class="n">scripting_class</span><span class="p">[</span><span class="s2">&quot;properties&quot;</span><span class="p">]:</span>
+                    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+                    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">@property&quot;</span><span class="p">)</span>
+                    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">def &quot;</span> <span class="o">+</span> <span class="nb">property</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;(self) -&gt; &#39;&quot;</span> <span class="o">+</span> <span class="nb">property</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;&#39;:&quot;</span><span class="p">)</span>
+                    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t\t\&quot;\&quot;\&quot;</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="nb">property</span><span class="p">[</span><span class="s2">&quot;comment&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n\n\t\t</span><span class="s2">.. versionadded:: &quot;</span> <span class="o">+</span> <span class="n">XABase</span><span class="o">.</span><span class="n">VERSION</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n\t\t\&quot;\&quot;\&quot;</span><span class="s2">&quot;</span><span class="p">)</span>
+                    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t\t</span><span class="s2">return self.xa_elem.&quot;</span> <span class="o">+</span> <span class="nb">property</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;()&quot;</span><span class="p">)</span>
+
+                <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">scripting_class</span><span class="p">[</span><span class="s2">&quot;elements&quot;</span><span class="p">]:</span>
+                    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+                    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">def &quot;</span> <span class="o">+</span> <span class="n">element</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;(self, filter: Union[dict, None] = None) -&gt; &#39;&quot;</span> <span class="o">+</span> <span class="n">element</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;&#39;:&quot;</span><span class="p">)</span>
+                    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t\t\&quot;\&quot;\&quot;</span><span class="s2">Returns a list of &quot;</span> <span class="o">+</span> <span class="n">element</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;, as PyXA objects, matching the given filter.&quot;</span><span class="p">)</span>
+                    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n\t\t</span><span class="s2">.. versionadded:: &quot;</span> <span class="o">+</span> <span class="n">XABase</span><span class="o">.</span><span class="n">VERSION</span><span class="p">)</span>
+                    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t\t\&quot;\&quot;\&quot;</span><span class="s2">&quot;</span><span class="p">)</span>
+                    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t\t</span><span class="s2">self._new_element(self.xa_elem.&quot;</span> <span class="o">+</span> <span class="n">element</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;(), &quot;</span> <span class="o">+</span> <span class="n">element</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;List, filter)&quot;</span><span class="p">)</span>
+
+                <span class="k">for</span> <span class="n">command</span> <span class="ow">in</span> <span class="n">scripting_class</span><span class="p">[</span><span class="s2">&quot;responds-to&quot;</span><span class="p">]:</span>
+                    <span class="k">if</span> <span class="n">command</span> <span class="ow">in</span> <span class="n">suite</span><span class="p">[</span><span class="s2">&quot;commands&quot;</span><span class="p">]:</span>
+                        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+                        <span class="n">command_str</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">def &quot;</span> <span class="o">+</span> <span class="n">suite</span><span class="p">[</span><span class="s2">&quot;commands&quot;</span><span class="p">][</span><span class="n">command</span><span class="p">][</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;(self, &quot;</span>
+
+                        <span class="k">for</span> <span class="n">parameter</span> <span class="ow">in</span> <span class="n">suite</span><span class="p">[</span><span class="s2">&quot;commands&quot;</span><span class="p">][</span><span class="n">command</span><span class="p">][</span><span class="s2">&quot;parameters&quot;</span><span class="p">]:</span>
+                            <span class="n">command_str</span> <span class="o">+=</span> <span class="n">parameter</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;: &#39;&quot;</span> <span class="o">+</span> <span class="n">parameter</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;&#39;, &quot;</span>
+
+                        <span class="n">command_str</span> <span class="o">=</span> <span class="n">command_str</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;):&quot;</span>
+                        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">command_str</span><span class="p">)</span>
+
+                        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t\t\&quot;\&quot;\&quot;</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">suite</span><span class="p">[</span><span class="s2">&quot;commands&quot;</span><span class="p">][</span><span class="n">command</span><span class="p">][</span><span class="s2">&quot;comment&quot;</span><span class="p">])</span>
+                        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n\t\t</span><span class="s2">.. versionadded:: &quot;</span> <span class="o">+</span> <span class="n">XABase</span><span class="o">.</span><span class="n">VERSION</span><span class="p">)</span>
+                        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t\t\&quot;\&quot;\&quot;</span><span class="s2">&quot;</span><span class="p">)</span>
+
+                        <span class="n">cmd_call_str</span> <span class="o">=</span> <span class="s2">&quot;self.xa_elem.&quot;</span> <span class="o">+</span> <span class="n">suite</span><span class="p">[</span><span class="s2">&quot;commands&quot;</span><span class="p">][</span><span class="n">command</span><span class="p">][</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;(&quot;</span>
+
+                        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">suite</span><span class="p">[</span><span class="s2">&quot;commands&quot;</span><span class="p">][</span><span class="n">command</span><span class="p">][</span><span class="s2">&quot;parameters&quot;</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                            <span class="k">for</span> <span class="n">parameter</span> <span class="ow">in</span> <span class="n">suite</span><span class="p">[</span><span class="s2">&quot;commands&quot;</span><span class="p">][</span><span class="n">command</span><span class="p">][</span><span class="s2">&quot;parameters&quot;</span><span class="p">]:</span>
+                                <span class="n">cmd_call_str</span> <span class="o">+=</span> <span class="n">parameter</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;, &quot;</span>
+                            
+                            <span class="n">cmd_call_str</span> <span class="o">=</span> <span class="n">cmd_call_str</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;)&quot;</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">cmd_call_str</span> <span class="o">+=</span> <span class="s2">&quot;)&quot;</span>
+
+                        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t\t</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">cmd_call_str</span><span class="p">)</span>
+
+        <span class="n">data</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">output_file</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></div></div>
+
+
+
+<div class="viewcode-block" id="XAMenuBar"><a class="viewcode-back" href="../../../reference/additions/xautils.html#PyXA.additions.XAUtils.XAMenuBar">[docs]</a><span class="k">class</span> <span class="nc">XAMenuBar</span><span class="p">():</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Creates a new menu bar object for interacting with the system menu bar.</span>
+
+<span class="sd">        .. versionadded:: 0.0.9</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">menus</span> <span class="o">=</span> <span class="p">{}</span> <span class="c1">#: The menus to be displayed in the status bar, keyed by ID</span>
+
+        <span class="n">app</span> <span class="o">=</span> <span class="n">AppKit</span><span class="o">.</span><span class="n">NSApplication</span><span class="o">.</span><span class="n">sharedApplication</span><span class="p">()</span>
+        <span class="n">detector</span> <span class="o">=</span> <span class="bp">self</span>
+
+        <span class="k">class</span> <span class="nc">MyApplicationAppDelegate</span><span class="p">(</span><span class="n">AppKit</span><span class="o">.</span><span class="n">NSObject</span><span class="p">):</span>
+            <span class="k">def</span> <span class="nf">menuWillOpen_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">selected_menu</span><span class="p">):</span>
+                <span class="n">button</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">currentEvent</span><span class="p">()</span><span class="o">.</span><span class="n">buttonNumber</span><span class="p">()</span>
+                <span class="k">for</span> <span class="n">menu_key</span><span class="p">,</span> <span class="n">menu</span> <span class="ow">in</span> <span class="n">detector</span><span class="o">.</span><span class="n">menus</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                    <span class="k">if</span> <span class="n">menu</span><span class="o">.</span><span class="n">xa_elem</span> <span class="o">==</span> <span class="n">selected_menu</span><span class="p">:</span>
+                        <span class="n">menu</span><span class="o">.</span><span class="n">_run_action</span><span class="p">(</span><span class="n">button</span><span class="p">)</span>
+
+            <span class="k">def</span> <span class="nf">statusBarButtonClicked_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sender</span><span class="p">):</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;hi&quot;</span><span class="p">,</span> <span class="n">sender</span><span class="p">)</span>
+
+            <span class="k">def</span> <span class="nf">action_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">menu_item</span><span class="p">):</span>
+                <span class="n">button</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">currentEvent</span><span class="p">()</span><span class="o">.</span><span class="n">buttonNumber</span><span class="p">()</span>
+                <span class="k">for</span> <span class="n">menu_key</span><span class="p">,</span> <span class="n">menu</span> <span class="ow">in</span> <span class="n">detector</span><span class="o">.</span><span class="n">menus</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                    <span class="k">for</span> <span class="n">item_key</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">menu</span><span class="o">.</span><span class="n">items</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                        <span class="k">if</span> <span class="n">item</span><span class="o">.</span><span class="n">xa_elem</span> <span class="o">==</span> <span class="n">menu_item</span><span class="p">:</span>
+                                <span class="n">item</span><span class="o">.</span><span class="n">_run_action</span><span class="p">(</span><span class="n">button</span><span class="p">)</span>
+
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="k">for</span> <span class="n">subitem_key</span><span class="p">,</span> <span class="n">subitem</span> <span class="ow">in</span> <span class="n">item</span><span class="o">.</span><span class="n">items</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                                <span class="k">if</span> <span class="n">subitem</span><span class="o">.</span><span class="n">xa_elem</span> <span class="o">==</span> <span class="n">menu_item</span><span class="p">:</span>
+                                    <span class="n">subitem</span><span class="o">.</span><span class="n">_run_action</span><span class="p">(</span><span class="n">button</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">__delegate</span> <span class="o">=</span> <span class="n">MyApplicationAppDelegate</span><span class="o">.</span><span class="n">alloc</span><span class="p">()</span><span class="o">.</span><span class="n">init</span><span class="p">()</span><span class="o">.</span><span class="n">retain</span><span class="p">()</span>
+        <span class="n">app</span><span class="o">.</span><span class="n">setDelegate_</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__delegate</span><span class="p">)</span>
+
+<div class="viewcode-block" id="XAMenuBar.add_menu"><a class="viewcode-back" href="../../../reference/additions/xautils.html#PyXA.additions.XAUtils.XAMenuBar.add_menu">[docs]</a>    <span class="k">def</span> <span class="nf">add_menu</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">image</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XABase.XAImage&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">tool_tip</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">img_width</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">30</span><span class="p">,</span> <span class="n">img_height</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">30</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Adds a new menu to be displayed in the system menu bar.</span>
+
+<span class="sd">        :param title: The name of the menu</span>
+<span class="sd">        :type title: str</span>
+<span class="sd">        :param image: The image to display for the menu, defaults to None</span>
+<span class="sd">        :type image: Union[XABase.XAImage, None], optional</span>
+<span class="sd">        :param tool_tip: The tooltip to display on hovering over the menu, defaults to None</span>
+<span class="sd">        :type tool_tip: Union[str, None], optional</span>
+<span class="sd">        :param img_width: The width of the image, in pixels, defaults to 30</span>
+<span class="sd">        :type img_width: int, optional</span>
+<span class="sd">        :param img_height: The height of the image, in pixels, defaults to 30</span>
+<span class="sd">        :type img_height: int, optional</span>
+
+<span class="sd">        :Example:</span>
+
+<span class="sd">        &gt;&gt;&gt; import PyXA</span>
+<span class="sd">        &gt;&gt;&gt; menu_bar = PyXA.XAMenuBar()</span>
+<span class="sd">        &gt;&gt;&gt; img = PyXA.XAImage(&quot;/Users/steven/Downloads/Blackness.jpg&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; menu_bar.add_menu(&quot;Menu 1&quot;, image=img, img_width=100, img_height=100)</span>
+<span class="sd">        &gt;&gt;&gt; menu_bar.display()</span>
+
+<span class="sd">        .. deprecated:: 0.1.1</span>
+<span class="sd">        </span>
+<span class="sd">           Use :func:`new_menu` instead.</span>
+
+<span class="sd">        .. versionadded:: 0.0.9</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">new_menu</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">image</span><span class="p">,</span> <span class="n">tool_tip</span><span class="p">,</span> <span class="p">(</span><span class="n">img_width</span><span class="p">,</span> <span class="n">img_height</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="XAMenuBar.new_menu"><a class="viewcode-back" href="../../../reference/additions/xautils.html#PyXA.additions.XAUtils.XAMenuBar.new_menu">[docs]</a>    <span class="k">def</span> <span class="nf">new_menu</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">image</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XABase.XAImage&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">tooltip</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">image_dimensions</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="mi">30</span><span class="p">),</span> <span class="n">action</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="s1">&#39;XAMenuBarMenu&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">],</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAMenuBarMenu&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Adds a new menu to be displayed in the system menu bar.</span>
+
+<span class="sd">        :param title: The title text of the menu, defaults to None</span>
+<span class="sd">        :type title: Union[str, None], optional</span>
+<span class="sd">        :param image: The image to display for the menu, defaults to None</span>
+<span class="sd">        :type image: Union[XABase.XAImage, None], optional</span>
+<span class="sd">        :param tooltip: The tooltip to display on hovering over the menu, defaults to None</span>
+<span class="sd">        :type tooltip: Union[str, None], optional</span>
+<span class="sd">        :param image_dimensions: The width and height of the image, in pixels, defaults to (30, 30)</span>
+<span class="sd">        :type image_dimensions: tuple[int, int], optional</span>
+<span class="sd">        :param action: The method, if any, to associate with the menu (the method called when the menu is opened), defaults to None</span>
+<span class="sd">        :type action: Callable[[XAMenuBarMenu, None], None], optional</span>
+<span class="sd">        :param id: A unique identifier for the menu, or None to use the title, defaults to None</span>
+<span class="sd">        :type id: Union[str, None], optional</span>
+<span class="sd">        :return: The newly created menu object</span>
+<span class="sd">        :rtype: XAMenuBarMenu</span>
+
+<span class="sd">        :Example:</span>
+
+<span class="sd">        &gt;&gt;&gt; import random</span>
+<span class="sd">        &gt;&gt;&gt; import threading</span>
+<span class="sd">        &gt;&gt;&gt; import time</span>
+<span class="sd">        &gt;&gt;&gt; </span>
+<span class="sd">        &gt;&gt;&gt; emojis = [&quot;😀&quot;, &quot;😍&quot;, &quot;🙂&quot;, &quot;😎&quot;, &quot;🤩&quot;, &quot;🤯&quot;, &quot;😭&quot;, &quot;😱&quot;, &quot;😴&quot;, &quot;🤒&quot;, &quot;😈&quot;, &quot;🤠&quot;]</span>
+<span class="sd">        &gt;&gt;&gt; </span>
+<span class="sd">        &gt;&gt;&gt; menu_bar = PyXA.XAMenuBar()</span>
+<span class="sd">        &gt;&gt;&gt; emoji_bar = menu_bar.new_menu()</span>
+<span class="sd">        &gt;&gt;&gt; </span>
+<span class="sd">        &gt;&gt;&gt; def update_display():</span>
+<span class="sd">        &gt;&gt;&gt;     while True:</span>
+<span class="sd">        &gt;&gt;&gt;         new_emoji = random.choice(emojis)</span>
+<span class="sd">        &gt;&gt;&gt;         emoji_bar.title = new_emoji</span>
+<span class="sd">        &gt;&gt;&gt;         time.sleep(0.25)</span>
+<span class="sd">        &gt;&gt;&gt; </span>
+<span class="sd">        &gt;&gt;&gt; threading.Thread(target=update_display).start()</span>
+<span class="sd">        &gt;&gt;&gt; menu_bar.display()</span>
+
+<span class="sd">        .. versionadded:: 0.1.1</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">title</span> <span class="o">=</span> <span class="n">title</span> <span class="ow">or</span> <span class="s2">&quot;&quot;</span>
+        <span class="nb">id</span> <span class="o">=</span> <span class="nb">id</span> <span class="ow">or</span> <span class="n">title</span>
+        <span class="k">while</span> <span class="nb">id</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">menus</span><span class="p">:</span>
+            <span class="nb">id</span> <span class="o">+=</span> <span class="s2">&quot;_&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">menus</span><span class="p">[</span><span class="nb">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">XAMenuBarMenu</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">image</span><span class="p">,</span> <span class="n">tooltip</span><span class="p">,</span> <span class="n">image_dimensions</span><span class="p">,</span> <span class="n">action</span><span class="p">,</span> <span class="nb">id</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">menus</span><span class="p">[</span><span class="nb">id</span><span class="p">]</span></div>
+        
+<div class="viewcode-block" id="XAMenuBar.add_item"><a class="viewcode-back" href="../../../reference/additions/xautils.html#PyXA.additions.XAUtils.XAMenuBar.add_item">[docs]</a>    <span class="k">def</span> <span class="nf">add_item</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">menu</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">item_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">action</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[],</span> <span class="kc">None</span><span class="p">],</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">image</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XABase.XAImage&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">img_width</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span> <span class="n">img_height</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">20</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Adds an item to a menu, creating the menu if necessary.</span>
+
+<span class="sd">        :param menu: The name of the menu to add an item to, or the name of the menu to create</span>
+<span class="sd">        :type menu: str</span>
+<span class="sd">        :param item_name: The name of the item</span>
+<span class="sd">        :type item_name: str</span>
+<span class="sd">        :param action: The method to associate with the item (the method called when the item is clicked)</span>
+<span class="sd">        :type action: Callable[[], None]</span>
+<span class="sd">        :param image: The image for the item, defaults to None</span>
+<span class="sd">        :type image: Union[XABase.XAImage, None], optional</span>
+<span class="sd">        :param img_width: The width of image, in pixels, defaults to 30</span>
+<span class="sd">        :type img_width: int, optional</span>
+<span class="sd">        :param img_height: The height of the image, in pixels, defaults to 30</span>
+<span class="sd">        :type img_height: int, optional</span>
+
+<span class="sd">        :Example:</span>
+
+<span class="sd">        &gt;&gt;&gt; import PyXA</span>
+<span class="sd">        &gt;&gt;&gt; menu_bar = PyXA.XAMenuBar()</span>
+<span class="sd">        &gt;&gt;&gt; </span>
+<span class="sd">        &gt;&gt;&gt; menu_bar.add_menu(&quot;Menu 1&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; menu_bar.add_item(menu=&quot;Menu 1&quot;, item_name=&quot;Item 1&quot;, method=lambda : print(&quot;Action 1&quot;))</span>
+<span class="sd">        &gt;&gt;&gt; menu_bar.add_item(menu=&quot;Menu 1&quot;, item_name=&quot;Item 2&quot;, method=lambda : print(&quot;Action 2&quot;))</span>
+<span class="sd">        &gt;&gt;&gt; </span>
+<span class="sd">        &gt;&gt;&gt; menu_bar.add_item(menu=&quot;Menu 2&quot;, item_name=&quot;Item 1&quot;, method=lambda : print(&quot;Action 1&quot;))</span>
+<span class="sd">        &gt;&gt;&gt; img = PyXA.XAImage(&quot;/Users/exampleUser/Downloads/example.jpg&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; menu_bar.add_item(&quot;Menu 2&quot;, &quot;Item 1&quot;, lambda : print(&quot;Action 1&quot;), image=img, img_width=100)</span>
+<span class="sd">        &gt;&gt;&gt; menu_bar.display()</span>
+
+<span class="sd">        .. deprecated:: 0.1.1</span>
+<span class="sd">        </span>
+<span class="sd">           Use :func:`XAMenuBarMenu.new_item` instead.</span>
+
+<span class="sd">        .. versionadded:: 0.0.9</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">menu</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">menus</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_menu</span><span class="p">(</span><span class="n">menu</span><span class="p">)</span>
+            
+        <span class="n">menu</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">menus</span><span class="p">[</span><span class="n">menu</span><span class="p">]</span>
+        <span class="n">menu</span><span class="o">.</span><span class="n">new_item</span><span class="p">(</span><span class="n">item_name</span><span class="p">,</span> <span class="n">action</span><span class="p">,</span> <span class="p">[],</span> <span class="n">image</span><span class="p">,</span> <span class="p">(</span><span class="n">img_width</span><span class="p">,</span> <span class="n">img_height</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="XAMenuBar.set_image"><a class="viewcode-back" href="../../../reference/additions/xautils.html#PyXA.additions.XAUtils.XAMenuBar.set_image">[docs]</a>    <span class="k">def</span> <span class="nf">set_image</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">image</span><span class="p">:</span> <span class="s1">&#39;XABase.XAImage&#39;</span><span class="p">,</span> <span class="n">img_width</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">30</span><span class="p">,</span> <span class="n">img_height</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">30</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets the image displayed for a menu or menu item.</span>
+
+<span class="sd">        :param item_name: The name of the item to update</span>
+<span class="sd">        :type item_name: str</span>
+<span class="sd">        :param image: The image to display</span>
+<span class="sd">        :type image: XAImage</span>
+<span class="sd">        :param img_width: The width of the image, in pixels, defaults to 30</span>
+<span class="sd">        :type img_width: int, optional</span>
+<span class="sd">        :param img_height: The height of the image, in pixels, defaults to 30</span>
+<span class="sd">        :type img_height: int, optional</span>
+
+<span class="sd">        :Example: Set Image on State Change</span>
+
+<span class="sd">        &gt;&gt;&gt; import PyXA</span>
+<span class="sd">        &gt;&gt;&gt; current_state = True # On</span>
+<span class="sd">        &gt;&gt;&gt; img_on = PyXA.XAImage(&quot;/Users/exampleUser/Documents/on.jpg&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; img_off = PyXA.XAImage(&quot;/Users/exampleUser/Documents/off.jpg&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; menu_bar = PyXA.XAMenuBar()</span>
+<span class="sd">        &gt;&gt;&gt; menu_bar.add_menu(&quot;Status&quot;, image=img_on)</span>
+<span class="sd">        &gt;&gt;&gt; </span>
+<span class="sd">        &gt;&gt;&gt; def update_state():</span>
+<span class="sd">        &gt;&gt;&gt;     global current_state</span>
+<span class="sd">        &gt;&gt;&gt;     if current_state is True:</span>
+<span class="sd">        &gt;&gt;&gt;         # ... (Actions for turning off)</span>
+<span class="sd">        &gt;&gt;&gt;         menu_bar.set_text(&quot;Turn off&quot;, &quot;Turn on&quot;)</span>
+<span class="sd">        &gt;&gt;&gt;         menu_bar.set_image(&quot;Status&quot;, img_off)</span>
+<span class="sd">        &gt;&gt;&gt;         current_state = False</span>
+<span class="sd">        &gt;&gt;&gt;     else:</span>
+<span class="sd">        &gt;&gt;&gt;         # ... (Actions for turning on)</span>
+<span class="sd">        &gt;&gt;&gt;         menu_bar.set_text(&quot;Turn off&quot;, &quot;Turn off&quot;)</span>
+<span class="sd">        &gt;&gt;&gt;         menu_bar.set_image(&quot;Status&quot;, img_on)</span>
+<span class="sd">        &gt;&gt;&gt;         current_state = True</span>
+
+<span class="sd">        menu_bar.add_item(&quot;Status&quot;, &quot;Turn off&quot;, update_state)</span>
+<span class="sd">        menu_bar.display()</span>
+
+<span class="sd">        .. deprecated:: 0.1.1</span>
+<span class="sd">        </span>
+<span class="sd">           Set the :attr:`XAMenuBarMenu.image` and :attr:`XAMenuBarMenuItem.image` attributes directly instead.</span>
+
+<span class="sd">        .. versionadded:: 0.0.9</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">img</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">img</span><span class="o">.</span><span class="n">setScalesWhenResized_</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">img</span><span class="o">.</span><span class="n">setSize_</span><span class="p">((</span><span class="n">img_width</span><span class="p">,</span> <span class="n">img_height</span><span class="p">))</span>
+
+        <span class="k">for</span> <span class="n">menu_key</span><span class="p">,</span> <span class="n">menu</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">menus</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">menu_key</span> <span class="o">==</span> <span class="n">item_name</span><span class="p">:</span>
+                <span class="n">menu</span><span class="o">.</span><span class="n">_status_item</span><span class="o">.</span><span class="n">button</span><span class="p">()</span><span class="o">.</span><span class="n">setImage_</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">item_key</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">menu</span><span class="o">.</span><span class="n">items</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                    <span class="k">if</span> <span class="n">item_key</span> <span class="o">==</span> <span class="n">item_name</span><span class="p">:</span>
+                        <span class="n">item</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">setImage_</span><span class="p">(</span><span class="n">img</span><span class="p">)</span></div>
+
+       
+
+<div class="viewcode-block" id="XAMenuBar.set_text"><a class="viewcode-back" href="../../../reference/additions/xautils.html#PyXA.additions.XAUtils.XAMenuBar.set_text">[docs]</a>    <span class="k">def</span> <span class="nf">set_text</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets the text displayed for a menu or menu item.</span>
+
+<span class="sd">        :param item_name: The name of the item to update</span>
+<span class="sd">        :type item_name: str</span>
+<span class="sd">        :param text: The new text to display</span>
+<span class="sd">        :type text: str</span>
+
+<span class="sd">        .. deprecated:: 0.1.1</span>
+<span class="sd">        </span>
+<span class="sd">           Set the :attr:`XAMenuBarMenu.title` and :attr:`XAMenuBarMenuItem.title` attributes directly instead.</span>
+
+<span class="sd">        .. versionadded:: 0.0.9</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">menu_key</span><span class="p">,</span> <span class="n">menu</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">menus</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">menu_key</span> <span class="o">==</span> <span class="n">item_name</span><span class="p">:</span>
+                <span class="n">menu</span><span class="o">.</span><span class="n">_status_item</span><span class="o">.</span><span class="n">button</span><span class="p">()</span><span class="o">.</span><span class="n">setTitle_</span><span class="p">(</span><span class="n">item_name</span><span class="p">)</span>
+
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">item_key</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">menu</span><span class="o">.</span><span class="n">items</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                    <span class="k">if</span> <span class="n">item_key</span> <span class="o">==</span> <span class="n">item_name</span><span class="p">:</span>
+                        <span class="n">item</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">setTitle_</span><span class="p">(</span><span class="n">item_name</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XAMenuBar.remove_menu"><a class="viewcode-back" href="../../../reference/additions/xautils.html#PyXA.additions.XAUtils.XAMenuBar.remove_menu">[docs]</a>    <span class="k">def</span> <span class="nf">remove_menu</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Removes a menu from the status bar.</span>
+
+<span class="sd">        :param id: The ID of the menu to remove</span>
+<span class="sd">        :type id: str</span>
+
+<span class="sd">        .. versionadded:: 0.1.1</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">menu</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">menus</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+        <span class="n">status_bar</span> <span class="o">=</span> <span class="n">AppKit</span><span class="o">.</span><span class="n">NSStatusBar</span><span class="o">.</span><span class="n">systemStatusBar</span><span class="p">()</span>
+        <span class="n">status_bar</span><span class="o">.</span><span class="n">removeStatusItem_</span><span class="p">(</span><span class="n">menu</span><span class="o">.</span><span class="n">_status_item</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XAMenuBar.display"><a class="viewcode-back" href="../../../reference/additions/xautils.html#PyXA.additions.XAUtils.XAMenuBar.display">[docs]</a>    <span class="k">def</span> <span class="nf">display</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Displays the custom menus on the menu bar.</span>
+
+<span class="sd">        :Example:</span>
+
+<span class="sd">        &gt;&gt;&gt; import PyXA</span>
+<span class="sd">        &gt;&gt;&gt; menu_bar = PyXA.XAMenuBar()</span>
+<span class="sd">        &gt;&gt;&gt; menu_bar.new_menu(&quot;🔥&quot;, tooltip=&quot;Fire&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; menu_bar.new_menu(&quot;💧&quot;, tooltip=&quot;Water&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; menu_bar.display()</span>
+
+<span class="sd">        .. versionadded:: 0.0.9</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">menu</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">menus</span><span class="p">:</span>
+            <span class="c1"># Add a &#39;Quit&#39; item to the bottom of each menu</span>
+            <span class="n">item</span> <span class="o">=</span> <span class="n">AppKit</span><span class="o">.</span><span class="n">NSMenuItem</span><span class="o">.</span><span class="n">alloc</span><span class="p">()</span><span class="o">.</span><span class="n">initWithTitle_action_keyEquivalent_</span><span class="p">(</span><span class="s1">&#39;Quit&#39;</span><span class="p">,</span> <span class="s1">&#39;terminate:&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">menus</span><span class="p">[</span><span class="n">menu</span><span class="p">]</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">addItem_</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">menus</span><span class="p">[</span><span class="n">menu</span><span class="p">]</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">setDelegate_</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__delegate</span><span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">menus</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">AppHelper</span><span class="o">.</span><span class="n">runEventLoop</span><span class="p">(</span><span class="n">installInterrupt</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span></div></div>
+
+    
+
+<div class="viewcode-block" id="XAMenuBarMenu"><a class="viewcode-back" href="../../../reference/additions/xautils.html#PyXA.additions.XAUtils.XAMenuBarMenu">[docs]</a><span class="k">class</span> <span class="nc">XAMenuBarMenu</span><span class="p">():</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">image</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XABase.XAImage&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">tooltip</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">image_dimensions</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="mi">30</span><span class="p">),</span> <span class="n">action</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="s1">&#39;XAMenuBarMenu&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">],</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initializes a new menu to be displayed in the system menu bar.</span>
+
+<span class="sd">        :param title: The name of the menu</span>
+<span class="sd">        :type title: str</span>
+<span class="sd">        :param image: The image to display for the menu, defaults to None</span>
+<span class="sd">        :type image: Union[XABase.XAImage, None], optional</span>
+<span class="sd">        :param tooltip: The tooltip to display on hovering over the menu, defaults to None</span>
+<span class="sd">        :type tooltip: Union[str, None], optional</span>
+<span class="sd">        :param image_dimensions: The width and height of the image, in pixels, defaults to (30, 30)</span>
+<span class="sd">        :type image_dimensions: int, optional</span>
+<span class="sd">        :param action: The method, if any, to associate with the menu (the method called when the menu is opened), defaults to None</span>
+<span class="sd">        :type action: Callable[[XAMenuBarMenu, None], None], optional</span>
+<span class="sd">        :param id: A unique identifier for the menu, or None to use the title, defaults to None</span>
+<span class="sd">        :type id: Union[str, None], optional</span>
+
+<span class="sd">        .. versionadded:: 0.1.1</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__title</span> <span class="o">=</span> <span class="n">title</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__image</span> <span class="o">=</span> <span class="n">image</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__tooltip</span> <span class="o">=</span> <span class="n">tooltip</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__image_dimensions</span> <span class="o">=</span> <span class="n">image_dimensions</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">action</span> <span class="o">=</span> <span class="n">action</span> <span class="c1">#: The method to call when the menu is opened</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="nb">id</span> <span class="ow">or</span> <span class="n">title</span> <span class="c1">#: The unique identifier for the menu</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">items</span> <span class="o">=</span> <span class="p">{}</span> <span class="c1">#: The menu items, keyed by their IDs</span>
+    
+        <span class="c1"># Create a new status bar item</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__status_bar</span> <span class="o">=</span> <span class="n">AppKit</span><span class="o">.</span><span class="n">NSStatusBar</span><span class="o">.</span><span class="n">systemStatusBar</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_status_item</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__status_bar</span><span class="o">.</span><span class="n">statusItemWithLength_</span><span class="p">(</span><span class="n">AppKit</span><span class="o">.</span><span class="n">NSVariableStatusItemLength</span><span class="p">)</span><span class="o">.</span><span class="n">retain</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_status_item</span><span class="o">.</span><span class="n">setTitle_</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+       
+        <span class="c1"># Add an image to the status bar item, if necessary</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAImage</span><span class="p">):</span>
+            <span class="n">img</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="n">img</span><span class="o">.</span><span class="n">setScalesWhenResized_</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">img</span><span class="o">.</span><span class="n">setSize_</span><span class="p">(</span><span class="n">image_dimensions</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_status_item</span><span class="o">.</span><span class="n">button</span><span class="p">()</span><span class="o">.</span><span class="n">setImage_</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+
+        <span class="c1"># Add a tooltip to the status bar item, if necessary</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tooltip</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_status_item</span><span class="o">.</span><span class="n">setToolTip_</span><span class="p">(</span><span class="n">tooltip</span><span class="p">)</span>
+
+        <span class="c1"># Create a new menu and associate it to the status bar item</span>
+        <span class="c1"># Disable auto-enabling items so that users have the option to disable them</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span> <span class="o">=</span> <span class="n">AppKit</span><span class="o">.</span><span class="n">NSMenu</span><span class="o">.</span><span class="n">alloc</span><span class="p">()</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">setAutoenablesItems_</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_status_item</span><span class="o">.</span><span class="n">setMenu_</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">title</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The title text of the menu.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__title</span>
+
+    <span class="nd">@title</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">title</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__title</span> <span class="o">=</span> <span class="n">title</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_status_item</span><span class="o">.</span><span class="n">setTitle_</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">image</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XABase.XAImage&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The image associated with the menu.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">img_obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_status_item</span><span class="o">.</span><span class="n">button</span><span class="p">()</span><span class="o">.</span><span class="n">image</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">img_obj</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__image</span>
+
+    <span class="nd">@image</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">image</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">image</span><span class="p">:</span> <span class="s1">&#39;XABase.XAImage&#39;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__image</span> <span class="o">=</span> <span class="n">image</span>
+        <span class="n">img</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">img</span><span class="o">.</span><span class="n">setScalesWhenResized_</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">img</span><span class="o">.</span><span class="n">setSize_</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__image_dimensions</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_status_item</span><span class="o">.</span><span class="n">button</span><span class="p">()</span><span class="o">.</span><span class="n">setImage_</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">image_dimensions</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;The width and height of the menu&#39;s image, in pixels.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__image_dimensions</span>
+
+    <span class="nd">@image_dimensions</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">image_dimensions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">image_dimensions</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__image_dimensions</span> <span class="o">=</span> <span class="n">image_dimensions</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="n">AppKit</span><span class="o">.</span><span class="n">NSSizeFromCGSize</span><span class="p">(</span><span class="n">image_dimensions</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_status_item</span><span class="o">.</span><span class="n">button</span><span class="p">()</span><span class="o">.</span><span class="n">image</span><span class="p">()</span><span class="o">.</span><span class="n">setSize_</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">tooltip</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The tooltip that appears when hovering over the menu.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__tooltip</span>
+
+    <span class="nd">@tooltip</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">tooltip</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tooltip</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__tooltip</span> <span class="o">=</span> <span class="n">tooltip</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_status_item</span><span class="o">.</span><span class="n">setToolTip_</span><span class="p">(</span><span class="n">tooltip</span><span class="p">)</span>
+
+<div class="viewcode-block" id="XAMenuBarMenu.new_item"><a class="viewcode-back" href="../../../reference/additions/xautils.html#PyXA.additions.XAUtils.XAMenuBarMenu.new_item">[docs]</a>    <span class="k">def</span> <span class="nf">new_item</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">action</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[],</span> <span class="kc">None</span><span class="p">],</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">args</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="n">Any</span><span class="p">],</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">image</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XABase.XAImage&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">image_dimensions</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span> <span class="nb">id</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAMenuBarMenuItem&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Creates a new menu item and adds it to this menu at the current insertion point.</span>
+
+<span class="sd">        :param title: The title text of the item, defaults to None</span>
+<span class="sd">        :type title: Union[str, None], optional</span>
+<span class="sd">        :param action: The method to call when the item is clicked, defaults to None</span>
+<span class="sd">        :type action: Union[Callable[[], None], None], optional</span>
+<span class="sd">        :param args: The arguments to pass to the action method upon execution, defaults to None</span>
+<span class="sd">        :type args: Union[list[Any], None], optional</span>
+<span class="sd">        :param image: The image for the item, defaults to None</span>
+<span class="sd">        :type image: Union[XABase.XAImage, None], optional</span>
+<span class="sd">        :param image_dimensions: The width and height of the image, in pixels, defaults to (20, 20)</span>
+<span class="sd">        :type image_dimensions: tuple[int, int], optional</span>
+<span class="sd">        :param id: A unique identifier for the item, defaults to None</span>
+<span class="sd">        :type id: Union[str, None], optional</span>
+<span class="sd">        :return: The newly created menu item object</span>
+<span class="sd">        :rtype: XAMenuBarMenuItem</span>
+
+<span class="sd">        :Example:</span>
+
+<span class="sd">        &gt;&gt;&gt; import PyXA</span>
+<span class="sd">        &gt;&gt;&gt; menu_bar = PyXA.XAMenuBar()</span>
+<span class="sd">        &gt;&gt;&gt; </span>
+<span class="sd">        &gt;&gt;&gt; img1 = PyXA.XAColor.red().make_swatch(10, 10)</span>
+<span class="sd">        &gt;&gt;&gt; img2 = PyXA.XAImage(&quot;https://avatars.githubusercontent.com/u/7865925?v=4&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; img3 = PyXA.XAImage.symbol(&quot;flame.circle&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; </span>
+<span class="sd">        &gt;&gt;&gt; m1 = menu_bar.new_menu(&quot;Menu 1&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; m1.new_item(&quot;Item 1&quot;, lambda _: print(&quot;Action 1&quot;), [], img1, (100, 100))</span>
+<span class="sd">        &gt;&gt;&gt; m1.new_item(&quot;Item 2&quot;, lambda _: print(&quot;Action 2&quot;), [], img2, (100, 100))</span>
+<span class="sd">        &gt;&gt;&gt; </span>
+<span class="sd">        &gt;&gt;&gt; m2 = menu_bar.new_menu(&quot;Menu 2&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; m2.new_item(&quot;Item 1&quot;, lambda _: print(&quot;Action 3&quot;), image=img3, image_dimensions=(50, 50))</span>
+<span class="sd">        &gt;&gt;&gt; </span>
+<span class="sd">        &gt;&gt;&gt; menu_bar.display()</span>
+
+<span class="sd">        .. versionadded:: 0.1.1</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># If no ID provided, use the title, then make it unique</span>
+        <span class="n">title</span> <span class="o">=</span> <span class="n">title</span> <span class="ow">or</span> <span class="s2">&quot;&quot;</span>
+        <span class="nb">id</span> <span class="o">=</span> <span class="nb">id</span> <span class="ow">or</span> <span class="n">title</span>
+        <span class="k">while</span> <span class="nb">id</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">:</span>
+            <span class="nb">id</span> <span class="o">+=</span> <span class="s2">&quot;_&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">[</span><span class="nb">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">XAMenuBarMenuItem</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">action</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">image</span><span class="p">,</span> <span class="n">image_dimensions</span><span class="p">,</span> <span class="nb">id</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">addItem_</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">[</span><span class="nb">id</span><span class="p">]</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">[</span><span class="nb">id</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="XAMenuBarMenu.add_separator"><a class="viewcode-back" href="../../../reference/additions/xautils.html#PyXA.additions.XAUtils.XAMenuBarMenu.add_separator">[docs]</a>    <span class="k">def</span> <span class="nf">add_separator</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAMenuBarMenuItem&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Adds a separator to the menu at the current insertion point.</span>
+
+<span class="sd">        :param id: A unique identifier for the separator, defaults to None</span>
+<span class="sd">        :type id: Union[str, None], optional</span>
+<span class="sd">        :return: The newly created separator menu item object</span>
+<span class="sd">        :rtype: XAMenuBarMenuItem</span>
+
+<span class="sd">        .. versionadded:: 0.1.1</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">id</span> <span class="o">=</span> <span class="nb">id</span> <span class="ow">or</span> <span class="s2">&quot;separator&quot;</span>
+        <span class="k">while</span> <span class="nb">id</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">:</span>
+            <span class="nb">id</span> <span class="o">+=</span> <span class="s2">&quot;_&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">[</span><span class="nb">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">XAMenuBarMenuItem</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">addItem_</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">[</span><span class="nb">id</span><span class="p">]</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">[</span><span class="nb">id</span><span class="p">]</span></div>
+
+    <span class="k">def</span> <span class="nf">_run_action</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">button</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Runs the action associated with this menu.</span>
+
+<span class="sd">        .. versionadded:: 0.1.1</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">callable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">action</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">action</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">button</span><span class="p">)</span>
+
+<div class="viewcode-block" id="XAMenuBarMenu.remove_item"><a class="viewcode-back" href="../../../reference/additions/xautils.html#PyXA.additions.XAUtils.XAMenuBarMenu.remove_item">[docs]</a>    <span class="k">def</span> <span class="nf">remove_item</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Removes an item from this menu.</span>
+
+<span class="sd">        :param id: The ID of the item to remove</span>
+<span class="sd">        :type id: str</span>
+
+<span class="sd">        .. versionadded:: 0.1.1</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">item</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">removeItem_</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="XAMenuBarMenuItem"><a class="viewcode-back" href="../../../reference/additions/xautils.html#PyXA.additions.XAUtils.XAMenuBarMenuItem">[docs]</a><span class="k">class</span> <span class="nc">XAMenuBarMenuItem</span><span class="p">():</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">action</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="s1">&#39;XAMenuBarMenuItem&#39;</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="kc">None</span><span class="p">],</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">args</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="n">Any</span><span class="p">],</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">image</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XABase.XAImage&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">image_dimensions</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span> <span class="nb">id</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initializes an item of a menu.</span>
+
+<span class="sd">        :param title: The name of the item</span>
+<span class="sd">        :type title: str</span>
+<span class="sd">        :param action: The method to associate with the item (the method called when the item is clicked), defaults to None</span>
+<span class="sd">        :type action: Callable[[XAMenuBarMenuItem], None]</span>
+<span class="sd">        :param args: The arguments to call the method with, defaults to None</span>
+<span class="sd">        :type args: Union[list[Any], None], optional</span>
+<span class="sd">        :param image: The image for the item, defaults to None</span>
+<span class="sd">        :type image: Union[XABase.XAImage, None], optional</span>
+<span class="sd">        :param image_dimensions: The width and height of image, in pixels, defaults to (20, 20)</span>
+<span class="sd">        :type image_dimensions: tuple[int, int], optional</span>
+<span class="sd">        :param id: A unique identifier for the item, or None to use the title, defaults to None</span>
+<span class="sd">        :type id: Union[str, None], optional</span>
+
+<span class="sd">        .. versionadded:: 0.1.1</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__title</span> <span class="o">=</span> <span class="n">title</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">action</span> <span class="o">=</span> <span class="n">action</span> <span class="c1">#: The method to call when this menu item is clicked</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">args</span> <span class="o">=</span> <span class="n">args</span> <span class="ow">or</span> <span class="p">[]</span> <span class="c1">#: The arguments to pass to the action method upon execution</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__image</span> <span class="o">=</span> <span class="n">image</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__image_dimensions</span> <span class="o">=</span> <span class="n">image_dimensions</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__indent</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__enabled</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="nb">id</span> <span class="ow">or</span> <span class="n">title</span> <span class="c1">#: The unique identifier of the item</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">items</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;separator&quot;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span> <span class="o">=</span> <span class="n">AppKit</span><span class="o">.</span><span class="n">NSMenuItem</span><span class="o">.</span><span class="n">separatorItem</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span> <span class="o">=</span> <span class="n">AppKit</span><span class="o">.</span><span class="n">NSMenuItem</span><span class="o">.</span><span class="n">alloc</span><span class="p">()</span><span class="o">.</span><span class="n">initWithTitle_action_keyEquivalent_</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="s1">&#39;action:&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+            
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">XABase</span><span class="o">.</span><span class="n">XAImage</span><span class="p">):</span>
+                <span class="n">img</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+                <span class="n">img</span><span class="o">.</span><span class="n">setScalesWhenResized_</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+                <span class="n">img</span><span class="o">.</span><span class="n">setSize_</span><span class="p">(</span><span class="n">image_dimensions</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">setImage_</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">title</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The title text of the menu item.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__title</span>
+
+    <span class="nd">@title</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">title</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__title</span> <span class="o">=</span> <span class="n">title</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">setTitle_</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">image</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XABase.XAImage&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The image associated with the menu item.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">img_obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">image</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">img_obj</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__image</span>
+
+    <span class="nd">@image</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">image</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">image</span><span class="p">:</span> <span class="s1">&#39;XABase.XAImage&#39;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__image</span> <span class="o">=</span> <span class="n">image</span>
+        <span class="n">img</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">img</span><span class="o">.</span><span class="n">setScalesWhenResized_</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">img</span><span class="o">.</span><span class="n">setSize_</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__image_dimensions</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">setImage_</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">image_dimensions</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;The width and height of the menu item&#39;s image, in pixels.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__image_dimensions</span>
+
+    <span class="nd">@image_dimensions</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">image_dimensions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">image_dimensions</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__image_dimensions</span> <span class="o">=</span> <span class="n">image_dimensions</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="n">AppKit</span><span class="o">.</span><span class="n">NSSizeFromCGSize</span><span class="p">(</span><span class="n">image_dimensions</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">image</span><span class="p">()</span><span class="o">.</span><span class="n">setSize_</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">indent</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The level of indentation of the menu item, from 0 to 15.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__indent</span>
+
+    <span class="nd">@indent</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">indent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">indent</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__indent</span> <span class="o">=</span> <span class="n">indent</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">setIndentationLevel_</span><span class="p">(</span><span class="n">indent</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">enabled</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Whether the menu item is enabled (vs. appearing grayed out).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__enabled</span>
+
+    <span class="nd">@enabled</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">enabled</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">enabled</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__enabled</span> <span class="o">=</span> <span class="n">enabled</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">setEnabled_</span><span class="p">(</span><span class="n">enabled</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_run_action</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">button</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Runs the action associated with this menu item.</span>
+
+<span class="sd">        .. versionadded:: 0.1.1</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">callable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">action</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">action</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">button</span><span class="p">,</span> <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">)</span>
+
+<div class="viewcode-block" id="XAMenuBarMenuItem.new_subitem"><a class="viewcode-back" href="../../../reference/additions/xautils.html#PyXA.additions.XAUtils.XAMenuBarMenuItem.new_subitem">[docs]</a>    <span class="k">def</span> <span class="nf">new_subitem</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">action</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="s1">&#39;XAMenuBarMenuItem&#39;</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="kc">None</span><span class="p">],</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">args</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="n">Any</span><span class="p">],</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">image</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;XABase.XAImage&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">image_dimensions</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span> <span class="nb">id</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;XAMenuBarMenuItem&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Creates a new menu item and places it in a submenu of this item.</span>
+
+<span class="sd">        This will create a new submenu as needed, or will append to the existing submenu if one is already available on this item.</span>
+
+<span class="sd">        :param title: The title text of the item, defaults to None</span>
+<span class="sd">        :type title: Union[str, None], optional</span>
+<span class="sd">        :param action: The method called when the item is clicked, defaults to None</span>
+<span class="sd">        :type action: Union[Callable[[XAMenuBarMenuItem, Any], None], None], optional</span>
+<span class="sd">        :param args: The arguments to pass to the action method upon execution, defaults to None</span>
+<span class="sd">        :type args: Union[list[Any], None], optional</span>
+<span class="sd">        :param image: The image for the item, defaults to None</span>
+<span class="sd">        :type image: Union[XABase.XAImage, None], optional</span>
+<span class="sd">        :param image_dimensions: The width and height of the image, in pixels, defaults to (20, 20)</span>
+<span class="sd">        :type image_dimensions: tuple[int, int], optional</span>
+<span class="sd">        :param id: A unique identifier for the item, or None to use the title, defaults to None</span>
+<span class="sd">        :type id: Union[str, None], optional</span>
+<span class="sd">        :return: The newly created menu item</span>
+<span class="sd">        :rtype: XAMenuBarMenuItem</span>
+
+<span class="sd">        :Example:</span>
+
+<span class="sd">        &gt;&gt;&gt; import PyXA</span>
+<span class="sd">        &gt;&gt;&gt; menu_bar = PyXA.XAMenuBar()</span>
+<span class="sd">        &gt;&gt;&gt; m1 = menu_bar.new_menu(&quot;Menu 1&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; i1 = m1.new_item(&quot;Item 1&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; i2 = i1.new_subitem(&quot;Item 1.1&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; i3 = i2.new_subitem(&quot;Item 1.1.1&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; i4 = i3.new_subitem(&quot;Item 1.1.1.1&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; menu_bar.display()</span>
+
+<span class="sd">        .. versionadded:: 0.1.1</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># If no ID provided, use the title, then make it unique</span>
+        <span class="n">title</span> <span class="o">=</span> <span class="n">title</span> <span class="ow">or</span> <span class="s2">&quot;&quot;</span>
+        <span class="nb">id</span> <span class="o">=</span> <span class="nb">id</span> <span class="ow">or</span> <span class="n">title</span>
+        <span class="k">while</span> <span class="nb">id</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">:</span>
+            <span class="nb">id</span> <span class="o">+=</span> <span class="s2">&quot;_&quot;</span>
+
+        <span class="c1"># Create a new submenu, if necessary</span>
+        <span class="n">submenu</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">submenu</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">submenu</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">submenu</span> <span class="o">=</span> <span class="n">AppKit</span><span class="o">.</span><span class="n">NSMenu</span><span class="o">.</span><span class="n">alloc</span><span class="p">()</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+
+        <span class="c1"># Create a subitem and add it to the submenu</span>
+        <span class="n">item</span> <span class="o">=</span> <span class="n">XAMenuBarMenuItem</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">action</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">image</span><span class="p">,</span> <span class="n">image_dimensions</span><span class="p">,</span> <span class="nb">id</span><span class="p">)</span>
+        <span class="n">submenu</span><span class="o">.</span><span class="n">addItem_</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span>
+
+        <span class="c1"># Associate the submenu to this item</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">menu</span><span class="p">()</span><span class="o">.</span><span class="n">setSubmenu_forItem_</span><span class="p">(</span><span class="n">submenu</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">[</span><span class="nb">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">item</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">[</span><span class="nb">id</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="XAMenuBarMenuItem.remove_subitem"><a class="viewcode-back" href="../../../reference/additions/xautils.html#PyXA.additions.XAUtils.XAMenuBarMenuItem.remove_subitem">[docs]</a>    <span class="k">def</span> <span class="nf">remove_subitem</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Removes a subitem from this item&#39;s submenu.</span>
+
+<span class="sd">        :param id: The ID of the subitem to remove</span>
+<span class="sd">        :type id: str</span>
+
+<span class="sd">        .. versionadded:: 0.1.1</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">item</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xa_elem</span><span class="o">.</span><span class="n">submenu</span><span class="p">()</span><span class="o">.</span><span class="n">removeItem_</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">xa_elem</span><span class="p">)</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Stephen Kaplan.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

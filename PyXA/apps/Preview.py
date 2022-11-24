@@ -22,12 +22,10 @@ class XAPreviewApplication(XABaseScriptable.XASBApplication, XACanOpenPath, XACa
         super().__init__(properties)
         self.xa_wcls = XAPreviewWindow
 
-        self.frontmost: bool #: Whether Preview is the active application
-        self.name: str #: The name of the application
-        self.version: str #: The version of Preview.app
-
     @property
     def frontmost(self) -> bool:
+        """Whether Preview is the active application.
+        """
         return self.xa_scel.frontmost()
 
     @frontmost.setter
@@ -36,10 +34,14 @@ class XAPreviewApplication(XABaseScriptable.XASBApplication, XACanOpenPath, XACa
 
     @property
     def name(self) -> str:
+        """The name of the application.
+        """
         return self.xa_scel.name()
 
     @property
     def version(self) -> str:
+        """The version of Preview.app.
+        """
         return self.xa_scel.version()
 
     def print(self, path: Union[str, AppKit.NSURL], show_prompt: bool = True):
@@ -77,7 +79,7 @@ class XAPreviewApplication(XABaseScriptable.XASBApplication, XACanOpenPath, XACa
 
 
 
-class XAPreviewWindow(XABaseScriptable.XASBPrintable):
+class XAPreviewWindow(XABaseScriptable.XASBWindow, XABaseScriptable.XASBPrintable):
     """A class for managing and interacting with Preview windows.
 
     .. seealso:: :class:`XAPreviewApplication`
@@ -87,49 +89,16 @@ class XAPreviewWindow(XABaseScriptable.XASBPrintable):
     def __init__(self, properties):
         super().__init__(properties)
 
-        self.properties: dict #: All properties of the window
-        self.bounds: tuple[int, int, int, int] #: The bounding rectangle of the window
-        self.closeable: bool #: Whether the window has a close button
-        self.document: XAPreviewDocument #: The document currently displayed in the window
-        self.floating: bool #: WHether the window floats
-        self.id: int #: The unique identifier for the window
-        self.index: int #: The index of the window in the front-to-back ordering
-        self.miniaturizable: bool #: Whether the window can be minimized
-        self.miniaturized: bool #: Whether the window is currently minimized
-        self.modal: bool #: Whether the window is a modal view
-        self.name: str #: The title of the window
-        self.resizable: bool #: Whether the window can be resized
-        self.titled: bool #: Whether the window has a title bar
-        self.visible: bool #: Whether the window is currently visible
-        self.zoomable: bool #: Whether the window can be zoomed
-        self.zoomed: bool #: Whether the window is currently zoomed
-
     @property
     def properties(self) -> dict:
+        """All properties of the window.
+        """
         return self.xa_elem.properties()
 
     @property
-    def bounds(self) -> tuple[int, int, int, int]:
-        rect = self.xa_elem.bounds()
-        origin = rect.origin
-        size = rect.size
-        return (origin.x, origin.y, size.width, size.height)
-
-    @bounds.setter
-    def bounds(self, bounds: tuple[int, int, int, int]):
-        x = bounds[0]
-        y = bounds[1]
-        w = bounds[2]
-        h = bounds[3]
-        value = AppKit.NSValue.valueWithRect_(AppKit.NSMakeRect(x, y, w, h))
-        self.set_property("bounds", value)
-
-    @property
-    def closeable(self) -> bool:
-        return self.xa_elem.closeable()
-
-    @property
     def document(self) -> 'XAPreviewDocument':
+        """The document currently displayed in the window.
+        """
         return self._new_element(self.xa_elem.document(), XAPreviewDocument)
 
     @document.setter
@@ -138,71 +107,21 @@ class XAPreviewWindow(XABaseScriptable.XASBPrintable):
 
     @property
     def floating(self) -> bool:
+        """Whether the window floats.
+        """
         return self.xa_elem.floating()
 
     @property
-    def id(self) -> int:
-        return self.xa_elem.id()
-
-    @property
-    def index(self) -> int:
-        return self.xa_elem.index()
-
-    @index.setter
-    def index(self, index: int):
-        self.set_property("index", index)
-
-    @property
-    def miniaturizable(self) -> bool:
-        return self.xa_elem.miniaturizable()
-
-    @property
-    def miniaturized(self) -> bool:
-        return self.xa_elem.miniaturized()
-
-    @miniaturized.setter
-    def miniaturized(self, miniaturized: bool):
-        self.set_property("miniaturized", miniaturized)
-
-    @property
     def modal(self) -> bool:
+        """Whether the window is a modal view.
+        """
         return self.xa_elem.modal()
 
     @property
-    def name(self) -> str:
-        return self.xa_elem.name()
-
-    @name.setter
-    def name(self, name: str):
-        self.set_property("name", name)
-
-    @property
-    def resizable(self) -> bool:
-        return self.xa_elem.resizable()
-
-    @property
     def titled(self) -> bool:
+        """Whether the window has a title bar.
+        """
         return self.xa_elem.titled()
-
-    @property
-    def visible(self) -> bool:
-        return self.xa_elem.visible()
-
-    @visible.setter
-    def visible(self, visible: bool):
-        self.set_property("visible", visible)
-
-    @property
-    def zoomable(self) -> bool:
-        return self.xa_elem.zoomable()
-
-    @property
-    def zoomed(self) -> bool:
-        return self.xa_elem.zoomable()
-
-    @zoomed.setter
-    def zoomed(self, zoomed: bool):
-        self.set_property("zoomed", zoomed)
 
 
 
@@ -325,17 +244,17 @@ class XAPreviewDocument(XABase.XATextDocument, XAPrintable, XACloseable, XAClipb
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.properties: dict #: All properties of the document
-        self.name: str #: The name of the document
-        self.path: str #: The document's file path
-        self.modified: bool #: Whether the document has been modified since the last save
 
     @property
     def properties(self) -> dict:
+        """All properties of the document.
+        """
         return self.xa_elem.properties()
 
     @property
     def name(self) -> str:
+        """The name of the document.
+        """
         return self.xa_elem.name()
 
     @name.setter
@@ -344,6 +263,8 @@ class XAPreviewDocument(XABase.XATextDocument, XAPrintable, XACloseable, XAClipb
 
     @property
     def path(self) -> XABase.XAPath:
+        """The document's file path.
+        """
         return XABase.XAPath(self.xa_elem.path())
 
     @path.setter
@@ -352,6 +273,8 @@ class XAPreviewDocument(XABase.XATextDocument, XAPrintable, XACloseable, XAClipb
 
     @property
     def modified(self) -> bool:
+        """Whether the document has been modified since the last save.
+        """
         return self.xa_elem.modified()
 
     def print(self, print_properties: Union[dict, None] = None, show_dialog: bool = True) -> Self:

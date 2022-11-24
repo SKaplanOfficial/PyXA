@@ -20,30 +20,28 @@ class XAFontBookApplication(XABaseScriptable.XASBApplication):
         super().__init__(properties)
         self.xa_wcls = XAFontBookWindow
 
-        self.name: str #: The name of the application
-        self.frontmost: bool #: Whether Font Book is the active application
-        self.version: str #: The version of the Font Book application
-        self.validate_fonts_before_installing: bool #: Whether to validate fonts before installing them
-        self.installation_target: XAFontBookFontLibrary #: The library where new fonts are installed
-        self.fonts_library: XAFontBookFontBookAllFontsLibraryObject #: The All Fonts library
-        self.selection: XAFontBookTypefaceList #: The currently selected typefaces
-        self.selected_font_families: XAFontBookFontFamilyList #: The currently selected font families
-        self.selected_collections: XAFontBookFontCollectionList #: The currently selected collections
-
     @property
     def name(self) -> str:
+        """The name of the application.
+        """
         return self.xa_scel.name()
 
     @property
     def frontmost(self) -> bool:
+        """Whether Font Book is the active application.
+        """
         return self.xa_scel.frontmost()
 
     @property
     def version(self) -> str:
+        """The version of the Font Book application.
+        """
         return self.xa_scel.version()
 
     @property
     def validate_fonts_before_installing(self) -> bool:
+        """Whether to validate fonts before installing them.
+        """
         return self.xa_scel.validateFontsBeforeInstalling()
 
     @validate_fonts_before_installing.setter
@@ -52,6 +50,8 @@ class XAFontBookApplication(XABaseScriptable.XASBApplication):
 
     @property
     def installation_target(self) -> 'XAFontBookFontLibrary':
+        """The library where new fonts are installed.
+        """
         return self._new_element(self.xa_scel.installationTarget(), XAFontBookFontLibrary)
 
     @installation_target.setter
@@ -60,10 +60,14 @@ class XAFontBookApplication(XABaseScriptable.XASBApplication):
 
     @property
     def fonts_library(self) -> 'XAFontBookFontBookAllFontsLibraryObject':
+        """The All Fonts library.
+        """
         return self._new_element(self.xa_scel.fontsLibrary(), XAFontBookFontBookAllFontsLibraryObject)
 
     @property
     def selection(self) -> 'XAFontBookTypefaceList':
+        """The currently selected typefaces.
+        """
         ls = self.xa_scel.selection()
         return self._new_element(ls, XAFontBookTypefaceList)
 
@@ -77,6 +81,8 @@ class XAFontBookApplication(XABaseScriptable.XASBApplication):
 
     @property
     def selected_font_families(self) -> 'XAFontBookFontFamilyList':
+        """The currently selected font families.
+        """
         ls = self.xa_scel.selectedFontFamilies()
         return self._new_element(ls, XAFontBookFontFamilyList)
 
@@ -90,6 +96,8 @@ class XAFontBookApplication(XABaseScriptable.XASBApplication):
 
     @property
     def selected_collections(self) -> 'XAFontBookFontCollectionList':
+        """The currently selected collections.
+        """
         ls = self.xa_scel.selectedCollections()
         return self._new_element(ls, XAFontBookFontCollectionList)
 
@@ -153,7 +161,7 @@ class XAFontBookApplication(XABaseScriptable.XASBApplication):
 
 
 
-class XAFontBookWindow(XABase.XAObject):
+class XAFontBookWindow(XABaseScriptable.XASBWindow):
     """A class for managing and interacting with documents in Font Book.app.
 
     .. seealso:: :class:`XAFontBookApplication`
@@ -162,108 +170,24 @@ class XAFontBookWindow(XABase.XAObject):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.name: str #: The full title of the window
-        self.id: int #: The unique identifier for the window
-        self.bounds: tuple[int, int, int, int] #: The bounding rectangle of the window
-        self.closeable: bool #: Whether the window has a close button
-        self.titled: bool # Whether the window has a title bar
-        self.index: int #: The index of the window in the front-to-back window ordering
-        self.floating: bool #: Whether the window floats
-        self.miniaturizable: bool #: Whether the window can be minimized
-        self.miniaturized: bool #: Whether the window is currently minimized
-        self.modal: bool #: Whether the window is a modal window
-        self.resizable: bool #: Whether the window can be resized
-        self.visible: bool #: Whether the window is currently visible
-        self.zoomable: bool #: Whether the window can be zoomed
-        self.zoomed: bool #: Whether the window is currently zoomed
-
-    @property
-    def name(self) -> str:
-        return self.xa_elem.name()
-
-    @name.setter
-    def name(self, name: str):
-        self.set_property('name', name)
-
-    @property
-    def id(self) -> int:
-        return self.xa_elem.id()
-
-    @property
-    def bounds(self) -> tuple[int, int, int, int]:
-        rect = self.xa_elem.bounds()
-        origin = rect.origin
-        size = rect.size
-        return (origin.x, origin.y, size.width, size.height)
-
-    @bounds.setter
-    def bounds(self, bounds: tuple[int, int, int, int]):
-        x = bounds[0]
-        y = bounds[1]
-        w = bounds[2]
-        h = bounds[3]
-        value = AppKit.NSValue.valueWithRect_(AppKit.NSMakeRect(x, y, w, h))
-        self.set_property("bounds", value)
-
-    @property
-    def closeable(self) -> bool:
-        return self.xa_elem.closeable()
 
     @property
     def titled(self) -> bool:
+        """Whether the window has a title bar.
+        """
         return self.xa_elem.titled()
-    
-    @property
-    def index(self) -> int:
-        return self.xa_elem.index()
-
-    @index.setter
-    def index(self, index: int):
-        self.set_property('index', index)
 
     @property
     def floating(self) -> bool:
+        """Whether the window floats.
+        """
         return self.xa_elem.floating()
 
     @property
-    def miniaturizable(self) -> bool:
-        return self.xa_elem.miniaturizable()
-
-    @property
-    def miniaturized(self) -> bool:
-        return self.xa_elem.miniaturized()
-
-    @miniaturized.setter
-    def miniaturized(self, miniaturized: bool):
-        self.set_property('miniaturized', miniaturized)
-
-    @property
     def modal(self) -> bool:
+        """Whether the window is a modal window.
+        """
         return self.xa_elem.modal()
-
-    @property
-    def resizable(self) -> bool:
-        return self.xa_elem.resizable()
-
-    @property
-    def visible(self) -> bool:
-        return self.xa_elem.visible()
-
-    @visible.setter
-    def visible(self, visible: bool):
-        self.set_property('visible', visible)
-
-    @property
-    def zoomable(self) -> bool:
-        return self.xa_elem.zoomable()
-
-    @property
-    def zoomed(self) -> bool:
-        return self.xa_elem.zoomed()
-
-    @zoomed.setter
-    def zoomed(self, zoomed: bool):
-        self.set_property('zoomed', zoomed)
     
 
 
@@ -305,12 +229,11 @@ class XAFontBookDocument(XABase.XAObject):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.path: str #: The file path of the document
-        self.modified: bool #: Whether the document has been modified since its last save
-        self.name: str #: The name of the document
 
     @property
     def path(self) -> XABase.XAPath:
+        """The file path of the document.
+        """
         return XABase.XAPath(self.xa_elem.path())
 
     @path.setter
@@ -319,10 +242,14 @@ class XAFontBookDocument(XABase.XAObject):
 
     @property
     def modified(self) -> bool:
+        """Whether the document has been modified since its last save.
+        """
         return self.xa_elem.modified()
 
     @property
     def name(self) -> str:
+        """The name of the document.
+        """
         return self.xa_elem.name()
 
     @name.setter
@@ -409,32 +336,35 @@ class XAFontBookFontFamily(XABase.XAObject, XAClipboardCodable):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.properties: dict #: All properties of the font family
-        self.name: str #: The name of the font family
-        self.display_name: str #: The display name of the font family
-        self.displayed_name: str #: The display name of the font family
-        self.enabled: bool #: Whether the font family is enabled
-        self.duplicated: bool #: Whether teh font family contains duplicated faces
-        self.files: list[XABase.XAPath] #: The font files of the font family
 
     @property
     def properties(self) -> dict:
+        """All properties of the font family.
+        """
         return self.xa_elem.properties()
 
     @property
     def name(self) -> str:
+        """The name of the font family.
+        """
         return self.xa_elem.name()
 
     @property
     def display_name(self) -> str:
+        """The display name of the font family.
+        """
         return self.xa_elem.displayName()
 
     @property
     def displayed_name(self) -> str:
+        """The display name of the font family.
+        """
         return self.xa_elem.displayedName()
 
     @property
     def enabled(self) -> bool:
+        """Whether the font family is enabled.
+        """
         return self.xa_elem.enabled()
 
     @enabled.setter
@@ -443,10 +373,14 @@ class XAFontBookFontFamily(XABase.XAObject, XAClipboardCodable):
 
     @property
     def duplicated(self) -> bool:
+        """Whether teh font family contains duplicated faces.
+        """
         return self.xa_elem.duplicated()
 
     @property
     def files(self) -> list[XABase.XAPath]:
+        """The font files of the font family.
+        """
         ls = self.xa_elem.files()
         return [XABase.XAPath(x) for x in ls]
 
@@ -611,60 +545,65 @@ class XAFontBookTypeface(XABase.XAObject, XAClipboardCodable):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.properties: dict #: All properties of the typeface
-        self.name: str #: The name of the typeface
-        self.display_name: str #: The display name of the typeface
-        self.displayed_name: str #: The display name of the typeface
-        self.font_family: XAFontBookFontFamily #: The font family that contains the typeface
-        self.family_name: str #: The name of the typeface's font family
-        self.style_name: str #: The name of the typeface's style
-        self.post_script_name: str #: The PostScript font name
-        self.id: str #: The unique identifier for the typeface
-        self.enabled: bool #: Whether the typeface is enabled
-        self.duplicated: bool #: Whether the typeface is duplicated
-        self.font_type: str #: The type of the typeface
-        self.copyright: str #: The copyright string for the typeface
-        self.font_container: XAFontBookFontContainer #: The container of the typeface
-        self.files: list[XABase.XAPath] #: The font files for the typeface
 
     @property
     def properties(self) -> dict:
+        """All properties of the typeface.
+        """
         return self.xa_elem.properties()
 
     @property
     def name(self) -> str:
+        """The name of the typeface.
+        """
         return self.xa_elem.name()
 
     @property
     def display_name(self) -> str:
+        """The display name of the typeface.
+        """
         return self.xa_elem.displayName()
 
     @property
     def displayed_name(self) -> str:
+        """The display name of the typeface.
+        """
         return self.xa_elem.displayedName()
 
     @property
     def font_family(self) -> XAFontBookFontFamily:
+        """The font family that contains the typeface.
+        """
         return self._new_element(self.xa_elem.fontFamily(), XAFontBookFontFamily)
 
     @property
     def family_name(self) -> str:
+        """The name of the typeface's font family.
+        """
         return self.xa_elem.familyName()
 
     @property
     def style_name(self) -> str:
+        """The name of the typeface's style.
+        """
         return self.xa_elem.styleName()
 
     @property
     def post_script_name(self) -> str:
+        """The PostScript font name.
+        """
         return self.xa_elem.PostScriptName()
 
     @property
     def id(self) -> str:
+        """The unique identifier for the typeface.
+        """
         return self.xa_elem.ID()
 
     @property
     def enabled(self) -> bool:
+        """Whether the typeface is enabled.
+        """
         return self.xa_elem.enabled()
 
     @enabled.setter
@@ -673,22 +612,32 @@ class XAFontBookTypeface(XABase.XAObject, XAClipboardCodable):
 
     @property
     def duplicated(self) -> bool:
+        """Whether the typeface is duplicated.
+        """
         return self.xa_elem.duplicated()
 
     @property
     def font_type(self) -> str:
+        """The type of the typeface.
+        """
         return self.xa_elem.fontType()
 
     @property
     def copyright(self) -> str:
+        """The copyright string for the typeface.
+        """
         return self.xa_elem.copyright()
 
     @property
     def font_container(self) -> 'XAFontBookFontContainer':
+        """The container of the typeface.
+        """
         return self._new_element(self.xa_elem.fontContainer(), XAFontBookFontContainer)
 
     @property
     def files(self) -> list[XABase.XAPath]:
+        """The font files for the typeface.
+        """
         ls = self.xa_elem.files()
         return [XABase.XAPath(x) for x in ls]
 
@@ -782,36 +731,42 @@ class XAFontBookFontContainer(XABase.XAObject, XAClipboardCodable):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.properties: dict #: All properties of the container
-        self.name: str #: The name of the container
-        self.path: str #: The path to the main container
-        self.files: list[XABase.XAPath] #: The files for the container
-        self.domain: XAFontBookFontDomain #: The font domain for the container
-        self.id: str #: The unique identifier of the container
 
     @property
     def properties(self) -> dict:
+        """All properties of the container.
+        """
         return self.xa_elem.properties()
 
     @property
     def name(self) -> str:
+        """The name of the container.
+        """
         return self.xa_elem.name()
 
     @property
     def path(self) -> str:
+        """The path to the main container.
+        """
         return self.xa_elem.path()
 
     @property
     def files(self) -> list[XABase.XAPath]:
+        """The files for the container.
+        """
         ls = self.xa_elem.files()
         return [XABase.XAPath(x) for x in ls]
 
     @property
     def domain(self) -> 'XAFontBookFontDomain':
+        """The font domain for the container.
+        """
         return self._new_element(self.xa_elem.domain(), XAFontBookFontDomain)
 
     @property
     def id(self) -> str:
+        """The unique identifier of the container.
+        """
         return self.xa_elem.ID()
 
     def font_families(self, filter: dict = None) -> 'XAFontBookFontFamilyList':
@@ -919,18 +874,17 @@ class XAFontBookFontCollection(XABase.XAObject, XAClipboardCodable):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.properties: dict #: All properties of the collection
-        self.name: str #: The name of the collection
-        self.display_name: str #: The display name of the collection
-        self.displayed_name: str #: The display name of the collection
-        self.enabled: bool #: Whether the collection is enabled 
 
     @property
     def properties(self) -> dict:
+        """All properties of the collection.
+        """
         return self.xa_elem.properties()
 
     @property
     def name(self) -> str:
+        """The name of the collection.
+        """
         return self.xa_elem.name()
 
     @name.setter
@@ -939,14 +893,20 @@ class XAFontBookFontCollection(XABase.XAObject, XAClipboardCodable):
 
     @property
     def display_name(self) -> str:
+        """The display name of the collection.
+        """
         return self.xa_elem.displayName()
 
     @property
     def displayed_name(self) -> str:
+        """The display name of the collection.
+        """
         return self.xa_elem.displayedName()
 
     @property
     def enabled(self) -> bool:
+        """Whether the collection is enabled.
+        """
         return self.xa_elem.enabled()
 
     @enabled.setter
@@ -1004,10 +964,11 @@ class XAFontBookFontLibrary(XAFontBookFontCollection):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.id: str #: The unique identifier of the domain
 
     @property
     def id(self) -> str:
+        """The unique identifier of the domain.
+        """
         return self.xa_elem.ID()
 
     def font_containers(self, filter: dict = None) -> 'XAFontBookFontContainerList':

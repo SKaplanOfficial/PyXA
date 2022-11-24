@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>XATypes Module &mdash; PyXA 0.1.1 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="XAProtocols Module" href="xaprotocols.html" />
+    <link rel="prev" title="XABaseScriptable Module" href="xabasescriptable.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> PyXA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../about/index.html">Project Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/index.html">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Code Documentation and Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#top-level-pyxa-modules">Top-level PyXA Modules</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="pyxa.html">PyXA Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="xabase.html">XABase Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="xabasescriptable.html">XABaseScriptable Module</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">XATypes Module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.XATypes.XAPoint"><code class="docutils literal notranslate"><span class="pre">XAPoint</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#PyXA.XATypes.XARectangle"><code class="docutils literal notranslate"><span class="pre">XARectangle</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="xaprotocols.html">XAProtocols Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="xaerrors.html">XAErrors Module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#first-party-application-module-reference">First-Party Application Module Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#third-party-application-module-reference">Third-Party Application Module Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#pyxa-additions">PyXA Additions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../bugs.html">Bugs</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">PyXA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Code Documentation and Reference</a></li>
+      <li class="breadcrumb-item active">XATypes Module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/reference/xatypes.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-PyXA.XATypes">
+<span id="xatypes-module"></span><h1>XATypes Module<a class="headerlink" href="#module-PyXA.XATypes" title="Permalink to this heading"></a></h1>
+<p>Types used throughout PyXA for various purposes.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.1.1.</span></p>
+</div>
+<p><strong>Classes:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XATypes.XAPoint" title="PyXA.XATypes.XAPoint"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAPoint</span></code></a>(x, y)</p></td>
+<td><p>A named tuple representing an (x, y) coordinate.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XATypes.XARectangle" title="PyXA.XATypes.XARectangle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XARectangle</span></code></a>(x, y, width, height)</p></td>
+<td><p>A named tuple representing a rectangle with an origin point (x, y) and dimensions width x height.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.XATypes.XAPoint">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.XATypes.</span></span><span class="sig-name descname"><span class="pre">XAPoint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#PyXA.XATypes.XAPoint" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></p>
+<p>A named tuple representing an (x, y) coordinate.</p>
+<p><strong>Attributes:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XATypes.XAPoint.x" title="PyXA.XATypes.XAPoint.x"><code class="xref py py-obj docutils literal notranslate"><span class="pre">x</span></code></a></p></td>
+<td><p>Alias for field number 0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XATypes.XAPoint.y" title="PyXA.XATypes.XAPoint.y"><code class="xref py py-obj docutils literal notranslate"><span class="pre">y</span></code></a></p></td>
+<td><p>Alias for field number 1</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.XATypes.XAPoint.x">
+<span class="sig-name descname"><span class="pre">x</span></span><a class="headerlink" href="#PyXA.XATypes.XAPoint.x" title="Permalink to this definition"></a></dt>
+<dd><p>Alias for field number 0</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.XATypes.XAPoint.y">
+<span class="sig-name descname"><span class="pre">y</span></span><a class="headerlink" href="#PyXA.XATypes.XAPoint.y" title="Permalink to this definition"></a></dt>
+<dd><p>Alias for field number 1</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="PyXA.XATypes.XARectangle">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PyXA.XATypes.</span></span><span class="sig-name descname"><span class="pre">XARectangle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#PyXA.XATypes.XARectangle" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></p>
+<p>A named tuple representing a rectangle with an origin point (x, y) and dimensions width x height.</p>
+<p><strong>Attributes:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XATypes.XARectangle.height" title="PyXA.XATypes.XARectangle.height"><code class="xref py py-obj docutils literal notranslate"><span class="pre">height</span></code></a></p></td>
+<td><p>Alias for field number 3</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XATypes.XARectangle.width" title="PyXA.XATypes.XARectangle.width"><code class="xref py py-obj docutils literal notranslate"><span class="pre">width</span></code></a></p></td>
+<td><p>Alias for field number 2</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#PyXA.XATypes.XARectangle.x" title="PyXA.XATypes.XARectangle.x"><code class="xref py py-obj docutils literal notranslate"><span class="pre">x</span></code></a></p></td>
+<td><p>Alias for field number 0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#PyXA.XATypes.XARectangle.y" title="PyXA.XATypes.XARectangle.y"><code class="xref py py-obj docutils literal notranslate"><span class="pre">y</span></code></a></p></td>
+<td><p>Alias for field number 1</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.XATypes.XARectangle.height">
+<span class="sig-name descname"><span class="pre">height</span></span><a class="headerlink" href="#PyXA.XATypes.XARectangle.height" title="Permalink to this definition"></a></dt>
+<dd><p>Alias for field number 3</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.XATypes.XARectangle.width">
+<span class="sig-name descname"><span class="pre">width</span></span><a class="headerlink" href="#PyXA.XATypes.XARectangle.width" title="Permalink to this definition"></a></dt>
+<dd><p>Alias for field number 2</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.XATypes.XARectangle.x">
+<span class="sig-name descname"><span class="pre">x</span></span><a class="headerlink" href="#PyXA.XATypes.XARectangle.x" title="Permalink to this definition"></a></dt>
+<dd><p>Alias for field number 0</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="PyXA.XATypes.XARectangle.y">
+<span class="sig-name descname"><span class="pre">y</span></span><a class="headerlink" href="#PyXA.XATypes.XARectangle.y" title="Permalink to this definition"></a></dt>
+<dd><p>Alias for field number 1</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="xabasescriptable.html" class="btn btn-neutral float-left" title="XABaseScriptable Module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="xaprotocols.html" class="btn btn-neutral float-right" title="XAProtocols Module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Stephen Kaplan.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

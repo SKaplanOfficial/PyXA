@@ -17,19 +17,17 @@ class XASystemPreferencesApplication(XABaseScriptable.XASBApplication):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.name: str #: The name of the application
-        self.frontmost: bool #: Whether System Preferences is the active application
-        self.version: str #: The version of System Preferences.app
-        self.show_all: bool #: Whether the system preferences is in show all view
-        self.current_pane: XAPreferencePane #: The currently selected preference pane
-        self.preferences_window: XABaseScriptable.XASBWindow #: The main preferences window
 
     @property
     def name(self) -> str:
+        """The name of the application.
+        """
         return self.xa_scel.name()
 
     @property
     def frontmost(self) -> bool:
+        """Whether System Preferences is the active application.
+        """
         return self.xa_scel.frontmost()
 
     @frontmost.setter
@@ -38,10 +36,14 @@ class XASystemPreferencesApplication(XABaseScriptable.XASBApplication):
 
     @property
     def version(self) -> str:
+        """The version of System Preferences.app.
+        """
         return self.xa_scel.version()
 
     @property
     def show_all(self) -> bool:
+        """Whether the system preferences is in show all view.
+        """
         return self.xa_scel.showAll()
 
     @show_all.setter
@@ -50,6 +52,8 @@ class XASystemPreferencesApplication(XABaseScriptable.XASBApplication):
 
     @property
     def current_pane(self) -> 'XAPreferencePane':
+        """The currently selected preference pane.
+        """
         return self._new_element(self.xa_scel.currentPane(), XAPreferencePane)
 
     @current_pane.setter
@@ -58,6 +62,8 @@ class XASystemPreferencesApplication(XABaseScriptable.XASBApplication):
 
     @property
     def preferences_window(self) -> XABaseScriptable.XASBWindow:
+        """The main preferences window.
+        """
         return self._new_element(self.xa_scel.preferencesWindow(), XABaseScriptable.XASBWindow)
 
     def panes(self, filter: Union[dict, None] = None) -> 'XAPreferencePaneList':
@@ -147,20 +153,23 @@ class XAPreferencePane(XABase.XAObject):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.id: str #: A unique identifier for the preference pane independent of locale
-        self.localized_name: str #: The locale-dependant name of the preference pane
-        self.name: str #: The name of the preference pane as it appears in the title bar
 
     @property
     def id(self) -> str:
+        """A unique identifier for the preference pane independent of locale.
+        """
         return self.xa_elem.id()
 
     @property
     def localized_name(self) -> str:
+        """The locale-dependant name of the preference pane.
+        """
         return self.xa_elem.localizedName()
 
     @property
     def name(self) -> str:
+        """The name of the preference pane as it appears in the title bar.
+        """
         return self.xa_elem.name()
 
     def anchors(self, filter: Union[dict, None] = None) -> 'XAPreferenceAnchorList':
@@ -257,10 +266,11 @@ class XAPreferenceAnchor(XABase.XAObject):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.name: str #: The name of the anchor
 
     @property
     def name(self) -> str:
+        """The name of the anchor.
+        """
         return self.xa_elem.name()
 
     def reveal(self) -> 'XAPreferenceAnchor':

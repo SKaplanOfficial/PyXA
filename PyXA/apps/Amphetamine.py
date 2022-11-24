@@ -16,62 +16,71 @@ class XAAmphetamineApplication(XABaseScriptable.XASBApplication):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.xa_wcls = XAAmphetamineWindow
-
-        self.name: str #: The name of the application
-        self.frontmost: bool #: Whether Amphetamine is the active application
-        self.version: str #: The version number of Amphetamine.app
-        self.session_is_active: bool #: Whether there is an active session
-        self.session_time_remaining: int #: The total seconds remaining in a session. 0 if session is of infinite duration. -1 is session is trigger-based. -2 is session is app-based or date-based. -3 if there is no active session.
-        self.display_sleep_allowed: bool #: Whether display sleep is permitted.  If there is no active session, the state of the Preferences → Sessions → Allow Display Sleep checkbox is returned
-        self.screen_saver_allowed: bool #: Whether screen saver activation is permitted. If there is no active session, the state of the Preferences → Sessions → Allow Screen Saver After checkbox is returned
-        self.closed_display_mode_enabled: bool #: Whether closed-display mode is enabled. If there is no active session, the state of the Preferences → Sessions → Allow System to Sleep When Display is Closed checkbox is returned. Note: If this Mac does not support closed-display mode, false is always returned. Note: The UI button state for this feature will be the opposite of the return value for this call. For example, if the UI button's state is on/true, the return value for this call will be false
-        self.session_is_trigger: bool #: Whether the current session was started by a trigger. False boolean is always returned if there is no active session
-        self.triggers_are_enabled: bool #: Whether trigger session activation is enabled
-        self.drive_alive_is_enabled: bool #: Whether Drive Alive is enabled
 
     @property
     def name(self) -> str:
+        """The name of the application.
+        """
         return self.xa_scel.name()
 
     @property
     def frontmost(self) -> bool:
+        """Whether Amphetamine is the active application.
+        """
         return self.xa_scel.frontmost()
 
     @property
     def version(self) -> str:
+        """The version number of Amphetamine.app.
+        """
         return self.xa_scel.version()
 
     @property
     def session_is_active(self) -> bool:
+        """Whether there is an active session.
+        """
         return self.xa_scel.sessionIsActive()
 
     @property
     def session_time_remaining(self) -> int:
+        """The total seconds remaining in a session. 0 if session is of infinite duration. -1 is session is trigger-based. -2 is session is app-based or date-based. -3 if there is no active session.
+        """
         return self.xa_scel.sessionTimeRemaining()
 
     @property
     def display_sleep_allowed(self) -> bool:
+        """Whether display sleep is permitted.  If there is no active session, the state of the Preferences → Sessions → Allow Display Sleep checkbox is returned.
+        """
         return self.xa_scel.displaySleepAllowed()
 
     @property
     def screen_saver_allowed(self) -> bool:
+        """Whether screen saver activation is permitted. If there is no active session, the state of the Preferences → Sessions → Allow Screen Saver After checkbox is returned.
+        """
         return self.xa_scel.screenSaverAllowed()
 
     @property
     def closed_display_mode_enabled(self) -> bool:
+        """Whether closed-display mode is enabled. If there is no active session, the state of the Preferences → Sessions → Allow System to Sleep When Display is Closed checkbox is returned. Note: If this Mac does not support closed-display mode, false is always returned. Note: The UI button state for this feature will be the opposite of the return value for this call. For example, if the UI button's state is on/true, the return value for this call will be false.
+        """
         return self.xa_scel.closedDisplayModeEnabled()
 
     @property
     def session_is_trigger(self) -> bool:
+        """Whether the current session was started by a trigger. False boolean is always returned if there is no active session.
+        """
         return self.xa_scel.sessionIsTrigger()
 
     @property
     def triggers_are_enabled(self) -> bool:
+        """Whether trigger session activation is enabled.
+        """
         return self.xa_scel.triggersAreEnabled()
 
     @property
     def drive_alive_is_enabled(self) -> bool:
+        """Whether Drive Alive is enabled.
+        """
         return self.xa_scel.driveAliveIsEnabled()
 
     def start_new_session(self, duration: Union[int, None] = None, interval: Union[Literal["hours", "minutes"], None] = None, display_sleep_allowed: Union[bool, None] = None):
@@ -256,98 +265,3 @@ class XAAmphetamineApplication(XABaseScriptable.XASBApplication):
         .. versionadded:: 0.1.0
         """
         self.xa_scel.giveMolecule()
-
-
-
-
-class XAAmphetamineWindow(XABaseScriptable.XASBWindow):
-    """A window of Amphetamine.app.
-
-    .. versionadded:: 0.1.0
-    """
-    def __init__(self, properties):
-        super().__init__(properties)
-
-        self.name: str #: The title of the window
-        self.id: int #: The unique identifier of the window
-        self.index: int #: The index of the window, ordered front to back
-        self.bounds: tuple[int, int, int, int] #: The bounding rectangle of the window
-        self.closeable: bool #: Whether the window has a close button
-        self.miniaturizable: bool #: Whether the window has a minimize button
-        self.miniaturized: bool #: Whether the window is currently minimized
-        self.resizable: bool #: Whether the window can be resized
-        self.visible: bool #: Whether the window is currently visible
-        self.zoomable: bool #: Whether the window has a zoom button
-        self.zoomed: bool #: Whether the window is currently zoomed
-
-    @property
-    def name(self) -> str:
-        return self.xa_elem.name()
-
-    @property
-    def id(self) -> int:
-        return self.xa_elem.id()
-
-    @property
-    def index(self) -> int:
-        return self.xa_elem.index()
-
-    @index.setter
-    def index(self, index: int):
-        self.set_property('index', index)
-
-    @property
-    def bounds(self) -> tuple[int, int, int, int]:
-        rect = self.xa_elem.bounds()
-        origin = rect.origin
-        size = rect.size
-        return (origin.x, origin.y, size.width, size.height)
-
-    @bounds.setter
-    def bounds(self, bounds: tuple[int, int, int, int]):
-        x = bounds[0]
-        y = bounds[1]
-        w = bounds[2]
-        h = bounds[3]
-        value = AppKit.NSValue.valueWithRect_(AppKit.NSMakeRect(x, y, w, h))
-        self.set_property("bounds", value)
-
-    @property
-    def closeable(self) -> bool:
-        return self.xa_elem.closeable()
-
-    @property
-    def miniaturizable(self) -> bool:
-        return self.xa_elem.miniaturizable()
-
-    @property
-    def miniaturized(self) -> bool:
-        return self.xa_elem.miniaturized()
-
-    @miniaturized.setter
-    def miniaturized(self, miniaturized: bool):
-        self.set_property('miniaturized', miniaturized)
-
-    @property
-    def resizable(self) -> bool:
-        return self.xa_elem.resizable()
-
-    @property
-    def visible(self) -> bool:
-        return self.xa_elem.visible()
-
-    @visible.setter
-    def visible(self, visible: bool):
-        self.set_property('visible', visible)
-
-    @property
-    def zoomable(self) -> bool:
-        return self.xa_elem.zoomable()
-
-    @property
-    def zoomed(self) -> bool:
-        return self.xa_elem.zoomed()
-
-    @zoomed.setter
-    def zoomed(self, zoomed: bool):
-        self.set_property('zoomed', zoomed)

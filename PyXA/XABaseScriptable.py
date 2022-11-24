@@ -1,5 +1,4 @@
 from enum import Enum
-from pprint import pprint
 from typing import Union, Self
 import threading
 import AppKit
@@ -7,7 +6,12 @@ import ScriptingBridge
 
 from PyXA import XABase
 
+import time
+
 from .XAProtocols import XACloseable
+from .XATypes import XARectangle
+
+
 
 
 class XASBPrintable(XABase.XAObject):
@@ -68,8 +72,18 @@ class XASBApplication(XABase.XAApplication):
 
     def __init__(self, properties):
         super().__init__(properties)
-        self.xa_scel = ScriptingBridge.SBApplication.applicationWithURL_(self.xa_elem.bundleURL())
+        self.__xa_scel = None
         self.xa_wcls = XASBWindow
+
+    @property
+    def xa_scel(self) -> ScriptingBridge.SBApplication:
+        if self.__xa_scel is None:
+            self.__xa_scel = ScriptingBridge.SBApplication.alloc().initWithURL_(self.xa_elem.bundleURL())
+        return self.__xa_scel
+
+    @xa_scel.setter
+    def xa_scel(self, xa_scel: ScriptingBridge.SBObject):
+        self.__xa_scel = xa_scel
 
     @property
     def front_window(self) -> 'XASBWindow':
@@ -120,9 +134,10 @@ class XASBWindowList(XABase.XAList):
 
     .. versionadded:: 0.0.5
     """
-    def __init__(self, properties: dict, filter: Union[dict, None] = None):
-        super().__init__(properties, None, filter)
-        self.xa_ocls = self.xa_prnt.xa_wcls
+    def __init__(self, properties: dict, filter: Union[dict, None] = None, obj_class = None):
+        super().__init__(properties, obj_class, filter)
+        if obj_class is None or issubclass(self.xa_prnt.xa_wcls, obj_class):
+            self.xa_ocls = self.xa_prnt.xa_wcls
 
     def name(self) -> list[str]:
         """Gets the name of each window in the list.
@@ -130,17 +145,17 @@ class XASBWindowList(XABase.XAList):
         :return: A list of window names
         :rtype: list[str]
         
-        .. versionadded:: 0.1.0.2
+        .. versionadded:: 0.0.5
         """
         return list(self.xa_elem.arrayByApplyingSelector_("name") or [])
 
-    def id(self) -> list[int]:
+    def id(self) -> list[str]:
         """Gets the ID of each window in the list.
 
         :return: A list of window IDs
-        :rtype: list[int]
+        :rtype: list[str]
         
-        .. versionadded:: 0.1.0.2
+        .. versionadded:: 0.1.1
         """
         return list(self.xa_elem.arrayByApplyingSelector_("id") or [])
 
@@ -148,23 +163,22 @@ class XASBWindowList(XABase.XAList):
         """Gets the index of each window in the list.
 
         :return: A list of window indices
-        :rtype: list[str]
+        :rtype: list[int]
         
-        .. versionadded:: 0.1.0.2
+        .. versionadded:: 0.1.1
         """
         return list(self.xa_elem.arrayByApplyingSelector_("index") or [])
 
-    def bounds(self) -> list[tuple[int, int, int, int]]:
+    def bounds(self) -> list[XARectangle]:
         """Gets the bounding rectangle of each window in the list.
 
-        :return: A list of window bounding rectangles
-        :rtype: list[tuple[int, int, int, int]]
+        :return: A list of window bounds
+        :rtype: list[XARectangle]
         
-        .. versionadded:: 0.1.0.2
+        .. versionadded:: 0.1.1
         """
         ls = self.xa_elem.arrayByApplyingSelector_("bounds") or []
-        points = [rect.rectValue() for rect in ls]
-        return [(rect.origin.x, rect.origin.y, rect.size.width, rect.size.height) for rect in points]
+        return [XARectangle(rect.origin.x, rect.origin.y, rect.size.width, rect.size.height) for rect in ls]
 
     def closeable(self) -> list[bool]:
         """Gets the closeable status of each window in the list.
@@ -172,7 +186,7 @@ class XASBWindowList(XABase.XAList):
         :return: A list of window closeable status booleans
         :rtype: list[bool]
         
-        .. versionadded:: 0.1.0.2
+        .. versionadded:: 0.1.1
         """
         return list(self.xa_elem.arrayByApplyingSelector_("closeable") or [])
 
@@ -182,7 +196,7 @@ class XASBWindowList(XABase.XAList):
         :return: A list of window resizable status booleans
         :rtype: list[bool]
         
-        .. versionadded:: 0.1.0.2
+        .. versionadded:: 0.1.1
         """
         return list(self.xa_elem.arrayByApplyingSelector_("resizable") or [])
 
@@ -192,7 +206,7 @@ class XASBWindowList(XABase.XAList):
         :return: A list of window visible status booleans
         :rtype: list[bool]
         
-        .. versionadded:: 0.1.0.2
+        .. versionadded:: 0.1.1
         """
         return list(self.xa_elem.arrayByApplyingSelector_("visible") or [])
 
@@ -202,7 +216,7 @@ class XASBWindowList(XABase.XAList):
         :return: A list of window zoomable status booleans
         :rtype: list[bool]
         
-        .. versionadded:: 0.1.0.2
+        .. versionadded:: 0.1.1
         """
         return list(self.xa_elem.arrayByApplyingSelector_("zoomable") or [])
 
@@ -212,9 +226,29 @@ class XASBWindowList(XABase.XAList):
         :return: A list of window zoomed status booleans
         :rtype: list[bool]
         
-        .. versionadded:: 0.1.0.2
+        .. versionadded:: 0.1.1
         """
         return list(self.xa_elem.arrayByApplyingSelector_("zoomed") or [])
+
+    def miniaturizable(self) -> list[bool]:
+        """Gets the miniaturizable status of each window in the list.
+
+        :return: A list of window miniaturizable status booleans
+        :rtype: list[bool]
+        
+        .. versionadded:: 0.1.1
+        """
+        return list(self.xa_elem.arrayByApplyingSelector_("miniaturizable") or [])
+
+    def miniaturized(self) -> list[bool]:
+        """Gets the miniaturized of each window in the list.
+
+        :return: A list of window miniaturized status booleans
+        :rtype: list[bool]
+        
+        .. versionadded:: 0.1.1
+        """
+        return list(self.xa_elem.arrayByApplyingSelector_("miniaturized") or [])
 
     def by_name(self, name: str) -> Union['XASBWindow', None]:
         """Retrieves the first window whose name matches the given name, if one exists.
@@ -222,44 +256,44 @@ class XASBWindowList(XABase.XAList):
         :return: The desired window, if it is found
         :rtype: Union[XASBWindow, None]
         
-        .. versionadded:: 0.1.0.2
+        .. versionadded:: 0.1.1
         """
         return self.by_property("name", name)
-    
+
     def by_id(self, id: int) -> Union['XASBWindow', None]:
-        """Retrieves the first window whose ID matches the given ID, if one exists.
+        """Retrieves the window whose ID matches the given ID, if one exists.
 
         :return: The desired window, if it is found
         :rtype: Union[XASBWindow, None]
         
-        .. versionadded:: 0.1.0.2
+        .. versionadded:: 0.1.1
         """
         return self.by_property("id", id)
 
     def by_index(self, index: int) -> Union['XASBWindow', None]:
-        """Retrieves the first window whose index matches the given index, if one exists.
+        """Retrieves the window whose index matches the given index, if one exists.
 
         :return: The desired window, if it is found
         :rtype: Union[XASBWindow, None]
         
-        .. versionadded:: 0.1.0.2
+        .. versionadded:: 0.1.1
         """
         return self.by_property("index", index)
 
-    def by_bounds(self, bounds: tuple[int, int, int, int]) -> Union['XASBWindow', None]:
-        """Retrieves the first window whose bounding rectangle has the specified origin point and dimensions, if one exists.
+    def by_bounds(self, bounds: Union[tuple[int, int, int, int], XARectangle]) -> Union['XASBWindow', None]:
+        """Retrieves the first window whose bounding rectangle matches the given bounds, if one exists.
 
         :return: The desired window, if it is found
         :rtype: Union[XASBWindow, None]
         
-        .. versionadded:: 0.1.0.2
+        .. versionadded:: 0.1.1
         """
         x = bounds[0]
         y = bounds[1]
         w = bounds[2]
         h = bounds[3]
-        bounds = AppKit.NSValue.valueWithRect_(AppKit.NSMakeRect(x, y, w, h))
-        return self.by_property("bounds", bounds)
+        value = AppKit.NSValue.valueWithRect_(AppKit.NSMakeRect(x, y, w, h))
+        return self.by_property("bounds", value)
 
     def by_closeable(self, closeable: bool) -> Union['XASBWindow', None]:
         """Retrieves the first window whose closeable status matches the given boolean value, if one exists.
@@ -267,7 +301,7 @@ class XASBWindowList(XABase.XAList):
         :return: The desired window, if it is found
         :rtype: Union[XASBWindow, None]
         
-        .. versionadded:: 0.1.0.2
+        .. versionadded:: 0.1.1
         """
         return self.by_property("closeable", closeable)
 
@@ -277,7 +311,7 @@ class XASBWindowList(XABase.XAList):
         :return: The desired window, if it is found
         :rtype: Union[XASBWindow, None]
         
-        .. versionadded:: 0.1.0.2
+        .. versionadded:: 0.1.1
         """
         return self.by_property("resizable", resizable)
 
@@ -287,7 +321,7 @@ class XASBWindowList(XABase.XAList):
         :return: The desired window, if it is found
         :rtype: Union[XASBWindow, None]
         
-        .. versionadded:: 0.1.0.2
+        .. versionadded:: 0.1.1
         """
         return self.by_property("visible", visible)
 
@@ -297,7 +331,7 @@ class XASBWindowList(XABase.XAList):
         :return: The desired window, if it is found
         :rtype: Union[XASBWindow, None]
         
-        .. versionadded:: 0.1.0.2
+        .. versionadded:: 0.1.1
         """
         return self.by_property("zoomable", zoomable)
 
@@ -307,9 +341,29 @@ class XASBWindowList(XABase.XAList):
         :return: The desired window, if it is found
         :rtype: Union[XASBWindow, None]
         
-        .. versionadded:: 0.1.0.2
+        .. versionadded:: 0.1.1
         """
         return self.by_property("zoomed", zoomed)
+
+    def by_miniaturizable(self, miniaturizable: bool) -> Union['XASBWindow', None]:
+        """Retrieves the first window whose miniaturizable status matches the given boolean value, if one exists.
+
+        :return: The desired window, if it is found
+        :rtype: Union[XASBWindow, None]
+        
+        .. versionadded:: 0.1.1
+        """
+        return self.by_property("miniaturizable", miniaturizable)
+
+    def by_miniaturized(self, miniaturized: bool) -> Union['XASBWindow', None]:
+        """Retrieves the first window whose miniaturized status matches the given boolean value, if one exists.
+
+        :return: The desired window, if it is found
+        :rtype: Union[XASBWindow, None]
+        
+        .. versionadded:: 0.1.1
+        """
+        return self.by_property("miniaturized", miniaturized)
 
     def collapse(self):
         """Collapses all windows in the list.
@@ -317,7 +371,19 @@ class XASBWindowList(XABase.XAList):
         .. versionadded:: 0.0.5
         """
         for window in self:
-            window.collapse()
+            while not window.miniaturized:
+                window.collapse()
+                time.sleep(0.01)
+
+    def uncollapse(self):
+        """Uncollapses all windows in the list.
+
+        .. versionadded:: 0.1.1
+        """
+        for window in self:
+            while window.miniaturized:
+                window.uncollapse()
+                time.sleep(0.01)
 
     def uncollapse(self):
         """Uncollapses all windows in the list.
@@ -354,6 +420,10 @@ class XASBWindow(XABase.XAObject, XACloseable):
         """
         return self.xa_elem.name()
 
+    @name.setter
+    def name(self, name: str):
+        self.set_property("name", name)
+
     @property
     def id(self) -> int:
         """The unique identifier for the window.
@@ -375,7 +445,7 @@ class XASBWindow(XABase.XAObject, XACloseable):
         self.set_property('index', index)
 
     @property
-    def bounds(self) -> tuple[int, int, int, int]:
+    def bounds(self) -> XARectangle:
         """The bounding rectangle of the window.
 
         .. versionadded:: 0.0.4
@@ -383,10 +453,10 @@ class XASBWindow(XABase.XAObject, XACloseable):
         rect = self.xa_elem.bounds()
         origin = rect.origin
         size = rect.size
-        return (origin.x, origin.y, size.width, size.height)
+        return XARectangle(origin.x, origin.y, size.width, size.height)
 
     @bounds.setter
-    def bounds(self, bounds: tuple[int, int, int, int]):
+    def bounds(self, bounds: Union[tuple[int, int, int, int], XARectangle]):
         x = bounds[0]
         y = bounds[1]
         w = bounds[2]
@@ -440,7 +510,32 @@ class XASBWindow(XABase.XAObject, XACloseable):
 
     @zoomed.setter
     def zoomed(self, zoomed: bool):
-        self.set_property('zoomed', zoomed)
+        self.set_property("zoomed", zoomed)
+
+    @property
+    def miniaturizable(self) -> bool:
+        """Whether the window can be miniaturized.
+        """
+        try:
+            return self.xa_elem.miniaturizable()
+        except Exception as e:
+            print(e)
+
+    @property
+    def miniaturized(self) -> bool:
+        """Whether the window is currently miniaturized.
+        """
+        try:
+            return self.xa_elem.miniaturized()
+        except Exception as e:
+            print(e)
+
+    @miniaturized.setter
+    def miniaturized(self, miniaturized: bool):
+        try:
+            self.set_property("miniaturized", miniaturized)
+        except Exception as e:
+            print(e)
 
     def collapse(self) -> Self:
         """Collapses (minimizes) the window.
@@ -476,7 +571,7 @@ class XASBWindow(XABase.XAObject, XACloseable):
                 self.set_property("collapsed", False)
         return self
 
-    def toggle_zoom(self) -> 'XABase.XAWindow':
+    def toggle_zoom(self) -> Self:
         """Uncollapses (unminimizes/expands) the window.
 
         :return: A reference to the uncollapsed window object.
@@ -503,3 +598,6 @@ class XASBWindow(XABase.XAObject, XACloseable):
         .. versionadded:: 0.0.8
         """
         return self.name
+
+    def __repr__(self):
+        return "<" + str(type(self)) + str(self.name) + ">"

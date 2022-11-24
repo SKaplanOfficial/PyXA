@@ -13,36 +13,33 @@ import sys
 import tempfile
 import threading
 import time
-import xml.etree.ElementTree as ET
 from datetime import datetime, timedelta
 from enum import Enum
 from pprint import pprint
-from typing import Any, Callable, Iterator, Literal, Self, Union
+from typing import Any, Callable, Literal, Self, Union
 
 import AppKit
 import appscript
 import AVFoundation
 import CoreLocation
 import CoreMedia
-import Foundation
-import LatentSemanticMapping
+import EventKit
 import NaturalLanguage
 import objc
 import Quartz
 import requests
 import ScriptingBridge
-import Speech
 import Vision
 from bs4 import BeautifulSoup, element
-from CoreLocation import CLLocation
 from PyObjCTools import AppHelper
-from Quartz import (CFDataRef, CGImageSourceCreateWithData, CGImageSourceRef, CGRectMake)
-from ScriptingBridge import SBApplication, SBElementArray
+from Quartz import (CFDataRef, CGImageSourceCreateWithData, CGImageSourceRef,
+                    CGRectMake)
+from ScriptingBridge import SBApplication
 
-from PyXA.apps import application_classes
-from PyXA.XAErrors import InvalidPredicateError
+from PyXA.XAErrors import ApplicationNotFoundError, InvalidPredicateError
+from PyXA.XAProtocols import XACanOpenPath, XAClipboardCodable, XAPathLike
 
-from .XAProtocols import XACanOpenPath, XAClipboardCodable, XAPathLike
+from .apps import application_classes
 
 
 def OSType(s: str):
@@ -51,8 +48,10 @@ def OSType(s: str):
 def unOSType(i: int):
     return i.to_bytes((i.bit_length() + 7) // 8, 'big').decode()
 
+VERSION = "0.1.1" #: The installed version of PyXA
+supported_applications: list[str] = list(application_classes.keys()) #: A list of names of supported scriptable applications
 
-PYXA_VERSION = "0.1.0"
+workspace = None
 
 # Set up logging
 if not os.path.exists("logs"):
@@ -67,7 +66,6 @@ logging.basicConfig(
 ###############
 ### General ###
 ###############
-# XAObject, XAApplication
 class XAObject():
     """A general class for PyXA scripting objects.
 
@@ -76,6 +74,9 @@ class XAObject():
     .. versionadded:: 0.0.1
     """
     _xa_sevt = None
+    _xa_estr = None
+    _xa_wksp = None
+
     def __init__(self, properties: dict = None):
         """Instantiates a PyXA scripting object.
 
@@ -89,25 +90,25 @@ class XAObject():
         """
         if properties is not None:
             self.xa_prnt = properties.get("parent", None)
-            self._xa_apsp = properties.get("appspace", None)
-            self.xa_wksp = properties.get("workspace", None)
             self.xa_elem = properties.get("element", None)
             self.xa_scel = properties.get("scriptable_element", None)
             self.xa_aref = properties.get("appref", None)
 
-        self.properties: dict #: The scriptable properties dictionary for the object
-
     @property
-    def xa_apsp(self):
-        if not isinstance(self.__xa_apsp, AppKit.NSApplication):
-            self.__xa_apsp = list(self.__xa_apsp)[0]
-        return self.__xa_apsp
+    def xa_wksp(self):
+        return workspace
 
     @property
     def xa_sevt(self):
         if XAObject._xa_sevt is None:
             XAObject._xa_sevt = SBApplication.alloc().initWithBundleIdentifier_("com.apple.systemevents")
         return XAObject._xa_sevt
+
+    @property
+    def xa_estr(self):
+        if XAObject._xa_estr is None:
+            XAObject._xa_estr = self._exec_suppresed(EventKit.EKEventStore.alloc().init)
+        return XAObject._xa_estr
 
     def _exec_suppresed(self, f: Callable[..., Any], *args: Any) -> Any:
         """Silences unwanted and otherwise unavoidable warning messages.
@@ -152,8 +153,6 @@ class XAObject():
         """
         properties = {
             "parent": self,
-            "appspace": self._xa_apsp,
-            "workspace": getattr(self, "xa_wksp", None),
             "element": obj,
             "appref": getattr(self, "xa_aref", None),
         }
@@ -254,611 +253,46 @@ class XAObject():
 
         .. versionadded:: 0.0.1
         """
-        parts = property_name.split("_")
-        titled_parts = [part.title() for part in parts[1:]]
-        property_name = parts[0] + "".join(titled_parts)
+        if "_" in property_name:
+            parts = property_name.split("_")
+            titled_parts = [part.title() for part in parts[1:]]
+            property_name = parts[0] + "".join(titled_parts)
         self.xa_elem.setValue_forKey_(value, property_name)
         return self
 
-    def set_scriptable_property(self, property_name: str, value: Any) -> 'XAObject':
-        """Updates the value of a single scriptable element property of the scripting element associated with this object.
+    # TODO TODO TODO TODO TODO TODO TODO TODO TODO
+    # def set_scriptable_property(self, property_name: str, value: Any) -> 'XAObject':
+    #     """Updates the value of a single scriptable element property of the scripting element associated with this object.
 
-        :param property: The name of the property to assign a new value to.
-        :type property: str
-        :param value: The value to assign to the specified property.
-        :type value: Any
-        :return: A reference to this PyXA object.
-        :rtype: XAObject
+    #     :param property: The name of the property to assign a new value to.
+    #     :type property: str
+    #     :param value: The value to assign to the specified property.
+    #     :type value: Any
+    #     :return: A reference to this PyXA object.
+    #     :rtype: XAObject
 
-        .. versionadded:: 0.1.0
-        """
-        parts = property_name.split("_")
-        titled_parts = [part.title() for part in parts[1:]]
-        property_name = parts[0] + "".join(titled_parts)
-        self.xa_scel.setValue_forKey_(value, property_name)
-        return self
+    #     .. versionadded:: 0.1.0
+    #     """
+    #     parts = property_name.split("_")
+    #     titled_parts = [part.title() for part in parts[1:]]
+    #     property_name = parts[0] + "".join(titled_parts)
+    #     self.xa_scel.setValue_forKey_(value, property_name)
+    #     return self
 
     def __eq__(self, other: 'XAObject'):
         if other is None:
             return False
 
-        if self.xa_elem == other.xa_elem:
-            return True
-        return self.xa_elem.get() == other.xa_elem.get()
+        if hasattr(self.xa_elem, "get"):
+            return self.xa_elem.get() == other.xa_elem.get()
 
-
-
-class XAApplication(XAObject, XAClipboardCodable):
-    """A general application class for both officially scriptable and non-scriptable applications.
-
-    .. seealso:: :class:`XASBApplication`, :class:`XAWindow`
-
-    .. versionadded:: 0.0.1
-    """
-    def __init__(self, properties):
-        super().__init__(properties)
-        self.xa_wcls = XAWindow
-        self.__xa_prcs = None
-
-        self.xa_apsc: appscript.GenericApp
-
-    @property
-    def xa_prcs(self):
-        if self.__xa_prcs == None:
-            predicate = AppKit.NSPredicate.predicateWithFormat_("displayedName == %@", self.xa_elem.localizedName())
-            process = self.xa_sevt.processes().filteredArrayUsingPredicate_(predicate)[0]
+        if isinstance(other, list) or isinstance(other.xa_elem, AppKit.NSArray):
+            return len(self.xa_elem) == len(other.xa_elem) and all([x == y for x, y in zip(self.xa_elem, other.xa_elem)])
         
-            properties = {
-                "parent": self,
-                "appspace": self._xa_apsp,
-                "workspace": self.xa_wksp,
-                "element": process,
-                "appref": self.xa_aref,
-                "window_class": self.xa_wcls
-            }
-            self.__xa_prcs = XAProcess(properties)
-        return self.__xa_prcs
+        return False
 
-    def __getattr__(self, attr):
-        if attr in self.__dict__:
-            # If possible, use PyXA attribute
-            return super().__getattribute__(attr)
-        else:
-            # Otherwise, fall back to appscript
-            return getattr(self.xa_apsc, attr)
 
-    @property
-    def xa_apsc(self) -> appscript.GenericApp:
-        return appscript.app(self.bundle_url.path())
 
-    @property
-    def bundle_identifier(self) -> str:
-        """The bundle identifier for the application.
-
-        .. versionadded:: 0.0.1
-        """
-        return self.xa_elem.bundleIdentifier()
-
-    @property
-    def bundle_url(self) -> str:
-        """The file URL of the application bundle.
-
-        .. versionadded:: 0.0.1
-        """
-        return self.xa_elem.bundleURL()
-
-    @property
-    def executable_url(self) -> str:
-        """The file URL of the application's executable.
-
-        .. versionadded:: 0.0.1
-        """
-        return self.xa_elem.executableURL()
-
-    @property
-    def frontmost(self) -> bool:
-        """Whether the application is the active application.
-
-        .. versionadded:: 0.0.1
-        """
-        return self.xa_elem.isActive()
-
-    @frontmost.setter
-    def frontmost(self, frontmost: bool):
-        if frontmost is True:
-            self.xa_elem.activateWithOptions_(AppKit.NSApplicationActivateIgnoringOtherApps)
-
-    @property
-    def launch_date(self) -> datetime:
-        """The date and time that the application was launched.
-
-        .. versionadded:: 0.0.1
-        """
-        return self.xa_elem.launchDate()
-
-    @property
-    def localized_name(self) -> str:
-        """The application's name.
-
-        .. versionadded:: 0.0.1
-        """
-        return self.xa_elem.localizedName()
-
-    @property
-    def owns_menu_bar(self) -> bool:
-        """Whether the application owns the top menu bar.
-
-        .. versionadded:: 0.0.1
-        """
-        return self.xa_elem.ownsMenuBar()
-
-    @property
-    def process_identifier(self) -> str:
-        """The process identifier for the application instance.
-
-        .. versionadded:: 0.0.1
-        """
-        return self.xa_elem.processIdentifier()
-
-    def activate(self) -> 'XAApplication':
-        """Activates the application, bringing its window(s) to the front and launching the application beforehand if necessary.
-
-        :return: A reference to the PyXA application object.
-        :rtype: XAApplication
-
-        .. seealso:: :func:`terminate`, :func:`unhide`, :func:`focus`
-
-        .. versionadded:: 0.0.1
-        """
-        self.xa_elem.activateWithOptions_(AppKit.NSApplicationActivateIgnoringOtherApps)
-        return self
-
-    def terminate(self) -> 'XAApplication':
-        """Quits the application. Synonymous with quit().
-
-        :return: A reference to the PyXA application object.
-        :rtype: XAApplication
-
-        :Example:
-
-        >>> import PyXA
-        >>> safari = PyXA.Application("Safari")
-        >>> safari.terminate()
-
-        .. seealso:: :func:`quit`, :func:`activate`
-
-        .. versionadded:: 0.0.1
-        """
-        self.xa_elem.terminate()
-        return self
-
-    def quit(self) -> 'XAApplication':
-        """Quits the application. Synonymous with terminate().
-
-        :return: A reference to the PyXA application object.
-        :rtype: XAApplication
-
-        :Example:
-
-        >>> import PyXA
-        >>> safari = PyXA.Application("Safari")
-        >>> safari.quit()
-
-        .. seealso:: :func:`terminate`, :func:`activate`
-
-        .. versionadded:: 0.0.1
-        """
-        self.xa_elem.terminate()
-        return self
-
-    def hide(self) -> 'XAApplication':
-        """Hides all windows of the application.
-
-        :return: A reference to the PyXA application object.
-        :rtype: XAApplication
-
-        :Example:
-
-        >>> import PyXA
-        >>> safari = PyXA.Application("Safari")
-        >>> safari.hide()
-
-        .. seealso:: :func:`unhide`
-
-        .. versionadded:: 0.0.1
-        """
-        self.xa_elem.hide()
-        return self
-
-    def unhide(self) -> 'XAApplication':
-        """Unhides (reveals) all windows of the application, but does not does not activate them.
-
-        :return: A reference to the PyXA application object.
-        :rtype: XAApplication
-
-        :Example:
-
-        >>> import PyXA
-        >>> safari = PyXA.Application("Safari")
-        >>> safari.unhide()
-
-        .. seealso:: :func:`hide`
-
-        .. versionadded:: 0.0.1
-        """
-        self.xa_elem.unhide()
-        return self
-
-    def focus(self) -> 'XAApplication':
-        """Hides the windows of all applications except this one.
-
-        :return: A reference to the PyXA application object.
-        :rtype: XAApplication
-
-        :Example:
-
-        >>> import PyXA
-        >>> safari = PyXA.Application("Safari")
-        >>> safari.focus()
-
-        .. seealso:: :func:`unfocus`
-
-        .. versionadded:: 0.0.1
-        """
-        for app in self.xa_wksp.runningApplications():
-            if app.localizedName() != self.xa_elem.localizedName():
-                app.hide()
-            else:
-                app.unhide()
-        return self
-
-    def unfocus(self) -> 'XAApplication':
-        """Unhides (reveals) the windows of all other applications, but does not activate them.
-
-        :return: A reference to the PyXA application object.
-        :rtype: XAApplication
-
-        :Example:
-
-        >>> import PyXA
-        >>> safari = PyXA.Application("Safari")
-        >>> safari.unfocus()
-
-        .. seealso:: :func:`focus`
-
-        .. versionadded:: 0.0.1
-        """
-        for app in self.xa_wksp.runningApplications():
-                app.unhide()
-        return self
-
-    def _get_processes(self, processes):
-        for process in self.xa_sevt.processes():
-            processes.append(process)
-
-    def windows(self, filter: dict = None) -> list['XAWindow']:
-        return self.xa_prcs.windows(filter)
-
-    @property
-    def front_window(self) -> 'XAWindow':
-        return self.xa_prcs.front_window
-
-    def menu_bars(self, filter: dict = None) -> 'XAUIMenuBarList':
-        return self._new_element(self.xa_prcs.xa_elem.menuBars(), XAUIMenuBarList, filter)
-
-    def get_clipboard_representation(self) -> list[Union[str, AppKit.NSURL, AppKit.NSImage]]:
-        """Gets a clipboard-codable representation of the application.
-
-        When the clipboard content is set to an application, three items are placed on the clipboard:
-        1. The application's name
-        2. The URL to the application bundle
-        3. The application icon
-
-        After copying an application to the clipboard, pasting will have the following effects:
-        - In Finder: Paste a copy of the application bundle in the current directory
-        - In Terminal: Paste the name of the application followed by the path to the application
-        - In iWork: Paste the application name
-        - In Safari: Paste the application name
-        - In Notes: Attach a copy of the application bundle to the active note
-        The pasted content may different for other applications.
-
-        :return: The clipboard-codable representation
-        :rtype: list[Union[str, AppKit.NSURL, AppKit.NSImage]]
-
-        .. versionadded:: 0.0.8
-        """
-        return [self.xa_elem.localizedName(), self.xa_elem.bundleURL(), self.xa_elem.icon()]
-
-
-
-
-######################
-### PyXA Utilities ###
-######################
-# SDEFParser, XAList, XAPredicate, XAURL, XAPath
-class SDEFParser(XAObject):
-    def __init__(self, sdef_file: Union['XAPath', str]):
-        if isinstance(sdef_file, str):
-            sdef_file = XAPath(sdef_file)
-        self.file = sdef_file #: The full path to the SDEF file to parse
-
-        self.app_name = ""
-        self.scripting_suites = []
-
-    def parse(self):
-        app_name = self.file.path.split("/")[-1][:-5].title()
-        xa_prefix = "XA" + app_name
-
-        tree = ET.parse(self.file.path)
-
-        suites = []
-
-        scripting_suites = tree.findall("suite")
-        for suite in scripting_suites:
-            classes = []
-            commands = {}
-
-            ### Class Extensions
-            class_extensions = suite.findall("class-extension")
-            for extension in class_extensions:
-                properties = []
-                elements = []
-                responds_to_commands = []
-
-                class_name = xa_prefix + extension.attrib.get("extends", "").title()
-                class_comment = extension.attrib.get("description", "")
-
-                ## Class Extension Properties
-                class_properties = extension.findall("property")
-                for property in class_properties:
-                    property_type = property.attrib.get("type", "")
-                    if property_type == "text":
-                        property_type = "str"
-                    elif property_type == "boolean":
-                        property_type = "bool"
-                    elif property_type == "number":
-                        property_type = "float"
-                    elif property_type == "integer":
-                        property_type = "int"
-                    elif property_type == "rectangle":
-                        property_type = "tuple[int, int, int, int]"
-                    else:
-                        property_type = "XA" + app_name + property_type.title()
-
-                    property_name = property.attrib.get("name", "").replace(" ", "_").lower()
-                    property_comment = property.attrib.get("description", "")
-
-                    properties.append({
-                        "type": property_type,
-                        "name": property_name,
-                        "comment": property_comment
-                    })
-
-                ## Class Extension Elements
-                class_elements = extension.findall("element")
-                for element in class_elements:
-                    element_name = (element.attrib.get("type", "") + "s").replace(" ", "_").lower()
-                    element_type = "XA" + app_name + element.attrib.get("type", "").title()
-
-                    elements.append({
-                        "name": element_name,
-                        "type": element_type
-                    })
-
-                ## Class Extension Responds-To Commands
-                class_responds_to_commands = extension.findall("responds-to")
-                for command in class_responds_to_commands:
-                    command_name = command.attrib.get("command", "").replace(" ", "_").lower()
-                    responds_to_commands.append(command_name)
-
-                classes.append({
-                    "name": class_name,
-                    "comment": class_comment,
-                    "properties": properties,
-                    "elements": elements,
-                    "responds-to": responds_to_commands
-                })
-
-            ### Classes
-            scripting_classes = suite.findall("class")
-            for scripting_class in scripting_classes:
-                properties = []
-                elements = []
-                responds_to_commands = []
-
-                class_name = xa_prefix + scripting_class.attrib.get("name", "").title()
-                class_comment = scripting_class.attrib.get("description", "")
-
-                ## Class Properties
-                class_properties = scripting_class.findall("property")
-                for property in class_properties:
-                    property_type = property.attrib.get("type", "")
-                    if property_type == "text":
-                        property_type = "str"
-                    elif property_type == "boolean":
-                        property_type = "bool"
-                    elif property_type == "number":
-                        property_type = "float"
-                    elif property_type == "integer":
-                        property_type = "int"
-                    elif property_type == "rectangle":
-                        property_type = "tuple[int, int, int, int]"
-                    else:
-                        property_type = "XA" + app_name + property_type.title()
-
-                    property_name = property.attrib.get("name", "").replace(" ", "_").lower()
-                    property_comment = property.attrib.get("description", "")
-
-                    properties.append({
-                        "type": property_type,
-                        "name": property_name,
-                        "comment": property_comment
-                    })
-
-                ## Class Elements
-                class_elements = scripting_class.findall("element")
-                for element in class_elements:
-                    element_name = (element.attrib.get("type", "") + "s").replace(" ", "_").lower()
-                    element_type = "XA" + app_name + element.attrib.get("type", "").title()
-
-                    elements.append({
-                        "name": element_name,
-                        "type": element_type
-                    })
-
-                ## Class Responds-To Commands
-                class_responds_to_commands = scripting_class.findall("responds-to")
-                for command in class_responds_to_commands:
-                    command_name = command.attrib.get("command", "").replace(" ", "_").lower()
-                    responds_to_commands.append(command_name)
-
-                classes.append({
-                    "name": class_name,
-                    "comment": class_comment,
-                    "properties": properties,
-                    "elements": elements,
-                    "responds-to": responds_to_commands
-                })
-
-
-            ### Commands
-            script_commands = suite.findall("command")
-            for command in script_commands:
-                command_name = command.attrib.get("name", "").lower().replace(" ", "_")
-                command_comment = command.attrib.get("description", "")
-
-                parameters = []
-                direct_param = command.find("direct-parameter")
-                if direct_param is not None:
-                    direct_parameter_type = direct_param.attrib.get("type", "")
-                    if direct_parameter_type == "specifier":
-                        direct_parameter_type = "XABase.XAObject"
-
-                    direct_parameter_comment = direct_param.attrib.get("description")
-
-                    parameters.append({
-                        "name": "direct_param",
-                        "type": direct_parameter_type,
-                        "comment": direct_parameter_comment
-                    })
-
-                if not "_" in command_name and len(parameters) > 0:
-                    command_name += "_"
-
-                command_parameters = command.findall("parameter")
-                for parameter in command_parameters:
-                    parameter_type = parameter.attrib.get("type", "")
-                    if parameter_type == "specifier":
-                        parameter_type = "XAObject"
-
-                    parameter_name = parameter.attrib.get("name", "").lower().replace(" ", "_")
-                    parameter_comment = parameter.attrib.get("description", "")
-
-                    parameters.append({
-                        "name": parameter_name,
-                        "type": parameter_type,
-                        "comment": parameter_comment,
-                    })
-
-                commands[command_name] = {
-                    "name": command_name,
-                    "comment": command_comment,
-                    "parameters": parameters
-                }
-
-            suites.append({
-                "classes": classes,
-                "commands": commands
-            })
-
-        self.scripting_suites = suites
-        return suites
-
-    def export(self, output_file: Union['XAPath', str]):
-        if isinstance(output_file, XAPath):
-            output_file = output_file.path
-
-        lines = []
-
-        lines.append("from typing import Any, Callable, Union")
-        lines.append("\nfrom PyXA import XABase")
-        lines.append("from PyXA.XABase import OSType")
-        lines.append("from PyXA import XABaseScriptable")
-
-        for suite in self.scripting_suites:
-            for scripting_class in suite["classes"]:
-                lines.append("\n\n")
-                lines.append("class " + scripting_class["name"].replace(" ", "") + "List:")
-                lines.append("\t\"\"\"A wrapper around lists of " + scripting_class["name"].lower() + "s that employs fast enumeration techniques.")
-                lines.append("\n\tAll properties of tabs can be called as methods on the wrapped list, returning a list containing each tab's value for the property.")
-                lines.append("\n\t.. versionadded:: " + PYXA_VERSION)
-                lines.append("\t\"\"\"")
-
-                lines.append("\tdef __init__(self, properties: dict, filter: Union[dict, None] = None):")
-                lines.append("\t\tsuper().__init__(properties, " + scripting_class["name"].replace(" ", "") + ", filter)")
-
-                for property in scripting_class["properties"]:
-                    lines.append("")
-                    lines.append("\tdef " + property["name"] + "(self) -> list['" + property["type"].replace(" ", "") + "']:")
-                    lines.append("\t\t\"\"\"" + property["comment"] + "\n\n\t\t.. versionadded:: " + PYXA_VERSION + "\n\t\t\"\"\"")
-                    lines.append("\t\treturn list(self.xa_elem.arrayByApplyingSelector_(\"" + property["name"] + "\"))")
-
-                for property in scripting_class["properties"]:
-                    lines.append("")
-                    lines.append("\tdef by_" + property["name"] + "(self, " + property["name"] + ") -> '" + scripting_class["name"].replace(" ", "") + "':")
-                    lines.append("\t\t\"\"\"Retrieves the " + scripting_class["comment"] + "whose " + property["name"] + " matches the given " + property["name"] + ".\n\n\t\t.. versionadded:: " + PYXA_VERSION + "\n\t\t\"\"\"")
-                    lines.append("\t\treturn self.by_property(\"" + property["name"] + "\", " + property["name"] + ")")
-
-
-                lines.append("")
-                lines.append("class " + scripting_class["name"].replace(" ", "") + ":")
-                lines.append("\t\"\"\"" + scripting_class["comment"] + "\n\n\t.. versionadded:: " + PYXA_VERSION + "\n\t\"\"\"")
-
-                for property in scripting_class["properties"]:
-                    lines.append("")
-                    lines.append("\t@property")
-                    lines.append("\tdef " + property["name"] + "(self) -> '" + property["type"].replace(" ", "") + "':")
-                    lines.append("\t\t\"\"\"" + property["comment"] + "\n\n\t\t.. versionadded:: " + PYXA_VERSION + "\n\t\t\"\"\"")
-                    lines.append("\t\treturn self.xa_elem." + property["name"] + "()")
-
-                for element in scripting_class["elements"]:
-                    lines.append("")
-                    lines.append("\tdef " + element["name"].replace(" ", "") + "(self, filter: Union[dict, None] = None) -> '" + element["type"].replace(" ", "") + "':")
-                    lines.append("\t\t\"\"\"Returns a list of " + element["name"] + ", as PyXA objects, matching the given filter.")
-                    lines.append("\n\t\t.. versionadded:: " + PYXA_VERSION)
-                    lines.append("\t\t\"\"\"")
-                    lines.append("\t\tself._new_element(self.xa_elem." + element["name"] + "(), " + element["type"].replace(" ", "") + "List, filter)")
-
-                for command in scripting_class["responds-to"]:
-                    if command in suite["commands"]:
-                        lines.append("")
-                        command_str = "\tdef " + suite["commands"][command]["name"] + "(self, "
-
-                        for parameter in suite["commands"][command]["parameters"]:
-                            command_str += parameter["name"] + ": '" + parameter["type"] + "', "
-
-                        command_str = command_str[:-2] + "):"
-                        lines.append(command_str)
-
-                        lines.append("\t\t\"\"\"" + suite["commands"][command]["comment"])
-                        lines.append("\n\t\t.. versionadded:: " + PYXA_VERSION)
-                        lines.append("\t\t\"\"\"")
-
-                        cmd_call_str = "self.xa_elem." + suite["commands"][command]["name"] + "("
-
-                        if len(suite["commands"][command]["parameters"]) > 0:
-                            for parameter in suite["commands"][command]["parameters"]:
-                                cmd_call_str += parameter["name"] + ", "
-                            
-                            cmd_call_str = cmd_call_str[:-2] + ")"
-                        else:
-                            cmd_call_str += ")"
-
-                        lines.append("\t\t" + cmd_call_str)
-
-        data = "\n".join(lines)
-        with open(output_file, "w") as f:
-            f.write(data)
 
 class XAList(XAObject):
     """A wrapper around NSArray and NSMutableArray objects enabling fast enumeration and lazy evaluation of Objective-C objects.
@@ -1139,7 +573,7 @@ class XAList(XAObject):
         predicate = XAPredicate()
         predicate.add_gt_condition(property, value1)
         predicate.add_lt_condition(property, value2)
-        ls = predicate.evaluate(self.xa_elem)
+        ls = predicate.evaluate(self.xa_elem).get()
         return self._new_element(ls, self.__class__)
 
     def filter(self, filter: str, comparison_operation: Union[str, None] = None, value1: Union[Any, None] = None, value2: Union[Any, None] = None) -> 'XAList':
@@ -1267,27 +701,49 @@ class XAList(XAObject):
             random.shuffle(self.xa_elem)
         return self
 
+    def extend(self, ls: Union['XAList', list]):
+        """Appends all elements of the supplied list to the end of this list.
+
+        :param ls: _description_
+        :type ls: Union[XAList, list]
+
+        .. versionadded:: 0.1.1
+        """
+        arr1 = AppKit.NSMutableArray.alloc().initWithArray_(self.xa_elem)
+
+        if isinstance(ls, XAList):
+            ls = ls.xa_elem
+        else:
+            ls = AppKit.NSMutableArray.alloc().initWithArray_(ls)
+
+        arr1.addObjectsFromArray_(ls)
+        self.xa_elem = arr1
+
     def push(self, *elements: list[XAObject]) -> Union[XAObject, list[XAObject], None]:
         """Appends the object referenced by the provided PyXA wrapper to the end of the list.
 
         .. versionadded:: 0.0.3
         """
         objects = []
+        num_added = 0
+
         for element in elements:
             len_before = len(self.xa_elem)
             self.xa_elem.addObject_(element.xa_elem)
+            len_after = len(self.xa_elem)
 
-            if len(self.xa_elem) == len_before:
+            if len_after == len_before:
                 # Object wasn't added -- try force-getting the list before adding
                 self.xa_elem.get().addObject_(element.xa_elem)
 
-            if len(self.xa_elem) > len_before:
-                objects.append(self[len(self.xa_elem) - 1])
+            if len_after > len_before:
+                num_added += 1
+                objects.append(self[len_after - 1])
         
-        if len(objects) == 1:
+        if num_added == 1:
             return objects[0]
 
-        if len(objects) == 0:
+        if num_added == 0:
             return None
 
         return objects
@@ -1353,6 +809,996 @@ class XAList(XAObject):
 
     def __repr__(self):
         return "<" + str(type(self)) + str(self.xa_elem) + ">"
+
+
+
+
+class XAApplicationList(XAList):
+    """A wrapper around a list of applications.
+
+    .. versionadded:: 0.0.5
+    """
+    def __init__(self, properties: dict, filter: Union[dict, None] = None):
+        super().__init__(properties, XAApplication, filter)
+
+        if filter is not None:
+            self.xa_elem = XAPredicate().from_dict(filter).evaluate(self.xa_elem)
+
+    def first(self) -> XAObject:
+        """Retrieves the first element of the list as a wrapped PyXA application object.
+
+        :return: The wrapped object
+        :rtype: XAObject
+
+        .. versionadded:: 0.0.5
+        """
+        return self.__getitem__(0)
+
+    def last(self) -> XAObject:
+        """Retrieves the last element of the list as a wrapped PyXA application object.
+
+        :return: The wrapped object
+        :rtype: XAObject
+
+        .. versionadded:: 0.0.5
+        """
+        return self.__getitem__(-1)
+
+    def pop(self, index: int = -1) -> XAObject:
+        """Removes the application at the specified index from the list and returns it.
+
+        .. versionadded:: 0.0.5
+        """
+        removed = self.xa_elem.lastObject()
+        self.xa_elem.removeLastObject()
+        app_name = removed["kCGWindowOwnerName"]
+        return Application(app_name)
+
+    def __getitem__(self, key: Union[int, slice]):
+        """Retrieves the wrapped application object(s) at the specified key.
+        """
+        if isinstance(key, slice):
+            arr = AppKit.NSArray.alloc().initWithArray_([self.xa_elem[index] for index in range(key.start, key.stop, key.step or 1)])
+            return self._new_element(arr, self.__class__)
+        app_name = self.xa_elem[key]["kCGWindowOwnerName"]
+        return Application(app_name)
+
+    def bundle_identifier(self) -> list[str]:
+        """Gets the bundle identifier of every application in the list.
+
+        :return: The list of application bundle identifiers
+        :rtype: list[str]
+
+        .. versionadded:: 0.0.5
+        """
+        return [app.bundle_identifier for app in self]
+
+    def bundle_url(self) -> list['XAURL']:
+        """Gets the bundle URL of every application in the list.
+
+        :return: The list of application bundle URLs
+        :rtype: list[XAURL]
+
+        .. versionadded:: 0.0.5
+        """
+        return [XAURL(app.bundle_url)for app in self]
+
+    def executable_url(self) -> list['XAURL']:
+        """Gets the executable URL of every application in the list.
+
+        :return: The list of application executable URLs
+        :rtype: list[XAURL]
+
+        .. versionadded:: 0.0.5
+        """
+        return [XAURL(app.executable_url) for app in self]
+
+    def launch_date(self) -> list[datetime]:
+        """Gets the launch date of every application in the list.
+
+        :return: The list of application launch dates
+        :rtype: list[str]
+
+        .. versionadded:: 0.0.5
+        """
+        return [app.launch_date for app in self]
+
+    def localized_name(self) -> list[str]:
+        """Gets the localized name of every application in the list.
+
+        :return: The list of application localized names
+        :rtype: list[str]
+
+        .. versionadded:: 0.0.5
+        """
+        return [x.get("kCGWindowOwnerName") for x in self.xa_elem]
+
+    def process_identifier(self) -> list[str]:
+        """Gets the process identifier of every application in the list.
+
+        :return: The list of application process identifiers
+        :rtype: list[str]
+
+        .. versionadded:: 0.0.5
+        """
+        return [x.get("kCGWindowOwnerPID") for x in self.xa_elem]
+
+    def hide(self):
+        """Hides all applications in the list.
+
+        :Example 1: Hide all visible running applications
+
+        >>> import PyXA
+        >>> apps = PyXA.running_applications()
+        >>> apps.hide()
+
+        .. seealso:: :func:`unhide`
+
+        .. versionadded:: 0.0.5
+        """
+        for app in self:
+            app.hide()
+
+    def unhide(self):
+        """Unhides all applications in the list.
+
+        :Example 1: Hide then unhide all visible running applications
+
+        >>> import PyXA
+        >>> apps = PyXA.running_applications()
+        >>> apps.hide()
+        >>> apps.unhide()
+
+        .. seealso:: :func:`hide`
+
+        .. versionadded:: 0.0.5
+        """
+        for app in self:
+            app.unhide()
+
+    def terminate(self):
+        """Quits (terminates) all applications in the list. Synonymous with :func:`quit`.
+
+        :Example 1: Terminate all visible running applications
+
+        >>> import PyXA
+        >>> apps = PyXA.running_applications()
+        >>> apps.terminate()
+        
+        .. versionadded:: 0.0.5
+        """
+        for app in self:
+            app.terminate()
+
+    def quit(self):
+        """Quits (terminates) all applications in the list. Synonymous with :func:`terminate`.
+
+        :Example 1: Quit all visible running applications
+
+        >>> import PyXA
+        >>> apps = PyXA.running_applications()
+        >>> apps.quit()
+        
+        .. versionadded:: 0.0.5
+        """
+        for app in self:
+            app.terminate()
+
+    def windows(self) -> 'XAWindowList':
+        """Retrieves a list of every window belonging to each application in the list.
+
+        Operations on the list of windows will specialized to scriptable and non-scriptable application window operations as necessary.
+
+        :return: A list containing both scriptable and non-scriptable windows
+        :rtype: XAWindowList
+
+        :Example:
+
+        >>> import PyXA
+        >>> windows = PyXA.running_applications().windows()
+        >>> windows.collapse()
+        >>> sleep(1)
+        >>> windows.uncollapse()
+
+        .. versionchanged:: 0.1.1
+
+           Now returns an instance of :class:`XAWindowList` instead of :class:`XACombinedWindowList`.
+
+        .. versionadded:: 0.0.5
+        """
+        ls = [window for app in self for window in app.windows().xa_elem]
+        window_list = self._new_element(ls, XAWindowList)
+        return window_list
+
+    def __iter__(self):
+        return (Application(object["kCGWindowOwnerName"]) for object in self.xa_elem.objectEnumerator())
+
+    def __contains__(self, item):
+        if isinstance(item, XAApplication):
+            return item.process_identifier in self.process_identifier()
+
+    def __repr__(self):
+        return "<" + str(type(self)) + str(self.localized_name()) + ">"
+
+class Application(XAObject):
+    """A wrapper around a macOS application providing access to its scripting functionality.
+
+    .. versionchanged:: 0.1.1
+
+       Moved into the XABase module.
+
+    .. versionadded:: 0.1.0
+    """
+
+    app_paths: list[str] = [] #: A list containing the path to each application
+
+    def __init__(self, app_name: str):
+        """Creates a new application object.
+
+        :param app_name: The name of the target application
+        :type app_name: str
+
+        .. versionadded:: 0.1.0
+        """
+        # Elevate to XAApplication
+        new_self = self.__get_application(app_name)
+        self.__class__ = new_self.__class__
+        self.__dict__.update(new_self.__dict__)
+
+    def __xa_get_path_to_app(self, app_identifier: str) -> str:
+        self.__xa_load_app_paths()
+        for path in self.app_paths:
+            if app_identifier.lower() in path.lower():
+                return path
+
+        raise ApplicationNotFoundError(app_identifier)
+
+    def __xa_load_app_paths(self):
+        if self.app_paths == []:
+            search = XASpotlight()
+            search.predicate = "kMDItemContentType == 'com.apple.application-bundle'"
+            search.run()
+            self.app_paths = [x.path for x in search.results]
+
+    def __get_application(self, app_identifier: str) -> 'XAApplication':
+        """Retrieves a PyXA application object representation of the target application without launching or activating the application.
+
+        :param app_identifier: The name of the application to get an object of.
+        :type app_identifier: str
+        :return: A PyXA application object referencing the target application.
+        :rtype: XAApplication
+
+        .. versionadded:: 0.0.1
+        """
+        global workspace
+        if workspace is None:
+            workspace = AppKit.NSWorkspace.sharedWorkspace()
+
+        app_identifier_l = app_identifier.lower()
+
+        def _match_open_app(obj, index, stop):
+            res = obj.localizedName().lower() == app_identifier_l
+            return res, res
+
+        idx_set = workspace.runningApplications().indexesOfObjectsPassingTest_(_match_open_app)
+        if idx_set.count() == 1:
+            index = idx_set.firstIndex()
+            app = workspace.runningApplications()[index]
+            properties = {
+                "parent": None,
+                "element": app,
+                "appref": app,
+            }
+
+            app_obj = application_classes.get(app_identifier_l, XAApplication)
+            if isinstance(app_obj, tuple):
+                module = importlib.import_module("PyXA.apps." + app_obj[0])
+                app_class = getattr(module, app_obj[1], None)
+                if app_class is not None:
+                    application_classes[app_identifier_l] = app_class
+                    app = app_class
+                else:
+                    raise NotImplementedError()
+
+            # Check if the app is supported by PyXA
+            app_ref = application_classes.get(app_identifier_l, XAApplication)(properties)
+            return app_ref
+
+        app_path = app_identifier
+        if not app_identifier.startswith("/"):
+            app_path = self.__xa_get_path_to_app(app_identifier)
+        bundle = AppKit.NSBundle.alloc().initWithPath_(app_path)
+        url = workspace.URLForApplicationWithBundleIdentifier_(bundle.bundleIdentifier())
+
+        config = AppKit.NSWorkspaceOpenConfiguration.alloc().init()
+        config.setActivates_(False)
+        config.setHides_(True)
+
+        app_ref = None
+        def _launch_completion_handler(app, _error):
+            nonlocal app_ref
+            properties = {
+                "parent": None,
+                "element": app,
+                "appref": app,
+            }
+
+            app_obj = application_classes.get(app_identifier_l, None)
+            if isinstance(app_obj, tuple):
+                module = importlib.import_module("PyXA.apps." + app_obj[0])
+                app_class = getattr(module, app_obj[1], None)
+                if app_class is not None:
+                    application_classes[app_identifier_l] = app_class
+                    app = app_class
+                else:
+                    raise NotImplementedError()
+
+            app_ref = application_classes.get(app_identifier_l, XAApplication)(properties)
+        
+        workspace.openApplicationAtURL_configuration_completionHandler_(url, config, _launch_completion_handler)
+        while app_ref is None:
+            time.sleep(0.01)
+        return app_ref
+
+
+def current_application() -> 'XAApplication':
+    """Retrieves a PyXA representation of the frontmost application.
+
+    :return: A PyXA application object referencing the current application.
+    :rtype: XAApplication
+
+    .. versionchanged:: 0.1.1
+
+       Moved into the XABase module.
+
+    .. versionadded:: 0.0.1
+    """
+    global workspace
+    if workspace is None:
+        workspace = AppKit.NSWorkspace.sharedWorkspace()
+    return Application(workspace.frontmostApplication().localizedName())
+
+
+def running_applications() -> list['XAApplication']:
+    """Gets PyXA references to all currently visible (not hidden or minimized) running applications whose app bundles are stored in typical application directories.
+
+    :return: A list of PyXA application objects.
+    :rtype: list[XAApplication]
+
+    :Example 1: Get the name of each running application
+
+    >>> import PyXA
+    >>> apps = PyXA.running_applications()
+    >>> print(apps.localized_name())
+    ['GitHub Desktop', 'Safari', 'Code', 'Terminal', 'Notes', 'Messages', 'TV']
+    
+    .. versionadded:: 0.0.1
+    """
+    windows = Quartz.CGWindowListCopyWindowInfo(Quartz.kCGWindowListOptionAll, Quartz.kCGNullWindowID)
+    ls = XAPredicate.evaluate_with_format(windows, "kCGWindowIsOnscreen == 1 && kCGWindowLayer == 0")
+    properties = {
+        "element": ls,
+    }
+    arr = XAApplicationList(properties)
+    return arr
+
+
+class XAApplication(XAObject, XAClipboardCodable):
+    """A general application class for both officially scriptable and non-scriptable applications.
+
+    .. seealso:: :class:`XASBApplication`, :class:`XAWindow`
+
+    .. versionadded:: 0.0.1
+    """
+    def __init__(self, properties):
+        super().__init__(properties)
+        self.xa_wcls = XAWindow
+        self.__xa_prcs = None
+
+    def __getattr__(self, attr):
+        if attr in self.__dict__:
+            # If possible, use PyXA attribute
+            return super().__getattribute__(attr)
+        else:
+            # Otherwise, fall back to appscript
+            return getattr(self.xa_apsc, attr)
+
+    @property
+    def xa_apsc(self) -> appscript.GenericApp:
+        return appscript.app(self.bundle_url.path())
+
+    @property
+    def xa_prcs(self):
+        if self.__xa_prcs == None:
+            predicate = AppKit.NSPredicate.predicateWithFormat_("displayedName == %@", self.xa_elem.localizedName())
+            process = self.xa_sevt.processes().filteredArrayUsingPredicate_(predicate)[0]
+        
+            properties = {
+                "parent": self,
+                "element": process,
+                "appref": self.xa_aref,
+                "window_class": self.xa_wcls
+            }
+            self.__xa_prcs = XAProcess(properties)
+        return self.__xa_prcs
+
+    @property
+    def bundle_identifier(self) -> str:
+        """The bundle identifier for the application.
+
+        .. versionadded:: 0.0.1
+        """
+        return self.xa_elem.bundleIdentifier()
+
+    @property
+    def bundle_url(self) -> str:
+        """The file URL of the application bundle.
+
+        .. versionadded:: 0.0.1
+        """
+        return self.xa_elem.bundleURL()
+
+    @property
+    def executable_url(self) -> str:
+        """The file URL of the application's executable.
+
+        .. versionadded:: 0.0.1
+        """
+        return self.xa_elem.executableURL()
+
+    @property
+    def frontmost(self) -> bool:
+        """Whether the application is the active application.
+
+        .. versionadded:: 0.0.1
+        """
+        return self.xa_elem.isActive()
+
+    @frontmost.setter
+    def frontmost(self, frontmost: bool):
+        if frontmost is True:
+            self.xa_elem.activateWithOptions_(AppKit.NSApplicationActivateIgnoringOtherApps)
+
+    @property
+    def launch_date(self) -> datetime:
+        """The date and time that the application was launched.
+
+        .. versionadded:: 0.0.1
+        """
+        return self.xa_elem.launchDate()
+
+    @property
+    def localized_name(self) -> str:
+        """The application's name.
+
+        .. versionadded:: 0.0.1
+        """
+        return self.xa_elem.localizedName()
+
+    @property
+    def owns_menu_bar(self) -> bool:
+        """Whether the application owns the top menu bar.
+
+        .. versionadded:: 0.0.1
+        """
+        return self.xa_elem.ownsMenuBar()
+
+    @property
+    def process_identifier(self) -> str:
+        """The process identifier for the application instance.
+
+        .. versionadded:: 0.0.1
+        """
+        return self.xa_elem.processIdentifier()
+
+    @property
+    def icon(self) -> 'XAImage':
+        """The application's icon.
+
+        .. versionadded:: 0.1.1
+        """
+        return XAImage(self.xa_elem.icon())
+
+    def launch(self) -> Self:
+        """Launches the application.
+
+        :return: The application object.
+        :rtype: Self
+
+        .. versionadded:: 0.1.1
+        """
+        config = AppKit.NSWorkspaceOpenConfiguration.alloc().init()
+        config.setActivates_(False)
+        config.setHides_(True)
+
+        finished_launching = False
+        def test(app, error):
+            nonlocal finished_launching
+            finished_launching = True
+
+        self.xa_wksp.openApplicationAtURL_configuration_completionHandler_(self.bundle_url, config, test)
+
+        while not finished_launching:
+            time.sleep(0.05)
+
+        return self
+
+    def activate(self) -> 'XAApplication':
+        """Activates the application, bringing its window(s) to the front and launching the application beforehand if necessary.
+
+        :return: A reference to the PyXA application object.
+        :rtype: XAApplication
+
+        .. seealso:: :func:`terminate`, :func:`unhide`, :func:`focus`
+
+        .. versionadded:: 0.0.1
+        """
+        if not self.xa_elem.isFinishedLaunching():
+            self.launch()
+
+        if self.xa_elem.isHidden():
+            self.unhide()
+
+        self.xa_elem.activateWithOptions_(AppKit.NSApplicationActivateAllWindows | AppKit.NSApplicationActivateIgnoringOtherApps)
+        return self
+
+    def terminate(self) -> 'XAApplication':
+        """Quits the application. Synonymous with quit().
+
+        :return: A reference to the PyXA application object.
+        :rtype: XAApplication
+
+        :Example:
+
+        >>> import PyXA
+        >>> safari = PyXA.Application("Safari")
+        >>> safari.terminate()
+
+        .. seealso:: :func:`quit`, :func:`activate`
+
+        .. versionadded:: 0.0.1
+        """
+        self.xa_elem.terminate()
+        return self
+
+    def quit(self) -> 'XAApplication':
+        """Quits the application. Synonymous with terminate().
+
+        :return: A reference to the PyXA application object.
+        :rtype: XAApplication
+
+        :Example:
+
+        >>> import PyXA
+        >>> safari = PyXA.Application("Safari")
+        >>> safari.quit()
+
+        .. seealso:: :func:`terminate`, :func:`activate`
+
+        .. versionadded:: 0.0.1
+        """
+        self.xa_elem.terminate()
+        return self
+
+    def hide(self) -> 'XAApplication':
+        """Hides all windows of the application.
+
+        :return: A reference to the PyXA application object.
+        :rtype: XAApplication
+
+        :Example:
+
+        >>> import PyXA
+        >>> safari = PyXA.Application("Safari")
+        >>> safari.hide()
+
+        .. seealso:: :func:`unhide`
+
+        .. versionadded:: 0.0.1
+        """
+        self.xa_elem.hide()
+        return self
+
+    def unhide(self) -> 'XAApplication':
+        """Unhides (reveals) all windows of the application, but does not does not activate them.
+
+        :return: A reference to the PyXA application object.
+        :rtype: XAApplication
+
+        :Example:
+
+        >>> import PyXA
+        >>> safari = PyXA.Application("Safari")
+        >>> safari.unhide()
+
+        .. seealso:: :func:`hide`
+
+        .. versionadded:: 0.0.1
+        """
+        self.xa_elem.unhide()
+        return self
+
+    def focus(self) -> 'XAApplication':
+        """Hides the windows of all applications except this one.
+
+        :return: A reference to the PyXA application object.
+        :rtype: XAApplication
+
+        :Example:
+
+        >>> import PyXA
+        >>> safari = PyXA.Application("Safari")
+        >>> safari.focus()
+
+        .. seealso:: :func:`unfocus`
+
+        .. versionadded:: 0.0.1
+        """
+        for app in self.xa_wksp.runningApplications():
+            if app.localizedName() != self.xa_elem.localizedName():
+                app.hide()
+            else:
+                app.unhide()
+        return self
+
+    def unfocus(self) -> 'XAApplication':
+        """Unhides (reveals) the windows of all other applications, but does not activate them.
+
+        :return: A reference to the PyXA application object.
+        :rtype: XAApplication
+
+        :Example:
+
+        >>> import PyXA
+        >>> safari = PyXA.Application("Safari")
+        >>> safari.unfocus()
+
+        .. seealso:: :func:`focus`
+
+        .. versionadded:: 0.0.1
+        """
+        for app in self.xa_wksp.runningApplications():
+                app.unhide()
+        return self
+
+    def _get_processes(self, processes):
+        for process in self.xa_sevt.processes():
+            processes.append(process)
+
+    def windows(self, filter: dict = None) -> list['XAWindow']:
+        return self.xa_prcs.windows(filter)
+
+    @property
+    def front_window(self) -> 'XAWindow':
+        return self.xa_prcs.front_window
+
+    def menu_bars(self, filter: dict = None) -> 'XAUIMenuBarList':
+        return self._new_element(self.xa_prcs.xa_elem.menuBars(), XAUIMenuBarList, filter)
+
+    def get_clipboard_representation(self) -> list[Union[str, AppKit.NSURL, AppKit.NSImage]]:
+        """Gets a clipboard-codable representation of the application.
+
+        When the clipboard content is set to an application, three items are placed on the clipboard:
+        1. The application's name
+        2. The URL to the application bundle
+        3. The application icon
+
+        After copying an application to the clipboard, pasting will have the following effects:
+        - In Finder: Paste a copy of the application bundle in the current directory
+        - In Terminal: Paste the name of the application followed by the path to the application
+        - In iWork: Paste the application name
+        - In Safari: Paste the application name
+        - In Notes: Attach a copy of the application bundle to the active note
+        The pasted content may different for other applications.
+
+        :return: The clipboard-codable representation
+        :rtype: list[Union[str, AppKit.NSURL, AppKit.NSImage]]
+
+        .. versionadded:: 0.0.8
+        """
+        return [self.xa_elem.localizedName(), self.xa_elem.bundleURL(), self.xa_elem.icon()]
+
+
+
+
+######################
+### PyXA Utilities ###
+######################
+class AppleScript():
+    """A class for constructing and executing AppleScript scripts.
+
+    .. versionadded:: 0.0.5
+    """
+    def __init__(self, script: Union[str, list[str], None] = None):
+        """Creates a new AppleScript object.
+
+        :param script: A string or list of strings representing lines of AppleScript code, or the path to a script plaintext file, defaults to None
+        :type script: Union[str, list[str], None], optional
+
+        .. versionadded:: 0.0.5
+        """
+        self.script: list[str] #: The lines of AppleScript code contained in the script
+        self.last_result: Any #: The return value of the last execution of the script
+        self.file_path: XAPath #: The file path of this script, if one exists
+
+        if isinstance(script, str):
+            if script.startswith("/"):
+                with open(script, 'r') as f:
+                    script = f.readlines()
+            else:
+                self.script = [script]
+        elif isinstance(script, list):
+            self.script = script
+        elif script == None:
+            self.script = []
+
+    @property
+    def last_result(self) -> Any:
+        return self.__last_result
+
+    @property
+    def file_path(self) -> 'XAPath':
+        return self.__file_path
+
+    def add(self, script: Union[str, list[str], 'AppleScript']):
+        """Adds the supplied string, list of strings, or script as a new line entry in the script.
+
+        :param script: The script to append to the current script string.
+        :type script: Union[str, list[str], AppleScript]
+
+        :Example:
+
+        >>> import PyXA
+        >>> script = PyXA.AppleScript("tell application \"Safari\"")
+        >>> script.add("print the document of window 1")
+        >>> script.add("end tell")
+        >>> script.run()
+
+        .. versionadded:: 0.0.5
+        """
+        if isinstance(script, str):
+            self.script.append(script)
+        elif isinstance(script, list):
+            self.script.extend(script)
+        elif isinstance(script, AppleScript):
+            self.script.extend(script.script)
+
+    def insert(self, index: int, script: Union[str, list[str], 'AppleScript']):
+        """Inserts the supplied string, list of strings, or script as a line entry in the script starting at the given line index.
+
+        :param index: The line index to begin insertion at
+        :type index: int
+        :param script: The script to insert into the current script
+        :type script: Union[str, list[str], AppleScript]
+
+        :Example:
+
+        >>> import PyXA
+        >>> script = PyXA.AppleScript.load("/Users/exampleUser/Downloads/Test.scpt")
+        >>> script.insert(1, "activate")
+        >>> script.run()
+
+        .. versionadded:: 0.0.9
+        """
+        if isinstance(script, str):
+            self.script.insert(index, script)
+        elif isinstance(script, list):
+            for line in script:
+                self.script.insert(index, line)
+                index += 1
+        elif isinstance(script, AppleScript):
+            for line in script.script:
+                self.script.insert(index, line)
+                index += 1
+
+    def pop(self, index: int = -1) -> str:
+        """Removes the line at the given index from the script.
+
+        :param index: The index of the line to remove
+        :type index: int
+        :return: The text of the removed line
+        :rtype: str
+
+        :Example:
+
+        >>> import PyXA
+        >>> script = PyXA.AppleScript.load("/Users/exampleUser/Downloads/Test.scpt")
+        >>> print(script.pop(1))
+            get chats
+
+        .. versionadded:: 0.0.9
+        """
+        return self.script.pop(index)
+
+    def load(path: Union['XAPath', str]) -> 'AppleScript':
+        """Loads an AppleScript (.scpt) file as a runnable AppleScript object.
+
+        :param path: The path of the .scpt file to load
+        :type path: Union[XAPath, str]
+        :return: The newly loaded AppleScript object
+        :rtype: AppleScript
+
+        :Example 1: Load and run a script
+
+        >>> import PyXA
+        >>> script = PyXA.AppleScript.load("/Users/exampleUser/Downloads/Test.scpt")
+        >>> print(script.run())
+        {
+            'string': None,
+            'int': 0, 
+            'bool': False,
+            'float': 0.0,
+            'date': None,
+            'file_url': None,
+            'type_code': 845507684,
+            'data': {length = 8962, bytes = 0x646c6532 00000000 6c697374 000022f2 ... 6e756c6c 00000000 },
+            'event': <NSAppleEventDescriptor: [ 'obj '{ ... } ]>
+        }
+
+        :Example 2: Load, modify, and run a script
+
+        >>> import PyXA
+        >>> script = PyXA.AppleScript.load("/Users/exampleUser/Downloads/Test.scpt")
+        >>> script.pop(1)
+        >>> script.insert(1, "activate")
+        >>> script.run()
+
+        .. versionadded:: 0.0.8
+        """
+        if isinstance(path, str):
+            path = XAPath(path)
+        script = AppKit.NSAppleScript.alloc().initWithContentsOfURL_error_(path.xa_elem, None)[0]
+
+        attributed_string = script.richTextSource()
+        attributed_string = str(attributed_string).split("}")
+        parts = []
+        for x in attributed_string:
+            parts.extend(x.split("{"))
+
+        for x in parts:
+            if "=" in x:
+                parts.remove(x)
+
+        script = AppleScript("".join(parts).split("\n"))
+        script.__file_path = path
+        return script
+
+    def save(self, path: Union['XAPath', str, None] = None):
+        """Saves the script to the specified file path, or to the path from which the script was loaded.
+
+        :param path: The path to save the script at, defaults to None
+        :type path: Union[XAPath, str, None], optional
+
+        :Example 1: Save the script to a specified path
+
+        >>> import PyXA
+        >>> script = PyXA.AppleScript(f\"\"\"
+        >>>     tell application "Safari"
+        >>>         activate
+        >>>     end tell
+        >>> \"\"\")
+        >>> script.save("/Users/exampleUser/Downloads/Example.scpt")
+
+        :Example 2: Load a script, modify it, then save it
+
+        >>> import PyXA
+        >>> script = PyXA.AppleScript.load("/Users/steven/Downloads/Example.scpt")
+        >>> script.insert(2, "delay 2")
+        >>> script.insert(3, "set the miniaturized of window 1 to true")
+        >>> script.save()
+
+        .. versionadded:: 0.0.9
+        """
+        if path is None and self.file_path is None:
+            print("No path to save script to!")
+            return
+        
+        if isinstance(path, str):
+            path = XAPath(path)
+
+        script = ""
+        for line in self.script:
+            script += line + "\n"
+        script = AppKit.NSAppleScript.alloc().initWithSource_(script)
+        script.compileAndReturnError_(None)
+        source = (script.richTextSource().string())
+
+        if path is not None:
+            self.__file_path = path
+
+        with open(self.file_path.xa_elem.path(), "w") as f:
+            f.write(source)
+
+    def parse_result_data(result: dict) -> list[tuple[str, str]]:
+        """Extracts string data from an AppleScript execution result dictionary.
+
+        :param result: The execution result dictionary to extract data from
+        :type result: dict
+        :return: A list of responses contained in the result structured as tuples
+        :rtype: list[tuple[str, str]]
+
+        :Example:
+
+        >>> import PyXA
+        >>> script = PyXA.AppleScript.load("/Users/exampleUser/Downloads/Test.scpt")
+        >>> print(script.script)
+        >>> result = script.run()
+        >>> print(PyXA.AppleScript.parse_result_data(result))
+        ['tell application "Messages"', '\\tget chats', 'end tell']
+        [('ID', 'iMessage;-;+12345678910'), ('ID', 'iMessage;-;+12345678911'), ('ID', 'iMessage;-;example@icloud.com'), ...]
+
+        .. versionadded:: 0.0.9
+        """
+        result = result["event"]
+        response_objects = []
+        num_responses = result.numberOfItems()
+        for response_index in range(1, num_responses + 1):
+            response = result.descriptorAtIndex_(response_index)
+
+            data = ()
+            num_params = response.numberOfItems()
+            if num_params == 0:
+                data = response.stringValue().strip()
+
+            else:
+                for param_index in range(1, num_params + 1):
+                    param = response.descriptorAtIndex_(param_index).stringValue()
+                    if param is not None:
+                        data += (param.strip(), )
+            response_objects.append(data)
+
+        return response_objects
+
+    def run(self) -> Any:
+        """Compiles and runs the script, returning the result.
+
+        :return: The return value of the script.
+        :rtype: Any
+
+        :Example:
+
+        >>> import PyXA
+        >>> script = PyXA.AppleScript(f\"\"\"tell application "System Events"
+        >>>     return 1 + 2
+        >>> end tell
+        >>> \"\"\")
+        >>> print(script.run())
+        {
+            'string': '3',
+            'int': 3,
+            'bool': False,
+            'float': 3.0,
+            'date': None,
+            'file_url': None,
+            'type_code': 3,
+            'data': {length = 4, bytes = 0x03000000},
+            'event': <NSAppleEventDescriptor: 3>
+        }
+        
+        .. versionadded:: 0.0.5
+        """
+        script = ""
+        for line in self.script:
+            script += line + "\n"
+        script = AppKit.NSAppleScript.alloc().initWithSource_(script)
+        
+        result = script.executeAndReturnError_(None)[0]
+        if result is not None:
+            self.__last_result = {
+                "string": result.stringValue(),
+                "int": result.int32Value(),
+                "bool": result.booleanValue(),
+                "float": result.doubleValue(),
+                "date": result.dateValue(),
+                "file_url": result.fileURLValue(),
+                "type_code": result.typeCodeValue(),
+                "data": result.data(),
+                "event": result,
+            }
+            return self.last_result
+
+    def __repr__(self):
+        return "<" + str(type(self)) + str(self.script) + ">"
 
 
 
@@ -1425,22 +1871,17 @@ class XAPredicate(XAObject, XAClipboardCodable):
         expressions = [" ".join(expr) for expr in zip(self.keys, self.operators, placeholders)]
         format = "( " + " ) && ( ".join(expressions) + " )"
 
+        ls = []
         predicate = AppKit.NSPredicate.predicateWithFormat_(format, *self.values)
-        ls = target_list.filteredArrayUsingPredicate_(predicate)
-
-        if len(ls) == 0:
-            try:
-                # Not sure why this is necessary sometimes, but it is.
-                predicate = str(predicate)
-                ls = target_list.filteredArrayUsingPredicate_(AppKit.NSPredicate.predicateWithFormat_(predicate))
-            except ValueError:
-                pass
+        try:
+            # Not sure why this is necessary sometimes, but it is.
+            ls = target_list.filteredArrayUsingPredicate_(AppKit.NSPredicate.predicateWithFormat_(str(predicate)))
+        except ValueError:
+            ls = target_list.filteredArrayUsingPredicate_(predicate)
 
         if isinstance(target, XAList):
             return target.__class__({
                 "parent": target,
-                "appspace": self.xa_apsp,
-                "workspace": self.xa_wksp,
                 "element": ls,
                 "appref": self.xa_aref,
             })
@@ -1468,8 +1909,6 @@ class XAPredicate(XAObject, XAClipboardCodable):
         if isinstance(target, XAList):
             return target.__class__({
                 "parent": target,
-                "appspace": AppKit.NSApplication.sharedApplication(),
-                "workspace": AppKit.NSWorkspace.sharedWorkspace(),
                 "element": ls,
                 "appref": AppKit.NSApplication.sharedApplication(),
             })
@@ -1505,8 +1944,6 @@ class XAPredicate(XAObject, XAClipboardCodable):
         if isinstance(target, XAList):
             return target.__class__({
                 "parent": target,
-                "appspace": AppKit.NSApplication.sharedApplication(),
-                "workspace": AppKit.NSWorkspace.sharedWorkspace(),
                 "element": ls,
                 "appref": AppKit.NSApplication.sharedApplication(),
             })
@@ -1905,12 +2342,6 @@ class XAURL(XAObject, XAClipboardCodable):
     """
     def __init__(self, url: Union[str, AppKit.NSURL, 'XAURL', 'XAPath']):
         super().__init__()
-        self.parameters: str #: The query parameters of the URL
-        self.scheme: str #: The URI scheme of the URL
-        self.fragment: str #: The fragment identifier following a # symbol in the URL
-        self.port: int #: The port that the URL points to
-        self.html: element.tag #: The html of the URL
-        self.title: str #: The title of the URL
         self.soup: BeautifulSoup = None #: The bs4 object for the URL, starts as None until a bs4-related action is made
         self.url: str #: The string form of the URL
 
@@ -1948,24 +2379,40 @@ class XAURL(XAObject, XAClipboardCodable):
 
     @property
     def parameters(self) -> str:
+        """The query parameters of the URL.
+        """
         return self.xa_elem.query()
 
     @property
     def scheme(self) -> str:
+        """The URI scheme of the URL.
+        """
         return self.xa_elem.scheme()
 
     @property
     def fragment(self) -> str:
+        """The fragment identifier following a # symbol in the URL.
+        """
         return self.xa_elem.fragment()
 
     @property
+    def port(self) -> int:
+        """The port that the URL points to.
+        """
+        return self.xa_elem.port()
+
+    @property
     def html(self) -> element.Tag:
+        """The html of the URL.
+        """
         if self.soup is None:
             self.__get_soup()
         return self.soup.html
 
     @property
     def title(self) -> str:
+        """The title of the URL.
+        """
         if self.soup is None:
             self.__get_soup()
         return self.soup.title.text
@@ -1979,7 +2426,10 @@ class XAURL(XAObject, XAClipboardCodable):
 
         .. versionadded:: 0.0.5
         """
-        AppKit.NSWorkspace.sharedWorkspace().openURL_(self.xa_elem)
+        global workspace
+        if workspace is None:
+            workspace = AppKit.NSWorkspace.sharedWorkspace()
+        workspace.openURL_(self.xa_elem)
 
     def extract_text(self) -> list[str]:
         """Extracts the visible text from the webpage that the URL points to.
@@ -2038,6 +2488,15 @@ class XAURL(XAObject, XAClipboardCodable):
         """
         return [self.xa_elem, str(self.xa_elem)]
 
+    def __eq__(self, other: 'XAURL'):
+        if self.xa_elem == other.xa_elem:
+            return True
+
+        return self.url == other.url
+
+    def __str__(self):
+        return str(self.xa_elem)
+
     def __repr__(self):
         return "<" + str(type(self)) + str(self.xa_elem) + ">"
 
@@ -2056,14 +2515,16 @@ class XAPath(XAObject, XAClipboardCodable):
         self.xa_elem = path
         self.path = path.path() #: The path string without the file:// prefix
         self.url = str(self.xa_elem) #: The path string with the file:// prefix included
-        self.xa_wksp = AppKit.NSWorkspace.sharedWorkspace()
 
     def open(self):
         """Opens the file in its default application.
 
         .. versionadded: 0.0.5
         """
-        self.xa_wksp.openURL_(self.xa_elem)
+        global workspace
+        if workspace is None:
+            workspace = AppKit.NSWorkspace.sharedWorkspace()
+        workspace.openURL_(self.xa_elem)
 
     def show_in_finder(self):
         """Opens a Finder window showing the folder containing this path, with the associated file selected. Synonymous with :func:`select`.
@@ -2077,7 +2538,10 @@ class XAPath(XAObject, XAClipboardCodable):
 
         .. versionadded: 0.0.5
         """
-        self.xa_wksp.activateFileViewerSelectingURLs_([self.xa_elem])
+        global workspace
+        if workspace is None:
+            workspace = AppKit.NSWorkspace.sharedWorkspace()
+        workspace.activateFileViewerSelectingURLs_([self.xa_elem])
 
     def get_clipboard_representation(self) -> list[Union[AppKit.NSURL, str]]:
         """Gets a clipboard-codable representation of the path.
@@ -2091,319 +2555,20 @@ class XAPath(XAObject, XAClipboardCodable):
         """
         return [self.xa_elem, self.xa_elem.path()]
 
+    def __eq__(self, other: 'XAURL'):
+        if self.xa_elem == other.xa_elem:
+            return True
+
+        return self.path == other.path
+
     def __repr__(self):
         return "<" + str(type(self)) + str(self.xa_elem) + ">"
-
-
-
-
-########################
-### Interoperability ###
-########################
-# AppleScript
-class AppleScript(XAObject):
-    """A class for constructing and executing AppleScript scripts.
-
-    .. versionadded:: 0.0.5
-    """
-    def __init__(self, script: Union[str, list[str], None] = None):
-        """Creates a new AppleScript object.
-
-        :param script: A string or list of strings representing lines of AppleScript code, or the path to a script plaintext file, defaults to None
-        :type script: Union[str, list[str], None], optional
-
-        .. versionadded:: 0.0.5
-        """
-        self.script: list[str] #: The lines of AppleScript code contained in the script
-        self.last_result: Any #: The return value of the last execution of the script
-        self.file_path: XAPath #: The file path of this script, if one exists
-
-        if isinstance(script, str):
-            if script.startswith("/"):
-                with open(script, 'r') as f:
-                    script = f.readlines()
-            else:
-                self.script = [script]
-        elif isinstance(script, list):
-            self.script = script
-        elif script == None:
-            self.script = []
-
-    @property
-    def last_result(self) -> Any:
-        return self.__last_result
-
-    @property
-    def file_path(self) -> 'XAPath':
-        return self.__file_path
-
-    def add(self, script: Union[str, list[str], 'AppleScript']):
-        """Adds the supplied string, list of strings, or script as a new line entry in the script.
-
-        :param script: The script to append to the current script string.
-        :type script: Union[str, list[str], AppleScript]
-
-        :Example:
-
-        >>> import PyXA
-        >>> script = PyXA.AppleScript("tell application \"Safari\"")
-        >>> script.add("print the document of window 1")
-        >>> script.add("end tell")
-        >>> script.run()
-
-        .. versionadded:: 0.0.5
-        """
-        if isinstance(script, str):
-            self.script.append(script)
-        elif isinstance(script, list):
-            self.script.extend(script)
-        elif isinstance(script, AppleScript):
-            self.script.extend(script.script)
-
-    def insert(self, index: int, script: Union[str, list[str], 'AppleScript']):
-        """Inserts the supplied string, list of strings, or script as a line entry in the script starting at the given line index.
-
-        :param index: The line index to begin insertion at
-        :type index: int
-        :param script: The script to insert into the current script
-        :type script: Union[str, list[str], AppleScript]
-
-        :Example:
-
-        >>> import PyXA
-        >>> script = PyXA.AppleScript.load("/Users/exampleUser/Downloads/Test.scpt")
-        >>> script.insert(1, "activate")
-        >>> script.run()
-
-        .. versionadded:: 0.0.9
-        """
-        if isinstance(script, str):
-            self.script.insert(index, script)
-        elif isinstance(script, list):
-            for line in script:
-                self.script.insert(index, line)
-                index += 1
-        elif isinstance(script, AppleScript):
-            for line in script.script:
-                self.script.insert(index, line)
-                index += 1
-
-    def pop(self, index: int = -1) -> str:
-        """Removes the line at the given index from the script.
-
-        :param index: The index of the line to remove
-        :type index: int
-        :return: The text of the removed line
-        :rtype: str
-
-        :Example:
-
-        >>> import PyXA
-        >>> script = PyXA.AppleScript.load("/Users/exampleUser/Downloads/Test.scpt")
-        >>> print(script.pop(1))
-            get chats
-
-        .. versionadded:: 0.0.9
-        """
-        return self.script.pop(index)
-
-    def load(path: Union['XAPath', str]) -> 'AppleScript':
-        """Loads an AppleScript (.scpt) file as a runnable AppleScript object.
-
-        :param path: The path of the .scpt file to load
-        :type path: Union[XAPath, str]
-        :return: The newly loaded AppleScript object
-        :rtype: AppleScript
-
-        :Example 1: Load and run a script
-
-        >>> import PyXA
-        >>> script = PyXA.AppleScript.load("/Users/exampleUser/Downloads/Test.scpt")
-        >>> print(script.run())
-        {
-            'string': None,
-            'int': 0, 
-            'bool': False,
-            'float': 0.0,
-            'date': None,
-            'file_url': None,
-            'type_code': 845507684,
-            'data': {length = 8962, bytes = 0x646c6532 00000000 6c697374 000022f2 ... 6e756c6c 00000000 },
-            'event': <NSAppleEventDescriptor: [ 'obj '{ ... } ]>
-        }
-
-        :Example 2: Load, modify, and run a script
-
-        >>> import PyXA
-        >>> script = PyXA.AppleScript.load("/Users/exampleUser/Downloads/Test.scpt")
-        >>> script.pop(1)
-        >>> script.insert(1, "activate")
-        >>> script.run()
-
-        .. versionadded:: 0.0.8
-        """
-        if isinstance(path, str):
-            path = XAPath(path)
-        script = AppKit.NSAppleScript.alloc().initWithContentsOfURL_error_(path.xa_elem, None)[0]
-
-        attributed_string = script.richTextSource()
-        attributed_string = str(attributed_string).split("}")
-        parts = []
-        for x in attributed_string:
-            parts.extend(x.split("{"))
-
-        for x in parts:
-            if "=" in x:
-                parts.remove(x)
-
-        script = AppleScript("".join(parts).split("\n"))
-        script.__file_path = path
-        return script
-
-    def save(self, path: Union['XAPath', str, None] = None):
-        """Saves the script to the specified file path, or to the path from which the script was loaded.
-
-        :param path: The path to save the script at, defaults to None
-        :type path: Union[XAPath, str, None], optional
-
-        :Example 1: Save the script to a specified path
-
-        >>> import PyXA
-        >>> script = PyXA.AppleScript(f\"\"\"
-        >>>     tell application "Safari"
-        >>>         activate
-        >>>     end tell
-        >>> \"\"\")
-        >>> script.save("/Users/exampleUser/Downloads/Example.scpt")
-
-        :Example 2: Load a script, modify it, then save it
-
-        >>> import PyXA
-        >>> script = PyXA.AppleScript.load("/Users/steven/Downloads/Example.scpt")
-        >>> script.insert(2, "delay 2")
-        >>> script.insert(3, "set the miniaturized of window 1 to true")
-        >>> script.save()
-
-        .. versionadded:: 0.0.9
-        """
-        if path is None and self.file_path is None:
-            print("No path to save script to!")
-            return
-        
-        if isinstance(path, str):
-            path = XAPath(path)
-
-        script = ""
-        for line in self.script:
-            script += line + "\n"
-        script = AppKit.NSAppleScript.alloc().initWithSource_(script)
-        script.compileAndReturnError_(None)
-        source = (script.richTextSource().string())
-
-        if path is not None:
-            self.__file_path = path
-
-        with open(self.file_path.xa_elem.path(), "w") as f:
-            f.write(source)
-
-    def parse_result_data(result: dict) -> list[tuple[str, str]]:
-        """Extracts string data from an AppleScript execution result dictionary.
-
-        :param result: The execution result dictionary to extract data from
-        :type result: dict
-        :return: A list of responses contained in the result structured as tuples
-        :rtype: list[tuple[str, str]]
-
-        :Example:
-
-        >>> import PyXA
-        >>> script = PyXA.AppleScript.load("/Users/exampleUser/Downloads/Test.scpt")
-        >>> print(script.script)
-        >>> result = script.run()
-        >>> print(PyXA.AppleScript.parse_result_data(result))
-        ['tell application "Messages"', '\\tget chats', 'end tell']
-        [('ID', 'iMessage;-;+12345678910'), ('ID', 'iMessage;-;+12345678911'), ('ID', 'iMessage;-;example@icloud.com'), ...]
-
-        .. versionadded:: 0.0.9
-        """
-        result = result["event"]
-        response_objects = []
-        num_responses = result.numberOfItems()
-        for response_index in range(1, num_responses + 1):
-            response = result.descriptorAtIndex_(response_index)
-
-            data = ()
-            num_params = response.numberOfItems()
-            if num_params == 0:
-                data = response.stringValue().strip()
-
-            else:
-                for param_index in range(1, num_params + 1):
-                    param = response.descriptorAtIndex_(param_index).stringValue()
-                    if param is not None:
-                        data += (param.strip(), )
-            response_objects.append(data)
-
-        return response_objects
-
-    def run(self) -> Any:
-        """Compiles and runs the script, returning the result.
-
-        :return: The return value of the script.
-        :rtype: Any
-
-        :Example:
-
-        import PyXA
-        script = PyXA.AppleScript(f\"\"\"tell application "System Events"
-            return 1 + 2
-        end tell
-        \"\"\")
-        print(script.run())
-        {
-            'string': '3',
-            'int': 3,
-            'bool': False,
-            'float': 3.0,
-            'date': None,
-            'file_url': None,
-            'type_code': 3,
-            'data': {length = 4, bytes = 0x03000000},
-            'event': <NSAppleEventDescriptor: 3>
-        }
-        
-        .. versionadded:: 0.0.5
-        """
-        script = ""
-        for line in self.script:
-            script += line + "\n"
-        script = AppKit.NSAppleScript.alloc().initWithSource_(script)
-        
-        result = script.executeAndReturnError_(None)[0]
-        if result is not None:
-            self.__last_result = {
-                "string": result.stringValue(),
-                "int": result.int32Value(),
-                "bool": result.booleanValue(),
-                "float": result.doubleValue(),
-                "date": result.dateValue(),
-                "file_url": result.fileURLValue(),
-                "type_code": result.typeCodeValue(),
-                "data": result.data(),
-                "event": result,
-            }
-            return self.last_result
-
-    def __repr__(self):
-        return "<" + str(type(self)) + str(self.script) + ">"
-
 
 
 
 ########################
 ### System Utilities ###
 ########################
-# XAClipboard, XANotification, XAProcess, XACommandDetector, XASpeechRecognizer, XASpeech, XASpotlight
 class XAClipboard(XAObject):
     """A wrapper class for managing and interacting with the system clipboard.
 
@@ -2519,7 +2684,7 @@ class XAClipboard(XAObject):
         :type content: list[Any]
 
         .. deprecated:: 0.0.8
-           Set the :ivar:`content` property directly instead.
+           Set the :attr:`content` property directly instead.
         
         .. versionadded:: 0.0.5
         """
@@ -2585,10 +2750,10 @@ class XAProcess(XAObject):
         super().__init__(properties)
         self.xa_wcls = properties["window_class"]
 
-        self.front_window: XAWindow #: The front window of the application process
-
     @property
     def front_window(self) -> 'XAWindow':
+        """The front window of the application process.
+        """
         return self._new_element(self.xa_elem.windows()[0], XAWindow)
 
     def windows(self, filter: dict = None) -> 'XAWindowList':
@@ -2596,256 +2761,6 @@ class XAProcess(XAObject):
 
     def menu_bars(self, filter: dict = None) -> 'XAUIMenuBarList':
         return self._new_element(self.xa_elem.menuBars(), XAUIMenuBarList, filter)
-
-
-
-
-class XACommandDetector(XAObject):
-    """A command-based query detector.
-
-    .. versionadded:: 0.0.9
-    """
-    def __init__(self, command_function_map: Union[dict[str, Callable[[], Any]], None] = None):
-        """Creates a command detector object.
-
-        :param command_function_map: A dictionary mapping command strings to function objects
-        :type command_function_map: dict[str, Callable[[], Any]]
-
-        .. versionadded:: 0.0.9
-        """
-        self.command_function_map = command_function_map or {} #: The dictionary of commands and corresponding functions to run upon detection
-
-    def on_detect(self, command: str, function: Callable[[], Any]):
-        """Adds or replaces a command to listen for upon calling :func:`listen`, and associates the given function with that command.
-
-        :param command: The command to listen for
-        :type command: str
-        :param function: The function to call when the command is heard
-        :type function: Callable[[], Any]
-
-        :Example:
-
-        >>> detector = PyXA.XACommandDetector()
-        >>> detector.on_detect("go to google", PyXA.XAURL("http://google.com").open)
-        >>> detector.listen()
-
-        .. versionadded:: 0.0.9
-        """
-        self.command_function_map[command] = function
-
-    def listen(self) -> Any:
-        """Begins listening for the specified commands.
-
-        :return: The execution return value of the corresponding command function
-        :rtype: Any
-
-        :Example:
-
-        >>> import PyXA
-        >>> PyXA.speak("What app do you want to open?")
-        >>> PyXA.XACommandDetector({
-        >>>     "safari": PyXA.Application("Safari").activate,
-        >>>     "messages": PyXA.Application("Messages").activate,
-        >>>     "shortcuts": PyXA.Application("Shortcuts").activate,
-        >>>     "mail": PyXA.Application("Mail").activate,
-        >>>     "calendar": PyXA.Application("Calendar").activate,
-        >>>     "notes": PyXA.Application("Notes").activate,
-        >>>     "music": PyXA.Application("Music").activate,
-        >>>     "tv": PyXA.Application("TV").activate,
-        >>>     "pages": PyXA.Application("Pages").activate,
-        >>>     "numbers": PyXA.Application("Numbers").activate,
-        >>>     "keynote": PyXA.Application("Keynote").activate,
-        >>> }).listen()
-
-        .. versionadded:: 0.0.9
-        """
-        command_function_map = self.command_function_map
-        return_value = None
-        class NSSpeechRecognizerDelegate(AppKit.NSObject):
-            def speechRecognizer_didRecognizeCommand_(self, recognizer, cmd):
-                return_value = command_function_map[cmd]()
-                AppHelper.stopEventLoop()
-
-        recognizer = AppKit.NSSpeechRecognizer.alloc().init()
-        recognizer.setCommands_(list(command_function_map.keys()))
-        recognizer.setBlocksOtherRecognizers_(True)
-        recognizer.setDelegate_(NSSpeechRecognizerDelegate.alloc().init().retain())
-        recognizer.startListening()
-        AppHelper.runConsoleEventLoop()
-
-        return return_value
-
-
-
-
-class XASpeechRecognizer(XAObject):
-    """A rule-based query detector.
-
-    .. versionadded:: 0.0.9
-    """
-    def __init__(self, finish_conditions: Union[None, dict[Callable[[str], bool], Callable[[str], bool]]] = None):
-        """Creates a speech recognizer object.
-
-        By default, with no other rules specified, the Speech Recognizer will timeout after 10 seconds once :func:`listen` is called.
-
-        :param finish_conditions: A dictionary of rules and associated methods to call when a rule evaluates to true, defaults to None
-        :type finish_conditions: Union[None, dict[Callable[[str], bool], Callable[[str], bool]]], optional
-
-        .. versionadded:: 0.0.9
-        """
-        default_conditions = {
-            lambda x: self.time_elapsed > timedelta(seconds = 10): lambda x: self.spoken_query,
-        }
-        self.finish_conditions: Callable[[str], bool] = finish_conditions or default_conditions #: A dictionary of rules and associated methods to call when a rule evaluates to true
-        self.spoken_query: str = "" #: The recognized spoken input
-        self.start_time: datetime #: The time that the Speech Recognizer begins listening
-        self.time_elapsed: timedelta #: The amount of time passed since the start time
-
-    def __prepare(self):
-        # Request microphone access if we don't already have it
-        Speech.SFSpeechRecognizer.requestAuthorization_(None)
-
-        # Set up audio session
-        self.audio_session = AVFoundation.AVAudioSession.sharedInstance()
-        self.audio_session.setCategory_mode_options_error_(AVFoundation.AVAudioSessionCategoryRecord, AVFoundation.AVAudioSessionModeMeasurement, AVFoundation.AVAudioSessionCategoryOptionDuckOthers, None)
-        self.audio_session.setActive_withOptions_error_(True, AVFoundation.AVAudioSessionSetActiveOptionNotifyOthersOnDeactivation, None)
-
-        # Set up recognition request
-        self.recognizer = Speech.SFSpeechRecognizer.alloc().init()
-        self.recognition_request = Speech.SFSpeechAudioBufferRecognitionRequest.alloc().init()
-        self.recognition_request.setShouldReportPartialResults_(True)
-
-        # Set up audio engine
-        self.audio_engine = AVFoundation.AVAudioEngine.alloc().init()
-        self.input_node = self.audio_engine.inputNode()
-        recording_format = self.input_node.outputFormatForBus_(0)
-        self.input_node.installTapOnBus_bufferSize_format_block_(0, 1024, recording_format,
-            lambda buffer, _when: self.recognition_request.appendAudioPCMBuffer_(buffer))
-        self.audio_engine.prepare()
-        self.audio_engine.startAndReturnError_(None)
-
-    def on_detect(self, rule: Callable[[str], bool], method: Callable[[str], bool]):
-        """Sets the given rule to call the specified method if a spoken query passes the rule.
-
-        :param rule: A function that takes the spoken query as a parameter and returns a boolean value depending on whether the query passes a desired rule
-        :type rule: Callable[[str], bool]
-        :param method: A function that takes the spoken query as a parameter and acts on it
-        :type method: Callable[[str], bool]
-
-        .. versionadded:: 0.0.9
-        """
-        self.finish_conditions[rule] = method
-
-    def listen(self) -> Any:
-        """Begins listening for a query until a rule returns True.
-
-        :return: The value returned by the method invoked upon matching some rule
-        :rtype: Any
-
-        .. versionadded:: 0.0.9
-        """
-        self.start_time = datetime.now()
-        self.time_elapsed = None
-        self.__prepare()
-
-        old_self = self
-        def detect_speech(transcription, error):
-            if error is not None:
-                print("Failed to detect speech. Error: ", error)
-            else:
-                old_self.spoken_query = transcription.bestTranscription().formattedString()
-                print(old_self.spoken_query)
-
-        recognition_task = self.recognizer.recognitionTaskWithRequest_resultHandler_(self.recognition_request, detect_speech)
-        while self.spoken_query == "" or not any(x(self.spoken_query) for x in self.finish_conditions):
-            self.time_elapsed = datetime.now() - self.start_time
-            AppKit.NSRunLoop.currentRunLoop().runUntilDate_(datetime.now() + timedelta(seconds = 0.5))
-
-        self.audio_engine.stop()
-        for rule, method in self.finish_conditions.items():
-            if rule(self.spoken_query):
-                return method(self.spoken_query)
-
-
-
-
-class XASpeech(XAObject):
-    def __init__(self, message: str = "", voice: Union[str, None] = None, volume: float = 0.5, rate: int = 200):
-        self.message: str = message #: The message to speak
-        self.voice: Union[str, None] = voice #: The voice that the message is spoken in
-        self.volume: float = volume #: The speaking volume
-        self.rate: int = rate #: The speaking rate
-
-    def voices(self) -> list[str]:
-        """Gets the list of voice names available on the system.
-
-        :return: The list of voice names
-        :rtype: list[str]
-
-        :Example:
-
-        >>> import PyXA
-        >>> speaker = PyXA.XASpeech()
-        >>> print(speaker.voices())
-        ['Agnes', 'Alex', 'Alice', 'Allison',
-
-        .. versionadded:: 0.0.9
-        """
-        ls = AppKit.NSSpeechSynthesizer.availableVoices()
-        return [x.replace("com.apple.speech.synthesis.voice.", "").replace(".premium", "").title() for x in ls]
-    
-    def speak(self, path: Union[str, XAPath, None] = None):
-        """Speaks the provided message using the desired voice, volume, and speaking rate. 
-
-        :param path: The path to a .AIFF file to output sound to, defaults to None
-        :type path: Union[str, XAPath, None], optional
-
-        :Example 1: Speak a message aloud
-
-        >>> import PyXA
-        >>> PyXA.XASpeech("This is a test").speak()
-
-        :Example 2: Output spoken message to an AIFF file
-
-        >>> import PyXA
-        >>> speaker = PyXA.XASpeech("Hello, world!")
-        >>> speaker.speak("/Users/steven/Downloads/Hello.AIFF")
-
-        :Example 3: Control the voice, volume, and speaking rate
-
-        >>> import PyXA
-        >>> speaker = PyXA.XASpeech(
-        >>>     message = "Hello, world!",
-        >>>     voice = "Alex",
-        >>>     volume = 1,
-        >>>     rate = 500
-        >>> )
-        >>> speaker.speak()
-
-        .. versionadded:: 0.0.9
-        """
-        # Get the selected voice by name
-        voice = None
-        for v in AppKit.NSSpeechSynthesizer.availableVoices():
-            if self.voice.lower() in v.lower():
-                voice = v
-
-        # Set up speech synthesis object
-        synthesizer = AppKit.NSSpeechSynthesizer.alloc().initWithVoice_(voice)
-        synthesizer.setVolume_(self.volume)
-        synthesizer.setRate_(self.rate)
-
-        # Start speaking
-        if path is None:
-            synthesizer.startSpeakingString_(self.message)
-        else:
-            if isinstance(path, str):
-                path = XAPath(path)
-            synthesizer.startSpeakingString_toURL_(self.message, path.xa_elem)
-
-        # Wait for speech to complete
-        while synthesizer.isSpeaking():
-            time.sleep(0.01)
 
 
 
@@ -2922,7 +2837,10 @@ class XASpotlight(XAObject):
 
         .. versionadded:: 0.0.9
         """
-        AppKit.NSWorkspace.sharedWorkspace().showSearchResultsForQueryString_(str(self.query))
+        global workspace
+        if workspace is None:
+            workspace = AppKit.NSWorkspace.sharedWorkspace()
+        workspace.showSearchResultsForQueryString_(str(self.query))
 
     def __search_by_strs(self, terms: tuple[str]):
         expanded_terms = [[x]*3 for x in terms]
@@ -3076,86 +2994,101 @@ class XAUIElement(XAObject):
     def __init__(self, properties):
         super().__init__(properties)
 
-        self.properties: dict #: All properties of the UI element
-        self.accessibility_description: str #: The accessibility description of the element
-        self.enabled: bool #: Whether the UI element is currently enabled
-        self.entire_contents: Any #: The entire contents of the element
-        self.focused: bool #: Whether the window is the currently element
-        self.name: str #: The name of the element
-        self.title: str #: The title of the element (often the same as its name)
-        self.position: tuple[int, int] #: The position of the top left corner of the element
-        self.size: tuple[int, int] #: The width and height of the element, in pixels
-        self.maximum_value: Any #: The maximum value that the element can have
-        self.minimum_value: Any #: The minimum value that the element can have
-        self.value: Any #: The current value of the element
-        self.role: str #: The element's role
-        self.role_description: str #: The description of the element's role
-        self.subrole: str #: The subrole of the UI element
-        self.selected: bool #: Whether the element is currently selected
-
     @property
     def properties(self) -> dict:
+        """All properties of the UI element.
+        """
         return self.xa_elem.properties()
 
     @property
     def accessibility_description(self) -> str:
+        """The accessibility description of the element.
+        """
         return self.xa_elem.accessibilityDescription()
 
     @property
     def enabled(self) -> bool:
+        """Whether the UI element is currently enabled.
+        """
         return self.xa_elem.enabled()
 
     @property
     def entire_contents(self) -> list[XAObject]:
+        """The entire contents of the element.
+        """
         ls = self.xa_elem.entireContents()
         return [self._new_element(x, XAUIElement) for x in ls]
 
     @property
     def focused(self) -> bool:
+        """Whether the window is the currently focused element.
+        """
         return self.xa_elem.focused()
 
     @property
     def name(self) -> str:
+        """The name of the element.
+        """
         return self.xa_elem.name()
 
     @property
     def title(self) -> str:
+        """The title of the element (often the same as its name).
+        """
         return self.xa_elem.title()
 
     @property
     def position(self) -> tuple[int, int]:
+        """The position of the top left corner of the element.
+        """
         return self.xa_elem.position()
 
     @property
     def size(self) -> tuple[int, int]:
+        """The width and height of the element, in pixels.
+        """
         return self.xa_elem.size()
 
     @property
     def maximum_value(self) -> Any:
+        """The maximum value that the element can have.
+        """
         return self.xa_elem.maximumValue()
 
     @property
     def minimum_value(self) -> Any:
+        """The minimum value that the element can have.
+        """
         return self.xa_elem.minimumValue()
 
     @property
     def value(self) -> Any:
+        """The current value of the element.
+        """
         return self.xa_elem.value()
 
     @property
     def role(self) -> str:
+        """The element's role.
+        """
         return self.xa_elem.role()
 
     @property
     def role_description(self) -> str:
+        """The description of the element's role.
+        """
         return self.xa_elem.roleDescription()
 
     @property
     def subrole(self) -> str:
+        """The subrole of the UI element.
+        """
         return self.xa_elem.subrole()
 
     @property
     def selected(self) -> bool:
+        """Whether the element is currently selected.
+        """
         return self.xa_elem.selected()
 
     def ui_elements(self, filter: dict = None) -> 'XAUIElementList':
@@ -3217,7 +3150,7 @@ class XAWindowList(XAUIElementList):
     def __init__(self, properties: dict, filter: Union[dict, None] = None):
         super().__init__(properties, filter, XAWindow)
 
-    def collapse(self):
+    def collapse(self) -> Self:
         """Collapses all windows in the list.
 
         :Example:
@@ -3228,10 +3161,23 @@ class XAWindowList(XAUIElementList):
 
         .. versionadded:: 0.0.5
         """
-        for window in self:
-            window.collapse()
+        for window in self.xa_elem:
+            if hasattr(window, "collapsed"):
+                window.setValue_forKey_(True, "collapsed")
 
-    def uncollapse(self):
+            elif hasattr(window, "minimized"):
+                window.setValue_forKey_(True, "minimized")
+
+            elif hasattr(window, "miniaturized"):
+                window.setValue_forKey_(True, "miniaturized")
+
+            if not window.miniaturized():
+                window = self._new_element(window, XAWindow)
+                window.collapse()
+
+        return self
+
+    def uncollapse(self) -> Self:
         """Uncollapses all windows in the list.
 
         :Example:
@@ -3242,8 +3188,20 @@ class XAWindowList(XAUIElementList):
 
         .. versionadded:: 0.0.6
         """
-        for window in self:
-            window.uncollapse()
+        for window in self.xa_elem:
+            if hasattr(window, "collapsed"):
+                window.setValue_forKey_(False, "collapsed")
+
+            elif hasattr(window, "minimized"):
+                window.setValue_forKey_(False, "minimized")
+
+            elif hasattr(window, "miniaturized"):
+                window.setValue_forKey_(False, "miniaturized")
+
+            if window.miniaturized():
+                window = self._new_element(window, XAWindow)
+                window.uncollapse()
+        return self
 
     def close(self):
         """Closes all windows in the list.add()
@@ -3260,7 +3218,7 @@ class XAWindowList(XAUIElementList):
             window.close()
 
     def __repr__(self):
-        return "<" + str(type(self)) + str(self.title()) + ">"
+        return "<" + str(type(self)) + str(self.name()) + ">"
 
 class XAWindow(XAUIElement):
     """A general window class for windows of both officially scriptable and non-scriptable applications.
@@ -3303,6 +3261,7 @@ class XAWindow(XAUIElement):
         if hasattr(self.xa_elem.properties(), "miniaturized"):
             self.xa_elem.setValue_forKey_(True, "miniaturized")
         else:
+            print(self.xa_elem.get())
             close_button = self.buttons({"subrole": "AXMinimizeButton"})[0]
             close_button.click()
         return self
@@ -3331,7 +3290,7 @@ class XAWindow(XAUIElement):
         return self
 
     def __repr__(self):
-        return "<" + str(type(self)) + str(self.title) + ">"
+        return "<" + str(type(self)) + str(self.name) + ">"
 
 
 
@@ -3805,14 +3764,17 @@ class XATextDocument(XAObject):
     """
     def __init__(self, properties):
         super().__init__(properties)
-        self.text: XAText #: The text of the document.
 
     @property
     def text(self) -> 'XAText':
+        """The text of the document.
+        """
         return self._new_element(self.xa_elem.text(), XAText)
 
     @text.setter
-    def text(self, text: str):
+    def text(self, text: Union[str, 'XAText']):
+        if isinstance(text, XAText):
+            text = text.xa_elem
         self.set_property("text", text)
 
     def prepend(self, text: str) -> 'XATextDocument':
@@ -4135,9 +4097,9 @@ class XAText(XAObject):
         :Example:
 
         >>> import PyXA
-        >>> text = PyXA.XAText("This is English.\nQuesto è Italiano.\nDas ist deutsch.\nこれは日本語です。")
+        >>> text = PyXA.XAText("This is English.\\nQuesto è Italiano.\\nDas ist deutsch.\\nこれは日本語です。")
         >>> print(text.tag_languages())
-        [('This is English.\n', 'en'), ('Questo è Italiano.\n', 'it'), ('Das ist deutsch.\n', 'de'), ('これは日本語です。', 'ja')]
+        [('This is English.\\n', 'en'), ('Questo è Italiano.\\n', 'it'), ('Das ist deutsch.\\n', 'de'), ('これは日本語です。', 'ja')]
 
         .. versionadded:: 0.1.0
         """
@@ -4262,27 +4224,27 @@ class XAText(XAObject):
         :Example 1: Assess the sentiment of a string
 
         >>> import PyXA
-        >>> text = PyXA.XAText("This sucks.\nBut this is great!")
+        >>> text = PyXA.XAText("This sucks.\\nBut this is great!")
         >>> print(text.tag_sentiments())
-        [('This sucks.\n', 'Negative'), ('But this is great!', 'Positive')]
+        [('This sucks.\\n', 'Negative'), ('But this is great!', 'Positive')]
 
         :Example 2: Use a custom sentiment scale
 
         >>> import PyXA
-        >>> text = PyXA.XAText("This sucks.\nBut this is good!\nAnd this is great!")
+        >>> text = PyXA.XAText("This sucks.\\nBut this is good!\\nAnd this is great!")
         >>> print(text.tag_sentiments(sentiment_scale=["Very Negative", "Negative", "Somewhat Negative", "Neutral", "Somewhat Positive", "Positive", "Very Positive"]))
-        [('This sucks.\n', 'Very Negative'), ('But this is good!\n', 'Neutral'), ('And this is great!', 'Very Positive')]
+        [('This sucks.\\n', 'Very Negative'), ('But this is good!\\n', 'Neutral'), ('And this is great!', 'Very Positive')]
 
         :Example 3: Use other tag units
 
         >>> import PyXA
-        >>> text = PyXA.XAText("This sucks.\nBut this is good!\nAnd this is great!")
+        >>> text = PyXA.XAText("This sucks.\\nBut this is good!\\nAnd this is great!")
         >>> print(1, text.tag_sentiments())
         >>> print(2, text.tag_sentiments(unit="word"))
         >>> print(3, text.tag_sentiments(unit="document"))
-        1 [('This sucks.\n', 'Negative'), ('But this is good!\n', 'Neutral'), ('And this is great!', 'Positive')]
+        1 [('This sucks.\\n', 'Negative'), ('But this is good!\\n', 'Neutral'), ('And this is great!', 'Positive')]
         2 [('This', 'Negative'), ('sucks', 'Negative'), ('.', 'Negative'), ('But', 'Neutral'), ('this', 'Neutral'), ('is', 'Neutral'), ('good', 'Neutral'), ('!', 'Neutral'), ('And', 'Positive'), ('this', 'Positive'), ('is', 'Positive'), ('great', 'Positive'), ('!', 'Positive')]
-        3 [('This sucks.\nBut this is good!\nAnd this is great!', 'Neutral')]
+        3 [('This sucks.\\nBut this is good!\\nAnd this is great!', 'Neutral')]
 
         .. versionadded:: 0.1.0
         """
@@ -4418,7 +4380,7 @@ class XAText(XAObject):
         >>> note = app.notes()[0]
         >>> text = PyXA.XAText(note.plaintext)
         >>> print(text.characters())
-        <<class 'PyXA.XACharacterList'>['T', 'h', 'i', 's', ' ', 'i', 's', ' ', 't', 'h', 'e', ' ', 'f', 'i', 'r', 's', 't', ' ', 'p', 'a', 'r', 'a', 'g', 'r', 'a', 'p', 'h', '.', '\n', '\n', 'T', 'h', 'i', 's', ' ', 'i', 's', ' ', 't', 'h', 'e', ' ', 's', 'e', 'c', 'o', 'n', 'd', ' ', 'p', 'a', 'r', 'a', 'g', 'r', 'a', 'p', 'h', '.', ' ', 'N', 'e', 'a', 't', '!', ' ', 'V', 'e', 'r', 'y', ' ', 'c', 'o', 'o', 'l', '.']>
+        <<class 'PyXA.XACharacterList'>['T', 'h', 'i', 's', ' ', 'i', 's', ' ', 't', 'h', 'e', ' ', 'f', 'i', 'r', 's', 't', ' ', 'p', 'a', 'r', 'a', 'g', 'r', 'a', 'p', 'h', '.', '\\n', '\\n', 'T', 'h', 'i', 's', ' ', 'i', 's', ' ', 't', 'h', 'e', ' ', 's', 'e', 'c', 'o', 'n', 'd', ' ', 'p', 'a', 'r', 'a', 'g', 'r', 'a', 'p', 'h', '.', ' ', 'N', 'e', 'a', 't', '!', ' ', 'V', 'e', 'r', 'y', ' ', 'c', 'o', 'o', 'l', '.']>
 
         :Example 2: Get the characters of the first word in a text
 
@@ -4596,318 +4558,6 @@ class XAAttachment(XAObject):
 
 
 
-class XALSM(XAObject):
-    def __init__(self, dataset: Union[dict[str, list[str]], None] = None, from_file: bool = False):
-        """Initializes a Latent Semantic Mapping environment.
-
-        :param dataset: The initial dataset, specified as a dictionary where keys are categories and values are list of corresponding texts, defaults to None. Cannot be None if from_file is False.
-        :type dataset: Union[dict[str, list[str]], None], optional
-        :param from_file: Whether the LSM is being loaded from a file, defaults to False. Cannot be False is dataset is None.
-        :type from_file: bool, optional
-        :raises ValueError: Either you must provide a dataset, or you must load an existing map from an external file
-
-        :Example 1: Classify emails based on subject line
-
-        >>> import PyXA
-        >>> lsm = PyXA.XALSM({
-        >>>     # 1
-        >>>     "spam": ["Deals", "Holiday playbook", "Spend and save. You know the drill.", "Don't miss these holiday deals!", "GOOD NEWS", "you will never have an opportunity of this kind again", "Your Long Overdue Compensation Funds; Totally", "US $25,000,000.00", "goog day", "GOOD DAY, I am Mike Paul I have a", "enron methanol; meter # : 988291 this is a follow up to the note i gave you on monday , 4...", "hpl nom for january 9, see attached file : hplnol 09. xls", "neon retreat ho ho ho, we're around to that most wonderful time of the year", "photoshop, windows, office cheap, main trending abasements, darer prudently fortuitous", "re: indian springs this deal is to book the teco pvr revenue. it is my understanding that...", "noms / actual flow for 2 / we agree", "nominations for oct 21 - 23"],
-        >>> 
-        >>>     # 2
-        >>>     "kayak": ["Price Alert: Airfare holding steady for your trip", "Prices going down for your Boston to Dublin flight", "Price Increase: Boston to Dublin airfare up $184", "Flight Alert: #37 decrease on your flight to Dublin.", "Flight Alert: It's time to book your flight to Dublin", "Price Alert: Airfare holding steady for your Bangor, ME to...", "Ready to explore the world again?"],
-        >>> 
-        >>>     # 3
-        >>>     "lenovo": ["Doorbuster deals up to 70% off", "Visionary, On-Demand Content. Lenovo Tech World '22 is starting", "Up to 70% off deals 9 AM", "TGIF! Here's up to 70% off to jumpstart your weekend", "Top picks to refresh your workspace", "This only happens twice a year", "Think about saving on a Think PC", "Deep deals on Summer Clearance", "Save up to 67% + earn rewards", "Unlock up to 61% off Think PCs", "Giveaway alert!", "Annual Sale Sneak Peak Unlocked!"],
-        >>> 
-        >>>     # 4
-        >>>     "linkedin": ["Here is the latest post trending amongst your coworkers", "Stephen, add Sean Brown to your network", "Share thoughts on LinkedIn", "Top companies are hiring", "Linkedin is better on the app", "Here is the latest post trending amongst your coworkers", "Stephen, add Ronald McDonald to your network", "James Smith shared a post for the first time in a while", "Here is the latest post trending amongst your coworkers", "You appeared in 13 searches this week", "you're on a roll with your career!", "You appeared in 16 searches this week", "18 people notices you", "You appeared in 10 searches this week", "Stephen, add Joe Shmoe to your network", "Your network is talking: The Center for Oceanic Research...", "thanks for being a valued member"]
-        >>> })
-        >>> print(lsm.categorize_query("New! Weekend-only deals"))
-        >>> print(lsm.categorize_query("Stephen, redeem these three (3) unlocked courses"))
-        >>> print(lsm.categorize_query("Round Trip From San Francisco to Atlanta"))
-        [(3, 0.9418474435806274)]
-        [(4, 0.9366401433944702)]
-        [(2, 0.9944692850112915)]
-
-        :Example 2: Use the Mail module to automate dataset construction
-
-        >>> import PyXA
-        >>> app = PyXA.Application("Mail")
-        >>> junk_subject_lines = app.accounts()[0].mailboxes().by_name("Junk").messages().subject()
-        >>> other_subject_lines = app.accounts()[0].mailboxes().by_name("INBOX").messages().subject()
-        >>> 
-        >>> dataset = {
-        >>>     "junk": junk_subject_lines,
-        >>>     "other": other_subject_lines
-        >>> }
-        >>> lsm = PyXA.XALSM(dataset)
-        >>> 
-        >>> query = "Amazon Web Services Billing Statement Available"
-        >>> category = list(dataset.keys())[lsm.categorize_query(query)[0][0] - 1]
-        >>> print(query, "- category:", category)
-        >>> 
-        >>> query = "Complete registration form asap receive your rewards"
-        >>> category = list(dataset.keys())[lsm.categorize_query(query)[0][0] - 1]
-        >>> print(query, "- category:", category)
-        Amazon Web Services Billing Statement Available - category: other
-        Complete registration form asap receive your rewards - category: junk
-
-        .. versionadded:: 0.1.0
-        """
-        self.__categories = {}
-        if dataset is None and not from_file:
-            raise ValueError("You must either load a map from an external file or provide an initial dataset.")
-        elif dataset is None:
-            # Map will be loaded from external file -- empty dataset is temporary
-            self.__dataset = {}
-        else:
-            # Create new map
-            self.__dataset = dataset
-
-            self.map = LatentSemanticMapping.LSMMapCreate(None, 0)
-            LatentSemanticMapping.LSMMapStartTraining(self.map)
-            LatentSemanticMapping.LSMMapSetProperties(self.map, {
-                LatentSemanticMapping.kLSMSweepCutoffKey: 0,
-                # LatentSemanticMapping.kLSMPrecisionKey: LatentSemanticMapping.kLSMPrecisionDouble,
-                LatentSemanticMapping.kLSMAlgorithmKey: LatentSemanticMapping.kLSMAlgorithmSparse,
-            })
-
-            for category in dataset:
-                self.__add_category(category)
-
-            LatentSemanticMapping.LSMMapCompile(self.map)
-
-    def __add_category(self, category: str) -> int:
-        loc = Foundation.CFLocaleGetSystem()
-        category_ref = LatentSemanticMapping.LSMMapAddCategory(self.map)
-        self.__categories[category] = category_ref
-        self.__categories[category_ref] = category_ref
-        text_ref = LatentSemanticMapping.LSMTextCreate(None, self.map)
-        LatentSemanticMapping.LSMTextAddWords(text_ref, " ".join(self.__dataset[category]), loc, LatentSemanticMapping.kLSMTextPreserveAcronyms)
-        LatentSemanticMapping.LSMMapAddText(self.map, text_ref, category_ref)
-        return category_ref
-
-    def save(self, file_path: Union[XAPath, str]) -> bool:
-        """Saves the map to an external file.
-
-        :param file_path: The path to save the map at
-        :type file_path: Union[XAPath, str]
-        :return: True if the map was saved successfully
-        :rtype: bool
-
-        :Example: Create a Reddit post classifier for gaming vs. productivity posts
-
-        >>> import PyXA
-        >>> lsm = PyXA.XALSM({
-        >>>     # 1
-        >>>     "gaming": ["If you could vote on the 2017 Mob Vote again, which mob would you choose this time and why?", "Take your time, you got this", "My parents (late 70s) got me a ps5 controller for Christmas. I do not own a playstation 5...", "I got off the horse by accident right before a cutscene in red dead", "boy gamer", "Minesweeper 99 x 99, 1500 mines. Took me about 2.5 hours to finish, nerve-wracking. No one might care, but just wanted to share this.", "The perfect cosplay doesn’t ex...", "'Play until we lose'", "Can we please boycott Star Wars battlefront 2", "EA removed the refund button on their webpage, and now you have to call them and wait to get a refund.", "Train Simulator is so immersive!", "Been gaming with this dude for 15 years. Since Rainbow Six Vegas on 360. I have some good gaming memories with him. He tried but couldn’t get one. Little did he know I was able to get him one. Looking forward to playing another generation with him.", "EA will no longer have exclusive rights of the Star Wars games", "A ziplining contraption I created with 1000+ command blocks", "The steepest walkable staircase possible in 1.16", "I made a texture pack that gives mobs different facial expressions. Should I keep going?"],
-        >>> 
-        >>>     # 2
-        >>>     "productivity": ["Looking for an alarm app that plays a really small alarm, doesn’t need to be switched off and doesn’t repeat.", "I want to build a second brain but I'm lost and don't know where to start.", "noise cancelling earplugs", "I have so much to do but I don't know where to start", "How to handle stressful work calls", "time tracking app/platform", "We just need to find ways to cope and keep moving forward.", "Ikigai - A Reason for Being", "Minimalist Productivity Tip: create two users on your computer ➞ One for normal use and leisure ➞ One for business/work only. I have nothing except the essentials logged in on my work user. Not even Messages or YouTube. It completely revolutionized my productivity 💸", "Trick yourself into productivity the same way you trick yourself into procrastination", "I spent 40 hours sifting through research papers to fix my mental clarity, focus, and productivity - I ended up going down a rabbit hole and figuring out it was all tied to sleep, even though I felt I sleep well - here's what I found.", "The Cycle of Procrastination. Always a good reminder", "'Most people underestimate what they can do in a year, and overestimate what they can do in a day' - When you work on getting 1% better each day you won't even recognize yourself in a year."],
-        >>> })
-        >>> lsm.save("/Users/steven/Downloads/gaming-productivity.map")
-
-        .. versionadded:: 0.1.0
-        """
-        if isinstance(file_path, str):
-            file_path = XAPath(file_path)
-
-        status = LatentSemanticMapping.LSMMapWriteToURL(self.map, file_path.xa_elem, 0)
-        if status == 0:
-            return True
-        return False
-
-    def load(file_path: Union[XAPath, str]) -> 'XALSM':
-        """Loads a map from an external file.
-
-        :param file_path: The file path for load the map from
-        :type file_path: Union[XAPath, str]
-        :return: The populated LSM object
-        :rtype: XALSM
-
-        :Example: Using the gaming vs. productivity Reddit post map
-
-        >>> import PyXA
-        >>> lsm = PyXA.XALSM.load("/Users/steven/Downloads/gaming-productivity.map")
-        >>> print(lsm.categorize_query("Hidden survival base on our server"))
-        >>> print(lsm.categorize_query("Your memory is FAR more powerful than you think… school just never taught us to use it properly."))
-        [(1, 0.7313863635063171)]
-        [(2, 0.9422407150268555)]
-
-        .. versionadded:: 0.1.0
-        """
-        if isinstance(file_path, str):
-            file_path = XAPath(file_path)
-
-        new_lsm = XALSM(from_file=True)
-        new_lsm.map = LatentSemanticMapping.LSMMapCreateFromURL(None, file_path.xa_elem, LatentSemanticMapping.kLSMMapLoadMutable)
-        new_lsm.__dataset = {i: [] for i in range(LatentSemanticMapping.LSMMapGetCategoryCount(new_lsm.map))}
-        new_lsm.__categories = {i: i for i in range(LatentSemanticMapping.LSMMapGetCategoryCount(new_lsm.map))}
-        LatentSemanticMapping.LSMMapCompile(new_lsm.map)
-        return new_lsm
-
-    def add_category(self, name: str, initial_data: Union[list[str], None] = None) -> int:
-        """Adds a new category to the map, optionally filling the category with initial text data.
-
-        :param name: The name of the category
-        :type name: str
-        :param initial_data: _description_
-        :type initial_data: list[str]
-        :return: The ID of the new category
-        :rtype: int
-
-        :Example: Add a category for cleaning-related Reddit posts to the previous example
-
-        >>> import PyXA
-        >>> lsm = PyXA.XALSM.load("/Users/steven/Downloads/gaming-productivity.map")
-        >>> lsm.add_category("cleaning", ["Curtains stained from eyelet reaction at dry cleaner", "How do I get these stains out of my pink denim overalls? from a black denim jacket that was drying next to them", "Cleaned my depression room after months 🥵", "Tip: 30 minute soak in Vinegar", "Regular floor squeegee pulled a surprising amount of pet hair out of my carpet!", "Before and after…", "It actually WORKS", "CLR is actually magic. (With some elbow grease)", "It was 100% worth it to scrape out my old moldy caulk and replace it. $5 dollars and a bit of time to make my shower look so much cleaner!", "Thanks to the person who recommended the Clorox Foamer. Before and after pics", "TIL you can dissolve inkstains with milk.", "Fixing cat scratch marks to couch using felting needle: Before and After", "Turns out BKF isn't a meme! Really satisfied with this stuff"])
-        >>> print(lsm.categorize_query("Hidden survival base on our server"))
-        >>> print(lsm.categorize_query("Your memory is FAR more powerful than you think… school just never taught us to use it properly."))
-        >>> print(lsm.categorize_query("A carpet rake will change your life."))
-        [(1, 0.7474805116653442)]
-        [(2, 0.7167008519172668)]
-        [(3, 0.797333300113678)]
-
-        .. versionadded:: 0.1.0
-        """
-        LatentSemanticMapping.LSMMapStartTraining(self.map)
-
-        if initial_data is None:
-            initial_data = []
-
-        if name in self.__dataset:
-            raise ValueError("The category name must be unique.")
-
-        self.__dataset[name] = initial_data
-        category_ref = self.__add_category(name)
-        LatentSemanticMapping.LSMMapCompile(self.map)
-        return category_ref
-
-    def add_data(self, data: dict[Union[int, str], list[str]]) -> list[int]:
-        """Adds the provided data, organized by category, to the active map.
-
-        :param data: A dictionary specifying new or existing categories along with data to input into them
-        :type data: dict[Union[int, str], list[str]]
-        :return: A list of newly created category IDs
-        :rtype: int
-
-        :Example: Classify text by language
-
-        >>> import PyXA
-        >>> lsm = PyXA.XALSM({})
-        >>> lsm.add_data({
-        >>>     # 1
-        >>>     "english": ["brilliance outer jacket artist flat mosquito recover restrict official gas ratio publish domestic realize pure offset obstacle thigh favorite demonstration revive nest reader slide pudding symptom ballot auction characteristic complete Mars ridge student explosion dive emphasis the buy perfect motif penny a errand to fur far spirit random integration of with"],
-        >>> 
-        >>>     # 2
-        >>>     "italian": ["da piazza proposta di legge legare nazionale a volte la salute bar farti farmi il pane aggiunta valore artista chiamata settentrionale scuro buio classe signori investitore in grado di fidanzato tagliare arriva successo altrimenti speciale esattamente definizione sorriso chiamo madre pulire esperto rurale vedo malattia era amici libertà l'account immaginare lingua soldi più perché"],
-        >>> })
-        >>> print(lsm.categorize_query("Here's to the crazy ones"))
-        >>> print(lsm.categorize_query("Potete parlarmi in italiano"))
-        [(1, 1.0)]
-        [(2, 1.0)]
-
-        .. versionadded:: 0.1.0
-        """
-        category_refs = []
-        LatentSemanticMapping.LSMMapStartTraining(self.map)
-        for category in data:
-            if category not in self.__dataset:
-                self.__dataset[category] = data[category]
-                category_refs.append(self.__add_category(category))
-            else:
-                loc = Foundation.CFLocaleGetSystem()
-                text_ref = LatentSemanticMapping.LSMTextCreate(None, self.map)
-                LatentSemanticMapping.LSMTextAddWords(text_ref, " ".join(data[category]), loc, LatentSemanticMapping.kLSMTextPreserveAcronyms)
-                LatentSemanticMapping.LSMMapAddText(self.map, text_ref, self.__categories[category])
-        LatentSemanticMapping.LSMMapCompile(self.map)
-        return category_refs
-
-    def add_text(self, text: str, category: Union[int, str], weight: float = 1):
-        """Adds the given text to the specified category, applying an optional weight.
-
-        :param text: The text to add to the dataset
-        :type text: str
-        :param category: The category to add the text to
-        :type category: Union[int, str]
-        :param weight: The weight to assign to the text entry, defaults to 1
-        :type weight: float, optional
-        :raises ValueError: The specified category must be a valid category name or ID
-
-        :Example:
-
-        >>> import PyXA
-        >>> lsm = PyXA.XALSM({"colors": [], "numbers": ["One", "Two", "Three"]})
-        >>> lsm.add_text("red orange yellow green blue purple", "colors")
-        >>> lsm.add_text("white black grey gray brown pink", 1)
-        >>> print(lsm.categorize_query("pink"))
-
-        .. versionadded:: 0.1.0
-        """
-        LatentSemanticMapping.LSMMapStartTraining(self.map)
-        if category not in self.__dataset and category not in self.__categories:
-            raise ValueError(f"Invalid category: {category}")
-            
-        loc = Foundation.CFLocaleGetSystem()
-        text_ref = LatentSemanticMapping.LSMTextCreate(None, self.map)
-        LatentSemanticMapping.LSMTextAddWords(text_ref, text, loc, LatentSemanticMapping.kLSMTextPreserveAcronyms)
-        LatentSemanticMapping.LSMMapAddTextWithWeight(self.map, text_ref, self.__categories[category], weight)
-        LatentSemanticMapping.LSMMapCompile(self.map)
-
-    def categorize_query(self, query: str, num_results: int = 1) -> list[tuple[int, float]]:
-        """Categorizes the query based on the current weights in the map.
-
-        :param query: The query to categorize
-        :type query: str
-        :param num_results: The number of categorizations to show, defaults to 1
-        :type num_results: int, optional
-        :return: A list of tuples identifying categories and their associated score. A higher score indicates better fit. If not matching categorization is found, the list will be empty.
-        :rtype: list[tuple[int, float]]
-
-        :Example:
-
-        >>> import PyXA
-        >>> dataset = {
-        >>>     # 1
-        >>>     "color": ["red", "orange", "yellow", "green", "emerald", "blue", "purple", "white", "black", "brown", "pink", "grey", "gray"],
-        >>> 
-        >>>     # 2
-        >>>     "number": ["One Two Three Four Five Six Seven Eight Nine Ten"]
-        >>> }
-        >>> lsm = PyXA.XALSM(dataset)
-        >>> queries = ["emerald green three", "one hundred five", "One o' clock", "sky blue", "ninety nine", "purple pink"]
-        >>> 
-        >>> for query in queries:
-        >>>     category = "Unknown"
-        >>>     categorization_tuple = lsm.categorize_query(query)
-        >>>     if len(categorization_tuple) > 0:
-        >>>         category = list(dataset.keys())[categorization_tuple[0][0] - 1]
-        >>>     print(query, "is a", category)
-        emerald green three is a color
-        one hundred five is a number
-        One o' clock is a number
-        sky blue is a color
-        ninety nine is a number
-        purple pink is a color
-
-        .. versionadded:: 0.1.0
-        """
-        loc = Foundation.CFLocaleGetSystem()
-        text_ref = LatentSemanticMapping.LSMTextCreate(None, self.map)
-        LatentSemanticMapping.LSMTextAddWords(text_ref, query, loc, 0)
-        rows = LatentSemanticMapping.LSMResultCreate(None, self.map, text_ref, 10, LatentSemanticMapping.kLSMTextPreserveAcronyms)
-
-        categorization = []
-        num_results = min(num_results, LatentSemanticMapping.LSMResultGetCount(rows))
-        for i in range(0, num_results):
-            category_num = LatentSemanticMapping.LSMResultGetCategory(rows, i)
-            score = LatentSemanticMapping.LSMResultGetScore(rows, i)
-            categorization.append((category_num, score))
-        return categorization
-
-
-
-
 class XAColorList(XATextList):
     """A wrapper around lists of colors that employs fast enumeration techniques.
 
@@ -5025,6 +4675,14 @@ class XAColor(XAObject, XAClipboardCodable):
         .. versionadded:: 0.1.0
         """
         return XAColor(0, 0, 0, 0)
+
+    @property
+    def hex_value(self) -> str:
+        """The HEX representation of the color.
+        
+        .. versionadded:: 0.1.1
+        """
+        return f"{hex(int(self.red_value * 255))[2:]}{hex(int(self.green_value * 255))[2:]}{hex(int(self.blue_value * 255))[2:]}".upper()
 
     @property
     def red_value(self) -> float:
@@ -5276,7 +4934,11 @@ class XALocation(XAObject):
         self.longitude = longitude #: The longitude of the location
         self.altitude = altitude #: The altitude of the location
         self.radius = radius #: The horizontal accuracy of the location measurement
-        self.address = address #: The addres of the location
+        self.address = address #: The address of the location
+
+        if self.raw_value is None:
+            if latitude is not None and longitude is not None:
+                self.raw_value = CoreLocation.CLLocation.alloc().initWithLatitude_longitude_(latitude, longitude)
 
     @property
     def raw_value(self) -> CoreLocation.CLLocation: 
@@ -5293,6 +4955,8 @@ class XALocation(XAObject):
 
     @property
     def current_location(self) -> 'XALocation':
+        """The location of the user's computer.
+        """
         self.raw_value = None
         self._spawn_thread(self.__get_current_location)
         while self.raw_value is None:
@@ -5305,6 +4969,48 @@ class XALocation(XAObject):
         .. versionadded:: 0.0.6
         """
         XAURL(f"maps://?q={self.title},ll={self.latitude},{self.longitude}").open()
+
+    def reverse_geocode(self) -> dict[str, str]:
+        """Obtains reverse-geocode information from the location's latitude and longitude.
+
+        :return: A dictionary containing the location's name, street address, locality, state, country, timezone, and notable features.
+        :rtype: dict[str, str]
+
+        :Example:
+
+        >>> import PyXA
+        >>> loc = PyXA.XALocation(latitude=44.460552, longitude=-110.82807)
+        >>> print(loc.reverse_geocode())
+        {'name': 'Old Faithful', 'street_number': None, 'street': 'Upper Geyser Basin Trail', 'sub_locality': None, 'locality': 'Alta', 'county': 'Teton County', 'state': 'WY', 'postal_code': '83414', 'country': 'United States', 'timezone': America/Denver (MST) offset -25200, 'notable_features': (
+            "Old Faithful",
+            "Yellowstone National Park"
+        )}
+
+        .. versionadded:: 0.1.1
+        """
+        self._placemark = None
+
+        def get_place(place, error):
+            if place is not None:
+                self._placemark = place[0]
+            AppHelper.stopEventLoop()
+
+        CoreLocation.CLGeocoder.alloc().init().reverseGeocodeLocation_completionHandler_(self.raw_value, get_place)
+        AppHelper.runConsoleEventLoop()
+
+        return {
+            "name": self._placemark.name(),
+            "street_number": self._placemark.subThoroughfare(),
+            "street": self._placemark.thoroughfare(),
+            "sub_locality": self._placemark.subLocality(),
+            "locality": self._placemark.locality(),
+            "county": self._placemark.subAdministrativeArea(),
+            "state": self._placemark.administrativeArea(),
+            "postal_code": self._placemark.postalCode(),
+            "country": self._placemark.country(),
+            "timezone": self._placemark.timeZone(),
+            "notable_features": self._placemark.areasOfInterest(),
+        }
 
     def __get_current_location(self):
         location_manager = CoreLocation.CLLocationManager.alloc().init()
@@ -5676,232 +5382,7 @@ class XAFileNameDialog(XAObject):
         result = script.run()["event"]
         if result is not None:
             return XAPath(result.fileURLValue())
-
-
-
-
-class XAMenuBar(XAObject):
-    def __init__(self):
-        """Creates a new menu bar object for interacting with the system menu bar.
-
-        .. versionadded:: 0.0.9
-        """
-        self._menus = {}
-        self._menu_items = {}
-        self._methods = {}
-
-        detector = self
-        class MyApplicationAppDelegate(AppKit.NSObject):
-            start_time = datetime.now()
-
-            def applicationDidFinishLaunching_(self, sender):
-                for item_name, status_item in detector._menus.items():
-                    menu = status_item.menu()
-
-                    menuitem = AppKit.NSMenuItem.alloc().initWithTitle_action_keyEquivalent_('Quit', 'terminate:', '')
-                    menu.addItem_(menuitem)
-
-            def action_(self, menu_item):
-                selection = menu_item.title()
-                for item_name in detector._methods:
-                    if selection == item_name:
-                        detector._methods[item_name]()
-
-        app = AppKit.NSApplication.sharedApplication()
-        app.setDelegate_(MyApplicationAppDelegate.alloc().init().retain())
-
-    def add_menu(self, title: str, image: Union['XAImage', None] = None, tool_tip: Union[str, None] = None, img_width: int = 30, img_height: int = 30):
-        """Adds a new menu to be displayed in the system menu bar.
-
-        :param title: The name of the menu
-        :type title: str
-        :param image: The image to display for the menu, defaults to None
-        :type image: Union[XAImage, None], optional
-        :param tool_tip: The tooltip to display on hovering over the menu, defaults to None
-        :type tool_tip: Union[str, None], optional
-        :param img_width: The width of the image, in pixels, defaults to 30
-        :type img_width: int, optional
-        :param img_height: The height of the image, in pixels, defaults to 30
-        :type img_height: int, optional
-
-        :Example:
-
-        >>> import PyXA
-        >>> menu_bar = PyXA.XAMenuBar()
-        >>> img = PyXA.XAImage("/Users/steven/Downloads/Blackness.jpg")
-        >>> menu_bar.add_menu("Menu 1", image=img, img_width=100, img_height=100)
-        >>> menu_bar.display()
-
-        .. versionadded:: 0.0.9
-        """
-        status_bar = AppKit.NSStatusBar.systemStatusBar()
-        status_item = status_bar.statusItemWithLength_(AppKit.NSVariableStatusItemLength).retain()
-        status_item.setTitle_(title)
-       
-        if isinstance(image, XAImage):
-            img = image.xa_elem.copy()
-            img.setScalesWhenResized_(True)
-            img.setSize_((img_width, img_height))
-            status_item.button().setImage_(img)
-
-        status_item.setHighlightMode_(objc.YES)
-
-        if isinstance(tool_tip, str):
-            status_item.setToolTip_(tool_tip)
-
-        menu = AppKit.NSMenu.alloc().init()
-        status_item.setMenu_(menu)
-
-        status_item.setEnabled_(objc.YES)
-        self._menus[title] = status_item
-
-    def add_item(self, menu: str, item_name: str, method: Union[Callable[[], None], None] = None, image: Union['XAImage', None] = None, img_width: int = 20, img_height: int = 20):
-        """Adds an item to a menu, creating the menu if necessary.
-
-        :param menu: The name of the menu to add an item to, or the name of the menu to create
-        :type menu: str
-        :param item_name: The name of the item
-        :type item_name: str
-        :param method: The method to associate with the item (the method called when the item is clicked)
-        :type method: Callable[[], None]
-        :param image: The image for the item, defaults to None
-        :type image: Union[XAImage, None], optional
-        :param img_width: The width of image, in pixels, defaults to 30
-        :type img_width: int, optional
-        :param img_height: The height of the image, in pixels, defaults to 30
-        :type img_height: int, optional
-
-        :Example:
-
-        >>> import PyXA
-        >>> menu_bar = PyXA.XAMenuBar()
-        >>> 
-        >>> menu_bar.add_menu("Menu 1")
-        >>> menu_bar.add_item(menu="Menu 1", item_name="Item 1", method=lambda : print("Action 1"))
-        >>> menu_bar.add_item(menu="Menu 1", item_name="Item 2", method=lambda : print("Action 2"))
-        >>> 
-        >>> menu_bar.add_item(menu="Menu 2", item_name="Item 1", method=lambda : print("Action 1"))
-        >>> img = PyXA.XAImage("/Users/exampleUser/Downloads/example.jpg")
-        >>> menu_bar.add_item("Menu 2", "Item 1", lambda : print("Action 1"), image=img, img_width=100)
-        >>> menu_bar.display()
-
-        .. versionadded:: 0.0.9
-        """
-        item = AppKit.NSMenuItem.alloc().initWithTitle_action_keyEquivalent_(item_name, 'action:', '')
         
-        if isinstance(image, XAImage):
-            img = image.xa_elem.copy()
-            img.setScalesWhenResized_(True)
-            img.setSize_((img_width, img_height))
-            item.setImage_(img)
-        
-        if menu not in self._menus:
-            self.add_menu(menu)
-        self._menu_items[item_name] = item
-        self._menus[menu].menu().addItem_(item)
-        self._methods[item_name] = method
-
-    def set_image(self, item_name: str, image: 'XAImage', img_width: int = 30, img_height: int = 30):
-        """Sets the image displayed for a menu or menu item.
-
-        :param item_name: The name of the item to update
-        :type item_name: str
-        :param image: The image to display
-        :type image: XAImage
-        :param img_width: The width of the image, in pixels, defaults to 30
-        :type img_width: int, optional
-        :param img_height: The height of the image, in pixels, defaults to 30
-        :type img_height: int, optional
-
-        :Example: Set Image on State Change
-
-        >>> import PyXA
-        >>> current_state = True # On
-        >>> img_on = PyXA.XAImage("/Users/exampleUser/Documents/on.jpg")
-        >>> img_off = PyXA.XAImage("/Users/exampleUser/Documents/off.jpg")
-        >>> menu_bar = PyXA.XAMenuBar()
-        >>> menu_bar.add_menu("Status", image=img_on)
-        >>> 
-        >>> def update_state():
-        >>>     global current_state
-        >>>     if current_state is True:
-        >>>         # ... (Actions for turning off)
-        >>>         menu_bar.set_text("Turn off", "Turn on")
-        >>>         menu_bar.set_image("Status", img_off)
-        >>>         current_state = False
-        >>>     else:
-        >>>         # ... (Actions for turning on)
-        >>>         menu_bar.set_text("Turn off", "Turn off")
-        >>>         menu_bar.set_image("Status", img_on)
-        >>>         current_state = True
-
-        menu_bar.add_item("Status", "Turn off", update_state)
-        menu_bar.display()
-
-        .. versionadded:: 0.0.9
-        """
-        img = image.xa_elem.copy()
-        img.setScalesWhenResized_(True)
-        img.setSize_((img_width, img_height))
-        if item_name in self._menus:
-            self._menus[item_name].button().setImage_(img)
-        elif item_name in self._methods:
-            self._menu_items[item_name].setImage_(img)
-
-    def set_text(self, item_name: str, text: str):
-        """Sets the text displayed for a menu or menu item.
-
-        :param item_name: The name of the item to update
-        :type item_name: str
-        :param text: The new text to display
-        :type text: str
-
-        :Example: Random Emoji Ticker
-
-        >>> import PyXA
-        >>> import random
-        >>> import threading
-        >>> 
-        >>> menu_bar = PyXA.XAMenuBar()
-        >>> menu_bar.add_menu("Emoji")
-        >>>
-        >>> emojis = ["😀", "😍", "🙂", "😎", "🤩", "🤯", "😭", "😱", "😴", "🤒", "😈", "🤠"]
-        >>>
-        >>> def update_display():
-        >>>     while True:
-        >>>         new_emoji = random.choice(emojis)
-        >>>         menu_bar.set_text("Emoji", new_emoji)
-        >>>         sleep(0.25)
-        >>> 
-        >>> emoji_ticker = threading.Thread(target=update_display)
-        >>> emoji_ticker.start()
-        >>> menu_bar.display()
-
-        .. versionadded:: 0.0.9
-        """
-        if item_name in self._menus:
-            self._menus[item_name].setTitle_(text)
-        elif item_name in self._methods:
-            self._menu_items[item_name].setTitle_(text)
-            self._methods[text] = self._methods[item_name]
-
-    def display(self):
-        """Displays the custom menus on the menu bar.
-
-        :Example:
-
-        >>> import PyXA
-        >>> mbar = PyXA.XAMenuBar()
-        >>> mbar.add_menu("🔥")
-        >>> mbar.display()
-
-        .. versionadded:: 0.0.9
-        """
-        try:
-            AppHelper.runEventLoop(installInterrupt=True)
-        except Exception as e:
-            print(e)
-
 
 
 
@@ -6315,6 +5796,18 @@ class XADiskItem(XAObject, XAPathLike):
         .. versionadded:: 0.1.0
         """
         return self.xa_elem.volume()
+
+    def open(self) -> Self:
+        """Opens the item in its default application.
+
+
+        :return: The item object
+        :rtype: Self
+
+        .. versionadded:: 0.1.1
+        """
+        self.xa_elem.open()
+        return self
 
     def get_path_representation(self) -> XAPath:
         return self.posix_path
@@ -8421,6 +7914,52 @@ class XAImageList(XAList, XAClipboardCodable):
         self.xa_elem = AppKit.NSMutableArray.alloc().initWithArray_(scaled_images)
         return self
 
+    def resize(self, width: int, height: Union[int, None] = None) -> Self:
+        """Resizes each image in the list to the specified width and height.
+
+        :param width: The width of the resulting images
+        :type width: int
+        :param height: The height of the resulting images, or None to maintain width:height proportions, defaults to None
+        :type height: Union[int, None]
+        :return: The list of scaled images
+        :rtype: Self
+
+        .. versionadded:: 0.1.1
+        """
+        images = self.__partial_init()
+            
+        scaled_images = [None] * self.xa_elem.count()
+        def scale_image(image, index):
+            nonlocal height
+            img_width = image.size().width
+            img_height = image.size().height
+
+            if height is None:
+                height = img_height
+            
+            scaled_image = AppKit.NSImage.alloc().initWithSize_(AppKit.NSMakeSize(img_width * width / img_width, img_height * height / img_height))
+            imageBounds = AppKit.NSMakeRect(0, 0, image.size().width, image.size().height)
+
+            transform = AppKit.NSAffineTransform.alloc().init()
+            transform.scaleXBy_yBy_(width / img_width, height / img_height)
+
+            scaled_image.lockFocus()
+            transform.concat()
+            image.drawInRect_fromRect_operation_fraction_(imageBounds, Quartz.CGRectZero, AppKit.NSCompositingOperationCopy, 1.0)
+            scaled_image.unlockFocus()
+            scaled_images[index] = scaled_image
+
+        threads = [None] * self.xa_elem.count()
+        for index, image in enumerate(images):
+            threads[index] = self._spawn_thread(scale_image, [image, index])
+
+        while any([t.is_alive() for t in threads]):
+            time.sleep(0.01)
+
+        self.modified = True
+        self.xa_elem = AppKit.NSMutableArray.alloc().initWithArray_(scaled_images)
+        return self
+
     def pad(self, horizontal_border_width: int = 50, vertical_border_width: int = 50, pad_color: Union[XAColor, None] = None) -> 'XAImageList':
         """Pads each image in the list with the specified color; add a border around each image in the list with the specified vertical and horizontal width.
 
@@ -8990,6 +8529,71 @@ class XAImage(XAObject, XAClipboardCodable):
         else:
             return XAImage(images)
 
+    def symbol(name: str):
+        """Initializes an image from the SF symbol with the specified name, if such a symbol exists.
+
+        :param name: The system symbol to create an image of; the name of an SF Symbol symbol.
+        :type name: str
+
+        .. versionadded:: 0.1.1
+        """
+        img = AppKit.NSImage.imageWithSystemSymbolName_accessibilityDescription_(name, None)
+        return XAImage(img)
+
+    def horizontal_stitch(images: Union[list['XAImage'], XAImageList]) -> 'XAImage':
+        """Horizontally stacks two or more images.
+
+        The first image in the list is placed at the left side of the resulting image.
+
+        :param images: The list of images to stitch together
+        :type images: Union[list[XAImage], XAImageList]
+        :return: The resulting image after stitching
+        :rtype: XAImage
+
+        .. versionadded:: 0.1.1
+        """
+        widths = [image.size[0] for image in images]
+        heights = [image.size[1] for image in images]
+        total_width = sum(widths)
+        max_height = max(heights)
+
+        canvas = AppKit.NSImage.alloc().initWithSize_(AppKit.NSMakeSize(total_width, max_height))
+
+        canvas.lockFocus()
+        current_x = 0
+        for image in images:
+            image.xa_elem.drawInRect_(AppKit.NSMakeRect(current_x, 0, image.size[0], image.size[1]))
+            current_x += image.size[0]
+        canvas.unlockFocus()
+        return XAImage(canvas)
+
+    def vertical_stitch(images: Union[list['XAImage'], XAImageList]) -> 'XAImage':
+        """Vertically stacks two or more images.
+
+        The first image in the list is placed at the bottom of the resulting image.
+
+        :param images: The list of images to stitch together
+        :type images: Union[list[XAImage], XAImageList]
+        :return: The resulting image after stitching
+        :rtype: XAImage
+
+        .. versionadded:: 0.1.1
+        """
+        widths = [image.size[0] for image in images]
+        heights = [image.size[1] for image in images]
+        max_width = max(widths)
+        total_height = sum(heights)
+
+        canvas = AppKit.NSImage.alloc().initWithSize_(AppKit.NSMakeSize(max_width, total_height))
+
+        canvas.lockFocus()
+        current_y = 0
+        for image in images:
+            image.xa_elem.drawInRect_(AppKit.NSMakeRect(0, current_y, image.size[0], image.size[1]))
+            current_y += image.size[1]
+        canvas.unlockFocus()
+        return XAImage(canvas)
+
     @staticmethod
     def image_from_text(text: str, font_size: int = 15, font_name: str = "Menlo", font_color: XAColor = XAColor.black(), background_color: XAColor = XAColor.white(), inset: int = 10) -> 'XAImage':
         """Initializes an image of the provided text overlaid on the specified background color.
@@ -9541,6 +9145,35 @@ class XAImage(XAObject, XAClipboardCodable):
         self.modified = True
         return self
 
+    def resize(self, width: int, height: Union[int, None] = None) -> Self:
+        """Resizes the image to the specified width and height.
+
+        :param width: The width of the resulting image, in pixels
+        :type width: int
+        :param height: The height of the resulting image, in pixels, or None to maintain width:height proportions, defaults to None
+        :type height: Union[int, None]
+        :return: The image object, modifications included
+        :rtype: Self
+
+        .. versionadded:: 0.1.1
+        """
+        img_width = self.size[0]
+        img_height = self.size[1]
+
+        resized_image = AppKit.NSImage.alloc().initWithSize_(AppKit.NSMakeSize(img_width * width / img_width, img_height * height / img_height))
+        imageBounds = AppKit.NSMakeRect(0, 0, self.size[0], self.size[1])
+
+        transform = AppKit.NSAffineTransform.alloc().init()
+        transform.scaleXBy_yBy_(width / img_width, height / img_height)
+
+        resized_image.lockFocus()
+        transform.concat()
+        self.xa_elem.drawInRect_fromRect_operation_fraction_(imageBounds, Quartz.CGRectZero, AppKit.NSCompositingOperationCopy, 1.0)
+        resized_image.unlockFocus()
+        self.xa_elem = resized_image
+        self.modified = True
+        return self
+
     def pad(self, horizontal_border_width: int = 50, vertical_border_width: int = 50, pad_color: Union[XAColor, None] = None) -> 'XAImage':
         """Pads the image with the specified color; adds a border around the image with the specified vertical and horizontal width.
 
@@ -9685,8 +9318,12 @@ class XAImage(XAObject, XAClipboardCodable):
 
         .. versionadded:: 0.0.8
         """
+        global workspace
+        if workspace is None:
+            workspace = AppKit.NSWorkspace.sharedWorkspace()
+
         if not self.modified and self.file is not None and isinstance(self.file, XAPath):
-            AppKit.NSWorkspace.sharedWorkspace().openFile_withApplication_(self.file.path, "Preview")
+            workspace.openFile_withApplication_(self.file.path, "Preview")
         else:
             tmp_file = tempfile.NamedTemporaryFile()
             with open(tmp_file.name, 'wb') as f:
@@ -9694,7 +9331,7 @@ class XAImage(XAObject, XAClipboardCodable):
 
             img_url = XAPath(tmp_file.name).xa_elem
             preview_url = XAPath("/System/Applications/Preview.app/").xa_elem
-            AppKit.NSWorkspace.sharedWorkspace().openURLs_withApplicationAtURL_configuration_completionHandler_([img_url], preview_url, None, None)
+            workspace.openURLs_withApplicationAtURL_configuration_completionHandler_([img_url], preview_url, None, None)
             time.sleep(1)
 
     def save(self, file_path: Union[XAPath, str, None] = None):
@@ -10197,11 +9834,15 @@ class XAVideo(XAObject):
 
         .. versionadded:: 0.1.0
         """
+        global workspace
+        if workspace is None:
+            workspace = AppKit.NSWorkspace.sharedWorkspace()
+
         self.save("video-data-tmp.mp4")
 
         video_url = XAPath(os.getcwd() + "/video-data-tmp.mp4").xa_elem
         quicktime_url = XAPath("/System/Applications/QuickTime Player.app").xa_elem
-        AppKit.NSWorkspace.sharedWorkspace().openURLs_withApplicationAtURL_configuration_completionHandler_([video_url], quicktime_url, None, None)
+        workspace.openURLs_withApplicationAtURL_configuration_completionHandler_([video_url], quicktime_url, None, None)
         time.sleep(1)
 
         AppKit.NSFileManager.defaultManager().removeItemAtPath_error_(video_url.path(), None) 
@@ -10237,4 +9878,3 @@ class XAVideo(XAObject):
         
         while not waiting:
             time.sleep(0.01)
-    

@@ -11,8 +11,8 @@ Console Tutorials
 #################
 There are currently no tutorials for the Console module.
 
-Examples
-########
+Console Examples
+################
 .. The examples below provide an overview of the capabilities of the Chromium module. They do not provide any output. For more in-depth examples that show output and provide more detailed explanations, refer to the previous section (:ref:`Chromium Tutorials`).
 
 Example 1 - Coming Soon

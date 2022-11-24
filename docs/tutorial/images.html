@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Working with Images &mdash; PyXA 0.1.0 documentation</title>
+  <title>Working with Images &mdash; PyXA 0.1.1 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
@@ -91,9 +91,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="index.html">Tutorial</a> &raquo;</li>
-      <li>Working with Images</li>
+      <li><a href="../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Tutorial</a></li>
+      <li class="breadcrumb-item active">Working with Images</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/tutorial/images.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -129,7 +129,7 @@
 <p>The rest of this page describes the various features of the <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAImage" title="PyXA.XABase.XAImage"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAImage</span></code></a> class and provides several examples for you to reference.</p>
 <section id="loading-images">
 <h2>Loading Images<a class="headerlink" href="#loading-images" title="Permalink to this heading"></a></h2>
-<p>To initialize an <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAImage" title="PyXA.XABase.XAImage"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAImage</span></code></a> object, you provide some kind of reference to an image via the <cite>image_reference</cite> parameter (the first parameter of XAImage’s init method). This parameter accepts data in many forms, including: a raw string file path (with any image file extension), a web or filesystem URL, an <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAPath" title="PyXA.XABase.XAPath"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAPath</span></code></a> or <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAURL" title="PyXA.XABase.XAURL"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAURL</span></code></a> object, another <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAImage" title="PyXA.XABase.XAImage"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAImage</span></code></a> object, and any object whose class implements the <code class="xref py py-class docutils literal notranslate"><span class="pre">XAImageLike</span></code> protocol, such as <a class="reference internal" href="../reference/apps/photos.html#PyXA.apps.PhotosApp.XAPhotosMediaItem" title="PyXA.apps.PhotosApp.XAPhotosMediaItem"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAPhotosMediaItem</span></code></a>. The code below shows how to use these different kinds of image references.</p>
+<p>To initialize an <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAImage" title="PyXA.XABase.XAImage"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAImage</span></code></a> object, you provide some kind of reference to an image via the <cite>image_reference</cite> parameter (the first parameter of XAImage’s init method). This parameter accepts data in many forms, including: a raw string file path (with any image file extension), a web or filesystem URL, an <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAPath" title="PyXA.XABase.XAPath"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAPath</span></code></a> or <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAURL" title="PyXA.XABase.XAURL"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAURL</span></code></a> object, another <a class="reference internal" href="../reference/xabase.html#PyXA.XABase.XAImage" title="PyXA.XABase.XAImage"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAImage</span></code></a> object, and any object whose class implements the <a class="reference internal" href="../reference/xaprotocols.html#PyXA.XAProtocols.XAImageLike" title="PyXA.XAProtocols.XAImageLike"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAImageLike</span></code></a> protocol, such as <a class="reference internal" href="../reference/apps/photos.html#PyXA.apps.PhotosApp.XAPhotosMediaItem" title="PyXA.apps.PhotosApp.XAPhotosMediaItem"><code class="xref py py-class docutils literal notranslate"><span class="pre">XAPhotosMediaItem</span></code></a>. The code below shows how to use these different kinds of image references.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">PyXA</span>
 <span class="c1"># Load a single image file</span>
 <span class="n">img</span> <span class="o">=</span> <span class="n">PyXA</span><span class="o">.</span><span class="n">XAImage</span><span class="p">(</span><span class="s2">&quot;/Users/exampleUser/Desktop/PyXALogoTransparent.png&quot;</span><span class="p">)</span>
